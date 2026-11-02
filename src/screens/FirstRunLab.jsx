@@ -104,7 +104,7 @@ function WelcomeSheet({ onShow, onSkip }) {
   );
 }
 
-function TasteChips({ saved, onNext }) {
+export function TasteChips({ saved, onNext }) {
   const [chips, setChips] = useState([]);
   const toggle = (id) =>
     setChips((c) => (c.includes(id) ? c.filter((x) => x !== id) : c.length < MAX_CHIPS ? [...c, id] : c));
@@ -239,7 +239,7 @@ function RatingLabels({ place, onRate, onNotBeen }) {
 }
 
 // With the test switch on and no location, you're at `fallback` (card one).
-function DistancePill({ coords, pretend, fallback, onCheckIn }) {
+export function DistancePill({ coords, pretend, fallback, onCheckIn }) {
   const { units } = useUnits();
   const near = nearestPlace(coords) || (pretend && fallback ? { place: fallback, meters: 0 } : null);
   if (!near) return <p className="fr-sub">{COPY.checkin.noLocation}</p>;
@@ -258,7 +258,7 @@ function DistancePill({ coords, pretend, fallback, onCheckIn }) {
   );
 }
 
-function ProgressRing({ count, goal, checkedIn }) {
+export function ProgressRing({ count, goal, checkedIn }) {
   const r = 52;
   const c = 2 * Math.PI * r;
   const f = Math.min(1, count / goal);
