@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { nearestLandmarks } from '../lib/nearestLandmarks';
@@ -452,14 +452,24 @@ function Remember() {
 
 const SCREENS = { discover: Discover, prepared: Prepared, plan: Plan, play: Play, remember: Remember };
 
-export default function ExplainerImagesLab() {
+// onDone(how): set when the intro is one step of a tutorial (Game
+// tutorial): Skip ('skipped') and "Start exploring" ('finished') hand off to
+// the next step instead of showing the "You're all set" card. onSlide(id)
+// hears which screen is showing, so Mapr can talk about it.
+export default function ExplainerImagesLab({ onDone = null, onSlide = null }) {
   const [index, setIndex] = useState(0);
-  const [done, setDone] = useState(false);
+  const [doneHere, setDone] = useState(false);
+  const done = doneHere && !onDone;
+  const finish = (how) => (onDone ? onDone(how) : setDone(true));
   const swipeStart = useRef(null);
   const last = SLIDES.length - 1;
   const slide = SLIDES[index];
   const Screen = SCREENS[slide.id];
   const go = (i) => setIndex(Math.max(0, Math.min(last, i)));
+  const slideId = slide.id;
+  useEffect(() => {
+    onSlide?.(slideId);
+  }, [slideId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (done) {
     return (
@@ -498,7 +508,7 @@ export default function ExplainerImagesLab() {
           <img src="/logo.png" alt="" className="intro-logo" />
           Landmark Hunters
         </span>
-        <button type="button" className="intro-skip" onClick={() => setDone(true)}>
+        <button type="button" className="intro-skip" onClick={() => finish('skipped')}>
           Skip
         </button>
       </div>
@@ -521,7 +531,7 @@ export default function ExplainerImagesLab() {
             Back
           </button>
         )}
-        <button type="button" className="btn btn-primary intro-next" onClick={() => (index === last ? setDone(true) : go(index + 1))}>
+        <button type="button" className="btn btn-primary intro-next" onClick={() => (index === last ? finish('finished') : go(index + 1))}>
           {index === last ? 'Start exploring' : 'Next →'}
         </button>
       </div>

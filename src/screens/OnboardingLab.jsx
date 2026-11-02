@@ -22,6 +22,7 @@ import ItineraryTutorialLab from './ItineraryTutorialLab';
 import ExplainerImagesLab from './ExplainerImagesLab';
 import LabSummary from './TutorialSummary';
 import UltimateTutorialLab from './UltimateTutorialLab';
+import GameTutorialLab from './GameTutorialLab';
 import UILab from './UILab';
 
 export { progressTier };
@@ -43,7 +44,8 @@ const TESTS = [
   { id: 'malls', label: 'Malls' },
   { id: 'tutorial', label: 'Tutorial' },
   { id: 'tutorial2', label: 'Tutorial 2' },
-  { id: 'ultimate', label: 'Ultimate tutorial' },
+  { id: 'ultimate', label: 'Tutorial with planner' },
+  { id: 'game', label: 'Game tutorial' },
   { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
   { id: 'images', label: '5 images' },
@@ -120,6 +122,15 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <FirstRunLab />
+      </div>
+    );
+  }
+
+  if (test === 'game') {
+    return (
+      <div>
+        {testTabs}
+        <GameTutorialLab />
       </div>
     );
   }

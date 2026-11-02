@@ -61,7 +61,18 @@ Anthropic spend limit and Google budget, the `usage_quota` TTL policy, turn
 App Check on in monitor mode, and add App Attest to the iOS app before
 `APP_CHECK_MODE=enforce`. Firebase App Check below (Phase 0) is this item.
 
-## Test tab: "Ultimate tutorial" (2026-11-02)
+## Test tab: "Game tutorial" (2026-11-02)
+
+The owner wants onboarding for the game only for now: Hello, Sign up,
+Verify email (Tutorial), the 5 images intro, First check-in (Tutorial 2's
+distance check), Your tabs, Done (Tutorial), with Mapr explaining every
+step. It lives in the Test tab's "Game tutorial" bubble
+(`src/screens/GameTutorialLab.jsx`). Mapr has a line for each of the five
+intro screens (`SAY.images` in `signupTutorialSteps.js`);
+`ExplainerImagesLab` takes `onDone` / `onSlide` so it can be a step.
+Nothing is saved. Still open: not the real signup flow yet.
+
+## Test tab: "Tutorial with planner" (2026-11-02, was "Ultimate tutorial")
 
 The owner combined Tutorial (T1) and Tutorial 2 (T2) into one onboarding
 in this order, with Mapr explaining every step: Hello T1, Sign up T1,

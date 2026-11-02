@@ -37,7 +37,7 @@ const button = (el, text) => [...el.querySelectorAll('button')].find((b) => b.te
 const exact = (el, text) => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === text);
 const bubbles = (el) => [...el.querySelectorAll('.mapr-bubble')].map((b) => b.textContent).join(' ');
 
-describe('Ultimate tutorial (Test tab)', () => {
+describe('Tutorial with planner (Test tab, was Ultimate tutorial)', () => {
   it("lists the owner's 12 steps in order, each marked with its tutorial", async () => {
     const el = await render();
     expect([...el.querySelectorAll('.lab-step')].map((b) => b.textContent)).toEqual([
