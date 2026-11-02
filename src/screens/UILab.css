@@ -1,0 +1,203 @@
+/* Test tab "UI": sub-tabs for each redesigned screen, plus Full screen,
+   which shows the screen the way the iPhone app would (edge to edge, clear
+   of the Dynamic Island and the home indicator). */
+
+.uil-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.uil-tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.uil-tabs::-webkit-scrollbar {
+  display: none;
+}
+.uil-tab {
+  flex: 1 0 auto;
+  min-height: 32px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #aab1c0;
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.uil-tab.on {
+  background: #5b8cff;
+  color: #fff;
+  font-weight: 600;
+}
+.uil-full-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.uil-full-btn:active,
+.uil-tab:active {
+  opacity: 0.6;
+}
+
+/* Embedded under the sub-tabs, the screen keeps its full width but starts
+   below the bar. */
+.uil .mui {
+  margin-top: 0;
+}
+
+.uil-empty {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  min-height: 60vh;
+  border-radius: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  background: #050709;
+  text-align: center;
+}
+.uil-empty.full {
+  min-height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+.uil-empty-title {
+  margin: 0;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 34px;
+  color: #fff;
+}
+.uil-empty-line {
+  margin: 0;
+  color: #8c93a3;
+  font-size: 15px;
+}
+
+/* ---------- Full screen ---------- */
+body.ui-lab-full {
+  overflow: hidden;
+}
+body.ui-lab-full .app-header,
+body.ui-lab-full .bottom-nav,
+body.ui-lab-full .where-am-i-row {
+  display: none !important;
+}
+
+.uil-full {
+  --uil-tabbar: 50px;
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: #050709;
+  color: #fff;
+}
+.uil-full-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: calc(var(--uil-tabbar) + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+@media (min-width: 600px) {
+  /* The web: the phone-width screen, centered. */
+  .uil-full-scroll > * {
+    max-width: 430px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.uil-exit {
+  /* Top center, beside the screen's title row and under the Dynamic
+     Island: the one spot the designs leave empty. 30pt to see, 44pt to tap. */
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 24, 33, 0.72);
+  color: #fff;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.uil-exit::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+}
+.uil-exit:active {
+  opacity: 0.6;
+}
+
+/* iOS-style tab bar: 50pt tall plus the home indicator's inset, frosted. */
+.uil-tabbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  height: calc(var(--uil-tabbar) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(8, 10, 15, 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+.uil-tabbar button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #7d8494;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.uil-tabbar button.on {
+  color: #5b8cff;
+}

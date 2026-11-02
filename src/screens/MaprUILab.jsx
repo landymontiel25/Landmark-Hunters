@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../lib/AuthContext";
-import { useMaprChat } from "../lib/MaprChatContext";
-import { REGIONS } from "../data/regions";
-import "./MaprUILab.css";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../lib/AuthContext';
+import { useMaprChat } from '../lib/MaprChatContext';
+import { REGIONS } from '../data/regions';
+import './MaprUILab.css';
 
 // Test tab: "UI". The owner's redesign of the Mapr home screen, built to
 // match their mockup (dark screen, orb, "Hey <name>," greeting, ask bar,
@@ -40,12 +40,7 @@ const ICONS = {
   ),
   map: (
     <Icon>
-      <path
-        d="M9 4l6 2.5V20l-6-2.5z"
-        fill="#4f7dff"
-        stroke="none"
-        opacity="0.9"
-      />
+      <path d="M9 4l6 2.5V20l-6-2.5z" fill="#4f7dff" stroke="none" opacity="0.9" />
       <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z" />
       <path d="M9 4v13.5" />
       <path d="M15 6.5V20" />
@@ -70,9 +65,7 @@ const ICONS = {
       <circle cx="8" cy="8" r="1.3" />
     </Icon>
   ),
-  heart: (
-    <Icon d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 2.8C19.5 15.4 12 20 12 20z" />
-  ),
+  heart: <Icon d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 2.8C19.5 15.4 12 20 12 20z" />,
   palm: (
     <Icon>
       <path d="M12 8.5c-.4 4.5.1 9 .9 13" />
@@ -88,39 +81,39 @@ const ICONS = {
 
 const CHIPS = [
   {
-    id: "dinner",
-    label: "Dinner tonight",
-    icon: "dinner",
+    id: 'dinner',
+    label: 'Dinner tonight',
+    icon: 'dinner',
     ask: (c) => `Dinner tonight in ${c}`,
   },
   {
-    id: "day",
-    label: "A full day itinerary",
-    icon: "map",
+    id: 'day',
+    label: 'A full day itinerary',
+    icon: 'map',
     ask: (c) => `Plan a full day itinerary in ${c}`,
   },
   {
-    id: "outdoors",
-    label: "Outdoors",
-    icon: "outdoors",
+    id: 'outdoors',
+    label: 'Outdoors',
+    icon: 'outdoors',
     ask: (c) => `Something outdoors in ${c}`,
   },
   {
-    id: "gems",
-    label: "Hidden gems",
-    icon: "gems",
+    id: 'gems',
+    label: 'Hidden gems',
+    icon: 'gems',
     ask: (c) => `Hidden gems in ${c}`,
   },
   {
-    id: "cheap",
-    label: "Under $50",
-    icon: "tag",
+    id: 'cheap',
+    label: 'Under $50',
+    icon: 'tag',
     ask: (c) => `Things to do in ${c} under $50`,
   },
   {
-    id: "lowkey",
-    label: "Keep it lowkey",
-    icon: "heart",
+    id: 'lowkey',
+    label: 'Keep it lowkey',
+    icon: 'heart',
     ask: (c) => `Something lowkey in ${c}`,
   },
 ];
@@ -130,91 +123,80 @@ const CHIPS = [
 // the cards always show real places in that city.
 const PROMPTS = [
   {
-    id: "dinner",
-    title: ["Best dinner", "spots tonight"],
+    id: 'dinner',
+    title: ['Best dinner', 'spots tonight'],
     ask: (c) => `Best dinner spots tonight in ${c}`,
-    prefer: ["bayfront-park", "bayside-marketplace"],
+    prefer: ['bayfront-park', 'bayside-marketplace'],
   },
   {
-    id: "day",
-    title: (c) => ["A full day", `in ${c}`],
+    id: 'day',
+    title: (c) => ['A full day', `in ${c}`],
     ask: (c) => `Plan a full day in ${c}`,
-    prefer: ["south-pointe-park", "south-beach"],
+    prefer: ['south-pointe-park', 'south-beach'],
   },
   {
-    id: "gems",
-    title: ["Hidden gems", "near me"],
+    id: 'gems',
+    title: ['Hidden gems', 'near me'],
     ask: (c) => `Hidden gems near me in ${c}`,
-    prefer: ["wynwood-walls"],
+    prefer: ['wynwood-walls'],
   },
   {
-    id: "rooftop",
-    title: ["Rooftop drinks", "with a view"],
+    id: 'rooftop',
+    title: ['Rooftop drinks', 'with a view'],
     ask: (c) => `Rooftop drinks with a view in ${c}`,
-    prefer: ["lincoln-road", "espanola-way"],
+    prefer: ['lincoln-road', 'espanola-way'],
   },
   {
-    id: "culture",
-    title: ["Museums", "worth the trip"],
+    id: 'culture',
+    title: ['Museums', 'worth the trip'],
     ask: (c) => `Museums worth the trip in ${c}`,
-    prefer: ["perez-art-museum-miami", "vizcaya-museum-and-gardens"],
+    prefer: ['perez-art-museum-miami', 'vizcaya-museum-and-gardens'],
   },
 ];
 
 // Shown when you have no chats yet, so the section looks like the mockup.
 const SAMPLE_CHATS = [
-  { id: "sample-1", title: "Plan a weekend in Miami", sample: true },
-  { id: "sample-2", title: "Great coffee shops near Wynwood", sample: true },
+  { id: 'sample-1', title: 'Plan a weekend in Miami', sample: true },
+  { id: 'sample-2', title: 'Great coffee shops near Wynwood', sample: true },
   {
-    id: "sample-3",
-    title: "A 3-day itinerary (food, beach, culture)",
+    id: 'sample-3',
+    title: 'A 3-day itinerary (food, beach, culture)',
     sample: true,
   },
 ];
 
-function chatIcon(title = "") {
+function chatIcon(title = '') {
   const t = title.toLowerCase();
-  if (/itinerar|day|plan a (trip|route)|route/.test(t) && !/weekend/.test(t))
-    return ICONS.map;
-  if (/coffee|food|eat|dinner|lunch|brunch|restaurant|bar|drink/.test(t))
-    return ICONS.dinner;
+  if (/itinerar|day|plan a (trip|route)|route/.test(t) && !/weekend/.test(t)) return ICONS.map;
+  if (/coffee|food|eat|dinner|lunch|brunch|restaurant|bar|drink/.test(t)) return ICONS.dinner;
   if (/park|hike|outdoor|nature|trail/.test(t)) return ICONS.outdoors;
   return ICONS.palm;
 }
 
 function photoFor(region, prefer, used) {
-  const withPhoto = region.landmarks.filter(
-    (l) =>
-      l.images?.[0] && !/Earth-moon|Solar%20system|He1523a/.test(l.images[0]),
-  );
-  const pick =
-    prefer
-      .map((id) => withPhoto.find((l) => l.id === id))
-      .find((l) => l && !used.has(l.id)) ||
-    withPhoto.find((l) => !used.has(l.id));
+  const withPhoto = region.landmarks.filter((l) => l.images?.[0] && !/Earth-moon|Solar%20system|He1523a/.test(l.images[0]));
+  const pick = prefer.map((id) => withPhoto.find((l) => l.id === id)).find((l) => l && !used.has(l.id)) || withPhoto.find((l) => !used.has(l.id));
   if (!pick) return null;
   used.add(pick.id);
   return pick.images[0];
 }
 
 function initialsOf(user) {
-  const name = (user?.displayName || "").trim();
+  const name = (user?.displayName || '').trim();
   if (name) {
     const parts = name.split(/\s+/);
-    return (
-      (parts[0][0] || "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")
-    ).toUpperCase();
+    return ((parts[0][0] || '') + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
   }
-  return (user?.email?.[0] || "M").toUpperCase();
+  return (user?.email?.[0] || 'M').toUpperCase();
 }
 
-export default function MaprUILab() {
+export default function MaprUILab({ fullScreen = false }) {
   const { user } = useAuth();
   const { chats = [], openChat } = useMaprChat();
   const navigate = useNavigate();
-  const [regionId, setRegionId] = useState("miami");
+  const [regionId, setRegionId] = useState('miami');
   const [cityOpen, setCityOpen] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [chip, setChip] = useState(null);
   const [allPrompts, setAllPrompts] = useState(false);
   const inputRef = useRef(null);
@@ -229,21 +211,20 @@ export default function MaprUILab() {
     if (!el) return undefined;
     const fit = () => setZoom(Math.min(el.clientWidth, 480) / 393 || 1);
     fit();
-    const ro =
-      typeof ResizeObserver === "function" ? new ResizeObserver(fit) : null;
+    const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(fit) : null;
     ro?.observe(el);
     return () => ro?.disconnect();
   }, []);
 
   const region = REGIONS.find((r) => r.id === regionId) || REGIONS[0];
   const city = region.name;
-  const firstName = (user?.displayName || "").trim().split(/\s+/)[0] || "there";
+  const firstName = (user?.displayName || '').trim().split(/\s+/)[0] || 'there';
 
   const cards = useMemo(() => {
     const used = new Set();
     return PROMPTS.map((p) => ({
       ...p,
-      label: typeof p.title === "function" ? p.title(city) : p.title,
+      label: typeof p.title === 'function' ? p.title(city) : p.title,
       photo: photoFor(region, p.prefer, used),
     }));
   }, [region, city]);
@@ -253,11 +234,10 @@ export default function MaprUILab() {
   useEffect(() => {
     if (!cityOpen) return undefined;
     const close = (e) => {
-      if (cityRef.current && !cityRef.current.contains(e.target))
-        setCityOpen(false);
+      if (cityRef.current && !cityRef.current.contains(e.target)) setCityOpen(false);
     };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
   }, [cityOpen]);
 
   const ask = (question) => {
@@ -266,13 +246,13 @@ export default function MaprUILab() {
       inputRef.current?.focus();
       return;
     }
-    navigate("/mapr", { state: { ask: q } });
+    navigate('/mapr', { state: { ask: q } });
   };
 
   const pickChip = (c) => {
     if (chip === c.id) {
       setChip(null);
-      setText("");
+      setText('');
       return;
     }
     setChip(c.id);
@@ -287,33 +267,19 @@ export default function MaprUILab() {
       return;
     }
     openChat?.(c.id);
-    navigate("/mapr");
+    navigate('/mapr');
   };
 
   return (
-    <div className="mui" ref={outerRef}>
+    <div className={`mui ${fullScreen ? 'mui-full' : ''}`} ref={outerRef}>
       <div className="mui-screen" style={{ zoom }}>
         <header className="mui-top">
           <h1 className="mui-brand">Mapr</h1>
           <div className="mui-top-right">
             <div className="mui-city-wrap" ref={cityRef}>
-              <button
-                type="button"
-                className="mui-city"
-                aria-haspopup="listbox"
-                aria-expanded={cityOpen}
-                onClick={() => setCityOpen((o) => !o)}
-              >
-                <svg
-                  width="16"
-                  height="18"
-                  viewBox="0 0 16 18"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M8 0.8C4.2 0.8 1.3 3.7 1.3 7.4c0 4.6 5.4 9.3 6.1 9.9.3.2.9.2 1.2 0 .7-.6 6.1-5.3 6.1-9.9C14.7 3.7 11.8.8 8 .8z"
-                    fill="#5b8cff"
-                  />
+              <button type="button" className="mui-city" aria-haspopup="listbox" aria-expanded={cityOpen} onClick={() => setCityOpen((o) => !o)}>
+                <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+                  <path d="M8 0.8C4.2 0.8 1.3 3.7 1.3 7.4c0 4.6 5.4 9.3 6.1 9.9.3.2.9.2 1.2 0 .7-.6 6.1-5.3 6.1-9.9C14.7 3.7 11.8.8 8 .8z" fill="#5b8cff" />
                   <circle cx="8" cy="7.2" r="2.4" fill="#0d1018" />
                 </svg>
                 <span>{city}</span>
@@ -327,14 +293,11 @@ export default function MaprUILab() {
                         type="button"
                         role="option"
                         aria-selected={r.id === regionId}
-                        className={r.id === regionId ? "on" : ""}
+                        className={r.id === regionId ? 'on' : ''}
                         onClick={() => {
                           setRegionId(r.id);
                           setCityOpen(false);
-                          if (chip)
-                            setText(
-                              CHIPS.find((c) => c.id === chip).ask(r.name),
-                            );
+                          if (chip) setText(CHIPS.find((c) => c.id === chip).ask(r.name));
                         }}
                       >
                         {r.name}
@@ -344,12 +307,7 @@ export default function MaprUILab() {
                 </ul>
               )}
             </div>
-            <button
-              type="button"
-              className="mui-avatar"
-              aria-label="Profile"
-              onClick={() => navigate("/profile")}
-            >
+            <button type="button" className="mui-avatar" aria-label="Profile" onClick={() => navigate('/profile')}>
               {initialsOf(user)}
             </button>
           </div>
@@ -370,14 +328,7 @@ export default function MaprUILab() {
             ask(text);
           }}
         >
-          <svg
-            className="mui-ask-spark"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
+          <svg className="mui-ask-spark" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M12 2.5c.7 4.9 2.9 7.6 8.5 9.5-5.6 1.9-7.8 4.6-8.5 9.5-.7-4.9-2.9-7.6-8.5-9.5 5.6-1.9 7.8-4.6 8.5-9.5z"
               stroke="#5b8cff"
@@ -405,13 +356,7 @@ export default function MaprUILab() {
           {[CHIPS.slice(0, 3), CHIPS.slice(3)].map((row, i) => (
             <div className="mui-chip-row" key={i}>
               {row.map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  className={`mui-chip ${chip === c.id ? "on" : ""}`}
-                  aria-pressed={chip === c.id}
-                  onClick={() => pickChip(c)}
-                >
+                <button key={c.id} type="button" className={`mui-chip ${chip === c.id ? 'on' : ''}`} aria-pressed={chip === c.id} onClick={() => pickChip(c)}>
                   {ICONS[c.icon]}
                   <span>{c.label}</span>
                 </button>
@@ -422,35 +367,15 @@ export default function MaprUILab() {
 
         <div className="mui-section-head">
           <h3>Try asking about...</h3>
-          <button
-            type="button"
-            className="mui-see-all"
-            onClick={() => setAllPrompts((v) => !v)}
-          >
-            {allPrompts ? "Show less" : "See all"}
-            <Icon
-              size={16}
-              stroke={2}
-              d={allPrompts ? "m6 15 6-6 6 6" : "m9 6 6 6-6 6"}
-            />
+          <button type="button" className="mui-see-all" onClick={() => setAllPrompts((v) => !v)}>
+            {allPrompts ? 'Show less' : 'See all'}
+            <Icon size={16} stroke={2} d={allPrompts ? 'm6 15 6-6 6 6' : 'm9 6 6 6-6 6'} />
           </button>
         </div>
-        <div className={`mui-cards ${allPrompts ? "grid" : ""}`}>
+        <div className={`mui-cards ${allPrompts ? 'grid' : ''}`}>
           {cards.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              className="mui-card"
-              onClick={() => ask(c.ask(city))}
-            >
-              {c.photo && (
-                <img
-                  src={c.photo}
-                  alt=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-              )}
+            <button key={c.id} type="button" className="mui-card" onClick={() => ask(c.ask(city))}>
+              {c.photo && <img src={c.photo} alt="" loading="lazy" referrerPolicy="no-referrer" />}
               <span className="mui-card-shade" />
               <span className="mui-card-title">
                 {c.label[0]}
@@ -466,11 +391,7 @@ export default function MaprUILab() {
 
         <div className="mui-section-head mui-recent-head">
           <h3>Your recent chats</h3>
-          <button
-            type="button"
-            className="mui-see-all"
-            onClick={() => navigate("/mapr", { state: { openChats: true } })}
-          >
+          <button type="button" className="mui-see-all" onClick={() => navigate('/mapr', { state: { openChats: true } })}>
             See all
             <Icon size={16} stroke={2} d="m9 6 6 6-6 6" />
           </button>
@@ -478,11 +399,7 @@ export default function MaprUILab() {
         <ul className="mui-recent">
           {recent.map((c) => (
             <li key={c.id}>
-              <button
-                type="button"
-                className="mui-row"
-                onClick={() => openRecent(c)}
-              >
+              <button type="button" className="mui-row" onClick={() => openRecent(c)}>
                 <span className="mui-row-icon">{chatIcon(c.title)}</span>
                 <span className="mui-row-title">{c.title}</span>
                 <Icon size={18} stroke={1.8} d="m9 6 6 6-6 6" />
