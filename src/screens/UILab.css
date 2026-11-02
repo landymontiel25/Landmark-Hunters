@@ -64,8 +64,18 @@
 
 /* Embedded under the sub-tabs, the screen keeps its full width but starts
    below the bar. */
-.uil-scroll .mui {
-  margin: 0;
+.uil-open-live {
+  justify-self: center;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #5b8cff;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .uil-empty {

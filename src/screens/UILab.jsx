@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import MaprUILab from './MaprUILab';
+import { useNavigate } from 'react-router-dom';
 import MapUILab from './MapUILab';
 import './UILab.css';
 
@@ -7,12 +7,13 @@ import './UILab.css';
 // iPhone first (the web shows the same screens at phone width). Each tab of
 // the app gets a sub-tab here; Full screen shows the chosen screen the way
 // the phone would, with no app header or nav, and its own tab bar to move
-// between screens. Map and Mapr are designed so far; the rest wait for the
-// owner's mockups.
+// between screens. Map is designed so far (Mapr's design is live in the Mapr
+// tab); the rest wait for the owner's mockups.
 const UI_SCREENS = [
   { id: 'map', label: 'Map', screen: MapUILab, exit: 'low-right' },
   { id: 'landmarks', label: 'Landmarks', screen: null },
-  { id: 'mapr', label: 'Mapr', screen: MaprUILab },
+  // Shipped: the Mapr tab now opens on this design (MaprHome).
+  { id: 'mapr', label: 'Mapr', screen: null, live: '/mapr' },
   { id: 'itinerary', label: 'Itinerary', screen: null },
   { id: 'profile', label: 'Profile', screen: null },
 ];
@@ -54,6 +55,7 @@ function TabIcon({ id }) {
 }
 
 function Screen({ id, fullScreen }) {
+  const navigate = useNavigate();
   const entry = UI_SCREENS.find((s) => s.id === id);
   if (entry.screen) {
     const S = entry.screen;
@@ -62,13 +64,22 @@ function Screen({ id, fullScreen }) {
   return (
     <div className={`uil-empty ${fullScreen ? 'full' : ''}`}>
       <p className="uil-empty-title">{entry.label}</p>
-      <p className="uil-empty-line">Not designed yet</p>
+      {entry.live ? (
+        <>
+          <p className="uil-empty-line">Live in the app</p>
+          <button type="button" className="uil-open-live" onClick={() => navigate(entry.live)}>
+            Open {entry.label}
+          </button>
+        </>
+      ) : (
+        <p className="uil-empty-line">Not designed yet</p>
+      )}
     </div>
   );
 }
 
 export default function UILab() {
-  const [screen, setScreen] = useState('mapr');
+  const [screen, setScreen] = useState('map');
   const [full, setFull] = useState(false);
 
   // Full screen hides the app's own header and nav (the same way the photo

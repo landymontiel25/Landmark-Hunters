@@ -30,17 +30,18 @@ MapPicksOverlay so both use the same Mapr pipeline; it logs as test sets
 and keeps its own remembered distance. Ratings shown are the app's own
 community ratings, not Google's.
 
-Mapr is designed (`src/screens/MaprUILab.jsx` + `.css`): laid out at
-the mockup's 393pt width and zoomed to fit, so it keeps the mockup's
-proportions and its small type (chip and row text about 10-11pt). Small
-controls get invisible 44pt tap areas. The ask bar, chips, cards and sample
-rows send a real question to Mapr; the city pill switches city; recent
-chats are your own. Landmarks, Itinerary and Profile show "Not designed
-yet" until the owner sends those mockups.
+Mapr shipped (2026-11-02): the Mapr tab opens on the design
+(`src/components/MaprHome.jsx` + `.css`) whenever no conversation is
+open; asking anything starts the chat on the same tab, and ➕ New chat
+brings the home back. The city pill sets Mapr's regions ("Any city" for
+none). Recent chats show only with real chats. The planner (when opened
+from Itinerary) and the Taste Profile card sit under the design. The Test
+tab's Mapr slot now links to the live tab. Landmarks, Itinerary and
+Profile show "Not designed yet" until the owner sends those mockups.
 
-Still open: no haptics (the app has no Capacitor Haptics plugin yet), and
-the real tabs are unchanged. Once the owner approves a screen, move it
-into the real tab (and update `APP_HELP`).
+Still open: no haptics (the app has no Capacitor Haptics plugin yet). Map
+is still Test-tab only; once the owner approves a screen, move it into the
+real tab (and update `APP_HELP`).
 
 ## Security audit follow-ups (2026-10-30)
 

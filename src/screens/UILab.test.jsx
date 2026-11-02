@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -17,14 +17,16 @@ async function render() {
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u', email: 'a@b.c', displayName: 'Landy Montiel' } }) }));
   // The Map screen has its own tests (MapUILab.test.jsx).
   vi.doMock('./MapUILab', () => ({ default: ({ fullScreen }) => <p className={`map-ui-stub ${fullScreen ? 'full' : ''}`}>map</p> }));
-  vi.doMock('../lib/MaprChatContext', () => ({ useMaprChat: () => ({ chats: [], openChat: () => {} }) }));
   const { default: UILab } = await import('./UILab.jsx');
   container = document.createElement('div');
   document.body.appendChild(container);
   await act(async () => {
     createRoot(container).render(
-      <MemoryRouter>
-        <UILab />
+      <MemoryRouter initialEntries={['/test']}>
+        <Routes>
+          <Route path="/test" element={<UILab />} />
+          <Route path="/mapr" element={<p className="mapr-tab">mapr tab</p>} />
+        </Routes>
       </MemoryRouter>
     );
   });
@@ -35,18 +37,27 @@ const click = (el) => act(async () => el.click());
 const tab = (el, label) => [...el.querySelectorAll('.uil-tab')].find((t) => t.textContent === label);
 
 describe('UILab (Test tab: UI)', () => {
-  it('has a sub-tab per app tab and opens on Mapr', async () => {
+  it('has a sub-tab per app tab and opens on Map', async () => {
     const el = await render();
     expect([...el.querySelectorAll('.uil-tab')].map((t) => t.textContent)).toEqual(['Map', 'Landmarks', 'Mapr', 'Itinerary', 'Profile']);
-    expect(tab(el, 'Mapr').getAttribute('aria-selected')).toBe('true');
-    expect(el.querySelector('.mui')).toBeTruthy();
+    expect(tab(el, 'Map').getAttribute('aria-selected')).toBe('true');
+    expect(el.querySelector('.uil-frame .map-ui-stub')).toBeTruthy();
+  });
+
+  it('Mapr is live in the app now: its slot links to the Mapr tab', async () => {
+    const el = await render();
+    await click(tab(el, 'Mapr'));
+    expect(el.querySelector('.mui')).toBeNull();
+    expect(el.querySelector('.uil-empty').textContent).toContain('Live in the app');
+    await click(el.querySelector('.uil-open-live'));
+    expect(el.querySelector('.mapr-tab')).toBeTruthy();
   });
 
   it('every screen has the floating tab bar at its bottom, in step with the sub-tabs', async () => {
     const el = await render();
     const bar = () => [...el.querySelectorAll('.uil-frame .uil-tabbar button')];
     expect(bar().map((b) => b.textContent)).toEqual(['Map', 'Landmarks', 'Mapr', 'Itinerary', 'Profile']);
-    expect(bar()[2].getAttribute('aria-current')).toBe('page');
+    expect(bar()[0].getAttribute('aria-current')).toBe('page');
     await click(bar()[3]);
     expect(tab(el, 'Itinerary').getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.uil-frame .uil-empty').textContent).toContain('Itinerary');
@@ -71,7 +82,7 @@ describe('UILab (Test tab: UI)', () => {
     const el = await render();
     await click(el.querySelector('button[aria-label="Full screen"]'));
     expect(document.body.classList.contains('ui-lab-full')).toBe(true);
-    expect(el.querySelector('.uil-full .mui.mui-full')).toBeTruthy();
+    expect(el.querySelector('.uil-full .map-ui-stub.full')).toBeTruthy();
     const bar = [...el.querySelectorAll('.uil-tabbar button')];
     expect(bar.map((b) => b.textContent)).toEqual(['Map', 'Landmarks', 'Mapr', 'Itinerary', 'Profile']);
     await click(bar[0]);

@@ -23,7 +23,8 @@ async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScr
   vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
-  vi.doMock('../lib/MaprChatContext', () => ({ useMaprChat: () => ({ chats: [], openChat: () => {} }) }));
+  // The UI bubble's Map screen has its own tests (MapUILab.test.jsx).
+  vi.doMock('./MapUILab', () => ({ default: () => <p className="map-ui-stub">map</p> }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
   const { default: OnboardingLab } = await import('./OnboardingLab.jsx');
   container = document.createElement('div');
@@ -78,7 +79,7 @@ describe('OnboardingLab', () => {
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
     expect(tabs.map((t) => t.textContent)).toEqual(['UI', 'Rating slider', 'Malls', 'Tutorial', 'Tutorial 2', 'Itinerary tutorial', 'Taste Profile', '5 images']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
-    expect(el.querySelector('.mui')).toBeTruthy();
+    expect(el.querySelector('.uil-frame .map-ui-stub')).toBeTruthy();
   });
 
   it('the Rating slider bubble shows the slider', async () => {

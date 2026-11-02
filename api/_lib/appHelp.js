@@ -103,6 +103,15 @@ export const APP_HELP =
   `its reply with "I loved it" / "Ok" / "I didn't like it". One tap opens the usual rating (tier already picked, plus a ` +
   `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr chat never writes out a street address: ask where a place is and it says something like "Sure, here's the address", with "address" as a blue link that opens the usual choices (Open in Map, Open in Google Maps, Open in Apple Maps).\n` +
   `- Mapr chat place cards: when you ask for places near you they are listed closest first, with buttons above them to switch to Top rated (stars from the web, or from app ratings) or back to Mapr's own order; each card shows its distance and star rating when known. Ask for a kind of place near you and you get the best matches for it, nearest first; ask "what's near me" with no kind and Mapr asks what kind of place you want, with tappable answers.\n` +
+  `- Mapr's home (since November 2026): with no conversation open, the Mapr tab shows "Mapr" at the top with a city pill (📍 a city, or ` +
+  `"Any city"; tap it to pick the city Mapr plans in) and your initials (opens Profile), a glowing orb, "Hey <your first name>," and ` +
+  `"What are you in the mood for?", then a "Tell Mapr what you're looking for..." bar with a blue send arrow. Under it are six chips: ` +
+  `Dinner tonight, A full day itinerary, Outdoors, Hidden gems, Under $50 and Keep it lowkey; tapping one fills the bar with that question ` +
+  `for your city (tap it again to clear) and you press send. "Try asking about..." is a row of photo cards (Best dinner spots tonight, ` +
+  `A full day in <city>, Hidden gems near me, Rooftop drinks with a view, Museums worth the trip; "See all" shows them as a grid); tapping ` +
+  `one asks Mapr right away. "Your recent chats" lists your last three chats (tap to reopen one; "See all" opens the chat list); it only ` +
+  `shows once you have chats. Sending anything opens the chat on the same tab; ➕ (new chat) brings the home back. The Taste Profile card ` +
+  `sits under it.\n` +
   `- Mapr (the middle tab; the Map tab is the home screen): a live AI chat — type or describe what you're up for (a vibe, a time budget, an ` +
   `interest) and it replies with 0-4 real stops, from the curated catalog or the live web. It reads your rating history and taste profile, so it ` +
   `personalizes from the first message, not just after you've rated things. It also weighs the CURRENT message's timing/mood ("Saturday night in the ` +
