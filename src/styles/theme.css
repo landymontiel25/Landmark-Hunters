@@ -8110,3 +8110,32 @@ p.tag {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
+
+/* Test tab "Planner": the list of everything turned off for now. */
+.planner-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.planner-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.planner-item p {
+  margin: 6px 0 0;
+}
+.planner-keeps {
+  color: var(--text-secondary, #a7adbb);
+  font-size: 0.9rem;
+}
+.planner-where {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #a7adbb);
+  word-break: break-word;
+}
+.planner-subhead {
+  margin: 24px 0 8px;
+  font-size: 1.05rem;
+}

@@ -63,6 +63,18 @@ Anthropic spend limit and Google budget, the `usage_quota` TTL policy, turn
 App Check on in monitor mode, and add App Attest to the iOS app before
 `APP_CHECK_MODE=enforce`. Firebase App Check below (Phase 0) is this item.
 
+## Test tab: "Planner" list (2026-11-02)
+
+The owner wants one list of everything turned off. The Test tab's
+"Planner" bubble (`src/screens/PlannerLab.jsx`, entries in
+`src/screens/plannerList.js`) lists the 11 switches found in the git
+history and code: badges, time saved card, Discoverer and Follows, Add a
+Landmark (Landmarks tab and Map), Miami user-added places, hidden
+categories, the Taste Profile change box, no points near home, GPS
+required to check in, Tripadvisor ratings; plus Travel Picks (removed, not
+a switch). Next to go on it, when the owner says so: Mapr Score ("not part
+of the game"). New switches go on the list in the same PR (CLAUDE.md).
+
 ## Test tab: "Game tutorial" (2026-11-02)
 
 The Test tab's onboarding tutorials are now just Planner tutorial and Game
