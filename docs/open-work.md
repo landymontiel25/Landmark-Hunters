@@ -75,7 +75,8 @@ The owner wants onboarding for the game only for now: Hello, Sign up,
 Verify email (Tutorial), the 5 images intro, First check-in (Tutorial 2's
 distance check), Your tabs, Done (Tutorial), with Mapr explaining every
 step. It lives in the Test tab's "Game tutorial" bubble
-(`src/screens/GameTutorialLab.jsx`). Mapr has a line for each of the five
+(`src/screens/GameTutorialLab.jsx`). The "5 images" bubble was removed
+(owner, 2026-11-02); the intro now only shows as this tutorial's step. Mapr has a line for each of the five
 intro screens (`SAY.images` in `signupTutorialSteps.js`);
 `ExplainerImagesLab` takes `onDone` / `onSlide` so it can be a step.
 Nothing is saved. Still open: not the real signup flow yet.
@@ -98,8 +99,9 @@ yet; wire it in once the owner approves it.
 ## Test tab: "5 images" intro (2026-10-28)
 
 The owner drew five intro screens (Discover, Arrive prepared, Plan less,
-Play, Remember) for onboarding. They live as live, tappable screens in the
-Test tab's "5 images" bubble (`src/screens/ExplainerImagesLab.jsx`), using
+Play, Remember) for onboarding. They live as live, tappable screens (`src/screens/ExplainerImagesLab.jsx`), now shown
+only as the Game tutorial's 5 images step (the "5 images" bubble was
+removed 2026-11-02), using
 Philly landmarks and their own photos and facts. Still open: the intro is
 not in the real signup flow yet; wire it in once the owner approves it.
 The Play screen's Check in asks for your location (2026-10-28): within 100 m
