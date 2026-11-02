@@ -106,6 +106,15 @@ export default function OnboardingLab() {
     );
   }
 
+  if (test === 'game') {
+    return (
+      <div>
+        {testTabs}
+        <GameTutorialLab />
+      </div>
+    );
+  }
+
   if (test === 'ultimate') {
     return (
       <div>
