@@ -3,6 +3,20 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Test tab: "UI" Mapr home redesign (2026-11-02)
+
+The owner gave a mockup for a new Mapr home screen (orb, "Hey <name>,",
+ask bar, six quick chips, "Try asking about..." photo cards, recent chats).
+It lives as a live screen in the Test tab's "UI" bubble
+(`src/screens/MaprUILab.jsx` + `.css`), which the Test tab now opens on.
+The screen is laid out at the mockup's 393pt width and zoomed to fit, so
+it keeps the mockup's proportions on any phone; that also keeps the
+mockup's small type (chip and row text about 10-11pt on an iPhone). The ask
+bar, chips, cards and sample rows send a real question to Mapr; the city
+pill switches city and the cards' photos; recent chats are your own.
+Still open: the real Mapr tab is unchanged. Once the owner approves the
+look, move it into `Mapr.jsx` (and update `APP_HELP`).
+
 ## Security audit follow-ups (2026-10-30)
 
 20-point audit done: `docs/security-audit-2026-10-30.md`. Owner first:

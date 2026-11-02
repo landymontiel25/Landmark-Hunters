@@ -1,0 +1,514 @@
+/* Test tab "UI": the owner's Mapr home mockup. .mui-screen is laid out at
+   the mockup's width (393pt, an iPhone screen) and zoomed to the phone's
+   width from JS, so every number below is the mockup measured in points.
+   Scoped under .mui so nothing leaks into the real app. */
+
+.mui {
+  --mui-bg: #050709;
+  --mui-line: rgba(255, 255, 255, 0.14);
+  --mui-fill: rgba(255, 255, 255, 0.018);
+  --mui-blue: #5b8cff;
+  --mui-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui,
+    sans-serif;
+  --mui-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+
+  margin: -24px -20px 0;
+  min-height: 100%;
+  background:
+    radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%),
+    var(--mui-bg);
+  color: #fff;
+  font-family: var(--mui-sans);
+  overflow: hidden;
+}
+
+@media (min-width: 600px) {
+  .mui {
+    max-width: 430px;
+    margin: 0 auto;
+    border-radius: 28px;
+    border: 1px solid var(--mui-line);
+  }
+}
+
+.mui-screen {
+  width: 393px;
+  padding: 8px 11.5px 30px;
+  box-sizing: border-box;
+}
+
+.mui button {
+  font: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- Top bar ---------- */
+.mui-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3.5px 0 7.5px;
+}
+.mui-brand {
+  margin: 0;
+  font-family: var(--mui-serif);
+  font-weight: 400;
+  font-size: 34.5px;
+  line-height: 1;
+  margin-top: -3px;
+  letter-spacing: 0.2px;
+  color: #fff;
+}
+.mui-top-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.mui-city-wrap {
+  position: relative;
+}
+.mui-city {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  width: 77px;
+  padding: 0 0 0 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #13181f;
+  font-size: 11px !important;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.mui-city > svg:first-child {
+  width: 11px;
+  height: 14px;
+  margin-right: 7px;
+}
+.mui-city span {
+  margin-right: 3px;
+}
+.mui-city > svg:last-child {
+  width: 11px;
+  height: 11px;
+  color: #c9ced8;
+}
+.mui-city-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 5;
+  min-width: 150px;
+  margin: 0;
+  padding: 5px;
+  list-style: none;
+  border-radius: 12px;
+  border: 1px solid var(--mui-line);
+  background: #11151f;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+.mui-city-menu button {
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  text-align: left;
+  font-size: 12px !important;
+  cursor: pointer;
+}
+.mui-city-menu button:hover,
+.mui-city-menu button.on {
+  background: rgba(91, 140, 255, 0.16);
+}
+.mui-avatar {
+  width: 29px;
+  height: 29px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181e27;
+  font-size: 10.5px !important;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------- Orb ---------- */
+.mui-orb-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 19.5px auto 0;
+}
+.mui-orb-glow {
+  position: absolute;
+  inset: -22px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(60, 90, 255, 0.42) 0%,
+    rgba(70, 70, 220, 0.14) 48%,
+    transparent 70%
+  );
+  animation: mui-breathe 4.5s ease-in-out infinite;
+}
+.mui-orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      55% 55% at 52% 55%,
+      #0a1a92 0%,
+      rgba(14, 34, 170, 0.85) 45%,
+      transparent 80%
+    ),
+    radial-gradient(
+      70% 60% at 82% 22%,
+      #b46ce6 0%,
+      rgba(150, 100, 235, 0.6) 35%,
+      transparent 70%
+    ),
+    radial-gradient(
+      80% 70% at 18% 82%,
+      #5aa2ff 0%,
+      rgba(70, 130, 255, 0.5) 40%,
+      transparent 75%
+    ),
+    linear-gradient(135deg, #3f6cf0 0%, #2c45d8 50%, #6a4fe0 100%);
+  box-shadow:
+    inset 0 0 6px rgba(160, 190, 255, 0.55),
+    0 0 18px rgba(70, 100, 255, 0.5);
+}
+.mui-orb::before,
+.mui-orb::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(150, 175, 255, 0.16),
+    transparent 62%
+  );
+  box-shadow: inset 2px 2px 6px rgba(170, 190, 255, 0.12);
+}
+.mui-orb::before {
+  inset: 8% 4% 18% 22%;
+  animation: mui-spin 11s linear infinite;
+}
+.mui-orb::after {
+  inset: 20% 26% 6% 6%;
+  animation: mui-spin 14s linear infinite reverse;
+}
+@keyframes mui-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.07);
+    opacity: 1;
+  }
+}
+@keyframes mui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Greeting ---------- */
+.mui-hello {
+  margin: 12.5px 0 0;
+  text-align: center;
+  font-family: var(--mui-serif);
+  font-weight: 400;
+  font-size: 41.8px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: #fff;
+}
+.mui-sub {
+  margin: 5px 0 0;
+  text-align: center;
+  font-size: 17.5px;
+  line-height: 1.2;
+  color: #a3a7bd;
+}
+
+/* ---------- Ask bar ---------- */
+.mui-ask {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin: 23px 0 0;
+  padding: 0 8.5px 0 18px;
+  border-radius: 19px;
+  border: 1px solid #3e4f78;
+  background: linear-gradient(180deg, #0f1526 0%, #0d121c 100%);
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.mui-ask:focus-within {
+  border-color: #5b7fd6;
+  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.12);
+}
+.mui-ask-spark {
+  flex: none;
+  width: 19px;
+  height: 19px;
+  margin-right: 15px;
+}
+.mui-ask input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+}
+.mui-ask input::placeholder {
+  color: #7f8899;
+}
+.mui-send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #6896ff, #4a80fb 75%);
+  color: #fff !important;
+  box-shadow: 0 0 14px rgba(70, 120, 255, 0.45);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.mui-send svg {
+  width: 16px;
+  height: 16px;
+  color: #0b1530;
+}
+.mui-send:active {
+  transform: scale(0.92);
+}
+
+/* ---------- Chips ---------- */
+.mui-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 16px;
+}
+.mui-chip-row {
+  display: flex;
+  gap: 8.5px;
+}
+.mui-chip {
+  display: flex;
+  align-items: center;
+  height: 33px;
+  padding: 0 11px 0 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: var(--mui-fill);
+  font-size: 10.2px !important;
+  letter-spacing: -0.05px;
+  color: #cbd0d8 !important;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.mui-chip svg {
+  width: 17px;
+  height: 17px;
+  margin-right: 10px;
+  stroke-width: 1.6;
+  flex: none;
+  color: #eef1f6;
+}
+.mui-chip.on {
+  border-color: rgba(91, 140, 255, 0.7);
+  background: rgba(91, 140, 255, 0.16);
+  color: #fff !important;
+}
+
+/* ---------- Sections ---------- */
+.mui-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 29px 1px 8.5px 1px;
+  height: 16px;
+}
+.mui-section-head h3 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 400;
+  color: #b6bac6;
+}
+.mui-see-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6f9fe0 !important;
+  font-size: 11.2px !important;
+  cursor: pointer;
+}
+.mui-see-all svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* ---------- Photo cards ---------- */
+.mui-cards {
+  display: flex;
+  gap: 8px;
+  margin: 0 -11.5px;
+  padding: 0 11.5px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 11.5px;
+  scrollbar-width: none;
+}
+.mui-cards::-webkit-scrollbar {
+  display: none;
+}
+.mui-cards.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  overflow: visible;
+}
+.mui-card {
+  position: relative;
+  flex: 0 0 114px;
+  height: 144px;
+  padding: 0;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #141822;
+  overflow: hidden;
+  scroll-snap-align: start;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.mui-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mui-card-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(5, 7, 12, 0.55) 64%,
+    rgba(5, 7, 12, 0.9) 100%
+  );
+}
+.mui-card-title {
+  position: absolute;
+  left: 8px;
+  right: 30px;
+  bottom: 14px;
+  white-space: nowrap;
+  font-size: 11.2px;
+  font-weight: 500;
+  line-height: 1.38;
+  color: #fff;
+}
+.mui-card-go {
+  position: absolute;
+  right: 6px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 23.5px;
+  height: 23.5px;
+  border-radius: 50%;
+  background: rgba(52, 56, 66, 0.72);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.mui-card-go svg {
+  width: 11px;
+  height: 11px;
+}
+.mui-card:active {
+  transform: scale(0.98);
+}
+
+/* ---------- Recent chats ---------- */
+.mui-recent-head {
+  margin-top: 29px;
+  margin-bottom: 6.5px;
+}
+.mui-recent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mui-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 39px;
+  padding: 0 12px 0 15px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--mui-fill);
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.mui-row:active {
+  background: rgba(255, 255, 255, 0.06);
+}
+.mui-row-icon {
+  display: grid;
+  place-items: center;
+  margin-right: 16.5px;
+  color: #f4f7fb;
+}
+.mui-row-icon svg {
+  width: 18.5px;
+  height: 18.5px;
+}
+.mui-row-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10.85px;
+  color: #cdd2de;
+}
+.mui-row > svg {
+  width: 15px;
+  height: 15px;
+  color: #d5d9e2;
+}
