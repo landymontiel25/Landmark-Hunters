@@ -9,7 +9,9 @@ The owner is redesigning the app one screen at a time from their mockups,
 built for the iPhone app first (the web shows the same screens at phone
 width). The Test tab opens on the "UI" bubble (`src/screens/UILab.jsx`),
 which has a sub-tab per app tab (Map, Landmarks, Mapr, Itinerary, Profile)
-and a Full screen button. Full screen hides the app's header and nav,
+and a Full screen button. Every screen sits in a phone-height frame with
+the floating tab bar at its bottom (owner, 2026-11-02), on the page as
+well as in Full screen. Full screen hides the app's header and nav,
 keeps clear of the Dynamic Island and home indicator, and has its own
 floating tab bar (owner's pick: floating, not docked) plus an × to leave
 (top center; on Map, on the map under the location pill).

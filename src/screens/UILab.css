@@ -64,8 +64,8 @@
 
 /* Embedded under the sub-tabs, the screen keeps its full width but starts
    below the bar. */
-.uil .mui {
-  margin-top: 0;
+.uil-scroll .mui {
+  margin: 0;
 }
 
 .uil-empty {
@@ -105,31 +105,57 @@ body.ui-lab-full .where-am-i-row {
   display: none !important;
 }
 
-.uil-full {
-  /* The floating tab bar: 64pt tall, hovering just above the home
-     indicator; screens keep --uil-bottom-space clear for it. */
+/* Every UI screen is shown in a "phone": the screen, scrolling on its own,
+   with the floating tab bar over its bottom. Screens keep
+   --uil-bottom-space clear for the bar and start below --uil-safe-top. */
+.uil-phone {
   --uil-tabbar: 64px;
-  --uil-tabbar-bottom: max(8px, calc(env(safe-area-inset-bottom, 0px) - 12px));
+  --uil-tabbar-bottom: 8px;
+  --uil-safe-top: 0px;
   --uil-bottom-space: calc(var(--uil-tabbar) + var(--uil-tabbar-bottom) + 15px);
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
   background: #050709;
   color: #fff;
 }
-.uil-full-scroll {
+/* Full screen: edge to edge, the bar just above the home indicator and the
+   screen under the Dynamic Island. */
+.uil-full {
+  --uil-tabbar-bottom: max(8px, calc(env(safe-area-inset-bottom, 0px) - 12px));
+  --uil-safe-top: env(safe-area-inset-top, 0px);
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+}
+/* On the page, under the sub-tabs: a phone-height frame, full width on a
+   phone, phone-sized and centered on a wider screen. */
+.uil-frame {
+  position: relative;
+  height: calc(100dvh - var(--header-h, 72px) - var(--nav-h, 92px) - 76px);
+  min-height: 560px;
+  max-height: 932px;
+  margin: 0 -20px;
+  overflow: hidden;
+}
+@media (min-width: 600px) {
+  .uil-frame {
+    max-width: 430px;
+    margin: 0 auto;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+.uil-scroll {
   position: absolute;
   inset: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: var(--uil-safe-top);
   padding-bottom: var(--uil-bottom-space);
   box-sizing: border-box;
 }
 @media (min-width: 600px) {
   /* The web: the phone-width screen, centered. */
-  .uil-full-scroll > * {
+  .uil-full .uil-scroll > * {
     max-width: 430px;
     margin-left: auto;
     margin-right: auto;
@@ -140,7 +166,7 @@ body.ui-lab-full .where-am-i-row {
   /* Top center, beside the screen's title row and under the Dynamic
      Island: the one spot the designs leave empty. 30pt to see, 44pt to tap. */
   position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  top: calc(var(--uil-safe-top) + 12px);
   left: 50%;
   z-index: 2;
   display: grid;
@@ -161,7 +187,7 @@ body.ui-lab-full .where-am-i-row {
 /* The Map's header fills the top row, so there the × sits on the map,
    right side, under the location pill. */
 .uil-exit.low-right {
-  top: calc(env(safe-area-inset-top, 0px) + 136px);
+  top: calc(var(--uil-safe-top) + 136px);
   left: auto;
   right: 18px;
   margin-left: 0;
