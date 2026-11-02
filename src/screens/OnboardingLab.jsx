@@ -11,6 +11,7 @@ import ItineraryTutorialLab from './ItineraryTutorialLab';
 import UltimateTutorialLab from './UltimateTutorialLab';
 import GameTutorialLab from './GameTutorialLab';
 import UILab from './UILab';
+import PlannerLab from './PlannerLab';
 
 export { progressTier };
 
@@ -29,6 +30,7 @@ const TESTS = [
   { id: 'game', label: 'Game tutorial' },
   { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
+  { id: 'planner', label: 'Planner' },
 ];
 
 export default function OnboardingLab() {
@@ -91,6 +93,15 @@ export default function OnboardingLab() {
           <span>{'\u{1F9EA}'}</span> Nothing to test
         </h1>
         <p className="screen-subtitle">There's no new onboarding to try right now. This tab will come back when there is.</p>
+      </div>
+    );
+  }
+
+  if (test === 'planner') {
+    return (
+      <div>
+        {testTabs}
+        <PlannerLab />
       </div>
     );
   }
