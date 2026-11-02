@@ -1,16 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { useMaprChat } from '../lib/MaprChatContext';
 import { REGIONS } from '../data/regions';
-import './MaprUILab.css';
+import './MaprHome.css';
 
-// Test tab: "UI". The owner's redesign of the Mapr home screen, built to
-// match their mockup (dark screen, orb, "Hey <name>," greeting, ask bar,
-// quick chips, "Try asking about..." photo cards, recent chats). It is live:
-// the ask bar, chips and cards send a real question to Mapr, the city pill
-// switches city, and the recent chats are your own. Nothing here changes the
-// real Mapr tab until the owner approves the look.
+// Mapr's home (owner mockup, 2026-11-02): what the Mapr tab shows while no
+// conversation is open. Orb, "Hey <name>,", the ask bar, quick chips, "Try
+// asking about..." photo cards and your recent chats. Asking anything (the
+// bar, a chip, a card) starts the chat on the same tab; the city pill sets
+// the city Mapr plans in (Mapr.jsx's regions). Built iPhone first: laid out
+// at the mockup's 393pt width and zoomed to the screen's width.
 
 const Icon = ({ d, size = 20, stroke = 1.5, children, ...rest }) => (
   <svg
@@ -79,42 +78,45 @@ const ICONS = {
   ),
 };
 
+// " in Miami", or nothing with no city chosen (Mapr then plans anywhere).
+const at = (c) => (c ? ` in ${c}` : '');
+
 const CHIPS = [
   {
     id: 'dinner',
     label: 'Dinner tonight',
     icon: 'dinner',
-    ask: (c) => `Dinner tonight in ${c}`,
+    ask: (c) => `Dinner tonight${at(c)}`,
   },
   {
     id: 'day',
     label: 'A full day itinerary',
     icon: 'map',
-    ask: (c) => `Plan a full day itinerary in ${c}`,
+    ask: (c) => `Plan a full day itinerary${at(c)}`,
   },
   {
     id: 'outdoors',
     label: 'Outdoors',
     icon: 'outdoors',
-    ask: (c) => `Something outdoors in ${c}`,
+    ask: (c) => `Something outdoors${at(c)}`,
   },
   {
     id: 'gems',
     label: 'Hidden gems',
     icon: 'gems',
-    ask: (c) => `Hidden gems in ${c}`,
+    ask: (c) => `Hidden gems${at(c)}`,
   },
   {
     id: 'cheap',
     label: 'Under $50',
     icon: 'tag',
-    ask: (c) => `Things to do in ${c} under $50`,
+    ask: (c) => `Things to do${at(c)} under $50`,
   },
   {
     id: 'lowkey',
     label: 'Keep it lowkey',
     icon: 'heart',
-    ask: (c) => `Something lowkey in ${c}`,
+    ask: (c) => `Something lowkey${at(c)}`,
   },
 ];
 
@@ -125,43 +127,32 @@ const PROMPTS = [
   {
     id: 'dinner',
     title: ['Best dinner', 'spots tonight'],
-    ask: (c) => `Best dinner spots tonight in ${c}`,
+    ask: (c) => `Best dinner spots tonight${at(c)}`,
     prefer: ['bayfront-park', 'bayside-marketplace'],
   },
   {
     id: 'day',
-    title: (c) => ['A full day', `in ${c}`],
-    ask: (c) => `Plan a full day in ${c}`,
+    title: (c) => ['A full day', c ? `in ${c}` : 'out'],
+    ask: (c) => `Plan a full day${at(c)}`,
     prefer: ['south-pointe-park', 'south-beach'],
   },
   {
     id: 'gems',
     title: ['Hidden gems', 'near me'],
-    ask: (c) => `Hidden gems near me in ${c}`,
+    ask: (c) => `Hidden gems near me${at(c)}`,
     prefer: ['wynwood-walls'],
   },
   {
     id: 'rooftop',
     title: ['Rooftop drinks', 'with a view'],
-    ask: (c) => `Rooftop drinks with a view in ${c}`,
+    ask: (c) => `Rooftop drinks with a view${at(c)}`,
     prefer: ['lincoln-road', 'espanola-way'],
   },
   {
     id: 'culture',
     title: ['Museums', 'worth the trip'],
-    ask: (c) => `Museums worth the trip in ${c}`,
+    ask: (c) => `Museums worth the trip${at(c)}`,
     prefer: ['perez-art-museum-miami', 'vizcaya-museum-and-gardens'],
-  },
-];
-
-// Shown when you have no chats yet, so the section looks like the mockup.
-const SAMPLE_CHATS = [
-  { id: 'sample-1', title: 'Plan a weekend in Miami', sample: true },
-  { id: 'sample-2', title: 'Great coffee shops near Wynwood', sample: true },
-  {
-    id: 'sample-3',
-    title: 'A 3-day itinerary (food, beach, culture)',
-    sample: true,
   },
 ];
 
@@ -190,21 +181,21 @@ function initialsOf(user) {
   return (user?.email?.[0] || 'M').toUpperCase();
 }
 
-export default function MaprUILab({ fullScreen = false }) {
+// regions / onSetRegions: Mapr's chosen cities (the pill shows the first).
+// draft / onDraft: the ask bar's text (Mapr keeps it per chat).
+// onAsk(text): sends text to Mapr. chats / onOpenChat / onSeeAllChats: the
+// recent chats (hidden with none); See all opens the chat list.
+export default function MaprHome({ regions = [], onSetRegions, draft = '', onDraft, onAsk, busy = false, chats = [], onOpenChat, onSeeAllChats = null, children = null }) {
   const { user } = useAuth();
-  const { chats = [], openChat } = useMaprChat();
   const navigate = useNavigate();
-  const [regionId, setRegionId] = useState('miami');
   const [cityOpen, setCityOpen] = useState(false);
-  const [text, setText] = useState('');
   const [chip, setChip] = useState(null);
   const [allPrompts, setAllPrompts] = useState(false);
   const inputRef = useRef(null);
   const cityRef = useRef(null);
   const outerRef = useRef(null);
-  // The screen is laid out at the mockup's own width (393pt, an iPhone) and
-  // zoomed to fit, so every size and gap keeps the mockup's proportions on
-  // any phone.
+  // Laid out at the mockup's own width (393pt, an iPhone) and zoomed to fit,
+  // so every size and gap keeps the mockup's proportions on any phone.
   const [zoom, setZoom] = useState(1);
   useEffect(() => {
     const el = outerRef.current;
@@ -216,9 +207,13 @@ export default function MaprUILab({ fullScreen = false }) {
     return () => ro?.disconnect();
   }, []);
 
-  const region = REGIONS.find((r) => r.id === regionId) || REGIONS[0];
-  const city = region.name;
+  const chosen = regions[0] || null;
+  const city = chosen?.name || null;
+  // Card photos come from the chosen city's landmarks (Miami's with none).
+  const region = (chosen && REGIONS.find((r) => r.id === chosen.id)) || REGIONS[0];
   const firstName = (user?.displayName || '').trim().split(/\s+/)[0] || 'there';
+  const text = draft;
+  const setText = (t) => onDraft?.(t);
 
   const cards = useMemo(() => {
     const used = new Set();
@@ -229,7 +224,7 @@ export default function MaprUILab({ fullScreen = false }) {
     }));
   }, [region, city]);
 
-  const recent = chats.length ? chats.slice(0, 3) : SAMPLE_CHATS;
+  const recent = chats.slice(0, 3);
 
   useEffect(() => {
     if (!cityOpen) return undefined;
@@ -242,11 +237,12 @@ export default function MaprUILab({ fullScreen = false }) {
 
   const ask = (question) => {
     const q = question.trim();
-    if (!q) {
+    if (!q || busy) {
       inputRef.current?.focus();
       return;
     }
-    navigate('/mapr', { state: { ask: q } });
+    setChip(null);
+    onAsk?.(q);
   };
 
   const pickChip = (c) => {
@@ -260,18 +256,14 @@ export default function MaprUILab({ fullScreen = false }) {
     inputRef.current?.focus();
   };
 
-  const openRecent = (c) => {
-    // A sample row (you have no chats yet) asks Mapr that question instead.
-    if (c.sample) {
-      ask(c.title);
-      return;
-    }
-    openChat?.(c.id);
-    navigate('/mapr');
+  const pickCity = (r) => {
+    onSetRegions?.(r ? [r] : []);
+    setCityOpen(false);
+    if (chip) setText(CHIPS.find((c) => c.id === chip).ask(r?.name || null));
   };
 
   return (
-    <div className={`mui ${fullScreen ? 'mui-full' : ''}`} ref={outerRef}>
+    <div className="mui" ref={outerRef}>
       <div className="mui-screen" style={{ zoom }}>
         <header className="mui-top">
           <h1 className="mui-brand">Mapr</h1>
@@ -282,24 +274,19 @@ export default function MaprUILab({ fullScreen = false }) {
                   <path d="M8 0.8C4.2 0.8 1.3 3.7 1.3 7.4c0 4.6 5.4 9.3 6.1 9.9.3.2.9.2 1.2 0 .7-.6 6.1-5.3 6.1-9.9C14.7 3.7 11.8.8 8 .8z" fill="#5b8cff" />
                   <circle cx="8" cy="7.2" r="2.4" fill="#0d1018" />
                 </svg>
-                <span>{city}</span>
+                <span>{city || 'Any city'}</span>
                 <Icon size={14} stroke={1.8} d="m6 9 6 6 6-6" />
               </button>
               {cityOpen && (
                 <ul className="mui-city-menu" role="listbox" aria-label="City">
+                  <li>
+                    <button type="button" role="option" aria-selected={!chosen} className={!chosen ? 'on' : ''} onClick={() => pickCity(null)}>
+                      Any city
+                    </button>
+                  </li>
                   {REGIONS.map((r) => (
                     <li key={r.id}>
-                      <button
-                        type="button"
-                        role="option"
-                        aria-selected={r.id === regionId}
-                        className={r.id === regionId ? 'on' : ''}
-                        onClick={() => {
-                          setRegionId(r.id);
-                          setCityOpen(false);
-                          if (chip) setText(CHIPS.find((c) => c.id === chip).ask(r.name));
-                        }}
-                      >
+                      <button type="button" role="option" aria-selected={chosen?.id === r.id} className={chosen?.id === r.id ? 'on' : ''} onClick={() => pickCity(r)}>
                         {r.name}
                       </button>
                     </li>
@@ -344,10 +331,13 @@ export default function MaprUILab({ fullScreen = false }) {
               if (chip) setChip(null);
             }}
             placeholder="Tell Mapr what you're looking for..."
-            aria-label="Tell Mapr what you're looking for"
+            aria-label="Message Mapr"
+            name="mapr-message"
+            maxLength={500}
+            autoComplete="off"
             enterKeyHint="send"
           />
-          <button type="submit" className="mui-send" aria-label="Send">
+          <button type="submit" className="mui-send" aria-label="Send" disabled={busy}>
             <Icon size={22} stroke={2} d="M12 19V5M5.5 11.5 12 5l6.5 6.5" />
           </button>
         </form>
@@ -389,25 +379,32 @@ export default function MaprUILab({ fullScreen = false }) {
           ))}
         </div>
 
-        <div className="mui-section-head mui-recent-head">
-          <h3>Your recent chats</h3>
-          <button type="button" className="mui-see-all" onClick={() => navigate('/mapr', { state: { openChats: true } })}>
-            See all
-            <Icon size={16} stroke={2} d="m9 6 6 6-6 6" />
-          </button>
-        </div>
-        <ul className="mui-recent">
-          {recent.map((c) => (
-            <li key={c.id}>
-              <button type="button" className="mui-row" onClick={() => openRecent(c)}>
-                <span className="mui-row-icon">{chatIcon(c.title)}</span>
-                <span className="mui-row-title">{c.title}</span>
-                <Icon size={18} stroke={1.8} d="m9 6 6 6-6 6" />
-              </button>
-            </li>
-          ))}
-        </ul>
+        {recent.length > 0 && (
+          <>
+            <div className="mui-section-head mui-recent-head">
+              <h3>Your recent chats</h3>
+              {onSeeAllChats && (
+                <button type="button" className="mui-see-all" onClick={onSeeAllChats}>
+                  See all
+                  <Icon size={16} stroke={2} d="m9 6 6 6-6 6" />
+                </button>
+              )}
+            </div>
+            <ul className="mui-recent">
+              {recent.map((c) => (
+                <li key={c.id}>
+                  <button type="button" className="mui-row" onClick={() => onOpenChat?.(c.id)}>
+                    <span className="mui-row-icon">{chatIcon(c.title)}</span>
+                    <span className="mui-row-title">{c.title}</span>
+                    <Icon size={18} stroke={1.8} d="m9 6 6 6-6 6" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
+      {children && <div className="mui-more">{children}</div>}
     </div>
   );
 }

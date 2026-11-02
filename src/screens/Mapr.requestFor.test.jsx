@@ -148,7 +148,7 @@ const setValue = async (value) => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
   });
 };
-const submit = async () => act(async () => container.querySelector('form.chatlab-composer').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
+const submit = async () => act(async () => container.querySelector('form.chatlab-composer, form.mui-ask').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
 const button = (text) => [...container.querySelectorAll('button')].find((b) => b.textContent.trim() === text);
 const click = async (text) => {
   const b = button(text);

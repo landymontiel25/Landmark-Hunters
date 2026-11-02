@@ -14,6 +14,7 @@ import { useGeo } from '../lib/GeoContext';
 import { effectiveTagScores, pickRegion, GLOBAL_TASTE, hasGlobalTaste } from '../lib/tagScores';
 import { useMaprChat } from '../lib/MaprChatContext';
 import MaprChatsPanel from '../components/MaprChatsPanel';
+import MaprHome from '../components/MaprHome';
 import MultiRegionSearch from '../components/MultiRegionSearch';
 import DirectionsButton from '../components/DirectionsButton';
 import { reverseLocality } from '../lib/geocode';
@@ -291,6 +292,8 @@ export default function Mapr() {
     synced,
     newChat,
     renameChat,
+    chats = [],
+    openChat,
   } = useMaprChat();
   // Arriving from a "shared a project with you" notification opens the list.
   const [chatsOpen, setChatsOpen] = useState(() => !!location.state?.openChats);
@@ -838,6 +841,34 @@ export default function Mapr() {
       )}
     </>
   );
+
+  // No conversation yet (just Mapr's greeting): Mapr's home (owner mockup,
+  // 2026-11-02). Asking anything there starts the chat below on this tab.
+  const atHome = messages.length <= 1 && !busy && !messages.some((m) => m.role === 'user');
+  if (atHome) {
+    return (
+      <div className="mapr-home">
+        <OnboardingBanner />
+        {showTasteNudge && <TasteNudgeCard onDone={dismissNudge} onDismiss={dismissNudge} />}
+        <MaprHome
+          regions={regions}
+          onSetRegions={setRegions}
+          draft={draft}
+          onDraft={setDraft}
+          busy={busy}
+          onAsk={(text) => (text === draft.trim() ? send(null) : send(null, text))}
+          chats={synced ? chats : []}
+          onOpenChat={openChat}
+          onSeeAllChats={synced ? () => setChatsOpen(true) : null}
+        >
+          {showPlanner && plannerBlock}
+          <DiscoveryStatsCard />
+          <TasteProfileCard />
+        </MaprHome>
+        {chatsOpen && <MaprChatsPanel onClose={() => setChatsOpen(false)} />}
+      </div>
+    );
+  }
 
   return (
     <div className="chatlab">

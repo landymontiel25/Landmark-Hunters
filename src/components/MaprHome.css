@@ -1,4 +1,4 @@
-/* Test tab "UI": the owner's Mapr home mockup. .mui-screen is laid out at
+/* Mapr's home (MaprHome.jsx): the owner's mockup. .mui-screen is laid out at
    the mockup's width (393pt, an iPhone screen) and zoomed to the phone's
    width from JS, so every number below is the mockup measured in points.
    Scoped under .mui so nothing leaks into the real app. */
@@ -11,7 +11,7 @@
   --mui-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
   --mui-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
 
-  margin: -24px -20px 0;
+  margin: 0 -20px;
   min-height: 100%;
   background: radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%), var(--mui-bg);
   color: #fff;
@@ -28,12 +28,20 @@
   }
 }
 
-.mui.mui-full {
-  margin: 0;
-  max-width: none;
-  border: 0;
-  border-radius: 0;
-  min-height: 100%;
+/* The Mapr tab: the home starts right under the app header, edge to edge
+   on a phone. */
+.mapr-home {
+  margin-top: -24px;
+}
+.mapr-home > :not(.mui) {
+  margin-top: 24px;
+}
+/* Below the design: the trip planner when it's open, and the taste card. */
+.mui-more {
+  padding: 4px 16px 24px;
+}
+.mui-more:empty {
+  display: none;
 }
 
 .mui-screen {
