@@ -61,6 +61,21 @@ Anthropic spend limit and Google budget, the `usage_quota` TTL policy, turn
 App Check on in monitor mode, and add App Attest to the iOS app before
 `APP_CHECK_MODE=enforce`. Firebase App Check below (Phase 0) is this item.
 
+## Test tab: "Ultimate tutorial" (2026-11-02)
+
+The owner combined Tutorial (T1) and Tutorial 2 (T2) into one onboarding
+in this order, with Mapr explaining every step: Hello T1, Sign up T1,
+Verify email T1, Swipe practice T1, Cards T1, Taste pick T2, Anything
+else T1, First check-in T2, Progress T2, Location T2, Your tabs T2, Done
+T1. It lives in the Test tab's "Ultimate tutorial" bubble
+(`src/screens/UltimateTutorialLab.jsx`), built from the real pieces of
+both tutorials. The T2 steps had no Mapr, so they got new lines
+(`SAY.taste`, `SAY.checkinNear`, `SAY.progress` in
+`signupTutorialSteps.js`). Taste pick and First check-in have "Skip for
+now". Progress counts the account's ratings plus the cards answered love
+or nope. Nothing is saved. Still open: it is not the real signup flow
+yet; wire it in once the owner approves it.
+
 ## Test tab: "5 images" intro (2026-10-28)
 
 The owner drew five intro screens (Discover, Arrive prepared, Plan less,

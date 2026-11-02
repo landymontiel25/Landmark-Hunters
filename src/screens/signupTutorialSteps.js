@@ -41,6 +41,15 @@ export const SAY = {
     'That lets me tell you when you pass a place worth a stop. You can skip this too.',
   ],
   done: ["That's it! Go find your first landmark. I'll be here when you need me."],
+  // Ultimate tutorial only: Mapr's lines for the steps it takes from
+  // Tutorial 2, which had no Mapr.
+  taste: ["Now pick 3 to 5 kinds of places you're into.", "I'll look for these first when I pick places for you."],
+  checkinNear: [
+    'Checking in is how you collect a landmark. You have to be close to it.',
+    "I'll show you how far away you are. Not near one? Skip for now.",
+  ],
+  progress: ['Every place you rate teaches me your taste. Rate 10 and my picks get sharper.'],
+  progressCheckedIn: ['And you checked in! That earned your first badge.'],
 };
 
 // Swipe practice (step 4), one card per task. `how` is the way the card has
