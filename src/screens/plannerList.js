@@ -1,4 +1,4 @@
-// The Test tab's "Planner" list (owner, 2026-11-02): every feature turned
+// The Test tab's "Planner launch" list (owner, 2026-11-02): every feature turned
 // off so far, found in the git history and the code. Add an entry whenever
 // something is switched off (or remove it when it comes back). `file` and
 // `check` name the switch; plannerList.test.js fails if the switch isn't

@@ -42,7 +42,7 @@ iCloud, not any local folder.
   add a read rule using `isDashboard()` in `firestore.rules`, and show them on
   a dashboard page. Admin actions go through `api/admin-jobs.js`.
 - Anything the owner has you turn off (a feature hidden behind a switch)
-  goes on the Test tab's "Planner" list in the same PR: add an entry to
+  goes on the Test tab's "Planner launch" list in the same PR: add an entry to
   `src/screens/plannerList.js` (what it hides, what still runs, the date,
   the PR, and the switch). Take it off the list when it comes back.
   `plannerList.test.js` fails if a listed switch isn't off anymore.
