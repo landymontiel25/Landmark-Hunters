@@ -103,15 +103,17 @@ export const APP_HELP =
   `its reply with "I loved it" / "Ok" / "I didn't like it". One tap opens the usual rating (tier already picked, plus a ` +
   `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr chat never writes out a street address: ask where a place is and it says something like "Sure, here's the address", with "address" as a blue link that opens the usual choices (Open in Map, Open in Google Maps, Open in Apple Maps).\n` +
   `- Mapr chat place cards: when you ask for places near you they are listed closest first, with buttons above them to switch to Top rated (stars from the web, or from app ratings) or back to Mapr's own order; each card shows its distance and star rating when known. Ask for a kind of place near you and you get the best matches for it, nearest first; ask "what's near me" with no kind and Mapr asks what kind of place you want, with tappable answers.\n` +
-  `- Mapr's home (since November 2026): with no conversation open, the Mapr tab shows "Mapr" at the top with a city pill (📍 a city, or ` +
-  `"Any city"; tap it to pick the city Mapr plans in) and your initials (opens Profile), a glowing orb, "Hey <your first name>," and ` +
-  `"What are you in the mood for?", then a "Tell Mapr what you're looking for..." bar with a blue send arrow. Under it are six chips: ` +
-  `Dinner tonight, A full day itinerary, Outdoors, Hidden gems, Under $50 and Keep it lowkey; tapping one fills the bar with that question ` +
-  `for your city (tap it again to clear) and you press send. "Try asking about..." is a row of photo cards (Best dinner spots tonight, ` +
-  `A full day in <city>, Hidden gems near me, Rooftop drinks with a view, Museums worth the trip; "See all" shows them as a grid); tapping ` +
-  `one asks Mapr right away. "Your recent chats" lists your last three chats (tap to reopen one; "See all" opens the chat list); it only ` +
-  `shows once you have chats. Sending anything opens the chat on the same tab; ➕ (new chat) brings the home back. The Taste Profile card ` +
-  `sits under it.\n` +
+  `- Mapr's home (since November 2026): the Mapr tab always opens here, even if you were in a chat. At the top: "Mapr", a city pill ` +
+  `(📍 a city, or "Any city"; tap it to pick the city Mapr plans in) and your initials (opens Profile). Then a glowing orb with your ` +
+  `Mapr Score inside it (a "~" means it's an estimate while Mapr is still learning you; tap the orb to open the full Mapr Score card), ` +
+  `"Hey <your name>," and "What are you in the mood for?", and a "Tell Mapr what you're looking for..." bar with a blue send arrow. ` +
+  `Right under the bar is "Your recent chats": your last three chats (tap one to reopen it; "See all" opens the chat list); it only ` +
+  `shows once you have a chat. Then six chips: Dinner tonight, A full day itinerary, Outdoors, Hidden gems, Under $50 and Keep it ` +
+  `lowkey; tapping one fills the bar with that question for your city (tap it again to clear) and you press send. "Try asking ` +
+  `about..." is a row of photo cards (Best dinner spots tonight, A full day in <city>, Hidden gems near me, Rooftop drinks with a ` +
+  `view, Museums worth the trip; "See all" shows them as a grid); tapping one asks Mapr right away. Asking anything from the home ` +
+  `starts a new chat on the same tab (your earlier chat stays in your chats). In a chat, tap the orb at the top left to go back ` +
+  `to the home; ➕ (new chat) also brings it back.\n` +
   `- Mapr (the middle tab; the Map tab is the home screen): a live AI chat — type or describe what you're up for (a vibe, a time budget, an ` +
   `interest) and it replies with 0-4 real stops, from the curated catalog or the live web. It reads your rating history and taste profile, so it ` +
   `personalizes from the first message, not just after you've rated things. It also weighs the CURRENT message's timing/mood ("Saturday night in the ` +
@@ -127,7 +129,7 @@ export const APP_HELP =
   `progress dots, Close and "Just browse the map", and every step but the first has Skip. Answers are saved as you go, so closing the app ` +
   `picks up on the same step. Planning the exact same trip again from the same spot in the same part of the day shows the last plan again ` +
   `instead of re-planning. Interest chips are no longer part of this flow; My Preferences is still editable in Settings.\n` +
-  `- Taste score (the "Taste Profile" card on the Mapr tab, not Profile; it reads "Mapr Score: N%" with a one-line nudge that raising it helps Mapr understand you better, and a bar that is red under 40%, yellow from 40% to 69% and green from 70%, with the number beside it and a word like Strong or Getting there): how often Mapr's own quiet guess about a place it suggested matched your answer. ` +
+  `- Taste score (the "Taste Profile" card on the Mapr tab, not Profile: tap the orb on Mapr's home to open it; it reads "Mapr Score: N%" with a one-line nudge that raising it helps Mapr understand you better, and a bar that is red under 40%, yellow from 40% to 69% and green from 70%, with the number beside it and a word like Strong or Getting there): how often Mapr's own quiet guess about a place it suggested matched your answer. ` +
   `Mapr keeps a hidden guess for each pick it shows you, and only after you answer (a rating, or an "I'd go" / "Not sure" / "Not for me" tap, whichever is your newest answer on that place) ` +
   `is it compared. The score looks at your last 20 such guesses: same answer is a full hit, one step off (say a guess of I'd go against It was ok) counts half, two steps off (I'd go against ` +
   `Didn't like it) counts nothing, and an "I'd go" tap followed by "Didn't like it" counts as half a miss because Mapr had your kind of place right and the specific place wrong. It shows "Learning..." until ` +

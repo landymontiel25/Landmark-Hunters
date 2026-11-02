@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn(), runMaprActions: vi.fn(), retryMaprAction: vi.fn(), initialBusy: false, setBusy: null }));
+const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn(), runMaprActions: vi.fn(), retryMaprAction: vi.fn(), initialBusy: false, setBusy: null, initialMessages: null }));
 
 const stub = () => () => null;
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1', displayName: 'Ann' }, resendVerification: () => {} }) }));
@@ -31,7 +31,7 @@ vi.mock('../lib/MaprChatContext', async () => {
   const React = await import('react');
   return {
     useMaprChat: () => {
-      const [messages, setMessages] = React.useState([]);
+      const [messages, setMessages] = React.useState(() => h.initialMessages || []);
       const [draft, setDraft] = React.useState('');
       const [regions, setRegions] = React.useState([]);
       const [busy, setBusyState] = React.useState(h.initialBusy);
@@ -56,7 +56,7 @@ vi.mock('../lib/MaprChatContext', async () => {
         restored: false,
         dismissRestored: () => {},
         discardChat: () => {},
-        newChat: () => {},
+        newChat: () => setMessages([]),
         renameChat: () => {},
       };
     },
@@ -136,6 +136,7 @@ beforeEach(async () => {
 });
 afterEach(() => {
   h.initialBusy = false;
+  h.initialMessages = null;
   act(() => root.unmount());
   document.body.removeChild(container);
 });
@@ -345,5 +346,54 @@ describe('"Ask Mapr about" from a landmark page', () => {
     await act(async () => h.setBusy(false));
     expect(h.fetchJson).toHaveBeenCalledTimes(1);
     expect(lastBody().messages.at(-1)).toEqual({ role: 'user', content: 'Tell me about Autana' });
+  });
+});
+
+describe("Mapr always opens on its home (owner, 2026-11-02)", () => {
+  const remount = async () => {
+    act(() => root.unmount());
+    root = createRoot(container);
+    await act(async () =>
+      root.render(
+        <MemoryRouter>
+          <Mapr />
+        </MemoryRouter>
+      )
+    );
+  };
+
+  it('opens on the home even with a conversation open; that chat is one tap away', async () => {
+    h.initialMessages = [
+      { role: 'user', text: 'old question' },
+      { role: 'assistant', text: 'old answer', stops: [] },
+    ];
+    await remount();
+    expect(container.querySelector('.mui')).toBeTruthy();
+    expect(container.textContent).not.toContain('old answer');
+    await act(async () => container.querySelector('.mui-row').dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(container.querySelector('.mui')).toBeNull();
+    expect(container.textContent).toContain('old answer');
+  });
+
+  it('asking from the home with a chat open starts a new chat', async () => {
+    h.initialMessages = [
+      { role: 'user', text: 'old question' },
+      { role: 'assistant', text: 'old answer', stops: [] },
+    ];
+    await remount();
+    await setValue('tacos tonight');
+    await submit();
+    expect(h.fetchJson).toHaveBeenCalledTimes(1);
+    const sent = lastBody().messages.map((m) => m.content);
+    expect(sent).toContain('tacos tonight');
+    expect(sent).not.toContain('old question');
+  });
+
+  it('the chat header orb goes back to the home', async () => {
+    await setValue('somewhere fun');
+    await submit();
+    expect(container.querySelector('.mui')).toBeNull();
+    await act(async () => container.querySelector('.chatlab-orb-home').dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(container.querySelector('.mui')).toBeTruthy();
   });
 });

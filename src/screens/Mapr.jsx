@@ -26,6 +26,7 @@ import { composeTasteIntro, baselineToSyntheticReviews } from '../lib/tasteQuest
 import { logPlanningEvent } from '../lib/timeSaved';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
 import TasteProfileCard from '../components/TasteProfileCard';
+import { useMaprScore } from '../lib/useMaprScore';
 import TasteNudgeCard from '../components/TasteNudgeCard';
 import OnboardingBanner from '../components/OnboardingBanner';
 import TripPlannerCard from '../components/TripPlannerCard';
@@ -502,6 +503,24 @@ export default function Mapr() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [busy]);
 
+  // Mapr always opens on its home (owner, 2026-11-02), even with a chat
+  // open; that chat is one tap away in Your recent chats. Arriving with a
+  // question ("Ask Mapr about…") goes straight to the chat.
+  const [homeOpen, setHomeOpen] = useState(() => !location.state?.ask);
+  const [scoreOpen, setScoreOpen] = useState(false);
+  const maprScore = useMaprScore();
+  const hasConversation = messages.some((m) => m.role === 'user');
+  // Asking from the home while an older chat is open starts a new chat; the
+  // question waits here and goes out once the new chat is up.
+  const homeAskRef = useRef(null);
+  useEffect(() => {
+    const ask = homeAskRef.current;
+    if (!ask || hasConversation || busy) return;
+    homeAskRef.current = null;
+    send(null, ask);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeChat.id, hasConversation, busy]);
+
   useEffect(() => {
     function handleClickOutside(e) {
       if (regionBoxRef.current && !regionBoxRef.current.contains(e.target)) setRegionOpen(false);
@@ -842,10 +861,11 @@ export default function Mapr() {
     </>
   );
 
-  // No conversation yet (just Mapr's greeting): Mapr's home (owner mockup,
-  // 2026-11-02). Asking anything there starts the chat below on this tab.
-  const atHome = messages.length <= 1 && !busy && !messages.some((m) => m.role === 'user');
-  if (atHome) {
+  // Mapr's home (owner mockup, 2026-11-02): when the tab opens, and whenever
+  // there's no conversation yet (a new chat). Asking anything there starts
+  // the chat on this tab.
+  const atHome = messages.length <= 1 && !busy && !hasConversation;
+  if (homeOpen || atHome) {
     return (
       <div className="mapr-home">
         <OnboardingBanner />
@@ -856,16 +876,50 @@ export default function Mapr() {
           draft={draft}
           onDraft={setDraft}
           busy={busy}
-          onAsk={(text) => (text === draft.trim() ? send(null) : send(null, text))}
-          chats={synced ? chats : []}
-          onOpenChat={openChat}
-          onSeeAllChats={synced ? () => setChatsOpen(true) : null}
+          onAsk={(text) => {
+            setHomeOpen(false);
+            if (hasConversation) {
+              homeAskRef.current = text;
+              setDraft('');
+              newChat();
+              return;
+            }
+            if (text === draft.trim()) send(null);
+            else send(null, text);
+          }}
+          // Signed out, chats aren't synced: the one on this device is the
+          // only recent chat.
+          chats={synced ? chats : hasConversation ? [{ id: activeChat.id, title: activeChat.title || 'Your chat' }] : []}
+          onOpenChat={(id) => {
+            setHomeOpen(false);
+            if (id !== activeChat.id) openChat(id);
+          }}
+          onSeeAllChats={
+            synced
+              ? () => {
+                  setChatsOpen(true);
+                  setHomeOpen(false);
+                }
+              : null
+          }
+          score={maprScore.pct}
+          scoreEstimated={maprScore.estimated != null}
+          onOrbTap={() => setScoreOpen(true)}
         >
           {showPlanner && plannerBlock}
           <DiscoveryStatsCard />
-          <TasteProfileCard />
         </MaprHome>
         {chatsOpen && <MaprChatsPanel onClose={() => setChatsOpen(false)} />}
+        {scoreOpen && (
+          <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && setScoreOpen(false)}>
+            <div className="modal-card mapr-score-sheet" role="dialog" aria-label="Your Mapr Score">
+              <TasteProfileCard />
+              <button type="button" className="btn btn-ghost btn-block" onClick={() => setScoreOpen(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -874,7 +928,7 @@ export default function Mapr() {
     <div className="chatlab">
       <OnboardingBanner />
       <div className="chatlab-header">
-        <div className="chatlab-orb" />
+        <button type="button" className="chatlab-orb chatlab-orb-home" aria-label="Back to Mapr home" title="Mapr home" onClick={() => setHomeOpen(true)} />
         <div className="chatlab-header-text">
           <h1 className="chatlab-title">Mapr</h1>
           <p className="chatlab-tagline">Live trip planning</p>

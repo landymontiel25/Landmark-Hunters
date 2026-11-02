@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { useRatings } from '../lib/RatingsContext';
-import { estimateTasteScore, onboardingRatingTest } from '../lib/tasteEstimate';
+import { useMaprScore } from '../lib/useMaprScore';
 import { saveTasteBaseline, saveTasteIntro } from '../lib/friends';
 import { TASTE_WINDOW, TASTE_BAR_YELLOW_FROM, TASTE_BAR_GREEN_FROM } from '../lib/maprConstants';
 
@@ -13,7 +12,6 @@ export const tasteBarTone = (pct) =>
     : pct >= TASTE_BAR_YELLOW_FROM
     ? { key: 'yellow', label: 'Getting there' }
     : { key: 'red', label: 'Still learning you' };
-import { loadTasteSummary, TASTE_ANSWER_EVENT } from '../lib/tasteScoreStore';
 import { extractLegacyBaselineFromIntro } from '../lib/tasteQuestions';
 import TasteNudgeCard from './TasteNudgeCard';
 import { Skeleton } from './Skeleton';
@@ -97,32 +95,9 @@ export default function TasteProfileCard() {
     })();
   }, [user, profileFresh, myProfile?.tasteIntro, myProfile?.tasteBaseline, reloadFriends]);
 
-  // null until the first read lands; recomputed when an answer is saved.
-  const [taste, setTaste] = useState(null);
-  useEffect(() => {
-    if (!user) return undefined;
-    let live = true;
-    const load = () =>
-      loadTasteSummary(user.uid)
-        .then((t) => live && t && setTaste(t))
-        .catch(() => {});
-    load();
-    const onAnswer = (e) => (e.detail ? live && setTaste(e.detail) : load());
-    window.addEventListener(TASTE_ANSWER_EVENT, onAnswer);
-    return () => {
-      live = false;
-      window.removeEventListener(TASTE_ANSWER_EVENT, onAnswer);
-    };
-  }, [user]);
-
-  // Display-only estimate from the reviews already loaded (no reads, nothing
-  // saved). Only used while the live score is still learning. Sign-up
-  // onboarding ratings teach it but are never guessed on.
-  const { myReviews } = useRatings();
-  const estimate = useMemo(
-    () => estimateTasteScore(myReviews, { isOnboarding: onboardingRatingTest(myProfile) }),
-    [myReviews, myProfile]
-  );
+  // The score (live, or estimated while it's still learning): useMaprScore,
+  // shared with Mapr's home orb.
+  const { learning, score, estimated, pct: shownPct } = useMaprScore();
 
   const profileStuck = useSlowLoad(!!user && !profileFresh && !justSaved && !editing);
 
@@ -193,10 +168,6 @@ export default function TasteProfileCard() {
     );
   }
 
-  const learning = !taste || taste.state !== 'ready';
-  const score = learning ? null : taste.score;
-  const estimated = learning && estimate ? estimate.score : null;
-  const shownPct = learning ? estimated : score;
   const tone = tasteBarTone(shownPct ?? 0);
 
   return (

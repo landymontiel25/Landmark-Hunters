@@ -85,7 +85,8 @@
   display: flex;
   align-items: center;
   height: 30px;
-  width: 77px;
+  min-width: 77px;
+  white-space: nowrap;
   padding: 0 0 0 9px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -150,9 +151,43 @@
 /* ---------- Orb ---------- */
 .mui-orb-wrap {
   position: relative;
+  display: block;
   width: 80px;
   height: 80px;
   margin: 19.5px auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+.mui-orb-wrap:active {
+  transform: scale(0.95);
+}
+/* The Mapr Score, inside the orb. */
+.mui-orb-score {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(10, 20, 90, 0.6);
+  pointer-events: none;
+}
+.mui-orb-score strong {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+}
+.mui-orb-score small {
+  margin-top: 3px;
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  opacity: 0.85;
 }
 .mui-orb-glow {
   position: absolute;
@@ -444,7 +479,7 @@
 
 /* ---------- Recent chats ---------- */
 .mui-recent-head {
-  margin-top: 29px;
+  margin-top: 20px;
   margin-bottom: 6.5px;
 }
 .mui-recent {
@@ -537,4 +572,15 @@
 .mui-cards {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+}
+
+/* The chat's header orb takes you back to Mapr's home. */
+.chatlab-orb-home {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+/* Tapping the home orb: the Mapr Score in a sheet. */
+.mapr-score-sheet .taste-profile-card {
+  margin: 0 0 10px;
 }
