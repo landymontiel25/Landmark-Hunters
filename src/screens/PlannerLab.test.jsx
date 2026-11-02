@@ -7,7 +7,7 @@ import { TURNED_OFF } from './plannerList';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-describe('PlannerLab (Test tab: Planner)', () => {
+describe('PlannerLab (Test tab: Planner launch)', () => {
   it('lists every turned-off feature, then what was taken out', async () => {
     const el = document.createElement('div');
     document.body.appendChild(el);

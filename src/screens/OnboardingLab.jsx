@@ -30,7 +30,7 @@ const TESTS = [
   { id: 'game', label: 'Game tutorial' },
   { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
-  { id: 'planner', label: 'Planner' },
+  { id: 'planner', label: 'Planner launch' },
 ];
 
 export default function OnboardingLab() {

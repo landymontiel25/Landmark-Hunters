@@ -1,6 +1,6 @@
 import { TURNED_OFF, REMOVED } from './plannerList';
 
-// Test tab "Planner" (owner, 2026-11-02): the list of everything turned off
+// Test tab "Planner launch" (owner, 2026-11-02; was "Planner"): the list of everything turned off
 // for now, so nothing gets forgotten. The entries live in plannerList.js.
 const REPO = 'https://github.com/landymontiel25/Landmark-Hunters/pull/';
 
@@ -8,7 +8,7 @@ export default function PlannerLab() {
   return (
     <div className="planner-lab">
       <h1 className="screen-title">
-        <span>{'\u{1F5C2}\u{FE0F}'}</span> Planner
+        <span>{'\u{1F5C2}\u{FE0F}'}</span> Planner launch
       </h1>
       <p className="screen-subtitle">Everything turned off for now. Each one is a switch in the code, so it can come back.</p>
       <ol className="planner-list">

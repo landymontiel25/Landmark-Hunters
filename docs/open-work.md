@@ -63,10 +63,10 @@ Anthropic spend limit and Google budget, the `usage_quota` TTL policy, turn
 App Check on in monitor mode, and add App Attest to the iOS app before
 `APP_CHECK_MODE=enforce`. Firebase App Check below (Phase 0) is this item.
 
-## Test tab: "Planner" list (2026-11-02)
+## Test tab: "Planner launch" list (2026-11-02)
 
 The owner wants one list of everything turned off. The Test tab's
-"Planner" bubble (`src/screens/PlannerLab.jsx`, entries in
+"Planner launch" bubble (`src/screens/PlannerLab.jsx`, entries in
 `src/screens/plannerList.js`) lists the 11 switches found in the git
 history and code: badges, time saved card, Discoverer and Follows, Add a
 Landmark (Landmarks tab and Map), Miami user-added places, hidden
