@@ -20,6 +20,7 @@ import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
 import FirstRunLab from './FirstRunLab';
 import ItineraryTutorialLab from './ItineraryTutorialLab';
 import ExplainerImagesLab from './ExplainerImagesLab';
+import MaprUILab from './MaprUILab';
 
 export { progressTier };
 
@@ -35,6 +36,7 @@ const STEPS = TUTORIAL_STEPS;
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
+  { id: 'ui', label: 'UI' },
   { id: 'slider', label: 'Rating slider' },
   { id: 'malls', label: 'Malls' },
   { id: 'tutorial', label: 'Tutorial' },
@@ -61,7 +63,7 @@ const empty = () => ({
 
 export default function OnboardingLab() {
   const { user, loading: authLoading } = useAuth();
-  const [test, setTest] = useState('slider');
+  const [test, setTest] = useState('ui');
 
   if (authLoading) return null;
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
@@ -82,6 +84,15 @@ export default function OnboardingLab() {
       ))}
     </div>
   );
+
+  if (test === 'ui') {
+    return (
+      <div>
+        {testTabs}
+        <MaprUILab />
+      </div>
+    );
+  }
 
   if (test === 'slider') {
     return (

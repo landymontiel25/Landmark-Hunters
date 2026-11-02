@@ -12,7 +12,7 @@ afterEach(() => {
   vi.resetModules();
 });
 
-// The Test tab opens on Rating slider; `tab: 'tutorial'` (the default here,
+// The Test tab opens on UI; `tab: 'tutorial'` (the default here,
 // for the tutorial tests) switches to that bubble first.
 async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScreens = {} } = {}) {
   // Tutorial 2 has its own tests (FirstRunLab.test.jsx).
@@ -23,6 +23,7 @@ async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScr
   vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
+  vi.doMock('../lib/MaprChatContext', () => ({ useMaprChat: () => ({ chats: [], openChat: () => {} }) }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
   const { default: OnboardingLab } = await import('./OnboardingLab.jsx');
   container = document.createElement('div');
@@ -72,11 +73,17 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
-  it('opens on the Rating slider bubble, with Malls and Tutorial next to it', async () => {
+  it('opens on the UI bubble, with Rating slider and Malls next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Tutorial', 'Tutorial 2', 'Itinerary tutorial', 'Taste Profile', '5 images']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['UI', 'Rating slider', 'Malls', 'Tutorial', 'Tutorial 2', 'Itinerary tutorial', 'Taste Profile', '5 images']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+    expect(el.querySelector('.mui')).toBeTruthy();
+  });
+
+  it('the Rating slider bubble shows the slider', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: null });
+    await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'Rating slider'));
     expect(el.querySelector('.rate-slider')).toBeTruthy();
   });
 
