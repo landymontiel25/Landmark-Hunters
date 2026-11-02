@@ -15,6 +15,8 @@ afterEach(() => {
 
 async function render() {
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u', email: 'a@b.c', displayName: 'Landy Montiel' } }) }));
+  // The Map screen has its own tests (MapUILab.test.jsx).
+  vi.doMock('./MapUILab', () => ({ default: ({ fullScreen }) => <p className={`map-ui-stub ${fullScreen ? 'full' : ''}`}>map</p> }));
   vi.doMock('../lib/MaprChatContext', () => ({ useMaprChat: () => ({ chats: [], openChat: () => {} }) }));
   const { default: UILab } = await import('./UILab.jsx');
   container = document.createElement('div');
@@ -40,9 +42,11 @@ describe('UILab (Test tab: UI)', () => {
     expect(el.querySelector('.mui')).toBeTruthy();
   });
 
-  it('the other screens are empty placeholders for now', async () => {
+  it('Map has its screen; the others are empty placeholders for now', async () => {
     const el = await render();
-    for (const label of ['Map', 'Landmarks', 'Itinerary', 'Profile']) {
+    await click(tab(el, 'Map'));
+    expect(el.querySelector('.map-ui-stub')).toBeTruthy();
+    for (const label of ['Landmarks', 'Itinerary', 'Profile']) {
       await click(tab(el, label));
       expect(el.querySelector('.mui')).toBeNull();
       expect(el.querySelector('.uil-empty').textContent).toBe(`${label}Not designed yet`);
@@ -57,10 +61,13 @@ describe('UILab (Test tab: UI)', () => {
     const bar = [...el.querySelectorAll('.uil-tabbar button')];
     expect(bar.map((b) => b.textContent)).toEqual(['Map', 'Landmarks', 'Mapr', 'Itinerary', 'Profile']);
     await click(bar[0]);
-    expect(el.querySelector('.uil-full .uil-empty').textContent).toContain('Map');
+    expect(el.querySelector('.uil-full .map-ui-stub.full')).toBeTruthy();
+    expect(el.querySelector('.uil-exit').classList.contains('low-right')).toBe(true);
+    await click(bar[1]);
+    expect(el.querySelector('.uil-full .uil-empty').textContent).toContain('Landmarks');
     await click(el.querySelector('.uil-exit'));
     expect(document.body.classList.contains('ui-lab-full')).toBe(false);
     expect(el.querySelector('.uil-full')).toBeNull();
-    expect(tab(el, 'Map').getAttribute('aria-selected')).toBe('true');
+    expect(tab(el, 'Landmarks').getAttribute('aria-selected')).toBe('true');
   });
 });

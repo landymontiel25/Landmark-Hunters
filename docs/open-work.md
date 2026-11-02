@@ -11,15 +11,30 @@ width). The Test tab opens on the "UI" bubble (`src/screens/UILab.jsx`),
 which has a sub-tab per app tab (Map, Landmarks, Mapr, Itinerary, Profile)
 and a Full screen button. Full screen hides the app's header and nav,
 keeps clear of the Dynamic Island and home indicator, and has its own
-iOS-style tab bar plus an × at top center to leave.
+floating tab bar (owner's pick: floating, not docked) plus an × to leave
+(top center; on Map, on the map under the location pill).
 
-Only Mapr is designed (`src/screens/MaprUILab.jsx` + `.css`): laid out at
+Map is designed (`src/screens/MapUILab.jsx` + `.css`, owner mockup
+2026-11-02): the real map (Esri satellite, landmark pins, your location)
+with the mockup's floating parts over it: Landmark Hunters header with
+your streak and points, where you are (`src/lib/useWhereAmI.js`, shared
+with the app's WhereAmI row), search / add / layers, the picks distance
+and locate buttons, and "Picked for you right now", which drags up to a
+half or full sheet: category tiles (All, Restaurants, Cafés, Nightlife,
+Outdoors, Culture), the Nearby list (Mapr picks first, then the rest in
+Mapr's order), and Because you liked with Directions and the three
+answers. Its data comes from `useMapPicks`, pulled out of the Map tab's
+MapPicksOverlay so both use the same Mapr pipeline; it logs as test sets
+and keeps its own remembered distance. Ratings shown are the app's own
+community ratings, not Google's.
+
+Mapr is designed (`src/screens/MaprUILab.jsx` + `.css`): laid out at
 the mockup's 393pt width and zoomed to fit, so it keeps the mockup's
 proportions and its small type (chip and row text about 10-11pt). Small
 controls get invisible 44pt tap areas. The ask bar, chips, cards and sample
 rows send a real question to Mapr; the city pill switches city; recent
-chats are your own. Map, Landmarks, Itinerary and Profile show "Not
-designed yet" until the owner sends those mockups.
+chats are your own. Landmarks, Itinerary and Profile show "Not designed
+yet" until the owner sends those mockups.
 
 Still open: no haptics (the app has no Capacitor Haptics plugin yet), and
 the real tabs are unchanged. Once the owner approves a screen, move it
