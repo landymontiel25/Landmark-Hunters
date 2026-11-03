@@ -15,10 +15,6 @@ afterEach(() => {
 });
 
 async function render() {
-  // Google photos: Central Park has one (credited), the others use their own.
-  vi.doMock('../lib/placePhoto', () => ({
-    loadPlacePhoto: async (l) => (l.id === 'central-park' ? { url: 'https://example.com/central-park.jpg', attributions: [{ name: 'Ana P', uri: 'https://maps.google.com/ana' }] } : null),
-  }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: (m) => `${Math.round(m)} m` }));
   const { default: ExplainerImagesLab } = await import('./ExplainerImagesLab.jsx');
   container = document.createElement('div');
@@ -94,8 +90,8 @@ describe('5 images intro', () => {
     expect(el.textContent).not.toContain('Picked for you');
     expect([...el.querySelectorAll('.intro-place-name')].map((n) => n.textContent)).toEqual(['Statue of Liberty', 'Central Park', 'Times Square']);
     expect(el.querySelector('.intro-place-city').textContent).toContain('New York');
-    expect(el.querySelectorAll('.intro-place')[1].querySelector('img').getAttribute('src')).toBe('https://example.com/central-park.jpg');
-    expect(el.querySelectorAll('.intro-place')[1].querySelector('.place-photo-credit')).toBeTruthy();
+    expect([...el.querySelectorAll('.intro-place img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/nyc-statue.jpg', '/intro/nyc-central-park.jpg', '/intro/nyc-times-square.jpg']);
+    expect(el.querySelectorAll('.intro-place')[1].querySelector('.place-photo-credit').getAttribute('title')).toBe('Photo: Tomás Fano, CC BY-SA 2.0, Wikimedia Commons');
     await click(el.querySelector('.intro-place-body'));
     expect(page(el)).toBe('/landmarks/nyc/statue-of-liberty');
   });
@@ -122,8 +118,8 @@ describe('5 images intro', () => {
     expect(el.querySelector('.intro-map.leaflet-container')).toBeTruthy();
     expect([...el.querySelectorAll('.intro-map-pin-num')].map((p) => p.textContent)).toEqual(['1', '2', '3']);
     expect([...el.querySelectorAll('.intro-map-pin-name')].map((p) => p.textContent)).toEqual(['Statue of Liberty', 'Times Square', 'Central Park']);
-    expect(el.querySelectorAll('.intro-map-pin-photo img')[2].getAttribute('src')).toBe('https://example.com/central-park.jpg');
-    expect(el.querySelector('.intro-map-credit').textContent).toBe('Photo: Ana P via Google Maps');
+    expect([...el.querySelectorAll('.intro-map-pin-photo img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/nyc-statue.jpg', '/intro/nyc-times-square.jpg', '/intro/nyc-central-park.jpg']);
+    expect(el.querySelector('.intro-map-credit').textContent).toContain('Emiliano Carchia');
     expect(el.querySelector('.intro-map path.leaflet-interactive')).toBeTruthy();
   });
 

@@ -7,8 +7,31 @@ import { distanceMeters } from './geo';
 export const INTRO_IDS = ['statue-of-liberty', 'central-park', 'times-square'];
 const INTRO_REGION = 'nyc';
 
+// Hand-picked photos (owner: zoomed-out Statue, a wintry Central Park,
+// vibrant), saved in public/intro and lightly color-boosted, with the
+// credit their licenses require (Wikimedia Commons).
+export const INTRO_PHOTOS = {
+  'statue-of-liberty': {
+    url: '/intro/nyc-statue.jpg',
+    credit: 'Emiliano Carchia, CC BY 3.0',
+    page: 'https://commons.wikimedia.org/wiki/File:The_Statue_From_The_Boat_(176115133).jpeg',
+  },
+  'central-park': {
+    url: '/intro/nyc-central-park.jpg',
+    credit: 'Tomás Fano, CC BY-SA 2.0',
+    page: 'https://commons.wikimedia.org/wiki/File:Central_Park_Wollman_Rink.jpg',
+  },
+  'times-square': {
+    url: '/intro/nyc-times-square.jpg',
+    credit: 'chensiyuan, CC BY-SA 4.0',
+    page: 'https://commons.wikimedia.org/wiki/File:1_times_square_night_2013.jpg',
+  },
+};
+
 export function introPlaces({ landmarks = ALL_LANDMARKS } = {}) {
-  return INTRO_IDS.map((id) => landmarks.find((l) => l.id === id && (l.regionId || l.region) === INTRO_REGION)).filter(Boolean);
+  return INTRO_IDS.map((id) => landmarks.find((l) => l.id === id && (l.regionId || l.region) === INTRO_REGION))
+    .filter(Boolean)
+    .map((l) => ({ ...l, introPhoto: INTRO_PHOTOS[l.id] || null }));
 }
 
 // Visiting order for Plan Less: start at the stop closest to the user (the

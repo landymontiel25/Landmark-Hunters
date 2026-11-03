@@ -6,14 +6,12 @@ import 'leaflet/dist/leaflet.css';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { introPlaces, routeOrder, cityOf, shortName } from '../lib/introPlaces';
-import { loadPlacePhoto } from '../lib/placePhoto';
-import PlacePhotoCredit, { creditText } from '../components/PlacePhotoCredit';
 
 // The five-screen intro (Discover, Arrive prepared, Plan Less, Play,
 // Remember), live screens instead of pictures; the Game tutorial's 5 images
 // step. Discover, Arrive prepared, Plan Less and Remember show New York's
-// Statue of Liberty, Central Park and Times Square (lib/introPlaces.js), each with its
-// Google photo (vibrant, credited) or its own photo. Tapping a landmark opens
+// Statue of Liberty, Central Park and Times Square (lib/introPlaces.js), each
+// with a hand-picked vibrant photo. Tapping a landmark opens
 // its page (owner, 2026-11-03), with no captions in between. Nothing here is
 // saved.
 const pagePath = (l) => `/landmarks/${l.regionId || l.region}/${l.id}`;
@@ -27,36 +25,40 @@ const SLIDES = [
   { id: 'remember', title: 'Remember', line: 'Remember your favorite places and memories organized and in one place.' },
 ];
 
-// Each place's photo: its Google photo when there is one (bright, real, and
-// credited as Google requires), else the place's own photos in turn, else a
-// plain tile.
-function useIntroPhotos(places) {
-  const [google, setGoogle] = useState({});
-  const ids = places.map((p) => p.id).join('|');
-  useEffect(() => {
-    let live = true;
-    for (const p of places) {
-      loadPlacePhoto(p).then((photo) => live && photo && setGoogle((g) => ({ ...g, [p.id]: photo })));
-    }
-    return () => {
-      live = false;
-    };
-  }, [ids]); // eslint-disable-line react-hooks/exhaustive-deps
-  return (p) => google[p.id] || null;
+// Each place's photo: its hand-picked intro photo (lib/introPlaces.js),
+// else its own photos in turn, else a plain tile. A small (c) carries the
+// photo's credit, as its license requires.
+function Credit({ photo }) {
+  if (!photo?.credit) return null;
+  const text = `Photo: ${photo.credit}, Wikimedia Commons`;
+  return (
+    <a
+      className="place-photo-credit place-photo-credit-compact"
+      href={photo.page}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={text}
+      aria-label={text}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {'\u00A9'}
+    </a>
+  );
 }
 
-function Photo({ landmark, google = null, className = '', credit = true }) {
+function Photo({ landmark, className = '', credit = true }) {
   const [skip, setSkip] = useState(0);
-  const images = [...(google ? [google.url] : []), ...(landmark?.images || [])];
+  const pick = landmark?.introPhoto;
+  const images = [...(pick ? [pick.url] : []), ...(landmark?.images || [])];
   const src = images[skip];
   return (
     <span className={`intro-photo ${className}`}>
       {src ? <img key={src} src={src} alt="" onError={() => setSkip(skip + 1)} /> : null}
-      {credit && google && skip === 0 && <PlacePhotoCredit photo={google} compact />}
+      {credit && pick && skip === 0 && <Credit photo={pick} />}
     </span>
   );
 }
-const photoUrl = (landmark, google) => google?.url || landmark?.images?.[0] || '';
+const photoUrl = (landmark) => landmark?.introPhoto?.url || landmark?.images?.[0] || '';
 
 const Heart = ({ on }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill={on ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
@@ -75,7 +77,7 @@ const Pin = () => (
   </svg>
 );
 
-function Discover({ places, googleOf }) {
+function Discover({ places }) {
   const navigate = useNavigate();
   const [saved, setSaved] = useState({});
   return (
@@ -83,7 +85,7 @@ function Discover({ places, googleOf }) {
       {places.map((p, i) => (
         <div key={p.id} className={`intro-place${i === 0 ? ' hero' : ''}`}>
           <button type="button" className="intro-place-body" aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
-            <Photo landmark={p} google={googleOf(p)} />
+            <Photo landmark={p} />
             <span className="intro-place-label">
               <span className="intro-place-city">
                 <Pin /> {cityOf(p)}
@@ -106,7 +108,7 @@ function Discover({ places, googleOf }) {
   );
 }
 
-function Prepared({ places, googleOf }) {
+function Prepared({ places }) {
   const navigate = useNavigate();
   const place = places[0];
   const [open, setOpen] = useState(null);
@@ -121,7 +123,7 @@ function Prepared({ places, googleOf }) {
   return (
     <div className="intro-prepared">
       <button type="button" className="intro-photo-link" aria-label={`Open ${place.name}`} onClick={() => navigate(pagePath(place))}>
-        <Photo landmark={place} google={googleOf(place)} className="intro-prepared-photo" />
+        <Photo landmark={place} className="intro-prepared-photo" />
       </button>
       <div className="intro-panel">
         <div className="intro-panel-head">
@@ -176,23 +178,23 @@ const LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/W
 // Each stop's pin (owner's mockup, 2026-11-03): a round photo of the
 // landmark with its number on top and its (short) name under it.
 const escapeHtml = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-// The photo sits above its stop's dot, or below it, alternating, so stops
-// close together don't cover each other.
+// The photo sits beside its stop's dot, right then left, alternating, so
+// stops close together (Times Square, Central Park) don't cover each other.
 const PIN_W = 96;
 const PIN_H = 86;
-const stopIcon = (n, name, photo, above) =>
+const stopIcon = (n, name, photo, left) =>
   L.divIcon({
-    className: `intro-map-pin ${above ? 'above' : 'below'}`,
+    className: `intro-map-pin ${left ? 'left' : 'right'}`,
     html: `<span class="intro-map-pin-photo"><img src="${photo}" alt="" /></span><span class="intro-map-pin-num">${n}</span><span class="intro-map-pin-name">${escapeHtml(name)}</span>`,
     iconSize: [PIN_W, PIN_H],
-    iconAnchor: above ? [PIN_W / 2, PIN_H + 4] : [PIN_W / 2, -6],
+    iconAnchor: left ? [PIN_W + 2, 30] : [-2, 30],
   });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
-function RouteMap({ stops, onOpen, googleOf }) {
+function RouteMap({ stops, onOpen }) {
   const line = stops.map((s) => [s.lat, s.lng]);
   return (
-    <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [60, 24], paddingBottomRight: [60, 100] }} attributionControl={false} {...STILL}>
+    <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [104, 46], paddingBottomRight: [104, 60] }} zoomSnap={0.1} attributionControl={false} {...STILL}>
       <TileLayer url={SATELLITE} maxZoom={19} />
       <TileLayer url={LABELS} maxZoom={19} zIndex={650} />
       <Polyline positions={line} pathOptions={{ color: '#4d7fff', weight: 4, dashArray: '2 9', lineCap: 'round' }} />
@@ -203,7 +205,7 @@ function RouteMap({ stops, onOpen, googleOf }) {
         <Marker
           key={s.id}
           position={[s.lat, s.lng]}
-          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s, googleOf(s)), i % 2 === 1)}
+          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s), i % 2 === 1)}
           title={s.name}
           eventHandlers={{ click: () => onOpen(s) }}
         />
@@ -212,31 +214,31 @@ function RouteMap({ stops, onOpen, googleOf }) {
   );
 }
 
-function Plan({ places, googleOf, coords }) {
+function Plan({ places, coords }) {
   const { units } = useUnits();
   const navigate = useNavigate();
   const stops = routeOrder(places, coords);
-  const credits = stops.map(googleOf).filter(Boolean);
+  const credits = stops.map((st) => st.introPhoto?.credit).filter(Boolean);
   if (stops.length < 2) return null;
   let total = 0;
   for (let i = 1; i < stops.length; i++) total += distanceMeters(stops[i - 1].lat, stops[i - 1].lng, stops[i].lat, stops[i].lng);
   return (
     <div className="intro-plan">
-      <RouteMap stops={stops} googleOf={googleOf} onOpen={(st) => navigate(pagePath(st))} />
-      {credits.length > 0 && <p className="intro-map-credit">{credits.map(creditText).join(' · ')}</p>}
+      <RouteMap stops={stops} onOpen={(st) => navigate(pagePath(st))} />
+      {credits.length > 0 && <p className="intro-map-credit">Photos: {credits.join(' · ')} (Wikimedia Commons)</p>}
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span>
             <span className="intro-panel-title">Your route</span>
             <span className="intro-panel-sub">
-              {stops.length} stops · {formatDistance(total, units)} of walking
+              {stops.length} stops · {formatDistance(total, units)}
             </span>
           </span>
         </div>
         {stops.map((s, i) => (
           <button key={s.id} type="button" className="intro-stop" aria-label={`Open ${s.name}`} onClick={() => navigate(pagePath(s))}>
             <span className="intro-stop-num">{i + 1}</span>
-            <Photo landmark={s} google={googleOf(s)} className="intro-stop-photo" credit={false} />
+            <Photo landmark={s} className="intro-stop-photo" credit={false} />
             <span className="intro-row-text">
               <span className="intro-row-title">{s.name}</span>
             </span>
@@ -303,7 +305,7 @@ function Play() {
 
 
 
-function Remember({ places, googleOf }) {
+function Remember({ places }) {
   const navigate = useNavigate();
   return (
     <div className="intro-remember">
@@ -317,7 +319,7 @@ function Remember({ places, googleOf }) {
         <div className="intro-memories">
           {places.map((p, i) => (
             <button key={p.id} type="button" className={`intro-memory${i === 0 ? ' wide' : ''}`} aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
-              <Photo landmark={p} google={googleOf(p)} />
+              <Photo landmark={p} />
               <span className="intro-memory-caption">{p.name}</span>
             </button>
           ))}
@@ -337,7 +339,6 @@ const SCREENS = { discover: Discover, prepared: Prepared, plan: Plan, play: Play
 // stop closest to them.
 export default function ExplainerImagesLab({ onDone = null, onSlide = null, coords = null }) {
   const places = useMemo(() => introPlaces(), []);
-  const googleOf = useIntroPhotos(places);
   const [index, setIndex] = useState(0);
   const [doneHere, setDone] = useState(false);
   const done = doneHere && !onDone;
@@ -396,7 +397,7 @@ export default function ExplainerImagesLab({ onDone = null, onSlide = null, coor
       <h2 className="intro-title">{slide.title}</h2>
       <p className="intro-line">{slide.line}</p>
       <div className="intro-screen" key={slide.id}>
-        <Screen places={places} googleOf={googleOf} coords={coords} />
+        <Screen places={places} coords={coords} />
       </div>
       <div className="intro-dots" role="tablist" aria-label="Screens">
         {SLIDES.map((s, i) => (
