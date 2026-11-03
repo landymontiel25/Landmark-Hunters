@@ -254,9 +254,9 @@ function Plan() {
   );
 }
 
-// Play (owner's mockup, 2026-11-03): a real family at a landmark (a public
-// domain National Park Service photo of a family selfie at Old Faithful),
-// with "New place discovered!" and the "Explore together" card over it.
+// Play (owner's mockup, 2026-11-03): the owner's photo of friends taking a
+// selfie at the Colosseum, with "New place discovered!" (the Colosseum) and
+// the "Explore together" card (their three faces) over it.
 // Share the fun opens the phone's share sheet.
 const PLAY_PHOTO = '/intro/play-family.jpg';
 const PLAY_PLACE = '/intro/play-place.jpg';
@@ -276,7 +276,7 @@ function Play() {
   };
   return (
     <div className="intro-play">
-      <img className="intro-play-hero" src={PLAY_PHOTO} alt="A family taking a selfie together at Old Faithful" />
+      <img className="intro-play-hero" src={PLAY_PHOTO} alt="Friends taking a selfie together at the Colosseum" />
       <div className="intro-toast">
         <img className="intro-toast-photo" src={PLAY_PLACE} alt="" />
         New place discovered!
@@ -301,7 +301,6 @@ function Play() {
           {shared ? 'Shared' : 'Share the fun'}
         </button>
       </div>
-      <span className="intro-photo-credit">Photo: Yellowstone National Park (NPS)</span>
     </div>
   );
 }

@@ -1636,10 +1636,9 @@ button.back-sticky,
 .intro-play-hero {
   display: block;
   width: 100%;
-  height: 330px;
+  height: 390px;
   object-fit: cover;
-  object-position: 45% 35%;
-  filter: saturate(1.12) contrast(1.04);
+  object-position: 58% 50%;
 }
 .intro-toast {
   position: absolute;
@@ -1686,14 +1685,14 @@ button.back-sticky,
 /* "Explore together": three faces from the photo, stars, Share the fun. */
 .intro-together {
   position: absolute;
-  right: 12px;
-  bottom: 26px;
+  right: 10px;
+  bottom: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  width: 170px;
-  padding: 0 12px 12px;
+  gap: 4px;
+  width: 158px;
+  padding: 0 10px 10px;
   border-radius: 16px;
   background: rgba(13, 22, 40, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1706,8 +1705,8 @@ button.back-sticky,
   margin-top: -22px;
 }
 .intro-together-faces img {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   margin: 0 -5px;
   border-radius: 50%;
   border: 2px solid #fff;
