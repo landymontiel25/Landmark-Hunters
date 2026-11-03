@@ -108,6 +108,14 @@ describe('5 images intro', () => {
     expect(el.textContent).toContain('about 45 minutes');
   });
 
+  it('Plan Less shows the real map with the three numbered stops', async () => {
+    const el = await render();
+    await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
+    expect(el.querySelector('.intro-map.leaflet-container')).toBeTruthy();
+    expect([...el.querySelectorAll('.intro-map-pin')].map((p) => p.textContent)).toEqual(['1', '2', '3']);
+    expect(el.querySelector('.intro-map path.leaflet-interactive')).toBeTruthy();
+  });
+
   it('Plan Less: tapping a stop opens its page, with no extra caption', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
