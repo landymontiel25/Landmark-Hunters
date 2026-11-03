@@ -6,6 +6,8 @@ describe('introPlaces (the 5 images intro)', () => {
     const places = introPlaces();
     expect(places.map((p) => p.name)).toEqual(['Statue of Liberty', 'Central Park', 'Times Square']);
     expect(places.every((p) => p.images?.length)).toBe(true);
+    expect(places.map((p) => p.introPhoto.url)).toEqual(['/intro/nyc-statue.jpg', '/intro/nyc-central-park.jpg', '/intro/nyc-times-square.jpg']);
+    expect(places.every((p) => p.introPhoto.credit && p.introPhoto.page)).toBe(true);
     expect(cityOf(places[0])).toBe('New York');
   });
 
