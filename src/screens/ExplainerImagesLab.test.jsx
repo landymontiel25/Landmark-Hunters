@@ -27,6 +27,22 @@ const button = (el, text) => [...el.querySelectorAll('button')].find((b) => b.te
 const title = (el) => el.querySelector('.intro-title').textContent;
 
 describe('5 images intro', () => {
+  it("shows the owner's exact title and caption on every screen", async () => {
+    const el = await render();
+    const want = [
+      ['Discover', 'Discover places worth visiting.'],
+      ['Arrive prepared', 'Arrive prepared with what to know before you go.'],
+      ['Plan Less', 'Explore with a clear route that saves you time.'],
+      ['Play', 'Play and share the fun with family and friends.'],
+      ['Remember', 'Remember your favorite places and memories organized and in one place.'],
+    ];
+    for (const [i, [t, line]] of want.entries()) {
+      expect(title(el)).toBe(t);
+      expect(el.querySelector('.intro-line').textContent).toBe(line);
+      if (i < want.length - 1) await click(button(el, 'Next'));
+    }
+  });
+
   it('Next walks the five screens, then Start exploring finishes', async () => {
     const el = await render();
     const seen = [title(el)];
@@ -34,7 +50,7 @@ describe('5 images intro', () => {
       await click(button(el, 'Next'));
       seen.push(title(el));
     }
-    expect(seen).toEqual(['Discover', 'Arrive prepared', 'Plan less', 'Play', 'Remember']);
+    expect(seen).toEqual(['Discover', 'Arrive prepared', 'Plan Less', 'Play', 'Remember']);
     expect(el.textContent).toContain('5 of 5');
     await click(button(el, 'Start exploring'));
     expect(title(el)).toBe("You're all set");
@@ -47,7 +63,7 @@ describe('5 images intro', () => {
     await click(el.querySelector('[role="tab"][aria-label="Play"]'));
     expect(title(el)).toBe('Play');
     await click(button(el, 'Back'));
-    expect(title(el)).toBe('Plan less');
+    expect(title(el)).toBe('Plan Less');
     await click(button(el, 'Skip'));
     expect(title(el)).toBe("You're all set");
   });
@@ -70,9 +86,9 @@ describe('5 images intro', () => {
     expect(el.textContent).toContain('about 45 minutes');
   });
 
-  it('Plan less: tapping a stop selects it', async () => {
+  it('Plan Less: tapping a stop selects it', async () => {
     const el = await render();
-    await click(el.querySelector('[role="tab"][aria-label="Plan less"]'));
+    await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
     expect(el.querySelectorAll('.intro-stop').length).toBe(3);
     await click(el.querySelectorAll('.intro-stop')[2]);
     expect(el.querySelectorAll('.intro-stop')[2].getAttribute('aria-pressed')).toBe('true');

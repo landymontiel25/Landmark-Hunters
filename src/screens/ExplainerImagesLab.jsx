@@ -5,7 +5,7 @@ import { nearestLandmarks } from '../lib/nearestLandmarks';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 
 // Test tab: "5 images". The five-screen intro the owner drew (Discover,
-// Arrive prepared, Plan less, Play, Remember), built as live screens instead
+// Arrive prepared, Plan Less, Play, Remember), built as live screens instead
 // of pictures. Every card, row, stop and photo responds to a tap; Next, Back
 // (swipe), the dots and Skip move between screens. It uses real Philly
 // landmarks and their own photos and facts. Nothing here is saved.
@@ -36,12 +36,13 @@ const FRIENDS = [
   { initials: 'AK', color: '#55c987' },
 ];
 
+// Titles and captions word for word from the owner's five images.
 const SLIDES = [
-  { id: 'discover', title: 'Discover', line: 'Find places worth the trip, picked for you.' },
-  { id: 'prepared', title: 'Arrive prepared', line: 'Know what to expect before you go.' },
-  { id: 'plan', title: 'Plan less', line: 'Mapr lines your stops up into one route.' },
-  { id: 'play', title: 'Play', line: 'Check in, earn points, and explore with friends.' },
-  { id: 'remember', title: 'Remember', line: 'Every place you visit, kept in one spot.' },
+  { id: 'discover', title: 'Discover', line: 'Discover places worth visiting.' },
+  { id: 'prepared', title: 'Arrive prepared', line: 'Arrive prepared with what to know before you go.' },
+  { id: 'plan', title: 'Plan Less', line: 'Explore with a clear route that saves you time.' },
+  { id: 'play', title: 'Play', line: 'Play and share the fun with family and friends.' },
+  { id: 'remember', title: 'Remember', line: 'Remember your favorite places and memories organized and in one place.' },
 ];
 
 // A photo that fails to load falls through to the landmark's next one,
