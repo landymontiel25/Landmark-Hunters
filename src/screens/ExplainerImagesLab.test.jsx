@@ -125,54 +125,25 @@ describe('5 images intro', () => {
     expect(page(el)).toBe('/landmarks/philly/philadelphia-museum-of-art');
   });
 
-  it('Play: check in at a landmark shows the discovered toast; a Remember photo opens its place', async () => {
-    const { ALL_LANDMARKS } = await import('../data/regions');
-    const hall = ALL_LANDMARKS.find((l) => l.id === 'independence-hall');
-    Object.defineProperty(navigator, 'geolocation', {
-      configurable: true,
-      value: { getCurrentPosition: (ok) => ok({ coords: { latitude: hall.lat, longitude: hall.lng } }) },
-    });
+  it('Play: the family photo with New place discovered!, Explore together and Share the fun', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Play"]'));
-    await click(button(el, 'Check in'));
-    expect(el.textContent).toContain('New place discovered!');
-    await click(button(el, 'Next'));
+    expect(el.querySelector('.intro-play-hero').getAttribute('src')).toBe('/intro/play-family.jpg');
+    expect(el.querySelector('.intro-toast').textContent).toContain('New place discovered!');
+    expect(el.querySelectorAll('.intro-together-faces img').length).toBe(3);
+    expect(el.querySelector('.intro-together').textContent).toContain('Explore together');
+    expect(el.textContent).not.toContain('Check in');
+    const shareText = [];
+    Object.defineProperty(navigator, 'share', { configurable: true, value: async ({ text }) => shareText.push(text) });
+    await click(button(el, 'Share the fun'));
+    expect(shareText).toEqual(['Come explore with me on Landmark Hunters.']);
+    expect(button(el, 'Shared')).toBeTruthy();
+  });
+
+  it('Remember: a photo opens its place', async () => {
+    const el = await render();
+    await click(el.querySelector('[role="tab"][aria-label="Remember"]'));
     await click(el.querySelector('.intro-memory'));
     expect(page(el)).toBe('/landmarks/philly/independence-hall');
-  });
-
-  const play = async () => {
-    const el = await render();
-    await click(el.querySelector('[role="tab"][aria-label="Play"]'));
-    return el;
-  };
-  const fakeGeo = (impl) => {
-    Object.defineProperty(navigator, 'geolocation', { configurable: true, value: { getCurrentPosition: impl } });
-  };
-
-  it('Check in far from any landmark names the closest one and how far it is', async () => {
-    // Out in the Atlantic: nothing is within reach, so it reports the nearest.
-    fakeGeo((ok) => ok({ coords: { latitude: 30, longitude: -60 } }));
-    const el = await play();
-    await click(button(el, 'Check in'));
-    expect(el.querySelector('.intro-nearby').textContent).toMatch(/Closest landmark: .+, \d+ m away\./);
-    expect(button(el, 'Check in')).toBeTruthy();
-  });
-
-  it('Check in at a landmark says you are there and checks you in', async () => {
-    const { ALL_LANDMARKS } = await import('../data/regions');
-    const hall = ALL_LANDMARKS.find((l) => l.id === 'independence-hall');
-    fakeGeo((ok) => ok({ coords: { latitude: hall.lat, longitude: hall.lng } }));
-    const el = await play();
-    await click(button(el, 'Check in'));
-    expect(el.querySelector('.intro-nearby').textContent).toContain('You are at');
-    expect(button(el, 'Checked in')).toBeTruthy();
-  });
-
-  it('Check in with location refused asks you to turn it on', async () => {
-    fakeGeo((_ok, fail) => fail({ code: 1 }));
-    const el = await play();
-    await click(button(el, 'Check in'));
-    expect(el.querySelector('.intro-nearby').textContent).toContain('Turn on location');
   });
 });

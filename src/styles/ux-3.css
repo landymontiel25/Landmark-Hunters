@@ -1590,10 +1590,17 @@ button.back-sticky,
 /* 4. Play */
 .intro-play {
   position: relative;
-}
-.intro-play-photo {
-  height: 230px;
   border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+/* A real family photo, full width and bright, like the owner's mockup. */
+.intro-play-hero {
+  display: block;
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+  object-position: 45% 35%;
+  filter: saturate(1.12) contrast(1.04);
 }
 .intro-toast {
   position: absolute;
@@ -1602,12 +1609,15 @@ button.back-sticky,
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 12px 4px 4px;
+  padding: 4px 10px 4px 4px;
   border-radius: var(--radius-pill);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
-  font-size: 0.85rem;
+  background: rgba(13, 22, 40, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 0.8rem;
   font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   animation: intro-pop 0.35s var(--ease);
 }
 @keyframes intro-pop {
@@ -1617,9 +1627,11 @@ button.back-sticky,
   }
 }
 .intro-toast-photo {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
 }
 .intro-toast-check {
   display: grid;
@@ -1627,54 +1639,75 @@ button.back-sticky,
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--success);
-  color: #05070d;
+  background: #f5c542;
+  color: #14110a;
   font-size: 0.72rem;
+  font-weight: 800;
 }
-.intro-play-panel {
-  margin: -44px 12px 0;
-  text-align: center;
-}
-.intro-play-panel .intro-panel-title {
-  justify-content: center;
-}
-.intro-avatars {
+/* "Explore together": three faces from the photo, stars, Share the fun. */
+.intro-together {
+  position: absolute;
+  right: 12px;
+  bottom: 26px;
   display: flex;
-  justify-content: center;
-  margin: -34px 0 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 170px;
+  padding: 0 12px 12px;
+  border-radius: 16px;
+  background: rgba(13, 22, 40, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-.intro-avatar {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
+.intro-together-faces {
+  display: flex;
+  margin-top: -22px;
+}
+.intro-together-faces img {
+  width: 44px;
+  height: 44px;
   margin: 0 -5px;
   border-radius: 50%;
-  border: 3px solid var(--bg-elevated);
-  font-size: 0.72rem;
+  border: 2px solid #fff;
+  object-fit: cover;
+}
+.intro-together-title {
+  font-size: 0.95rem;
   font-weight: 700;
 }
-.intro-play-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
+.intro-together-stars {
+  color: #f5c542;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  line-height: 1;
 }
-
-.intro-nearby {
-  margin: 12px 0 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  text-align: center;
-  color: var(--text-primary);
-}
-.intro-nearby p {
-  margin: 0;
-}
-.intro-nearby-more {
-  margin-top: 4px !important;
+.intro-together-share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1.5px solid #f5c542;
+  background: none;
+  color: #fff;
+  font: inherit;
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+}
+.intro-photo-credit {
+  position: absolute;
+  left: 10px;
+  bottom: 6px;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 /* 5. Remember */
