@@ -103,6 +103,7 @@ export default function GameTutorialLab() {
         <>
           <MaprSays lines={SAY.images[slide] || []} />
           <ExplainerImagesLab
+            coords={coords}
             onSlide={setSlide}
             onDone={(how) => {
               set({ intro: how });

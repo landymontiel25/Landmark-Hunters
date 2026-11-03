@@ -15,6 +15,10 @@ afterEach(() => {
 });
 
 async function render() {
+  // Google photos: Central Park has one (credited), the others use their own.
+  vi.doMock('../lib/placePhoto', () => ({
+    loadPlacePhoto: async (l) => (l.id === 'central-park' ? { url: 'https://example.com/central-park.jpg', attributions: [{ name: 'Ana P', uri: 'https://maps.google.com/ana' }] } : null),
+  }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: (m) => `${Math.round(m)} m` }));
   const { default: ExplainerImagesLab } = await import('./ExplainerImagesLab.jsx');
   container = document.createElement('div');
@@ -87,16 +91,20 @@ describe('5 images intro', () => {
     const heart = el.querySelector('.intro-heart');
     await click(heart);
     expect(heart.getAttribute('aria-pressed')).toBe('true');
-    expect(el.textContent).not.toContain('Declaration of Independence');
+    expect(el.textContent).not.toContain('Picked for you');
+    expect([...el.querySelectorAll('.intro-place-name')].map((n) => n.textContent)).toEqual(['Statue of Liberty', 'Central Park', 'Times Square']);
+    expect(el.querySelector('.intro-place-city').textContent).toContain('New York');
+    expect(el.querySelectorAll('.intro-place')[1].querySelector('img').getAttribute('src')).toBe('https://example.com/central-park.jpg');
+    expect(el.querySelectorAll('.intro-place')[1].querySelector('.place-photo-credit')).toBeTruthy();
     await click(el.querySelector('.intro-place-body'));
-    expect(page(el)).toBe('/landmarks/philly/independence-hall');
+    expect(page(el)).toBe('/landmarks/nyc/statue-of-liberty');
   });
 
   it('Arrive prepared: the photo opens its landmark', async () => {
     const el = await render();
     await click(button(el, 'Next'));
     await click(el.querySelector('.intro-photo-link'));
-    expect(page(el)).toBe('/landmarks/philly/independence-hall');
+    expect(page(el)).toBe('/landmarks/nyc/statue-of-liberty');
   });
 
   it('Arrive prepared: rows open with the landmark facts', async () => {
@@ -105,7 +113,7 @@ describe('5 images intro', () => {
     await click(button(el, 'The story behind it'));
     expect(el.querySelectorAll('.intro-row-body li').length).toBeGreaterThan(0);
     await click(button(el, 'How long it takes'));
-    expect(el.textContent).toContain('about 45 minutes');
+    expect(el.textContent).toContain('about 150 minutes');
   });
 
   it('Plan Less shows the real map with a photo, number and name on each stop', async () => {
@@ -113,9 +121,9 @@ describe('5 images intro', () => {
     await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
     expect(el.querySelector('.intro-map.leaflet-container')).toBeTruthy();
     expect([...el.querySelectorAll('.intro-map-pin-num')].map((p) => p.textContent)).toEqual(['1', '2', '3']);
-    expect([...el.querySelectorAll('.intro-map-pin-name')].map((p) => p.textContent)).toEqual(['Independence Hall', 'Reading Terminal', 'Museum of Art']);
-    expect([...el.querySelectorAll('.intro-map-pin-photo img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/route-1.jpg', '/intro/route-2.jpg', '/intro/route-3.jpg']);
-    expect(el.querySelector('.intro-map-credit').textContent).toContain('CC BY-SA');
+    expect([...el.querySelectorAll('.intro-map-pin-name')].map((p) => p.textContent)).toEqual(['Statue of Liberty', 'Times Square', 'Central Park']);
+    expect(el.querySelectorAll('.intro-map-pin-photo img')[2].getAttribute('src')).toBe('https://example.com/central-park.jpg');
+    expect(el.querySelector('.intro-map-credit').textContent).toBe('Photo: Ana P via Google Maps');
     expect(el.querySelector('.intro-map path.leaflet-interactive')).toBeTruthy();
   });
 
@@ -125,7 +133,7 @@ describe('5 images intro', () => {
     expect(el.querySelectorAll('.intro-stop').length).toBe(3);
     expect(el.textContent).not.toContain('min here');
     await click(el.querySelectorAll('.intro-stop')[2]);
-    expect(page(el)).toBe('/landmarks/philly/philadelphia-museum-of-art');
+    expect(page(el)).toBe('/landmarks/nyc/central-park');
   });
 
   it('Play: the family photo with New place discovered!, Explore together and Share the fun', async () => {
@@ -147,6 +155,6 @@ describe('5 images intro', () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Remember"]'));
     await click(el.querySelector('.intro-memory'));
-    expect(page(el)).toBe('/landmarks/philly/independence-hall');
+    expect(page(el)).toBe('/landmarks/nyc/statue-of-liberty');
   });
 });

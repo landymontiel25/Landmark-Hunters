@@ -1,40 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
+import { introPlaces, routeOrder, cityOf, shortName } from '../lib/introPlaces';
+import { loadPlacePhoto } from '../lib/placePhoto';
+import PlacePhotoCredit, { creditText } from '../components/PlacePhotoCredit';
 
-// Test tab: "5 images". The five-screen intro the owner drew (Discover,
-// Arrive prepared, Plan Less, Play, Remember), built as live screens instead
-// of pictures. Every card, row, stop and photo responds to a tap; Next, Back
-// (swipe), the dots and Skip move between screens. It uses real Philly
-// landmarks and their own photos and facts. Nothing here is saved.
-const byId = (id) => ALL_LANDMARKS.find((l) => l.id === id);
-// Tapping a landmark anywhere in the intro opens its page (owner,
-// 2026-11-03): no descriptions or captions in between.
+// The five-screen intro (Discover, Arrive prepared, Plan Less, Play,
+// Remember), live screens instead of pictures; the Game tutorial's 5 images
+// step. Discover, Arrive prepared, Plan Less and Remember show New York's
+// Statue of Liberty, Central Park and Times Square (lib/introPlaces.js), each with its
+// Google photo (vibrant, credited) or its own photo. Tapping a landmark opens
+// its page (owner, 2026-11-03), with no captions in between. Nothing here is
+// saved.
 const pagePath = (l) => `/landmarks/${l.regionId || l.region}/${l.id}`;
-
-const DISCOVER = ['independence-hall', 'liberty-bell-center', 'reading-terminal-market'];
-const PREPARED = 'independence-hall';
-const ROUTE = ['independence-hall', 'reading-terminal-market', 'philadelphia-museum-of-art'];
-// [landmark, which of its photos]
-const MEMORIES = [
-  ['independence-hall', 0],
-  ['reading-terminal-market', 2],
-  ['liberty-bell-center', 0],
-];
-// "Other travelers" tiles on the Remember screen: drawn scenes, not photos.
-// To use real pictures, give an entry a `photo` URL (a file under /public);
-// the tile then shows that image instead of the drawing.
-const TRAVELERS = [
-  { name: 'Maya', place: 'Independence Hall', sky: ['#f6b26b', '#ffe5b4'], skin: '#8d5524', shirt: '#4d7fff', hair: '#2b1b12', shape: 'tower' },
-  { name: 'Jordan & Ellis', place: 'Reading Terminal Market', sky: ['#7aa7ff', '#cfe0ff'], skin: '#e0ac69', shirt: '#e5603d', hair: '#5a3825', shape: 'arch', two: true },
-  { name: 'Priya', place: 'Museum of Art steps', sky: ['#9b8cf6', '#e3dcff'], skin: '#c68642', shirt: '#55c987', hair: '#120c08', shape: 'columns' },
-  { name: 'Sam', place: 'Liberty Bell Center', sky: ['#5fc7c0', '#d5f3f0'], skin: '#f1c27d', shirt: '#9b5cf6', hair: '#c9a24d', shape: 'bell' },
-];
 
 // Titles and captions word for word from the owner's five images.
 const SLIDES = [
@@ -45,18 +27,36 @@ const SLIDES = [
   { id: 'remember', title: 'Remember', line: 'Remember your favorite places and memories organized and in one place.' },
 ];
 
-// A photo that fails to load falls through to the landmark's next one,
-// then to a plain tile.
-function Photo({ landmark, index = 0, className = '' }) {
+// Each place's photo: its Google photo when there is one (bright, real, and
+// credited as Google requires), else the place's own photos in turn, else a
+// plain tile.
+function useIntroPhotos(places) {
+  const [google, setGoogle] = useState({});
+  const ids = places.map((p) => p.id).join('|');
+  useEffect(() => {
+    let live = true;
+    for (const p of places) {
+      loadPlacePhoto(p).then((photo) => live && photo && setGoogle((g) => ({ ...g, [p.id]: photo })));
+    }
+    return () => {
+      live = false;
+    };
+  }, [ids]); // eslint-disable-line react-hooks/exhaustive-deps
+  return (p) => google[p.id] || null;
+}
+
+function Photo({ landmark, google = null, className = '', credit = true }) {
   const [skip, setSkip] = useState(0);
-  const images = landmark?.images || [];
-  const src = images[(index + skip) % (images.length || 1)];
+  const images = [...(google ? [google.url] : []), ...(landmark?.images || [])];
+  const src = images[skip];
   return (
     <span className={`intro-photo ${className}`}>
-      {src && skip < images.length ? <img key={src} src={src} alt="" onError={() => setSkip(skip + 1)} /> : null}
+      {src ? <img key={src} src={src} alt="" onError={() => setSkip(skip + 1)} /> : null}
+      {credit && google && skip === 0 && <PlacePhotoCredit photo={google} compact />}
     </span>
   );
 }
+const photoUrl = (landmark, google) => google?.url || landmark?.images?.[0] || '';
 
 const Heart = ({ on }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill={on ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
@@ -75,20 +75,18 @@ const Pin = () => (
   </svg>
 );
 
-function Discover() {
+function Discover({ places, googleOf }) {
   const navigate = useNavigate();
   const [saved, setSaved] = useState({});
-  const places = DISCOVER.map(byId).filter(Boolean);
   return (
     <div className="intro-discover">
       {places.map((p, i) => (
         <div key={p.id} className={`intro-place${i === 0 ? ' hero' : ''}`}>
           <button type="button" className="intro-place-body" aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
-            <Photo landmark={p} />
-            {i === 0 && <span className="intro-chip">Picked for you</span>}
+            <Photo landmark={p} google={googleOf(p)} />
             <span className="intro-place-label">
               <span className="intro-place-city">
-                <Pin /> Philadelphia
+                <Pin /> {cityOf(p)}
               </span>
               <span className="intro-place-name">{p.name}</span>
             </span>
@@ -108,21 +106,22 @@ function Discover() {
   );
 }
 
-function Prepared() {
+function Prepared({ places, googleOf }) {
   const navigate = useNavigate();
-  const place = byId(PREPARED);
+  const place = places[0];
   const [open, setOpen] = useState(null);
   const [saved, setSaved] = useState(false);
   if (!place) return null;
+  // Only rows the place has data for.
   const rows = [
-    { id: 'time', icon: '⏱️', title: 'How long it takes', sub: 'Plan your visit around it.', body: `Most visits take about ${place.typicalMinutes} minutes.` },
-    { id: 'entry', icon: '\u{1F39F}️', title: 'Tickets & entry', sub: 'What to sort out ahead of time.', body: place.free ? 'Free to visit.' : 'Tickets needed. Book ahead.' },
-    { id: 'story', icon: '\u{1F4D6}', title: 'The story behind it', sub: 'A few facts for the walk over.', body: place.facts },
-  ];
+    place.typicalMinutes && { id: 'time', icon: '\u{23F1}\u{FE0F}', title: 'How long it takes', sub: 'Plan your visit around it.', body: `Most visits take about ${place.typicalMinutes} minutes.` },
+    place.free != null && { id: 'entry', icon: '\u{1F39F}\u{FE0F}', title: 'Tickets & entry', sub: 'What to sort out ahead of time.', body: place.free ? 'Free to visit.' : 'Tickets needed. Book ahead.' },
+    place.facts?.length > 0 && { id: 'story', icon: '\u{1F4D6}', title: 'The story behind it', sub: 'A few facts for the walk over.', body: place.facts },
+  ].filter(Boolean);
   return (
     <div className="intro-prepared">
       <button type="button" className="intro-photo-link" aria-label={`Open ${place.name}`} onClick={() => navigate(pagePath(place))}>
-        <Photo landmark={place} className="intro-prepared-photo" />
+        <Photo landmark={place} google={googleOf(place)} className="intro-prepared-photo" />
       </button>
       <div className="intro-panel">
         <div className="intro-panel-head">
@@ -175,16 +174,10 @@ function Prepared() {
 const SATELLITE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 const LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
 // Each stop's pin (owner's mockup, 2026-11-03): a round photo of the
-// landmark with its number on top and its name under it. The photos are
-// saved in public/intro (route-1..3.jpg, from Wikimedia Commons, credited
-// under the map) so the pins never wait on a lookup.
-const ROUTE_PHOTOS = ['/intro/route-1.jpg', '/intro/route-2.jpg', '/intro/route-3.jpg'];
-const ROUTE_CREDIT = 'Photos: Rdsmith4, Bruce Andersen, ExNihilo01 (CC BY-SA), Wikimedia Commons';
+// landmark with its number on top and its (short) name under it.
 const escapeHtml = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-// Short map labels, so they fit at phone width.
-const ROUTE_LABELS = { 'reading-terminal-market': 'Reading Terminal', 'philadelphia-museum-of-art': 'Museum of Art' };
 // The photo sits above its stop's dot, or below it, alternating, so stops
-// close together (Independence Hall, Reading Terminal) don't cover each other.
+// close together don't cover each other.
 const PIN_W = 96;
 const PIN_H = 86;
 const stopIcon = (n, name, photo, above) =>
@@ -196,7 +189,7 @@ const stopIcon = (n, name, photo, above) =>
   });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
-function RouteMap({ stops, onOpen }) {
+function RouteMap({ stops, onOpen, googleOf }) {
   const line = stops.map((s) => [s.lat, s.lng]);
   return (
     <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [60, 24], paddingBottomRight: [60, 100] }} attributionControl={false} {...STILL}>
@@ -210,7 +203,7 @@ function RouteMap({ stops, onOpen }) {
         <Marker
           key={s.id}
           position={[s.lat, s.lng]}
-          icon={stopIcon(i + 1, ROUTE_LABELS[s.id] || s.name, ROUTE_PHOTOS[i], i % 2 === 1)}
+          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s, googleOf(s)), i % 2 === 1)}
           title={s.name}
           eventHandlers={{ click: () => onOpen(s) }}
         />
@@ -219,17 +212,18 @@ function RouteMap({ stops, onOpen }) {
   );
 }
 
-function Plan() {
+function Plan({ places, googleOf, coords }) {
   const { units } = useUnits();
   const navigate = useNavigate();
-  const stops = ROUTE.map(byId).filter(Boolean);
+  const stops = routeOrder(places, coords);
+  const credits = stops.map(googleOf).filter(Boolean);
   if (stops.length < 2) return null;
   let total = 0;
   for (let i = 1; i < stops.length; i++) total += distanceMeters(stops[i - 1].lat, stops[i - 1].lng, stops[i].lat, stops[i].lng);
   return (
     <div className="intro-plan">
-      <RouteMap stops={stops} onOpen={(st) => navigate(pagePath(st))} />
-      <p className="intro-map-credit">{ROUTE_CREDIT}</p>
+      <RouteMap stops={stops} googleOf={googleOf} onOpen={(st) => navigate(pagePath(st))} />
+      {credits.length > 0 && <p className="intro-map-credit">{credits.map(creditText).join(' · ')}</p>}
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span>
@@ -242,7 +236,7 @@ function Plan() {
         {stops.map((s, i) => (
           <button key={s.id} type="button" className="intro-stop" aria-label={`Open ${s.name}`} onClick={() => navigate(pagePath(s))}>
             <span className="intro-stop-num">{i + 1}</span>
-            <img className="intro-stop-photo" src={ROUTE_PHOTOS[i]} alt="" />
+            <Photo landmark={s} google={googleOf(s)} className="intro-stop-photo" credit={false} />
             <span className="intro-row-text">
               <span className="intro-row-title">{s.name}</span>
             </span>
@@ -306,108 +300,26 @@ function Play() {
   );
 }
 
-function Person({ x, skin, shirt, hair }) {
-  return (
-    <g transform={`translate(${x} 0)`}>
-      <rect x="-13" y="82" width="26" height="38" rx="11" fill={shirt} />
-      <circle cx="0" cy="68" r="12" fill={skin} />
-      <path d="M-12 66a12 12 0 0 1 24 0c-5-5-17-5-24 0z" fill={hair} />
-    </g>
-  );
-}
 
-function Backdrop({ shape }) {
-  const c = 'rgba(40,48,70,0.55)';
-  if (shape === 'tower')
-    return (
-      <g fill={c}>
-        <rect x="52" y="52" width="76" height="68" />
-        <rect x="80" y="26" width="20" height="30" />
-        <path d="M78 26l12-16 12 16z" />
-      </g>
-    );
-  if (shape === 'arch')
-    return (
-      <g fill={c}>
-        <rect x="24" y="56" width="132" height="64" />
-        <path d="M70 120v-26a20 20 0 0 1 40 0v26z" fill="rgba(255,255,255,0.35)" />
-      </g>
-    );
-  if (shape === 'columns')
-    return (
-      <g fill={c}>
-        <path d="M30 56l60-20 60 20z" />
-        {[44, 68, 92, 116, 140].map((x) => (
-          <rect key={x} x={x - 4} y="58" width="8" height="62" />
-        ))}
-      </g>
-    );
-  return (
-    <g fill={c}>
-      <rect x="40" y="60" width="100" height="60" />
-      <path d="M90 28a22 22 0 0 1 22 22v10H68V50a22 22 0 0 1 22-22z" />
-    </g>
-  );
-}
 
-function TravelerTile({ t }) {
-  const id = `sky-${t.name.replace(/\W/g, '')}`;
-  return (
-    <figure className="intro-traveler">
-      {t.photo ? (
-        <img className="intro-traveler-art" src={t.photo} alt={`${t.name} at ${t.place}`} />
-      ) : (
-        <svg className="intro-traveler-art" viewBox="0 0 180 120" preserveAspectRatio="xMidYMid slice" role="img" aria-label={`Drawing of ${t.name} at ${t.place}`}>
-          <defs>
-            <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor={t.sky[0]} />
-              <stop offset="1" stopColor={t.sky[1]} />
-            </linearGradient>
-          </defs>
-          <rect width="180" height="120" fill={`url(#${id})`} />
-          <Backdrop shape={t.shape} />
-          <Person x={t.two ? 76 : 90} skin={t.skin} shirt={t.shirt} hair={t.hair} />
-          {t.two && <Person x={106} skin="#f1c27d" shirt="#f2b705" hair="#3b2a1a" />}
-        </svg>
-      )}
-      <figcaption className="intro-memory-caption">
-        {t.name} · {t.place}
-      </figcaption>
-    </figure>
-  );
-}
 
-function Remember() {
+function Remember({ places, googleOf }) {
   const navigate = useNavigate();
-  const places = MEMORIES.map(([id, photo]) => ({ place: byId(id), photo })).filter((m) => m.place);
   return (
     <div className="intro-remember">
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span className="intro-panel-title">
-            <Pin /> Your Philly memories
+            <Pin /> Your {cityOf(places[0])} memories
           </span>
           <span className="intro-panel-sub">{places.length} places</span>
         </div>
         <div className="intro-memories">
-          {places.map(({ place: p, photo }, i) => (
+          {places.map((p, i) => (
             <button key={p.id} type="button" className={`intro-memory${i === 0 ? ' wide' : ''}`} aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
-              <Photo landmark={p} index={photo} />
+              <Photo landmark={p} google={googleOf(p)} />
               <span className="intro-memory-caption">{p.name}</span>
             </button>
-          ))}
-        </div>
-      </div>
-      <div className="intro-panel">
-        <div className="intro-panel-head">
-          <span className="intro-panel-title">
-            <Pin /> Shared by other travelers
-          </span>
-          <span className="intro-panel-sub">examples</span>
-        </div>
-        <div className="intro-memories">
-          {TRAVELERS.map((t) => (
-            <TravelerTile key={t.name} t={t} />
           ))}
         </div>
       </div>
@@ -421,7 +333,11 @@ const SCREENS = { discover: Discover, prepared: Prepared, plan: Plan, play: Play
 // tutorial): Skip ('skipped') and "Start exploring" ('finished') hand off to
 // the next step instead of showing the "You're all set" card. onSlide(id)
 // hears which screen is showing, so Mapr can talk about it.
-export default function ExplainerImagesLab({ onDone = null, onSlide = null }) {
+// coords (optional): where the user is; Plan Less starts the route at the
+// stop closest to them.
+export default function ExplainerImagesLab({ onDone = null, onSlide = null, coords = null }) {
+  const places = useMemo(() => introPlaces(), []);
+  const googleOf = useIntroPhotos(places);
   const [index, setIndex] = useState(0);
   const [doneHere, setDone] = useState(false);
   const done = doneHere && !onDone;
@@ -480,7 +396,7 @@ export default function ExplainerImagesLab({ onDone = null, onSlide = null }) {
       <h2 className="intro-title">{slide.title}</h2>
       <p className="intro-line">{slide.line}</p>
       <div className="intro-screen" key={slide.id}>
-        <Screen />
+        <Screen places={places} googleOf={googleOf} coords={coords} />
       </div>
       <div className="intro-dots" role="tablist" aria-label="Screens">
         {SLIDES.map((s, i) => (
