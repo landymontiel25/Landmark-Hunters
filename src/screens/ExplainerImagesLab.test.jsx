@@ -108,11 +108,14 @@ describe('5 images intro', () => {
     expect(el.textContent).toContain('about 45 minutes');
   });
 
-  it('Plan Less shows the real map with the three numbered stops', async () => {
+  it('Plan Less shows the real map with a photo, number and name on each stop', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
     expect(el.querySelector('.intro-map.leaflet-container')).toBeTruthy();
-    expect([...el.querySelectorAll('.intro-map-pin')].map((p) => p.textContent)).toEqual(['1', '2', '3']);
+    expect([...el.querySelectorAll('.intro-map-pin-num')].map((p) => p.textContent)).toEqual(['1', '2', '3']);
+    expect([...el.querySelectorAll('.intro-map-pin-name')].map((p) => p.textContent)).toEqual(['Independence Hall', 'Reading Terminal', 'Museum of Art']);
+    expect([...el.querySelectorAll('.intro-map-pin-photo img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/route-1.jpg', '/intro/route-2.jpg', '/intro/route-3.jpg']);
+    expect(el.querySelector('.intro-map-credit').textContent).toContain('CC BY-SA');
     expect(el.querySelector('.intro-map path.leaflet-interactive')).toBeTruthy();
   });
 
