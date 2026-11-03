@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
+import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -18,9 +19,22 @@ async function render() {
   const { default: ExplainerImagesLab } = await import('./ExplainerImagesLab.jsx');
   container = document.createElement('div');
   document.body.appendChild(container);
-  await act(async () => createRoot(container).render(<ExplainerImagesLab />));
+  function Landmark() {
+    return <p className="landmark-page">{useLocation().pathname}</p>;
+  }
+  await act(async () =>
+    createRoot(container).render(
+      <MemoryRouter initialEntries={['/test']}>
+        <Routes>
+          <Route path="/test" element={<ExplainerImagesLab />} />
+          <Route path="/landmarks/:region/:id" element={<Landmark />} />
+        </Routes>
+      </MemoryRouter>
+    )
+  );
   return container;
 }
+const page = (el) => el.querySelector('.landmark-page')?.textContent;
 
 const click = (el) => act(async () => el.click());
 const button = (el, text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
@@ -68,13 +82,21 @@ describe('5 images intro', () => {
     expect(title(el)).toBe("You're all set");
   });
 
-  it('Discover: hearts save a place and a card opens its summary', async () => {
+  it('Discover: hearts save a place; a card opens its page, with no description', async () => {
     const el = await render();
     const heart = el.querySelector('.intro-heart');
     await click(heart);
     expect(heart.getAttribute('aria-pressed')).toBe('true');
+    expect(el.textContent).not.toContain('Declaration of Independence');
     await click(el.querySelector('.intro-place-body'));
-    expect(el.textContent).toContain('Declaration of Independence');
+    expect(page(el)).toBe('/landmarks/philly/independence-hall');
+  });
+
+  it('Arrive prepared: the photo opens its landmark', async () => {
+    const el = await render();
+    await click(button(el, 'Next'));
+    await click(el.querySelector('.intro-photo-link'));
+    expect(page(el)).toBe('/landmarks/philly/independence-hall');
   });
 
   it('Arrive prepared: rows open with the landmark facts', async () => {
@@ -86,15 +108,16 @@ describe('5 images intro', () => {
     expect(el.textContent).toContain('about 45 minutes');
   });
 
-  it('Plan Less: tapping a stop selects it', async () => {
+  it('Plan Less: tapping a stop opens its page, with no extra caption', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
     expect(el.querySelectorAll('.intro-stop').length).toBe(3);
+    expect(el.textContent).not.toContain('min here');
     await click(el.querySelectorAll('.intro-stop')[2]);
-    expect(el.querySelectorAll('.intro-stop')[2].getAttribute('aria-pressed')).toBe('true');
+    expect(page(el)).toBe('/landmarks/philly/philadelphia-museum-of-art');
   });
 
-  it('Play: check in at a landmark shows the discovered toast; Remember opens a photo', async () => {
+  it('Play: check in at a landmark shows the discovered toast; a Remember photo opens its place', async () => {
     const { ALL_LANDMARKS } = await import('../data/regions');
     const hall = ALL_LANDMARKS.find((l) => l.id === 'independence-hall');
     Object.defineProperty(navigator, 'geolocation', {
@@ -107,7 +130,7 @@ describe('5 images intro', () => {
     expect(el.textContent).toContain('New place discovered!');
     await click(button(el, 'Next'));
     await click(el.querySelector('.intro-memory'));
-    expect(el.querySelector('.intro-memory-big')).toBeTruthy();
+    expect(page(el)).toBe('/landmarks/philly/independence-hall');
   });
 
   const play = async () => {

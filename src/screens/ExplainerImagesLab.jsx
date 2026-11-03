@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { nearestLandmarks } from '../lib/nearestLandmarks';
@@ -10,6 +11,9 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 // (swipe), the dots and Skip move between screens. It uses real Philly
 // landmarks and their own photos and facts. Nothing here is saved.
 const byId = (id) => ALL_LANDMARKS.find((l) => l.id === id);
+// Tapping a landmark anywhere in the intro opens its page (owner,
+// 2026-11-03): no descriptions or captions in between.
+const pagePath = (l) => `/landmarks/${l.regionId || l.region}/${l.id}`;
 
 const DISCOVER = ['independence-hall', 'liberty-bell-center', 'reading-terminal-market'];
 const PREPARED = 'independence-hall';
@@ -76,14 +80,14 @@ const Pin = () => (
 );
 
 function Discover() {
+  const navigate = useNavigate();
   const [saved, setSaved] = useState({});
-  const [open, setOpen] = useState(null);
   const places = DISCOVER.map(byId).filter(Boolean);
   return (
     <div className="intro-discover">
       {places.map((p, i) => (
-        <div key={p.id} className={`intro-place${i === 0 ? ' hero' : ''}${open === p.id ? ' open' : ''}`}>
-          <button type="button" className="intro-place-body" aria-expanded={open === p.id} onClick={() => setOpen(open === p.id ? null : p.id)}>
+        <div key={p.id} className={`intro-place${i === 0 ? ' hero' : ''}`}>
+          <button type="button" className="intro-place-body" aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
             <Photo landmark={p} />
             {i === 0 && <span className="intro-chip">Picked for you</span>}
             <span className="intro-place-label">
@@ -91,7 +95,6 @@ function Discover() {
                 <Pin /> Philadelphia
               </span>
               <span className="intro-place-name">{p.name}</span>
-              {open === p.id && <span className="intro-place-summary">{p.summary}</span>}
             </span>
           </button>
           <button
@@ -110,6 +113,7 @@ function Discover() {
 }
 
 function Prepared() {
+  const navigate = useNavigate();
   const place = byId(PREPARED);
   const [open, setOpen] = useState(null);
   const [saved, setSaved] = useState(false);
@@ -121,7 +125,9 @@ function Prepared() {
   ];
   return (
     <div className="intro-prepared">
-      <Photo landmark={place} className="intro-prepared-photo" />
+      <button type="button" className="intro-photo-link" aria-label={`Open ${place.name}`} onClick={() => navigate(pagePath(place))}>
+        <Photo landmark={place} className="intro-prepared-photo" />
+      </button>
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span>
@@ -179,7 +185,7 @@ function project(stops, w, h, pad) {
 
 function Plan() {
   const { units } = useUnits();
-  const [active, setActive] = useState(0);
+  const navigate = useNavigate();
   const stops = ROUTE.map(byId).filter(Boolean);
   if (stops.length < 2) return null;
   const pts = project(stops, 320, 150, 28);
@@ -196,8 +202,8 @@ function Plan() {
         ))}
         <polyline className="intro-map-route" points={pts.map((p) => `${p.x},${p.y}`).join(' ')} />
         {pts.map((p, i) => (
-          <g key={stops[i].id} className={`intro-map-stop${active === i ? ' on' : ''}`} onClick={() => setActive(i)}>
-            <circle cx={p.x} cy={p.y} r={active === i ? 13 : 10} />
+          <g key={stops[i].id} className="intro-map-stop" onClick={() => navigate(pagePath(stops[i]))}>
+            <circle cx={p.x} cy={p.y} r={11} />
             <text x={p.x} y={p.y + 4}>
               {i + 1}
             </text>
@@ -214,12 +220,11 @@ function Plan() {
           </span>
         </div>
         {stops.map((s, i) => (
-          <button key={s.id} type="button" className={`intro-stop${active === i ? ' on' : ''}`} aria-pressed={active === i} onClick={() => setActive(i)}>
+          <button key={s.id} type="button" className="intro-stop" aria-label={`Open ${s.name}`} onClick={() => navigate(pagePath(s))}>
             <span className="intro-stop-num">{i + 1}</span>
             <Photo landmark={s} className="intro-stop-photo" />
             <span className="intro-row-text">
               <span className="intro-row-title">{s.name}</span>
-              {active === i && <span className="intro-row-sub">About {s.typicalMinutes} min here</span>}
             </span>
             <Chevron />
           </button>
@@ -406,9 +411,8 @@ function TravelerTile({ t }) {
 }
 
 function Remember() {
+  const navigate = useNavigate();
   const places = MEMORIES.map(([id, photo]) => ({ place: byId(id), photo })).filter((m) => m.place);
-  const [big, setBig] = useState(null);
-  const shown = big && places.find((m) => m.place.id === big);
   return (
     <div className="intro-remember">
       <div className="intro-panel">
@@ -418,21 +422,14 @@ function Remember() {
           </span>
           <span className="intro-panel-sub">{places.length} places</span>
         </div>
-        {shown ? (
-          <button type="button" className="intro-memory-big" onClick={() => setBig(null)} aria-label="Close photo">
-            <Photo landmark={shown.place} index={shown.photo} />
-            <span className="intro-memory-caption">{shown.place.name}</span>
-          </button>
-        ) : (
-          <div className="intro-memories">
-            {places.map(({ place: p, photo }, i) => (
-              <button key={p.id} type="button" className={`intro-memory${i === 0 ? ' wide' : ''}`} aria-label={`Open ${p.name}`} onClick={() => setBig(p.id)}>
-                <Photo landmark={p} index={photo} />
-                <span className="intro-memory-caption">{p.name}</span>
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="intro-memories">
+          {places.map(({ place: p, photo }, i) => (
+            <button key={p.id} type="button" className={`intro-memory${i === 0 ? ' wide' : ''}`} aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
+              <Photo landmark={p} index={photo} />
+              <span className="intro-memory-caption">{p.name}</span>
+            </button>
+          ))}
+        </div>
       </div>
       <div className="intro-panel">
         <div className="intro-panel-head">

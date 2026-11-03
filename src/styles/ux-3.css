@@ -1798,3 +1798,13 @@ button.back-sticky,
   height: 56px;
   margin-bottom: 8px;
 }
+
+/* 5 images: the Arrive prepared photo opens its landmark. */
+.intro-photo-link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
