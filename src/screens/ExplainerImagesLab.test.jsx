@@ -139,7 +139,7 @@ describe('5 images intro', () => {
   it('Play: the family photo with New place discovered!, Explore together and Share the fun', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Play"]'));
-    expect(el.querySelector('.intro-play-hero').getAttribute('src')).toBe('/intro/play-colosseum.jpg');
+    expect(el.querySelector('.intro-play-hero').getAttribute('src')).toBe('/intro/play-times-square.jpg');
     expect(el.querySelector('.intro-toast').textContent).toContain('New place discovered!');
     expect(el.querySelectorAll('.intro-together-faces img').length).toBe(3);
     expect(el.querySelector('.intro-together').textContent).toContain('Explore together');
