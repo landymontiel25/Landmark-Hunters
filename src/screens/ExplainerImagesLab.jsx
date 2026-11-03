@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { nearestLandmarks } from '../lib/nearestLandmarks';
@@ -172,15 +175,28 @@ function Prepared() {
   );
 }
 
-// Lays the route's real coordinates onto a small map box.
-function project(stops, w, h, pad) {
-  const lats = stops.map((s) => s.lat);
-  const lngs = stops.map((s) => s.lng);
-  const [minLat, maxLat, minLng, maxLng] = [Math.min(...lats), Math.max(...lats), Math.min(...lngs), Math.max(...lngs)];
-  return stops.map((s) => ({
-    x: pad + ((s.lng - minLng) / (maxLng - minLng || 1)) * (w - pad * 2),
-    y: pad + ((maxLat - s.lat) / (maxLat - minLat || 1)) * (h - pad * 2),
-  }));
+// Plan Less's map: the real map (the Map tab's satellite with labels) with
+// the route's stops numbered and a dotted line between them, zoomed to fit.
+// It doesn't pan or zoom, so a swipe still moves between the five screens;
+// tapping a stop opens its page.
+const SATELLITE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+const LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
+const stopIcon = (n) =>
+  L.divIcon({ className: 'intro-map-pin', html: `<span>${n}</span>`, iconSize: [28, 28], iconAnchor: [14, 14] });
+const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
+
+function RouteMap({ stops, onOpen }) {
+  const line = stops.map((s) => [s.lat, s.lng]);
+  return (
+    <MapContainer className="intro-map" bounds={L.latLngBounds(line).pad(0.15)} attributionControl={false} {...STILL}>
+      <TileLayer url={SATELLITE} maxZoom={19} />
+      <TileLayer url={LABELS} maxZoom={19} zIndex={650} />
+      <Polyline positions={line} pathOptions={{ color: '#4d7fff', weight: 4, dashArray: '2 9', lineCap: 'round' }} />
+      {stops.map((s, i) => (
+        <Marker key={s.id} position={[s.lat, s.lng]} icon={stopIcon(i + 1)} title={s.name} eventHandlers={{ click: () => onOpen(s) }} />
+      ))}
+    </MapContainer>
+  );
 }
 
 function Plan() {
@@ -188,28 +204,11 @@ function Plan() {
   const navigate = useNavigate();
   const stops = ROUTE.map(byId).filter(Boolean);
   if (stops.length < 2) return null;
-  const pts = project(stops, 320, 150, 28);
   let total = 0;
   for (let i = 1; i < stops.length; i++) total += distanceMeters(stops[i - 1].lat, stops[i - 1].lng, stops[i].lat, stops[i].lng);
   return (
     <div className="intro-plan">
-      <svg className="intro-map" viewBox="0 0 320 150" role="img" aria-label="Route map">
-        {Array.from({ length: 12 }, (_, i) => (
-          <line key={`v${i}`} x1={i * 28} y1="0" x2={i * 28} y2="150" />
-        ))}
-        {Array.from({ length: 6 }, (_, i) => (
-          <line key={`h${i}`} x1="0" y1={i * 28} x2="320" y2={i * 28} />
-        ))}
-        <polyline className="intro-map-route" points={pts.map((p) => `${p.x},${p.y}`).join(' ')} />
-        {pts.map((p, i) => (
-          <g key={stops[i].id} className="intro-map-stop" onClick={() => navigate(pagePath(stops[i]))}>
-            <circle cx={p.x} cy={p.y} r={11} />
-            <text x={p.x} y={p.y + 4}>
-              {i + 1}
-            </text>
-          </g>
-        ))}
-      </svg>
+      <RouteMap stops={stops} onOpen={(st) => navigate(pagePath(st))} />
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span>
