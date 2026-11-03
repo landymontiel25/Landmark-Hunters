@@ -5,7 +5,6 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
-import { nearestLandmarks } from '../lib/nearestLandmarks';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 
 // Test tab: "5 images". The five-screen intro the owner drew (Discover,
@@ -21,7 +20,6 @@ const pagePath = (l) => `/landmarks/${l.regionId || l.region}/${l.id}`;
 const DISCOVER = ['independence-hall', 'liberty-bell-center', 'reading-terminal-market'];
 const PREPARED = 'independence-hall';
 const ROUTE = ['independence-hall', 'reading-terminal-market', 'philadelphia-museum-of-art'];
-const PLAY = 'independence-hall';
 // [landmark, which of its photos]
 const MEMORIES = [
   ['independence-hall', 0],
@@ -36,11 +34,6 @@ const TRAVELERS = [
   { name: 'Jordan & Ellis', place: 'Reading Terminal Market', sky: ['#7aa7ff', '#cfe0ff'], skin: '#e0ac69', shirt: '#e5603d', hair: '#5a3825', shape: 'arch', two: true },
   { name: 'Priya', place: 'Museum of Art steps', sky: ['#9b8cf6', '#e3dcff'], skin: '#c68642', shirt: '#55c987', hair: '#120c08', shape: 'columns' },
   { name: 'Sam', place: 'Liberty Bell Center', sky: ['#5fc7c0', '#d5f3f0'], skin: '#f1c27d', shirt: '#9b5cf6', hair: '#c9a24d', shape: 'bell' },
-];
-const FRIENDS = [
-  { initials: 'You', color: '#4d7fff' },
-  { initials: 'SR', color: '#9b5cf6' },
-  { initials: 'AK', color: '#55c987' },
 ];
 
 // Titles and captions word for word from the owner's five images.
@@ -233,36 +226,18 @@ function Plan() {
   );
 }
 
-// Within this many metres of a landmark counts as being at it.
-const AT_PLACE_M = 100;
+// Play (owner's mockup, 2026-11-03): a real family at a landmark (a public
+// domain National Park Service photo of a family selfie at Old Faithful),
+// with "New place discovered!" and the "Explore together" card over it.
+// Share the fun opens the phone's share sheet.
+const PLAY_PHOTO = '/intro/play-family.jpg';
+const PLAY_PLACE = '/intro/play-place.jpg';
+const PLAY_FACES = ['/intro/play-face-1.jpg', '/intro/play-face-2.jpg', '/intro/play-face-3.jpg'];
 
 function Play() {
-  const { units } = useUnits();
-  const [checkedIn, setCheckedIn] = useState(false);
   const [shared, setShared] = useState(false);
-  // Check in looks up where you are: you are at a landmark, or here is how
-  // far the closest ones are. { status: 'locating' | 'ready' | 'denied', list }
-  const [nearby, setNearby] = useState(null);
-  const here = nearby?.status === 'ready' && nearby.list[0]?.meters <= AT_PLACE_M ? nearby.list[0].landmark : null;
-  const place = here || byId(PLAY);
-  const checkIn = () => {
-    if (!navigator.geolocation) {
-      setNearby({ status: 'denied', list: [] });
-      return;
-    }
-    setNearby({ status: 'locating', list: [] });
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const list = nearestLandmarks({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 3);
-        setNearby({ status: 'ready', list });
-        if (list[0]?.meters <= AT_PLACE_M) setCheckedIn(true);
-      },
-      () => setNearby({ status: 'denied', list: [] }),
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
-    );
-  };
   const share = async () => {
-    const text = `I just checked in at ${place.name} on Landmark Hunters.`;
+    const text = 'Come explore with me on Landmark Hunters.';
     try {
       if (navigator.share) await navigator.share({ text });
       else await navigator.clipboard?.writeText(text);
@@ -273,67 +248,32 @@ function Play() {
   };
   return (
     <div className="intro-play">
-      <Photo landmark={place} index={2} className="intro-play-photo" />
-      {checkedIn && (
-        <div className="intro-toast" role="status">
-          <Photo landmark={place} className="intro-toast-photo" />
-          New place discovered!
-          <span className="intro-toast-check" aria-hidden="true">
-            {'✓'}
-          </span>
-        </div>
-      )}
-      <div className="intro-panel intro-play-panel">
-        <div className="intro-avatars" aria-label="You and 2 friends">
-          {FRIENDS.map((f) => (
-            <span key={f.initials} className="intro-avatar" style={{ background: f.color }}>
-              {f.initials}
-            </span>
+      <img className="intro-play-hero" src={PLAY_PHOTO} alt="A family taking a selfie together at Old Faithful" />
+      <div className="intro-toast">
+        <img className="intro-toast-photo" src={PLAY_PLACE} alt="" />
+        New place discovered!
+        <span className="intro-toast-check" aria-hidden="true">
+          {'\u2713'}
+        </span>
+      </div>
+      <div className="intro-together">
+        <div className="intro-together-faces" aria-hidden="true">
+          {PLAY_FACES.map((src) => (
+            <img key={src} src={src} alt="" />
           ))}
         </div>
-        <span className="intro-panel-title">Explore together</span>
-        <span className="intro-panel-sub">{place.name}</span>
-        <div className="intro-play-actions">
-          <button
-            type="button"
-            className={`btn ${checkedIn ? 'btn-ghost' : 'btn-primary'}`}
-            disabled={checkedIn || nearby?.status === 'locating'}
-            onClick={checkIn}
-          >
-            {checkedIn ? 'Checked in' : nearby?.status === 'locating' ? 'Finding you…' : '\u{1F4CD} Check in'}
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={share}>
-            {shared ? 'Shared' : 'Share the fun'}
-          </button>
-        </div>
-        {nearby?.status === 'denied' && (
-          <p className="intro-nearby" role="status">
-            Turn on location to see the landmark closest to you.
-          </p>
-        )}
-        {nearby?.status === 'ready' && (
-          <div className="intro-nearby" role="status">
-            {nearby.list.length === 0 ? (
-              <p>No landmarks found near you.</p>
-            ) : here ? (
-              <p>
-                You are at <strong>{here.name}</strong>.
-              </p>
-            ) : (
-              <>
-                <p>
-                  Closest landmark: <strong>{nearby.list[0].landmark.name}</strong>, {formatDistance(nearby.list[0].meters, units)} away.
-                </p>
-                {nearby.list.length > 1 && (
-                  <p className="intro-nearby-more">
-                    Then {nearby.list.slice(1).map((n) => `${n.landmark.name} (${formatDistance(n.meters, units)})`).join(', ')}.
-                  </p>
-                )}
-              </>
-            )}
-          </div>
-        )}
+        <span className="intro-together-title">Explore together</span>
+        <span className="intro-together-stars" aria-label="3 stars">
+          {'\u2605\u2605\u2605'}
+        </span>
+        <button type="button" className="intro-together-share" onClick={share}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" />
+          </svg>
+          {shared ? 'Shared' : 'Share the fun'}
+        </button>
       </div>
+      <span className="intro-photo-credit">Photo: Yellowstone National Park (NPS)</span>
     </div>
   );
 }
