@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ALL_LANDMARKS } from '../data/regions';
@@ -174,19 +174,46 @@ function Prepared() {
 // tapping a stop opens its page.
 const SATELLITE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 const LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
-const stopIcon = (n) =>
-  L.divIcon({ className: 'intro-map-pin', html: `<span>${n}</span>`, iconSize: [28, 28], iconAnchor: [14, 14] });
+// Each stop's pin (owner's mockup, 2026-11-03): a round photo of the
+// landmark with its number on top and its name under it. The photos are
+// saved in public/intro (route-1..3.jpg, from Wikimedia Commons, credited
+// under the map) so the pins never wait on a lookup.
+const ROUTE_PHOTOS = ['/intro/route-1.jpg', '/intro/route-2.jpg', '/intro/route-3.jpg'];
+const ROUTE_CREDIT = 'Photos: Rdsmith4, Bruce Andersen, ExNihilo01 (CC BY-SA), Wikimedia Commons';
+const escapeHtml = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+// Short map labels, so they fit at phone width.
+const ROUTE_LABELS = { 'reading-terminal-market': 'Reading Terminal', 'philadelphia-museum-of-art': 'Museum of Art' };
+// The photo sits above its stop's dot, or below it, alternating, so stops
+// close together (Independence Hall, Reading Terminal) don't cover each other.
+const PIN_W = 96;
+const PIN_H = 86;
+const stopIcon = (n, name, photo, above) =>
+  L.divIcon({
+    className: `intro-map-pin ${above ? 'above' : 'below'}`,
+    html: `<span class="intro-map-pin-photo"><img src="${photo}" alt="" /></span><span class="intro-map-pin-num">${n}</span><span class="intro-map-pin-name">${escapeHtml(name)}</span>`,
+    iconSize: [PIN_W, PIN_H],
+    iconAnchor: above ? [PIN_W / 2, PIN_H + 4] : [PIN_W / 2, -6],
+  });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
 function RouteMap({ stops, onOpen }) {
   const line = stops.map((s) => [s.lat, s.lng]);
   return (
-    <MapContainer className="intro-map" bounds={L.latLngBounds(line).pad(0.15)} attributionControl={false} {...STILL}>
+    <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [60, 24], paddingBottomRight: [60, 100] }} attributionControl={false} {...STILL}>
       <TileLayer url={SATELLITE} maxZoom={19} />
       <TileLayer url={LABELS} maxZoom={19} zIndex={650} />
       <Polyline positions={line} pathOptions={{ color: '#4d7fff', weight: 4, dashArray: '2 9', lineCap: 'round' }} />
+      {stops.map((s) => (
+        <CircleMarker key={`dot-${s.id}`} center={[s.lat, s.lng]} radius={5} pathOptions={{ color: '#fff', weight: 2, fillColor: '#2f6bff', fillOpacity: 1 }} />
+      ))}
       {stops.map((s, i) => (
-        <Marker key={s.id} position={[s.lat, s.lng]} icon={stopIcon(i + 1)} title={s.name} eventHandlers={{ click: () => onOpen(s) }} />
+        <Marker
+          key={s.id}
+          position={[s.lat, s.lng]}
+          icon={stopIcon(i + 1, ROUTE_LABELS[s.id] || s.name, ROUTE_PHOTOS[i], i % 2 === 1)}
+          title={s.name}
+          eventHandlers={{ click: () => onOpen(s) }}
+        />
       ))}
     </MapContainer>
   );
@@ -202,6 +229,7 @@ function Plan() {
   return (
     <div className="intro-plan">
       <RouteMap stops={stops} onOpen={(st) => navigate(pagePath(st))} />
+      <p className="intro-map-credit">{ROUTE_CREDIT}</p>
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span>
@@ -214,7 +242,7 @@ function Plan() {
         {stops.map((s, i) => (
           <button key={s.id} type="button" className="intro-stop" aria-label={`Open ${s.name}`} onClick={() => navigate(pagePath(s))}>
             <span className="intro-stop-num">{i + 1}</span>
-            <Photo landmark={s} className="intro-stop-photo" />
+            <img className="intro-stop-photo" src={ROUTE_PHOTOS[i]} alt="" />
             <span className="intro-row-text">
               <span className="intro-row-title">{s.name}</span>
             </span>
