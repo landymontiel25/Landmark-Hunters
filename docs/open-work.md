@@ -93,7 +93,7 @@ intro screens (`SAY.images` in `signupTutorialSteps.js`);
 `ExplainerImagesLab` takes `onDone` / `onSlide` so it can be a step.
 The 5 images show New York's Statue of Liberty, Central Park and Times
 Square (owner, 2026-11-03; `src/lib/introPlaces.js`), each with its Google
-photo (credited) or its catalog photo; Play uses the owner's Colosseum photo.
+photo (credited) or its catalog photo; Play uses the owner's Times Square photo.
 Nothing is saved. Still open: not the real signup flow yet.
 
 ## Test tab: "Planner tutorial" (2026-11-02, was "Ultimate tutorial")

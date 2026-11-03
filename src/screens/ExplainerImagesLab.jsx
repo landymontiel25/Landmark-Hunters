@@ -249,13 +249,13 @@ function Plan({ places, googleOf, coords }) {
 }
 
 // Play (owner's mockup, 2026-11-03): the owner's photo of friends taking a
-// selfie at the Colosseum, with "New place discovered!" (the Colosseum) and
+// selfie in Times Square, with "New place discovered!" (Times Square) and
 // the "Explore together" card (their three faces) over it.
 // Share the fun opens the phone's share sheet.
 // New file names whenever the photo changes, so no browser keeps the old one.
-const PLAY_PHOTO = '/intro/play-colosseum.jpg';
-const PLAY_PLACE = '/intro/play-colosseum-place.jpg';
-const PLAY_FACES = ['/intro/play-friend-1.jpg', '/intro/play-friend-2.jpg', '/intro/play-friend-3.jpg'];
+const PLAY_PHOTO = '/intro/play-times-square.jpg';
+const PLAY_PLACE = '/intro/play-ts-place.jpg';
+const PLAY_FACES = ['/intro/play-ts-friend-1.jpg', '/intro/play-ts-friend-2.jpg', '/intro/play-ts-friend-3.jpg'];
 
 function Play() {
   const [shared, setShared] = useState(false);
@@ -271,7 +271,7 @@ function Play() {
   };
   return (
     <div className="intro-play">
-      <img className="intro-play-hero" src={PLAY_PHOTO} alt="Friends taking a selfie together at the Colosseum" />
+      <img className="intro-play-hero" src={PLAY_PHOTO} alt="Friends taking a selfie together in Times Square" />
       <div className="intro-toast">
         <img className="intro-toast-photo" src={PLAY_PLACE} alt="" />
         New place discovered!
