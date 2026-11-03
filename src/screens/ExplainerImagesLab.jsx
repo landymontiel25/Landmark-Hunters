@@ -258,9 +258,10 @@ function Plan() {
 // selfie at the Colosseum, with "New place discovered!" (the Colosseum) and
 // the "Explore together" card (their three faces) over it.
 // Share the fun opens the phone's share sheet.
-const PLAY_PHOTO = '/intro/play-family.jpg';
-const PLAY_PLACE = '/intro/play-place.jpg';
-const PLAY_FACES = ['/intro/play-face-1.jpg', '/intro/play-face-2.jpg', '/intro/play-face-3.jpg'];
+// New file names whenever the photo changes, so no browser keeps the old one.
+const PLAY_PHOTO = '/intro/play-colosseum.jpg';
+const PLAY_PLACE = '/intro/play-colosseum-place.jpg';
+const PLAY_FACES = ['/intro/play-friend-1.jpg', '/intro/play-friend-2.jpg', '/intro/play-friend-3.jpg'];
 
 function Play() {
   const [shared, setShared] = useState(false);
