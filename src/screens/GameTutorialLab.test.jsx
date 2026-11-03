@@ -62,7 +62,7 @@ describe('Game tutorial (Test tab)', () => {
     const lines = [
       ['Discover', "Here's how the game works."],
       ['Arrive prepared', 'every place has its facts and photos'],
-      ['Plan less', 'I line them up into one route.'],
+      ['Plan Less', 'I line them up into one route.'],
       ['Play', 'check in. Each check-in earns points'],
       ['Remember', 'Every place you check in to stays here'],
     ];

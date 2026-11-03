@@ -10,7 +10,7 @@ import { SAY } from './signupTutorialSteps';
 // Test tab "Game tutorial" (owner, 2026-11-02): onboarding for the game
 // only, no planner or taste steps, with Mapr explaining every step: Hello,
 // Sign up, Verify email (Tutorial), the 5 images intro (Discover, Arrive
-// prepared, Plan less, Play, Remember; Mapr says SAY.images[screen] on
+// prepared, Plan Less, Play, Remember; Mapr says SAY.images[screen] on
 // each), First check-in (Tutorial 2's distance check, Mapr's
 // SAY.checkinNear), Your tabs, Done (Tutorial). Each step is the real piece
 // from where it came from. Nothing is saved.
