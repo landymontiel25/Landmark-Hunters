@@ -144,7 +144,7 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
 - Top Landmarks (owner, 2026-11-04) lists every landmark again, ordered by
   weighted Google rating (`ratedScore`), unrated places after, instead of
   the 14 that cleared a review bar. Google is asked about the 110 most
-  popular places per visit.
+  popular places per visit (no longer: see the one-page entry below).
 - Restaurants and malls (owner, 2026-11-05) are out of Top Landmarks: the
   Landmarks tab has a "Restaurants" tab and a "Malls" tab side by side under the list (2026-11-05)
   that open them, and the Map sheet's Top landmarks button leaves them to its moods.
@@ -154,10 +154,14 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   landmark selected text like Safari). `ux-3.css` sets `user-select: none`
   and no touch callout on the page; inputs, textareas and `.selectable`
   still select. Wrap anything people should be able to copy in `.selectable`.
-- The Landmarks list pages 25 at a time (owner, 2026-11-05; `PAGE_SIZE` in
-  `LandmarkSelection.jsx`), with Previous / Page N of M / Next at the bottom.
-  It replaced the render-it-all-progressively loader. Back from a landmark
-  returns to the same page.
+- The Landmarks list is one page again (owner, 2026-11-05): paging (#788) was
+  still slow. It is a windowed list (`@tanstack/react-virtual`,
+  `useWindowVirtualizer` in `LandmarkSelection.jsx`): only the rows near the
+  screen are mounted, so ~2,500 landmarks open at once. Top Landmarks no
+  longer waits for Google ratings; each row loads its own as it scrolls into
+  view. Back from a landmark scrolls to the row you left. Tests that need
+  every row mounted set `window.innerHeight` very tall and stub `offsetHeight`
+  (jsdom lays nothing out); see `regressionRender.test.jsx`.
 - The rank lives only in comments; "Top Landmarks" still sorts by Google
   rating. Sorting Miami by the owner's rank needs a `rank` field and a
   sort change.

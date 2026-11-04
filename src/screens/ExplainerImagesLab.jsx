@@ -239,6 +239,8 @@ function Plan({ places, coords }) {
             <Photo landmark={s} className="intro-stop-photo" credit={false} />
             <span className="intro-row-text">
               <span className="intro-row-title">{s.name}</span>
+              {/* Distance to the next stop (owner, 2026-11-05); the same straight-line measure as the total. */}
+              {stops[i + 1] && <span className="intro-row-sub">{formatDistance(distanceMeters(s.lat, s.lng, stops[i + 1].lat, stops[i + 1].lng), units)} to next stop</span>}
             </span>
             <Chevron />
           </button>

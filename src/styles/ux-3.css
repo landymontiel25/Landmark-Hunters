@@ -1890,3 +1890,11 @@ textarea,
 img {
   -webkit-user-drag: none;
 }
+
+/* The Landmarks list mounts only the rows near the screen (a windowed list),
+   so its rows are measured as they show; skipping off-screen layout would
+   only blur those measurements. */
+.lm-vrow .landmark-row {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+}

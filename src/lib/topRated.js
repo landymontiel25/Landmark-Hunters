@@ -26,18 +26,6 @@ export function ratedScore(l, googleById, ratings) {
 // (maprRank/mallsLast.js). Earlier versions ordered by rating alone
 // (2026-10-29: only the ~14 over a review bar; 2026-11-04: all by rating).
 export const visitsOf = (visits, l) => Number(visits?.[`${l.regionId || l.region}/${l.id}`]) || 0;
-export const TOP_CANDIDATES = 110;
-
-// The places worth asking Google about: the most popular TOP_CANDIDATES by the
-// catalog's own popularity, airports aside. popular(l) is the caller's
-// popularity score.
-export function topCandidates(landmarks, popular) {
-  return landmarks
-    .filter((l) => l && !(l.categories || []).includes('airports'))
-    .sort((a, b) => popular(b) - popular(a) || a.name.localeCompare(b.name))
-    .slice(0, TOP_CANDIDATES);
-}
-
 // landmarks: every place in the list. visits: { "<region>/<id>": people }. google: { [landmarkId]: { google:
 // { rating, count } } }. ratings: the app's own { [landmarkId]: { avg, count } }.
 export function topLandmarksOrder(landmarks, google, popular, ratings = {}, visits = {}) {
