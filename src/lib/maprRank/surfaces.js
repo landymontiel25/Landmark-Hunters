@@ -5,6 +5,7 @@ import { FEATURES } from './config.js';
 import { haversineKm } from './distanceDecay.js';
 import { scorePicks, planExploration } from './rank.js';
 import { assignSlots } from './exploration.js';
+import { mallsLast } from './mallsLast.js';
 
 // One entry point for every Mapr surface that ranks places (CLAUDE.md: a
 // Mapr change goes to all of them). The Map sheet's main picks go through
@@ -52,7 +53,8 @@ export function rankPlaces({ places = [], uid = null, profile = null, myReviews 
   const scored = scorePicks({ usual: candidates, uid, myReviews, models, visitedIds, features });
   // Ties keep the incoming order (callers pass a meaningful default order).
   const order = new Map(candidates.map((c, i) => [keyOf(c), i]));
-  const ranked = scored.usual.sort((a, b) => b.finalScore - a.finalScore || (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0) || order.get(keyOf(a)) - order.get(keyOf(b)));
+  // Miami malls come last on every surface (mallsLast.js), however they score.
+  const ranked = mallsLast(scored.usual.sort((a, b) => b.finalScore - a.finalScore || (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0) || order.get(keyOf(a)) - order.get(keyOf(b))));
   let exploration = null;
   if (count != null && uid) {
     try {
@@ -66,6 +68,7 @@ export function rankPlaces({ places = [], uid = null, profile = null, myReviews 
       scored.meta.fallbacks.push('exploration-error');
     }
   }
+  if (exploration) exploration = { ...exploration, explore: mallsLast(exploration.explore) };
   const picks = count == null ? ranked : exploration ? mixExploration(ranked, exploration, count, rng) : ranked.slice(0, count);
   return { ranked, picks: withSetTelemetry(picks, scored.meta, exploration), meta: { ...scored.meta, exploration } };
 }

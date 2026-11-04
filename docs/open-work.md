@@ -136,6 +136,15 @@ The Kampong, Miami Beach Botanical Garden, Margaret Pace Park, David T.
 Kennedy Park, Alice Wainwright Park, The Underline). `landmarks.test.js`
 fails if the count drifts. Aventura Mall and Bal Harbour Shops came with
 store lists (`research/malls/stores-miami-top100.json`). Still open:
+- Malls last (owner, 2026-11-04): Miami malls (Dolphin Mall, Aventura Mall,
+  Bal Harbour Shops, Brickell City Centre, ...) sort below every other place
+  on every Mapr surface and the Top Landmarks sort, through
+  `src/lib/maprRank/mallsLast.js`. Other regions are untouched; add a region
+  id to `MALLS_LAST_REGIONS` to extend it.
+- Top Landmarks (owner, 2026-11-04) lists every landmark again, ordered by
+  weighted Google rating (`ratedScore`), unrated places after, instead of
+  the 14 that cleared a review bar. Google is asked about the 110 most
+  popular places per visit.
 - The rank lives only in comments; "Top Landmarks" still sorts by Google
   rating. Sorting Miami by the owner's rank needs a `rank` field and a
   sort change.

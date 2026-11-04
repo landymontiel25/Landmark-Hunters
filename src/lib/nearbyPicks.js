@@ -8,6 +8,7 @@ import { formatDistance } from './formatDistance';
 import { placeKinds, kindSimilarity, tasteKindAffinity, kindBoost } from './placeKinds.js';
 import { scorePicks, planExploration } from './maprRank/rank.js';
 import { assignSlots } from './maprRank/exploration.js';
+import { mallsLast } from './maprRank/mallsLast.js';
 import { FEATURES } from './maprRank/config.js';
 
 // "Picked for you right now": nearby picks ranked on-device from the saved
@@ -526,6 +527,9 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
   }
   const usualKeys = new Set(usual.map(pickKey));
   const scored = scorePicks({ usual, fresh: fresh.filter((p) => !usualKeys.has(pickKey(p))), uid, myReviews, models, visitedIds, features });
+  // Miami malls come last in both queues (maprRank/mallsLast.js).
+  scored.usual = mallsLast(scored.usual);
+  scored.fresh = mallsLast(scored.fresh);
   let exploration = null;
   try {
     exploration = uid
@@ -549,6 +553,7 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
     exploration = null;
     scored.meta.fallbacks.push('exploration-error');
   }
+  if (exploration) exploration = { ...exploration, explore: mallsLast(exploration.explore) };
   return {
     usual: scored.usual,
     fresh: scored.fresh,
@@ -776,9 +781,11 @@ export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, 
   // does not beat a 4.8 from a hundred (src/lib/topRated.js).
   const avg = (l) =>
     ratings?.[l.id]?.count ? (wanted ? Number(ratings[l.id].avg) || 0 : weightedStars(Number(ratings[l.id].avg) || 0, ratings[l.id].count)) : -1;
-  return pool
+  const sorted = pool
     .filter((l) => !wanted || (l.categories || []).some((c) => wanted.has(c)))
-    .sort((a, b) => (sort === 'rated' ? avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters)
+    .sort((a, b) => (sort === 'rated' ? avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters);
+  // Top landmarks: Miami malls come last (maprRank/mallsLast.js).
+  return (wanted ? sorted : mallsLast(sorted))
     .slice(0, limit)
     .map((l) => toPick(l, ratings?.[l.id]?.count ? { rating: ratings[l.id] } : {}));
 }

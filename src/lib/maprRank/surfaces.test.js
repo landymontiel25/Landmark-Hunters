@@ -160,3 +160,17 @@ describe('closed places', () => {
     expect(ranked.map((p) => p.id)).toEqual(['open']);
   });
 });
+
+describe('Miami malls come last (owner, 2026-11-04)', () => {
+  const place = (id, extra = {}) => ({ id, name: id, regionId: 'miami', categories: ['shopping'], lat: 25.77, lng: -80.19, ...extra });
+  it('sinks a Miami mall below every other place in rankPlaces', () => {
+    const places = [place('dolphin-mall', { mall: true }), place('lincoln-road'), place('bayside')];
+    const { ranked } = rankPlaces({ places, uid: 'u1', scoreOf: (p) => (p.id === 'dolphin-mall' ? 50 : 1) });
+    expect(ranked.map((p) => p.id).pop()).toBe('dolphin-mall');
+  });
+  it('keeps a mall outside Miami where it ranks', () => {
+    const places = [place('kop', { mall: true, regionId: 'philly' }), place('a', { regionId: 'philly' })];
+    const { ranked } = rankPlaces({ places, uid: 'u1', scoreOf: (p) => (p.id === 'kop' ? 50 : 1) });
+    expect(ranked[0].id).toBe('kop');
+  });
+});
