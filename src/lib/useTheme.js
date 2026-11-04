@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'lh-theme';
+// Light is the default for everyone (owner, 2026-11-04). New key: the old
+// 'lh-theme' held 'dark' for anyone who had opened Settings (it saved the
+// old default), so reading it would keep most people in dark.
+const STORAGE_KEY = 'lh-theme-v2';
 
-// The app's stylesheet is dark unless [data-theme='light'] is set, so dark is
-// the default until the traveler picks light in Settings.
 export function getInitialTheme() {
   try {
-    return localStorage.getItem(STORAGE_KEY) === 'light' ? 'light' : 'dark';
+    return localStorage.getItem(STORAGE_KEY) === 'dark' ? 'dark' : 'light';
   } catch {
-    return 'dark';
+    return 'light';
   }
 }
 

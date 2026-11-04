@@ -21,7 +21,7 @@ const SLIDES = [
   { id: 'discover', title: 'Discover', line: 'Discover places worth visiting.' },
   { id: 'prepared', title: 'Arrive prepared', line: 'Arrive prepared with what to know before you go.' },
   { id: 'plan', title: 'Plan Less', line: 'Explore with a clear route that saves you time.' },
-  { id: 'play', title: 'Play', line: 'Play and share the fun with family and friends.' },
+  { id: 'play', title: 'Play', line: 'Compete and share the fun with family and friends.' },
   { id: 'remember', title: 'Remember', line: 'Remember your favorite places and memories organized and in one place.' },
 ];
 
@@ -249,12 +249,11 @@ function Plan({ places, coords }) {
 }
 
 // Play (owner's mockup, 2026-11-03): the owner's photo of friends taking a
-// selfie in Times Square, with "New place discovered!" (Times Square) and
-// the "Explore together" card (their three faces) over it.
+// selfie in Times Square, with the "Explore together" card (their three
+// faces) over it. The "New place discovered!" toast came off (owner, 2026-11-04).
 // Share the fun opens the phone's share sheet.
 // New file names whenever the photo changes, so no browser keeps the old one.
 const PLAY_PHOTO = '/intro/play-times-square.jpg';
-const PLAY_PLACE = '/intro/play-ts-place.jpg';
 const PLAY_FACES = ['/intro/play-ts-friend-1.jpg', '/intro/play-ts-friend-2.jpg', '/intro/play-ts-friend-3.jpg'];
 
 function Play() {
@@ -272,13 +271,6 @@ function Play() {
   return (
     <div className="intro-play">
       <img className="intro-play-hero" src={PLAY_PHOTO} alt="Friends taking a selfie together in Times Square" />
-      <div className="intro-toast">
-        <img className="intro-toast-photo" src={PLAY_PLACE} alt="" />
-        New place discovered!
-        <span className="intro-toast-check" aria-hidden="true">
-          {'\u2713'}
-        </span>
-      </div>
       <div className="intro-together">
         <div className="intro-together-faces" aria-hidden="true">
           {PLAY_FACES.map((src) => (
