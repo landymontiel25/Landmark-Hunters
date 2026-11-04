@@ -150,6 +150,10 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   them, and the Map sheet's Top landmarks button leaves them to its moods.
   `isRestaurantOrMall` in `src/lib/topRated.js`. Versailles and Joe's Stone
   Crab count as restaurants. Applies in every region.
+- The Landmarks list pages 25 at a time (owner, 2026-11-05; `PAGE_SIZE` in
+  `LandmarkSelection.jsx`), with Previous / Page N of M / Next at the bottom.
+  It replaced the render-it-all-progressively loader. Back from a landmark
+  returns to the same page.
 - The rank lives only in comments; "Top Landmarks" still sorts by Google
   rating. Sorting Miami by the owner's rank needs a `rank` field and a
   sort change.

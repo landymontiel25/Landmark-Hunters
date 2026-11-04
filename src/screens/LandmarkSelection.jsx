@@ -181,20 +181,9 @@ function CityDropdown({ value, onChange }) {
   );
 }
 
-// Mounting ~870 rows in one go blocks the first paint for seconds on a phone.
-// Show a screenful-plus immediately, then fill in the rest a chunk per frame
-// so the screen appears fast and stays scrollable while it completes.
-const FIRST_ROWS = 30;
-const ROWS_PER_FRAME = 120;
-function useProgressiveCount(total, initial = FIRST_ROWS) {
-  const [count, setCount] = useState(Math.max(FIRST_ROWS, initial));
-  useEffect(() => {
-    if (count >= total) return undefined;
-    const id = requestAnimationFrame(() => setCount((c) => c + ROWS_PER_FRAME));
-    return () => cancelAnimationFrame(id);
-  }, [count, total]);
-  return count;
-}
+// The list shows PAGE_SIZE landmarks at a time with Previous / Next at the
+// bottom (owner, 2026-11-05), instead of mounting ~870 rows in one go.
+const PAGE_SIZE = 25;
 
 // One row of the landmark list. Memoized: with ~870 rows, re-rendering all of
 // them on every keystroke elsewhere, selection tick or GPS update froze phones.
@@ -650,8 +639,8 @@ export default function LandmarkSelection() {
   const stableToggle = useCallback((landmark) => latest.current.toggleLandmark(landmark.id, landmark.regionId), []);
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
   const stableInfo = useCallback((landmark) => {
-    const { cityFilter: city, shownCount: count } = latest.current;
-    saveListReturn('landmarks', { y: window.scrollY, city, count, picked: cityPickedByHand.current });
+    const { cityFilter: city, shownPage: pageNo } = latest.current;
+    saveListReturn('landmarks', { y: window.scrollY, city, page: pageNo, picked: cityPickedByHand.current });
     latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
   }, []);
 
@@ -693,19 +682,32 @@ export default function LandmarkSelection() {
     }
     return [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])];
   }, [landmarks, smartLandmarks, nearMeSearch, coords, sortBy, search, activeCategories, showMore]);
-  const shownCount = useProgressiveCount(allRows.length, returned?.count);
+  // Page 1 again whenever the search, sort, city or category changes.
+  const pageKey = [sortBy, search, scopeKey, activeCategories.join(','), checkInOrder, foundOnly, !!drawnShape].join('|');
+  const [page, setPage] = useState(Math.max(0, Number(returned?.page) || 0));
+  const [seenPageKey, setSeenPageKey] = useState(pageKey);
+  if (seenPageKey !== pageKey) {
+    setSeenPageKey(pageKey);
+    setPage(0);
+  }
+  const pageCount = Math.max(1, Math.ceil(allRows.length / PAGE_SIZE));
+  const shownPage = Math.min(page, pageCount - 1);
+  const goToPage = (n) => {
+    setPage(n);
+    window.scrollTo({ top: 0 });
+  };
   latest.current.cityFilter = scopeKey;
-  latest.current.shownCount = shownCount;
+  latest.current.shownPage = shownPage;
   const scrolledBack = useRef(false);
   // The retry loop must outlive the re-renders that follow (rows still
   // filling in, custom landmarks, models); cancelling it on each dependency
   // change cut it to a single scrollTo. Cancel only when leaving the screen.
   const cancelScrollBack = useRef(null);
   useEffect(() => {
-    if (!returned || scrolledBack.current || !allRows.length || shownCount < Math.min(returned.count || 0, allRows.length)) return;
+    if (!returned || scrolledBack.current || !allRows.length) return;
     scrolledBack.current = true;
     cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
-  }, [returned, shownCount, allRows.length]);
+  }, [returned, allRows.length]);
   useEffect(() => () => cancelScrollBack.current?.(), []);
 
   // Total across every city; and the count within the currently filtered city.
@@ -906,7 +908,7 @@ export default function LandmarkSelection() {
       {topLoading && <SkeletonList count={6} label="Finding the top landmarks" />}
 
       <div>
-        {allRows.slice(0, shownCount).map((l) => {
+        {allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE).map((l) => {
           if (l === MORE_TAB)
             return (
               <button
@@ -949,6 +951,20 @@ export default function LandmarkSelection() {
           <p className="empty-state">No landmarks match these filters.</p>
         )}
       </div>
+
+      {pageCount > 1 && (
+        <nav className="lm-pager" aria-label="Landmark pages" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, margin: '16px 0 8px' }}>
+          <button type="button" className="btn btn-ghost btn-sm" disabled={shownPage === 0} onClick={() => goToPage(shownPage - 1)}>
+            {'\u2039'} Previous
+          </button>
+          <span aria-live="polite" style={{ fontWeight: 600 }}>
+            Page {shownPage + 1} of {pageCount}
+          </span>
+          <button type="button" className="btn btn-ghost btn-sm" disabled={shownPage >= pageCount - 1} onClick={() => goToPage(shownPage + 1)}>
+            Next {'\u203A'}
+          </button>
+        </nav>
+      )}
 
       <div className="action-bar-spacer" />
       <div className="fixed-action-bar">
