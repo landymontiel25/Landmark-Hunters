@@ -14,6 +14,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useFriends } from '../lib/FriendsContext';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
 import { rankPlaces } from '../lib/maprRank/surfaces.js';
+import { mallsLast } from '../lib/maprRank/mallsLast.js';
 import { kindBoost, tasteKindAffinity } from '../lib/placeKinds.js';
 import { regionsWithin } from '../lib/nearbyPicks';
 import { effectiveTagScores } from '../lib/tagScores';
@@ -607,13 +608,13 @@ export default function LandmarkSelection() {
           a.name.localeCompare(b.name)
       );
     }
-    // Top Landmarks: the real top places only (src/lib/topRated.js). Signed
-    // out there is no Google data to rank by, so every place is listed with
-    // the most popular first.
+    // Top Landmarks: every place, best rating first (src/lib/topRated.js).
+    // Signed out there is no Google data to rank by, so every place is
+    // listed with the most popular first.
     const popular = (l) => popularScore(l, ratings);
-    if (!user) return [...filtered].sort((a, b) => popular(b) - popular(a) || a.name.localeCompare(b.name));
+    if (!user) return mallsLast([...filtered].sort((a, b) => popular(b) - popular(a) || a.name.localeCompare(b.name)));
     if (!topReady) return [];
-    return topLandmarksOrder(topCands, topSnap.current.data, popular);
+    return topLandmarksOrder(filtered, topSnap.current.data, popular, ratings);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- topSnap is read once topReady/topSig say it is current
   }, [filteredLandmarks, topCands, topReady, topSig, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
 

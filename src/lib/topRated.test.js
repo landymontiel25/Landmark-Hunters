@@ -15,48 +15,48 @@ describe('Top Rated order', () => {
   });
 });
 
-import { topScore, topReviewBar, topCandidates, topLandmarksOrder, TOP_CANDIDATES } from './topRated';
+import { topCandidates, topLandmarksOrder, TOP_CANDIDATES } from './topRated';
 
-// Owner, 2026-10-29: Pinecrest Gardens was top 5 and Gesu Catholic Church
-// was on the list; rank by rating and review volume, and drop thin places.
+// Owner, 2026-11-04: Top Landmarks lists every landmark, best weighted rating
+// first (not only the few over a review bar), with Miami malls last.
 describe('Top Landmarks', () => {
-  const lm = (id, name = id, categories = []) => ({ id, name, categories });
+  const lm = (id, name = id, extra = {}) => ({ id, name, categories: [], ...extra });
   const g = (rating, count) => ({ google: { rating, count } });
   const popular = () => 0;
+  const ids = (a) => a.map((l) => l.id);
 
-  it('scores rating times the log of the review count', () => {
-    expect(topScore(4.8, 8290)).toBeGreaterThan(topScore(4.6, 2000));
-    expect(topScore(4.6, 2000)).toBeGreaterThan(topScore(4.9, 300));
+  it('lists every landmark, rated ones best first, unrated ones after', () => {
+    const all = [lm('none'), lm('gesu'), lm('vizcaya'), lm('mound')];
+    const google = { gesu: g(4.4, 1306), vizcaya: g(4.7, 12000), mound: g(5.0, 2) };
+    expect(ids(topLandmarksOrder(all, google, popular))).toEqual(['vizcaya', 'gesu', 'mound', 'none']);
   });
 
-  it('puts the 8,000-review places above Pinecrest Gardens', () => {
-    const cands = [lm('pinecrest'), lm('southpointe'), lm('fairchild'), lm('vizcaya')];
-    const google = { pinecrest: g(4.6, 3200), southpointe: g(4.8, 8290), fairchild: g(4.8, 6102), vizcaya: g(4.7, 12000) };
-    expect(topLandmarksOrder(cands, google, popular).map((l) => l.id)).toEqual(['vizcaya', 'southpointe', 'fairchild', 'pinecrest']);
+  it("uses the app's own ratings where Google has none, and popularity among the unrated", () => {
+    const all = [lm('a'), lm('b'), lm('own')];
+    const pop = (l) => (l.id === 'b' ? 5 : 0);
+    expect(ids(topLandmarksOrder(all, {}, pop, { own: { avg: 4.9, count: 50 } }))).toEqual(['own', 'b', 'a']);
   });
 
-  it('drops a place under the review bar, and the bar is a quarter of the biggest count within 200 to 2,000', () => {
-    const cands = [lm('big'), lm('gesu')];
-    expect(topLandmarksOrder(cands, { big: g(4.8, 8290), gesu: g(4.8, 1306) }, popular).map((l) => l.id)).toEqual(['big']);
-    expect(topReviewBar(8290)).toBe(2000);
-    expect(topReviewBar(600)).toBe(200);
-    expect(topReviewBar(0)).toBe(200);
-    // A small city keeps its best places.
-    expect(topLandmarksOrder([lm('a'), lm('b')], { a: g(4.7, 400), b: g(4.5, 120) }, popular).map((l) => l.id)).toEqual(['a']);
+  it('puts Miami malls last, even with the best score or no Google data', () => {
+    const mall = lm('dolphin-mall', 'Dolphin Mall', { regionId: 'miami', mall: true });
+    const all = [mall, lm('vizcaya'), lm('fairchild')];
+    const google = { 'dolphin-mall': g(4.9, 90000), vizcaya: g(4.7, 12000), fairchild: g(4.5, 6000) };
+    expect(ids(topLandmarksOrder(all, google, popular))).toEqual(['vizcaya', 'fairchild', 'dolphin-mall']);
+    expect(ids(topLandmarksOrder([mall, lm('x')], {}, (l) => (l.id === 'dolphin-mall' ? 9 : 0)))).toEqual(['x', 'dolphin-mall']);
   });
 
-  it('keeps the popularity order when Google answered for nobody', () => {
-    const cands = [lm('x'), lm('y')];
-    expect(topLandmarksOrder(cands, {}, popular)).toBe(cands);
+  it('leaves malls in other regions where they score', () => {
+    const mall = lm('kop', 'King of Prussia', { regionId: 'philly', mall: true });
+    const google = { kop: g(4.9, 90000), a: g(4.5, 60000) };
+    expect(ids(topLandmarksOrder([lm('a'), mall], google, popular))).toEqual(['kop', 'a']);
   });
 
-  it('asks about at most 40 popular places and never an airport', () => {
-    const many = Array.from({ length: 60 }, (_, i) => lm(`p${i}`, `P${String(i).padStart(2, '0')}`));
-    many.push(lm('mia', 'Miami International Airport', ['airports']));
-    const pop = (l) => (l.id === 'mia' ? 100 : Number(l.id.slice(1)) || 0);
-    const cands = topCandidates(many, pop);
+  it('asks Google about the most popular places, airports aside, up to the cap', () => {
+    const many = Array.from({ length: TOP_CANDIDATES + 20 }, (_, i) => lm(`p${i}`));
+    const pop = (l) => 1000 - Number(l.id.slice(1));
+    const cands = topCandidates([lm('airport', 'Airport', { categories: ['airports'] }), ...many], pop);
     expect(cands).toHaveLength(TOP_CANDIDATES);
-    expect(cands.some((l) => l.id === 'mia')).toBe(false);
-    expect(cands[0].id).toBe('p59');
+    expect(ids(cands)).not.toContain('airport');
+    expect(cands[0].id).toBe('p0');
   });
 });
