@@ -607,7 +607,7 @@ export default function LandmarkSelection() {
     const popular = (l) => popularScore(l, ratings);
     if (!user) return mallsLast([...filtered].sort((a, b) => popular(b) - popular(a) || a.name.localeCompare(b.name)));
     if (!topReady) return [];
-    return topLandmarksOrder(filtered, topSnap.current.data, popular, ratings);
+    return topLandmarksOrder(filtered, topSnap.current.data, popular, ratings, maprModels?.signals?.visits);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- topSnap is read once topReady/topSig say it is current
   }, [filteredLandmarks, topCands, topReady, topSig, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
 

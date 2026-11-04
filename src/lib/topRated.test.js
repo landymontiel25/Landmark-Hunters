@@ -15,7 +15,7 @@ describe('Top Rated order', () => {
   });
 });
 
-import { topCandidates, topLandmarksOrder, isRestaurantOrMall, TOP_CANDIDATES } from './topRated';
+import { topCandidates, topLandmarksOrder, isRestaurantOrMall, visitsOf, TOP_CANDIDATES } from './topRated';
 
 // Owner, 2026-11-04: Top Landmarks lists every landmark, best weighted rating
 // first (not only the few over a review bar), with Miami malls last.
@@ -69,5 +69,30 @@ describe('restaurants and malls', () => {
     expect(isRestaurantOrMall({ categories: ['shopping'] })).toBe(false);
     expect(isRestaurantOrMall({ categories: ['history-culture'] })).toBe(false);
     expect(isRestaurantOrMall(null)).toBe(false);
+  });
+});
+
+// Owner, 2026-11-05: Top Landmarks go by most visited, rating breaks ties.
+describe('Top Landmarks by visits', () => {
+  const lm = (id, extra = {}) => ({ id, name: id, regionId: 'miami', categories: [], ...extra });
+  const g = (rating, count) => ({ google: { rating, count } });
+  const ids = (a) => a.map((l) => l.id);
+  it('puts the most visited first, whatever the rating', () => {
+    const all = [lm('loved'), lm('busy'), lm('quiet')];
+    const google = { loved: g(4.9, 5000), busy: g(4.2, 800), quiet: g(4.6, 900) };
+    const visits = { 'miami/busy': 40, 'miami/quiet': 3 };
+    expect(ids(topLandmarksOrder(all, google, () => 0, {}, visits))).toEqual(['busy', 'quiet', 'loved']);
+  });
+  it('breaks ties by rating, so it is the rating order until people check in', () => {
+    const all = [lm('a'), lm('b')];
+    expect(ids(topLandmarksOrder(all, { a: g(4.0, 500), b: g(4.8, 500) }, () => 0, {}, {}))).toEqual(['b', 'a']);
+  });
+  it('still puts Miami malls last', () => {
+    const all = [lm('dolphin-mall', { mall: true }), lm('x')];
+    expect(ids(topLandmarksOrder(all, {}, () => 0, {}, { 'miami/dolphin-mall': 900 }))).toEqual(['x', 'dolphin-mall']);
+  });
+  it('reads a place by region and id', () => {
+    expect(visitsOf({ 'miami/a': 7 }, lm('a'))).toBe(7);
+    expect(visitsOf(null, lm('a'))).toBe(0);
   });
 });

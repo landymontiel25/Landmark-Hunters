@@ -426,3 +426,14 @@ describe('Top landmarks mood skips restaurants and malls', () => {
     expect(moodPlaces({ moodId: 'eat', pool, limit: 10 }).map((p) => p.id)).toEqual(['diner']);
   });
 });
+
+describe('Top landmarks mood, highest rated, goes by most visited', () => {
+  const pool = [
+    { id: 'a', regionId: 'miami', categories: ['history-culture'], distanceMeters: 100 },
+    { id: 'b', regionId: 'miami', categories: ['history-culture'], distanceMeters: 200 },
+  ];
+  it('puts the more visited place first, then by rating where visits tie', () => {
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', visits: { 'miami/b': 5 }, limit: 10 }).map((p) => p.id)).toEqual(['b', 'a']);
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', ratings: { b: { avg: 4.9, count: 90 } }, limit: 10 }).map((p) => p.id)).toEqual(['b', 'a']);
+  });
+});

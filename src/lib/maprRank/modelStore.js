@@ -109,7 +109,7 @@ export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), re
   };
   const [ncf, signals, user, neighbors, community, ...sims] = await Promise.all([
     loadNcf(),
-    cachedDoc('signals', [MODEL_COLLECTION, 'signals'], (d) => ({ trending: d.trending || {} }), opts),
+    cachedDoc('signals', [MODEL_COLLECTION, 'signals'], (d) => ({ trending: d.trending || {}, visits: d.visits || {} }), opts),
     cachedDoc(`user:${uid}`, [USER_MODEL_COLLECTION, uid], (d) => ({ byVersion: d.byVersion && typeof d.byVersion === 'object' ? d.byVersion : {}, stagnating: d.stagnating === true }), opts),
     cachedDoc(`neighbors:${uid}`, [NEIGHBORS_COLLECTION, uid], neighborsFromDoc, opts),
     loadCommunity(uid, regions, { nowMs, fetchCommunity }),

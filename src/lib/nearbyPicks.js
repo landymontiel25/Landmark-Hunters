@@ -1,4 +1,4 @@
-import { weightedStars, isRestaurantOrMall } from './topRated';
+import { weightedStars, isRestaurantOrMall, visitsOf } from './topRated';
 import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
@@ -773,7 +773,7 @@ export const MOOD_SORTS = [
 // Places for one mood, sorted closest first or by the public average rating
 // (ratings: RatingsContext's { [landmarkId]: { avg, count } }). Unrated
 // places sort after rated ones, closest first.
-export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, limit = 10, moods = MOODS }) {
+export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, visits = {}, limit = 10, moods = MOODS }) {
   const mood = moodId === TOP_MOOD.id ? TOP_MOOD : moods.find((m) => m.id === moodId);
   if (!mood) return [];
   const wanted = mood.categories ? new Set(mood.categories) : null;
@@ -783,7 +783,9 @@ export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, 
     ratings?.[l.id]?.count ? (wanted ? Number(ratings[l.id].avg) || 0 : weightedStars(Number(ratings[l.id].avg) || 0, ratings[l.id].count)) : -1;
   const sorted = pool
     .filter((l) => (wanted ? (l.categories || []).some((c) => wanted.has(c)) : !isRestaurantOrMall(l)))
-    .sort((a, b) => (sort === 'rated' ? avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters);
+    // Top landmarks, highest rated: most visited first (owner, 2026-11-05),
+    // then the weighted stars; the moods keep rating order.
+    .sort((a, b) => (sort === 'rated' ? (wanted ? 0 : visitsOf(visits, b) - visitsOf(visits, a)) || avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters);
   // Top landmarks: Miami malls come last (maprRank/mallsLast.js).
   return (wanted ? sorted : mallsLast(sorted))
     .slice(0, limit)
