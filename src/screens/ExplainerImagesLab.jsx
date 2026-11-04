@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Polyline, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { distanceMeters } from '../lib/geo';
@@ -178,34 +178,32 @@ const LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/W
 // Each stop's pin (owner's mockup, 2026-11-03): a round photo of the
 // landmark with its number on top and its (short) name under it.
 const escapeHtml = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-// The photo sits beside its stop's dot, right then left, alternating, so
-// stops close together (Times Square, Central Park) don't cover each other.
+// The photo is centered on its stop, so the dotted route runs right into
+// each landmark (owner, 2026-11-04); the name sits under it.
 const PIN_W = 96;
 const PIN_H = 86;
-const stopIcon = (n, name, photo, left) =>
+const stopIcon = (n, name, photo) =>
   L.divIcon({
-    className: `intro-map-pin ${left ? 'left' : 'right'}`,
+    className: 'intro-map-pin',
     html: `<span class="intro-map-pin-photo"><img src="${photo}" alt="" /></span><span class="intro-map-pin-num">${n}</span><span class="intro-map-pin-name">${escapeHtml(name)}</span>`,
     iconSize: [PIN_W, PIN_H],
-    iconAnchor: left ? [PIN_W + 2, 30] : [-2, 30],
+    // The photo's center (46px photo, 3px border) on the stop.
+    iconAnchor: [PIN_W / 2, 26],
   });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
 function RouteMap({ stops, onOpen }) {
   const line = stops.map((s) => [s.lat, s.lng]);
   return (
-    <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [104, 46], paddingBottomRight: [104, 60] }} zoomSnap={0.1} attributionControl={false} {...STILL}>
+    <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }} zoomSnap={0.1} attributionControl={false} {...STILL}>
       <TileLayer url={SATELLITE} maxZoom={19} />
       <TileLayer url={LABELS} maxZoom={19} zIndex={650} />
       <Polyline positions={line} pathOptions={{ color: '#4d7fff', weight: 4, dashArray: '2 9', lineCap: 'round' }} />
-      {stops.map((s) => (
-        <CircleMarker key={`dot-${s.id}`} center={[s.lat, s.lng]} radius={5} pathOptions={{ color: '#fff', weight: 2, fillColor: '#2f6bff', fillOpacity: 1 }} />
-      ))}
       {stops.map((s, i) => (
         <Marker
           key={s.id}
           position={[s.lat, s.lng]}
-          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s), i % 2 === 1)}
+          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s))}
           title={s.name}
           eventHandlers={{ click: () => onOpen(s) }}
         />
