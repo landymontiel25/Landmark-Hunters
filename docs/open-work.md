@@ -145,6 +145,11 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   weighted Google rating (`ratedScore`), unrated places after, instead of
   the 14 that cleared a review bar. Google is asked about the 110 most
   popular places per visit.
+- Restaurants and malls (owner, 2026-11-05) are out of Top Landmarks: the
+  Landmarks tab has a "Restaurants and Malls" tab under the list that opens
+  them, and the Map sheet's Top landmarks button leaves them to its moods.
+  `isRestaurantOrMall` in `src/lib/topRated.js`. Versailles and Joe's Stone
+  Crab count as restaurants. Applies in every region.
 - The rank lives only in comments; "Top Landmarks" still sorts by Google
   rating. Sorting Miami by the owner's rank needs a `rank` field and a
   sort change.

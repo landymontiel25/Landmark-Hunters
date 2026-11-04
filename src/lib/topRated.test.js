@@ -15,7 +15,7 @@ describe('Top Rated order', () => {
   });
 });
 
-import { topCandidates, topLandmarksOrder, TOP_CANDIDATES } from './topRated';
+import { topCandidates, topLandmarksOrder, isRestaurantOrMall, TOP_CANDIDATES } from './topRated';
 
 // Owner, 2026-11-04: Top Landmarks lists every landmark, best weighted rating
 // first (not only the few over a review bar), with Miami malls last.
@@ -58,5 +58,16 @@ describe('Top Landmarks', () => {
     expect(cands).toHaveLength(TOP_CANDIDATES);
     expect(ids(cands)).not.toContain('airport');
     expect(cands[0].id).toBe('p0');
+  });
+});
+
+// Owner, 2026-11-05: restaurants and malls are not top landmarks.
+describe('restaurants and malls', () => {
+  it('counts food places and malls, nothing else', () => {
+    expect(isRestaurantOrMall({ categories: ['food'] })).toBe(true);
+    expect(isRestaurantOrMall({ categories: ['shopping'], mall: true })).toBe(true);
+    expect(isRestaurantOrMall({ categories: ['shopping'] })).toBe(false);
+    expect(isRestaurantOrMall({ categories: ['history-culture'] })).toBe(false);
+    expect(isRestaurantOrMall(null)).toBe(false);
   });
 });

@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadLandmarkRatings } from '../lib/landmarkRatings';
-import { topCandidates, topLandmarksOrder } from '../lib/topRated';
+import { topCandidates, topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
 import { LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT } from '../lib/landmarksSort';
 import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
@@ -51,6 +51,7 @@ const DAY = 24 * 60 * 60 * 1000;
 
 // Marks where AI-understood matches start in the landmark list.
 const SMART_DIVIDER = { id: '__smart__' };
+const MORE_TAB = { id: '__restaurants-malls__' };
 
 const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 
@@ -676,13 +677,22 @@ export default function LandmarkSelection() {
   // With Near Me on, Mapr's extra matches join the typed ones in one list,
   // closest first, instead of sitting in their own block below.
   const nearMeSearch = sortBy === 'nearMe' && !!coords && !!search.trim();
+  const [showMore, setShowMore] = useState(false);
+  const moreCount = useMemo(() => landmarks.filter(isRestaurantOrMall).length, [landmarks]);
   const allRows = useMemo(() => {
     if (nearMeSearch && smartLandmarks.length) {
       const d = (l) => distanceMeters(coords.lat, coords.lng, l.lat, l.lng);
       return [...landmarks, ...smartLandmarks].sort((a, b) => d(a) - d(b));
     }
+    // Top Landmarks: restaurants and malls sit behind a tab under the list
+    // (a category chip or a search lists them inline).
+    if (sortBy === 'rated' && !search.trim() && !activeCategories.length && landmarks.some(isRestaurantOrMall)) {
+      const main = landmarks.filter((l) => !isRestaurantOrMall(l));
+      const more = landmarks.filter(isRestaurantOrMall);
+      return [...main, MORE_TAB, ...(showMore ? more : [])];
+    }
     return [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])];
-  }, [landmarks, smartLandmarks, nearMeSearch, coords]);
+  }, [landmarks, smartLandmarks, nearMeSearch, coords, sortBy, search, activeCategories, showMore]);
   const shownCount = useProgressiveCount(allRows.length, returned?.count);
   latest.current.cityFilter = scopeKey;
   latest.current.shownCount = shownCount;
@@ -897,6 +907,19 @@ export default function LandmarkSelection() {
 
       <div>
         {allRows.slice(0, shownCount).map((l) => {
+          if (l === MORE_TAB)
+            return (
+              <button
+                key={l.id}
+                type="button"
+                className="btn btn-ghost btn-block"
+                aria-expanded={showMore}
+                onClick={() => setShowMore((v) => !v)}
+                style={{ margin: '12px 0' }}
+              >
+                {'\u{1F37D}\u{FE0F}\u{1F6CD}\u{FE0F}'} Restaurants and Malls ({moreCount}) {showMore ? '\u25B2' : '\u25BC'}
+              </button>
+            );
           if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
           const photo = myPhotos[l.id]?.[0];
           const rating = ratings[l.id];

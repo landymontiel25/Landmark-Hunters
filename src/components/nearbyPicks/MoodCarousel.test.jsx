@@ -54,7 +54,7 @@ describe('MoodCarousel', () => {
     expect(el.querySelector('.mpp-section-title').textContent).toBe('Discover top landmarks');
   });
 
-  it('Top landmarks lists the best places of every kind, highest rated first', async () => {
+  it('Top landmarks lists the best places, highest rated first, without restaurants', async () => {
     const mk = (id, categories, d) => ({ id, region: 'miami', regionId: 'miami', name: id, lat: 25.76, lng: -80.19, categories, distanceMeters: d, image: null });
     const pool = [mk('near-cafe', ['food'], 100), mk('park', ['parks-nature'], 300), mk('museum', ['history-culture'], 500)];
     const ratings = { museum: { avg: 4.8, count: 200 }, park: { avg: 5, count: 1 } };
@@ -62,7 +62,8 @@ describe('MoodCarousel', () => {
     const names = [...el.querySelectorAll('.mpp-card, .mpp-row')].map((c) => c.textContent);
     expect(names[0]).toContain('museum');
     expect(names.some((n) => n.includes('park'))).toBe(true);
-    expect(names.some((n) => n.includes('near-cafe'))).toBe(true);
+    // Owner, 2026-11-05: restaurants and malls are not top landmarks.
+    expect(names.some((n) => n.includes('near-cafe'))).toBe(false);
   });
 
   it('switches between carousel and list, and remembers the choice', async () => {

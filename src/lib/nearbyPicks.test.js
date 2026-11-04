@@ -412,3 +412,17 @@ describe('places told at sign-up (profile.onboardingPlaces)', () => {
     expect(lovedSeed({}, undefined, null)).toBeNull();
   });
 });
+
+// Owner, 2026-11-05: the Map sheet's Top landmarks button leaves restaurants
+// and malls to its Something to eat and Some shopping moods.
+describe('Top landmarks mood skips restaurants and malls', () => {
+  const pool = [
+    { id: 'a', categories: ['history-culture'], distanceMeters: 300 },
+    { id: 'diner', categories: ['food'], distanceMeters: 100 },
+    { id: 'mall', categories: ['shopping'], mall: true, distanceMeters: 50 },
+  ];
+  it('lists only the landmarks for top, but keeps the eat mood', () => {
+    expect(moodPlaces({ moodId: 'top', pool, limit: 10 }).map((p) => p.id)).toEqual(['a']);
+    expect(moodPlaces({ moodId: 'eat', pool, limit: 10 }).map((p) => p.id)).toEqual(['diner']);
+  });
+});
