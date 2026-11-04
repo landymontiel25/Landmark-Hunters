@@ -1844,3 +1844,25 @@ button.back-sticky,
   background: none;
   cursor: pointer;
 }
+
+/* The Google rating chip ("⭐ 4.7 (49,747 reviews) Google Maps") was wider
+   than the text column on a phone and got cut off. It may wrap now: "Google
+   Maps" and the review count each stay whole and drop to the next line
+   (owner, 2026-11-05). */
+.ratings-inline {
+  max-width: 100%;
+}
+.ratings-chip-google {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 4px;
+  max-width: 100%;
+  white-space: normal;
+  border-radius: 14px;
+}
+.ratings-chip-google .ratings-count,
+.ratings-chip-google .gmp-attribution,
+.ratings-chip-google .gmp-logo {
+  white-space: nowrap;
+}
