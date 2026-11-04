@@ -150,6 +150,10 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   that open them, and the Map sheet's Top landmarks button leaves them to its moods.
   `isRestaurantOrMall` in `src/lib/topRated.js`. Versailles and Joe's Stone
   Crab count as restaurants. Applies in every region.
+- Text selection is off app-wide (owner, 2026-11-05, TestFlight: holding a
+  landmark selected text like Safari). `ux-3.css` sets `user-select: none`
+  and no touch callout on the page; inputs, textareas and `.selectable`
+  still select. Wrap anything people should be able to copy in `.selectable`.
 - The Landmarks list pages 25 at a time (owner, 2026-11-05; `PAGE_SIZE` in
   `LandmarkSelection.jsx`), with Previous / Page N of M / Next at the bottom.
   It replaced the render-it-all-progressively loader. Back from a landmark

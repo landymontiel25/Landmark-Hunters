@@ -1866,3 +1866,27 @@ button.back-sticky,
 .ratings-chip-google .gmp-logo {
   white-space: nowrap;
 }
+
+/* An app, not a web page (owner, 2026-11-05): holding a finger on a landmark
+   or any other text must not start Safari's text selection, magnifier or
+   copy / look-up popup, and a long press on a photo must not offer
+   "Save image". Typing fields still select; wrap text people should be able
+   to copy in .selectable. */
+html,
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+input,
+textarea,
+[contenteditable='true'],
+.selectable,
+.selectable * {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+img {
+  -webkit-user-drag: none;
+}
