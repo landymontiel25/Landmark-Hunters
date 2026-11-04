@@ -168,25 +168,25 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     );
   }
 
-  it('every Villanova landmark renders in the default (city-filtered) view', async () => {
+  it('every Villanova landmark renders in the default (city-filtered) view, 25 per page', async () => {
     const el = await renderIt({});
-    // Rows fill in a chunk per frame (so ~870 rows don't block first paint).
-    const initial = el.querySelectorAll('.landmark-row').length;
-    expect(initial).toBeGreaterThan(0);
-    expect(initial).toBeLessThan(800);
-    // Keep waiting until the row count stops growing, so the catalog can keep growing.
-    let last = -1;
-    for (let i = 0; i < 400; i++) {
-      const now = el.querySelectorAll('.landmark-row').length;
-      if (now > 800 && now === last) break;
-      last = now;
-      await act(async () => {
-        await new Promise((r) => setTimeout(r, 30));
-      });
+    const rows = () => el.querySelectorAll('.landmark-row').length;
+    expect(rows()).toBe(25);
+    expect(el.querySelector('.lm-pager').textContent).toMatch(/Page 1 of \d+/);
+    // Page through the whole list: every page renders, none past 25 rows.
+    let total = 0;
+    let text = '';
+    for (let i = 0; i < 200; i++) {
+      expect(rows()).toBeLessThanOrEqual(25);
+      total += rows();
+      text += el.textContent;
+      const next = [...el.querySelectorAll('.lm-pager button')].find((b) => b.textContent.includes('Next'));
+      if (next.disabled) break;
+      await act(async () => next.click());
     }
-    expect(el.querySelectorAll('.landmark-row').length).toBeGreaterThan(800);
-    expect(el.textContent).toContain('Corr Hall Arch');
-  }, 40000);
+    expect(total).toBeGreaterThan(800);
+    expect(text).toContain('Corr Hall Arch');
+  }, 60000);
 
   it('the check-in arrow button cycles: off, up (not checked in first), down (checked in first)', async () => {
     const el = await renderIt({}, { 'corr-hall-arch': true });
