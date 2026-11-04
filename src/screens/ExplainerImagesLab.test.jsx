@@ -128,6 +128,8 @@ describe('5 images intro', () => {
     await click(el.querySelector('[role="tab"][aria-label="Plan Less"]'));
     expect(el.querySelectorAll('.intro-stop').length).toBe(3);
     expect(el.textContent).not.toContain('min here');
+    // Two stops have a next stop; the last one has none.
+    expect((el.textContent.match(/to next stop/g) || []).length).toBe(2);
     await click(el.querySelectorAll('.intro-stop')[2]);
     expect(page(el)).toBe('/landmarks/nyc/central-park');
   });

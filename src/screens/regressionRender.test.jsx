@@ -8,7 +8,7 @@
 // tab was showing ErrorBoundary's "Something went wrong" because a
 // component read an array field (trip.landmarkIds) that isn't guaranteed
 // to exist on every stored document.
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 import { createRoot } from 'react-dom/client';
@@ -116,6 +116,21 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
   });
 });
 
+// jsdom lays nothing out: every element is 0px tall, which a windowed list
+// reads as "a million rows fit". Give each windowed row a phone-like height.
+const realHeight = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight');
+beforeEach(() => {
+  Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+    configurable: true,
+    get() {
+      return this.classList?.contains('lm-vrow') ? 190 : 0;
+    },
+  });
+});
+afterEach(() => {
+  Object.defineProperty(HTMLElement.prototype, 'offsetHeight', realHeight);
+});
+
 describe('LandmarkSelection renders the real Villanova catalog (some entries ship without every optional field)', () => {
   async function renderIt(tripOverrides, claimedMap = {}) {
     vi.resetModules();
@@ -168,25 +183,27 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     );
   }
 
-  it('every Villanova landmark renders in the default (city-filtered) view, 25 per page', async () => {
-    const el = await renderIt({});
-    const rows = () => el.querySelectorAll('.landmark-row').length;
-    expect(rows()).toBe(25);
-    expect(el.querySelector('.lm-pager').textContent).toMatch(/Page 1 of \d+/);
-    // Page through the whole list: every page renders, none past 25 rows.
-    let total = 0;
-    let text = '';
-    for (let i = 0; i < 200; i++) {
-      expect(rows()).toBeLessThanOrEqual(25);
-      total += rows();
-      text += el.textContent;
-      const next = [...el.querySelectorAll('.lm-pager button')].find((b) => b.textContent.includes('Next'));
-      if (next.disabled) break;
-      await act(async () => next.click());
+  it('every Villanova landmark renders in the default (city-filtered) view', async () => {
+    // The list is windowed (only the rows near the screen mount); a tall
+    // window makes it mount all of them, which is what this checks: no entry
+    // missing an optional field breaks a row.
+    const savedHeight = window.innerHeight;
+    window.innerHeight = 1000000;
+    try {
+      const el = await renderIt({});
+      expect(el.querySelectorAll('.landmark-row').length).toBeGreaterThan(800);
+      expect(el.textContent).toContain('Corr Hall Arch');
+    } finally {
+      window.innerHeight = savedHeight;
     }
-    expect(total).toBeGreaterThan(800);
-    expect(text).toContain('Corr Hall Arch');
   }, 60000);
+
+  it('mounts only the rows near the screen at a phone height, not all of them', async () => {
+    const el = await renderIt({});
+    const rows = el.querySelectorAll('.landmark-row').length;
+    expect(rows).toBeGreaterThan(0);
+    expect(rows).toBeLessThan(40);
+  });
 
   it('the check-in arrow button cycles: off, up (not checked in first), down (checked in first)', async () => {
     const el = await renderIt({}, { 'corr-hall-arch': true });

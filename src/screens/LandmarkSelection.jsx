@@ -1,6 +1,6 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { loadLandmarkRatings } from '../lib/landmarkRatings';
-import { topCandidates, topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
 import { isMallPlace } from '../lib/malls';
 import { LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT } from '../lib/landmarksSort';
 import { isCommunityFind } from '../lib/communityLabels';
@@ -15,7 +15,6 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useFriends } from '../lib/FriendsContext';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
 import { rankPlaces } from '../lib/maprRank/surfaces.js';
-import { mallsLast } from '../lib/maprRank/mallsLast.js';
 import { kindBoost, tasteKindAffinity } from '../lib/placeKinds.js';
 import { regionsWithin } from '../lib/nearbyPicks';
 import { effectiveTagScores } from '../lib/tagScores';
@@ -42,7 +41,6 @@ import { useSmartSearch, useSmartCitySearch, landmarkSearchText } from '../lib/s
 import SmartSearchLabel from '../components/SmartSearchLabel';
 import { usePersistentState, useSessionState } from '../lib/usePersistentState';
 import ErrorNotice from '../components/ErrorNotice';
-import { SkeletonList } from '../components/Skeleton';
 
 // A null sort (every sort tab toggled off) is a real choice worth keeping.
 const NEVER_EMPTY = () => false;
@@ -72,10 +70,6 @@ const SHOW_ADD_LANDMARK = false;
 // mid-word on an iPhone, owner 2026-11-05).
 const ROW_THUMB = typeof window !== 'undefined' && window.innerWidth <= 430 ? 72 : 92;
 
-// Top Landmarks: src/lib/topRated.js. Google is asked about the TOP_CANDIDATES
-// most popular places once per visit; the list waits for the answers (or this
-// long) and then keeps its order, so rows don't jump around while you look.
-const TOP_WAIT_MS = 6000;
 
 // "For Me": how likely you are to actually go -- the same learned per-city
 // category scores Mapr Picks ranks by (-100..100, from your ratings, with
@@ -184,9 +178,12 @@ function CityDropdown({ value, onChange }) {
   );
 }
 
-// The list shows PAGE_SIZE landmarks at a time with Previous / Next at the
-// bottom (owner, 2026-11-05), instead of mounting ~870 rows in one go.
-const PAGE_SIZE = 25;
+// The whole list is one page, but only the rows on (or just off) the screen
+// are mounted (owner, 2026-11-05: paging was still slow, and mounting ~870
+// rows at once blocked the first paint). Heights are measured as rows show;
+// ROW_ESTIMATE only sizes the scroll bar until then.
+const ROW_ESTIMATE = 190;
+const ROW_OVERSCAN = 8;
 
 // One row of the landmark list. Memoized: with ~870 rows, re-rendering all of
 // them on every keystroke elsewhere, selection tick or GPS update froze phones.
@@ -417,7 +414,6 @@ export default function LandmarkSelection() {
   const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;
   const sortBy = savedSort === 'nearMe' ? 'nearMe' : savedSort === 'forMe' ? 'forMe' : 'rated';
   // Google ratings fetched for the Top Landmarks sort, this visit only.
-  const [googleById, setGoogleById] = useState({});
 
   // Picking a city by hand (the dropdown) or GPS auto-pick already call
   // setMapFocus(id) themselves, right where they happen -- there used to
@@ -514,29 +510,6 @@ export default function LandmarkSelection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editedLandmarks, normalizedCustomLandmarks, scope, drawnShape, activeCategories, foundOnly, hasFound, isFound, search]);
 
-  // Top Landmarks: the places worth asking Google about, and whether the
-  // answers are in. Nothing is shown until they are (or TOP_WAIT_MS passes),
-  // then the order is fixed for this list, so it never reshuffles or fills in
-  // under your thumb.
-  const topWanted = sortBy === 'rated' && !!user && !search.trim();
-  const topCands = useMemo(
-    () => (topWanted ? topCandidates(filteredLandmarks.filter((l) => l.regionId), (l) => popularScore(l, ratings)) : []),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [topWanted, filteredLandmarks]
-  );
-  const topSig = topCands.map((l) => l.id).join('|');
-  const [topTimedOut, setTopTimedOut] = useState(null);
-  const topAnswered = topCands.every((l) => googleById[l.id] !== undefined);
-  const topReady = !topWanted || topAnswered || topTimedOut === topSig;
-  useEffect(() => {
-    if (!topWanted || topReady) return undefined;
-    const id = setTimeout(() => setTopTimedOut(topSig), TOP_WAIT_MS);
-    return () => clearTimeout(id);
-  }, [topWanted, topReady, topSig]);
-  const topSnap = useRef({ sig: null, data: {} });
-  if (topWanted && topReady && topSnap.current.sig !== topSig) topSnap.current = { sig: topSig, data: googleById };
-  const topLoading = topWanted && !topReady;
-
   const sortedLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
     const filtered = filteredLandmarks;
@@ -601,15 +574,13 @@ export default function LandmarkSelection() {
           a.name.localeCompare(b.name)
       );
     }
-    // Top Landmarks: every place, best rating first (src/lib/topRated.js).
-    // Signed out there is no Google data to rank by, so every place is
-    // listed with the most popular first.
+    // Top Landmarks: every place, most visited first (src/lib/topRated.js),
+    // then by rating and popularity. Nothing here waits on Google: the order
+    // is ready at once, and each row loads its own Google rating as it
+    // scrolls into view.
     const popular = (l) => popularScore(l, ratings);
-    if (!user) return mallsLast([...filtered].sort((a, b) => popular(b) - popular(a) || a.name.localeCompare(b.name)));
-    if (!topReady) return [];
-    return topLandmarksOrder(filtered, topSnap.current.data, popular, ratings, maprModels?.signals?.visits);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- topSnap is read once topReady/topSig say it is current
-  }, [filteredLandmarks, topCands, topReady, topSig, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
+    return topLandmarksOrder(filtered, {}, popular, ratings, maprModels?.signals?.visits);
+  }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
 
   // Checked in vs not: an up arrow puts the places you haven't checked into
   // first, a down arrow puts the checked-in ones first, no arrow leaves the
@@ -622,19 +593,6 @@ export default function LandmarkSelection() {
     return [...sortedLandmarks].sort((a, b) => (done(a) - done(b)) * dir);
   }, [sortedLandmarks, checkInOrder, claimedMap, search]);
 
-  // Top Landmarks: fetch Google ratings for the candidates (rows reuse them
-  // instead of fetching again). Signed out the endpoint answers nothing, so
-  // nothing is asked.
-  const ratedAsked = useRef(new Set());
-  useEffect(() => {
-    if (!topWanted) return;
-    for (const l of topCands) {
-      if (ratedAsked.current.has(l.id)) continue;
-      ratedAsked.current.add(l.id);
-      loadLandmarkRatings(l).then((sources) => setGoogleById((cur) => ({ ...cur, [l.id]: sources })));
-    }
-  }, [topWanted, topCands]);
-
   // Row callbacks keep one identity for the life of the screen so the memoized
   // rows (867 of them) skip re-rendering when something unrelated changes.
   const latest = useRef({});
@@ -642,8 +600,8 @@ export default function LandmarkSelection() {
   const stableToggle = useCallback((landmark) => latest.current.toggleLandmark(landmark.id, landmark.regionId), []);
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
   const stableInfo = useCallback((landmark) => {
-    const { cityFilter: city, shownPage: pageNo } = latest.current;
-    saveListReturn('landmarks', { y: window.scrollY, city, page: pageNo, picked: cityPickedByHand.current });
+    const { cityFilter: city, firstIndex: index } = latest.current;
+    saveListReturn('landmarks', { y: window.scrollY, city, index, picked: cityPickedByHand.current });
     latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
   }, []);
 
@@ -690,22 +648,33 @@ export default function LandmarkSelection() {
     }
     return [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])];
   }, [landmarks, smartLandmarks, nearMeSearch, coords, sortBy, search, activeCategories, showRestaurants, showMalls]);
-  // Page 1 again whenever the search, sort, city or category changes.
-  const pageKey = [sortBy, search, scopeKey, activeCategories.join(','), checkInOrder, foundOnly, !!drawnShape].join('|');
-  const [page, setPage] = useState(Math.max(0, Number(returned?.page) || 0));
-  const [seenPageKey, setSeenPageKey] = useState(pageKey);
-  if (seenPageKey !== pageKey) {
-    setSeenPageKey(pageKey);
-    setPage(0);
-  }
-  const pageCount = Math.max(1, Math.ceil(allRows.length / PAGE_SIZE));
-  const shownPage = Math.min(page, pageCount - 1);
-  const goToPage = (n) => {
-    setPage(n);
-    window.scrollTo({ top: 0 });
-  };
+  // One page, windowed: where the list starts on the page, so the window
+  // virtualizer can measure rows from there.
+  const listRef = useRef(null);
+  const [listTop, setListTop] = useState(0);
+  useLayoutEffect(() => {
+    const top = listRef.current ? Math.round(listRef.current.getBoundingClientRect().top + window.scrollY) : 0;
+    if (top !== listTop) setListTop(top);
+  });
+  const rowKey = (l) => (l === MORE_TAB || l === SMART_DIVIDER ? l.id : `${l.regionId}-${l.id}`);
+  const rowVirtualizer = useWindowVirtualizer({
+    count: allRows.length,
+    estimateSize: () => ROW_ESTIMATE,
+    overscan: ROW_OVERSCAN,
+    scrollMargin: listTop,
+    getItemKey: (i) => (allRows[i] ? rowKey(allRows[i]) : i),
+  });
+  const virtualItems = rowVirtualizer.getVirtualItems();
   latest.current.cityFilter = scopeKey;
-  latest.current.shownPage = shownPage;
+  latest.current.firstIndex = (virtualItems.find((v) => v.end > rowVirtualizer.scrollOffset) || virtualItems[0])?.index ?? 0;
+  // A new search, sort, city or category starts the list at its top again.
+  const filterKey = [sortBy, search, scopeKey, activeCategories.join(','), checkInOrder, foundOnly, !!drawnShape].join('|');
+  const seenFilterKey = useRef(filterKey);
+  useEffect(() => {
+    if (seenFilterKey.current === filterKey) return;
+    seenFilterKey.current = filterKey;
+    if (window.scrollY > listTop) window.scrollTo({ top: listTop });
+  }, [filterKey, listTop]);
   const scrolledBack = useRef(false);
   // The retry loop must outlive the re-renders that follow (rows still
   // filling in, custom landmarks, models); cancelling it on each dependency
@@ -714,19 +683,64 @@ export default function LandmarkSelection() {
   useEffect(() => {
     if (!returned || scrolledBack.current || !allRows.length) return;
     scrolledBack.current = true;
-    cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
-  }, [returned, allRows.length]);
+    // Back from a landmark: scroll to the row you left (its index), which the
+    // virtualizer keeps correcting as the rows above it are measured; fall
+    // back to the saved pixel offset.
+    if (Number.isFinite(returned.index) && returned.index > 0) rowVirtualizer.scrollToIndex(Math.min(returned.index, allRows.length - 1), { align: 'start' });
+    else cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
+  }, [returned, allRows.length, rowVirtualizer]);
   useEffect(() => () => cancelScrollBack.current?.(), []);
 
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
   const scopeCount = scope.regionIds ? scope.regionIds.reduce((n, r) => n + getRegionSelection(r).length, 0) : selectedCount;
 
+  const renderRow = (l) => {
+    if (l === MORE_TAB)
+      return (
+        <div key={l.id} style={{ display: 'flex', gap: 8, margin: '12px 0' }}>
+          {moreCounts.restaurants > 0 && (
+            <button type="button" className="btn btn-ghost" style={{ flex: 1, minWidth: 0, padding: '8px 6px', fontSize: '0.82rem', whiteSpace: 'nowrap' }} aria-expanded={showRestaurants} onClick={() => setShowRestaurants((v) => !v)}>
+              {'\u{1F37D}\u{FE0F}'} Restaurants ({moreCounts.restaurants}) {showRestaurants ? '\u25B2' : '\u25BC'}
+            </button>
+          )}
+          {moreCounts.malls > 0 && (
+            <button type="button" className="btn btn-ghost" style={{ flex: 1, minWidth: 0, padding: '8px 6px', fontSize: '0.82rem', whiteSpace: 'nowrap' }} aria-expanded={showMalls} onClick={() => setShowMalls((v) => !v)}>
+              {'\u{1F6CD}\u{FE0F}'} Malls ({moreCounts.malls}) {showMalls ? '\u25B2' : '\u25BC'}
+            </button>
+          )}
+        </div>
+      );
+    if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
+    const photo = myPhotos[l.id]?.[0];
+    const rating = ratings[l.id];
+    return (
+      <LandmarkRow
+        key={`${l.regionId}-${l.id}`}
+        l={l}
+        isSelected={getRegionSelection(l.regionId).includes(l.id)}
+        photo={photo}
+        ratingAvg={rating?.count > 0 ? rating.avg : null}
+        ratingCount={rating?.count || 0}
+        ratingSources={null}
+        distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
+        user={user}
+        firebaseEnabled={firebaseEnabled}
+        claimedMap={claimedMap}
+        checkingIn={checkingIn}
+        onToggle={stableToggle}
+        onCheckIn={stableCheckIn}
+        onOpenPhoto={setLightbox}
+        onInfo={stableInfo}
+      />
+    );
+  };
+
   return (
     <div>
       <div className="places-title-row">
         <h1 className="screen-title">
-          <span>{'\u{1F4CD}'}</span> Landmarks{topLoading ? '' : ` (${landmarks.length})`}
+          <span>{'\u{1F4CD}'}</span> Landmarks ({landmarks.length})
         </h1>
         {/* Your check-ins, opened on Grid (photos first). */}
         {user && (
@@ -913,68 +927,29 @@ export default function LandmarkSelection() {
         />
       )}
 
-      {topLoading && <SkeletonList count={6} label="Finding the top landmarks" />}
-
       <div>
-        {allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE).map((l) => {
-          if (l === MORE_TAB)
+        <div ref={listRef} style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
+          {virtualItems.map((v) => {
+            const l = allRows[v.index];
+            if (!l) return null;
             return (
-              <div key={l.id} style={{ display: 'flex', gap: 8, margin: '12px 0' }}>
-                {moreCounts.restaurants > 0 && (
-                  <button type="button" className="btn btn-ghost" style={{ flex: 1, minWidth: 0, padding: '8px 6px', fontSize: '0.82rem', whiteSpace: 'nowrap' }} aria-expanded={showRestaurants} onClick={() => setShowRestaurants((v) => !v)}>
-                    {'\u{1F37D}\u{FE0F}'} Restaurants ({moreCounts.restaurants}) {showRestaurants ? '\u25B2' : '\u25BC'}
-                  </button>
-                )}
-                {moreCounts.malls > 0 && (
-                  <button type="button" className="btn btn-ghost" style={{ flex: 1, minWidth: 0, padding: '8px 6px', fontSize: '0.82rem', whiteSpace: 'nowrap' }} aria-expanded={showMalls} onClick={() => setShowMalls((v) => !v)}>
-                    {'\u{1F6CD}\u{FE0F}'} Malls ({moreCounts.malls}) {showMalls ? '\u25B2' : '\u25BC'}
-                  </button>
-                )}
+              <div
+                key={v.key}
+                data-index={v.index}
+                ref={rowVirtualizer.measureElement}
+                className="lm-vrow"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', transform: `translateY(${v.start - rowVirtualizer.options.scrollMargin}px)` }}
+              >
+                {renderRow(l)}
               </div>
             );
-          if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
-          const photo = myPhotos[l.id]?.[0];
-          const rating = ratings[l.id];
-          return (
-            <LandmarkRow
-              key={`${l.regionId}-${l.id}`}
-              l={l}
-              isSelected={getRegionSelection(l.regionId).includes(l.id)}
-              photo={photo}
-              ratingAvg={rating?.count > 0 ? rating.avg : null}
-              ratingCount={rating?.count || 0}
-              ratingSources={googleById[l.id] || null}
-              distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
-              user={user}
-              firebaseEnabled={firebaseEnabled}
-              claimedMap={claimedMap}
-              checkingIn={checkingIn}
-              onToggle={stableToggle}
-              onCheckIn={stableCheckIn}
-              onOpenPhoto={setLightbox}
-              onInfo={stableInfo}
-            />
-          );
-        })}
+          })}
+        </div>
         {smart.loading && <SmartSearchLabel loading />}
         {landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
           <p className="empty-state">No landmarks match these filters.</p>
         )}
       </div>
-
-      {pageCount > 1 && (
-        <nav className="lm-pager" aria-label="Landmark pages" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, margin: '16px 0 8px' }}>
-          <button type="button" className="btn btn-ghost btn-sm" disabled={shownPage === 0} onClick={() => goToPage(shownPage - 1)}>
-            {'\u2039'} Previous
-          </button>
-          <span aria-live="polite" style={{ fontWeight: 600 }}>
-            Page {shownPage + 1} of {pageCount}
-          </span>
-          <button type="button" className="btn btn-ghost btn-sm" disabled={shownPage >= pageCount - 1} onClick={() => goToPage(shownPage + 1)}>
-            Next {'\u203A'}
-          </button>
-        </nav>
-      )}
 
       <div className="action-bar-spacer" />
       <div className="fixed-action-bar">

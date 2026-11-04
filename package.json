@@ -24,6 +24,7 @@
     "@capacitor/core": "^8.5.2",
     "@capacitor/geolocation": "^8.2.2",
     "@capacitor/ios": "^8.5.2",
+    "@tanstack/react-virtual": "3.13.12",
     "firebase": "^12.17.1",
     "firebase-admin": "^14.5.0",
     "leaflet": "^1.9.4",
