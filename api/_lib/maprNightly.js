@@ -11,6 +11,7 @@ import {
   NCF_V2,
   SIMILARITY_COLLECTION,
   TRENDING_LIMIT,
+  VISITS_LIMIT,
   USER_MODEL_COLLECTION,
 } from '../../src/lib/maprRank/config.js';
 import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../../src/lib/maprRank/similarity.js';
@@ -98,6 +99,21 @@ export function trendingCounts(ds, now = Date.now(), limit = TRENDING_LIMIT) {
     counts.set(k, (counts.get(k) || 0) + 1);
   }
   return Object.fromEntries([...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit));
+}
+
+// Most visited (owner, 2026-11-05): how many different people have checked in
+// at each place, all time. One person's repeat check-ins count once, so a
+// single user cannot push a place up. Rating-only entries are not visits.
+// Keys are "<region>/<landmarkId>"; most visited first, up to `limit`.
+export function visitCounts(ds, limit = VISITS_LIMIT) {
+  const people = new Map();
+  for (const c of ds.checkins || []) {
+    if (c.ratingOnly === true || !c.region || !c.landmarkId || !c.userId) continue;
+    const k = `${canonicalRegionId(c.region)}/${c.landmarkId}`;
+    if (!people.has(k)) people.set(k, new Set());
+    people.get(k).add(c.userId);
+  }
+  return Object.fromEntries([...people.entries()].map(([k, set]) => [k, set.size]).sort((a, b) => b[1] - a[1]).slice(0, limit));
 }
 
 // The live model's accuracy on this week's data, scored with its own
@@ -245,7 +261,7 @@ export async function runWeekly(db, { now = Date.now(), ds = null, landmarks = A
   const similarity = await runSimilarityWeekly(db, data, { now, landmarks });
   const ncf = await runNcfWeekly(db, data, { now });
   const ncfV2 = maprV2Enabled() ? await runNcfWeekly(db, data, { now, cfg: NCF_V2 }) : null;
-  await db.collection(MODEL_COLLECTION).doc('signals').set({ trending: trendingCounts(data, now), computedAt: now });
+  await db.collection(MODEL_COLLECTION).doc('signals').set({ trending: trendingCounts(data, now), visits: visitCounts(data), computedAt: now });
   const status = JSON.parse(JSON.stringify({ similarity: { computedAt: similarity.computedAt, ms: similarity.ms, regions: Object.keys(similarity.regions).length }, ncf, ncfV2 }));
   await db.collection(MODEL_COLLECTION).doc('status').set({ ...status, updatedAt: now });
   await writeDashboardModels(db, { ncf, ncfV2, similarity }, { now });

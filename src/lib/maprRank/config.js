@@ -266,3 +266,5 @@ export const MODEL_CACHE_MS = 12 * 60 * 60 * 1000;
 export const RETRAIN_WEEKDAY = 1;
 // Most trending places stored in mapr_models/signals.
 export const TRENDING_LIMIT = 500;
+// Most visited places stored in mapr_models/signals (all-time visitors per place).
+export const VISITS_LIMIT = 1500;

@@ -50,7 +50,10 @@ export async function loadServerModels({ uid, regions = [], now = Date.now(), db
       const m = await load(docName);
       return m || docName === NCF.modelDoc ? m : load(NCF.modelDoc);
     })(),
-    cached('signals', async () => ({ trending: (await get(MODEL_COLLECTION, 'signals'))?.trending || {} }), now),
+    cached('signals', async () => {
+      const d = await get(MODEL_COLLECTION, 'signals');
+      return { trending: d?.trending || {}, visits: d?.visits || {} };
+    }, now),
     uid ? cached(`user:${uid}`, () => get(USER_MODEL_COLLECTION, uid), now) : null,
     uid ? cached(`neighbors:${uid}`, async () => neighborsFromDoc(await get(NEIGHBORS_COLLECTION, uid)), now) : null,
     // This viewer's community lifts (Phase 3), the same as the phone gets.

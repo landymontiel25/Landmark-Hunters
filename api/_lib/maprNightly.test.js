@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: { serverTimestamp: () => 'TS' }, FieldPath: { documentId: () => '__id__' } }));
 
-const { computeAllSimilarity, liveAccuracy, maprV2Enabled, ncfActiveUsers, ncfPositives, postToSlack, pruneVersions, runDaily, runNcfWeekly, runWeekly, trendingCounts, versionFor } = await import('./maprNightly.js');
+const { computeAllSimilarity, liveAccuracy, maprV2Enabled, ncfActiveUsers, ncfPositives, postToSlack, pruneVersions, runDaily, runNcfWeekly, runWeekly, trendingCounts, versionFor, visitCounts } = await import('./maprNightly.js');
 const { NCF, NCF_V2 } = await import('../../src/lib/maprRank/config.js');
 
 const DAY = 86400000;
@@ -76,6 +76,18 @@ describe('inputs', () => {
   it('ncfPositives: real check-ins and loved ratings, keyed region/id', () => {
     const p = ncfPositives({ checkins: [{ userId: 'a', landmarkId: 'x', region: 'r', createdAt: 1 }, { userId: 'a', landmarkId: 'y', region: 'r', createdAt: 1, ratingOnly: true }], reviews: [{ userId: 'a', landmarkId: 'z', region: 'r', ratingTier: 'highly-recommend', ratedAt: 2 }, { userId: 'a', landmarkId: 'w', region: 'r', ratingTier: 'worth-trying', ratedAt: 2 }] });
     expect(p.map((x) => x.itemKey)).toEqual(['r/x', 'r/z']);
+  });
+
+  it('visitCounts: different people per place, all time, most first, no rating-only', () => {
+    const v = visitCounts({ checkins: [
+      { landmarkId: 'a', region: 'r', userId: 'u1', createdAt: NOW - 90 * DAY },
+      { landmarkId: 'a', region: 'r', userId: 'u1', createdAt: NOW - DAY },
+      { landmarkId: 'a', region: 'r', userId: 'u2', createdAt: NOW - DAY },
+      { landmarkId: 'b', region: 'r', userId: 'u1', createdAt: NOW - DAY },
+      { landmarkId: 'b', region: 'r', userId: 'u2', createdAt: NOW, ratingOnly: true },
+    ] });
+    expect(v).toEqual({ 'r/a': 2, 'r/b': 1 });
+    expect(Object.keys(v)[0]).toBe('r/a');
   });
 
   it('trendingCounts: last 7 days only, most first', () => {
