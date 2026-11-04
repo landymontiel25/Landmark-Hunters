@@ -12,9 +12,10 @@ const INTRO_REGION = 'nyc';
 // credit their licenses require (Wikimedia Commons).
 export const INTRO_PHOTOS = {
   'statue-of-liberty': {
-    url: '/intro/nyc-statue.jpg',
-    credit: 'Emiliano Carchia, CC BY 3.0',
-    page: 'https://commons.wikimedia.org/wiki/File:The_Statue_From_The_Boat_(176115133).jpeg',
+    // Blue sky (owner, 2026-11-05); a new file name so no browser keeps the old photo.
+    url: '/intro/nyc-statue-blue-sky.jpg',
+    credit: 'VynedJ, CC BY 4.0',
+    page: 'https://commons.wikimedia.org/wiki/File:Statue_of_Liberty_20240624.jpg',
   },
   'central-park': {
     url: '/intro/nyc-central-park.jpg',

@@ -47,7 +47,7 @@ export function topLandmarksOrder(landmarks, google, popular, ratings = {}) {
 
 // Owner, 2026-11-05: Top Landmarks are places you would take a picture at.
 // Restaurants and malls are not shown there; the Landmarks tab keeps them
-// behind a "Restaurants and Malls" tab under the list, and the Map sheet's
+// behind "Restaurants" and "Malls" tabs side by side under the list, and the Map sheet's
 // Top landmarks button leaves them to its Eat and Shopping moods. A category
 // chip you tap yourself (Food, say) still lists them.
 export const isRestaurantOrMall = (l) => !!l && ((l.categories || []).includes('food') || isMallPlace(l));

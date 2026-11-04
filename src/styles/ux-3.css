@@ -302,6 +302,20 @@ button.back-sticky,
 .landmark-row .lr-top {
   padding-right: 84px;
 }
+/* Phones: more room for the name, and a long word wraps whole instead of
+   splitting in the middle ("LoanDepo / t Park"). */
+@media (max-width: 430px) {
+  .landmark-row .lr-top {
+    gap: 8px;
+    padding-right: 76px;
+  }
+  .landmark-row h4 {
+    font-size: 0.92rem;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+  }
+}
 .detail-topbar-right {
   margin-left: auto;
   display: flex;

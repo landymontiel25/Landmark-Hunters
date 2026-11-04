@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadLandmarkRatings } from '../lib/landmarkRatings';
 import { topCandidates, topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
+import { isMallPlace } from '../lib/malls';
 import { LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT } from '../lib/landmarksSort';
 import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
@@ -67,7 +68,9 @@ const SORT_OPTIONS = [
 // 2026-10-27); flip this to bring it back.
 const SHOW_ADD_LANDMARK = false;
 // Row photo size in px (was 52, then 68; owner asked for bigger again, 2026-10-29).
-const ROW_THUMB = 92;
+// A smaller photo on phones leaves room for the name ("LoanDepot Park" broke
+// mid-word on an iPhone, owner 2026-11-05).
+const ROW_THUMB = typeof window !== 'undefined' && window.innerWidth <= 430 ? 72 : 92;
 
 // Top Landmarks: src/lib/topRated.js. Google is asked about the TOP_CANDIDATES
 // most popular places once per visit; the list waits for the answers (or this
@@ -666,8 +669,12 @@ export default function LandmarkSelection() {
   // With Near Me on, Mapr's extra matches join the typed ones in one list,
   // closest first, instead of sitting in their own block below.
   const nearMeSearch = sortBy === 'nearMe' && !!coords && !!search.trim();
-  const [showMore, setShowMore] = useState(false);
-  const moreCount = useMemo(() => landmarks.filter(isRestaurantOrMall).length, [landmarks]);
+  const [showRestaurants, setShowRestaurants] = useState(false);
+  const [showMalls, setShowMalls] = useState(false);
+  const moreCounts = useMemo(() => {
+    const malls = landmarks.filter(isMallPlace).length;
+    return { malls, restaurants: landmarks.filter(isRestaurantOrMall).length - malls };
+  }, [landmarks]);
   const allRows = useMemo(() => {
     if (nearMeSearch && smartLandmarks.length) {
       const d = (l) => distanceMeters(coords.lat, coords.lng, l.lat, l.lng);
@@ -677,11 +684,12 @@ export default function LandmarkSelection() {
     // (a category chip or a search lists them inline).
     if (sortBy === 'rated' && !search.trim() && !activeCategories.length && landmarks.some(isRestaurantOrMall)) {
       const main = landmarks.filter((l) => !isRestaurantOrMall(l));
-      const more = landmarks.filter(isRestaurantOrMall);
-      return [...main, MORE_TAB, ...(showMore ? more : [])];
+      const malls = landmarks.filter(isMallPlace);
+      const restaurants = landmarks.filter((l) => isRestaurantOrMall(l) && !isMallPlace(l));
+      return [...main, MORE_TAB, ...(showRestaurants ? restaurants : []), ...(showMalls ? malls : [])];
     }
     return [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])];
-  }, [landmarks, smartLandmarks, nearMeSearch, coords, sortBy, search, activeCategories, showMore]);
+  }, [landmarks, smartLandmarks, nearMeSearch, coords, sortBy, search, activeCategories, showRestaurants, showMalls]);
   // Page 1 again whenever the search, sort, city or category changes.
   const pageKey = [sortBy, search, scopeKey, activeCategories.join(','), checkInOrder, foundOnly, !!drawnShape].join('|');
   const [page, setPage] = useState(Math.max(0, Number(returned?.page) || 0));
@@ -911,16 +919,18 @@ export default function LandmarkSelection() {
         {allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE).map((l) => {
           if (l === MORE_TAB)
             return (
-              <button
-                key={l.id}
-                type="button"
-                className="btn btn-ghost btn-block"
-                aria-expanded={showMore}
-                onClick={() => setShowMore((v) => !v)}
-                style={{ margin: '12px 0' }}
-              >
-                {'\u{1F37D}\u{FE0F}\u{1F6CD}\u{FE0F}'} Restaurants and Malls ({moreCount}) {showMore ? '\u25B2' : '\u25BC'}
-              </button>
+              <div key={l.id} style={{ display: 'flex', gap: 8, margin: '12px 0' }}>
+                {moreCounts.restaurants > 0 && (
+                  <button type="button" className="btn btn-ghost" style={{ flex: 1, minWidth: 0, padding: '8px 6px', fontSize: '0.82rem', whiteSpace: 'nowrap' }} aria-expanded={showRestaurants} onClick={() => setShowRestaurants((v) => !v)}>
+                    {'\u{1F37D}\u{FE0F}'} Restaurants ({moreCounts.restaurants}) {showRestaurants ? '\u25B2' : '\u25BC'}
+                  </button>
+                )}
+                {moreCounts.malls > 0 && (
+                  <button type="button" className="btn btn-ghost" style={{ flex: 1, minWidth: 0, padding: '8px 6px', fontSize: '0.82rem', whiteSpace: 'nowrap' }} aria-expanded={showMalls} onClick={() => setShowMalls((v) => !v)}>
+                    {'\u{1F6CD}\u{FE0F}'} Malls ({moreCounts.malls}) {showMalls ? '\u25B2' : '\u25BC'}
+                  </button>
+                )}
+              </div>
             );
           if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
           const photo = myPhotos[l.id]?.[0];
