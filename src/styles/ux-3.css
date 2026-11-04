@@ -1421,12 +1421,15 @@ button.back-sticky,
   inset: auto 0 0 0;
   padding: 26px 12px 10px;
   background: linear-gradient(transparent, rgba(5, 7, 13, 0.92));
+  /* Text on a photo stays white in light and dark mode (owner, 2026-11-04):
+     the gradient behind it is always dark. */
+  color: #fff;
 }
 .intro-place-city {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.72rem;
 }
 .intro-place-name {
@@ -1640,47 +1643,11 @@ button.back-sticky,
   object-fit: cover;
   object-position: 58% 50%;
 }
-.intro-toast {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 10px 4px 4px;
-  border-radius: var(--radius-pill);
-  background: rgba(13, 22, 40, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  animation: intro-pop 0.35s var(--ease);
-}
 @keyframes intro-pop {
   from {
     opacity: 0;
     transform: translateY(-8px) scale(0.92);
   }
-}
-.intro-toast-photo {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  object-fit: cover;
-}
-.intro-toast-check {
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #f5c542;
-  color: #14110a;
-  font-size: 0.72rem;
-  font-weight: 800;
 }
 /* "Explore together": three faces from the photo, stars, Share the fun. */
 .intro-together {
@@ -1788,6 +1755,7 @@ button.back-sticky,
   inset: auto 0 0 0;
   padding: 18px 8px 6px;
   background: linear-gradient(transparent, rgba(5, 7, 13, 0.9));
+  color: #fff;
   font-size: 0.75rem;
   font-weight: 600;
   text-align: left;

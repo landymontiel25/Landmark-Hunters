@@ -47,7 +47,7 @@ describe('5 images intro', () => {
       ['Discover', 'Discover places worth visiting.'],
       ['Arrive prepared', 'Arrive prepared with what to know before you go.'],
       ['Plan Less', 'Explore with a clear route that saves you time.'],
-      ['Play', 'Play and share the fun with family and friends.'],
+      ['Play', 'Compete and share the fun with family and friends.'],
       ['Remember', 'Remember your favorite places and memories organized and in one place.'],
     ];
     for (const [i, [t, line]] of want.entries()) {
@@ -132,11 +132,12 @@ describe('5 images intro', () => {
     expect(page(el)).toBe('/landmarks/nyc/central-park');
   });
 
-  it('Play: the family photo with New place discovered!, Explore together and Share the fun', async () => {
+  it('Play: the family photo with Explore together and Share the fun, no toast', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Play"]'));
     expect(el.querySelector('.intro-play-hero').getAttribute('src')).toBe('/intro/play-times-square.jpg');
-    expect(el.querySelector('.intro-toast').textContent).toContain('New place discovered!');
+    expect(el.querySelector('.intro-toast')).toBeNull();
+    expect(el.textContent).not.toContain('New place discovered!');
     expect(el.querySelectorAll('.intro-together-faces img').length).toBe(3);
     expect(el.querySelector('.intro-together').textContent).toContain('Explore together');
     expect(el.textContent).not.toContain('Check in');
