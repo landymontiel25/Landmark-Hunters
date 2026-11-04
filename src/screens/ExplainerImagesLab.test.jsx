@@ -90,7 +90,7 @@ describe('5 images intro', () => {
     expect(el.textContent).not.toContain('Picked for you');
     expect([...el.querySelectorAll('.intro-place-name')].map((n) => n.textContent)).toEqual(['Statue of Liberty', 'Central Park', 'Times Square']);
     expect(el.querySelector('.intro-place-city').textContent).toContain('New York');
-    expect([...el.querySelectorAll('.intro-place img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/nyc-statue.jpg', '/intro/nyc-central-park.jpg', '/intro/nyc-times-square.jpg']);
+    expect([...el.querySelectorAll('.intro-place img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/nyc-statue-blue-sky.jpg', '/intro/nyc-central-park.jpg', '/intro/nyc-times-square.jpg']);
     expect(el.querySelectorAll('.intro-place')[1].querySelector('.place-photo-credit').getAttribute('title')).toBe('Photo: Tomás Fano, CC BY-SA 2.0, Wikimedia Commons');
     await click(el.querySelector('.intro-place-body'));
     expect(page(el)).toBe('/landmarks/nyc/statue-of-liberty');
@@ -118,8 +118,8 @@ describe('5 images intro', () => {
     expect(el.querySelector('.intro-map.leaflet-container')).toBeTruthy();
     expect([...el.querySelectorAll('.intro-map-pin-num')].map((p) => p.textContent)).toEqual(['1', '2', '3']);
     expect([...el.querySelectorAll('.intro-map-pin-name')].map((p) => p.textContent)).toEqual(['Statue of Liberty', 'Times Square', 'Central Park']);
-    expect([...el.querySelectorAll('.intro-map-pin-photo img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/nyc-statue.jpg', '/intro/nyc-times-square.jpg', '/intro/nyc-central-park.jpg']);
-    expect(el.querySelector('.intro-map-credit').textContent).toContain('Emiliano Carchia');
+    expect([...el.querySelectorAll('.intro-map-pin-photo img')].map((i) => i.getAttribute('src'))).toEqual(['/intro/nyc-statue-blue-sky.jpg', '/intro/nyc-times-square.jpg', '/intro/nyc-central-park.jpg']);
+    expect(el.querySelector('.intro-map-credit').textContent).toContain('VynedJ');
     expect(el.querySelector('.intro-map path.leaflet-interactive')).toBeTruthy();
   });
 
@@ -146,6 +146,14 @@ describe('5 images intro', () => {
     await click(button(el, 'Share the fun'));
     expect(shareText).toEqual(['Come explore with me on Landmark Hunters.']);
     expect(button(el, 'Shared')).toBeTruthy();
+  });
+
+  it('Remember: also shows the friends selfie, without the Explore together card', async () => {
+    const el = await render();
+    await click(el.querySelector('[role="tab"][aria-label="Remember"]'));
+    expect(el.querySelector('.intro-memories img[src="/intro/play-times-square.jpg"]')).toBeTruthy();
+    expect(el.querySelector('.intro-together')).toBeNull();
+    expect(el.textContent).not.toContain('Explore together');
   });
 
   it('Remember: a photo opens its place', async () => {

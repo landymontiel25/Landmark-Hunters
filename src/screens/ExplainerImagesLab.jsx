@@ -313,6 +313,13 @@ function Remember({ places }) {
               <span className="intro-memory-caption">{p.name}</span>
             </button>
           ))}
+          {/* Owner, 2026-11-05: the friends' selfie (no Explore together card). */}
+          <div className="intro-memory wide">
+            <span className="intro-photo">
+              <img src={PLAY_PHOTO} alt="Friends taking a selfie together in Times Square" />
+            </span>
+            <span className="intro-memory-caption">Times Square with friends</span>
+          </div>
         </div>
       </div>
     </div>

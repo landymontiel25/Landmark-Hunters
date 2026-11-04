@@ -146,8 +146,8 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   the 14 that cleared a review bar. Google is asked about the 110 most
   popular places per visit.
 - Restaurants and malls (owner, 2026-11-05) are out of Top Landmarks: the
-  Landmarks tab has a "Restaurants and Malls" tab under the list that opens
-  them, and the Map sheet's Top landmarks button leaves them to its moods.
+  Landmarks tab has a "Restaurants" tab and a "Malls" tab side by side under the list (2026-11-05)
+  that open them, and the Map sheet's Top landmarks button leaves them to its moods.
   `isRestaurantOrMall` in `src/lib/topRated.js`. Versailles and Joe's Stone
   Crab count as restaurants. Applies in every region.
 - The Landmarks list pages 25 at a time (owner, 2026-11-05; `PAGE_SIZE` in
