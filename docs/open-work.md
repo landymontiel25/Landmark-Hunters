@@ -94,6 +94,10 @@ intro screens (`SAY.images` in `signupTutorialSteps.js`);
 The 5 images show New York's Statue of Liberty, Central Park and Times
 Square (owner, 2026-11-03; `src/lib/introPlaces.js`), each with its Google
 photo (credited) or its catalog photo; Play uses the owner's Times Square photo.
+Remember (owner, 2026-11-05) is one full-width landscape row per place: the
+owner's friends selfies for the Statue of Liberty (`public/intro/nyc-statue-friends.jpg`,
+a taller row) and Times Square, and Central Park's photo. Still open: the owner
+may send a new Central Park photo for its row.
 Nothing is saved. Still open: not the real signup flow yet.
 
 ## Test tab: "Planner tutorial" (2026-11-02, was "Ultimate tutorial")

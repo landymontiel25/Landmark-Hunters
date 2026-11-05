@@ -158,6 +158,18 @@ describe('5 images intro', () => {
     expect(el.textContent).not.toContain('Explore together');
   });
 
+  it('Remember: one full-width landscape row per place, with the friends selfies', async () => {
+    const el = await render();
+    await click(el.querySelector('[role="tab"][aria-label="Remember"]'));
+    const rows = [...el.querySelectorAll('.intro-memories .intro-memory')];
+    expect(rows.length).toBe(3);
+    expect(rows.every((r) => r.classList.contains('wide'))).toBe(true);
+    expect(rows.map((r) => r.querySelector('.intro-memory-caption').textContent)).toEqual(['Statue of Liberty', 'Central Park', 'Times Square']);
+    expect(rows[0].querySelector('img').getAttribute('src')).toBe('/intro/nyc-statue-friends.jpg');
+    expect(rows[2].querySelector('img').getAttribute('src')).toBe('/intro/play-times-square.jpg');
+    expect(el.textContent).not.toContain('Times Square with friends');
+  });
+
   it('Remember: a photo opens its place', async () => {
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Remember"]'));

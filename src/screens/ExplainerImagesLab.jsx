@@ -297,6 +297,14 @@ function Play() {
 
 
 
+// Remember's own photos (owner, 2026-11-05): friends' selfies, shown as
+// full-width landscape rows. The Statue of Liberty one is cropped 1.6 to 1 so
+// the statue and all three faces fit, so its row is a little taller.
+const MEMORY_PHOTOS = {
+  'statue-of-liberty': { url: '/intro/nyc-statue-friends.jpg', alt: 'Friends taking a selfie together at the Statue of Liberty', tall: true },
+  'times-square': { url: PLAY_PHOTO, alt: 'Friends taking a selfie together in Times Square' },
+};
+
 function Remember({ places }) {
   const navigate = useNavigate();
   return (
@@ -309,19 +317,24 @@ function Remember({ places }) {
           <span className="intro-panel-sub">{places.length} places</span>
         </div>
         <div className="intro-memories">
-          {places.map((p, i) => (
-            <button key={p.id} type="button" className={`intro-memory${i === 0 ? ' wide' : ''}`} aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
-              <Photo landmark={p} />
-              <span className="intro-memory-caption">{p.name}</span>
-            </button>
-          ))}
-          {/* Owner, 2026-11-05: the friends' selfie (no Explore together card). */}
-          <div className="intro-memory wide">
-            <span className="intro-photo">
-              <img src={PLAY_PHOTO} alt="Friends taking a selfie together in Times Square" />
-            </span>
-            <span className="intro-memory-caption">Times Square with friends</span>
-          </div>
+          {/* Owner, 2026-11-05: one full-width landscape row per place. Statue of
+              Liberty and Times Square show the friends' selfies (not the stock
+              photos used on the other screens); Central Park keeps its photo. */}
+          {places.map((p) => {
+            const own = MEMORY_PHOTOS[p.id];
+            return (
+              <button key={p.id} type="button" className={`intro-memory wide${own?.tall ? ' tall' : ''}`} aria-label={`Open ${p.name}`} onClick={() => navigate(pagePath(p))}>
+                {own ? (
+                  <span className="intro-photo">
+                    <img src={own.url} alt={own.alt} />
+                  </span>
+                ) : (
+                  <Photo landmark={p} />
+                )}
+                <span className="intro-memory-caption">{p.name}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
