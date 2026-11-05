@@ -152,8 +152,10 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   then name; Miami malls last. The app's own check-in counts no longer rank
   anything: with a few testers they put Actors' Playhouse and Miracle Mile
   above Ocean Drive. Same order on the Map sheet's Top landmarks button
-  (`moodPlaces`). Still open: `popularity` is a curated 0-10 score, not real
-  yearly visits; the owner asked for visits per year, which needs a sourced
+  (`moodPlaces`). Still open: `popularity` is not real yearly visits: hand-picked
+  places have a 0-10 number typed into `src/data/landmarks.*.js` (no record of the
+  basis), imported places get 1-4 from `scripts/osm-import/transform.js` (1, +2 for
+  an OSM `wikidata` tag, +1 for `wikipedia`); the owner asked for visits per year, which needs a sourced
   number per place (CLAUDE.md: every fact cites its URL) and a research run
   with a budget the owner sets.
 - Restaurants and malls (owner, 2026-11-05) are out of Top Landmarks: the
