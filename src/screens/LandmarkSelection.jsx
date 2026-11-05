@@ -1,5 +1,6 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { usePageRatings, ratingKey } from '../lib/usePageRatings';
+import { RATINGS_FLAGS } from '../lib/ratingSources';
 import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
 import { isMallPlace } from '../lib/malls';
 import { LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT } from '../lib/landmarksSort';
@@ -178,12 +179,11 @@ function CityDropdown({ value, onChange }) {
   );
 }
 
-// The whole list is one page, but only the rows on (or just off) the screen
-// are mounted (owner, 2026-11-05: paging was still slow, and mounting ~870
-// rows at once blocked the first paint). Heights are measured as rows show;
-// ROW_ESTIMATE only sizes the scroll bar until then.
-const ROW_ESTIMATE = 190;
-const ROW_OVERSCAN = 8;
+// The list shows PAGE_SIZE landmarks at a time with Previous / Next under it
+// (owner, 2026-11-05). Each page's Google ratings load up front, and the next
+// page's load behind them, so a page is ready when you get to it
+// (src/lib/usePageRatings.js).
+const PAGE_SIZE = 25;
 
 // One row of the landmark list. Memoized: with ~870 rows, re-rendering all of
 // them on every keystroke elsewhere, selection tick or GPS update froze phones.
@@ -599,8 +599,8 @@ export default function LandmarkSelection() {
   const stableToggle = useCallback((landmark) => latest.current.toggleLandmark(landmark.id, landmark.regionId), []);
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
   const stableInfo = useCallback((landmark) => {
-    const { cityFilter: city, firstIndex: index } = latest.current;
-    saveListReturn('landmarks', { y: window.scrollY, city, index, picked: cityPickedByHand.current });
+    const { cityFilter: city, shownPage: page } = latest.current;
+    saveListReturn('landmarks', { y: window.scrollY, city, page, picked: cityPickedByHand.current });
     latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
   }, []);
 
@@ -647,33 +647,33 @@ export default function LandmarkSelection() {
     }
     return [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])];
   }, [landmarks, smartLandmarks, nearMeSearch, coords, sortBy, search, activeCategories, showRestaurants, showMalls]);
-  // One page, windowed: where the list starts on the page, so the window
-  // virtualizer can measure rows from there.
-  const listRef = useRef(null);
-  const [listTop, setListTop] = useState(0);
-  useLayoutEffect(() => {
-    const top = listRef.current ? Math.round(listRef.current.getBoundingClientRect().top + window.scrollY) : 0;
-    if (top !== listTop) setListTop(top);
-  });
-  const rowKey = (l) => (l === MORE_TAB || l === SMART_DIVIDER ? l.id : `${l.regionId}-${l.id}`);
-  const rowVirtualizer = useWindowVirtualizer({
-    count: allRows.length,
-    estimateSize: () => ROW_ESTIMATE,
-    overscan: ROW_OVERSCAN,
-    scrollMargin: listTop,
-    getItemKey: (i) => (allRows[i] ? rowKey(allRows[i]) : i),
-  });
-  const virtualItems = rowVirtualizer.getVirtualItems();
+  // Page 1 again whenever the search, sort, city or category changes.
+  const pageKey = [sortBy, search, scopeKey, activeCategories.join(','), checkInOrder, foundOnly, !!drawnShape].join('|');
+  const [page, setPage] = useState(Math.max(0, Number(returned?.page) || 0));
+  const [seenPageKey, setSeenPageKey] = useState(pageKey);
+  if (seenPageKey !== pageKey) {
+    setSeenPageKey(pageKey);
+    setPage(0);
+  }
+  const pageCount = Math.max(1, Math.ceil(allRows.length / PAGE_SIZE));
+  const shownPage = Math.min(page, pageCount - 1);
+  const pageRows = useMemo(() => allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE), [allRows, shownPage]);
+  const nextRows = useMemo(() => allRows.slice((shownPage + 1) * PAGE_SIZE, (shownPage + 2) * PAGE_SIZE), [allRows, shownPage]);
+  // This page's Google ratings, then the next page's, loaded up front.
+  const pageRatings = usePageRatings(pageRows, nextRows, !!user && RATINGS_FLAGS.cardLine);
+  const goToPage = (n) => {
+    setPage(n);
+    window.scrollTo({ top: 0 });
+  };
   latest.current.cityFilter = scopeKey;
-  latest.current.firstIndex = (virtualItems.find((v) => v.end > rowVirtualizer.scrollOffset) || virtualItems[0])?.index ?? 0;
-  // A new search, sort, city or category starts the list at its top again.
-  const filterKey = [sortBy, search, scopeKey, activeCategories.join(','), checkInOrder, foundOnly, !!drawnShape].join('|');
-  const seenFilterKey = useRef(filterKey);
+  latest.current.shownPage = shownPage;
+  // A new search, sort, city or category starts at the top again.
+  const seenPageKeyScroll = useRef(pageKey);
   useEffect(() => {
-    if (seenFilterKey.current === filterKey) return;
-    seenFilterKey.current = filterKey;
-    if (window.scrollY > listTop) window.scrollTo({ top: listTop });
-  }, [filterKey, listTop]);
+    if (seenPageKeyScroll.current === pageKey) return;
+    seenPageKeyScroll.current = pageKey;
+    if (window.scrollY > 0) window.scrollTo({ top: 0 });
+  }, [pageKey]);
   const scrolledBack = useRef(false);
   // The retry loop must outlive the re-renders that follow (rows still
   // filling in, custom landmarks, models); cancelling it on each dependency
@@ -682,17 +682,19 @@ export default function LandmarkSelection() {
   useEffect(() => {
     if (!returned || scrolledBack.current || !allRows.length) return;
     scrolledBack.current = true;
-    // Back from a landmark: scroll to the row you left (its index), which the
-    // virtualizer keeps correcting as the rows above it are measured; fall
-    // back to the saved pixel offset.
-    if (Number.isFinite(returned.index) && returned.index > 0) rowVirtualizer.scrollToIndex(Math.min(returned.index, allRows.length - 1), { align: 'start' });
-    else cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
-  }, [returned, allRows.length, rowVirtualizer]);
+    // Back from a landmark: the page you left is already open (page state);
+    // scroll to where you were on it.
+    cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
+  }, [returned, allRows.length]);
   useEffect(() => () => cancelScrollBack.current?.(), []);
 
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
   const scopeCount = scope.regionIds ? scope.regionIds.reduce((n, r) => n + getRegionSelection(r).length, 0) : selectedCount;
+  // The places you have picked, listed in the bottom bar with a trash button
+  // each (owner, 2026-11-05).
+  const nameByKey = useMemo(() => new Map([...editedLandmarks, ...normalizedCustomLandmarks].map((l) => [`${l.regionId}/${l.id}`, l.name])), [editedLandmarks, normalizedCustomLandmarks]);
+  const selectedPlaces = regionsWithItineraries().flatMap((r) => getRegionSelection(r).map((id) => ({ id, regionId: r, name: nameByKey.get(`${r}/${id}`) || id })));
 
   const renderRow = (l) => {
     if (l === MORE_TAB)
@@ -721,7 +723,7 @@ export default function LandmarkSelection() {
         photo={photo}
         ratingAvg={rating?.count > 0 ? rating.avg : null}
         ratingCount={rating?.count || 0}
-        ratingSources={null}
+        ratingSources={pageRatings[ratingKey(l)] || null}
         distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
         user={user}
         firebaseEnabled={firebaseEnabled}
@@ -927,42 +929,53 @@ export default function LandmarkSelection() {
       )}
 
       <div>
-        <div ref={listRef} style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
-          {virtualItems.map((v) => {
-            const l = allRows[v.index];
-            if (!l) return null;
-            return (
-              <div
-                key={v.key}
-                data-index={v.index}
-                ref={rowVirtualizer.measureElement}
-                className="lm-vrow"
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', transform: `translateY(${v.start - rowVirtualizer.options.scrollMargin}px)` }}
-              >
-                {renderRow(l)}
-              </div>
-            );
-          })}
-        </div>
+        {pageRows.map(renderRow)}
         {smart.loading && <SmartSearchLabel loading />}
         {landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
           <p className="empty-state">No landmarks match these filters.</p>
         )}
       </div>
 
-      <div className="action-bar-spacer" />
-      <div className="fixed-action-bar">
-        <div className="fixed-action-bar-inner">
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            disabled={selectedCount === 0}
-            onClick={() => navigate('/itinerary')}
-          >
-            Build Itinerary ({selectedCount}) {'→'}
+      {pageCount > 1 && (
+        <nav className="lm-pager" aria-label="Landmark pages">
+          <button type="button" className="btn btn-ghost btn-sm" disabled={shownPage === 0} onClick={() => goToPage(shownPage - 1)}>
+            {'\u2039'} Previous
           </button>
-        </div>
-      </div>
+          <span aria-live="polite" className="lm-pager-label">
+            Page {shownPage + 1} of {pageCount}
+          </span>
+          <button type="button" className="btn btn-ghost btn-sm" disabled={shownPage >= pageCount - 1} onClick={() => goToPage(shownPage + 1)}>
+            Next {'\u203A'}
+          </button>
+        </nav>
+      )}
+
+      {/* Owner, 2026-11-05: the bar shows only once a landmark is picked, with
+          the picked places on its right so a tap on the trash removes one. */}
+      {selectedCount > 0 && (
+        <>
+          <div className="action-bar-spacer tall" />
+          <div className="fixed-action-bar">
+            <div className="fixed-action-bar-inner plan-bar">
+              <button type="button" className="btn btn-primary plan-bar-go" onClick={() => navigate('/itinerary')}>
+                Plan your game ({selectedCount}) {'→'}
+              </button>
+              <ul className="plan-bar-list" aria-label="Selected landmarks">
+                {selectedPlaces.map((p) => (
+                  <li key={`${p.regionId}/${p.id}`} className="plan-bar-item">
+                    <span className="plan-bar-name">{p.name}</span>
+                    <button type="button" className="plan-bar-trash" aria-label={`Remove ${p.name}`} onClick={() => stableToggle(p)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6" />
+                      </svg>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
       <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
     </div>
   );

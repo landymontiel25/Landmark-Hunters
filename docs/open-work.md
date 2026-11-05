@@ -165,14 +165,20 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   landmark selected text like Safari). `ux-3.css` sets `user-select: none`
   and no touch callout on the page; inputs, textareas and `.selectable`
   still select. Wrap anything people should be able to copy in `.selectable`.
-- The Landmarks list is one page again (owner, 2026-11-05): paging (#788) was
-  still slow. It is a windowed list (`@tanstack/react-virtual`,
-  `useWindowVirtualizer` in `LandmarkSelection.jsx`): only the rows near the
-  screen are mounted, so ~2,500 landmarks open at once. Top Landmarks no
-  longer waits for Google ratings; each row loads its own as it scrolls into
-  view. Back from a landmark scrolls to the row you left. Tests that need
-  every row mounted set `window.innerHeight` very tall and stub `offsetHeight`
-  (jsdom lays nothing out); see `regressionRender.test.jsx`.
+- The Landmarks list is paged again (owner, 2026-11-05, reversing the one
+  windowed page of #793): 25 landmarks a page with Previous / Page N of M /
+  Next (`LandmarkSelection.jsx`). Each page's Google ratings load up front and
+  the next page's load behind them (`src/lib/usePageRatings.js`: batches of 6,
+  stops when the page changes; answers live in memory for the current and next
+  page only, because Google's terms forbid caching). Cost note: a page view can
+  make up to 50 rating calls (25 now, 25 for the next page), against the
+  1,500-a-day per-account limit (`ai-ratings` in `api/_lib/usageQuota.js`), and
+  every call bills Google. Back from a landmark returns to the page you left.
+  Top Landmarks no longer waits for Google before showing the list.
+- The Landmarks tab's bottom bar (owner, 2026-11-05) only shows once a landmark
+  is picked. It says "Plan your game (N) →" (was "Build Itinerary") and lists the
+  picked places on its right, each with a trash button (`plan-bar` in
+  `LandmarkSelection.jsx` and `ux-3.css`).
 - The rank lives only in comments; "Top Landmarks" still sorts by Google
   rating. Sorting Miami by the owner's rank needs a `rank` field and a
   sort change.

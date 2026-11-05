@@ -1894,10 +1894,75 @@ img {
   -webkit-user-drag: none;
 }
 
-/* The Landmarks list mounts only the rows near the screen (a windowed list),
-   so its rows are measured as they show; skipping off-screen layout would
-   only blur those measurements. */
-.lm-vrow .landmark-row {
-  content-visibility: visible;
-  contain-intrinsic-size: none;
+/* The Landmarks list shows 25 places a page with Previous / Next under it. */
+.lm-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 16px 0 8px;
+}
+.lm-pager-label {
+  font-weight: 600;
+}
+
+/* Landmarks tab bottom bar: "Plan your game" on the left, the picked places
+   on the right, each with a trash button. */
+.action-bar-spacer.tall {
+  height: 190px;
+}
+.plan-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+.plan-bar-go {
+  flex: 0 0 42%;
+  min-width: 0;
+}
+.plan-bar-list {
+  flex: 1;
+  min-width: 0;
+  max-height: 118px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.plan-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 10px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 999px;
+  background: var(--color-bg-raised);
+}
+.plan-bar-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  color: var(--color-parchment);
+}
+.plan-bar-trash {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-rust);
+  cursor: pointer;
+}
+.plan-bar-trash:active {
+  background: var(--color-bg-card);
 }
