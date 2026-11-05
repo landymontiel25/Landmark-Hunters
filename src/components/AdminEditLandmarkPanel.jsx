@@ -3,6 +3,7 @@ import { friendlyError } from '../lib/friendlyError';
 import { useNavigate } from 'react-router-dom';
 import { updateCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import CategorySelect from './CategorySelect';
+import AdminImageOrder from './AdminImageOrder';
 
 // Admin Mode's edit tool for a user-submitted landmark -- shown on its own
 // page (LandmarkDetail) when Settings -> Admin Mode is on. Every field here
@@ -20,7 +21,9 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
   const [facts, setFacts] = useState((landmark.facts || []).join('\n'));
   const [free, setFree] = useState(landmark.free !== false);
   const [typicalMinutes, setTypicalMinutes] = useState(String(landmark.typicalMinutes ?? 15));
-  const [imageUrl, setImageUrl] = useState(landmark.images?.[0] || '');
+  // The whole gallery, in order. The Photo URL field edits the first (cover)
+  // photo; "Photo order" below moves photos around.
+  const [images, setImages] = useState(landmark.images || []);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -42,8 +45,7 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
           .slice(0, 5),
         free,
         typicalMinutes: Number.isFinite(minutes) && minutes > 0 ? minutes : 15,
-        // Only the first photo is editable here -- keep the rest of the gallery.
-        images: [imageUrl.trim(), ...(landmark.images || []).slice(1)].filter(Boolean),
+        images: images.map((src) => src.trim()).filter(Boolean),
       };
       await updateCustomLandmark(landmark.docId, fields);
       onSaved?.(fields);
@@ -111,10 +113,12 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
         <input
           type="text"
           placeholder="https://…"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          value={images[0] || ''}
+          onChange={(e) => setImages([e.target.value, ...images.slice(1)])}
         />
       </div>
+
+      <AdminImageOrder images={images} onChange={setImages} />
 
       <div style={{ display: 'flex', gap: 16, marginBottom: 18, flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem' }}>
