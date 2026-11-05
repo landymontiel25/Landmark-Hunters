@@ -146,10 +146,16 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   on every Mapr surface and the Top Landmarks sort, through
   `src/lib/maprRank/mallsLast.js`. Other regions are untouched; add a region
   id to `MALLS_LAST_REGIONS` to extend it.
-- Top Landmarks (owner, 2026-11-04) lists every landmark again, ordered by
-  weighted Google rating (`ratedScore`), unrated places after, instead of
-  the 14 that cleared a review bar. Google is asked about the 110 most
-  popular places per visit (no longer: see the one-page entry below).
+- Top Landmarks (owner, 2026-11-04) lists every landmark again instead of the
+  14 that cleared a review bar. Order (owner, 2026-11-05): the catalog's
+  `popularity` score (0-10) first, then weighted Google rating (`ratedScore`),
+  then name; Miami malls last. The app's own check-in counts no longer rank
+  anything: with a few testers they put Actors' Playhouse and Miracle Mile
+  above Ocean Drive. Same order on the Map sheet's Top landmarks button
+  (`moodPlaces`). Still open: `popularity` is a curated 0-10 score, not real
+  yearly visits; the owner asked for visits per year, which needs a sourced
+  number per place (CLAUDE.md: every fact cites its URL) and a research run
+  with a budget the owner sets.
 - Restaurants and malls (owner, 2026-11-05) are out of Top Landmarks: the
   Landmarks tab has a "Restaurants" tab and a "Malls" tab side by side under the list (2026-11-05)
   that open them, and the Map sheet's Top landmarks button leaves them to its moods.

@@ -290,7 +290,6 @@ export function useMapPicks({ hidden = false, coords, geoError, overrides = null
     ratingsCount,
     pool,
     ratings,
-    visits: models?.signals?.visits || null,
     rankRow,
     origin,
     online,

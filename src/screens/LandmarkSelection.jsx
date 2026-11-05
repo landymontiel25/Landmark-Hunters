@@ -574,12 +574,11 @@ export default function LandmarkSelection() {
           a.name.localeCompare(b.name)
       );
     }
-    // Top Landmarks: every place, most visited first (src/lib/topRated.js),
-    // then by rating and popularity. Nothing here waits on Google: the order
-    // is ready at once, and each row loads its own Google rating as it
-    // scrolls into view.
-    const popular = (l) => popularScore(l, ratings);
-    return topLandmarksOrder(filtered, {}, popular, ratings, maprModels?.signals?.visits);
+    // Top Landmarks: every place, the ones most people go to first (the
+    // catalog's popularity score, src/lib/topRated.js), then by rating. Nothing
+    // here waits on Google: the order is ready at once, and each row loads its
+    // own Google rating as it scrolls into view.
+    return topLandmarksOrder(filtered, {}, ratings);
   }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
 
   // Checked in vs not: an up arrow puts the places you haven't checked into
