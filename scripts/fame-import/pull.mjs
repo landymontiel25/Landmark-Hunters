@@ -6,6 +6,9 @@
 //      (Wikidata `sitelinks`), a worldwide-fame measure
 //   v  visitors per year (Wikidata P1174, newest dated value) where Wikidata
 //      has one, with its year in vy
+//   w  English Wikipedia page views over the last 12 full months (free,
+//      CC0, from the Wikimedia page-view API), with the article title in wt.
+//      A stand-in for how many people look a place up, not for visits.
 // Wikidata does not hold visit counts for most places, and Google's terms
 // forbid storing its data, so places with no match simply keep their old
 // popularity score (src/lib/topRated.js).
@@ -14,8 +17,9 @@
 // inside the area), then a local match on name and distance. No coordinate is
 // typed by hand. A place with a `wikidata` id in its pack is matched by id.
 //
-// Run: node scripts/fame-import/pull.mjs   (needs network to query.wikidata.org;
-// it waits out Wikidata's rate limit and takes a few minutes)
+// Run: node scripts/fame-import/pull.mjs   (needs network to query.wikidata.org,
+// www.wikidata.org and wikimedia.org; it waits out their rate limits and takes
+// a few minutes, and the page views a few more)
 // Writes: src/data/placeFame.json
 import fs from 'node:fs';
 import path from 'node:path';
@@ -191,12 +195,65 @@ for (const [region, list] of byRegion) {
   log(`  matched so far: ${stats.matched} (${stats.withVisits} with yearly visitors)`);
 }
 
+// ---- English Wikipedia page views (last 12 full months) ----
+const WIKIDATA_API = 'https://www.wikidata.org/w/api.php';
+const PAGEVIEWS = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user';
+async function politeJson(url) {
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    let res;
+    try {
+      res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' }, signal: AbortSignal.timeout(60000) });
+    } catch {
+      await sleep(10000);
+      continue;
+    }
+    if (res.status === 429 || res.status === 503) {
+      await sleep(((Number(res.headers.get('retry-after')) || 10) + 3 * attempt) * 1000);
+      continue;
+    }
+    if (res.status === 404) return null;
+    if (!res.ok) return null;
+    return res.json().catch(() => null);
+  }
+  return null;
+}
+function lastTwelveMonths() {
+  const now = new Date();
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 0)); // last day of last month
+  const start = new Date(Date.UTC(end.getUTCFullYear() - 1, end.getUTCMonth() + 1, 1));
+  const f = (d) => `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}01`;
+  return { start: f(start), end: f(end) };
+}
+if (process.argv.includes('--pageviews')) {
+  const qids = [...new Set(Object.values(fame).map((f) => f.q))];
+  const titleOf = new Map();
+  log(`looking up English Wikipedia titles for ${qids.length} items`);
+  for (let i = 0; i < qids.length; i += 50) {
+    const chunk = qids.slice(i, i + 50);
+    const d = await politeJson(`${WIKIDATA_API}?action=wbgetentities&format=json&props=sitelinks&sitefilter=enwiki&ids=${chunk.join('|')}`);
+    for (const [q, e] of Object.entries(d?.entities || {})) if (e.sitelinks?.enwiki) titleOf.set(q, e.sitelinks.enwiki.title);
+    await sleep(1500);
+  }
+  const { start, end } = lastTwelveMonths();
+  log(`${titleOf.size} have an English article; fetching page views ${start}-${end}`);
+  let done = 0;
+  for (const [q, title] of titleOf) {
+    const url = `${PAGEVIEWS}/${encodeURIComponent(title.replace(/ /g, '_'))}/monthly/${start}/${end}`;
+    const d = await politeJson(url);
+    const views = (d?.items || []).reduce((n, it) => n + (it.views || 0), 0);
+    for (const f of Object.values(fame)) if (f.q === q && views > 0) { f.w = views; f.wt = title; }
+    done += 1;
+    if (done % 50 === 0) log(`  page views: ${done}/${titleOf.size}`);
+    await sleep(700);
+  }
+}
+
 const sorted = Object.fromEntries(Object.entries(fame).sort(([x], [y]) => (x < y ? -1 : 1)));
 fs.writeFileSync(
   OUT,
   JSON.stringify(
     {
-      _source: 'Wikidata (CC0), https://www.wikidata.org/wiki/<q>. n = language editions of Wikipedia with an article; v = visitors per year (P1174) in year vy.',
+      _source: 'Wikidata (CC0), https://www.wikidata.org/wiki/<q>. n = language editions of Wikipedia with an article; v = visitors per year (P1174) in year vy; w = English Wikipedia page views in the last 12 full months for article wt (Wikimedia page-view API, https://wikimedia.org/api/rest_v1/).',
       _pulled: new Date().toISOString().slice(0, 10),
       places: sorted,
     },
