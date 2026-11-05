@@ -691,6 +691,10 @@ export default function LandmarkSelection() {
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
   const scopeCount = scope.regionIds ? scope.regionIds.reduce((n, r) => n + getRegionSelection(r).length, 0) : selectedCount;
+  // The places you have picked, listed in the bottom bar with a trash button
+  // each (owner, 2026-11-05).
+  const nameByKey = useMemo(() => new Map([...editedLandmarks, ...normalizedCustomLandmarks].map((l) => [`${l.regionId}/${l.id}`, l.name])), [editedLandmarks, normalizedCustomLandmarks]);
+  const selectedPlaces = regionsWithItineraries().flatMap((r) => getRegionSelection(r).map((id) => ({ id, regionId: r, name: nameByKey.get(`${r}/${id}`) || id })));
 
   const renderRow = (l) => {
     if (l === MORE_TAB)
@@ -946,19 +950,32 @@ export default function LandmarkSelection() {
         </nav>
       )}
 
-      <div className="action-bar-spacer" />
-      <div className="fixed-action-bar">
-        <div className="fixed-action-bar-inner">
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            disabled={selectedCount === 0}
-            onClick={() => navigate('/itinerary')}
-          >
-            Build Itinerary ({selectedCount}) {'→'}
-          </button>
-        </div>
-      </div>
+      {/* Owner, 2026-11-05: the bar shows only once a landmark is picked, with
+          the picked places on its right so a tap on the trash removes one. */}
+      {selectedCount > 0 && (
+        <>
+          <div className="action-bar-spacer tall" />
+          <div className="fixed-action-bar">
+            <div className="fixed-action-bar-inner plan-bar">
+              <button type="button" className="btn btn-primary plan-bar-go" onClick={() => navigate('/itinerary')}>
+                Plan your game ({selectedCount}) {'→'}
+              </button>
+              <ul className="plan-bar-list" aria-label="Selected landmarks">
+                {selectedPlaces.map((p) => (
+                  <li key={`${p.regionId}/${p.id}`} className="plan-bar-item">
+                    <span className="plan-bar-name">{p.name}</span>
+                    <button type="button" className="plan-bar-trash" aria-label={`Remove ${p.name}`} onClick={() => stableToggle(p)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6" />
+                      </svg>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
       <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
     </div>
   );

@@ -175,6 +175,10 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   1,500-a-day per-account limit (`ai-ratings` in `api/_lib/usageQuota.js`), and
   every call bills Google. Back from a landmark returns to the page you left.
   Top Landmarks no longer waits for Google before showing the list.
+- The Landmarks tab's bottom bar (owner, 2026-11-05) only shows once a landmark
+  is picked. It says "Plan your game (N) →" (was "Build Itinerary") and lists the
+  picked places on its right, each with a trash button (`plan-bar` in
+  `LandmarkSelection.jsx` and `ux-3.css`).
 - The rank lives only in comments; "Top Landmarks" still sorts by Google
   rating. Sorting Miami by the owner's rank needs a `rank` field and a
   sort change.

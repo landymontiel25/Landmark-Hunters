@@ -116,6 +116,8 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
   });
 });
 
+const toggleLandmark = vi.fn();
+
 describe('LandmarkSelection renders the real Villanova catalog (some entries ship without every optional field)', () => {
   async function renderIt(tripOverrides, claimedMap = {}) {
     vi.resetModules();
@@ -139,7 +141,7 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
           placesByRegion: {},
           ...tripOverrides,
         },
-        toggleLandmark: vi.fn(),
+        toggleLandmark,
         setRegionSelection: vi.fn(),
         getRegionSelection: (r) => (tripOverrides.byRegion || {})[r] || [],
         regionsWithItineraries: () => Object.keys(tripOverrides.byRegion || {}),
@@ -225,6 +227,26 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     await click();
     expect(btn().textContent.trim()).toBe('\u{2705} Checked in');
   }, 40000);
+
+  it('shows no Plan your game bar until a landmark is picked', async () => {
+    const el = await renderIt({});
+    expect(el.querySelector('.fixed-action-bar')).toBeNull();
+    expect(el.textContent).not.toContain('Plan your game');
+    expect(el.textContent).not.toContain('Build Itinerary');
+  }, 30000);
+
+  it('once a landmark is picked, the bar says Plan your game and lists it with a trash button', async () => {
+    toggleLandmark.mockClear();
+    const el = await renderIt({ byRegion: { villanova: ['corr-hall-arch'] } });
+    const bar = el.querySelector('.fixed-action-bar');
+    expect(bar).toBeTruthy();
+    expect(bar.textContent).toContain('Plan your game (1)');
+    expect(bar.querySelector('.plan-bar-name').textContent).toBe('Corr Hall Arch');
+    await act(async () => {
+      bar.querySelector('button[aria-label="Remove Corr Hall Arch"]').click();
+    });
+    expect(toggleLandmark).toHaveBeenCalledWith('corr-hall-arch', 'villanova');
+  }, 30000);
 
   it('opens on every landmark, not a city saved from an earlier visit', async () => {
     const el = await renderIt({ activeRegion: 'san-francisco', activeRegionPicked: true });
