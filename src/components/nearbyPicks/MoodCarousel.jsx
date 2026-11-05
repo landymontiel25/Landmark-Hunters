@@ -27,7 +27,7 @@ function readView() {
 // rank(places) is Mapr's ranking for the "For you" sort (MapPicksOverlay
 // passes maprRank/surfaces.js rankPlaces); without it, For you is closest.
 // onShown(places) is called with the places on screen (logged as picks).
-export default function MoodCarousel({ pool, ratings, visits = null, initialMood = null, initialSort = 'foryou', moods = MOODS, rank = null, onShown = null }) {
+export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'foryou', moods = MOODS, rank = null, onShown = null }) {
   // Two buttons: Top landmarks (the default: the best places near you, any
   // kind) and Places, which opens the moods (Something to eat, Art & culture...).
   const [section, setSection] = useState(initialMood ? 'places' : 'top');
@@ -51,9 +51,9 @@ export default function MoodCarousel({ pool, ratings, visits = null, initialMood
   };
   const places = useMemo(() => {
     if (!mood) return [];
-    if (sort !== 'foryou' || !rank) return moodPlaces({ moodId: mood, pool, sort: sort === 'foryou' ? 'closest' : sort, ratings, visits: visits || {}, limit: 12, moods });
+    if (sort !== 'foryou' || !rank) return moodPlaces({ moodId: mood, pool, sort: sort === 'foryou' ? 'closest' : sort, ratings, limit: 12, moods });
     return rank(moodPlaces({ moodId: mood, pool, sort: 'closest', ratings, limit: 60, moods })).slice(0, 12);
-  }, [mood, pool, sort, ratings, visits, moods, rank]);
+  }, [mood, pool, sort, ratings, moods, rank]);
   const ready = useReadyItems(places, 8);
   useShownEffect(onShown, ready);
 

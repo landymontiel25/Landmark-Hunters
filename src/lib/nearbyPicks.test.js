@@ -427,13 +427,17 @@ describe('Top landmarks mood skips restaurants and malls', () => {
   });
 });
 
-describe('Top landmarks mood, highest rated, goes by most visited', () => {
+describe('Top landmarks mood, highest rated, goes by popularity', () => {
   const pool = [
-    { id: 'a', regionId: 'miami', categories: ['history-culture'], distanceMeters: 100 },
-    { id: 'b', regionId: 'miami', categories: ['history-culture'], distanceMeters: 200 },
+    { id: 'a', regionId: 'miami', categories: ['history-culture'], distanceMeters: 100, popularity: 5 },
+    { id: 'b', regionId: 'miami', categories: ['history-culture'], distanceMeters: 200, popularity: 10 },
+    { id: 'c', regionId: 'miami', categories: ['history-culture'], distanceMeters: 300, popularity: 5 },
   ];
-  it('puts the more visited place first, then by rating where visits tie', () => {
-    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', visits: { 'miami/b': 5 }, limit: 10 }).map((p) => p.id)).toEqual(['b', 'a']);
-    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', ratings: { b: { avg: 4.9, count: 90 } }, limit: 10 }).map((p) => p.id)).toEqual(['b', 'a']);
+  it('puts the more popular place first, then by rating where popularity ties', () => {
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', limit: 10 }).map((p) => p.id)).toEqual(['b', 'a', 'c']);
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', ratings: { c: { avg: 4.9, count: 90 } }, limit: 10 }).map((p) => p.id)).toEqual(['b', 'c', 'a']);
+  });
+  it('ignores how many people checked in here', () => {
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', visits: { 'miami/a': 500 }, limit: 10 }).map((p) => p.id)).toEqual(['b', 'a', 'c']);
   });
 });

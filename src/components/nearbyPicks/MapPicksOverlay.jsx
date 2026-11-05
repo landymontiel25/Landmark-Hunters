@@ -31,7 +31,6 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     ratingsCount,
     pool,
     ratings,
-    visits,
     rankRow,
     origin,
     online,
@@ -71,7 +70,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         onWiden={chooseDistance}
         ratingsCount={ratingsCount}
         layout={showRefresh ? 'mood-first' : 'default'}
-        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} visits={visits} moods={TEST_MOODS} rank={rankRow} onShown={onMoodShown} /> : null}
+        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} moods={TEST_MOODS} rank={rankRow} onShown={onMoodShown} /> : null}
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
         onShown={onShown}
@@ -82,7 +81,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         {!showRefresh && <ShakeUpCard uid={uid} show={stagnating && online} onShake={showDifferent} />}
         <FoundByPeopleRow places={found} uid={uid} origin={origin} onShown={onFoundShown} />
         <BecauseYouLikedRow liked={liked} places={similar} uid={uid} origin={origin} onShown={onSimilarShown} />
-        {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} visits={visits} rank={rankRow} onShown={onMoodShown} />}
+        {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} rank={rankRow} onShown={onMoodShown} />}
         {!showRefresh && <MealCard places={meal} onShown={onMealShown} />}
         {!showRefresh && <NearbyInterestCard place={interest} onShown={onInterestShown} />}
       </PicksBottomSheet>

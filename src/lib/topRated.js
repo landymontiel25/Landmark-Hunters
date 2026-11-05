@@ -16,26 +16,26 @@ export function ratedScore(l, googleById, ratings) {
   return r?.count > 0 ? weightedStars(r.avg, r.count) : null;
 }
 
-// "Top Landmarks" (owner, 2026-11-05): every landmark in the list, most
-// visited first. A place's visits are the different people who have checked
-// in there (the nightly job's mapr_models/signals.visits, "<region>/<id>").
-// Ties, which is everything until people have checked in, fall back to
-// ratedScore above (Google's stars weighted by review count, the app's own
-// ratings where Google has none), then popularity. Places with no rating
-// follow in popularity order. Miami malls come last of all
+// "Top Landmarks" (owner, 2026-11-05): every landmark in the list, the places
+// the most people go to first. That is the catalog's popularity score (0-10,
+// curated, set per place in src/data and the place packs) -- NOT the app's own
+// check-in counts: with a few testers those said an Actors' Playhouse beat
+// Ocean Drive (owner, 2026-11-05). Ties fall back to ratedScore above
+// (Google's stars weighted by review count, the app's own ratings where
+// Google has none), then name. Miami malls come last of all
 // (maprRank/mallsLast.js). Earlier versions ordered by rating alone
-// (2026-10-29: only the ~14 over a review bar; 2026-11-04: all by rating).
-export const visitsOf = (visits, l) => Number(visits?.[`${l.regionId || l.region}/${l.id}`]) || 0;
-// landmarks: every place in the list. visits: { "<region>/<id>": people }. google: { [landmarkId]: { google:
+// (2026-10-29: only the ~14 over a review bar; 2026-11-04: all by rating) and
+// by the app's check-ins (2026-11-04).
+export const popularityOf = (l) => Number(l?.popularity) || 0;
+// landmarks: every place in the list. google: { [landmarkId]: { google:
 // { rating, count } } }. ratings: the app's own { [landmarkId]: { avg, count } }.
-export function topLandmarksOrder(landmarks, google, popular, ratings = {}, visits = {}) {
+export function topLandmarksOrder(landmarks, google, ratings = {}) {
   const score = new Map(landmarks.map((l) => [l, ratedScore(l, google || {}, ratings || {})]));
   return mallsLast(
     [...landmarks].sort(
       (a, b) =>
-        visitsOf(visits, b) - visitsOf(visits, a) ||
+        popularityOf(b) - popularityOf(a) ||
         (score.get(b) ?? -1) - (score.get(a) ?? -1) ||
-        popular(b) - popular(a) ||
         a.name.localeCompare(b.name)
     )
   );
