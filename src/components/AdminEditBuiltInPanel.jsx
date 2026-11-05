@@ -3,6 +3,7 @@ import { friendlyError } from '../lib/friendlyError';
 import { useAuth } from '../lib/AuthContext';
 import { saveLandmarkEdit, clearLandmarkEdit } from '../lib/landmarkOverrides';
 import CategorySelect from './CategorySelect';
+import AdminImageOrder from './AdminImageOrder';
 
 // Admin Mode's edit tool for a BUILT-IN (static catalog) landmark. There's
 // no Firestore doc for the landmark itself to update -- src/data/landmarks.*.js
@@ -19,7 +20,9 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
   const [facts, setFacts] = useState((landmark.facts || []).join('\n'));
   const [free, setFree] = useState(landmark.free !== false);
   const [typicalMinutes, setTypicalMinutes] = useState(String(landmark.typicalMinutes ?? 15));
-  const [imageUrl, setImageUrl] = useState(landmark.images?.[0] || '');
+  // The whole gallery, in order. The Photo URL field edits the first (cover)
+  // photo; "Photo order" below moves photos around.
+  const [images, setImages] = useState(landmark.images || []);
   const [saving, setSaving] = useState(false);
   // Catalog landmarks store their city as `region`; list/map copies add `regionId`.
   const regionId = landmark.regionId ?? landmark.region;
@@ -47,8 +50,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
             .slice(0, 5),
           free,
           typicalMinutes: Number.isFinite(minutes) && minutes > 0 ? minutes : 15,
-          // Only the first photo is editable here -- keep the rest of the gallery.
-          images: [imageUrl.trim(), ...(landmark.images || []).slice(1)].filter(Boolean),
+          images: images.map((src) => src.trim()).filter(Boolean),
         },
       });
       onSaved?.();
@@ -116,8 +118,16 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
 
       <div className="field">
         <label>Photo URL</label>
-        <input type="text" aria-label="Image URL" placeholder="https://…" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+        <input
+          type="text"
+          aria-label="Image URL"
+          placeholder="https://…"
+          value={images[0] || ''}
+          onChange={(e) => setImages([e.target.value, ...images.slice(1)])}
+        />
       </div>
+
+      <AdminImageOrder images={images} onChange={setImages} />
 
       <div style={{ display: 'flex', gap: 16, marginBottom: 18, flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem' }}>
