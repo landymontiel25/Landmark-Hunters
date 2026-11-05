@@ -27,7 +27,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = path.join(ROOT, 'src/data/placeFame.json');
-const UA = 'LandmarkHuntersResearch/1.0 (ranking data for a landmark app; github.com/landymontiel25/Landmark-Hunters)';
+const UA = 'LandmarkHuntersBot/1.0 (https://github.com/landymontiel25/Landmark-Hunters) ranking-data-pull';
 const SPARQL = 'https://query.wikidata.org/sparql';
 const GAP_MS = 12000; // between queries, to stay under Wikidata's limit
 const MAX_DISTANCE_M = 350;
@@ -196,10 +196,14 @@ for (const [region, list] of byRegion) {
 }
 
 // ---- English Wikipedia page views (last 12 full months) ----
+// Wikimedia limits an anonymous client to about 10 requests a minute and this
+// connection is shared, so most answers are 429 "retry after 1s". The loop
+// below retries each title patiently (it can take an hour in all), keeps what
+// it has between runs (--resume) and saves as it goes.
 const WIKIDATA_API = 'https://www.wikidata.org/w/api.php';
 const PAGEVIEWS = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user';
-async function politeJson(url) {
-  for (let attempt = 0; attempt < 10; attempt += 1) {
+async function politeJson(url, { maxAttempts = 80 } = {}) {
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     let res;
     try {
       res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' }, signal: AbortSignal.timeout(60000) });
@@ -208,11 +212,11 @@ async function politeJson(url) {
       continue;
     }
     if (res.status === 429 || res.status === 503) {
-      await sleep(((Number(res.headers.get('retry-after')) || 10) + 3 * attempt) * 1000);
+      const wait = Number(res.headers.get('retry-after')) || 1;
+      await sleep(wait * 1000 + 1500 + Math.random() * 2500);
       continue;
     }
-    if (res.status === 404) return null;
-    if (!res.ok) return null;
+    if (!res.ok) return null; // 404: no page views recorded for that title
     return res.json().catch(() => null);
   }
   return null;
@@ -224,7 +228,28 @@ function lastTwelveMonths() {
   const f = (d) => `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}01`;
   return { start: f(start), end: f(end) };
 }
+const save = () => {
+  const sortedNow = Object.fromEntries(Object.entries(fame).sort(([x], [y]) => (x < y ? -1 : 1)));
+  fs.writeFileSync(
+    OUT,
+    JSON.stringify(
+      {
+        _source: 'Wikidata (CC0), https://www.wikidata.org/wiki/<q>. n = language editions of Wikipedia with an article; v = visitors per year (P1174) in year vy; w = English Wikipedia page views in the last 12 full months for article wt (Wikimedia page-view API, https://wikimedia.org/api/rest_v1/).',
+        _pulled: new Date().toISOString().slice(0, 10),
+        places: sortedNow,
+      },
+      null,
+      1
+    ) + '\n'
+  );
+};
+if (process.argv.includes('--resume') && fs.existsSync(OUT)) {
+  const prev = JSON.parse(fs.readFileSync(OUT, 'utf8')).places || {};
+  for (const [k, f] of Object.entries(fame)) if (prev[k]?.w) { f.w = prev[k].w; f.wt = prev[k].wt; }
+  log('resumed page views for', Object.values(fame).filter((f) => f.w).length, 'places');
+}
 if (process.argv.includes('--pageviews')) {
+  save();
   const qids = [...new Set(Object.values(fame).map((f) => f.q))];
   const titleOf = new Map();
   log(`looking up English Wikipedia titles for ${qids.length} items`);
@@ -234,31 +259,24 @@ if (process.argv.includes('--pageviews')) {
     for (const [q, e] of Object.entries(d?.entities || {})) if (e.sitelinks?.enwiki) titleOf.set(q, e.sitelinks.enwiki.title);
     await sleep(1500);
   }
+  const have = new Set(Object.values(fame).filter((f) => f.w).map((f) => f.q));
+  const todo = [...titleOf].filter(([q]) => !have.has(q));
   const { start, end } = lastTwelveMonths();
-  log(`${titleOf.size} have an English article; fetching page views ${start}-${end}`);
+  log(`${titleOf.size} have an English article; ${todo.length} still need page views (${start}-${end})`);
   let done = 0;
-  for (const [q, title] of titleOf) {
-    const url = `${PAGEVIEWS}/${encodeURIComponent(title.replace(/ /g, '_'))}/monthly/${start}/${end}`;
-    const d = await politeJson(url);
+  for (const [q, title] of todo) {
+    const d = await politeJson(`${PAGEVIEWS}/${encodeURIComponent(title.replace(/ /g, '_'))}/monthly/${start}/${end}`);
     const views = (d?.items || []).reduce((n, it) => n + (it.views || 0), 0);
     for (const f of Object.values(fame)) if (f.q === q && views > 0) { f.w = views; f.wt = title; }
     done += 1;
-    if (done % 50 === 0) log(`  page views: ${done}/${titleOf.size}`);
-    await sleep(700);
+    if (done % 20 === 0) {
+      log(`  page views: ${done}/${todo.length}`);
+      save();
+    }
+    await sleep(900);
   }
 }
 
-const sorted = Object.fromEntries(Object.entries(fame).sort(([x], [y]) => (x < y ? -1 : 1)));
-fs.writeFileSync(
-  OUT,
-  JSON.stringify(
-    {
-      _source: 'Wikidata (CC0), https://www.wikidata.org/wiki/<q>. n = language editions of Wikipedia with an article; v = visitors per year (P1174) in year vy; w = English Wikipedia page views in the last 12 full months for article wt (Wikimedia page-view API, https://wikimedia.org/api/rest_v1/).',
-      _pulled: new Date().toISOString().slice(0, 10),
-      places: sorted,
-    },
-    null,
-    1
-  ) + '\n'
-);
+save();
+const sorted = fame;
 log(`wrote ${Object.keys(sorted).length} places of ${places.size} to src/data/placeFame.json`);
