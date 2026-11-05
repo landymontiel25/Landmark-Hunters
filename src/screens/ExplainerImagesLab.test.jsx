@@ -166,6 +166,7 @@ describe('5 images intro', () => {
     expect(rows.every((r) => r.classList.contains('wide'))).toBe(true);
     expect(rows.map((r) => r.querySelector('.intro-memory-caption').textContent)).toEqual(['Statue of Liberty', 'Central Park', 'Times Square']);
     expect(rows[0].querySelector('img').getAttribute('src')).toBe('/intro/nyc-statue-friends.jpg');
+    expect(rows[1].querySelector('img').getAttribute('src')).toBe('/intro/nyc-central-park-friends.jpg');
     expect(rows[2].querySelector('img').getAttribute('src')).toBe('/intro/play-times-square.jpg');
     expect(el.textContent).not.toContain('Times Square with friends');
   });

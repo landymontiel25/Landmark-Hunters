@@ -298,10 +298,12 @@ function Play() {
 
 
 // Remember's own photos (owner, 2026-11-05): friends' selfies, shown as
-// full-width landscape rows. The Statue of Liberty one is cropped 1.6 to 1 so
-// the statue and all three faces fit, so its row is a little taller.
+// full-width landscape rows. The Statue of Liberty and Central Park ones are
+// cropped 1.6 to 1 so the landmark and all three faces fit, so their rows are
+// a little taller.
 const MEMORY_PHOTOS = {
   'statue-of-liberty': { url: '/intro/nyc-statue-friends.jpg', alt: 'Friends taking a selfie together at the Statue of Liberty', tall: true },
+  'central-park': { url: '/intro/nyc-central-park-friends.jpg', alt: 'Friends taking a selfie together in Central Park', tall: true },
   'times-square': { url: PLAY_PHOTO, alt: 'Friends taking a selfie together in Times Square' },
 };
 
@@ -317,9 +319,8 @@ function Remember({ places }) {
           <span className="intro-panel-sub">{places.length} places</span>
         </div>
         <div className="intro-memories">
-          {/* Owner, 2026-11-05: one full-width landscape row per place. Statue of
-              Liberty and Times Square show the friends' selfies (not the stock
-              photos used on the other screens); Central Park keeps its photo. */}
+          {/* Owner, 2026-11-05: one full-width landscape row per place, each with
+              the friends' selfie (not the stock photos the other screens use). */}
           {places.map((p) => {
             const own = MEMORY_PHOTOS[p.id];
             return (
