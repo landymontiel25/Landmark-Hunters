@@ -12,6 +12,7 @@ import UltimateTutorialLab from './UltimateTutorialLab';
 import GameTutorialLab from './GameTutorialLab';
 import UILab from './UILab';
 import PlannerLab from './PlannerLab';
+import LandmarkSelection from './LandmarkSelection';
 
 export { progressTier };
 
@@ -24,6 +25,7 @@ export { progressTier };
 // entry here (and render it below) for each new test.
 const TESTS = [
   { id: 'ui', label: 'UI' },
+  { id: 'landmarks', label: 'Landmarks/Neighborhoods' },
   { id: 'slider', label: 'Rating slider' },
   { id: 'malls', label: 'Malls' },
   { id: 'ultimate', label: 'Planner tutorial' },
@@ -62,6 +64,17 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <UILab />
+      </div>
+    );
+  }
+
+  // The Landmarks tab with its Landmarks | Neighborhoods subtabs (owner,
+  // 2026-11-06), the same screen the app's Landmarks tab shows.
+  if (test === 'landmarks') {
+    return (
+      <div>
+        {testTabs}
+        <LandmarkSelection />
       </div>
     );
   }

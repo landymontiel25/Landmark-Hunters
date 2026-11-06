@@ -6,6 +6,15 @@
 // off.
 export const TURNED_OFF = [
   {
+    name: 'For Me sort (Landmarks tab)',
+    hides: 'The "✨ For Me" sort button on the Landmarks tab. The list now sorts by Top Landmarks or Near Me there.',
+    keeps: 'For Me still works under Planner launch on the Test tab: the same list, Mapr ranking for you, with check-in and rating.',
+    since: '2026-11-06',
+    pr: 801,
+    file: 'src/screens/LandmarkSelection.jsx',
+    check: 'SHOW_FOR_ME_SORT = false',
+  },
+  {
     name: 'Badges',
     hides: 'All Badges on Full Stats, the "Badge Earned" popup and the badges on the Discoverer card.',
     keeps: 'Badges are still earned and saved, so turning it back on shows everything.',

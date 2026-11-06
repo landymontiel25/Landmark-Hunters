@@ -25,6 +25,8 @@ async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScr
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
   // The UI bubble's Map screen has its own tests (MapUILab.test.jsx).
   vi.doMock('./MapUILab', () => ({ default: () => <p className="map-ui-stub">map</p> }));
+  // The Landmarks tab has its own tests (LandmarkSelection.cards.test.jsx).
+  vi.doMock('./LandmarkSelection', () => ({ default: ({ forMeLab }) => <p className="landmarks-stub">{forMeLab ? 'for me' : 'landmarks'}</p> }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
   const { default: OnboardingLab } = await import('./OnboardingLab.jsx');
   container = document.createElement('div');
@@ -77,9 +79,15 @@ describe('OnboardingLab', () => {
   it('opens on the UI bubble, with Rating slider and Malls next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['UI', 'Rating slider', 'Malls', 'Planner tutorial', 'Game tutorial', 'Itinerary tutorial', 'Taste Profile', 'Planner launch']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['UI', 'Landmarks/Neighborhoods', 'Rating slider', 'Malls', 'Planner tutorial', 'Game tutorial', 'Itinerary tutorial', 'Taste Profile', 'Planner launch']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.uil-frame .map-ui-stub')).toBeTruthy();
+  });
+
+  it('the Landmarks/Neighborhoods bubble shows the Landmarks tab', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: null });
+    await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'Landmarks/Neighborhoods'));
+    expect(el.querySelector('.landmarks-stub').textContent).toBe('landmarks');
   });
 
   it('the Rating slider bubble shows the slider', async () => {

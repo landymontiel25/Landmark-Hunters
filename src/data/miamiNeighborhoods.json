@@ -1,0 +1,1485 @@
+{
+  "city": "Miami",
+  "featured": [
+    "South Beach",
+    "Wynwood",
+    "Downtown Miami",
+    "Little Havana"
+  ],
+  "tiers": [
+    {
+      "id": "tier1",
+      "label": "Tier 1",
+      "title": "Very high tourist traffic",
+      "neighborhoods": [
+        "South Beach",
+        "Downtown Miami",
+        "Brickell",
+        "Wynwood",
+        "Mid-Beach",
+        "Little Havana",
+        "Aventura",
+        "Coral Gables",
+        "Coconut Grove",
+        "Design District"
+      ]
+    },
+    {
+      "id": "tier2",
+      "label": "Tier 2",
+      "title": "High tourist traffic",
+      "neighborhoods": [
+        "Bal Harbour",
+        "South of Fifth",
+        "Key Biscayne",
+        "Sunny Isles Beach",
+        "North Beach",
+        "Doral",
+        "South Miami",
+        "Miami Gardens",
+        "Hialeah",
+        "Sunset Harbour"
+      ]
+    },
+    {
+      "id": "tier3",
+      "label": "Tier 3",
+      "title": "Moderate tourist traffic",
+      "neighborhoods": [
+        "Midtown",
+        "Surfside",
+        "Hallandale Beach",
+        "Homestead",
+        "Edgewater",
+        "Overtown",
+        "Little Haiti",
+        "Miami River District",
+        "North Miami",
+        "Miami Lakes"
+      ]
+    }
+  ],
+  "neighborhoods": [
+    {
+      "name": "Brickell",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Brickell_skyline_2012.jpg/960px-Brickell_skyline_2012.jpg",
+      "photoCredit": {
+        "author": "Daniel Christensen",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Brickell_skyline_2012.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.76147,
+        "lng": -80.19288,
+        "osm": "relation/21778173",
+        "osmName": "Brickell, Miami, Miami-Dade County, Florida, 33131, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Downtown Miami",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Common_Downtown_shot_2011_all_tagged_including_OBP.jpg/960px-Common_Downtown_shot_2011_all_tagged_including_OBP.jpg",
+      "photoCredit": {
+        "author": "B137",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Common_Downtown_shot_2011_all_tagged_including_OBP.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.7745,
+        "lng": -80.192,
+        "osm": "node/13765005355",
+        "osmName": "Downtown Miami, Torch of Friendship, Miami, Miami-Dade County, Florida, 33131, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Edgewater",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Edgewater_Miami_Florida_southern.jpg/960px-Edgewater_Miami_Florida_southern.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Edgewater_Miami_Florida_southern.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.80083,
+        "lng": -80.18921,
+        "osm": "node/13884264146",
+        "osmName": "Edgewater, Miami, Miami-Dade County, Florida, 33137, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Wynwood",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Wynwood_Walls_Miami_Florida_October_2013.jpg/960px-Wynwood_Walls_Miami_Florida_October_2013.jpg",
+      "photoCredit": {
+        "author": "Dan Lundberg",
+        "license": "CC BY-SA 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Wynwood_Walls_Miami_Florida_October_2013.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.80141,
+        "lng": -80.19909,
+        "osm": "way/1570455290",
+        "osmName": "Wynwood, Miami, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Design District",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Design_District%2C_Miami%2C_Florida_2021_-_What_is_Miami.jpg/960px-Design_District%2C_Miami%2C_Florida_2021_-_What_is_Miami.jpg",
+      "photoCredit": {
+        "author": "Sharon Hahn Darlin",
+        "license": "CC BY 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Design_District,_Miami,_Florida_2021_-_What_is_Miami.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.81466,
+        "lng": -80.19143,
+        "osm": "node/4374131889",
+        "osmName": "Design District, Miami, Miami-Dade County, Florida, 33137, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Little Havana",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Little_Havana_Dominos_Park.JPG/960px-Little_Havana_Dominos_Park.JPG",
+      "photoCredit": {
+        "author": "Infrogmation of New Orleans",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Little_Havana_Dominos_Park.JPG"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.76815,
+        "lng": -80.23347,
+        "osm": "node/154125642",
+        "osmName": "Little Havana, Miami, Miami-Dade County, Florida, 33135, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Little Haiti",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Little_Haiti_south.jpg/960px-Little_Haiti_south.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Little_Haiti_south.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.83037,
+        "lng": -80.19283,
+        "osm": "node/153890694",
+        "osmName": "Little Haiti, Bayshore, Miami, Miami-Dade County, Florida, 33101, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Overtown",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Miami_FL_Overtown_3rd_Ave.jpg/960px-Miami_FL_Overtown_3rd_Ave.jpg",
+      "photoCredit": {
+        "author": "Pietro",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Miami_FL_Overtown_3rd_Ave.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.7847,
+        "lng": -80.19893,
+        "osm": "way/968566940",
+        "osmName": "Overtown, Miami, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Allapattah",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Allapattah_in_Miami.jpg",
+      "photoCredit": {
+        "author": "FrickFrack",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Allapattah_in_Miami.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.80871,
+        "lng": -80.21547,
+        "osm": "node/462648893",
+        "osmName": "Allapattah, Northwest 12th Avenue, Allapattah, Miami, Miami-Dade County, Florida, 33127, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Coconut Grove",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Coconut_Grove_Street_20100321.jpg/960px-Coconut_Grove_Street_20100321.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Coconut_Grove_Street_20100321.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.7126,
+        "lng": -80.25699,
+        "osm": "node/154217332",
+        "osmName": "Coconut Grove, Miami, Miami-Dade County, Florida, 33146, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Coral Way",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Coral_Way_Miami_20100430.jpg/960px-Coral_Way_Miami_20100430.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Coral_Way_Miami_20100430.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.75102,
+        "lng": -80.21454,
+        "osm": "way/1377959335",
+        "osmName": "Southwest 22nd Street, Bay Heights, Miami, Miami-Dade County, Florida, 33129, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Flagami",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.76232,
+        "lng": -80.31616,
+        "osm": "node/154004959",
+        "osmName": "Flagami, Miami-Dade County, Florida, 33144, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Liberty City",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/MLKMIA.jpg/960px-MLKMIA.jpg",
+      "photoCredit": {
+        "author": "Photo by en:User:305mia, mural by Oscar Thomas",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:MLKMIA.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.82487,
+        "lng": -80.21605,
+        "osm": "node/13883064716",
+        "osmName": "Liberty City, Liberty Square, Miami, Miami-Dade County, Florida, 33151, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Morningside",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.82446,
+        "lng": -80.17999,
+        "osm": "way/295950754",
+        "osmName": "Morningside Park, Bayshore, Miami, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Shenandoah",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.75954,
+        "lng": -80.22227,
+        "osm": "node/154088142",
+        "osmName": "Shenandoah, Miami, Miami-Dade County, Florida, 33135, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Upper East Side",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/MiMo_restaurant_20110218.jpg/960px-MiMo_restaurant_20110218.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:MiMo_restaurant_20110218.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.83583,
+        "lng": -80.18444,
+        "osm": "node/367824813",
+        "osmName": "Miami Upper Eastside Police Station, Northeast 65th Street, Bayshore, Miami, Miami-Dade County, Florida, 33138, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Midtown",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Midtown_Miami_2012.jpg/960px-Midtown_Miami_2012.jpg",
+      "photoCredit": {
+        "author": "B137",
+        "license": "CC0",
+        "source": "https://commons.wikimedia.org/wiki/File:Midtown_Miami_2012.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.80833,
+        "lng": -80.19346,
+        "osm": "node/13884344313",
+        "osmName": "Midtown, Miami, Miami-Dade County, Florida, 33137, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Miami River District",
+      "cityGroup": "City of Miami",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Mouth_of_Miami_River_20100211.jpg/960px-Mouth_of_Miami_River_20100211.jpg",
+      "photoCredit": {
+        "author": "Marc Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Mouth_of_Miami_River_20100211.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.77619,
+        "lng": -80.20124,
+        "osm": "relation/13140034",
+        "osmName": "Lummus Park, 360, Miami, Miami-Dade County, Florida, 33128, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "South Beach",
+      "cityGroup": "Miami Beach",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Ocean_drive_day_2009j.JPG/960px-Ocean_drive_day_2009j.JPG",
+      "photoCredit": {
+        "author": "chensiyuan",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Ocean_drive_day_2009j.JPG"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.77443,
+        "lng": -80.13324,
+        "osm": "node/4226222889",
+        "osmName": "South Beach, Miami Beach, Miami-Dade County, Florida, 33139, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Mid-Beach",
+      "cityGroup": "Miami Beach",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Miami_Beach%2C_31th_Street.jpg/960px-Miami_Beach%2C_31th_Street.jpg",
+      "photoCredit": {
+        "author": "Gofrege",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Miami_Beach,_31th_Street.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.81245,
+        "lng": -80.12188,
+        "osm": "way/186979832",
+        "osmName": "Mid Beach Boardwalk, Miami Beach, Miami-Dade County, Florida, 33140, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "North Beach",
+      "cityGroup": "Miami Beach",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/North_Beach_Miami_Beach.jpg/960px-North_Beach_Miami_Beach.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:North_Beach_Miami_Beach.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.86468,
+        "lng": -80.12017,
+        "osm": "way/174864608",
+        "osmName": "North Beach Oceanside Park, 7929, Atlantic Heights, Miami Beach, Miami-Dade County, Florida, 33141, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "South of Fifth",
+      "cityGroup": "Miami Beach",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/South_Pointe_Drive_at_Sundown.png/960px-South_Pointe_Drive_at_Sundown.png",
+      "photoCredit": {
+        "author": "Dade History",
+        "license": "CC BY 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:South_Pointe_Drive_at_Sundown.png"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.77172,
+        "lng": -80.13132,
+        "osm": "way/266382359",
+        "osmName": "South of Fifth Sandwalk, South Beach, Miami Beach, Miami-Dade County, Florida, 33109, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Sunset Harbour",
+      "cityGroup": "Miami Beach",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.7946,
+        "lng": -80.14409,
+        "osm": "way/1240913630",
+        "osmName": "Sunset Harbour Shops, Miami Beach, Miami-Dade County, Florida, 33139, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Coral Gables",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Coral_Gables_skyline_20100403.jpg/960px-Coral_Gables_skyline_20100403.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Coral_Gables_skyline_20100403.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.73311,
+        "lng": -80.25851,
+        "osm": "relation/1216645",
+        "osmName": "Coral Gables, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Key Biscayne",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Crandon_Park_Modified.jpg/960px-Crandon_Park_Modified.jpg",
+      "photoCredit": {
+        "author": "Paulkondratuk3194",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Crandon_Park_Modified.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.69684,
+        "lng": -80.16353,
+        "osm": "node/154335289",
+        "osmName": "Key Biscayne, Miami-Dade County, Florida, 33149, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Pinecrest",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.66705,
+        "lng": -80.30811,
+        "osm": "relation/1217282",
+        "osmName": "Pinecrest, Miami-Dade County, Florida, 33156, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Hialeah",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Hialeah_-_Flickr_-_Phillip_Pessar.jpg/960px-Hialeah_-_Flickr_-_Phillip_Pessar.jpg",
+      "photoCredit": {
+        "author": "Phillip Pessar",
+        "license": "CC BY 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Hialeah_-_Flickr_-_Phillip_Pessar.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.82678,
+        "lng": -80.2814,
+        "osm": "relation/118853",
+        "osmName": "Hialeah, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Doral",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Downtown_Doral%2C_Florida.jpg/960px-Downtown_Doral%2C_Florida.jpg",
+      "photoCredit": {
+        "author": "Ven-Lib",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Downtown_Doral,_Florida.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.81954,
+        "lng": -80.35533,
+        "osm": "relation/1216666",
+        "osmName": "Doral, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Aventura",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Aventura_Skyline.jpg/960px-Aventura_Skyline.jpg",
+      "photoCredit": {
+        "author": "Arjun Sharma",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Aventura_Skyline.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.95648,
+        "lng": -80.13921,
+        "osm": "relation/1216581",
+        "osmName": "Aventura, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Sunny Isles Beach",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Jade_Signature%2C_Jade_Beach%2C_Jade_Ocean%2C_Muse%2C_Ocean_4%2C_Chateau_Beach_March_2018_Sunny_Isles.jpg/960px-Jade_Signature%2C_Jade_Beach%2C_Jade_Ocean%2C_Muse%2C_Ocean_4%2C_Chateau_Beach_March_2018_Sunny_Isles.jpg",
+      "photoCredit": {
+        "author": "Jimmy Baikovicius",
+        "license": "CC BY-SA 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Jade_Signature,_Jade_Beach,_Jade_Ocean,_Muse,_Ocean_4,_Chateau_Beach_March_2018_Sunny_Isles.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.94269,
+        "lng": -80.12185,
+        "osm": "relation/1216832",
+        "osmName": "Sunny Isles Beach, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "North Miami",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/North_Miami_FL_city_hall01.jpg/960px-North_Miami_FL_city_hall01.jpg",
+      "photoCredit": {
+        "author": "Ebyabe",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:North_Miami_FL_city_hall01.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.89009,
+        "lng": -80.18671,
+        "osm": "relation/118858",
+        "osmName": "North Miami, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "North Miami Beach",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg/960px-North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg",
+      "photoCredit": {
+        "author": "Ebyabe",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.93315,
+        "lng": -80.16255,
+        "osm": "relation/118860",
+        "osmName": "North Miami Beach, Miami-Dade County, Florida, 33162, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Miami Gardens",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Miami_Gardens_FL_Sunshine_State_Arch_01.JPG/960px-Miami_Gardens_FL_Sunshine_State_Arch_01.JPG",
+      "photoCredit": {
+        "author": "Pietro",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Miami_Gardens_FL_Sunshine_State_Arch_01.JPG"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.94204,
+        "lng": -80.2456,
+        "osm": "relation/1216766",
+        "osmName": "Miami Gardens, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Miami Lakes",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes%2C_Florida.JPG/960px-Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes%2C_Florida.JPG",
+      "photoCredit": {
+        "author": "Farragutful",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes,_Florida.JPG"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.90871,
+        "lng": -80.30866,
+        "osm": "relation/1217204",
+        "osmName": "Miami Lakes, Miami-Dade County, Florida, 33014, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Kendall",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kendall_Dadeland_ramp.jpg/960px-Kendall_Dadeland_ramp.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Kendall_Dadeland_ramp.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.67181,
+        "lng": -80.35486,
+        "osm": "relation/1244549",
+        "osmName": "Kendall, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Homestead",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Downtown_Homestead_street_clock.jpg",
+      "photoCredit": {
+        "author": "Smothert1",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Downtown_Homestead_street_clock.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.47189,
+        "lng": -80.47599,
+        "osm": "relation/1216731",
+        "osmName": "Homestead, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Cutler Bay",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.5783,
+        "lng": -80.3377,
+        "osm": "relation/1216955",
+        "osmName": "Cutler Bay, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Palmetto Bay",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Paradise_Point%2C_Palmetto_Bay%2C_Florida.png/960px-Paradise_Point%2C_Palmetto_Bay%2C_Florida.png",
+      "photoCredit": {
+        "author": "GreenGroupMiami",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Paradise_Point,_Palmetto_Bay,_Florida.png"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.62177,
+        "lng": -80.32477,
+        "osm": "relation/1217277",
+        "osmName": "Palmetto Bay, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Surfside",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Surfside-Florida-2014.jpg",
+      "photoCredit": {
+        "author": "Alexf",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Surfside-Florida-2014.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.87843,
+        "lng": -80.1256,
+        "osm": "relation/1217254",
+        "osmName": "Surfside, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Bal Harbour",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/8/84/Balharbour_fla.jpg",
+      "photoCredit": {
+        "author": "Alexf",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Balharbour_fla.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.89176,
+        "lng": -80.12699,
+        "osm": "relation/1216947",
+        "osmName": "Bal Harbour Village, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Miami Shores",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Miami_Shores_downtown_20110216.jpg/960px-Miami_Shores_downtown_20110216.jpg",
+      "photoCredit": {
+        "author": "Averette",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Miami_Shores_downtown_20110216.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.86315,
+        "lng": -80.19283,
+        "osm": "relation/1217301",
+        "osmName": "Miami Shores, Miami-Dade County, Florida, 33153, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Miami Springs",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.82232,
+        "lng": -80.2895,
+        "osm": "relation/1216764",
+        "osmName": "Miami Springs, Miami-Dade County, Florida, 33166, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Opa-locka",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Restored_1926_Opa-locka_Company_Administration_Building.jpg/960px-Restored_1926_Opa-locka_Company_Administration_Building.jpg",
+      "photoCredit": {
+        "author": "Discoveropalocka26",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Restored_1926_Opa-locka_Company_Administration_Building.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.90232,
+        "lng": -80.25033,
+        "osm": "relation/1216790",
+        "osmName": "Opa-locka, Miami-Dade County, Florida, 33054, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Westchester",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Westchester_sign.jpg/960px-Westchester_sign.jpg",
+      "photoCredit": {
+        "author": "Unknown",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Westchester_sign.jpg"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.75482,
+        "lng": -80.32727,
+        "osm": "node/154332987",
+        "osmName": "Westchester, Miami-Dade County, Florida, 33144, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Sweetwater",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.76343,
+        "lng": -80.37311,
+        "osm": "relation/1216824",
+        "osmName": "Sweetwater, Miami-Dade County, Florida, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "South Miami",
+      "cityGroup": "Other Miami-Dade cities",
+      "info": "",
+      "photo": "",
+      "photoCredit": null,
+      "tags": [],
+      "location": {
+        "lat": 25.7076,
+        "lng": -80.29338,
+        "osm": "relation/118861",
+        "osmName": "South Miami, Miami-Dade County, Florida, 33143, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    },
+    {
+      "name": "Hallandale Beach",
+      "cityGroup": "Broward County",
+      "info": "",
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Hallandale_Beach_sunset.JPG/960px-Hallandale_Beach_sunset.JPG",
+      "photoCredit": {
+        "author": "Florida guy 128",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Hallandale_Beach_sunset.JPG"
+      },
+      "tags": [],
+      "location": {
+        "lat": 25.9812,
+        "lng": -80.14838,
+        "osm": "relation/1216727",
+        "osmName": "Hallandale Beach, Broward County, Florida, 33009, United States"
+      },
+      "ratings": {
+        "safety": null,
+        "walkability": null,
+        "restaurants": {
+          "quantity": null,
+          "price": null,
+          "diversity": null
+        },
+        "nightlife": null,
+        "averagePropertyPrice": null,
+        "artAndCulture": null,
+        "shopping": null
+      }
+    }
+  ]
+}
