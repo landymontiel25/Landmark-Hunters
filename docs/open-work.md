@@ -163,6 +163,16 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   that open them, and the Map sheet's Top landmarks button leaves them to its moods.
   `isRestaurantOrMall` in `src/lib/topRated.js`. Versailles and Joe's Stone
   Crab count as restaurants. Applies in every region.
+- Friend full profile (owner, 2026-11-06): `screens/FriendProfile.jsx` at
+  `/friend/:uid`, opened from "See full profile" in the restyled friend popup
+  (`components/FriendStatsModal.jsx`). Points come from `leaderboard_entries`
+  for the period the leaderboard tabs are on, the same as the Friends board.
+  `api/friend-profile.js` returns the friend's solo streak (count and days
+  only; the rules don't let a friend read `streaks/{uid}`) and removes both
+  friend edges on Remove friend (a phone can delete only its own half).
+  Open: a private profile is the default, so most friends show only the
+  header until they go public; the popup still shows all-time points
+  (check-ins + bonus) while the full profile shows the leaderboard period's.
 - Text selection is off app-wide (owner, 2026-11-05, TestFlight: holding a
   landmark selected text like Safari). `ux-3.css` sets `user-select: none`
   and no touch callout on the page; inputs, textareas and `.selectable`

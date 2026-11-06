@@ -149,6 +149,7 @@ const MyCities = lazyScreen(() => import('./screens/MyCities'));
 const MyStreaks = lazyScreen(() => import('./screens/MyStreaks'));
 const FriendCheckins = lazyScreen(() => import('./screens/FriendCheckins'));
 const FriendCities = lazyScreen(() => import('./screens/FriendCities'));
+const FriendProfile = lazyScreen(() => import('./screens/FriendProfile'));
 const Notifications = lazyScreen(() => import('./screens/Notifications'));
 const RequestFeature = lazyScreen(() => import('./screens/RequestFeature'));
 const ReportBug = lazyScreen(() => import('./screens/ReportBug'));
@@ -188,6 +189,7 @@ function AppRoutes() {
           <Route path="/streaks" element={<MyStreaks />} />
           <Route path="/friend/:uid/checkins" element={<FriendCheckins />} />
           <Route path="/friend/:uid/cities" element={<FriendCities />} />
+          <Route path="/friend/:uid" element={<FriendProfile />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/request-feature" element={<RequestFeature />} />
           <Route path="/report-bug" element={<ReportBug />} />
