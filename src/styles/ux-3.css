@@ -1966,3 +1966,120 @@ img {
 .plan-bar-trash:active {
   background: var(--color-bg-card);
 }
+
+/* Friend popup (components/FriendStatsModal.jsx, owner 2026-11-06): narrow,
+   plain rows, no stat cards. The box keeps .modal-card's border and corners. */
+.modal-card.friend-popup {
+  max-width: 320px;
+  padding: 18px 18px 16px;
+}
+.fpop-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.fpop-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+.fpop-points {
+  flex: none;
+  font-weight: 700;
+  color: var(--color-brass-bright, var(--text-primary));
+}
+.fpop-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.fpop-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.fpop-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle, var(--color-border));
+  font-size: 0.9rem;
+}
+.fpop-row-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+.fpop-row-date {
+  flex: none;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+.fpop-note {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.fpop-link {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mapr-blue, var(--color-brass-bright));
+  cursor: pointer;
+}
+.fpop-see-all {
+  display: block;
+  margin-top: 6px;
+}
+.fpop-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* A friend's full profile (screens/FriendProfile.jsx): label / value rows
+   inside the same .card sections as Full Stats. */
+.fp-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle, var(--color-border));
+}
+.fp-row:last-child {
+  border-bottom: 0;
+}
+.fp-row-label {
+  color: var(--text-secondary);
+}
+.fp-row-value {
+  min-width: 0;
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+.fp-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
