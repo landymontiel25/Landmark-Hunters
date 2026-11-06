@@ -23,7 +23,9 @@ import { canonicalRegionId, getLandmark } from '../src/data/regions.js';
 // robots.txt blocks this path: Tripadvisor requires review text to load
 // through a call crawlers can't fetch.
 
-export const RATINGS_LIMIT = { limit: 150, windowMs: 10 * 60 * 1000 };
+// 300 in 10 minutes: Top Landmarks looks up up to 120 places per open
+// (src/lib/useTopRatings.js), plus the rows and pages you open.
+export const RATINGS_LIMIT = { limit: 300, windowMs: 10 * 60 * 1000 };
 
 let idsCache = null;
 export function ratingIds() {

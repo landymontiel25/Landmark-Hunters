@@ -1,4 +1,4 @@
-import { weightedStars, isRestaurantOrMall, popularityOf } from './topRated';
+import { weightedStars, isRestaurantOrMall } from './topRated';
 import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
@@ -783,10 +783,9 @@ export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, 
     ratings?.[l.id]?.count ? (wanted ? Number(ratings[l.id].avg) || 0 : weightedStars(Number(ratings[l.id].avg) || 0, ratings[l.id].count)) : -1;
   const sorted = pool
     .filter((l) => (wanted ? (l.categories || []).some((c) => wanted.has(c)) : !isRestaurantOrMall(l)))
-    // Top landmarks, highest rated: the places most people go to first (the
-    // catalog's popularity score, owner 2026-11-05), then the weighted stars;
-    // the moods keep rating order.
-    .sort((a, b) => (sort === 'rated' ? (wanted ? 0 : popularityOf(b) - popularityOf(a)) || avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters);
+    // Highest rated: the weighted stars, then closest. No hand-typed
+    // popularity score (owner, 2026-11-06).
+    .sort((a, b) => (sort === 'rated' ? avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters);
   // Top landmarks: Miami malls come last (maprRank/mallsLast.js).
   return (wanted ? sorted : mallsLast(sorted))
     .slice(0, limit)

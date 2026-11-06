@@ -15,7 +15,7 @@ describe('Top Rated order', () => {
   });
 });
 
-import { topLandmarksOrder, isRestaurantOrMall, popularityOf } from './topRated';
+import { topLandmarksOrder, isRestaurantOrMall } from './topRated';
 
 // Owner, 2026-11-04: Top Landmarks lists every landmark (not only the few over
 // a review bar), with Miami malls last. Since 2026-11-05 the order is the
@@ -67,29 +67,28 @@ describe('restaurants and malls', () => {
 // Owner, 2026-11-05: Top Landmarks go by how many people go to a place (the
 // catalog's popularity score), not by the app's own check-ins: with a few
 // testers those put Actors' Playhouse above Ocean Drive.
-describe('Top Landmarks by popularity', () => {
-  const lm = (id, popularity, extra = {}) => ({ id, name: id, regionId: 'miami', categories: [], popularity, ...extra });
+describe('Top Landmarks by number of Google reviews (owner, 2026-11-06)', () => {
+  const lm = (id, extra = {}) => ({ id, name: id, regionId: 'miami', categories: [], ...extra });
   const g = (rating, count) => ({ google: { rating, count } });
   const ids = (a) => a.map((l) => l.id);
-  it('puts the most popular place first, whatever the rating', () => {
-    const all = [lm('actors-playhouse', 5), lm('ocean-drive', 10), lm('miracle-mile', 5)];
-    const google = { 'actors-playhouse': g(4.9, 5000), 'ocean-drive': g(4.2, 800), 'miracle-mile': g(4.6, 900) };
-    expect(ids(topLandmarksOrder(all, google))[0]).toBe('ocean-drive');
+  it('puts the place with the most reviews first, whatever the stars', () => {
+    const all = [lm('ball-and-chain'), lm('bayfront-park'), lm('small')];
+    const google = { 'ball-and-chain': g(4.6, 10138), 'bayfront-park': g(4.7, 21895), small: g(5.0, 40) };
+    expect(ids(topLandmarksOrder(all, google))).toEqual(['bayfront-park', 'ball-and-chain', 'small']);
   });
-  it('breaks ties by rating', () => {
-    const all = [lm('a', 7), lm('b', 7)];
-    expect(ids(topLandmarksOrder(all, { a: g(4.0, 500), b: g(4.8, 500) }))).toEqual(['b', 'a']);
+  it('ignores the hand-typed popularity score', () => {
+    const all = [lm('typed-ten', { popularity: 10 }), lm('reviewed', { popularity: 1 })];
+    expect(ids(topLandmarksOrder(all, { 'typed-ten': g(4.9, 100), reviewed: g(4.1, 9000) }))).toEqual(['reviewed', 'typed-ten']);
   });
-  it('breaks the rest by name, and treats a missing popularity as 0', () => {
-    expect(ids(topLandmarksOrder([lm('b', 3), lm('a', 3), lm('none', undefined)], {}))).toEqual(['a', 'b', 'none']);
+  it('breaks a tie on reviews by stars', () => {
+    expect(ids(topLandmarksOrder([lm('a'), lm('b')], { a: g(4.0, 500), b: g(4.8, 500) }))).toEqual(['b', 'a']);
+  });
+  it('places Google has no answer for follow: app-rated ones first, then by name', () => {
+    const all = [lm('zeta'), lm('alpha'), lm('app'), lm('google')];
+    expect(ids(topLandmarksOrder(all, { google: g(4, 3) }, { app: { avg: 5, count: 2 } }))).toEqual(['google', 'app', 'alpha', 'zeta']);
   });
   it('still puts Miami malls last', () => {
-    const all = [lm('dolphin-mall', 10, { mall: true }), lm('x', 1)];
-    expect(ids(topLandmarksOrder(all, {}))).toEqual(['x', 'dolphin-mall']);
-  });
-  it('reads a place popularity as a number', () => {
-    expect(popularityOf(lm('a', 8))).toBe(8);
-    expect(popularityOf(lm('a', undefined))).toBe(0);
-    expect(popularityOf(null)).toBe(0);
+    const all = [lm('dolphin-mall', { mall: true }), lm('x')];
+    expect(ids(topLandmarksOrder(all, { 'dolphin-mall': g(4.5, 90000), x: g(4, 10) }))).toEqual(['x', 'dolphin-mall']);
   });
 });

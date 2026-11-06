@@ -16,28 +16,38 @@ export function ratedScore(l, googleById, ratings) {
   return r?.count > 0 ? weightedStars(r.avg, r.count) : null;
 }
 
-// "Top Landmarks" (owner, 2026-11-05): every landmark in the list, the places
-// the most people go to first. That is the catalog's popularity score (0-10,
-// curated, set per place in src/data and the place packs) -- NOT the app's own
-// check-in counts: with a few testers those said an Actors' Playhouse beat
-// Ocean Drive (owner, 2026-11-05). Ties fall back to ratedScore above
-// (Google's stars weighted by review count, the app's own ratings where
-// Google has none), then name. Miami malls come last of all
-// (maprRank/mallsLast.js). Earlier versions ordered by rating alone
-// (2026-10-29: only the ~14 over a review bar; 2026-11-04: all by rating) and
-// by the app's check-ins (2026-11-04).
-export const popularityOf = (l) => Number(l?.popularity) || 0;
+// "Top Landmarks" (owner, 2026-11-06): the number of Google reviews, most
+// first ("we're going to go by the number of reviews per landmark"); Google's
+// stars only break a tie. So Bayfront Park (21,895 reviews) is above Ball &
+// Chain (10,138). No hand-typed score: the 0-10 `popularity` numbers in
+// src/data had no source and tied 13 Miami places at 7, which then sorted A
+// to Z (owner: "we should not be using that"). Places Google has no answer
+// for follow, by the app's own ratings, then name. Miami malls come last of
+// all (maprRank/mallsLast.js). Google's terms forbid storing its ratings, so
+// the Landmarks tab fetches them live (useTopRatings.js) before it shows the
+// list. Miami first (owner): it fits the lookup cap whole; bigger lists are
+// still to do.
+const googleOf = (google, l) => {
+  const g = google?.[l.id]?.google;
+  return g?.rating > 0 && g.count > 0 ? g : null;
+};
 // landmarks: every place in the list. google: { [landmarkId]: { google:
 // { rating, count } } }. ratings: the app's own { [landmarkId]: { avg, count } }.
 export function topLandmarksOrder(landmarks, google, ratings = {}) {
-  const score = new Map(landmarks.map((l) => [l, ratedScore(l, google || {}, ratings || {})]));
+  const key = new Map(
+    landmarks.map((l) => {
+      const g = googleOf(google, l);
+      const r = ratings?.[l.id];
+      return [l, { g: g ? g.count : null, stars: g ? g.rating : 0, app: r?.count > 0 ? weightedStars(r.avg, r.count) : null }];
+    })
+  );
+  const tier = (k) => (k.g != null ? 0 : k.app != null ? 1 : 2);
   return mallsLast(
-    [...landmarks].sort(
-      (a, b) =>
-        popularityOf(b) - popularityOf(a) ||
-        (score.get(b) ?? -1) - (score.get(a) ?? -1) ||
-        a.name.localeCompare(b.name)
-    )
+    [...landmarks].sort((a, b) => {
+      const ka = key.get(a);
+      const kb = key.get(b);
+      return tier(ka) - tier(kb) || (kb.g ?? 0) - (ka.g ?? 0) || kb.stars - ka.stars || (kb.app ?? 0) - (ka.app ?? 0) || a.name.localeCompare(b.name);
+    })
   );
 }
 

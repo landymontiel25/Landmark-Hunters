@@ -146,18 +146,21 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   on every Mapr surface and the Top Landmarks sort, through
   `src/lib/maprRank/mallsLast.js`. Other regions are untouched; add a region
   id to `MALLS_LAST_REGIONS` to extend it.
-- Top Landmarks (owner, 2026-11-04) lists every landmark again instead of the
-  14 that cleared a review bar. Order (owner, 2026-11-05): the catalog's
-  `popularity` score (0-10) first, then weighted Google rating (`ratedScore`),
-  then name; Miami malls last. The app's own check-in counts no longer rank
-  anything: with a few testers they put Actors' Playhouse and Miracle Mile
-  above Ocean Drive. Same order on the Map sheet's Top landmarks button
-  (`moodPlaces`). Still open: `popularity` is not real yearly visits: hand-picked
-  places have a 0-10 number typed into `src/data/landmarks.*.js` (no record of the
-  basis), imported places get 1-4 from `scripts/osm-import/transform.js` (1, +2 for
-  an OSM `wikidata` tag, +1 for `wikipedia`); the owner asked for visits per year, which needs a sourced
-  number per place (CLAUDE.md: every fact cites its URL) and a research run
-  with a budget the owner sets.
+- Top Landmarks (owner, 2026-11-06) orders by the number of Google reviews,
+  most first; Google's stars only break a tie (`topLandmarksOrder` in
+  `src/lib/topRated.js`). The hand-typed 0-10 `popularity` score no longer
+  orders it (owner: "we should not be using that"; it had no source and tied
+  13 Miami places at 7, which then sorted A to Z). The Landmarks tab looks up
+  Google for up to 120 places before showing the list
+  (`src/lib/useTopRatings.js`; nothing is stored, per Google's terms), which
+  covers all of Miami. Still open (owner: Miami first, the rest later):
+  Philadelphia, SF and other big lists rank only their first 120 places
+  (hand-picked first) and the rest follow by name; All Cities likewise. The
+  Map sheet's Top landmarks button orders by the app's own ratings, then
+  distance (no popularity, no Google). `popularity` still nudges For Me
+  ties, Mapr's demand order (`tagScores.js`) and the signed-out list; ask
+  before removing it there too. The ratings endpoint limit went from 150 to
+  300 lookups per user per 10 minutes.
 - Restaurants and malls (owner, 2026-11-05) are out of Top Landmarks: the
   Landmarks tab has a "Restaurants" tab and a "Malls" tab side by side under the list (2026-11-05)
   that open them, and the Map sheet's Top landmarks button leaves them to its moods.

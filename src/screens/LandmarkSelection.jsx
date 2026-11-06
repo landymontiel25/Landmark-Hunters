@@ -1,5 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePageRatings, ratingKey } from '../lib/usePageRatings';
+import { useTopRatings } from '../lib/useTopRatings';
+import { SkeletonList } from '../components/Skeleton';
 import { RATINGS_FLAGS } from '../lib/ratingSources';
 import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
 import { isMallPlace } from '../lib/malls';
@@ -510,6 +512,12 @@ export default function LandmarkSelection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editedLandmarks, normalizedCustomLandmarks, scope, drawnShape, activeCategories, foundOnly, hasFound, isFound, search]);
 
+  // Top Landmarks ranks by Google's stars and review count, so it loads the
+  // list's Google ratings first (src/lib/useTopRatings.js; signed in only).
+  const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
+  const top = useTopRatings(filteredLandmarks, topWanted);
+  const topLoading = topWanted && !top.ready;
+
   const sortedLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
     const filtered = filteredLandmarks;
@@ -574,12 +582,11 @@ export default function LandmarkSelection() {
           a.name.localeCompare(b.name)
       );
     }
-    // Top Landmarks: every place, the ones most people go to first (the
-    // catalog's popularity score, src/lib/topRated.js), then by rating. Nothing
-    // here waits on Google: the order is ready at once, and each row loads its
-    // own Google rating as it scrolls into view.
-    return topLandmarksOrder(filtered, {}, ratings);
-  }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
+    // Top Landmarks: Google's stars times the log of its review count
+    // (src/lib/topRated.js), once the ratings are in (top.ready).
+    if (topLoading) return [];
+    return topLandmarksOrder(filtered, top.google, ratings);
+  }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings, topLoading, top.google]);
 
   // Checked in vs not: an up arrow puts the places you haven't checked into
   // first, a down arrow puts the checked-in ones first, no arrow leaves the
@@ -660,7 +667,8 @@ export default function LandmarkSelection() {
   const pageRows = useMemo(() => allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE), [allRows, shownPage]);
   const nextRows = useMemo(() => allRows.slice((shownPage + 1) * PAGE_SIZE, (shownPage + 2) * PAGE_SIZE), [allRows, shownPage]);
   // This page's Google ratings, then the next page's, loaded up front.
-  const pageRatings = usePageRatings(pageRows, nextRows, !!user && RATINGS_FLAGS.cardLine);
+  // Top Landmarks already has them (top.live); other sorts load per page.
+  const pageRatings = usePageRatings(pageRows, nextRows, !!user && RATINGS_FLAGS.cardLine && !topWanted);
   const goToPage = (n) => {
     setPage(n);
     window.scrollTo({ top: 0 });
@@ -723,7 +731,7 @@ export default function LandmarkSelection() {
         photo={photo}
         ratingAvg={rating?.count > 0 ? rating.avg : null}
         ratingCount={rating?.count || 0}
-        ratingSources={pageRatings[ratingKey(l)] || null}
+        ratingSources={(topWanted ? top.live[l.id] : pageRatings[ratingKey(l)]) || null}
         distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
         user={user}
         firebaseEnabled={firebaseEnabled}
@@ -741,7 +749,7 @@ export default function LandmarkSelection() {
     <div>
       <div className="places-title-row">
         <h1 className="screen-title">
-          <span>{'\u{1F4CD}'}</span> Landmarks ({landmarks.length})
+          <span>{'\u{1F4CD}'}</span> Landmarks{topLoading ? '' : ` (${landmarks.length})`}
         </h1>
         {/* Your check-ins, opened on Grid (photos first). */}
         {user && (
@@ -928,10 +936,11 @@ export default function LandmarkSelection() {
         />
       )}
 
+      {topLoading && <SkeletonList count={6} label="Ranking the top landmarks" />}
       <div>
         {pageRows.map(renderRow)}
         {smart.loading && <SmartSearchLabel loading />}
-        {landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
+        {!topLoading && landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
           <p className="empty-state">No landmarks match these filters.</p>
         )}
       </div>
