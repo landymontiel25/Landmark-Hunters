@@ -9,13 +9,14 @@ The Landmarks tab now opens on Landmarks | Neighborhoods subtabs. Landmark
 cards sit two to a row (photo on top, every old field and button kept),
 and "For Me" moved off the tab to the Test tab's Planner launch bubble
 (`SHOW_FOR_ME_SORT` in `LandmarkSelection.jsx`, on the Planner launch list).
-The Test tab also has a "Landmarks/Neighborhoods" bubble with the same
-screen. Neighborhoods: `src/screens/Neighborhoods.jsx`, logic in
+Neighborhoods: `src/screens/Neighborhoods.jsx`, logic in
 `src/lib/neighborhoods.js`, data in `src/data/miamiNeighborhoods.json`
 (built by `scripts/build-miami-neighborhoods.mjs`: owner's list and tiers,
 Nominatim coordinates, Wikimedia Commons photos with credits).
 
 Still open:
+- Nearby and All areas open with no chip (all 47); tapping a lit chip
+  turns it off (2026-11-06, the owner could only see 4).
 - Ratings, info and tags are all empty on purpose. A separate pipeline
   fills them; until then every score is "–" and the tag chips (Art &
   Culture, Food & Drinks, Beaches, Family, Hidden Gems) show "No

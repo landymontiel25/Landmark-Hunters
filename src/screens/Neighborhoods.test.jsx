@@ -61,11 +61,32 @@ describe('Neighborhoods subtab', () => {
   });
 
   it('All areas lists every neighborhood under city headers, in file order', async () => {
-    const data = { ...DATA, featured: DATA.neighborhoods.map((n) => n.name) }; // Must-See = all
-    await mount(<NeighborhoodsView data={data} />);
+    await mount(<NeighborhoodsView data={DATA} />);
     await click(byText('.nb-tab', 'All areas'));
+    expect(el.querySelector('.nb-chip.on')).toBeNull();
+    expect(el.querySelector('.nb-explore').textContent).toBe('Explore: All neighborhoods');
     expect([...el.querySelectorAll('.nb-group .nb-section')].map((h) => h.textContent)).toEqual([...new Set(DATA.neighborhoods.map((n) => n.cityGroup))]);
     expect(cardNames()).toEqual(DATA.neighborhoods.map((n) => n.name));
+    expect(cardNames().length).toBe(47);
+  });
+
+  it('tapping the lit chip turns it off and shows everything; Popular brings Must-See back', async () => {
+    await mount(<NeighborhoodsView data={DATA} />);
+    await click(byText('.nb-tab', 'All areas'));
+    await click(byText('.nb-chip', 'Tier 2'));
+    expect(cardNames().length).toBe(10);
+    await click(byText('.nb-chip', 'Tier 2'));
+    expect(cardNames().length).toBe(47);
+    await click(byText('.nb-tab', 'Popular'));
+    expect(byText('.nb-chip', 'Must-See').getAttribute('aria-pressed')).toBe('true');
+    expect(cardNames()).toEqual(['South Beach', 'Wynwood', 'Downtown Miami', 'Little Havana']);
+  });
+
+  it('search finds any neighborhood from All areas', async () => {
+    await mount(<NeighborhoodsView data={DATA} />);
+    await click(byText('.nb-tab', 'All areas'));
+    await type(el.querySelector('input[type="search"]'), 'sweet');
+    expect(cardNames()).toEqual(['Sweetwater']);
   });
 
   it('a chip with no neighborhoods says so', async () => {
@@ -105,11 +126,11 @@ describe('Neighborhoods subtab', () => {
     expect(onUseLocation).toHaveBeenCalledTimes(1);
   });
 
-  it('Nearby with a location lists closest first', async () => {
-    const data = { ...DATA, featured: DATA.neighborhoods.map((n) => n.name) };
-    await mount(<NeighborhoodsView data={data} coords={{ lat: 25.7743, lng: -80.1337 }} />);
+  it('Nearby with a location lists every neighborhood, closest first', async () => {
+    await mount(<NeighborhoodsView data={DATA} coords={{ lat: 25.7743, lng: -80.1337 }} />);
     await click(byText('.nb-tab', 'Nearby'));
     expect(cardNames()[0]).toBe('South Beach');
+    expect(cardNames().length).toBe(47);
   });
 
   it('a card with no photo shows its first letter on a dark tile', async () => {
