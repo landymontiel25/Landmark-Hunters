@@ -180,7 +180,7 @@ describe('catalog text and image hygiene', () => {
   });
 
   it('only lists https image URLs on known hosts, with no repeats inside one landmark', () => {
-    const HOSTS = new Set(['commons.wikimedia.org', 'upload.wikimedia.org', 'thumb.wikimedia.org', 'www.miamibeachfl.gov']);
+    const HOSTS = new Set(['commons.wikimedia.org', 'upload.wikimedia.org', 'thumb.wikimedia.org', 'www.miamibeachfl.gov', 'www.villanova.edu']);
     const bad = [];
     for (const l of ALL_LANDMARKS) {
       const imgs = l.images || [];
