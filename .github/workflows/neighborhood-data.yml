@@ -1,0 +1,36 @@
+# Fills the Neighborhoods rating sliders (Landmarks tab) with real data.
+# Run it by hand from the Actions tab ("Neighborhood data" > Run workflow).
+# Needs the repo secrets GEOAPIFY_API_KEY and CENSUS_API_KEY. It fetches the
+# raw numbers, scores them, and pushes the result to the branch
+# data/neighborhood-ratings for a pull request.
+name: Neighborhood data
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch Geoapify and Census numbers
+        env:
+          GEOAPIFY_API_KEY: ${{ secrets.GEOAPIFY_API_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: node scripts/fetch-neighborhood-metrics.mjs
+      - name: Score them into the data file
+        run: node scripts/score-miami-neighborhoods.mjs
+      - name: Push to data/neighborhood-ratings
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B data/neighborhood-ratings
+          git add scripts/neighborhoods/metrics.json src/data/miamiNeighborhoods.json
+          git commit -m "Neighborhood ratings from Geoapify and Census data"
+          git push -f origin data/neighborhood-ratings

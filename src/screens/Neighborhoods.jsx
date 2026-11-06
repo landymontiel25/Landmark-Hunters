@@ -155,6 +155,13 @@ export function NeighborhoodsView({ data = DATA, coords = null, onUseLocation, l
   const [tab, setTab] = useState('popular');
   const [chipId, setChipId] = useState(DEFAULT_CHIP);
   const [open, setOpen] = useState(null);
+  // Must-See is Popular's default. Nearby and All areas open on every
+  // neighborhood (Must-See there would show the same four); tapping a lit
+  // chip turns it off too.
+  const pickTab = (id) => {
+    setTab(id);
+    setChipId(id === 'popular' ? DEFAULT_CHIP : null);
+  };
   const chips = useMemo(() => chipsFor(data), [data]);
   const chip = chips.find((c) => c.id === chipId);
   const { items, groups, needsLocation } = useMemo(
@@ -191,7 +198,7 @@ export function NeighborhoodsView({ data = DATA, coords = null, onUseLocation, l
 
       <div className="nb-tabs" role="tablist" aria-label="Neighborhood lists">
         {TOP_TABS.map((t) => (
-          <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className={`nb-tab ${tab === t.id ? 'on' : ''}`} onClick={() => setTab(t.id)}>
+          <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className={`nb-tab ${tab === t.id ? 'on' : ''}`} onClick={() => pickTab(t.id)}>
             {t.label}
           </button>
         ))}
@@ -206,14 +213,14 @@ export function NeighborhoodsView({ data = DATA, coords = null, onUseLocation, l
               className={`nb-chip ${chipId === c.id ? 'on' : ''}`}
               aria-pressed={chipId === c.id}
               title={c.title ? `${c.label} · ${c.title}` : c.label}
-              onClick={() => setChipId(c.id)}
+              onClick={() => setChipId((cur) => (cur === c.id ? null : c.id))}
             >
               {c.label}
             </button>
           ))}
         </div>
         <p className="nb-explore">
-          Explore: {chip?.label}
+          Explore: {chip ? chip.label : 'All neighborhoods'}
           {chip?.title ? ` · ${chip.title}` : ''}
         </p>
         {!needsLocation && items.length > 0 && <p className="nb-explore-list" data-testid="nb-explore-list">{exploreSummary(items)}</p>}
