@@ -1,0 +1,125 @@
+/* Landmarks subtab cards (owner, 2026-11-06): the neighborhood card layout,
+   photo on top, name in bold, the details under it, two to a row in the
+   shared .nb-grid. Every field and button of the old row stays. */
+
+.lm-grid {
+  margin-bottom: 14px;
+  /* Cards in a row share a height; one long name doesn't stretch the page. */
+  grid-auto-rows: auto;
+}
+
+.landmark-row.lm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 8px;
+  contain-intrinsic-size: auto 360px;
+}
+
+.lm-card-photo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #1a1d26;
+}
+.lm-card-photo > .lr-thumb-btn,
+.lm-card-photo > div:first-child {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+/* LandmarkThumb sets a fixed size; the card stretches it to fill. */
+.lm-card-photo .landmark-thumb,
+.lm-card-photo .landmark-thumb-wrap {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0;
+  object-fit: cover;
+  display: block;
+}
+/* The colored category tile keeps its icon and "No image available" stacked. */
+.lm-card-photo .landmark-thumb-fallback {
+  display: flex;
+  padding-bottom: 36px;
+}
+.lm-card-photo .no-image-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Over the photo: itinerary circle top left, score top right, save and
+   share bottom right. White on a dark backing in both themes. */
+.lm-card-check {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+.landmark-row.selected .lm-card-check {
+  color: #fff;
+}
+.lm-card-badge {
+  z-index: 2;
+  max-width: calc(100% - 52px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lr-corner.lm-card-corner {
+  top: auto;
+  bottom: 8px;
+  right: 8px;
+  gap: 6px;
+}
+.lm-card-corner .share-icon-btn {
+  width: 34px;
+  height: 34px;
+  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.lm-card .lr-main {
+  flex: 1 1 auto;
+  cursor: pointer;
+}
+.landmark-row.lm-card h4 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 6px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+.lm-card .lr-meta {
+  gap: 4px;
+}
+.lm-card .lr-meta .tag {
+  font-size: 0.74rem;
+  max-width: 100%;
+}
+
+/* Info and Directions side by side, Check in across the bottom. */
+.lm-card .lr-actions {
+  margin-top: auto;
+  gap: 6px;
+}
+.lm-card .lr-actions .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 0.82rem;
+}
+.lm-card .lr-actions .btn-primary,
+.lm-card .lr-actions .btn-success {
+  flex-basis: 100%;
+}

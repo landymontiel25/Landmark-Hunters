@@ -1,4 +1,5 @@
 import { TURNED_OFF, REMOVED } from './plannerList';
+import LandmarkSelection from './LandmarkSelection';
 
 // Test tab "Planner launch" (owner, 2026-11-02; was "Planner"): the list of everything turned off
 // for now, so nothing gets forgotten. The entries live in plannerList.js.
@@ -50,6 +51,12 @@ export default function PlannerLab() {
           </ul>
         </>
       )}
+      {/* For Me left the Landmarks tab (owner, 2026-11-06) and lives here,
+          working as before: Mapr's ranking for you, with check-in and rating. */}
+      <section className="planner-forme" aria-label="For Me">
+        <h2 className="planner-subhead">For Me</h2>
+        <LandmarkSelection forMeLab />
+      </section>
     </div>
   );
 }

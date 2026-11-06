@@ -1,0 +1,306 @@
+{
+  "Allapattah": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Allapattah_in_Miami.jpg",
+    "photoCredit": {
+      "author": "FrickFrack",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Allapattah_in_Miami.jpg"
+    }
+  },
+  "Aventura": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Aventura_Skyline.jpg/960px-Aventura_Skyline.jpg",
+    "photoCredit": {
+      "author": "Arjun Sharma",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Aventura_Skyline.jpg"
+    }
+  },
+  "Bal Harbour": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/8/84/Balharbour_fla.jpg",
+    "photoCredit": {
+      "author": "Alexf",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Balharbour_fla.jpg"
+    }
+  },
+  "Brickell": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Brickell_skyline_2012.jpg/960px-Brickell_skyline_2012.jpg",
+    "photoCredit": {
+      "author": "Daniel Christensen",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Brickell_skyline_2012.jpg"
+    }
+  },
+  "Miami Lakes": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes%2C_Florida.JPG/960px-Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes%2C_Florida.JPG",
+    "photoCredit": {
+      "author": "Farragutful",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes,_Florida.JPG"
+    }
+  },
+  "Coconut Grove": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Coconut_Grove_Street_20100321.jpg/960px-Coconut_Grove_Street_20100321.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Coconut_Grove_Street_20100321.jpg"
+    }
+  },
+  "Downtown Miami": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Common_Downtown_shot_2011_all_tagged_including_OBP.jpg/960px-Common_Downtown_shot_2011_all_tagged_including_OBP.jpg",
+    "photoCredit": {
+      "author": "B137",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Common_Downtown_shot_2011_all_tagged_including_OBP.jpg"
+    }
+  },
+  "Coral Gables": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Coral_Gables_skyline_20100403.jpg/960px-Coral_Gables_skyline_20100403.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Coral_Gables_skyline_20100403.jpg"
+    }
+  },
+  "Coral Way": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Coral_Way_Miami_20100430.jpg/960px-Coral_Way_Miami_20100430.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Coral_Way_Miami_20100430.jpg"
+    }
+  },
+  "Key Biscayne": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Crandon_Park_Modified.jpg/960px-Crandon_Park_Modified.jpg",
+    "photoCredit": {
+      "author": "Paulkondratuk3194",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Crandon_Park_Modified.jpg"
+    }
+  },
+  "Design District": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Design_District%2C_Miami%2C_Florida_2021_-_What_is_Miami.jpg/960px-Design_District%2C_Miami%2C_Florida_2021_-_What_is_Miami.jpg",
+    "photoCredit": {
+      "author": "Sharon Hahn Darlin",
+      "license": "CC BY 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Design_District,_Miami,_Florida_2021_-_What_is_Miami.jpg"
+    }
+  },
+  "Doral": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Downtown_Doral%2C_Florida.jpg/960px-Downtown_Doral%2C_Florida.jpg",
+    "photoCredit": {
+      "author": "Ven-Lib",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Downtown_Doral,_Florida.jpg"
+    }
+  },
+  "Homestead": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Downtown_Homestead_street_clock.jpg",
+    "photoCredit": {
+      "author": "Smothert1",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Downtown_Homestead_street_clock.jpg"
+    }
+  },
+  "Edgewater": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Edgewater_Miami_Florida_southern.jpg/960px-Edgewater_Miami_Florida_southern.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Edgewater_Miami_Florida_southern.jpg"
+    }
+  },
+  "Hallandale Beach": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Hallandale_Beach_sunset.JPG/960px-Hallandale_Beach_sunset.JPG",
+    "photoCredit": {
+      "author": "Florida guy 128",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Hallandale_Beach_sunset.JPG"
+    }
+  },
+  "Hialeah": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Hialeah_-_Flickr_-_Phillip_Pessar.jpg/960px-Hialeah_-_Flickr_-_Phillip_Pessar.jpg",
+    "photoCredit": {
+      "author": "Phillip Pessar",
+      "license": "CC BY 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Hialeah_-_Flickr_-_Phillip_Pessar.jpg"
+    }
+  },
+  "Sunny Isles Beach": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Jade_Signature%2C_Jade_Beach%2C_Jade_Ocean%2C_Muse%2C_Ocean_4%2C_Chateau_Beach_March_2018_Sunny_Isles.jpg/960px-Jade_Signature%2C_Jade_Beach%2C_Jade_Ocean%2C_Muse%2C_Ocean_4%2C_Chateau_Beach_March_2018_Sunny_Isles.jpg",
+    "photoCredit": {
+      "author": "Jimmy Baikovicius",
+      "license": "CC BY-SA 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Jade_Signature,_Jade_Beach,_Jade_Ocean,_Muse,_Ocean_4,_Chateau_Beach_March_2018_Sunny_Isles.jpg"
+    }
+  },
+  "Kendall": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kendall_Dadeland_ramp.jpg/960px-Kendall_Dadeland_ramp.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Kendall_Dadeland_ramp.jpg"
+    }
+  },
+  "Little Haiti": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Little_Haiti_south.jpg/960px-Little_Haiti_south.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_Haiti_south.jpg"
+    }
+  },
+  "Little Havana": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Little_Havana_Dominos_Park.JPG/960px-Little_Havana_Dominos_Park.JPG",
+    "photoCredit": {
+      "author": "Infrogmation of New Orleans",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_Havana_Dominos_Park.JPG"
+    }
+  },
+  "Liberty City": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/MLKMIA.jpg/960px-MLKMIA.jpg",
+    "photoCredit": {
+      "author": "Photo by en:User:305mia, mural by Oscar Thomas",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:MLKMIA.jpg"
+    }
+  },
+  "Upper East Side": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/MiMo_restaurant_20110218.jpg/960px-MiMo_restaurant_20110218.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:MiMo_restaurant_20110218.jpg"
+    }
+  },
+  "Mid-Beach": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Miami_Beach%2C_31th_Street.jpg/960px-Miami_Beach%2C_31th_Street.jpg",
+    "photoCredit": {
+      "author": "Gofrege",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Miami_Beach,_31th_Street.jpg"
+    }
+  },
+  "Overtown": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Miami_FL_Overtown_3rd_Ave.jpg/960px-Miami_FL_Overtown_3rd_Ave.jpg",
+    "photoCredit": {
+      "author": "Pietro",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Miami_FL_Overtown_3rd_Ave.jpg"
+    }
+  },
+  "Miami Gardens": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Miami_Gardens_FL_Sunshine_State_Arch_01.JPG/960px-Miami_Gardens_FL_Sunshine_State_Arch_01.JPG",
+    "photoCredit": {
+      "author": "Pietro",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Miami_Gardens_FL_Sunshine_State_Arch_01.JPG"
+    }
+  },
+  "Miami Shores": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Miami_Shores_downtown_20110216.jpg/960px-Miami_Shores_downtown_20110216.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Miami_Shores_downtown_20110216.jpg"
+    }
+  },
+  "Midtown": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Midtown_Miami_2012.jpg/960px-Midtown_Miami_2012.jpg",
+    "photoCredit": {
+      "author": "B137",
+      "license": "CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Midtown_Miami_2012.jpg"
+    }
+  },
+  "Miami River District": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Mouth_of_Miami_River_20100211.jpg/960px-Mouth_of_Miami_River_20100211.jpg",
+    "photoCredit": {
+      "author": "Marc Averette",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mouth_of_Miami_River_20100211.jpg"
+    }
+  },
+  "North Beach": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/North_Beach_Miami_Beach.jpg/960px-North_Beach_Miami_Beach.jpg",
+    "photoCredit": {
+      "author": "Averette",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:North_Beach_Miami_Beach.jpg"
+    }
+  },
+  "North Miami Beach": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg/960px-North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg",
+    "photoCredit": {
+      "author": "Ebyabe",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg"
+    }
+  },
+  "North Miami": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/North_Miami_FL_city_hall01.jpg/960px-North_Miami_FL_city_hall01.jpg",
+    "photoCredit": {
+      "author": "Ebyabe",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:North_Miami_FL_city_hall01.jpg"
+    }
+  },
+  "South Beach": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Ocean_drive_day_2009j.JPG/960px-Ocean_drive_day_2009j.JPG",
+    "photoCredit": {
+      "author": "chensiyuan",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ocean_drive_day_2009j.JPG"
+    }
+  },
+  "Palmetto Bay": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Paradise_Point%2C_Palmetto_Bay%2C_Florida.png/960px-Paradise_Point%2C_Palmetto_Bay%2C_Florida.png",
+    "photoCredit": {
+      "author": "GreenGroupMiami",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Paradise_Point,_Palmetto_Bay,_Florida.png"
+    }
+  },
+  "Opa-locka": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Restored_1926_Opa-locka_Company_Administration_Building.jpg/960px-Restored_1926_Opa-locka_Company_Administration_Building.jpg",
+    "photoCredit": {
+      "author": "Discoveropalocka26",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Restored_1926_Opa-locka_Company_Administration_Building.jpg"
+    }
+  },
+  "South of Fifth": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/South_Pointe_Drive_at_Sundown.png/960px-South_Pointe_Drive_at_Sundown.png",
+    "photoCredit": {
+      "author": "Dade History",
+      "license": "CC BY 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:South_Pointe_Drive_at_Sundown.png"
+    }
+  },
+  "Surfside": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Surfside-Florida-2014.jpg",
+    "photoCredit": {
+      "author": "Alexf",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Surfside-Florida-2014.jpg"
+    }
+  },
+  "Westchester": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Westchester_sign.jpg/960px-Westchester_sign.jpg",
+    "photoCredit": {
+      "author": "Unknown",
+      "license": "CC BY 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Westchester_sign.jpg"
+    }
+  },
+  "Wynwood": {
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Wynwood_Walls_Miami_Florida_October_2013.jpg/960px-Wynwood_Walls_Miami_Florida_October_2013.jpg",
+    "photoCredit": {
+      "author": "Dan Lundberg",
+      "license": "CC BY-SA 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Wynwood_Walls_Miami_Florida_October_2013.jpg"
+    }
+  }
+}

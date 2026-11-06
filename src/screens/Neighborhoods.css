@@ -1,0 +1,406 @@
+/* Neighborhoods subtab (Landmarks tab) and the shared two-column card grid
+   the Landmarks subtab uses too. Owner mockup, 2026-11-06. Colors come from
+   the theme tokens so light and dark both work; text over a photo stays
+   white on a dark backing in both. */
+
+.nb {
+  padding-bottom: 24px;
+}
+.nb-eyebrow {
+  margin: 4px 0 2px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+.nb-title,
+.nb-detail-title {
+  font-family: var(--font-body);
+}
+.nb-title {
+  margin: 0 0 14px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.nb-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+.nb-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  padding: 12px 0;
+}
+.nb-search input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Popular / Nearby / All areas */
+.nb-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.nb-tab {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.nb-tab.on {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Filter chips, one at a time */
+.nb-chips-box {
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 18px;
+}
+.nb-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.nb-chips::-webkit-scrollbar {
+  display: none;
+}
+.nb-chip {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nb-chip.on {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+.nb-explore {
+  margin: 12px 0 2px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.nb-explore-list {
+  margin: 4px 0 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.nb-section {
+  margin: 4px 0 12px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.nb-group + .nb-group {
+  margin-top: 22px;
+}
+.nb-empty {
+  margin: 8px 0 18px;
+  color: var(--text-secondary);
+}
+.nb-empty p {
+  margin: 0 0 10px;
+}
+
+/* The grid: two equal columns on a 390 px phone, every card the same height. */
+.nb-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 14px 12px;
+}
+
+.nb-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.nb-photo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #1a1d26;
+  margin-bottom: 8px;
+}
+.nb-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.nb-photo-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #262a35, #12141b);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 2.6rem;
+  font-weight: 700;
+}
+.nb-card-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  overflow-wrap: break-word;
+}
+.nb-card-sub {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Score badge on a photo: white text on a dark pill, in both themes. */
+.nb-score-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 34px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.nb-score-badge::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: 1px;
+  background: currentColor;
+}
+.nb-score-badge.band-none::before {
+  display: none;
+}
+
+/* Bands: 0 to under 2 red, 2 to under 4 yellow, 4 to 5 green. */
+.band-red {
+  --band: #e5484d;
+}
+.band-yellow {
+  --band: #f2b84b;
+}
+.band-green {
+  --band: #3fb96f;
+}
+.nb-score-badge.band-red::before,
+.nb-score-badge.band-yellow::before,
+.nb-score-badge.band-green::before {
+  background: var(--band);
+}
+
+/* Detail */
+.nb-detail {
+  padding-bottom: 24px;
+}
+.nb-back {
+  margin-bottom: 12px;
+}
+.nb-detail-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.nb-detail-score {
+  font-size: 1.3rem;
+  color: var(--band, var(--text-secondary));
+}
+[data-theme='light'] .nb-detail-score.band-yellow {
+  color: #a26b00;
+}
+.nb-detail-info {
+  margin: 0 0 18px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.nb-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.nb-slider-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.nb-slider-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.nb-slider.sub .nb-slider-label {
+  font-weight: 500;
+  font-size: 0.92rem;
+}
+.nb-slider-value {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.nb-track {
+  position: relative;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--border-default);
+}
+.nb-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: var(--radius-pill);
+  background: var(--band);
+}
+.nb-tick {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 14px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--border-strong);
+}
+.nb-tick:first-of-type {
+  margin-left: 0;
+}
+.nb-tick:last-of-type {
+  margin-left: -2px;
+}
+.nb-tick-labels {
+  position: relative;
+  height: 16px;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+.nb-tick-labels span {
+  position: absolute;
+  transform: translateX(-50%);
+}
+.nb-tick-labels span:first-child {
+  transform: none;
+}
+.nb-tick-labels span:last-child {
+  transform: translateX(-100%);
+}
+.nb-expand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.nb-chevron {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s var(--ease);
+}
+.nb-expand.open .nb-chevron {
+  transform: translateY(2px) rotate(225deg);
+}
+.nb-sub-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+  padding-left: 14px;
+  border-left: 2px solid var(--border-subtle);
+}
+.nb-credit {
+  margin-top: 24px;
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+}
+.nb-credit a {
+  color: inherit;
+}
+
+/* Landmarks | Neighborhoods, at the top of the Landmarks tab. */
+.lm-subtabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+.lm-subtab {
+  flex: 1;
+  min-height: 40px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.lm-subtab.on {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}

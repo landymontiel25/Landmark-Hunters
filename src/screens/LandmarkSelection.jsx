@@ -44,6 +44,9 @@ import { useSmartSearch, useSmartCitySearch, landmarkSearchText } from '../lib/s
 import SmartSearchLabel from '../components/SmartSearchLabel';
 import { usePersistentState, useSessionState } from '../lib/usePersistentState';
 import ErrorNotice from '../components/ErrorNotice';
+import Neighborhoods from './Neighborhoods';
+import './Neighborhoods.css';
+import './LandmarkCards.css';
 
 // A null sort (every sort tab toggled off) is a real choice worth keeping.
 const NEVER_EMPTY = () => false;
@@ -58,20 +61,26 @@ const MORE_TAB = { id: '__restaurants-malls__' };
 const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 
 
+// "For Me" moved to the Test tab's Planner launch bubble (owner,
+// 2026-11-06); flip this to bring the button back here. The Test tab shows
+// the same list with For Me locked on (LandmarkSelection forMeLab).
+export const SHOW_FOR_ME_SORT = false;
+
 // Top Landmarks (the old Top Rated) leads and is the default.
-const SORT_OPTIONS = [
+const ALL_SORT_OPTIONS = [
   { id: 'rated', label: '\u{2B50} Top Landmarks' },
   { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
 ];
+const SORT_OPTIONS = ALL_SORT_OPTIONS.filter((s) => s.id !== 'forMe' || SHOW_FOR_ME_SORT);
+const FOR_ME_ONLY = ALL_SORT_OPTIONS.filter((s) => s.id === 'forMe');
 
 // The "Add a Landmark" button under the search box is hidden for now (owner,
 // 2026-10-27); flip this to bring it back.
 const SHOW_ADD_LANDMARK = false;
-// Row photo size in px (was 52, then 68; owner asked for bigger again, 2026-10-29).
-// A smaller photo on phones leaves room for the name ("LoanDepot Park" broke
-// mid-word on an iPhone, owner 2026-11-05).
-const ROW_THUMB = typeof window !== 'undefined' && window.innerWidth <= 430 ? 72 : 92;
+// Cards sit two to a row with the photo on top (owner, 2026-11-06); CSS
+// stretches the photo to the card's width (LandmarkCards.css).
+const ROW_THUMB = 180;
 
 
 // "For Me": how likely you are to actually go -- the same learned per-city
@@ -206,66 +215,65 @@ const LandmarkRow = memo(function LandmarkRow({
   onInfo,
   ratingSources,
 }) {
-  const appRating =
-    ratingCount > 0 ? (
-      <span className="tag rating-tag">
-        {'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})
-      </span>
-    ) : null;
+  // The app's own average (Landmark Hunters users) sits on the photo as the
+  // score badge; the Google line below still falls back to "No ratings yet".
+  const hasAppRating = ratingCount > 0;
+  const toggle = () => onToggle(l);
+  const thumb = <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />;
   return (
-    <div className={`landmark-row ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
-      <div className="lr-corner">
-        <SaveLandmarkButton landmark={l} regionId={l.regionId} />
-        <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
-      </div>
-      <div className="lr-top">
+    <div className={`landmark-row lm-card ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
+      <div className="lm-card-photo">
+        {photo || l.images?.[0] ? (
+          <button
+            type="button"
+            className="lr-thumb-btn"
+            onClick={() => onOpenPhoto({ src: photo || l.images[0], alt: l.name })}
+            aria-label={`View photo of ${l.name}`}
+          >
+            {thumb}
+          </button>
+        ) : (
+          <div onClick={toggle}>{thumb}</div>
+        )}
         <div
-          className="check-circle"
+          className="check-circle lm-card-check"
           role="checkbox"
           aria-checked={isSelected}
           aria-label={`${isSelected ? 'Remove' : 'Add'} ${l.name} ${isSelected ? 'from' : 'to'} itinerary`}
           tabIndex={0}
-          onClick={() => onToggle(l)}
+          onClick={toggle}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              onToggle(l);
+              toggle();
             }
           }}
         >
           {isSelected ? '✓' : ''}
         </div>
-        <div onClick={() => onToggle(l)} style={{ flexShrink: 0 }}>
-          {photo || l.images?.[0] ? (
-            <button
-              type="button"
-              className="lr-thumb-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenPhoto({ src: photo || l.images[0], alt: l.name });
-              }}
-              aria-label={`View photo of ${l.name}`}
-            >
-              <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />
-            </button>
-          ) : (
-            <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />
-          )}
+        {hasAppRating && (
+          <span className="nb-score-badge lm-card-badge band-none" title="Landmark Hunters rating">
+            {'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})
+          </span>
+        )}
+        <div className="lr-corner lm-card-corner">
+          <SaveLandmarkButton landmark={l} regionId={l.regionId} />
+          <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
         </div>
-        <div className="lr-main" onClick={() => onToggle(l)}>
-          <h4>
-            <span className="lr-category-icons">{l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c]).join('')}</span>
-            {l.name}
-            <QuickRateButton landmark={l} />
-          </h4>
-          <div className="lr-meta">
-            <AdmissionTag landmark={l} short />
-            {/* The Google rating (⭐ 4.6 (1,234) Google Maps); the app's own
-                rating only where Google has none. Signed out the endpoint
-                answers nothing, so the row skips the call. */}
-            {user ? <RatingsCardLine landmark={l} fallback={appRating} preloaded={ratingSources} /> : appRating}
-            {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
-          </div>
+      </div>
+      <div className="lr-main" onClick={toggle}>
+        <h4>
+          <span className="lr-category-icons">{l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c]).join('')}</span>
+          {l.name}
+          <QuickRateButton landmark={l} />
+        </h4>
+        <div className="lr-meta">
+          <AdmissionTag landmark={l} short />
+          {/* The Google rating (⭐ 4.6 (1,234) Google Maps); with no Google
+              rating the app's own average is the badge on the photo. Signed
+              out the endpoint answers nothing, so the card skips the call. */}
+          {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} />}
+          {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
         </div>
       </div>
       <div className="lr-actions">
@@ -287,7 +295,9 @@ const LandmarkRow = memo(function LandmarkRow({
   );
 });
 
-export default function LandmarkSelection() {
+// forMeLab: the Test tab's copy (Planner launch), the same list locked on
+// For Me, with no subtabs.
+export default function LandmarkSelection({ forMeLab = false } = {}) {
   const {
     trip,
     toggleLandmark,
@@ -312,6 +322,7 @@ export default function LandmarkSelection() {
   // the city you had picked, not the top of the list. Only on Back (POP).
   const navType = useNavigationType();
   const [returned] = useState(() => {
+    if (forMeLab) return null;
     const saved = takeListReturn('landmarks');
     return navType === 'POP' ? saved : null;
   });
@@ -414,7 +425,9 @@ export default function LandmarkSelection() {
   // Up arrow: not-checked-in first. Down arrow: checked-in first. null: neither.
   const [savedCheckInOrder, setCheckInOrder] = usePersistentState('landmarks.checkInOrder', null, { isEmpty: NEVER_EMPTY });
   const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;
-  const sortBy = savedSort === 'nearMe' ? 'nearMe' : savedSort === 'forMe' ? 'forMe' : 'rated';
+  const sortBy = forMeLab ? 'forMe' : savedSort === 'nearMe' ? 'nearMe' : savedSort === 'forMe' && SHOW_FOR_ME_SORT ? 'forMe' : 'rated';
+  // Landmarks | Neighborhoods at the top of the tab; Landmarks by default.
+  const [subtab, setSubtab] = useState('landmarks');
   // Google ratings fetched for the Top Landmarks sort, this visit only.
 
   // Picking a city by hand (the dropdown) or GPS auto-pick already call
@@ -602,12 +615,12 @@ export default function LandmarkSelection() {
   // Row callbacks keep one identity for the life of the screen so the memoized
   // rows (867 of them) skip re-rendering when something unrelated changes.
   const latest = useRef({});
-  latest.current = { toggleLandmark, checkIn, navigate };
+  latest.current = { toggleLandmark, checkIn, navigate, forMeLab };
   const stableToggle = useCallback((landmark) => latest.current.toggleLandmark(landmark.id, landmark.regionId), []);
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
   const stableInfo = useCallback((landmark) => {
     const { cityFilter: city, shownPage: page } = latest.current;
-    saveListReturn('landmarks', { y: window.scrollY, city, page, picked: cityPickedByHand.current });
+    if (!latest.current.forMeLab) saveListReturn('landmarks', { y: window.scrollY, city, page, picked: cityPickedByHand.current });
     latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
   }, []);
 
@@ -745,14 +758,48 @@ export default function LandmarkSelection() {
     );
   };
 
+  // Landmark cards go two to a row; the Restaurants/Malls tabs and the Mapr
+  // divider sit between grids at full width.
+  const segments = [];
+  for (const row of pageRows) {
+    const special = row === MORE_TAB || row === SMART_DIVIDER;
+    const last = segments[segments.length - 1];
+    if (special) segments.push({ special: row });
+    else if (last && !last.special) last.rows.push(row);
+    else segments.push({ rows: [row] });
+  }
+
+  const subtabs = forMeLab ? null : (
+    <div className="lm-subtabs" role="tablist" aria-label="Landmarks or neighborhoods">
+      {[
+        { id: 'landmarks', label: 'Landmarks' },
+        { id: 'neighborhoods', label: 'Neighborhoods' },
+      ].map((t) => (
+        <button key={t.id} type="button" role="tab" aria-selected={subtab === t.id} className={`lm-subtab ${subtab === t.id ? 'on' : ''}`} onClick={() => setSubtab(t.id)}>
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  if (subtab === 'neighborhoods') {
+    return (
+      <div>
+        {subtabs}
+        <Neighborhoods />
+      </div>
+    );
+  }
+
   return (
     <div>
+      {subtabs}
       <div className="places-title-row">
         <h1 className="screen-title">
-          <span>{'\u{1F4CD}'}</span> Landmarks{topLoading ? '' : ` (${landmarks.length})`}
+          <span>{forMeLab ? '\u{2728}' : '\u{1F4CD}'}</span> {forMeLab ? 'For Me' : 'Landmarks'}{topLoading ? '' : ` (${landmarks.length})`}
         </h1>
         {/* Your check-ins, opened on Grid (photos first). */}
-        {user && (
+        {user && !forMeLab && (
           <button
             type="button"
             className="btn btn-ghost btn-sm places-checkins-btn"
@@ -896,11 +943,11 @@ export default function LandmarkSelection() {
       </div>
 
       <div className="tabs lm-sort-tabs" style={{ marginBottom: sortBy === 'nearMe' && !coords ? 4 : 18 }}>
-        {SORT_OPTIONS.map((s) => (
+        {(forMeLab ? FOR_ME_ONLY : SORT_OPTIONS).map((s) => (
           <button
             key={s.id}
             className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} aria-pressed={!!(sortBy === s.id)}
-            onClick={() => setSortBy((cur) => (cur === s.id ? null : s.id))}
+            onClick={() => !forMeLab && setSortBy((cur) => (cur === s.id ? null : s.id))}
           >
             {s.label}
           </button>
@@ -938,7 +985,15 @@ export default function LandmarkSelection() {
 
       {topLoading && <SkeletonList count={6} label="Ranking the top landmarks" />}
       <div>
-        {pageRows.map(renderRow)}
+        {segments.map((seg, i) =>
+          seg.special ? (
+            renderRow(seg.special)
+          ) : (
+            <div key={`grid-${i}`} className="nb-grid lm-grid">
+              {seg.rows.map(renderRow)}
+            </div>
+          )
+        )}
         {smart.loading && <SmartSearchLabel loading />}
         {!topLoading && landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
           <p className="empty-state">No landmarks match these filters.</p>

@@ -3,6 +3,36 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Landmarks tab: Neighborhoods subtab and grid cards (2026-11-06)
+
+The Landmarks tab now opens on Landmarks | Neighborhoods subtabs. Landmark
+cards sit two to a row (photo on top, every old field and button kept),
+and "For Me" moved off the tab to the Test tab's Planner launch bubble
+(`SHOW_FOR_ME_SORT` in `LandmarkSelection.jsx`, on the Planner launch list).
+The Test tab also has a "Landmarks/Neighborhoods" bubble with the same
+screen. Neighborhoods: `src/screens/Neighborhoods.jsx`, logic in
+`src/lib/neighborhoods.js`, data in `src/data/miamiNeighborhoods.json`
+(built by `scripts/build-miami-neighborhoods.mjs`: owner's list and tiers,
+Nominatim coordinates, Wikimedia Commons photos with credits).
+
+Still open:
+- Ratings, info and tags are all empty on purpose. A separate pipeline
+  fills them; until then every score is "–" and the tag chips (Art &
+  Culture, Food & Drinks, Beaches, Family, Hidden Gems) show "No
+  neighborhoods here yet." Re-running the build script keeps filled fields.
+- The owner's tier list named six places that were not in the first list;
+  they were added: South of Fifth, Sunset Harbour (Miami Beach), Miami River
+  District (City of Miami), South Miami, and Hallandale Beach (in Broward,
+  under its own "Broward County" header). Tiers show as chips after Hidden
+  Gems.
+- No photo yet for Flagami, Morningside, Shenandoah, Sunset Harbour,
+  Pinecrest, Cutler Bay, Miami Springs, Sweetwater and South Miami (their
+  Wikipedia lead images were maps, seals, a school or another area, or
+  none). They show the letter tile.
+- Photos load from upload.wikimedia.org (as the landmark catalog does).
+- The header's map icon is left out until the owner asks for it.
+- The full visual overhaul of the rest of the app is a separate request.
+
 ## Test tab: "UI" app redesign, iPhone first (2026-11-02)
 
 The owner is redesigning the app one screen at a time from their mockups,
