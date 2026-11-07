@@ -197,7 +197,7 @@ body.ui-lab-full .where-am-i-row {
 /* The Map's header fills the top row, so there the × sits on the map,
    right side, under the location pill. */
 .uil-exit.low-right {
-  top: calc(var(--uil-safe-top) + 136px);
+  top: calc(var(--uil-safe-top) + 368px);
   left: auto;
   right: 18px;
   margin-left: 0;

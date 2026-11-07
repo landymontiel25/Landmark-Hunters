@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MapUILab from './MapUILab';
+import { LandmarksUILab, ItineraryUILab, ProfileUILab } from './AppleScreens';
 import './UILab.css';
+import './AppleUI.css';
 
 // Test tab: "UI". The app's redesign, one screen per tab, built for the
 // iPhone first (the web shows the same screens at phone width). Each tab of
 // the app gets a sub-tab here; Full screen shows the chosen screen the way
 // the phone would, with no app header or nav, and its own tab bar to move
 // between screens. Map is designed so far (Mapr's design is live in the Mapr
-// tab); the rest wait for the owner's mockups.
+// tab); Map, Landmarks, Itinerary and Profile are in the Apple Maps look.
 const UI_SCREENS = [
   { id: 'map', label: 'Map', screen: MapUILab, exit: 'low-right' },
-  { id: 'landmarks', label: 'Landmarks', screen: null },
+  { id: 'landmarks', label: 'Landmarks', screen: LandmarksUILab },
   // Shipped: the Mapr tab now opens on this design (MaprHome).
   { id: 'mapr', label: 'Mapr', screen: null, live: '/mapr' },
-  { id: 'itinerary', label: 'Itinerary', screen: null },
-  { id: 'profile', label: 'Profile', screen: null },
+  { id: 'itinerary', label: 'Itinerary', screen: ItineraryUILab },
+  { id: 'profile', label: 'Profile', screen: ProfileUILab },
 ];
 
 const TAB_ICONS = {
@@ -44,6 +46,12 @@ const TAB_ICONS = {
       <path d="M4.5 20.5c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6" />
     </>
   ),
+  test: (
+    <>
+      <path d="M9.5 3.5h5M10.5 3.5v5.2L5 18.4a1.8 1.8 0 0 0 1.6 2.6h10.8a1.8 1.8 0 0 0 1.6-2.6l-5.5-9.7V3.5" />
+      <path d="M7.7 14.5h8.6" />
+    </>
+  ),
 };
 
 function TabIcon({ id }) {
@@ -53,6 +61,10 @@ function TabIcon({ id }) {
     </svg>
   );
 }
+
+// The capsule's sixth tab. This lab lives on the Test tab, so it is the tab
+// bar's own Test: it leaves Full screen and otherwise stays put.
+const TEST_TAB = { id: 'test', label: 'Test' };
 
 function Screen({ id, fullScreen }) {
   const navigate = useNavigate();
@@ -118,6 +130,10 @@ export default function UILab() {
             <span>{s.label}</span>
           </button>
         ))}
+        <button type="button" onClick={() => setFull(false)}>
+          <TabIcon id={TEST_TAB.id} />
+          <span>{TEST_TAB.label}</span>
+        </button>
       </nav>
     </>
   );

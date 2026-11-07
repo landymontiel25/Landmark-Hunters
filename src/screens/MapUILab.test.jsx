@@ -25,11 +25,12 @@ function Where() {
   return <p className="where">{useLocation().pathname}</p>;
 }
 
-async function render({ state = 'ready', liked = null, similar = [] } = {}) {
+async function render({ state = 'ready', liked = null, similar = [], geoError = null, claimed = {} } = {}) {
   const logged = [];
   const vote = vi.fn();
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u', email: 'a@b.c', displayName: 'Landy Montiel' }, firebaseEnabled: false }) }));
-  vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 25.77, lng: -80.19, accuracy: 20 }, error: null, lastKnown: null }) }));
+  vi.doMock('../lib/useCheckIn', () => ({ useCheckIn: () => ({ claimedMap: claimed }) }));
+  vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 25.77, lng: -80.19, accuracy: 20 }, error: geoError, lastKnown: null }) }));
   vi.doMock('../lib/UnitsContext', async () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: (await import('../lib/formatDistance')).formatDistance }));
   vi.doMock('../lib/useWhereAmI', () => ({ useWhereAmI: () => ({ coords: { lat: 25.77, lng: -80.19 }, here: { label: 'Villanova University, South Ithan Avenue' }, near: null, traveling: false, text: 'Villanova University, South Ithan Avenue' }) }));
   vi.doMock('../lib/usePickVotes', () => ({ usePickVotes: () => ({ votes: {}, removed: new Set(), vote }) }));
@@ -72,11 +73,13 @@ const click = (el) => act(async () => el.click());
 describe('MapUILab (Test tab: UI > Map)', () => {
   it('shows the header, where you are, the map buttons and the folded picks bar', async () => {
     const { el } = await render();
-    expect(el.querySelector('.mul-brand').textContent).toBe('LandmarkHunters');
-    expect(el.querySelector('.mul-avatar').textContent).toBe('LM');
+    expect(el.querySelector('.ap-brand').textContent).toBe('Landmark Hunters');
+    expect(el.querySelector('.ap-user').textContent).toBe('Landy');
     expect(el.querySelector('.mul-where').textContent).toContain('Villanova University, South Ithan Avenue');
     expect(el.querySelector('[aria-label="Search places"]')).toBeTruthy();
     expect(el.querySelector('[aria-label="Add a landmark"]')).toBeTruthy();
+    expect(el.querySelector('[aria-label="Switch to street map"]')).toBeTruthy();
+    expect(el.querySelector('[aria-label="Center on me"]')).toBeTruthy();
     expect(el.querySelector('.mul-dist').textContent).toContain('1 mi');
     expect(el.querySelector('.mul-peek').textContent).toContain('Picked for you right now');
     expect(el.querySelector('.mul-sheet').getAttribute('aria-hidden')).toBe('true');
@@ -147,5 +150,32 @@ describe('MapUILab (Test tab: UI > Map)', () => {
       input.dispatchEvent(new Event('input', { bubbles: true }));
     });
     expect(el.querySelector('.mul-results').textContent).toContain('Vizcaya');
+  });
+
+  it('filter chips: All is blue and lit; each chip is a pill', async () => {
+    const { el } = await render();
+    const chips = [...el.querySelectorAll('.mul-filters .ap-pill')];
+    expect(chips.map((c) => c.textContent)).toEqual(['All', 'Landmarks', 'Restaurants', 'Nightlife', 'Outdoors']);
+    expect(chips[0].classList.contains('on')).toBe(true);
+    await click(chips[2]);
+    expect(chips[2].classList.contains('on')).toBe(true);
+    expect(chips[0].classList.contains('on')).toBe(false);
+  });
+
+  it('the location error strip shows only when location has failed', async () => {
+    expect((await render()).el.querySelector('.mul-geo-error')).toBeNull();
+    container.remove();
+    vi.resetModules();
+    const { el } = await render({ geoError: "We can't find your location right now. Check that location services are on and try again." });
+    expect(el.querySelector('.mul-geo-error').textContent).toContain("We can't find your location right now.");
+  });
+
+  it('the map CSS has no serif font and no gradients', async () => {
+    const { readFileSync } = await import('node:fs');
+    for (const f of ['./MapUILab.css', './AppleUI.css', './AppleScreens.css']) {
+      const css = readFileSync(new URL(f, import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+      expect(css).not.toMatch(/DM Serif|Playfair|Georgia/);
+      if (f !== './AppleScreens.css') expect(css).not.toMatch(/gradient/);
+    }
   });
 });

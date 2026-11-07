@@ -1,0 +1,658 @@
+/* Test tab "UI": Landmarks, Itinerary and Profile in the Apple Maps look.
+   These are the real screens; everything here is skin only (tokens come from
+   AppleUI.css). SF Pro only, flat, hairline borders, blue #0A84FF for active
+   things, green #30D158 only for checked-in. */
+
+.aps {
+  min-height: 100%;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+  font-family: var(--ap-font);
+  font-size: 17px;
+}
+.aps .ap-top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding-top: 12px;
+  background: var(--ap-bg);
+}
+.aps-body {
+  padding: 4px 16px 24px;
+}
+@media (min-width: 600px) {
+  .aps {
+    max-width: 430px;
+    margin: 0 auto;
+  }
+}
+
+/* Every font in the skin is SF Pro: no serif anywhere under .aps. */
+.aps *,
+.aps *::before,
+.aps *::after {
+  font-family: var(--ap-font) !important;
+  letter-spacing: normal;
+}
+
+/* ---------- Titles, text ---------- */
+.aps .screen-title {
+  margin: 8px 0 10px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px !important;
+  color: var(--ap-text);
+}
+.aps .screen-subtitle,
+.aps .empty-state,
+.aps .city-dropdown-empty {
+  color: var(--ap-sub);
+  font-size: 15px;
+}
+.aps h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ap-text);
+}
+.aps p {
+  color: inherit;
+}
+
+/* ---------- Cards, flat ---------- */
+.aps .card,
+.aps .card.section,
+.aps .discovery-stats-card,
+.aps .taste-profile-card,
+.aps .streak-focus {
+  border-radius: 24px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  box-shadow: none;
+  backdrop-filter: none;
+  background-image: none;
+  color: var(--ap-text);
+}
+.aps .card.section {
+  padding: 16px;
+  margin: 0 0 14px;
+}
+.aps .streak-focus {
+  background: var(--ap-card-2);
+  border-radius: 20px;
+}
+
+/* ---------- Search: the big pill ---------- */
+.aps input[type='search'],
+.aps .itin-search,
+.aps .field input {
+  width: 100%;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  font-size: 17px;
+  box-shadow: none;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.aps input::placeholder {
+  color: var(--ap-sub);
+}
+.aps .itin-search {
+  margin: 0 0 12px;
+}
+.aps .field {
+  margin-bottom: 10px !important;
+}
+
+/* ---------- Pill chips and toggles ---------- */
+.aps .tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: none;
+  border: 0;
+}
+.aps .tabs::-webkit-scrollbar {
+  display: none;
+}
+.aps .tab-btn,
+.aps .lm-subtab {
+  flex: none;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: none;
+}
+.aps .tab-btn.active,
+.aps .lm-subtab.on,
+.aps .tab-btn[aria-selected='true'] {
+  border-color: var(--ap-blue);
+  background: var(--ap-blue);
+  color: #fff;
+}
+.aps .lm-subtabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 6px;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.aps .lm-subtab {
+  flex: 1;
+}
+
+/* ---------- Landmarks ---------- */
+.aps .places-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.aps .places-checkins-btn,
+.aps .btn-ghost,
+.aps .btn:not(.btn-primary):not(.btn-danger) {
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: transparent;
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: none;
+}
+.aps .btn-primary,
+.aps .btn-success {
+  border-radius: 999px;
+  border: 0;
+  background: var(--ap-blue);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  box-shadow: none;
+  background-image: none;
+}
+.aps .btn-danger {
+  border-radius: 999px;
+}
+.aps .places-checkins-btn {
+  flex: none;
+  height: 34px;
+  padding: 0 14px;
+  color: var(--ap-blue);
+}
+
+.aps .city-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  font-size: 17px;
+  box-shadow: none;
+}
+.aps .city-dropdown-caret {
+  color: var(--ap-sub);
+  font-size: 11px;
+}
+.aps .city-dropdown-panel {
+  border-radius: 20px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  box-shadow: none;
+}
+
+/* Eight circular category icons: a colored circle with a white symbol. */
+.aps .lm-category-tabs {
+  justify-content: space-between;
+  gap: 6px;
+  padding: 4px 0 2px;
+  margin-top: 12px;
+  overflow: visible;
+}
+.aps .lm-category-tabs .tab-btn {
+  display: grid;
+  place-items: center;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 2px solid transparent;
+  background: #8e8e93;
+  color: #fff;
+}
+.aps .lm-category-tabs .tab-btn.active {
+  border-color: var(--ap-text);
+  background: var(--cat, #8e8e93);
+}
+.aps .lm-category-tabs .tab-btn[data-cat='history-culture'] { --cat: #ff9f0a; background: #ff9f0a; }
+.aps .lm-category-tabs .tab-btn[data-cat='food'] { --cat: #ff6b3d; background: #ff6b3d; }
+.aps .lm-category-tabs .tab-btn[data-cat='local-life'] { --cat: #bf5af2; background: #bf5af2; }
+.aps .lm-category-tabs .tab-btn[data-cat='parks-nature'] { --cat: #34c759; background: #34c759; }
+.aps .lm-category-tabs .tab-btn[data-cat='sports'] { --cat: #ff453a; background: #ff453a; }
+.aps .lm-category-tabs .tab-btn[data-cat='stadiums'] { --cat: #5e5ce6; background: #5e5ce6; }
+.aps .lm-category-tabs .tab-btn[data-cat='shopping'] { --cat: #ff375f; background: #ff375f; }
+.aps .lm-category-tabs .tab-btn[data-cat='airports'] { --cat: #64d2ff; background: #64d2ff; }
+.aps .lm-category-tabs .tab-btn:not(.active) {
+  opacity: 0.9;
+}
+/* White line symbols (masks) over the colored circles. */
+.aps .lm-cat-glyph {
+  display: block;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  background: #fff;
+  -webkit-mask: var(--glyph) center / contain no-repeat;
+  mask: var(--glyph) center / contain no-repeat;
+}
+.aps .tab-btn[data-cat='history-culture'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M3.5%209%2012%204l8.5%205zM5%209.5h14M6.5%2010v7M10%2010v7M14%2010v7M17.5%2010v7M4%2019.5h16'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='food'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M6%203v6.5a2%202%200%200%200%204%200V3M8%203v18M17.5%2021V3c-2%201-3.3%203.3-3.3%206.3V13h3.3'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='local-life'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4.5%204h15L12%2012.5zM12%2012.5V20M8%2020h8'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='parks-nature'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M12%202.5%208%208h2.2L6.5%2013h2.8L5%2018.5h14L14.7%2013h2.8L13.8%208H16zM12%2018.5V22'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='sports'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Ccircle%20cx='12'%20cy='12'%20r='9'/%3E%3Cpath%20d='M3%2012h18M12%203v18M5.5%205.5c3%203%203%2010%200%2013M18.5%205.5c-3%203-3%2010%200%2013'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='shopping'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M5%208h14l-1%2012H6zM9%208V6.5a3%203%200%200%201%206%200V8'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='attractions'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Ccircle%20cx='12'%20cy='10'%20r='6'/%3E%3Cpath%20d='M12%204v12M6%2010h12M8%2020l4-4%204%204'/%3E%3C/svg%3E");
+}
+.aps .tab-btn[data-cat='tech'] .lm-cat-glyph {
+  --glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='1.9'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M5%206h14v9H5zM3%2018h18'/%3E%3C/svg%3E");
+}
+
+.aps .lm-sort-tabs {
+  margin-top: 4px;
+}
+
+/* Landmark cards: Apple Maps list rows, one per line, hairline between. */
+.aps .nb-grid,
+.aps .lm-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+}
+.aps .landmark-row.lm-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  column-gap: 12px;
+  row-gap: 6px;
+  align-items: start;
+  margin: 0;
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 0.5px solid var(--ap-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.aps .landmark-row.lm-card.visited {
+  margin: 6px 0;
+  padding: 14px;
+  border: 1.5px solid var(--ap-green);
+  border-radius: 24px;
+  background: var(--ap-card);
+}
+.aps .lm-card-photo {
+  display: contents;
+}
+.aps .lm-card-photo > .lr-thumb-btn,
+.aps .lm-card-photo > div:first-child {
+  grid-column: 1;
+  grid-row: 1;
+  width: 64px !important;
+  height: 64px !important;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--ap-card-2);
+}
+.aps .lm-card-photo .landmark-thumb,
+.aps .lm-card-photo .landmark-thumb-wrap {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 14px;
+  object-fit: cover;
+}
+.aps .lm-card-photo .landmark-thumb-fallback {
+  padding-bottom: 0;
+  font-size: 26px;
+}
+.aps .lm-card-photo .no-image-label {
+  display: none;
+}
+.aps .lm-card-check {
+  top: 18px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+}
+.aps .lr-corner.lm-card-corner {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  bottom: auto;
+  display: flex;
+  gap: 6px;
+}
+.aps .lm-card-corner button,
+.aps .lm-card-corner .share-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-sub);
+  box-shadow: none;
+}
+.aps .nb-score-badge.lm-card-badge {
+  position: static;
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ap-sub);
+  font-size: 15px;
+  font-weight: 400;
+}
+.aps .lm-card .lr-main {
+  grid-column: 2;
+  grid-row: 1;
+  padding-right: 80px;
+}
+.aps .landmark-row.lm-card h4 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ap-text);
+}
+.aps .lm-card .lr-meta .tag,
+.aps .tag {
+  border-radius: 999px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--ap-sub);
+  font-size: 15px;
+}
+.aps .tag.tag-free {
+  color: var(--ap-green);
+}
+.aps .tag.tag-error {
+  color: var(--ap-red);
+  background: rgba(255, 69, 58, 0.12);
+  padding: 8px 12px;
+  border-radius: 14px;
+}
+.aps .lm-card .lr-actions {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.aps .lm-card .lr-actions .btn {
+  flex: 1 1 0;
+  height: 38px;
+  min-height: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.aps .lm-card .lr-actions .btn-primary,
+.aps .lm-card .lr-actions .btn-success {
+  flex: 1.3 1 0;
+}
+/* Check In Again: outlined, not filled. */
+.aps .lm-card .lr-actions .btn-success,
+.aps .lm-card .lr-actions .btn[disabled] {
+  background: transparent;
+  border: 0.5px solid var(--ap-line);
+  color: var(--ap-text);
+}
+.aps .quick-rate-btn {
+  margin-left: 6px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: none;
+  color: var(--ap-blue);
+  font-size: 13px;
+  font-weight: 600;
+}
+.aps .quick-rate-btn.rated {
+  color: var(--ap-green);
+  border-color: var(--ap-green);
+}
+.aps .lm-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.aps .lm-pager-label {
+  color: var(--ap-sub);
+  font-size: 15px;
+}
+.aps .fixed-action-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--ap-bg);
+  border-top: 0.5px solid var(--ap-line);
+  box-shadow: none;
+}
+
+/* ---------- Itinerary ---------- */
+.aps .itin-city-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 14px 16px;
+  text-align: left;
+  cursor: pointer;
+}
+.aps .itin-city-card h3 {
+  font-size: 17px;
+}
+.aps .itin-city-card p,
+.aps .itin-where,
+.aps .itin-where-sub {
+  color: var(--ap-sub) !important;
+  font-size: 15px !important;
+}
+.aps .itin-city-arrow {
+  color: var(--ap-sub);
+  font-size: 0;
+}
+.aps .itin-city-arrow::after {
+  content: '\203A';
+  font-size: 26px;
+}
+.aps .itin-sections {
+  margin-top: 2px;
+}
+
+/* ---------- Profile ---------- */
+.aps .profile-memories .checkin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+.aps .profile-memories .checkin-tile {
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ap-card-2);
+  box-shadow: none;
+}
+.aps .profile-memories .checkin-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.aps .checkin-tile-name {
+  position: absolute;
+  left: 10px;
+  right: 8px;
+  bottom: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  background: none;
+}
+/* Text on a photo keeps a dark gradient behind it in both themes. */
+.aps .profile-memories .checkin-tile::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 56%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.65));
+  pointer-events: none;
+}
+.aps .checkin-tile-name {
+  z-index: 1;
+}
+.aps .card h3 + .btn-ghost,
+.aps .btn-tight {
+  border: 0;
+  background: none;
+  color: var(--ap-blue);
+  font-size: 17px;
+  font-weight: 400;
+}
+.aps .badges-more {
+  display: block;
+  margin: 12px auto 0;
+  height: 38px;
+  padding: 0 18px;
+  border: 0.5px solid var(--ap-line);
+  color: var(--ap-text);
+}
+.aps .profile-stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.aps .profile-stat {
+  flex: 1;
+  gap: 2px;
+  padding: 14px 6px;
+  border: 0.5px solid var(--ap-line);
+  border-radius: 20px;
+  background: var(--ap-card);
+  color: var(--ap-text);
+}
+.aps .profile-stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ap-text);
+}
+.aps .profile-stat-label {
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ap-sub);
+}
+.aps .rating-progress {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--ap-sub);
+}
+.aps .rating-progress strong {
+  font-size: 17px;
+  color: var(--ap-text);
+}
+.aps .rating-progress-track {
+  height: 6px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--ap-card-2);
+}
+.aps .rating-progress-fill {
+  background: var(--ap-blue);
+}
+.aps .streak-focus p {
+  color: var(--ap-text);
+}
+.aps .streak-focus .screen-subtitle {
+  color: var(--ap-sub);
+}
+.aps .rank-hero,
+.aps .podium-slot {
+  background: var(--ap-card);
+  background-image: none;
+  border-color: var(--ap-line);
+  box-shadow: none;
+}
+.aps .leaderboard-row {
+  border-bottom: 0.5px solid var(--ap-line);
+}
+
+/* Empty states: buttons run the full width as pills. */
+.aps .empty-state {
+  padding: 14px 0;
+  text-align: center;
+}
+.aps .empty-state .btn {
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin: 10px 0 0;
+}
+.aps .btn-block {
+  display: block;
+  width: 100%;
+  height: 48px;
+}
+.aps .lm-sort-tabs .tab-btn {
+  padding: 0 11px;
+  font-size: 14px;
+}
+.aps .lm-category-tabs .tab-btn[data-cat='attractions'] { --cat: #64d2ff; background: #64d2ff; }
+.aps .lm-category-tabs .tab-btn[data-cat='tech'] { --cat: #5e5ce6; background: #5e5ce6; }
