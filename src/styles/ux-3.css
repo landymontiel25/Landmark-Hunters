@@ -2083,3 +2083,65 @@ img {
   gap: 8px;
   margin-top: 8px;
 }
+
+/* The Map's category bar (owner, 2026-11-07): Select All or category emojis
+   across the top, right of the round buttons. The Map opens with none. */
+.map-cat-bar {
+  position: absolute;
+  top: calc(var(--header-h) + 12px);
+  left: 64px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 2px 8px;
+  margin: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+.map-cat-bar::-webkit-scrollbar {
+  display: none;
+}
+.map-cat-chip {
+  flex: 0 0 auto;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-float);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.map-cat-chip.map-cat-all {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0 14px;
+}
+.map-cat-chip.on {
+  border-color: var(--mapr-blue);
+  background: var(--mapr-blue);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--mapr-blue-soft);
+}
+.map-filter-pill.map-cat-prompt,
+.map-filter-pill.map-draw-pill {
+  top: calc(var(--header-h) + 64px);
+}
+.map-filter-pill.map-cat-prompt {
+  margin: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.map-nav-active .map-cat-bar,
+.map-nav-active .map-cat-prompt {
+  display: none !important;
+}

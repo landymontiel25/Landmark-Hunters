@@ -60,15 +60,6 @@ export const TURNED_OFF = [
     check: 'SHOW_ADD_LANDMARK = false',
   },
   {
-    name: 'Places people added in Miami',
-    hides: "User-added places in Miami, off every list, map and pick, so Miami shows only the owner's top 100.",
-    keeps: 'They are hidden, not deleted, and their own page still opens.',
-    since: '2026-10-27',
-    pr: 743,
-    file: 'src/lib/customLandmarks.js',
-    check: "CLOSED_TO_CUSTOM = new Set(['miami'])",
-  },
-  {
     name: 'Hidden categories',
     hides: 'Formula 1 Circuits, 10/10 Benches, Stadiums, Campus Life and Airports in every category picker and the Map filter.',
     keeps: 'Their places still show everywhere.',

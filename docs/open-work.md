@@ -3,6 +3,14 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Map: category bar, opens empty (2026-11-07)
+
+The Map opens with no pins; the bar at its top (`src/components/MapCategoryBar.jsx`)
+picks Select All or category emojis. Session state (`map.categories`): kept
+across tabs, reset at launch. Replaces the 🗂️ filter button and its
+dropdown (`MapCategoryFilter.jsx`, deleted). The Test tab's Map UI lab is
+unchanged.
+
 ## Landmarks tab: Neighborhoods subtab and grid cards (2026-11-06)
 
 The Landmarks tab now opens on Landmarks | Neighborhoods subtabs. Landmark
@@ -195,7 +203,17 @@ The Play screen's Check in asks for your location (2026-10-28): within 100 m
 of a landmark it says you are there and shows the discovered toast;
 otherwise it names the closest landmark and how far it is, plus the next two.
 
-## Miami cut to the owner's top 100 (2026-10-27)
+## Miami cut to the owner's top 100 (2026-10-27), undone (2026-11-07)
+
+Owner, 2026-11-07: every place the cut removed is back. 89 hand-picked
+entries were appended to `landmarks.miami.js`, `landmarks.coralgables.js` and
+`landmarks.keybiscayne.js` (179 now; the 21 top-100 additions kept), the 882
+imported places are back in Miami's packs (pre-cut packs unioned with the
+current ones, current version winning), mall store lists restored (Lincoln
+Center and Ultramont Mall back on RESEARCH_PENDING), Miami user-added places
+shown again (`CLOSED_TO_CUSTOM` empty, off the Planner launch list), and
+the Alhambra Water Tower bonus pays again. The notes below are history.
+
 
 The owner gave an evidence-based ranking of Miami's top 100 landmarks and
 asked for every other Miami place to go, imported places included. Miami
