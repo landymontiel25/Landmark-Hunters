@@ -19,9 +19,9 @@ describe('logScale', () => {
 
 describe('scoreNeighborhoods', () => {
   const metrics = {
-    Dense: { restaurants: 400, cuisines: ['a', 'b', 'c', 'd'], nightlife: 80, shopping: 600, artAndCulture: 40, walkable: 2000, medianHomeValue: 900000 },
-    Quiet: { restaurants: 5, cuisines: ['a'], nightlife: 0, shopping: 10, artAndCulture: 0, walkable: 50, medianHomeValue: 300000 },
-    NoTract: { restaurants: 50, cuisines: [], nightlife: 5, shopping: 100, artAndCulture: 3, walkable: 400, medianHomeValue: null },
+    Dense: { restaurants: 400, cuisines: ['a', 'b', 'c', 'd'], nightlife: 80, shopping: 600, artAndCulture: 40, medianHomeValue: 900000 },
+    Quiet: { restaurants: 5, cuisines: ['a'], nightlife: 0, shopping: 10, artAndCulture: 0, medianHomeValue: 300000 },
+    NoTract: { restaurants: 50, cuisines: [], nightlife: 5, shopping: 100, artAndCulture: 3, medianHomeValue: null },
   };
   const s = scoreNeighborhoods(metrics);
 
