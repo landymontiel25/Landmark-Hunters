@@ -8,9 +8,10 @@
 // Average Property Price uses the same scale on the median home value:
 // 5 = the priciest tract. Safety has no source yet and stays null.
 // Walkability counts every place in the other groups (food, nightlife,
-// shops, culture). Counts are per km2 of the neighborhood's outline (or its
-// 1 km circle), so a big city and a small district compare fairly; cuisine
-// variety stays a plain count.
+// shops, culture). Counts cover the neighborhood's OpenStreetMap outline, or
+// a 1 km circle around its center where it has none (see
+// scripts/fetch-neighborhood-metrics.mjs); they are plain counts, since
+// outlines and circles differ too much in size for a fair per-km2 figure.
 
 const round1 = (v) => Math.round(v * 10) / 10;
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
@@ -32,20 +33,19 @@ export function logScale(value, values) {
 export function scoreNeighborhoods(metrics) {
   const rows = Object.entries(metrics);
   const col = (fn) => rows.map(([, m]) => fn(m));
-  // Per km2 when the area is known; a plain count otherwise.
-  const dens = (m, v) => (!isNum(v) ? null : isNum(m.area?.km2) && m.area.km2 > 0 ? v / m.area.km2 : v);
+  const count = (_m, v) => (isNum(v) ? v : null);
   const walkable = (m) => {
     const parts = [m.restaurants, m.nightlife, m.shopping, m.artAndCulture];
-    return parts.some(isNum) ? dens(m, parts.filter(isNum).reduce((a, b) => a + b, 0)) : null;
+    return parts.some(isNum) ? count(m, parts.filter(isNum).reduce((a, b) => a + b, 0)) : null;
   };
   const cols = {
     walkable: col(walkable),
-    restaurants: col((m) => dens(m, m.restaurants)),
+    restaurants: col((m) => count(m, m.restaurants)),
     cuisines: col((m) => (Array.isArray(m.cuisines) ? m.cuisines.length : null)),
-    nightlife: col((m) => dens(m, m.nightlife)),
+    nightlife: col((m) => count(m, m.nightlife)),
     home: col((m) => m.medianHomeValue),
-    culture: col((m) => dens(m, m.artAndCulture)),
-    shopping: col((m) => dens(m, m.shopping)),
+    culture: col((m) => count(m, m.artAndCulture)),
+    shopping: col((m) => count(m, m.shopping)),
   };
   const out = {};
   for (const [name, m] of rows) {
@@ -53,14 +53,14 @@ export function scoreNeighborhoods(metrics) {
       safety: null,
       walkability: logScale(walkable(m), cols.walkable),
       restaurants: {
-        quantity: logScale(dens(m, m.restaurants), cols.restaurants),
+        quantity: logScale(count(m, m.restaurants), cols.restaurants),
         price: null,
         diversity: logScale(Array.isArray(m.cuisines) ? m.cuisines.length : null, cols.cuisines),
       },
-      nightlife: logScale(dens(m, m.nightlife), cols.nightlife),
+      nightlife: logScale(count(m, m.nightlife), cols.nightlife),
       averagePropertyPrice: logScale(m.medianHomeValue, cols.home),
-      artAndCulture: logScale(dens(m, m.artAndCulture), cols.culture),
-      shopping: logScale(dens(m, m.shopping), cols.shopping),
+      artAndCulture: logScale(count(m, m.artAndCulture), cols.culture),
+      shopping: logScale(count(m, m.shopping), cols.shopping),
     };
   }
   return out;

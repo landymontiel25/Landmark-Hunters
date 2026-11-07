@@ -39,16 +39,6 @@ describe('scoreNeighborhoods', () => {
     expect(s.Quiet.averagePropertyPrice).toBe(0);
   });
 
-  it('compares places per km2, so a big quiet area is not top just for its size', () => {
-    const t = scoreNeighborhoods({
-      SmallBusy: { area: { km2: 1 }, restaurants: 100, cuisines: [], nightlife: 10, shopping: 100, artAndCulture: 10, medianHomeValue: 1 },
-      BigQuiet: { area: { km2: 50 }, restaurants: 500, cuisines: [], nightlife: 20, shopping: 500, artAndCulture: 20, medianHomeValue: 1 },
-    });
-    expect(t.SmallBusy.restaurants.quantity).toBe(5);
-    expect(t.BigQuiet.restaurants.quantity).toBe(0);
-    expect(t.SmallBusy.walkability).toBe(5);
-  });
-
   it('a missing home value stays null', () => {
     expect(s.NoTract.averagePropertyPrice).toBeNull();
     expect(s.NoTract.restaurants.quantity).toBeGreaterThan(0);
