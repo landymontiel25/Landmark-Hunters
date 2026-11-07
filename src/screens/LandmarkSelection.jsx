@@ -905,9 +905,10 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
               aria-pressed={on}
               aria-label={i.label}
               title={i.label}
+              data-cat={i.id}
               onClick={() => toggleCategory(i.id)}
             >
-              {i.icon}
+              <span className="lm-cat-glyph">{i.icon}</span>
             </button>
           );
         })}

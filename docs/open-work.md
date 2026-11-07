@@ -34,6 +34,29 @@ Still open:
 - The header's map icon is left out until the owner asks for it.
 - The full visual overhaul of the rest of the app is a separate request.
 
+## Test tab UI: Apple Maps look (2026-11-07)
+
+Map, Landmarks, Itinerary and Profile in the Test tab's UI bubble now use the
+owner's Apple Maps prompts (SF Pro only, flat, `#0A84FF` active, `#30D158`
+checked in, dark first, light through `[data-theme='light']`). Mapr's design
+is untouched. Tokens, the shared top bar (`AppleTopBar.jsx`) and the floating
+capsule tab bar (six tabs, Test last; Test leaves Full screen) are in
+`AppleUI.css`. Landmarks, Itinerary and Profile are the real screens under
+that top bar, reskinned by `AppleScreens.css` (no logic changed); Map is
+`MapUILab` restyled: round status pins (blue not checked in, green checked
+in), filter chips that choose which pins show, a card for a tapped pin, and
+the location error strip.
+
+Still open:
+- 3D and Look Around (binoculars) buttons are not built: the map has no 3D or
+  street-level view to wire them to.
+- Pins for smaller places, your own pins and parking icons do not exist in
+  this map yet, so none are drawn.
+- Profile was not seen in a browser (signed-out harness shows the Firebase
+  notice); check it with a signed-in account in dark and light.
+- Landmark cards show "Rated / Rate" as the app's quick-rate button, kept as is.
+- Move into the real tabs once the owner approves, and update `APP_HELP` then.
+
 ## Test tab: "UI" app redesign, iPhone first (2026-11-02)
 
 The owner is redesigning the app one screen at a time from their mockups,

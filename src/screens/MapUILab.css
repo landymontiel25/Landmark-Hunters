@@ -1,14 +1,12 @@
-/* Test tab "UI" > Map: the owner's Map screen mockup. .mul-ui is laid out at
-   393pt and zoomed to the phone's width (--z), so the numbers below are the
-   mockup measured in points. The map under it is not zoomed. */
+/* Test tab "UI" > Map: Apple Maps look. .mul-ui is laid out at 393pt and
+   zoomed to the phone's width (--z). Flat: no gradients, no glow; the only
+   shadows are soft ones under the floating capsule and the map labels. */
 
 .mul {
-  --mul-text: #eef0f2;
-  --mul-muted: #8a9099;
-  --mul-glass: rgba(24, 31, 36, 0.78);
-  --mul-line: rgba(255, 255, 255, 0.12);
-  --mul-blue: #3a7bea;
-  --mul-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  --mul-text: var(--ap-text);
+  --mul-muted: var(--ap-sub);
+  --mul-line: var(--ap-line);
+  --mul-sans: var(--ap-font);
   /* Space the floating tab bar takes at the bottom (UILab sets it in full
      screen); 14pt without one. */
   --mul-bottom: calc(var(--uil-bottom-space, 14px) / var(--z, 1));
@@ -18,9 +16,9 @@
   height: 760px;
   margin: 0 -20px;
   overflow: hidden;
-  background: #0b0f12;
-  color: var(--mul-text);
-  font-family: var(--mul-sans);
+  background: var(--ap-bg);
+  color: var(--ap-text);
+  font-family: var(--ap-font);
 }
 .mul.mul-full {
   position: absolute;
@@ -34,20 +32,52 @@
     max-width: 430px;
     margin: 0 auto;
     border-radius: 28px;
-    border: 1px solid var(--mul-line);
+    border: 0.5px solid var(--ap-line);
   }
 }
 
 .mul-map {
   position: absolute;
   inset: 0;
-  background: #0b0f12;
+  background: var(--ap-bg);
   z-index: 0;
 }
+/* Map labels: white bold with a soft shadow (the one shadow the map keeps). */
+.mul-map .leaflet-tooltip,
+.mul-map .leaflet-marker-icon {
+  font-family: var(--ap-font);
+}
+
+/* ---------- Pins: small round icons, status colored ---------- */
 .mul-pin {
   background: none;
   border: 0;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mul-pin-dot {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+.mul-pin-on .mul-pin-dot {
+  width: 34px;
+  height: 34px;
+  border-width: 3px;
+}
+.mul-pin-tail {
+  width: 0;
+  height: 0;
+  margin-top: -1px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #0a84ff;
 }
 
 .mul-ui {
@@ -70,87 +100,67 @@
   opacity: 0.65;
 }
 
-/* ---------- Header ---------- */
+/* ---------- Top: bar, search pill, filter chips, where you are ---------- */
 .mul-top {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  z-index: 3;
   padding-top: var(--mul-safe-top);
-  padding-bottom: 26px;
-  background: linear-gradient(180deg, rgba(8, 12, 15, 0.92) 0%, rgba(8, 12, 15, 0.7) 58%, rgba(8, 12, 15, 0) 100%);
+  padding-bottom: 8px;
+  background: var(--ap-glass);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 0.5px solid var(--ap-line);
 }
 .mul-top > * {
   pointer-events: auto;
 }
-.mul-head {
+.mul-searchpill {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 15px;
-  padding: 0 14px 0 23px;
-}
-.mul-brand {
-  margin: 0;
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-weight: 400;
-  font-size: 25.5px;
-  line-height: 23px;
-  letter-spacing: 0.1px;
-  color: #f3f4f2;
-}
-.mul-head-right {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.mul-stat {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  height: 33px;
-  padding: 0 13px 0 12px;
+  gap: 8px;
+  width: calc(100% - 28px);
+  height: 44px;
+  margin: 4px 14px 0;
+  padding: 0 16px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(35, 41, 46, 0.82);
-  font-size: 15.5px !important;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-sub) !important;
+  font-size: 17px !important;
+  text-align: left;
   cursor: pointer;
 }
-.mul-stat span {
-  font-size: 15px;
+.mul-filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 0 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.mul-flame {
-  filter: grayscale(1) brightness(1.6);
-}
-.mul-avatar {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(32, 39, 41, 0.85);
-  font-size: 15px !important;
-  cursor: pointer;
+.mul-filters::-webkit-scrollbar {
+  display: none;
 }
 .mul-where {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: calc(100% - 28px);
-  height: 37.5px;
-  margin: 18px 14px 0;
-  padding: 0 14px 0 17px;
+  height: 32px;
+  margin: 10px 14px 0;
+  padding: 0 12px 0 14px;
   border-radius: 999px;
-  border: 1px solid var(--mul-line);
-  background: rgba(29, 37, 41, 0.8);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
   box-sizing: border-box;
   text-align: left;
   cursor: pointer;
 }
 .mul-where-pin {
-  font-size: 15px;
+  font-size: 14px;
 }
 .mul-where-text {
   flex: 1;
@@ -158,45 +168,48 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  color: var(--ap-sub);
 }
 
-/* ---------- Round map buttons ---------- */
+/* ---------- Round map buttons (right stack) ---------- */
 .mul-round {
   display: grid;
   place-items: center;
-  width: 43.5px;
-  height: 43.5px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(9, 14, 15, 0.82);
-  color: #fff;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
   cursor: pointer;
 }
 .mul-round.on {
-  background: rgba(58, 123, 234, 0.9);
+  background: var(--ap-blue);
+  border-color: var(--ap-blue);
+  color: #fff;
+}
+.mul-locate {
+  color: var(--ap-blue);
 }
 .mul-tools {
   position: absolute;
-  left: 12.5px;
-  top: calc(var(--mul-safe-top) + 144px);
+  right: 12px;
+  top: calc(var(--mul-safe-top) + 200px);
   display: flex;
   flex-direction: column;
-  gap: 7.5px;
+  gap: 8px;
   pointer-events: auto;
 }
 
+/* ---------- Distance pill (bottom left) ---------- */
 .mul-float {
   position: absolute;
-  right: 14px;
+  left: 12px;
   bottom: calc(var(--mul-bottom) + 64px + 22px);
   display: flex;
   align-items: center;
-  gap: 15px;
   pointer-events: auto;
   transition: opacity 0.2s;
 }
@@ -211,68 +224,161 @@
 .mul-dist {
   display: flex;
   align-items: center;
-  gap: 18px;
-  height: 41px;
-  padding: 0 14px 0 20px;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px 0 18px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(17, 26, 27, 0.86);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-size: 16px !important;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  font-size: 17px !important;
   font-weight: 500;
   cursor: pointer;
 }
 .mul-dist-menu {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: calc(100% + 8px);
   margin: 0;
   padding: 5px;
   list-style: none;
   min-width: 110px;
-  border-radius: 14px;
-  border: 1px solid var(--mul-line);
-  background: rgba(17, 22, 27, 0.96);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
 }
 .mul-dist-menu button {
   width: 100%;
   padding: 9px 12px;
   border: 0;
-  border-radius: 9px;
+  border-radius: 10px;
   background: none;
   text-align: left;
-  font-size: 15px !important;
+  font-size: 17px !important;
   cursor: pointer;
 }
 .mul-dist-menu button.on {
-  background: rgba(58, 123, 234, 0.25);
-}
-.mul-locate {
-  width: 46px;
-  height: 46px;
+  background: var(--ap-blue);
+  color: #fff;
 }
 .mul-locate:disabled {
   opacity: 0.5;
 }
 
-/* ---------- Collapsed: "Picked for you right now" ---------- */
+/* ---------- Location error: a thin red-tinted strip above the card ---------- */
+.mul-geo-error {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--mul-bottom) + 64px + 74px);
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 12px;
+  border: 0.5px solid rgba(255, 69, 58, 0.5);
+  background: rgba(255, 69, 58, 0.16);
+  color: var(--ap-red);
+  font-size: 13px;
+  line-height: 1.3;
+  pointer-events: auto;
+}
+.mul-geo-error:has(+ .mul-pincard) {
+  bottom: calc(var(--mul-bottom) + 64px + 166px);
+}
+
+/* ---------- Tapped pin card ---------- */
+.mul-pincard {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: calc(var(--mul-bottom) + 64px + 12px);
+  min-height: 88px;
+  border-radius: 28px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  pointer-events: auto;
+}
+.mul-pincard-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 52px 12px 14px;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.mul-pincard-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ap-blue);
+  color: #fff;
+}
+.mul-pincard-icon.done {
+  background: var(--ap-green);
+}
+.mul-pincard-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.mul-pincard-body strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 700;
+}
+.mul-pincard-kind,
+.mul-pincard-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  color: var(--ap-sub);
+}
+.mul-pincard-img {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--ap-card-2);
+  font-size: 26px;
+}
+.mul-pincard-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mul-pincard-save {
+  top: 8px;
+  right: 8px;
+}
+
+/* ---------- Collapsed: "Picked for you right now" (floating pill) ---------- */
 .mul-peek {
   position: absolute;
-  left: 6px;
-  right: 6px;
+  left: 8px;
+  right: 8px;
   bottom: var(--mul-bottom);
   display: flex;
   align-items: center;
   height: 64px;
-  padding: 6px 26px 0 28px;
-  border-radius: 26px;
-  border: 1px solid var(--mul-line);
-  background: rgba(20, 33, 35, 0.84);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  padding: 6px 22px 0 24px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-bar);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: var(--ap-shadow);
   pointer-events: auto;
   text-align: left;
   cursor: pointer;
@@ -280,37 +386,34 @@
 }
 .mul-peek .mul-handle {
   position: absolute;
-  top: 8px;
+  top: 7px;
   left: 50%;
-  margin-left: -21.5px;
+  margin-left: -18px;
 }
 .mul-peek-title {
   flex: 1;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 700;
 }
 .mul-handle {
   display: block;
-  width: 43px;
-  height: 4.5px;
+  width: 36px;
+  height: 5px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.32);
+  background: var(--ap-sub);
+  opacity: 0.6;
 }
 
 /* ---------- Sheet ---------- */
 .mul-sheet {
   position: absolute;
-  left: 4px;
-  right: 4px;
+  left: 0;
+  right: 0;
   bottom: 0;
   padding-bottom: calc(var(--mul-bottom) + 20px);
-  border-radius: 26px 26px 0 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 0;
-  background: linear-gradient(180deg, rgba(24, 32, 38, 0.97) 0%, rgba(18, 22, 25, 0.98) 30%);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 28px 28px 0 0;
+  border-top: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
   overflow: hidden;
   pointer-events: auto;
   transition: top 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -327,7 +430,7 @@
   -webkit-overflow-scrolling: touch;
 }
 .mul-grab {
-  padding: 19.5px 20px 0;
+  padding: 8px 20px 0;
   touch-action: none;
   cursor: grab;
 }
@@ -335,24 +438,24 @@
   margin: 0 auto;
 }
 .mul-sheet-title {
-  margin: 17px 0 0;
-  font-size: 20.5px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.1px;
+  margin: 14px 0 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
 }
 .mul-note {
   margin: 18px 20px;
-  color: #b7bcc3;
-  font-size: 15px;
+  color: var(--ap-sub);
+  font-size: 17px;
   line-height: 1.4;
 }
 
 .mul-cats {
   display: flex;
-  gap: 6.5px;
-  margin-top: 17px;
-  padding: 0 11px;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 0 16px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -366,84 +469,84 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  min-width: 48px;
-  height: 50px;
-  padding: 2px 4px 0;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.045);
-  font-size: 10.5px !important;
-  letter-spacing: -0.1px;
-  color: #e4e7ea !important;
+  min-width: 62px;
+  height: 58px;
+  padding: 2px 8px 0;
+  border-radius: 16px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card-2);
+  font-size: 12px !important;
+  color: var(--ap-text) !important;
   cursor: pointer;
 }
 .mul-cat svg {
-  width: 21px;
-  height: 21px;
+  width: 22px;
+  height: 22px;
 }
 .mul-cat.on {
-  border-color: transparent;
-  background: #377bec;
+  border-color: var(--ap-blue);
+  background: var(--ap-blue);
   color: #fff !important;
-  box-shadow: 0 4px 16px rgba(55, 123, 236, 0.4);
 }
 
 .mul-sec-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 19px 20px 0;
-  height: 20px;
+  margin: 22px 20px 0;
+  min-height: 26px;
 }
 .mul-sec-head h3 {
   margin: 0;
-  font-size: 15.5px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.mul-sec-head h3::after {
+  content: ' \203A';
+  color: var(--ap-sub);
 }
 .mul-sec-head h3 span {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
-  color: #a0a5ad;
+  color: var(--ap-sub);
 }
 .mul-see-all {
   padding: 0;
   border: 0;
   background: none;
-  color: #4b8ef0 !important;
-  font-size: 15px !important;
-  font-weight: 500;
+  color: var(--ap-blue) !important;
+  font-size: 17px !important;
   cursor: pointer;
 }
 
 .mul-list {
   display: flex;
   flex-direction: column;
-  gap: 6.5px;
-  margin: 11px 0 0;
-  padding: 0 11px;
+  margin: 8px 0 0;
+  padding: 0 16px;
   list-style: none;
+}
+.mul-list > li + li .mul-row {
+  border-top: 0.5px solid var(--ap-line);
 }
 .mul-row {
   position: relative;
   display: flex;
-  height: 72px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(18, 26, 33, 0.92);
-  box-sizing: border-box;
+  min-height: 84px;
 }
-.mul-row.on {
-  border: 2px solid var(--mul-blue);
-  box-shadow: 0 0 0 3px rgba(58, 123, 234, 0.14);
+.mul-row.on .mul-row-body strong {
+  color: var(--ap-blue);
 }
 .mul-row-skel {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-  background-size: 200% 100%;
-  animation: mul-shimmer 1.2s linear infinite;
+  background: var(--ap-card-2);
+  border-radius: 14px;
+  margin: 6px 0;
+  animation: mul-pulse 1.2s ease-in-out infinite;
 }
-@keyframes mul-shimmer {
-  to {
-    background-position: -200% 0;
+@keyframes mul-pulse {
+  50% {
+    opacity: 0.5;
   }
 }
 .mul-row-main {
@@ -452,7 +555,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 40px 0 4px;
+  padding: 10px 44px 10px 0;
   border: 0;
   background: none;
   text-align: left;
@@ -462,12 +565,13 @@
   flex: none;
   display: grid;
   place-items: center;
-  width: 114px;
-  height: 62px;
-  border-radius: 10px;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
   object-fit: cover;
   overflow: hidden;
-  font-size: 24px;
+  background: var(--ap-card-2);
+  font-size: 26px;
 }
 .mul-row-img img {
   width: 100%;
@@ -484,20 +588,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 15.5px;
-  font-weight: 600;
-  color: var(--mul-text);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ap-text);
 }
 .mul-row-kind {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 13.5px;
-  color: var(--mul-muted);
+  font-size: 15px;
+  color: var(--ap-sub);
 }
 .mul-row-meta {
-  font-size: 13.5px;
-  color: #c9ced4;
+  font-size: 15px;
+  color: var(--ap-sub);
   white-space: nowrap;
 }
 .mul-row-meta i {
@@ -505,13 +609,14 @@
   margin: 0 3px;
 }
 .mul-star {
-  margin-right: 6px;
-  color: #f5c518;
+  margin-right: 4px;
+  color: #ff9f0a;
 }
 .mul-bookmark {
   position: absolute;
-  top: 7px;
-  right: 8px;
+  top: 50%;
+  right: 0;
+  margin-top: -16px;
   display: grid;
   place-items: center;
   width: 32px;
@@ -519,7 +624,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #e8ebee;
+  color: var(--ap-sub);
   cursor: pointer;
 }
 .mul-bookmark::after {
@@ -528,22 +633,30 @@
   inset: -6px;
 }
 .mul-bookmark.on {
-  color: #4b8ef0;
+  color: var(--ap-blue);
+}
+.mul-pincard-save {
+  right: 12px;
 }
 
 /* ---------- Because you liked ---------- */
 .mul-because {
-  margin: 24px 20px 12px;
-  font-size: 17px;
-  font-weight: 500;
+  margin: 26px 20px 12px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.mul-because::after {
+  content: ' \203A';
+  color: var(--ap-sub);
 }
 .mul-carousel {
   display: flex;
-  gap: 14px;
-  padding: 0 20px 4px;
+  gap: 12px;
+  padding: 0 16px 4px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding: 0 20px;
+  scroll-padding: 0 16px;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
 }
@@ -552,20 +665,20 @@
 }
 .mul-card {
   position: relative;
-  flex: 0 0 325px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #11191f;
+  flex: 0 0 300px;
+  border-radius: 24px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card-2);
   overflow: hidden;
   scroll-snap-align: start;
 }
 .mul-card-photo {
   display: block;
   width: 100%;
-  height: 144px;
+  height: 140px;
   padding: 0;
   border: 0;
-  background: #1a2128;
+  background: var(--ap-card-2);
   cursor: pointer;
 }
 .mul-card-img {
@@ -582,73 +695,73 @@
   object-fit: cover;
 }
 .mul-card-save {
-  top: 9px;
-  right: 9px;
-  width: 37px;
-  height: 37px;
-  border-radius: 12px;
-  background: rgba(20, 22, 26, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  top: 8px;
+  right: 8px;
+  margin-top: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ap-bar);
+  color: var(--ap-text);
 }
 .mul-card-body {
-  padding: 18px 16px 14px;
+  padding: 14px 16px 16px;
 }
 .mul-card-body h4 {
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.15;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 .mul-card-body p {
-  margin: 5px 0 0;
+  margin: 3px 0 0;
   font-size: 15px;
-  color: #b7bcc3;
+  color: var(--ap-sub);
 }
 .mul-dir {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   width: 100%;
-  height: 37.5px;
-  margin-top: 16px;
+  height: 40px;
+  margin-top: 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #2b2f33;
+  border: 0;
+  background: var(--ap-blue);
   color: #fff;
   font: inherit;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
   cursor: pointer;
 }
 .mul-votes {
   display: flex;
-  gap: 7px;
-  margin-top: 16px;
+  gap: 6px;
+  margin-top: 12px;
 }
 .mul-vote {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  height: 39px;
+  gap: 5px;
+  height: 36px;
   padding: 0 8px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: #191d20;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
   font-size: 14px !important;
-  color: #d4d8dd !important;
+  color: var(--ap-text) !important;
   white-space: nowrap;
   cursor: pointer;
 }
 .mul-vote.on {
-  border-color: rgba(255, 255, 255, 0.55);
-  background: #3c414d;
+  border-color: var(--ap-blue);
+  background: var(--ap-blue);
   color: #fff !important;
 }
 
@@ -656,21 +769,21 @@
 .mul-search {
   position: absolute;
   inset: 0;
+  z-index: 4;
   padding: calc(var(--mul-safe-top) + 12px) 12px 0;
-  background: rgba(6, 9, 11, 0.86);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--ap-bg);
   pointer-events: auto;
 }
 .mul-search-bar {
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 42px;
-  padding: 0 6px 0 14px;
+  height: 44px;
+  padding: 0 6px 0 16px;
   border-radius: 999px;
-  border: 1px solid var(--mul-line);
-  background: rgba(29, 37, 41, 0.9);
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-sub);
 }
 .mul-search-bar input {
   flex: 1;
@@ -678,16 +791,16 @@
   border: 0;
   outline: 0;
   background: none;
-  color: #fff;
+  color: var(--ap-text);
   font: inherit;
-  font-size: 16px;
+  font-size: 17px;
 }
 .mul-search-bar button {
   padding: 8px 10px;
   border: 0;
   background: none;
-  color: #4b8ef0 !important;
-  font-size: 15px !important;
+  color: var(--ap-blue) !important;
+  font-size: 17px !important;
   cursor: pointer;
 }
 .mul-results {
@@ -702,13 +815,18 @@
   width: 100%;
   padding: 13px 8px;
   border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 0.5px solid var(--ap-line);
   background: none;
   text-align: left;
-  font-size: 15px !important;
+  font-size: 17px !important;
   cursor: pointer;
 }
 .mul-results span {
-  color: var(--mul-muted);
+  color: var(--ap-sub);
   white-space: nowrap;
+}
+
+.mul-filters .ap-pill {
+  padding: 0 11px;
+  font-size: 14px;
 }

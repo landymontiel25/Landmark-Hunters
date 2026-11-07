@@ -3,16 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Circle, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useAuth } from '../lib/AuthContext';
+import { useCheckIn } from '../lib/useCheckIn';
 import { useGeo } from '../lib/GeoContext';
 import { useFavorites } from '../lib/FavoritesContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { useWhereAmI } from '../lib/useWhereAmI';
 import { usePickVotes } from '../lib/usePickVotes';
-import { readPersisted } from '../lib/usePersistentState';
-import { getMyLeaderboardEntry } from '../lib/leaderboard';
-import { subscribeMySoloStreak } from '../lib/soloStreaks';
-import { displayStreakCount } from '../lib/streaks';
 import { ALL_LANDMARKS, REGIONS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { categoryLabel, DISTANCE_OPTIONS_MI, distanceUnitLabel, optionToMiles, pickKey, ratePlacesText, SIMILAR_LIMIT } from '../lib/nearbyPicks';
@@ -23,6 +19,8 @@ import { useShownEffect } from '../components/nearbyPicks/useShownEffect';
 import { PickPhoto } from '../components/nearbyPicks/PickCard';
 import DirectionsButton from '../components/DirectionsButton';
 import { VOTE_COPY, VOTE_ORDER } from '../components/PickVoteButtons';
+import AppleTopBar from './AppleTopBar';
+import './AppleUI.css';
 import './MapUILab.css';
 
 // Test tab "UI" > Map: the owner's Map screen mockup (2026-11-02), iPhone
@@ -124,6 +122,17 @@ const CATEGORIES = [
   },
 ];
 
+// The chips under the search bar choose which pins show (Landmarks is
+// everything that is not food or nightlife). Same category data the rest of
+// the screen reads; no new data.
+const PIN_FILTERS = [
+  { id: 'all', label: 'All', test: null },
+  { id: 'landmarks', label: 'Landmarks', test: (l) => !isFood(l) && !has('local-life')(l) },
+  { id: 'restaurants', label: 'Restaurants', test: isFood },
+  { id: 'nightlife', label: 'Nightlife', test: has('local-life') },
+  { id: 'outdoors', label: 'Outdoors', test: has('parks-nature') },
+];
+
 const LIST_SHOWN = 6;
 
 // "Restaurant · Healthy": the kind of place, then its first finer kind.
@@ -137,53 +146,29 @@ function kindLine(l) {
 
 const shortCount = (n) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '')}k` : String(n));
 
-// Your streak and this period's points, read-only (the app's Header keeps
-// both up to date; it stays mounted behind full screen).
-function useHeaderStats() {
-  const { user, firebaseEnabled } = useAuth();
-  const uid = user?.uid || null;
-  const [streak, setStreak] = useState({ uid: null, value: null });
-  const [points, setPoints] = useState({ uid: null, value: null });
-  useEffect(() => {
-    if (!firebaseEnabled || !uid) return undefined;
-    return subscribeMySoloStreak(uid, (s) => setStreak({ uid, value: s }), () => {});
-  }, [firebaseEnabled, uid]);
-  useEffect(() => {
-    if (!firebaseEnabled || !uid) return undefined;
-    let live = true;
-    const saved = readPersisted('leaderboard.period');
-    const period = ['weekly', 'monthly', 'yearly'].includes(saved) ? saved : 'weekly';
-    getMyLeaderboardEntry(period, uid)
-      .then((mine) => live && setPoints({ uid, value: mine?.points || 0 }))
-      .catch(() => live && setPoints({ uid, value: null }));
-    return () => {
-      live = false;
-    };
-  }, [firebaseEnabled, uid]);
-  return {
-    streak: streak.uid === uid ? displayStreakCount(streak.value) : 0,
-    points: points.uid === uid ? points.value : null,
-  };
+// Apple Maps style pins: a small round icon with a white symbol, blue until
+// you have checked in there, green after (the status colors, #0A84FF and
+// #30D158). The selected one gets a white ring and a pointed tail.
+const PIN_STATUS = { todo: '#0A84FF', done: '#30D158' };
+const PIN_SYMBOL = {
+  todo: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.3" fill="#fff"/>',
+  done: '<path d="m6.5 12.5 4 4 7-8.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>',
+};
+const pinIcons = {};
+function pinIcon(done, on) {
+  const key = `${done ? 'done' : 'todo'}${on ? '-on' : ''}`;
+  if (!pinIcons[key]) {
+    const status = done ? 'done' : 'todo';
+    const size = on ? 34 : 26;
+    pinIcons[key] = L.divIcon({
+      className: `mul-pin mul-pin-${status}${on ? ' mul-pin-on' : ''}`,
+      html: `<span class="mul-pin-dot" style="background:${PIN_STATUS[status]}"><svg width="${on ? 20 : 15}" height="${on ? 20 : 15}" viewBox="0 0 24 24" aria-hidden="true">${PIN_SYMBOL[status]}</svg></span>${on ? `<span class="mul-pin-tail" style="border-top-color:${PIN_STATUS[status]}"></span>` : ''}`,
+      iconSize: [size, on ? size + 8 : size],
+      iconAnchor: [size / 2, on ? size + 8 : size / 2],
+    });
+  }
+  return pinIcons[key];
 }
-
-function initialsOf(user) {
-  const parts = (user?.displayName || '').trim().split(/\s+/).filter(Boolean);
-  if (parts.length) return ((parts[0][0] || '') + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
-  return (user?.email?.[0] || 'M').toUpperCase();
-}
-
-const pinIcon = L.divIcon({
-  className: 'mul-pin',
-  html: '<svg width="22" height="28" viewBox="0 0 22 28"><path d="M11 1C5.5 1 1.5 5.1 1.5 10.4c0 6.2 7.5 14.5 8.6 15.7.5.5 1.3.5 1.8 0 1.1-1.2 8.6-9.5 8.6-15.7C20.5 5.1 16.5 1 11 1z" fill="#4fd17c" stroke="#1d6b3a" stroke-width="1.2"/></svg>',
-  iconSize: [22, 28],
-  iconAnchor: [11, 27],
-});
-const pinIconOn = L.divIcon({
-  className: 'mul-pin mul-pin-on',
-  html: '<svg width="30" height="38" viewBox="0 0 22 28"><path d="M11 1C5.5 1 1.5 5.1 1.5 10.4c0 6.2 7.5 14.5 8.6 15.7.5.5 1.3.5 1.8 0 1.1-1.2 8.6-9.5 8.6-15.7C20.5 5.1 16.5 1 11 1z" fill="#5b8cff" stroke="#fff" stroke-width="1.4"/></svg>',
-  iconSize: [30, 38],
-  iconAnchor: [15, 37],
-});
 
 const SATELLITE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 const LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
@@ -221,13 +206,45 @@ function Bookmark({ place, className }) {
   );
 }
 
+// The card a tapped pin opens: status icon, name, kind, rating, distance, a
+// 64pt thumbnail and the bookmark. Tapping it opens the landmark's page.
+function PinCard({ place, done, rating, distance, onOpen }) {
+  return (
+    <div className="mul-pincard" data-pick={pickKey(place)}>
+      <button type="button" className="mul-pincard-main" onClick={onOpen}>
+        <span className={`mul-pincard-icon ${done ? 'done' : ''}`} aria-hidden="true">
+          <Svg size={22} strokeWidth={2}>
+            {done ? <path d="m6.5 12.5 4 4 7-8.5" /> : <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" />}
+          </Svg>
+        </span>
+        <span className="mul-pincard-body">
+          <strong>{place.name}</strong>
+          <span className="mul-pincard-kind">{kindLine(place)}</span>
+          <span className="mul-pincard-meta">
+            {rating && (
+              <>
+                <span className="mul-star" aria-hidden="true">
+                  {'\u{2605}'}
+                </span>
+                {Number(rating.avg).toFixed(1)} ({shortCount(rating.count)}){distance ? ' · ' : ''}
+              </>
+            )}
+            {distance}
+          </span>
+        </span>
+        <PickPhoto pick={{ ...place, image: place.image ?? place.images?.[0] ?? null }} className="mul-pincard-img" />
+      </button>
+      <Bookmark place={place} className="mul-pincard-save" />
+    </div>
+  );
+}
+
 export default function MapUILab({ fullScreen = false }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const { units } = useUnits();
+  const { claimedMap } = useCheckIn();
   const { coords, error: geoError, lastKnown } = useGeo();
   const where = useWhereAmI();
-  const stats = useHeaderStats();
   const mp = useMapPicks({ coords, geoError, showRefresh: true });
 
   const rootRef = useRef(null);
@@ -249,6 +266,7 @@ export default function MapUILab({ fullScreen = false }) {
   const [satellite, setSatellite] = useState(true);
   const [view, setView] = useState(null); // { lat, lng, km } of the map's center and reach
   const [selected, setSelected] = useState(null); // pickKey of the highlighted place
+  const [pinFilter, setPinFilter] = useState('all');
   const center = coords || lastKnown || REGIONS[0].center;
   const [startCenter] = useState(() => [center.lat, center.lng]);
   const onReady = useCallback((map) => {
@@ -273,20 +291,26 @@ export default function MapUILab({ fullScreen = false }) {
   // The nearest 150 landmarks to the map's center get pins.
   const pins = useMemo(() => {
     if (!view) return [];
-    return ALL_LANDMARKS.filter((l) => Number.isFinite(l.lat) && Number.isFinite(l.lng))
+    const chip = PIN_FILTERS.find((f) => f.id === pinFilter);
+    return ALL_LANDMARKS.filter((l) => Number.isFinite(l.lat) && Number.isFinite(l.lng) && (!chip.test || chip.test(l)))
       .map((l) => ({ l, d: distanceMeters(view.lat, view.lng, l.lat, l.lng) }))
       .filter((x) => x.d < 8000)
       .sort((a, b) => a.d - b.d)
       .slice(0, 150)
       .map((x) => x.l);
-  }, [view]);
+  }, [view, pinFilter]);
+  const selectedPlace = useMemo(() => {
+    if (!selected) return null;
+    const [region, id] = selected.split('/');
+    return ALL_LANDMARKS.find((l) => (l.regionId || l.region) === region && l.id === id) || null;
+  }, [selected]);
 
   // ---- Sheet ----
   // peek: just the "Picked for you right now" bar; mid: half up; full: up
   // to just under the location pill.
   const [sheet, setSheet] = useState('peek');
   const [drag, setDrag] = useState(null); // { startY, startTop, top, t }
-  const fullTop = 130;
+  const fullTop = 214;
   const midTop = Math.round(uiH * 0.42);
   const snapTop = sheet === 'full' ? fullTop : midTop;
   const dragStart = (e) => {
@@ -375,50 +399,53 @@ export default function MapUILab({ fullScreen = false }) {
       <MapContainer className="mul-map" center={startCenter} zoom={15} zoomControl={false} attributionControl={false}>
         <TileLayer key={satellite ? 'sat' : 'street'} url={satellite ? SATELLITE : STREET} maxZoom={19} />
         {satellite && <TileLayer url={LABELS} zIndex={650} maxZoom={19} />}
-        <MapHooks onReady={onReady} onMove={onMove} onTap={() => setSheet('peek')} />
+        <MapHooks onReady={onReady} onMove={onMove} onTap={() => {
+            setSheet('peek');
+            setSelected(null);
+          }} />
         {pins.map((l) => {
           const key = `${l.regionId || l.region}/${l.id}`;
           return (
             <Marker
               key={key}
               position={[l.lat, l.lng]}
-              icon={selected === key ? pinIconOn : pinIcon}
-              eventHandlers={{ click: () => navigate(`/landmarks/${l.regionId || l.region}/${l.id}`) }}
+              icon={pinIcon(!!claimedMap?.[l.id], selected === key)}
+              zIndexOffset={selected === key ? 1000 : 0}
+              eventHandlers={{
+                click: (e) => {
+                  e.originalEvent?.stopPropagation?.();
+                  setSelected(key);
+                  setSheet('peek');
+                },
+              }}
               title={l.name}
             />
           );
         })}
         {coords && (
           <>
-            <Circle center={[coords.lat, coords.lng]} radius={Math.max(30, Math.min(coords.accuracy || 60, 120))} pathOptions={{ color: '#5b8cff', weight: 0, fillColor: '#5b8cff', fillOpacity: 0.28 }} />
-            <CircleMarker center={[coords.lat, coords.lng]} radius={8} pathOptions={{ color: '#fff', weight: 3, fillColor: '#3f7bff', fillOpacity: 1 }} />
+            <Circle center={[coords.lat, coords.lng]} radius={Math.max(30, Math.min(coords.accuracy || 60, 120))} pathOptions={{ color: '#0A84FF', weight: 0, fillColor: '#0A84FF', fillOpacity: 0.2 }} />
+            <CircleMarker center={[coords.lat, coords.lng]} radius={8} pathOptions={{ color: '#fff', weight: 3, fillColor: '#0A84FF', fillOpacity: 1 }} />
           </>
         )}
       </MapContainer>
 
       <div className="mul-ui" style={{ zoom, height: uiH, '--z': zoom }}>
         <div className="mul-top">
-          <div className="mul-head">
-            <h1 className="mul-brand">
-              Landmark
-              <br />
-              Hunters
-            </h1>
-            <div className="mul-head-right">
-              <button type="button" className="mul-stat" aria-label={`${stats.streak}-day streak`} onClick={() => navigate('/streaks')}>
-                <span className="mul-flame" aria-hidden="true">
-                  {'\u{1F525}'}
-                </span>
-                {stats.streak}
+          <AppleTopBar />
+          <button type="button" className="mul-searchpill" aria-label="Search places" onClick={() => setSearchOpen(true)}>
+            <Svg size={18} strokeWidth={2}>
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m15.5 15.5 5 5" />
+            </Svg>
+            <span>Search landmarks</span>
+          </button>
+          <div className="mul-filters" role="group" aria-label="Show on the map">
+            {PIN_FILTERS.map((f) => (
+              <button key={f.id} type="button" className={`ap-pill ${pinFilter === f.id ? 'on' : ''}`} aria-pressed={pinFilter === f.id} onClick={() => setPinFilter(f.id)}>
+                {f.label}
               </button>
-              <button type="button" className="mul-stat" aria-label="Standings" onClick={() => navigate('/leaderboard/full')}>
-                <span aria-hidden="true">{'\u{1F3C6}'}</span>
-                {stats.points == null ? '–' : stats.points.toLocaleString()}
-              </button>
-              <button type="button" className="mul-avatar" aria-label="Profile" onClick={() => navigate('/profile')}>
-                {initialsOf(user)}
-              </button>
-            </div>
+            ))}
           </div>
           {where.coords && (
             <button
@@ -442,10 +469,11 @@ export default function MapUILab({ fullScreen = false }) {
         </div>
 
         <div className="mul-tools">
-          <button type="button" className="mul-round" aria-label="Search places" onClick={() => setSearchOpen(true)}>
-            <Svg size={22} strokeWidth={1.9}>
-              <circle cx="10.5" cy="10.5" r="6.5" />
-              <path d="m15.5 15.5 5 5" />
+          <button type="button" className={`mul-round ${satellite ? '' : 'on'}`} aria-label={satellite ? 'Switch to street map' : 'Switch to satellite'} onClick={() => setSatellite((s) => !s)}>
+            <Svg size={22} strokeWidth={1.7}>
+              <path d="m12 3.5 8.5 4.5L12 12.5 3.5 8z" />
+              <path d="m3.5 12 8.5 4.5 8.5-4.5" />
+              <path d="m3.5 16 8.5 4.5 8.5-4.5" />
             </Svg>
           </button>
           <button type="button" className="mul-round" aria-label="Add a landmark" onClick={() => navigate('/add-landmark')}>
@@ -453,12 +481,10 @@ export default function MapUILab({ fullScreen = false }) {
               <path d="M12 5v14M5 12h14" />
             </Svg>
           </button>
-          <button type="button" className={`mul-round ${satellite ? '' : 'on'}`} aria-label={satellite ? 'Switch to street map' : 'Switch to satellite'} onClick={() => setSatellite((s) => !s)}>
-            <Svg size={22} strokeWidth={1.7}>
-              <path d="m12 3.5 8.5 4.5L12 12.5 3.5 8z" />
-              <path d="m3.5 12 8.5 4.5 8.5-4.5" />
-              <path d="m3.5 16 8.5 4.5 8.5-4.5" />
-            </Svg>
+          <button type="button" className="mul-round mul-locate" aria-label="Center on me" disabled={!coords} onClick={locate}>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.5 3.5 3.5 10.6l7.2 2.2 2.2 7.2z" fill="currentColor" />
+            </svg>
           </button>
         </div>
 
@@ -495,12 +521,17 @@ export default function MapUILab({ fullScreen = false }) {
               </ul>
             )}
           </div>
-          <button type="button" className="mul-round mul-locate" aria-label="Center on me" disabled={!coords} onClick={locate}>
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20.5 3.5 3.5 10.6l7.2 2.2 2.2 7.2z" fill="currentColor" />
-            </svg>
-          </button>
         </div>
+
+        {geoError && sheet === 'peek' && (
+          <p className="mul-geo-error" role="alert">
+            {geoError}
+          </p>
+        )}
+
+        {selectedPlace && sheet === 'peek' && (
+          <PinCard place={selectedPlace} done={!!claimedMap?.[selectedPlace.id]} rating={mp.ratings?.[selectedPlace.id]?.count ? mp.ratings[selectedPlace.id] : selectedPlace.rating?.count ? selectedPlace.rating : null} distance={view || center ? formatDistance(distanceMeters((coords || center).lat, (coords || center).lng, selectedPlace.lat, selectedPlace.lng), units) : null} onOpen={() => navigate(`/landmarks/${selectedPlace.regionId || selectedPlace.region}/${selectedPlace.id}`)} />
+        )}
 
         <button type="button" className={`mul-peek ${sheet === 'peek' ? '' : 'hide'}`} onClick={() => setSheet('mid')}>
           <span className="mul-handle" aria-hidden="true" />
