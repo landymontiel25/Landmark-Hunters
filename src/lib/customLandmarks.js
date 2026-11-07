@@ -46,9 +46,10 @@ const withCategories = (l) => {
   return { ...out, categories };
 };
 
-// Owner, 2026-10-27: Miami shows only their top 100, so places people
-// added there stay off every list, map and pick (their own page still opens).
-const CLOSED_TO_CUSTOM = new Set(['miami']);
+// Regions whose user-added places stay off every list, map and pick (their
+// own page still opens). Miami was here from 2026-10-27 (top-100 cut) until
+// the owner put every removed place back on 2026-11-07.
+const CLOSED_TO_CUSTOM = new Set([]);
 
 // includeClosed: screens that show places the user already has (My Memories,
 // saved itineraries, directions) keep a hidden place's photo and name, so an

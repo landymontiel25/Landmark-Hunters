@@ -95,7 +95,7 @@ describe('region-less custom landmarks', () => {
     expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['b']);
   });
 
-  it('leaves out places people added in Miami (only the owner\'s top 100 show there)', async () => {
+  it('shows places people added in Miami again (owner, 2026-11-07)', async () => {
     const { getCustomLandmarks } = await import('./customLandmarks');
     getDocsMock.mockResolvedValueOnce({
       docs: [
@@ -103,7 +103,7 @@ describe('region-less custom landmarks', () => {
         { id: 'b', data: () => ({ id: 'b', name: 'Artisans', region: 'villanova' }) },
       ],
     });
-    expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['b']);
+    expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['a', 'b']);
   });
 });
 

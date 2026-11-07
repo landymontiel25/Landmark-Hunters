@@ -24,7 +24,7 @@ import { createPositionCache } from '../lib/positionCache';
 import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
-import MapCategoryFilter from '../components/MapCategoryFilter';
+import MapCategoryBar, { passesMapCategories } from '../components/MapCategoryBar';
 import MapDrawOverlay from '../components/MapDrawOverlay';
 import { inArea } from '../lib/cityScope';
 import { setMapView } from '../lib/nearestCity';
@@ -537,25 +537,19 @@ export default function MapExplore({ experiments = false }) {
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  // Which categories to plot. Empty means "all landmarks" (the default);
-  // otherwise only pins whose category is in the set. Grows with INTERESTS,
-  // so every category added later is filterable here automatically.
-  const [filterOpen, setFilterOpen] = useState(false);
-  // Lasts while the app is open, resets every launch: a filter saved to the
-  // device used to reopen days later with most pins silently hidden.
-  const [filterCatList, setFilterCatList] = useSessionState('map.filterCats', []);
-  const filterCats = useMemo(() => new Set(normalizeCategories(filterCatList)), [filterCatList]);
-  const setFilterCats = (set) => setFilterCatList([...set]);
-  const toggleFilterCat = (id) =>
-    setFilterCatList((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
+  // Which categories to plot (owner, 2026-11-07): the Map opens with none
+  // and no pins; the bar at the top picks Select All or category emojis.
+  // null (nothing yet), 'all', or category ids. Lasts while the app is open
+  // (switching tabs keeps it) and resets every launch.
+  const [mapCatsRaw, setMapCats] = useSessionState('map.categories', null);
+  const mapCats = useMemo(() => (Array.isArray(mapCatsRaw) ? normalizeCategories(mapCatsRaw) : mapCatsRaw), [mapCatsRaw]);
   // An area drawn on the map (the + dial's pencil, Zillow style): only the
   // landmarks inside it show until it is cleared. [lat, lng] points, or null.
   const [drawnArea, setDrawnArea] = useSessionState('map.drawnArea', null);
   const [drawMode, setDrawMode] = useState(false);
   const [dialOpen, setDialOpen] = useState(false);
   const drawnShape = useMemo(() => (drawnArea?.length > 2 ? { area: [drawnArea] } : null), [drawnArea]);
-  const passesFilter = (l) =>
-    (filterCats.size === 0 || (l.categories || []).some((c) => filterCats.has(c))) && (!drawnShape || inArea(l.lat, l.lng, drawnShape));
+  const passesFilter = (l) => passesMapCategories(mapCats, l) && (!drawnShape || inArea(l.lat, l.lng, drawnShape));
 
   // Moving a built-in landmark's pin: Admin Mode only (same as moving a
   // custom pin, or any other admin write) -- a drop saves the corrected
@@ -886,7 +880,6 @@ export default function MapExplore({ experiments = false }) {
   const toggleSearch = () => {
     setSearchOpen((open) => !open);
     setSearchTerm('');
-    setFilterOpen(false);
   };
 
   // A live, distance-sorted view of what's closest right now, shown in the
@@ -1024,8 +1017,8 @@ export default function MapExplore({ experiments = false }) {
         );
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats and drawnShape
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, drawnShape, adminMode, applyEdit, packsVersion, myPhotos, googleMap]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads mapCats and drawnShape
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, mapCats, drawnShape, adminMode, applyEdit, packsVersion, myPhotos, googleMap]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
@@ -1164,13 +1157,13 @@ export default function MapExplore({ experiments = false }) {
           </Marker>
         );
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats and drawnShape
-    [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, filterCats, drawnShape, myPhotos, getRegionSelection, adminMode, googleMap]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads mapCats and drawnShape
+    [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, mapCats, drawnShape, myPhotos, getRegionSelection, adminMode, googleMap]
   );
 
   const areaCount = drawnArea ? markers.filter(Boolean).length + customMarkers.filter(Boolean).length : 0;
   const picksReady = !!user && !!myReviewsLoaded;
-  const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen && !drawMode && !dialOpen;
+  const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !drawMode && !dialOpen;
   const picksH = picksMinimized
     ? `${PICKS_SHEET_H.minimized}px`
     : PICKS_SHEET_H.moodExpanded;
@@ -1549,7 +1542,6 @@ export default function MapExplore({ experiments = false }) {
                 onClick={() => {
                   setDialOpen(false);
                   setSearchOpen(false);
-                  setFilterOpen(false);
                   setDrawMode(true);
                 }}
               >
@@ -1558,43 +1550,21 @@ export default function MapExplore({ experiments = false }) {
               </button>
             </div>
           )}
-          <button
-            type="button"
-            className={`map-search-btn ${filterCats.size > 0 ? 'active' : ''}`}
-            style={{ top: 'calc(var(--header-h) + 128px)' }}
-            title="Filter the map by category"
-            aria-label="Filter the map by category"
-            aria-expanded={filterOpen}
-            onClick={() => {
-              setFilterOpen((o) => !o);
-              setSearchOpen(false);
-            }}
-          >
-            {filterOpen ? '\u{2715}' : '\u{1F5C2}\u{FE0F}'}
-          </button>
-          {drawnArea && !drawMode && !filterOpen && (
+          {!searchOpen && !drawMode && <MapCategoryBar value={mapCats} onChange={setMapCats} />}
+          {!mapCats && !searchOpen && !drawMode && (
+            <p className="map-filter-pill map-cat-prompt" role="status">
+              Pick what to see on the map
+            </p>
+          )}
+          {drawnArea && !drawMode && (
             <button
               type="button"
               className="map-filter-pill map-draw-pill"
-              style={filterCats.size > 0 ? { top: 'calc(var(--header-h) + 56px)' } : undefined}
+              style={!mapCats ? { top: 'calc(var(--header-h) + 108px)' } : undefined}
               onClick={() => setDrawnArea(null)}
             >
               {'\u{270F}\u{FE0F}'} {areaCount} {areaCount === 1 ? 'landmark' : 'landmarks'} in your area · Clear
             </button>
-          )}
-          {filterCats.size > 0 && !filterOpen && (
-            <button type="button" className="map-filter-pill" onClick={() => setFilterCats(new Set())}>
-              Showing {filterCats.size} {filterCats.size === 1 ? 'category' : 'categories'} · Show all
-            </button>
-          )}
-          {filterOpen && (
-            <div className="map-search-panel">
-              <MapCategoryFilter
-                selected={filterCats}
-                onToggle={toggleFilterCat}
-                onClear={() => setFilterCats(new Set())}
-              />
-            </div>
           )}
           {pinSavedNote ? (
             <p className="tag tag-free map-edit-hint">Saved: {pinSavedNote}</p>

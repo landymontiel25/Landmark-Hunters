@@ -156,17 +156,17 @@ describe('catalog text and image hygiene', () => {
     expect(ALL_LANDMARKS.find((l) => l.id === 'merrick-house')?.regionId).toBe('miami');
   });
 
-  // Owner, 2026-10-27: Miami is exactly their evidence-based top 100, the
-  // hand-picked landmarks plus the imported places still in its packs.
-  // Owner, 2026-10-29: airports are always landmarks, so they sit outside
-  // that 100 (Miami International Airport).
-  it('keeps Miami to the top 100, plus its airports', () => {
+  // Owner, 2026-10-27 cut Miami to their top 100; owner, 2026-11-07 put every
+  // removed place back (179 hand-picked, 882 imported). Airports are always
+  // landmarks (owner, 2026-10-29).
+  it('keeps every Miami place, the top 100 and the ones put back', () => {
     const packed = PLACE_PACKS.filter((p) => p.region === 'miami').flatMap((p) => JSON.parse(readFileSync(`public/${p.file}`, 'utf8')));
     const all = [...getRegion('miami').landmarks, ...packed];
-    const miami = all.filter((l) => !(l.categories || []).includes('airports'));
-    expect(all.filter((l) => (l.categories || []).includes('airports')).map((l) => l.name)).toEqual(['Miami International Airport']);
-    expect(miami).toHaveLength(100);
-    expect(miami.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum']));
+    expect(new Set(all.map((l) => l.id)).size).toBe(all.length);
+    expect(getRegion('miami').landmarks).toHaveLength(179);
+    expect(packed).toHaveLength(882);
+    expect(all.filter((l) => (l.categories || []).includes('airports')).map((l) => l.name)).toEqual(expect.arrayContaining(['Miami International Airport']));
+    expect(all.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum', 'Venetian Pool', 'Miami Seaquarium']));
   });
 
   it('keeps every region well formed (unique id, center inside its own map bounds)', () => {
