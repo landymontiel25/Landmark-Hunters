@@ -79,16 +79,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.5,
         "restaurants": {
-          "quantity": null,
+          "quantity": 4.5,
           "price": null,
-          "diversity": null
+          "diversity": 4.5
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 3.7,
+        "averagePropertyPrice": 2.9,
+        "artAndCulture": 4.2,
+        "shopping": 4.1
       }
     },
     {
@@ -110,16 +110,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.8,
         "restaurants": {
-          "quantity": null,
+          "quantity": 5,
           "price": null,
-          "diversity": null
+          "diversity": 4.7
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 4.2,
+        "averagePropertyPrice": 1.4,
+        "artAndCulture": 3.9,
+        "shopping": 4.4
       }
     },
     {
@@ -141,16 +141,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.2,
         "restaurants": {
-          "quantity": null,
+          "quantity": 4.2,
           "price": null,
-          "diversity": null
+          "diversity": 4.5
         },
-        "nightlife": null,
+        "nightlife": 4.4,
         "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "artAndCulture": 3.7,
+        "shopping": 3.4
       }
     },
     {
@@ -172,16 +172,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 4.3,
           "price": null,
-          "diversity": null
+          "diversity": 4.5
         },
-        "nightlife": null,
+        "nightlife": 4.8,
         "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "artAndCulture": 4.6,
+        "shopping": 3.7
       }
     },
     {
@@ -203,16 +203,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.8,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.8,
           "price": null,
-          "diversity": null
+          "diversity": 4
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.9,
+        "averagePropertyPrice": 2.5,
+        "artAndCulture": 3.2,
+        "shopping": 4.9
       }
     },
     {
@@ -234,16 +234,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.1,
           "price": null,
-          "diversity": null
+          "diversity": 3.3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.9,
+        "artAndCulture": 1.5,
+        "shopping": 3.1
       }
     },
     {
@@ -265,16 +265,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.1,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.9,
           "price": null,
-          "diversity": null
+          "diversity": 3.5
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.9,
+        "averagePropertyPrice": 1.6,
+        "artAndCulture": 0,
+        "shopping": 2.6
       }
     },
     {
@@ -296,16 +296,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.3,
           "price": null,
-          "diversity": null
+          "diversity": 3.5
         },
-        "nightlife": null,
+        "nightlife": 3.2,
         "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "artAndCulture": 1,
+        "shopping": 2.6
       }
     },
     {
@@ -327,16 +327,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 1.5,
           "price": null,
-          "diversity": null
+          "diversity": 1.5
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 0.8,
+        "artAndCulture": 0,
+        "shopping": 2.3
       }
     },
     {
@@ -358,16 +358,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 1,
         "restaurants": {
-          "quantity": null,
+          "quantity": 0,
           "price": null,
-          "diversity": null
+          "diversity": 0
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 4.6,
+        "artAndCulture": 1.5,
+        "shopping": 0
       }
     },
     {
@@ -389,16 +389,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.5,
           "price": null,
-          "diversity": null
+          "diversity": 1.9
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 2,
+        "artAndCulture": 5,
+        "shopping": 0
       }
     },
     {
@@ -416,16 +416,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.6,
         "restaurants": {
-          "quantity": null,
+          "quantity": 1.9,
           "price": null,
-          "diversity": null
+          "diversity": 2.4
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.6,
+        "artAndCulture": 0,
+        "shopping": 2.5
       }
     },
     {
@@ -447,16 +447,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 1.9,
         "restaurants": {
-          "quantity": null,
+          "quantity": 1.7,
           "price": null,
-          "diversity": null
+          "diversity": 2.2
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.1,
+        "artAndCulture": 0,
+        "shopping": 1.5
       }
     },
     {
@@ -474,16 +474,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.3,
           "price": null,
-          "diversity": null
+          "diversity": 2.2
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 3.9,
+        "artAndCulture": 0,
+        "shopping": 1.7
       }
     },
     {
@@ -501,16 +501,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.5,
           "price": null,
-          "diversity": null
+          "diversity": 3.5
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 2.4,
+        "averagePropertyPrice": 2.5,
+        "artAndCulture": 1.5,
+        "shopping": 2.6
       }
     },
     {
@@ -532,16 +532,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3,
           "price": null,
-          "diversity": null
+          "diversity": 3.3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 2.3,
+        "artAndCulture": 0,
+        "shopping": 2.5
       }
     },
     {
@@ -563,16 +563,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 5,
         "restaurants": {
-          "quantity": null,
+          "quantity": 4.4,
           "price": null,
-          "diversity": null
+          "diversity": 4.7
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 3.7,
+        "averagePropertyPrice": 1.9,
+        "artAndCulture": 3.5,
+        "shopping": 5
       }
     },
     {
@@ -594,16 +594,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.6,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.7,
           "price": null,
-          "diversity": null
+          "diversity": 3.7
         },
-        "nightlife": null,
+        "nightlife": 1.2,
         "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "artAndCulture": 2.2,
+        "shopping": 3
       }
     },
     {
@@ -625,16 +625,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.7,
         "restaurants": {
-          "quantity": null,
+          "quantity": 5,
           "price": null,
-          "diversity": null
+          "diversity": 5
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 5,
+        "averagePropertyPrice": 0.9,
+        "artAndCulture": 3.1,
+        "shopping": 4.1
       }
     },
     {
@@ -656,16 +656,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.2,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.2,
           "price": null,
-          "diversity": null
+          "diversity": 4.3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 3.2,
+        "averagePropertyPrice": 1.6,
+        "artAndCulture": 1,
+        "shopping": 2.2
       }
     },
     {
@@ -687,16 +687,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.2,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.2,
           "price": null,
-          "diversity": null
+          "diversity": 4.2
         },
-        "nightlife": null,
+        "nightlife": 1.2,
         "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "artAndCulture": 1,
+        "shopping": 2.6
       }
     },
     {
@@ -718,16 +718,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.5,
         "restaurants": {
-          "quantity": null,
+          "quantity": 4.8,
           "price": null,
-          "diversity": null
+          "diversity": 4.7
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 4.7,
+        "averagePropertyPrice": 5,
+        "artAndCulture": 2.7,
+        "shopping": 3.9
       }
     },
     {
@@ -745,16 +745,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.9,
         "restaurants": {
-          "quantity": null,
+          "quantity": 4.7,
           "price": null,
-          "diversity": null
+          "diversity": 4.6
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 2.8,
+        "averagePropertyPrice": 3.8,
+        "artAndCulture": 3.2,
+        "shopping": 4.8
       }
     },
     {
@@ -776,16 +776,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.6,
           "price": null,
-          "diversity": null
+          "diversity": 3.2
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 3.3,
+        "artAndCulture": 0,
+        "shopping": 2.7
       }
     },
     {
@@ -807,16 +807,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.6,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.6,
           "price": null,
-          "diversity": null
+          "diversity": 3.1
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 5,
+        "artAndCulture": 0,
+        "shopping": 2.1
       }
     },
     {
@@ -834,16 +834,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 0,
         "restaurants": {
-          "quantity": null,
+          "quantity": 0,
           "price": null,
-          "diversity": null
+          "diversity": 0
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 3.8,
+        "artAndCulture": 0,
+        "shopping": 0
       }
     },
     {
@@ -865,16 +865,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.5,
           "price": null,
-          "diversity": null
+          "diversity": 3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 0,
+        "artAndCulture": 0,
+        "shopping": 1.7
       }
     },
     {
@@ -896,16 +896,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.6,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.8,
           "price": null,
-          "diversity": null
+          "diversity": 3.3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.7,
+        "artAndCulture": 0,
+        "shopping": 1.8
       }
     },
     {
@@ -927,16 +927,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 4.3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.8,
           "price": null,
-          "diversity": null
+          "diversity": 4
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 0.5,
+        "artAndCulture": 0,
+        "shopping": 4.2
       }
     },
     {
@@ -958,16 +958,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.7,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.6,
           "price": null,
-          "diversity": null
+          "diversity": 4.7
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 2,
+        "artAndCulture": 2.5,
+        "shopping": 3.3
       }
     },
     {
@@ -989,16 +989,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.6,
           "price": null,
-          "diversity": null
+          "diversity": 2.2
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 2.1,
+        "artAndCulture": 1,
+        "shopping": 3.1
       }
     },
     {
@@ -1020,16 +1020,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.2,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.6,
           "price": null,
-          "diversity": null
+          "diversity": 3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.2,
+        "artAndCulture": 2.5,
+        "shopping": 2.9
       }
     },
     {
@@ -1051,16 +1051,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.2,
         "restaurants": {
-          "quantity": null,
+          "quantity": 1.7,
           "price": null,
-          "diversity": null
+          "diversity": 1.9
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.5,
+        "artAndCulture": 0,
+        "shopping": 1.9
       }
     },
     {
@@ -1082,16 +1082,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 1.7,
         "restaurants": {
-          "quantity": null,
+          "quantity": 1.2,
           "price": null,
-          "diversity": null
+          "diversity": 0.9
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 0.8,
+        "artAndCulture": 0,
+        "shopping": 1.5
       }
     },
     {
@@ -1113,16 +1113,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 0,
         "restaurants": {
-          "quantity": null,
+          "quantity": 0,
           "price": null,
-          "diversity": null
+          "diversity": 0
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 2.6,
+        "artAndCulture": 0,
+        "shopping": 0
       }
     },
     {
@@ -1144,16 +1144,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.2,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.6,
           "price": null,
-          "diversity": null
+          "diversity": 3.3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 1.6,
+        "artAndCulture": 1.9,
+        "shopping": 2.8
       }
     },
     {
@@ -1171,16 +1171,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.6,
         "restaurants": {
-          "quantity": null,
+          "quantity": 1.9,
           "price": null,
-          "diversity": null
+          "diversity": 1.9
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.7,
+        "artAndCulture": 0,
+        "shopping": 2.5
       }
     },
     {
@@ -1202,16 +1202,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 0,
         "restaurants": {
-          "quantity": null,
+          "quantity": 0,
           "price": null,
-          "diversity": null
+          "diversity": 0
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 3.2,
+        "artAndCulture": 0,
+        "shopping": 0
       }
     },
     {
@@ -1233,16 +1233,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.9,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.6,
           "price": null,
-          "diversity": null
+          "diversity": 3.5
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 2.9,
+        "artAndCulture": 1.5,
+        "shopping": 2.5
       }
     },
     {
@@ -1264,16 +1264,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.8,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.2,
           "price": null,
-          "diversity": null
+          "diversity": 3.9
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 4.1,
+        "artAndCulture": 2.5,
+        "shopping": 3.6
       }
     },
     {
@@ -1295,16 +1295,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.3,
           "price": null,
-          "diversity": null
+          "diversity": 2.6
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 3.1,
+        "artAndCulture": 0,
+        "shopping": 1.7
       }
     },
     {
@@ -1322,16 +1322,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.3,
           "price": null,
-          "diversity": null
+          "diversity": 2.8
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 2.3,
+        "artAndCulture": 1,
+        "shopping": 1.5
       }
     },
     {
@@ -1353,16 +1353,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 0,
         "restaurants": {
-          "quantity": null,
+          "quantity": 0,
           "price": null,
-          "diversity": null
+          "diversity": 0
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.1,
+        "artAndCulture": 0,
+        "shopping": 0
       }
     },
     {
@@ -1384,16 +1384,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 2.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 2.1,
           "price": null,
-          "diversity": null
+          "diversity": 3
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 2,
+        "artAndCulture": 0,
+        "shopping": 2.1
       }
     },
     {
@@ -1411,16 +1411,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.8,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.8,
           "price": null,
-          "diversity": null
+          "diversity": 3.7
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.3,
+        "artAndCulture": 4,
+        "shopping": 2.7
       }
     },
     {
@@ -1438,16 +1438,16 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.3,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.2,
           "price": null,
-          "diversity": null
+          "diversity": 3.6
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 0,
+        "averagePropertyPrice": 1.9,
+        "artAndCulture": 0,
+        "shopping": 3
       }
     },
     {
@@ -1469,17 +1469,23 @@
       },
       "ratings": {
         "safety": null,
-        "walkability": null,
+        "walkability": 3.4,
         "restaurants": {
-          "quantity": null,
+          "quantity": 3.2,
           "price": null,
-          "diversity": null
+          "diversity": 4
         },
-        "nightlife": null,
-        "averagePropertyPrice": null,
-        "artAndCulture": null,
-        "shopping": null
+        "nightlife": 1.2,
+        "averagePropertyPrice": 1.4,
+        "artAndCulture": 0,
+        "shopping": 3.1
       }
     }
-  ]
+  ],
+  "ratingsSource": {
+    "fetchedAt": "2026-11-07T01:09:27.042Z",
+    "places": "Geoapify Places API (OpenStreetMap data), https://apidocs.geoapify.com/docs/places/",
+    "homeValue": "U.S. Census Bureau, ACS 2023 5-year, B25077 median home value, census tract at the neighborhood center",
+    "method": "src/lib/neighborhoodScoring.js"
+  }
 }

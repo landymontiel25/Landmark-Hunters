@@ -52,7 +52,8 @@ describe('Neighborhoods subtab', () => {
   });
 
   it('with every rating null, every card shows "–"', async () => {
-    await mount(<NeighborhoodsView data={DATA} />);
+    const empty = { ...DATA, neighborhoods: DATA.neighborhoods.map((n) => ({ ...n, ratings: ratings() })) };
+    await mount(<NeighborhoodsView data={empty} />);
     await click(byText('.nb-tab', 'All areas'));
     await click(byText('.nb-chip', 'Tier 1'));
     const badges = [...el.querySelectorAll('.nb-score-badge')];

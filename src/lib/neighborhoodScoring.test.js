@@ -19,9 +19,9 @@ describe('logScale', () => {
 
 describe('scoreNeighborhoods', () => {
   const metrics = {
-    Dense: { restaurants: 400, cuisines: ['a', 'b', 'c', 'd'], nightlife: 80, shopping: 600, artAndCulture: 40, walkable: 2000, medianHomeValue: 900000 },
-    Quiet: { restaurants: 5, cuisines: ['a'], nightlife: 0, shopping: 10, artAndCulture: 0, walkable: 50, medianHomeValue: 300000 },
-    NoTract: { restaurants: 50, cuisines: [], nightlife: 5, shopping: 100, artAndCulture: 3, walkable: 400, medianHomeValue: null },
+    Dense: { restaurants: 400, cuisines: ['a', 'b', 'c', 'd'], nightlife: 80, shopping: 600, artAndCulture: 40, medianHomeValue: 900000 },
+    Quiet: { restaurants: 5, cuisines: ['a'], nightlife: 0, shopping: 10, artAndCulture: 0, medianHomeValue: 300000 },
+    NoTract: { restaurants: 50, cuisines: [], nightlife: 5, shopping: 100, artAndCulture: 3, medianHomeValue: null },
   };
   const s = scoreNeighborhoods(metrics);
 
@@ -37,6 +37,16 @@ describe('scoreNeighborhoods', () => {
     });
     expect(s.Quiet.walkability).toBe(0);
     expect(s.Quiet.averagePropertyPrice).toBe(0);
+  });
+
+  it('compares places per km2, so a big quiet area is not top just for its size', () => {
+    const t = scoreNeighborhoods({
+      SmallBusy: { area: { km2: 1 }, restaurants: 100, cuisines: [], nightlife: 10, shopping: 100, artAndCulture: 10, medianHomeValue: 1 },
+      BigQuiet: { area: { km2: 50 }, restaurants: 500, cuisines: [], nightlife: 20, shopping: 500, artAndCulture: 20, medianHomeValue: 1 },
+    });
+    expect(t.SmallBusy.restaurants.quantity).toBe(5);
+    expect(t.BigQuiet.restaurants.quantity).toBe(0);
+    expect(t.SmallBusy.walkability).toBe(5);
   });
 
   it('a missing home value stays null', () => {
