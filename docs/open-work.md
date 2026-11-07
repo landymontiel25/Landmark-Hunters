@@ -17,7 +17,20 @@ Nominatim coordinates, Wikimedia Commons photos with credits).
 Still open:
 - Nearby and All areas open with no chip (all 47); tapping a lit chip
   turns it off (2026-11-06, the owner could only see 4).
-- Ratings, info and tags are all empty on purpose. A separate pipeline
+- Ratings filled (2026-11-07) by the manual "Neighborhood data" workflow
+  (`.github/workflows/neighborhood-data.yml`, repo secrets
+  GEOAPIFY_API_KEY and CENSUS_API_KEY): Geoapify place counts inside the
+  OpenStreetMap outline (`scripts/neighborhoods/outlines.json`, 26 of 47)
+  or a 1 km circle, Census ACS median home value by tract, scored 0-5 on a
+  log scale (`src/lib/neighborhoodScoring.js`). Still open: Safety (no
+  crime source; FBI data is per police department only), Restaurants >
+  Price, and home value missing for Edgewater, Wynwood, Overtown, Miami
+  River District and North Beach (tract value suppressed). Known quirks:
+  outlines (whole cities) and circles differ in size, so a big city like
+  Kendall scores high on counts; Coral Way's culture score (35 places,
+  mostly public art) looks high; Geoapify's coverage is thinner than
+  Google's.
+- Info and tags are still empty on purpose. A separate pipeline
   fills them; until then every score is "–" and the tag chips (Art &
   Culture, Food & Drinks, Beaches, Family, Hidden Gems) show "No
   neighborhoods here yet." Re-running the build script keeps filled fields.

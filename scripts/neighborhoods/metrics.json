@@ -1,34 +1,25 @@
 {
-  "fetchedAt": "2026-11-07T01:09:27.042Z",
+  "fetchedAt": "2026-11-07T01:22:48.854Z",
   "sources": {
     "places": "Geoapify Places API (OpenStreetMap data), https://apidocs.geoapify.com/docs/places/",
+    "areas": "OpenStreetMap outlines via Nominatim (scripts/neighborhoods/outlines.json), else a 1 km circle",
     "homeValue": "U.S. Census Bureau, ACS 2023 5-year, B25077 median home value, census tract at the neighborhood center"
   },
   "groups": {
-    "restaurants": {
-      "radius": 1000,
-      "categories": "catering.restaurant,catering.cafe,catering.fast_food,catering.food_court"
-    },
-    "nightlife": {
-      "radius": 1000,
-      "categories": "catering.bar,catering.pub,catering.biergarten,adult.nightclub"
-    },
-    "shopping": {
-      "radius": 1000,
-      "categories": "commercial"
-    },
-    "artAndCulture": {
-      "radius": 1000,
-      "categories": "entertainment.culture,entertainment.museum,tourism.attraction.artwork"
-    },
-    "walkable": {
-      "radius": 800,
-      "categories": "catering,commercial,service,education,healthcare,leisure.park,public_transport,entertainment"
-    }
+    "restaurants": "catering.restaurant,catering.cafe,catering.fast_food,catering.food_court",
+    "nightlife": "catering.bar,catering.pub,catering.biergarten,adult.nightclub",
+    "shopping": "commercial",
+    "artAndCulture": "entertainment.culture,entertainment.museum,tourism.attraction.artwork"
   },
   "neighborhoods": {
     "Brickell": {
-      "restaurants": 68,
+      "area": {
+        "kind": "outline",
+        "name": "Brickell",
+        "osm": "relation/21778173",
+        "km2": 2.463
+      },
+      "restaurants": 66,
       "cuisines": [
         "american",
         "argentinian",
@@ -60,13 +51,20 @@
         "tacos"
       ],
       "nightlife": 7,
-      "shopping": 78,
-      "artAndCulture": 20,
-      "walkable": 8,
+      "shopping": 76,
+      "artAndCulture": 18,
       "tract": "12086006716",
       "medianHomeValue": 732600
     },
     "Downtown Miami": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.7745,
+          -80.192
+        ],
+        "km2": 3.142
+      },
       "restaurants": 108,
       "cuisines": [
         "american",
@@ -106,11 +104,18 @@
       "nightlife": 10,
       "shopping": 109,
       "artAndCulture": 15,
-      "walkable": 5,
       "tract": "12086003704",
       "medianHomeValue": 364000
     },
     "Edgewater": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.80083,
+          -80.18921
+        ],
+        "km2": 3.142
+      },
       "restaurants": 50,
       "cuisines": [
         "asian",
@@ -145,12 +150,17 @@
       "nightlife": 11,
       "shopping": 39,
       "artAndCulture": 13,
-      "walkable": 0,
       "tract": "12086002702",
       "medianHomeValue": null
     },
     "Wynwood": {
-      "restaurants": 55,
+      "area": {
+        "kind": "outline",
+        "name": "Wynwood",
+        "osm": "way/1570455290",
+        "km2": 2.085
+      },
+      "restaurants": 50,
       "cuisines": [
         "american",
         "argentinian",
@@ -161,34 +171,38 @@
         "cafe",
         "chicken",
         "coffee_shop",
-        "cuban",
         "empanada",
         "french-indonesian",
-        "health_food",
         "healthy_food",
         "ice_cream",
         "indian",
         "indonesian",
         "italian",
         "juice",
+        "local",
         "mediterranean",
         "mexican",
         "middle_eastern",
         "pizza",
         "puerto_rican",
         "salad",
-        "sandwich",
-        "sushi",
-        "wings"
+        "sushi"
       ],
-      "nightlife": 14,
+      "nightlife": 12,
       "shopping": 53,
-      "artAndCulture": 26,
-      "walkable": 3,
+      "artAndCulture": 23,
       "tract": "12086002800",
       "medianHomeValue": null
     },
     "Design District": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.81466,
+          -80.19143
+        ],
+        "km2": 3.142
+      },
       "restaurants": 36,
       "cuisines": [
         "american",
@@ -214,11 +228,18 @@
       "nightlife": 2,
       "shopping": 191,
       "artAndCulture": 9,
-      "walkable": 3,
       "tract": "12086002201",
       "medianHomeValue": 618500
     },
     "Little Havana": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.76815,
+          -80.23347
+        ],
+        "km2": 3.142
+      },
       "restaurants": 17,
       "cuisines": [
         "burger",
@@ -236,11 +257,18 @@
       "nightlife": 0,
       "shopping": 26,
       "artAndCulture": 2,
-      "walkable": 0,
       "tract": "12086005407",
       "medianHomeValue": 471600
     },
     "Little Haiti": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.83037,
+          -80.19283
+        ],
+        "km2": 3.142
+      },
       "restaurants": 14,
       "cuisines": [
         "asian",
@@ -259,34 +287,38 @@
       "nightlife": 2,
       "shopping": 15,
       "artAndCulture": 0,
-      "walkable": 3,
       "tract": "12086002004",
       "medianHomeValue": 394100
     },
     "Overtown": {
-      "restaurants": 22,
+      "area": {
+        "kind": "outline",
+        "name": "Overtown",
+        "osm": "way/968566940",
+        "km2": 0.972
+      },
+      "restaurants": 7,
       "cuisines": [
         "american",
         "bagel",
-        "brazilian",
         "chicken",
-        "coffee_shop",
-        "donut",
-        "fish",
-        "fusion",
-        "juice",
-        "mediterranean",
-        "sandwich",
-        "seafood"
+        "coffee_shop"
       ],
-      "nightlife": 5,
-      "shopping": 16,
+      "nightlife": 0,
+      "shopping": 6,
       "artAndCulture": 1,
-      "walkable": 2,
       "tract": "12086003400",
       "medianHomeValue": null
     },
     "Allapattah": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.80871,
+          -80.21547
+        ],
+        "km2": 3.142
+      },
       "restaurants": 3,
       "cuisines": [
         "burger",
@@ -295,21 +327,49 @@
       "nightlife": 1,
       "shopping": 11,
       "artAndCulture": 0,
-      "walkable": 1,
       "tract": "12086002501",
       "medianHomeValue": 277200
     },
     "Coconut Grove": {
-      "restaurants": 0,
-      "cuisines": [],
-      "nightlife": 0,
-      "shopping": 0,
-      "artAndCulture": 2,
-      "walkable": 3,
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.72864,
+          -80.24204
+        ],
+        "km2": 3.142
+      },
+      "restaurants": 25,
+      "cuisines": [
+        "american",
+        "argentinian",
+        "burger",
+        "grill",
+        "italian",
+        "japanese",
+        "mexican",
+        "new_american",
+        "open-fire",
+        "steak_house",
+        "sushi",
+        "tex-mex",
+        "thai"
+      ],
+      "nightlife": 3,
+      "shopping": 14,
+      "artAndCulture": 0,
       "tract": "12086007300",
       "medianHomeValue": 1662800
     },
     "Coral Way": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.75102,
+          -80.21454
+        ],
+        "km2": 3.142
+      },
       "restaurants": 9,
       "cuisines": [
         "greek",
@@ -319,11 +379,18 @@
       "nightlife": 0,
       "shopping": 0,
       "artAndCulture": 35,
-      "walkable": 1,
       "tract": "12086006715",
       "medianHomeValue": 475900
     },
     "Flagami": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.76232,
+          -80.31616
+        ],
+        "km2": 3.142
+      },
       "restaurants": 5,
       "cuisines": [
         "burger",
@@ -335,11 +402,18 @@
       "nightlife": 0,
       "shopping": 13,
       "artAndCulture": 0,
-      "walkable": 0,
       "tract": "12086005902",
       "medianHomeValue": 398300
     },
     "Liberty City": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.82487,
+          -80.21605
+        ],
+        "km2": 3.142
+      },
       "restaurants": 4,
       "cuisines": [
         "burger",
@@ -350,11 +424,18 @@
       "nightlife": 0,
       "shopping": 4,
       "artAndCulture": 0,
-      "walkable": 2,
       "tract": "12086001904",
       "medianHomeValue": 320700
     },
     "Morningside": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.82446,
+          -80.17999
+        ],
+        "km2": 3.142
+      },
       "restaurants": 8,
       "cuisines": [
         "burger",
@@ -365,11 +446,18 @@
       "nightlife": 0,
       "shopping": 5,
       "artAndCulture": 0,
-      "walkable": 2,
       "tract": "12086002100",
       "medianHomeValue": 1188500
     },
     "Shenandoah": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.75954,
+          -80.22227
+        ],
+        "km2": 3.142
+      },
       "restaurants": 26,
       "cuisines": [
         "argentinian",
@@ -388,11 +476,18 @@
       "nightlife": 3,
       "shopping": 16,
       "artAndCulture": 2,
-      "walkable": 5,
       "tract": "12086006403",
       "medianHomeValue": 625600
     },
     "Upper East Side": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.83583,
+          -80.18444
+        ],
+        "km2": 3.142
+      },
       "restaurants": 16,
       "cuisines": [
         "american",
@@ -410,11 +505,18 @@
       "nightlife": 1,
       "shopping": 13,
       "artAndCulture": 0,
-      "walkable": 3,
       "tract": "12086001302",
       "medianHomeValue": 547000
     },
     "Midtown": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.80833,
+          -80.19346
+        ],
+        "km2": 3.142
+      },
       "restaurants": 61,
       "cuisines": [
         "american",
@@ -452,11 +554,18 @@
       "nightlife": 7,
       "shopping": 211,
       "artAndCulture": 11,
-      "walkable": 1,
       "tract": "12086002600",
       "medianHomeValue": 461400
     },
     "Miami River District": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.77619,
+          -80.20124
+        ],
+        "km2": 3.142
+      },
       "restaurants": 30,
       "cuisines": [
         "american",
@@ -478,11 +587,18 @@
       "nightlife": 1,
       "shopping": 24,
       "artAndCulture": 4,
-      "walkable": 6,
       "tract": "12086003606",
       "medianHomeValue": null
     },
     "South Beach": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.77443,
+          -80.13324
+        ],
+        "km2": 3.142
+      },
       "restaurants": 107,
       "cuisines": [
         "american",
@@ -529,11 +645,18 @@
       "nightlife": 16,
       "shopping": 83,
       "artAndCulture": 8,
-      "walkable": 3,
       "tract": "12086004403",
       "medianHomeValue": 285000
     },
     "Mid-Beach": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.81245,
+          -80.12188
+        ],
+        "km2": 3.142
+      },
       "restaurants": 20,
       "cuisines": [
         "american",
@@ -564,11 +687,18 @@
       "nightlife": 5,
       "shopping": 10,
       "artAndCulture": 1,
-      "walkable": 2,
       "tract": "12086004103",
       "medianHomeValue": 395500
     },
     "North Beach": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.86468,
+          -80.12017
+        ],
+        "km2": 3.142
+      },
       "restaurants": 19,
       "cuisines": [
         "american",
@@ -596,11 +726,18 @@
       "nightlife": 1,
       "shopping": 15,
       "artAndCulture": 1,
-      "walkable": 8,
       "tract": "12086003909",
       "medianHomeValue": null
     },
     "South of Fifth": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.77172,
+          -80.13132
+        ],
+        "km2": 3.142
+      },
       "restaurants": 86,
       "cuisines": [
         "american",
@@ -640,11 +777,18 @@
       "nightlife": 13,
       "shopping": 66,
       "artAndCulture": 6,
-      "walkable": 5,
       "tract": "12086004500",
       "medianHomeValue": 2000001
     },
     "Sunset Harbour": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.7946,
+          -80.14409
+        ],
+        "km2": 3.142
+      },
       "restaurants": 82,
       "cuisines": [
         "american",
@@ -681,33 +825,71 @@
       "nightlife": 4,
       "shopping": 168,
       "artAndCulture": 9,
-      "walkable": 2,
       "tract": "12086004106",
       "medianHomeValue": 1152300
     },
     "Coral Gables": {
-      "restaurants": 11,
+      "area": {
+        "kind": "outline",
+        "name": "Coral Gables",
+        "osm": "relation/1216645",
+        "km2": 96.781
+      },
+      "restaurants": 100,
       "cuisines": [
         "american",
+        "argentinian",
+        "austrian",
+        "bagel",
+        "bakery",
+        "barbecue",
+        "breakfast",
         "burger",
+        "chicken",
+        "chinese",
+        "coffee",
         "coffee_shop",
+        "crepe",
         "cuban",
+        "donut",
+        "french",
+        "german",
+        "greek",
+        "indian",
         "international",
         "italian",
+        "japanese",
+        "juice",
         "latin_american",
         "mexican",
+        "middle_eastern",
+        "pizza",
+        "regional",
         "sandwich",
+        "seafood",
+        "spanish",
+        "steak",
+        "steak_house",
+        "sushi",
+        "teppanyaki",
+        "tex-mex",
+        "thai",
         "venezuelan"
       ],
-      "nightlife": 0,
-      "shopping": 18,
-      "artAndCulture": 0,
-      "walkable": 1,
+      "nightlife": 6,
+      "shopping": 62,
+      "artAndCulture": 41,
       "tract": "12086007403",
       "medianHomeValue": 907400
     },
     "Key Biscayne": {
-      "restaurants": 11,
+      "area": {
+        "kind": "outline",
+        "name": "Key Biscayne",
+        "osm": "relation/3998567",
+        "km2": 8.688
+      },
+      "restaurants": 15,
       "cuisines": [
         "american",
         "argentinian",
@@ -719,121 +901,228 @@
         "uruguay",
         "venezuelan"
       ],
-      "nightlife": 0,
-      "shopping": 8,
-      "artAndCulture": 0,
-      "walkable": 3,
+      "nightlife": 1,
+      "shopping": 10,
+      "artAndCulture": 1,
       "tract": "12086004602",
       "medianHomeValue": 2000001
     },
     "Pinecrest": {
-      "restaurants": 0,
-      "cuisines": [],
+      "area": {
+        "kind": "outline",
+        "name": "Pinecrest",
+        "osm": "relation/1217282",
+        "km2": 19.435
+      },
+      "restaurants": 34,
+      "cuisines": [
+        "burger",
+        "chicken",
+        "cuban",
+        "greek",
+        "ice_cream",
+        "italian",
+        "japanese",
+        "juice",
+        "kebab",
+        "lebanese",
+        "mexican",
+        "pizza",
+        "salad",
+        "sandwich",
+        "thai",
+        "wings"
+      ],
       "nightlife": 0,
-      "shopping": 0,
+      "shopping": 52,
       "artAndCulture": 0,
-      "walkable": 0,
       "tract": "12086007807",
       "medianHomeValue": 1158800
     },
     "Hialeah": {
-      "restaurants": 9,
+      "area": {
+        "kind": "outline",
+        "name": "Hialeah",
+        "osm": "relation/118853",
+        "km2": 59.051
+      },
+      "restaurants": 64,
       "cuisines": [
         "american",
-        "chinese",
+        "breakfast",
+        "burger",
+        "caribbean",
+        "chicken",
         "coffee_shop",
+        "colombian",
+        "cuban",
+        "cuban cocine",
+        "donut",
         "italian",
+        "latin_american",
+        "mexican",
         "nicaraguan",
+        "pancake",
         "pizza",
+        "regional",
+        "salvadoran",
         "sandwich",
-        "sushi"
+        "seafood",
+        "steak_house",
+        "tex-mex"
       ],
       "nightlife": 0,
-      "shopping": 5,
-      "artAndCulture": 0,
-      "walkable": 3,
+      "shopping": 108,
+      "artAndCulture": 1,
       "tract": "12086001605",
       "medianHomeValue": 187800
     },
     "Doral": {
-      "restaurants": 13,
+      "area": {
+        "kind": "outline",
+        "name": "Doral",
+        "osm": "relation/1216666",
+        "km2": 39.425
+      },
+      "restaurants": 108,
       "cuisines": [
+        "american",
+        "argentinian",
         "bakery",
         "barbecue",
         "breakfast",
         "burger",
+        "caribbean",
         "chicken",
+        "chines",
         "chinese",
         "coffee_shop",
+        "colombian",
+        "crepe",
+        "cuban",
+        "diner",
+        "donut",
+        "fish_and_chips",
+        "greek",
+        "grill",
+        "haitian",
+        "ice_cream",
+        "international",
+        "italian",
+        "jamaican",
+        "juice",
+        "korean",
+        "latin_american",
+        "lebanese",
+        "local",
+        "mexican",
         "pancake",
+        "peruvian",
         "pizza",
+        "salad",
         "sandwich",
-        "sushi"
+        "seafood",
+        "steak_house",
+        "sushi",
+        "tex-mex",
+        "venezuelan",
+        "wings",
+        "yogurt"
       ],
-      "nightlife": 0,
-      "shopping": 6,
-      "artAndCulture": 0,
-      "walkable": 0,
+      "nightlife": 1,
+      "shopping": 102,
+      "artAndCulture": 6,
       "tract": "12086009058",
       "medianHomeValue": 427400
     },
     "Aventura": {
-      "restaurants": 36,
+      "area": {
+        "kind": "outline",
+        "name": "Aventura",
+        "osm": "relation/1216581",
+        "km2": 9.112
+      },
+      "restaurants": 59,
       "cuisines": [
         "american",
         "argentinian",
         "asian",
+        "bakery",
+        "barbecue",
+        "bowl",
+        "breakfast",
         "burger",
+        "chicken",
         "coffee_shop",
+        "cuban",
         "french",
         "greek",
+        "health_food",
         "israeli",
         "italian",
         "japanese",
         "mediterranean",
         "mexican",
+        "pancake",
         "pizza",
         "portuguese",
         "pretzel",
         "regional",
         "sandwich",
+        "seafood",
+        "smoothie",
         "sushi",
+        "tacos",
         "tex-mex"
       ],
       "nightlife": 0,
-      "shopping": 90,
+      "shopping": 119,
       "artAndCulture": 0,
-      "walkable": 2,
       "tract": "12086000134",
       "medianHomeValue": 234000
     },
     "Sunny Isles Beach": {
-      "restaurants": 29,
+      "area": {
+        "kind": "outline",
+        "name": "Sunny Isles Beach",
+        "osm": "relation/1216832",
+        "km2": 3.781
+      },
+      "restaurants": 45,
       "cuisines": [
+        "american",
         "argentinian",
         "asian",
         "azerbaijani",
+        "bagel",
+        "bakery",
         "barbecue",
         "breakfast",
         "burger",
+        "cafe",
         "cake",
         "chicken",
         "coffee_shop",
         "colombian",
         "crepe",
+        "cuban",
+        "dessert",
         "european",
         "fish",
         "french",
         "greek",
         "grill",
+        "ice_cream",
         "indian",
         "israeli",
         "italian",
         "juice",
         "kebab",
         "mediterranean",
+        "mexican",
         "pasta",
         "pastry",
+        "peruvian",
         "pizza",
         "russian",
         "salad",
@@ -842,228 +1131,453 @@
         "steak_house",
         "sushi",
         "thai",
-        "turkish"
+        "turkish",
+        "uzbek",
+        "uzbeki",
+        "uzbekistan"
       ],
-      "nightlife": 1,
-      "shopping": 33,
-      "artAndCulture": 5,
-      "walkable": 5,
+      "nightlife": 2,
+      "shopping": 49,
+      "artAndCulture": 7,
       "tract": "12086000123",
       "medianHomeValue": 472600
     },
     "North Miami": {
-      "restaurants": 10,
+      "area": {
+        "kind": "outline",
+        "name": "North Miami",
+        "osm": "relation/118858",
+        "km2": 26.136
+      },
+      "restaurants": 57,
       "cuisines": [
+        "american",
+        "argentinian",
+        "asado",
+        "bakery",
+        "barbecue",
+        "breakfast",
         "burger",
+        "chicken",
+        "coffee_shop",
+        "dessert",
+        "dominican",
+        "donut",
+        "empanada",
+        "georgian",
+        "grill",
         "honduran",
+        "indian",
+        "italian",
+        "japanese",
+        "juice",
+        "latin_american",
+        "mexican",
+        "pancake",
+        "pastry",
         "pizza",
-        "tex-mex"
+        "sandwich",
+        "seafood",
+        "steak_house",
+        "sushi",
+        "tacos",
+        "tex-mex",
+        "thai",
+        "wings"
       ],
-      "nightlife": 1,
-      "shopping": 28,
-      "artAndCulture": 1,
-      "walkable": 2,
+      "nightlife": 2,
+      "shopping": 125,
+      "artAndCulture": 10,
       "tract": "12086000306",
       "medianHomeValue": 496800
     },
     "North Miami Beach": {
-      "restaurants": 11,
+      "area": {
+        "kind": "outline",
+        "name": "North Miami Beach",
+        "osm": "relation/118860",
+        "km2": 13.843
+      },
+      "restaurants": 65,
       "cuisines": [
+        "american",
         "argentinian",
+        "asian",
+        "barbecue",
+        "brazilian",
+        "breakfast",
+        "bubble_tea",
+        "buffet",
         "burger",
         "chicken",
+        "chinese",
+        "coffee_shop",
+        "donut",
+        "fish",
         "georgian",
+        "israel",
+        "italian",
+        "japanese",
+        "juice",
+        "lebanese",
+        "mediterranean",
+        "mexican",
+        "middle_eastern",
+        "pancake",
+        "pasta",
         "peruvian",
+        "pizza",
+        "sandwich",
+        "seafood",
+        "steak_house",
+        "sushi",
+        "tex-mex",
+        "thai",
+        "uzbek",
+        "vietnamese"
+      ],
+      "nightlife": 1,
+      "shopping": 97,
+      "artAndCulture": 5,
+      "tract": "12086000221",
+      "medianHomeValue": 323700
+    },
+    "Miami Gardens": {
+      "area": {
+        "kind": "outline",
+        "name": "Miami Gardens",
+        "osm": "relation/1216766",
+        "km2": 49.347
+      },
+      "restaurants": 29,
+      "cuisines": [
+        "american",
+        "burger",
+        "caribbean",
+        "chicken",
+        "coffee_shop",
+        "donut",
+        "mexican",
+        "sandwich",
+        "tex-mex",
+        "wings"
+      ],
+      "nightlife": 0,
+      "shopping": 50,
+      "artAndCulture": 1,
+      "tract": "12086010024",
+      "medianHomeValue": 377400
+    },
+    "Miami Lakes": {
+      "area": {
+        "kind": "outline",
+        "name": "Miami Lakes",
+        "osm": "relation/1217204",
+        "km2": 17.425
+      },
+      "restaurants": 12,
+      "cuisines": [
+        "asian",
+        "burger",
+        "chicken",
+        "coffee_shop",
+        "juice",
+        "latin_american",
+        "mexican",
+        "tex-mex"
+      ],
+      "nightlife": 0,
+      "shopping": 9,
+      "artAndCulture": 0,
+      "tract": "12086009312",
+      "medianHomeValue": 278500
+    },
+    "Kendall": {
+      "area": {
+        "kind": "outline",
+        "name": "Kendall",
+        "osm": "relation/1244549",
+        "km2": 42.922
+      },
+      "restaurants": 128,
+      "cuisines": [
+        "american",
+        "asian",
+        "bagel",
+        "bakery",
+        "barbecue",
+        "breakfast",
+        "bubble_tea",
+        "burger",
+        "cajun",
+        "calzone",
+        "chicken",
+        "chinese",
+        "coffee_shop",
+        "colombia",
+        "cuban",
+        "donut",
+        "fine_dining",
+        "fındık",
+        "greek",
+        "hibachi",
+        "ice_cream",
+        "italian",
+        "japanese",
+        "juice",
+        "latin_american",
+        "local",
+        "mediterranean",
+        "mexican",
+        "middle_eastern",
+        "nicaraguan",
+        "pasta",
+        "peruvian",
+        "pizza",
+        "poke",
+        "pretzel",
+        "ramen",
+        "salad",
+        "sandwich",
+        "seafood",
+        "smoothie",
+        "smoothies",
+        "steak",
+        "steak_house",
+        "sushi",
+        "tacos",
+        "tex-mex",
+        "thai",
+        "wings"
+      ],
+      "nightlife": 3,
+      "shopping": 295,
+      "artAndCulture": 14,
+      "tract": "12086008428",
+      "medianHomeValue": 656100
+    },
+    "Homestead": {
+      "area": {
+        "kind": "outline",
+        "name": "Homestead",
+        "osm": "relation/1216731",
+        "km2": 40.514
+      },
+      "restaurants": 36,
+      "cuisines": [
+        "american",
+        "asian",
+        "bakery",
+        "breakfast",
+        "burger",
+        "caribbean",
+        "chicken",
+        "chinese",
+        "coffee_shop",
+        "cuban",
+        "donut",
+        "ice_cream",
+        "italian",
+        "mexican",
+        "pancake",
+        "pizza",
+        "puerto_rican",
+        "sandwich",
+        "steak",
+        "steak_house",
+        "tex-mex"
+      ],
+      "nightlife": 1,
+      "shopping": 76,
+      "artAndCulture": 3,
+      "tract": "12086011104",
+      "medianHomeValue": 402400
+    },
+    "Cutler Bay": {
+      "area": {
+        "kind": "outline",
+        "name": "Cutler Bay",
+        "osm": "relation/1216955",
+        "km2": 25.318
+      },
+      "restaurants": 46,
+      "cuisines": [
+        "american",
+        "bakery",
+        "breakfast",
+        "burger",
+        "chicken",
+        "chinese",
+        "coffee_shop",
+        "ice_cream",
+        "italian",
+        "mexican",
+        "pancake",
+        "peruvian",
+        "pizza",
+        "pretzel",
+        "sandwich",
+        "sushi",
+        "tex-mex",
+        "thai",
+        "wings"
+      ],
+      "nightlife": 2,
+      "shopping": 122,
+      "artAndCulture": 0,
+      "tract": "12086010608",
+      "medianHomeValue": 410100
+    },
+    "Palmetto Bay": {
+      "area": {
+        "kind": "outline",
+        "name": "Palmetto Bay",
+        "osm": "relation/1217277",
+        "km2": 21.892
+      },
+      "restaurants": 27,
+      "cuisines": [
+        "american",
+        "bakery",
+        "burger",
+        "chicken",
+        "chinese",
+        "coffee_shop",
+        "cuban",
+        "donut",
+        "french",
+        "ice_cream",
+        "peruvian",
+        "pizza",
+        "sandwich",
         "sushi",
         "tex-mex",
         "vietnamese"
       ],
       "nightlife": 0,
-      "shopping": 21,
-      "artAndCulture": 5,
-      "walkable": 3,
-      "tract": "12086000221",
-      "medianHomeValue": 323700
-    },
-    "Miami Gardens": {
-      "restaurants": 4,
-      "cuisines": [
-        "burger",
-        "mexican",
-        "sandwich"
-      ],
-      "nightlife": 0,
-      "shopping": 7,
+      "shopping": 57,
       "artAndCulture": 0,
-      "walkable": 1,
-      "tract": "12086010024",
-      "medianHomeValue": 377400
-    },
-    "Miami Lakes": {
-      "restaurants": 2,
-      "cuisines": [
-        "asian"
-      ],
-      "nightlife": 0,
-      "shopping": 4,
-      "artAndCulture": 0,
-      "walkable": 2,
-      "tract": "12086009312",
-      "medianHomeValue": 278500
-    },
-    "Kendall": {
-      "restaurants": 0,
-      "cuisines": [],
-      "nightlife": 0,
-      "shopping": 0,
-      "artAndCulture": 0,
-      "walkable": 1,
-      "tract": "12086008428",
-      "medianHomeValue": 656100
-    },
-    "Homestead": {
-      "restaurants": 11,
-      "cuisines": [
-        "american",
-        "asian",
-        "breakfast",
-        "caribbean",
-        "chicken",
-        "cuban",
-        "mexican",
-        "pancake",
-        "pizza",
-        "puerto_rican",
-        "sandwich"
-      ],
-      "nightlife": 1,
-      "shopping": 20,
-      "artAndCulture": 3,
-      "walkable": 4,
-      "tract": "12086011104",
-      "medianHomeValue": 402400
-    },
-    "Cutler Bay": {
-      "restaurants": 5,
-      "cuisines": [
-        "burger",
-        "thai",
-        "wings"
-      ],
-      "nightlife": 0,
-      "shopping": 14,
-      "artAndCulture": 0,
-      "walkable": 1,
-      "tract": "12086010608",
-      "medianHomeValue": 410100
-    },
-    "Palmetto Bay": {
-      "restaurants": 0,
-      "cuisines": [],
-      "nightlife": 0,
-      "shopping": 0,
-      "artAndCulture": 0,
-      "walkable": 0,
       "tract": "12086008207",
       "medianHomeValue": 866300
     },
     "Surfside": {
-      "restaurants": 10,
+      "area": {
+        "kind": "outline",
+        "name": "Surfside",
+        "osm": "relation/1217254",
+        "km2": 2.436
+      },
+      "restaurants": 8,
       "cuisines": [
         "american",
-        "breakfast",
-        "burger",
-        "chicken",
         "coffee_shop",
         "deli",
-        "dessert",
         "italian",
-        "pizza",
-        "salad",
-        "sandwich",
         "sushi"
       ],
       "nightlife": 0,
-      "shopping": 13,
-      "artAndCulture": 2,
-      "walkable": 4,
+      "shopping": 6,
+      "artAndCulture": 0,
       "tract": "12086003804",
       "medianHomeValue": 736800
     },
     "Bal Harbour": {
-      "restaurants": 20,
+      "area": {
+        "kind": "outline",
+        "name": "Bal Harbour Village",
+        "osm": "relation/1216947",
+        "km2": 1.606
+      },
+      "restaurants": 2,
       "cuisines": [
         "american",
-        "asian",
-        "breakfast",
-        "bubble_tea",
-        "burger",
-        "chicken",
-        "coffee_shop",
-        "deli",
-        "dessert",
-        "european",
-        "italian",
-        "mediterranean",
-        "pizza",
-        "salad",
-        "sandwich",
-        "sushi",
-        "tea"
+        "italian"
       ],
       "nightlife": 0,
-      "shopping": 45,
-      "artAndCulture": 5,
-      "walkable": 4,
+      "shopping": 9,
+      "artAndCulture": 3,
       "tract": "12086003803",
       "medianHomeValue": 1277200
     },
     "Miami Shores": {
-      "restaurants": 8,
+      "area": {
+        "kind": "outline",
+        "name": "Miami Shores",
+        "osm": "relation/1217301",
+        "km2": 9.718
+      },
+      "restaurants": 13,
       "cuisines": [
+        "burger",
+        "chicken",
         "coffee_shop",
         "donut",
         "greek",
+        "pizza",
         "sandwich",
         "sausage",
         "sushi"
       ],
       "nightlife": 1,
-      "shopping": 5,
+      "shopping": 11,
       "artAndCulture": 0,
-      "walkable": 2,
       "tract": "12086001104",
       "medianHomeValue": 808000
     },
     "Miami Springs": {
-      "restaurants": 8,
+      "area": {
+        "kind": "outline",
+        "name": "Miami Springs",
+        "osm": "relation/1216764",
+        "km2": 7.768
+      },
+      "restaurants": 16,
       "cuisines": [
         "american",
+        "breakfast",
+        "burger",
+        "chicken",
         "chinese",
         "coffee_shop",
         "italian",
+        "pancake",
         "pizza",
         "sandwich",
-        "sushi"
+        "sushi",
+        "thai"
       ],
-      "nightlife": 0,
-      "shopping": 4,
-      "artAndCulture": 1,
-      "walkable": 1,
+      "nightlife": 2,
+      "shopping": 9,
+      "artAndCulture": 2,
       "tract": "12086004701",
       "medianHomeValue": 560800
     },
     "Opa-locka": {
-      "restaurants": 0,
-      "cuisines": [],
+      "area": {
+        "kind": "outline",
+        "name": "Opa-locka",
+        "osm": "relation/1216790",
+        "km2": 11.644
+      },
+      "restaurants": 1,
+      "cuisines": [
+        "burger"
+      ],
       "nightlife": 0,
-      "shopping": 0,
+      "shopping": 5,
       "artAndCulture": 0,
-      "walkable": 1,
       "tract": "12086000504",
       "medianHomeValue": 317500
     },
     "Westchester": {
+      "area": {
+        "kind": "circle",
+        "center": [
+          25.75482,
+          -80.32727
+        ],
+        "km2": 3.142
+      },
       "restaurants": 6,
       "cuisines": [
         "chinese",
@@ -1078,87 +1592,118 @@
       "nightlife": 0,
       "shopping": 8,
       "artAndCulture": 0,
-      "walkable": 0,
       "tract": "12086008911",
       "medianHomeValue": 481500
     },
     "Sweetwater": {
-      "restaurants": 35,
+      "area": {
+        "kind": "outline",
+        "name": "Sweetwater",
+        "osm": "relation/1216824",
+        "km2": 6.116
+      },
+      "restaurants": 42,
       "cuisines": [
-        "bakery",
+        "american",
+        "asian",
         "burger",
+        "cajun",
         "chicken",
         "chinese",
+        "churro",
+        "cocktails",
         "coffee_shop",
+        "crepe",
+        "cuban",
+        "dessert",
         "donut",
+        "japanese",
         "juice",
-        "mediterranean",
+        "mexican",
         "nicaraguan",
         "pizza",
-        "poke",
         "pretzel",
         "sandwich",
+        "smoothie",
+        "snack",
+        "steak_house",
         "sushi",
-        "tex-mex"
+        "wings"
       ],
-      "nightlife": 0,
-      "shopping": 18,
-      "artAndCulture": 17,
-      "walkable": 1,
+      "nightlife": 4,
+      "shopping": 183,
+      "artAndCulture": 0,
       "tract": "12086009021",
       "medianHomeValue": 339600
     },
     "South Miami": {
-      "restaurants": 20,
+      "area": {
+        "kind": "outline",
+        "name": "South Miami",
+        "osm": "relation/118861",
+        "km2": 5.955
+      },
+      "restaurants": 17,
       "cuisines": [
         "bagel",
         "burger",
         "chicken",
+        "chinese",
         "coffee_shop",
-        "donut",
         "mexican",
-        "pizza",
         "portuguese",
         "sandwich",
         "spanish",
-        "steak_house",
         "tea",
         "tex-mex"
       ],
       "nightlife": 0,
-      "shopping": 23,
+      "shopping": 25,
       "artAndCulture": 0,
-      "walkable": 4,
       "tract": "12086007603",
       "medianHomeValue": 466900
     },
     "Hallandale Beach": {
-      "restaurants": 19,
+      "area": {
+        "kind": "outline",
+        "name": "Hallandale Beach",
+        "osm": "relation/1216727",
+        "km2": 11.46
+      },
+      "restaurants": 45,
       "cuisines": [
         "american",
+        "argentinian",
+        "asian",
+        "bakery",
         "barbecue",
         "brazilian",
+        "breakfast",
         "buffet",
         "burger",
         "caribbean",
         "chicken",
         "coffee_shop",
+        "cuban",
+        "diner",
         "donut",
         "grill",
         "italian",
         "mediterranean",
         "mexican",
+        "pancake",
+        "pasta",
         "peruvian",
         "pizza",
         "sandwich",
         "seafood",
         "steak_house",
+        "tex-mex",
         "turkish"
       ],
-      "nightlife": 1,
-      "shopping": 27,
+      "nightlife": 2,
+      "shopping": 72,
       "artAndCulture": 0,
-      "walkable": 1,
       "tract": "12011100301",
       "medianHomeValue": 365000
     }
