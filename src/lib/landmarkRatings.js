@@ -2,9 +2,9 @@ import { API_BASE } from './apiBase';
 import { authHeaders } from './apiAuth';
 
 // Client side of api/landmark-ratings.js (docs/ratings.md). Google's and
-// Tripadvisor's terms forbid caching ratings and reviews, so nothing is kept
-// here after a request settles (useTopRatings.js holds Top Landmarks' answers
-// in memory for the session): only a request already in flight is shared (two
+// Tripadvisor's terms forbid caching ratings and reviews, so nothing is
+// written to storage: real answers stay in this module's memory while the
+// app is open (`remembered` below) and are gone on reload: only a request already in flight is shared (two
 // rows for the same landmark make one call). At most 12 run at once so a
 // long list never floods the network, and a 401/429/503 pauses new calls
 // for a minute.
@@ -15,6 +15,13 @@ const MAX_CONCURRENT = 24;
 const PAUSE_MS = 60 * 1000;
 
 const inFlight = new Map(); // key -> promise
+// key -> answer, for as long as the app stays open (memory only, never
+// storage). Every surface (the Map's preload, the Landmarks tab, its cards,
+// the Map sheet, a place's page) shares it, so each place costs one Google
+// lookup per app session instead of one per surface (owner, 2026-11-08:
+// the daily lookup cap ran out). Only real answers are kept; a failure is
+// asked again.
+const remembered = new Map();
 let active = 0;
 const queue = [];
 let pausedUntil = 0;
@@ -40,6 +47,7 @@ export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetc
   const id = landmark?.id;
   if (!region || !id) return Promise.resolve(EMPTY);
   const key = `${region}/${id}|${detail ? 1 : 0}`;
+  if (remembered.has(key)) return Promise.resolve(remembered.get(key));
   if (inFlight.has(key)) return inFlight.get(key);
   const promise = new Promise((resolve) => {
     queue.push(async () => {
@@ -55,11 +63,13 @@ export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetc
         if ([401, 429, 503].includes(r.status)) pausedUntil = Date.now() + PAUSE_MS;
         if (!r.ok) return resolve(EMPTY);
         const body = await r.json().catch(() => null);
-        resolve({
+        const answer = {
           google: body?.sources?.google || null,
           tripadvisor: body?.sources?.tripadvisor || null,
           googleNoRating: body?.googleNoRating === true,
-        });
+        };
+        if (answer.google || answer.googleNoRating) remembered.set(key, answer);
+        resolve(answer);
       } catch {
         resolve(EMPTY);
       }
@@ -73,6 +83,7 @@ export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetc
 // Tests only.
 export function _resetLandmarkRatings() {
   inFlight.clear();
+  remembered.clear();
   queue.length = 0;
   active = 0;
   pausedUntil = 0;

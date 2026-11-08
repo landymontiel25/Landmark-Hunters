@@ -18,6 +18,10 @@ import { prefetchTopRatings } from '../lib/useTopRatings';
 export const PREFETCH_START_MS = 1500;
 export const PREFETCH_EVERY_MS = 4000;
 export const PREFETCH_FOR_MS = 60 * 1000;
+// At most this many places per city (hand-picked first): enough for a
+// small city whole, without spending a big city's worth of lookups on every
+// launch.
+export const PREFETCH_MAX = 60;
 
 export function cityLandmarks(cityId, landmarks = ALL_LANDMARKS) {
   if (!cityId) return [];
@@ -43,7 +47,7 @@ export default function LandmarkRatingsPrefetch() {
       const key = `${city}|${packsVersion}`;
       if (city && !done.current.has(key)) {
         done.current.add(key);
-        prefetchTopRatings(cityLandmarks(city));
+        prefetchTopRatings(cityLandmarks(city), PREFETCH_MAX);
       }
       if (Date.now() - started < PREFETCH_FOR_MS) timer = setTimeout(tick, PREFETCH_EVERY_MS);
     };
