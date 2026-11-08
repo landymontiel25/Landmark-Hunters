@@ -1,7 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePageRatings, ratingKey } from '../lib/usePageRatings';
 import { useTopRatings } from '../lib/useTopRatings';
-import { SkeletonList } from '../components/Skeleton';
 import { RATINGS_FLAGS } from '../lib/ratingSources';
 import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
 import { isMallPlace } from '../lib/malls';
@@ -525,11 +524,11 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editedLandmarks, normalizedCustomLandmarks, scope, drawnShape, activeCategories, foundOnly, hasFound, isFound, search]);
 
-  // Top Landmarks ranks by Google's stars and review count, so it loads the
-  // list's Google ratings first (src/lib/useTopRatings.js; signed in only).
+  // Top Landmarks ranks by Google's review count. The list shows at once in
+  // its fallback order (the app's own ratings, then name) and takes Google's
+  // order once the ratings are in (src/lib/useTopRatings.js; signed in only).
   const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const top = useTopRatings(filteredLandmarks, topWanted);
-  const topLoading = topWanted && !top.ready;
 
   const sortedLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -595,11 +594,10 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           a.name.localeCompare(b.name)
       );
     }
-    // Top Landmarks: Google's stars times the log of its review count
-    // (src/lib/topRated.js), once the ratings are in (top.ready).
-    if (topLoading) return [];
+    // Top Landmarks: Google's review count (src/lib/topRated.js). top.google
+    // is empty until the ratings are in, then frozen (one reorder at most).
     return topLandmarksOrder(filtered, top.google, ratings);
-  }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings, topLoading, top.google]);
+  }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings, top.google]);
 
   // Checked in vs not: an up arrow puts the places you haven't checked into
   // first, a down arrow puts the checked-in ones first, no arrow leaves the
@@ -796,7 +794,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
       {subtabs}
       <div className="places-title-row">
         <h1 className="screen-title">
-          <span>{forMeLab ? '\u{2728}' : '\u{1F4CD}'}</span> {forMeLab ? 'For Me' : 'Landmarks'}{topLoading ? '' : ` (${landmarks.length})`}
+          <span>{forMeLab ? '\u{2728}' : '\u{1F4CD}'}</span> {forMeLab ? 'For Me' : 'Landmarks'}{` (${landmarks.length})`}
         </h1>
         {/* Your check-ins, opened on Grid (photos first). */}
         {user && !forMeLab && (
@@ -984,7 +982,6 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         />
       )}
 
-      {topLoading && <SkeletonList count={6} label="Ranking the top landmarks" />}
       <div>
         {segments.map((seg, i) =>
           seg.special ? (
@@ -996,7 +993,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           )
         )}
         {smart.loading && <SmartSearchLabel loading />}
-        {!topLoading && landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
+        {landmarks.length === 0 && !smart.loading && smartLandmarks.length === 0 && (
           <p className="empty-state">No landmarks match these filters.</p>
         )}
       </div>

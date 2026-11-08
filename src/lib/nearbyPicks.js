@@ -1,4 +1,4 @@
-import { weightedStars, isRestaurantOrMall } from './topRated';
+import { ratedScore, isRestaurantOrMall } from './topRated';
 import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
@@ -770,26 +770,43 @@ export const MOOD_SORTS = [
   { id: 'rated', label: 'Highest rated' },
 ];
 
-// Places for one mood, sorted closest first or by the public average rating
-// (ratings: RatingsContext's { [landmarkId]: { avg, count } }). Unrated
-// places sort after rated ones, closest first.
-export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, limit = 10, moods = MOODS }) {
+// Places for one mood, sorted closest first or highest rated. Highest rated
+// (owner, 2026-11-08: "change that to google reviews") is Google's stars
+// weighted by its review count (topRated.js ratedScore), so 5.0 from 2
+// reviews can't beat 4.8 from 1,000; the app's own ratings (RatingsContext's
+// { [landmarkId]: { avg, count } }) stand in where Google has none. google:
+// { [landmarkId]: { google: { rating, count } } }, fetched live
+// (useTopRatings.js). Unrated places sort after rated ones, closest first.
+export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, google = {}, limit = 10, moods = MOODS }) {
   const mood = moodId === TOP_MOOD.id ? TOP_MOOD : moods.find((m) => m.id === moodId);
   if (!mood) return [];
   const wanted = mood.categories ? new Set(mood.categories) : null;
-  // Top landmarks weighs the stars by how many people gave them, so one 5.0
-  // does not beat a 4.8 from a hundred (src/lib/topRated.js).
-  const avg = (l) =>
-    ratings?.[l.id]?.count ? (wanted ? Number(ratings[l.id].avg) || 0 : weightedStars(Number(ratings[l.id].avg) || 0, ratings[l.id].count)) : -1;
-  const sorted = pool
-    .filter((l) => (wanted ? (l.categories || []).some((c) => wanted.has(c)) : !isRestaurantOrMall(l)))
+  const score = (l) => ratedScore(l, google || {}, ratings || {}) ?? -1;
+  const sorted = moodCandidates({ mood, pool })
     // Highest rated: the weighted stars, then closest. No hand-typed
     // popularity score (owner, 2026-11-06).
-    .sort((a, b) => (sort === 'rated' ? avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters);
+    .sort((a, b) => (sort === 'rated' ? score(b) - score(a) : 0) || a.distanceMeters - b.distanceMeters);
   // Top landmarks: Miami malls come last (maprRank/mallsLast.js).
-  return (wanted ? sorted : mallsLast(sorted))
-    .slice(0, limit)
-    .map((l) => toPick(l, ratings?.[l.id]?.count ? { rating: ratings[l.id] } : {}));
+  return (wanted ? sorted : mallsLast(sorted)).slice(0, limit).map((l) => {
+    const g = google?.[l.id]?.google;
+    return toPick(l, {
+      ...(ratings?.[l.id]?.count ? { rating: ratings[l.id] } : {}),
+      ...(g?.rating > 0 && g.count > 0 ? { google: { rating: g.rating, count: g.count } } : {}),
+    });
+  });
+}
+
+// The places a mood (or Top landmarks) covers, closest first. The Map sheet
+// looks up Google's ratings for the first `limit` of these before it sorts
+// by highest rated.
+export function moodCandidates({ mood, moodId, pool = [], moods = MOODS, limit = Infinity }) {
+  const m = mood || (moodId === TOP_MOOD.id ? TOP_MOOD : moods.find((x) => x.id === moodId));
+  if (!m) return [];
+  const wanted = m.categories ? new Set(m.categories) : null;
+  return pool
+    .filter((l) => (wanted ? (l.categories || []).some((c) => wanted.has(c)) : !isRestaurantOrMall(l)))
+    .sort((a, b) => a.distanceMeters - b.distanceMeters)
+    .slice(0, limit);
 }
 
 // ---- Meal and nearby-interest cards ----------------------------------------

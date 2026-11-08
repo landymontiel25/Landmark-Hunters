@@ -3,13 +3,15 @@ import { authHeaders } from './apiAuth';
 
 // Client side of api/landmark-ratings.js (docs/ratings.md). Google's and
 // Tripadvisor's terms forbid caching ratings and reviews, so nothing is kept
-// after a request settles: only a request already in flight is shared (two
+// here after a request settles (useTopRatings.js holds Top Landmarks' answers
+// in memory for the session): only a request already in flight is shared (two
 // rows for the same landmark make one call). At most 12 run at once so a
 // long list never floods the network, and a 401/429/503 pauses new calls
 // for a minute.
 
-// 12 at once: Top Landmarks looks up a whole city before it shows the list.
-const MAX_CONCURRENT = 12;
+// 24 at once: Top Landmarks looks up a whole city (up to 120 places) on its
+// first open, so twice the old 12 halves the wait for its order.
+const MAX_CONCURRENT = 24;
 const PAUSE_MS = 60 * 1000;
 
 const inFlight = new Map(); // key -> promise
