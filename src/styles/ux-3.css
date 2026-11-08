@@ -71,11 +71,23 @@ input[type='range']:focus-visible {
 .bottom-nav .nav-icon {
   font-size: min(1.25rem, 26px);
 }
-/* Under 360px five equal tabs are ~55px and "Landmarks" (~59px) got clipped
-   to ".andmarks"; let each tab start from its label's width instead. */
+/* Each tab is at least as wide as its label, and the spare room is shared
+   out evenly. Six tabs (the owner's Test tab) on a phone left ~57px each and
+   "Landmarks" (~59px) lost its L and s (owner, 2026-11-08). */
+.bottom-nav a {
+  flex: 1 0 auto;
+  padding: 0 2px;
+}
+.bottom-nav a > span:last-child {
+  white-space: nowrap;
+}
+/* 320px phones with seven tabs (Feed and Test): a little tighter so the
+   bar still fits. */
 @media (max-width: 359px) {
   .bottom-nav a {
-    flex: 1 1 auto;
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 11px;
   }
 }
 
