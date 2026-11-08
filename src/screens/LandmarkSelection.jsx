@@ -65,12 +65,34 @@ const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 // the same list with For Me locked on (LandmarkSelection forMeLab).
 export const SHOW_FOR_ME_SORT = false;
 
-// Top Landmarks (the old Top Rated) leads and is the default.
+// Popular Landmarks (the old Top Landmarks / Top Rated) leads and is the
+// default. Its label follows the category picked (owner, 2026-11-08): the
+// plate makes it "Popular Restaurants", the glass "Popular Nightlife".
 const ALL_SORT_OPTIONS = [
-  { id: 'rated', label: '\u{2B50} Top Landmarks' },
+  { id: 'rated', label: '\u{2B50} Popular Landmarks' },
   { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
 ];
+// What "Popular ___" says for each category; one not listed uses its label.
+const POPULAR_NOUN = {
+  'history-culture': 'Art & Culture',
+  food: 'Restaurants',
+  'local-life': 'Nightlife',
+  'parks-nature': 'Parks',
+  sports: 'Sports',
+  shopping: 'Shopping',
+  attractions: 'Attractions',
+  tech: 'Tech Spots',
+};
+// The Popular button's label for the categories picked: none is Landmarks,
+// one is that category's noun (a custom interest uses its own words), two or
+// more is Places.
+export function popularLabel(activeCategories = []) {
+  if (activeCategories.length > 1) return '\u{2B50} Popular Places';
+  const id = activeCategories[0];
+  if (!id) return '\u{2B50} Popular Landmarks';
+  return `\u{2B50} Popular ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
+}
 const SORT_OPTIONS = ALL_SORT_OPTIONS.filter((s) => s.id !== 'forMe' || SHOW_FOR_ME_SORT);
 const FOR_ME_ONLY = ALL_SORT_OPTIONS.filter((s) => s.id === 'forMe');
 
@@ -816,7 +838,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         </p>
       )}
 
-      <div className="field" style={{ marginBottom: 12 }}>
+      <div className="field lm-search-field">
         <input
           type="search"
           name="landmark-search"
@@ -840,7 +862,10 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         </button>
       )}
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
+      {/* Only takes room when it has a button (owner, 2026-11-08: the city
+          picker sits right under the search box). */}
+      {(scopeCount > 0 || (gpsCity && scope.key !== `r:${gpsCity}`)) && (
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 10 }}>
         {scopeCount > 0 && (
           <button
             className="btn btn-ghost btn-sm"
@@ -870,6 +895,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           </button>
         )}
       </div>
+      )}
 
       <CityDropdown
         value={scope.key}
@@ -948,7 +974,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
             className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} aria-pressed={!!(sortBy === s.id)}
             onClick={() => !forMeLab && setSortBy((cur) => (cur === s.id ? null : s.id))}
           >
-            {s.label}
+            {s.id === 'rated' ? popularLabel(activeCategories) : s.label}
           </button>
         ))}
         <button

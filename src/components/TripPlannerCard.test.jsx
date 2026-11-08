@@ -107,7 +107,7 @@ describe('Plan Your Trip wizard', () => {
     await click('Next');
     const labels = [...container.querySelectorAll('.chat-wizard-choice, .chat-wizard-choices button')].map((b) => b.textContent);
     expect(labels[0]).toContain('Play Landmark Hunters');
-    expect(labels[0]).toContain('find the top landmarks');
+    expect(labels[0]).toContain('find the popular landmarks');
     await click('Play Landmark Hunters');
     expect(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).toContain('rated');
   });

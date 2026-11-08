@@ -293,7 +293,7 @@ export default function TripSetup() {
             onClick={() => setTopFirst((v) => !v)}
           >
             <span className="chip-icon">{'\u{2B50}'}</span>
-            <span>Top Landmarks</span>
+            <span>Popular Landmarks</span>
           </button>
           {PICKABLE_INTERESTS.map((i) => (
             <button

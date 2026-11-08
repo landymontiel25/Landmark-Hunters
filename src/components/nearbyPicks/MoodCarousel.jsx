@@ -67,7 +67,7 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
 
   return (
     <section className="mpp-section">
-      <h3 className="mpp-section-title">Discover top landmarks</h3>
+      <h3 className="mpp-section-title">Discover popular landmarks</h3>
       <div className="mpp-sections" role="tablist" aria-label="What to discover">
         {[
           { id: 'top', label: `${TOP_MOOD.icon} ${TOP_MOOD.label}` },

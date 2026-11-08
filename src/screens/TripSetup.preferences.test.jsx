@@ -72,7 +72,7 @@ describe('Create New Trip: Play, Plan and interests', () => {
     const { el } = await render({ saved: ['food'] });
     await act(async () => tabBtn(el, 'Plan').click());
     expect(selected(el)).toEqual([]);
-    expect(el.querySelector('.chip-grid .chip').textContent).toContain('Top Landmarks');
+    expect(el.querySelector('.chip-grid .chip').textContent).toContain('Popular Landmarks');
     expect(el.textContent).toContain('Choose Landmarks');
   });
 
@@ -83,12 +83,12 @@ describe('Create New Trip: Play, Plan and interests', () => {
     expect(JSON.parse(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).v).toBe('rated');
   });
 
-  it('the Top Landmarks chip sets that sort when you tap Choose Landmarks', async () => {
+  it('the Popular Landmarks chip sets that sort when you tap Choose Landmarks', async () => {
     const { el } = await render();
     localStorage.setItem('lh.draft.v1.landmarks.sort.v3', JSON.stringify({ v: 'nearMe', t: Date.now() }));
     await act(async () => tabBtn(el, 'Plan').click());
-    await act(async () => chip(el, 'Top Landmarks').click());
-    expect(chip(el, 'Top Landmarks').getAttribute('aria-pressed')).toBe('true');
+    await act(async () => chip(el, 'Popular Landmarks').click());
+    expect(chip(el, 'Popular Landmarks').getAttribute('aria-pressed')).toBe('true');
     await act(async () => tabBtn(el, 'Solo').click());
     await act(async () => [...el.querySelectorAll('button')].find((b) => b.textContent.includes('Choose Landmarks')).click());
     expect(JSON.parse(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).v).toBe('rated');

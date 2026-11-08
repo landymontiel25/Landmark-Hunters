@@ -36,7 +36,7 @@ const MOODS = [
   { value: 'easygoing', icon: '\u{1F634}', label: 'Easygoing & Chill', hint: 'relaxed, slower pace, low-key' },
 ];
 // First choice on the mood step: skip the plan and play (owner, 2026-10-29).
-const PLAY_CHOICE = { value: 'play', icon: '\u{1F3C6}', label: 'Play Landmark Hunters', hint: 'find the top landmarks' };
+const PLAY_CHOICE = { value: 'play', icon: '\u{1F3C6}', label: 'Play Landmark Hunters', hint: 'find the popular landmarks' };
 const PICK_TYPES = [
   { value: 'usual', icon: '\u{2B50}', label: 'The usual', hint: 'more of what you already love' },
   { value: 'new', icon: '\u{1F9ED}', label: 'Something new', hint: "kinds of places you haven't tried much" },

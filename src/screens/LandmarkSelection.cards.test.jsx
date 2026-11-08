@@ -83,8 +83,25 @@ describe('Landmarks tab', () => {
   it('has no For Me sort any more', async () => {
     await renderIt();
     expect(el.querySelector('.lm-sort-tabs').textContent).not.toContain('For Me');
-    expect(el.querySelector('.lm-sort-tabs').textContent).toContain('Top Landmarks');
+    expect(el.querySelector('.lm-sort-tabs').textContent).toContain('Popular Landmarks');
     expect(el.querySelector('.lm-sort-tabs').textContent).toContain('Near Me');
+  }, 60000);
+
+  it('the Popular button names the category picked (owner, 2026-11-08)', async () => {
+    await renderIt();
+    const popular = () => el.querySelector('.lm-sort-tabs .tab-btn').textContent;
+    const cat = (id) => el.querySelector(`.lm-category-tabs [data-cat="${id}"]`);
+    expect(popular()).toContain('Popular Landmarks');
+    await act(async () => cat('local-life').click());
+    expect(popular()).toContain('Popular Nightlife');
+    await act(async () => cat('local-life').click());
+    await act(async () => cat('food').click());
+    expect(popular()).toContain('Popular Restaurants');
+    await act(async () => cat('history-culture').click());
+    expect(popular()).toContain('Popular Places');
+    await act(async () => cat('food').click());
+    await act(async () => cat('history-culture').click());
+    expect(popular()).toContain('Popular Landmarks');
   }, 60000);
 
   it('cards sit in the two-column grid, photo on top, with every field and button', async () => {
@@ -139,7 +156,7 @@ describe('Landmarks tab', () => {
     expect(el.querySelector('.screen-title').textContent).toContain('For Me');
     const sorts = [...el.querySelectorAll('.lm-sort-tabs .tab-btn')].map((b) => b.textContent);
     expect(sorts[0]).toContain('For Me');
-    expect(sorts.join(' ')).not.toContain('Top Landmarks');
+    expect(sorts.join(' ')).not.toContain('Popular Landmarks');
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('For Me');
     expect(el.querySelectorAll('.landmark-row').length).toBe(25);
     expect(buttons('Check In').length).toBeGreaterThan(0);
