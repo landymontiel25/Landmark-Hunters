@@ -25,6 +25,7 @@ import CheckInReview from './components/CheckInReview';
 import LoveReasonPrompt from './components/LoveReasonPrompt';
 import TagCapPrompt from './components/TagCapPrompt';
 import GlobalTasteSync from './lib/useGlobalTaste';
+import LandmarkRatingsPrefetch from './components/LandmarkRatingsPrefetch';
 import HabitPlacePrompt from './components/HabitPlacePrompt';
 import CelebrationOverlay from './components/CelebrationOverlay';
 import AdminModeBadge from './components/AdminModeBadge';
@@ -282,6 +283,7 @@ export default function App() {
           <PushNotificationsSync />
           <OnboardingNoticeSync />
           <Soft><GlobalTasteSync /></Soft>
+          <Soft><LandmarkRatingsPrefetch /></Soft>
           <Soft><LiveLocationSharer /></Soft>
           {/* Each always-on piece gets its own boundary: without one, a crash
               in any of them (they sit outside the per-screen boundary) takes

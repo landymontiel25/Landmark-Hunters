@@ -78,19 +78,19 @@ describe('Create New Trip: Play, Plan and interests', () => {
 
   it('Play opens the Landmarks tab on Top Landmarks', async () => {
     const { el } = await render();
-    localStorage.setItem('lh.draft.v1.landmarks.sort.v3', JSON.stringify({ v: 'forMe', t: Date.now() }));
+    (await import('../lib/usePersistentState')).setSessionValue('landmarks.sort', 'forMe');
     await act(async () => tabBtn(el, 'Play').click());
-    expect(JSON.parse(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).v).toBe('rated');
+    expect((await import('../lib/usePersistentState')).getSessionValue('landmarks.sort')).toBe('rated');
   });
 
   it('the Popular Landmarks chip sets that sort when you tap Choose Landmarks', async () => {
     const { el } = await render();
-    localStorage.setItem('lh.draft.v1.landmarks.sort.v3', JSON.stringify({ v: 'nearMe', t: Date.now() }));
+    (await import('../lib/usePersistentState')).setSessionValue('landmarks.sort', 'nearMe');
     await act(async () => tabBtn(el, 'Plan').click());
     await act(async () => chip(el, 'Popular Landmarks').click());
     expect(chip(el, 'Popular Landmarks').getAttribute('aria-pressed')).toBe('true');
     await act(async () => tabBtn(el, 'Solo').click());
     await act(async () => [...el.querySelectorAll('button')].find((b) => b.textContent.includes('Choose Landmarks')).click());
-    expect(JSON.parse(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).v).toBe('rated');
+    expect((await import('../lib/usePersistentState')).getSessionValue('landmarks.sort')).toBe('rated');
   });
 });

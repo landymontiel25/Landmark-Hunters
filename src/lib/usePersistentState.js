@@ -104,6 +104,11 @@ export function usePersistentState(key, initial, { ttlMs = WEEK, isEmpty } = {})
 // memory only, so closing or reloading the app resets it.
 const sessionValues = new Map();
 
+// Sets a session value from outside the screen that reads it (the next
+// mount picks it up).
+export const setSessionValue = (key, value) => sessionValues.set(key, value);
+export const getSessionValue = (key) => sessionValues.get(key);
+
 export function useSessionState(key, initial) {
   const [value, setValue] = useState(() => (sessionValues.has(key) ? sessionValues.get(key) : initial));
   useEffect(() => {

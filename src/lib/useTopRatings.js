@@ -28,6 +28,7 @@ const fromSession = (cands) => {
 // Tests only.
 export function _resetTopRatings() {
   sessionAnswers.clear();
+  prefetching.clear();
 }
 
 const isImported = (l) => l?.source === 'osm' || String(l?.id || '').startsWith('osm-');
@@ -77,6 +78,28 @@ export function useTopRatings(list, enabled) {
   const ready = !enabled || answered || timedOut === sig;
   // Freeze the order's data once ready for this list.
   const snap = useRef({ sig: null, google: {} });
-  if (enabled && ready && snap.current.sig !== sig) snap.current = { sig, google: answers };
-  return { google: enabled ? snap.current.google : {}, live: answers, ready };
+  // Session answers a fresh list already has count too (they reach `answers`
+  // only after the effect runs).
+  if (enabled && ready && snap.current.sig !== sig) snap.current = { sig, google: { ...fromSession(cands), ...answers } };
+  return { google: enabled ? snap.current.google : {}, live: enabled ? { ...fromSession(cands), ...answers } : answers, ready };
 }
+
+// Looks up Google's ratings for a list ahead of time (the Map tab does this
+// for the city the Landmarks tab will open on), so tapping Popular there
+// sorts at once. Answers land in this module's session memory only.
+// Resolves when every lookup settled.
+export function prefetchTopRatings(list) {
+  const jobs = [];
+  for (const l of topCandidates(list)) {
+    if (sessionAnswers.has(l.id) || prefetching.has(l.id)) continue;
+    prefetching.add(l.id);
+    jobs.push(
+      loadLandmarkRatings(l).then((sources) => {
+        prefetching.delete(l.id);
+        if (sources?.google || sources?.googleNoRating) sessionAnswers.set(l.id, sources);
+      })
+    );
+  }
+  return Promise.all(jobs);
+}
+const prefetching = new Set();
