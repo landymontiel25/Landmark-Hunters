@@ -104,30 +104,6 @@ export const KEYBISCAYNE_LANDMARKS = [
     typicalMinutes: 60
   },
   {
-    id: "miami-seaquarium",
-    editorialRank: 4,
-    popularity: 8,
-    cost: "$$$",
-    neighborhood: "Virginia Key",
-    firstTimerPriority: "High",
-    images: ["https://commons.wikimedia.org/wiki/Special:FilePath/MiamiSeaquarium-MainEntrance.JPG?width=1200","https://commons.wikimedia.org/wiki/Special:FilePath/Miamiseaquariumlolita.jpg?width=1200","https://commons.wikimedia.org/wiki/Special:FilePath/Miami_Seaquarium_Monorail_Blue_Marlin_car.jpg?width=1200","https://commons.wikimedia.org/wiki/Special:FilePath/MiamiSeaquarium-Aquarium.JPG?width=1200"],
-    name: "Miami Seaquarium",
-    region: 'miami',
-    // Closed for good (owner report 2026-10-18).
-    permanentlyClosed: true,
-    closedNote: "Miami Seaquarium closed permanently on October 12, 2025, after 70 years.",
-    closedSource: "https://en.wikipedia.org/wiki/Miami_Seaquarium",
-    lat: 25.733,
-    lng: -80.165525,
-    checkInRadiusMeters: 300,
-    categories: ["entertainment"],
-    summary: "One of the oldest oceanariums in the United States, on Virginia Key.",
-    facts: ["Opened in 1955 on Virginia Key","One of the oldest oceanariums in the United States","Sits along the Rickenbacker Causeway","Scenes from the original Flipper TV series were filmed here","Long home to the orca Lolita, also called Tokitae","Features marine-mammal shows and reef aquariums","A manatee rehabilitation program cares for injured animals","Its stadiums and tanks are Miami landmarks","Draws generations of South Florida schoolchildren","Overlooks Biscayne Bay and the Miami skyline"],
-    free: false,
-    bookingUrl: null,
-    typicalMinutes: 180
-  },
-  {
     id: "rickenbacker-causeway",
     editorialRank: 5,
     popularity: 8,
