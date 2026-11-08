@@ -436,17 +436,26 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     const kept = activeCategories.filter((key) => PICKABLE_INTERESTS.some((i) => i.id === key) || trip.customInterests.includes(key));
     if (kept.length !== activeCategories.length) setActiveCategories(kept);
   }, [activeCategories, trip.customInterests, setActiveCategories]);
-  const toggleCategory = (key) =>
+  const toggleCategory = (key) => {
+    // Picking a category with no sort chosen sorts it by Popular (owner,
+    // 2026-11-08: "once the user taps popular landmarks or any categories
+    // it should be ready").
+    if (!activeCategories.includes(key) && !savedSort && !forMeLab) setSortBy(TOP_LANDMARKS_SORT);
     setActiveCategories((cur) => (cur.includes(key) ? cur.filter((k) => k !== key) : [...cur, key]));
+  };
   // Tapping a row's thumbnail opens the photo full-screen.
   const [lightbox, setLightbox] = useState(null);
   const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
-  // Top Landmarks is the default (see landmarksSort.js for the key).
-  const [savedSort, setSortBy] = usePersistentState(LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT, { isEmpty: NEVER_EMPTY });
+  // No sort is picked when the app opens (owner, 2026-11-08): the list shows
+  // A to Z while Google's ratings load in the background, and Popular is
+  // ready by the time someone taps it or a category. The choice lasts while
+  // the app is open (session state); Play and the Popular Landmarks chip on
+  // Create New Trip open the tab on Popular (landmarksSort.js).
+  const [savedSort, setSortBy] = useSessionState(LANDMARKS_SORT_KEY, null);
   // Up arrow: not-checked-in first. Down arrow: checked-in first. null: neither.
   const [savedCheckInOrder, setCheckInOrder] = usePersistentState('landmarks.checkInOrder', null, { isEmpty: NEVER_EMPTY });
   const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;
-  const sortBy = forMeLab ? 'forMe' : savedSort === 'nearMe' ? 'nearMe' : savedSort === 'forMe' && SHOW_FOR_ME_SORT ? 'forMe' : 'rated';
+  const sortBy = forMeLab ? 'forMe' : savedSort === 'nearMe' || savedSort === 'rated' ? savedSort : savedSort === 'forMe' && SHOW_FOR_ME_SORT ? 'forMe' : null;
   // Landmarks | Neighborhoods at the top of the tab; Landmarks by default.
   const [subtab, setSubtab] = useState('landmarks');
   // Google ratings fetched for the Top Landmarks sort, this visit only.
@@ -546,10 +555,12 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editedLandmarks, normalizedCustomLandmarks, scope, drawnShape, activeCategories, foundOnly, hasFound, isFound, search]);
 
-  // Top Landmarks ranks by Google's review count. The list shows at once in
-  // its fallback order (the app's own ratings, then name) and takes Google's
-  // order once the ratings are in (src/lib/useTopRatings.js; signed in only).
-  const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
+  // Popular ranks by Google's review count (src/lib/useTopRatings.js; signed
+  // in only). The ratings load while no sort is picked too, so Popular is
+  // ready when tapped; the Map tab started them already
+  // (LandmarkRatingsPrefetch). Popular shows at once in its fallback order
+  // (the app's own ratings, then name) if any are still missing.
+  const topWanted = (sortBy === 'rated' || sortBy === null) && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const top = useTopRatings(filteredLandmarks, topWanted);
 
   const sortedLandmarks = useMemo(() => {
@@ -616,7 +627,9 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           a.name.localeCompare(b.name)
       );
     }
-    // Top Landmarks: Google's review count (src/lib/topRated.js). top.google
+    // No sort picked: A to Z.
+    if (!sortBy) return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+    // Popular: Google's review count (src/lib/topRated.js). top.google
     // is empty until the ratings are in, then frozen (one reorder at most).
     return topLandmarksOrder(filtered, top.google, ratings);
   }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings, top.google]);

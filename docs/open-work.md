@@ -14,10 +14,16 @@ it shows the fallback order at once and reorders once. `useTopRatings.js`
 keeps Google's answers in memory for the app session (never storage) and
 `landmarkRatings.js` runs 24 lookups at once (was 12).
 
+Update (2026-11-08, same day): the Landmarks tab opens with no sort picked
+(A to Z), and `src/components/LandmarkRatingsPrefetch.jsx` looks up the
+Map's city (else the GPS city) from 1.5 s after launch, so Popular is ready
+when tapped. Tapping a category icon picks Popular. The sort is session
+state now (`landmarks.sort`), no longer saved on the device.
+
 Still open:
-- The first open of a session still reorders once after a second or two.
-  Removing that needs a batch ratings endpoint (one request for 120 places)
-  or a prefetch when the app starts.
+- Someone who taps Popular within a second or two of launch, or picks a
+  city the Map never showed, can still see one reorder. A batch ratings
+  endpoint (one request for 120 places) would close that.
 - The meal row ("Time to eat"), Mapr chat's "Top rated" and the trip
   planner's rated sort still use the app's own ratings.
 

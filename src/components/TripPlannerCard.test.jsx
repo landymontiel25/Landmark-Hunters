@@ -28,6 +28,7 @@ vi.mock('./LocationAutocomplete', () => ({ default: () => null, HomeStartPrefill
 vi.mock('./MultiRegionSearch', () => ({ default: () => null }));
 
 import TripPlannerCard from './TripPlannerCard';
+import { getSessionValue } from '../lib/usePersistentState';
 
 const villanova = ALL_LANDMARKS.filter((l) => l.regionId === 'villanova');
 const reviews = (n) =>
@@ -109,7 +110,7 @@ describe('Plan Your Trip wizard', () => {
     expect(labels[0]).toContain('Play Landmark Hunters');
     expect(labels[0]).toContain('find the popular landmarks');
     await click('Play Landmark Hunters');
-    expect(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).toContain('rated');
+    expect(getSessionValue('landmarks.sort')).toBe('rated');
   });
 
   it('walks the steps in order: location, mood, what sounds good, trip type, plan', async () => {
