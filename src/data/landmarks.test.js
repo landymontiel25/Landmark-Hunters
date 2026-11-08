@@ -163,10 +163,12 @@ describe('catalog text and image hygiene', () => {
     const packed = PLACE_PACKS.filter((p) => p.region === 'miami').flatMap((p) => JSON.parse(readFileSync(`public/${p.file}`, 'utf8')));
     const all = [...getRegion('miami').landmarks, ...packed];
     expect(new Set(all.map((l) => l.id)).size).toBe(all.length);
-    expect(getRegion('miami').landmarks).toHaveLength(179);
+    // 178: Miami Seaquarium deleted (closed for good; owner, 2026-11-08).
+    expect(getRegion('miami').landmarks).toHaveLength(178);
+    expect(all.some((l) => l.id === 'miami-seaquarium' || /seaquarium/i.test(l.name))).toBe(false);
     expect(packed).toHaveLength(882);
     expect(all.filter((l) => (l.categories || []).includes('airports')).map((l) => l.name)).toEqual(expect.arrayContaining(['Miami International Airport']));
-    expect(all.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum', 'Venetian Pool', 'Miami Seaquarium']));
+    expect(all.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum', 'Venetian Pool']));
   });
 
   it('keeps every region well formed (unique id, center inside its own map bounds)', () => {
