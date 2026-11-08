@@ -50,6 +50,9 @@ export default function PicksBottomSheet({
   refreshing = false,
   layout = 'default',
   moodSlot = null,
+  // Above everything in the open sheet, whatever the picks' state (the Map's
+  // category bar, owner 2026-11-08).
+  topSlot = null,
   onShown = null,
   uid = null,
   origin = null,
@@ -362,6 +365,7 @@ export default function PicksBottomSheet({
       >
         {moodFirst ? (
           <>
+            {topSlot}
             {state === 'ready' && moodSlot}
             <section className="mpp-section mpp-callout mpp-top3">
               <div className="mpp-top3-head">

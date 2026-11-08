@@ -242,6 +242,17 @@ describe('PicksBottomSheet', () => {
   describe('mood-first layout (Test tab)', () => {
     const MOODS = <section className="mpp-section" data-testid="moods"><h3 className="mpp-section-title">What are you in the mood for?</h3></section>;
 
+    it('puts the category bar (topSlot) above the moods, even before picks are ready (owner, 2026-11-08)', async () => {
+      const bar = <div className="map-cat-bar" data-testid="bar">bar</div>;
+      const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, topSlot: bar, distanceMiles: 10 });
+      const [first, second] = el.querySelector('.mpp-sheet-scroll').children;
+      expect(first.dataset.testid).toBe('bar');
+      expect(second.dataset.testid).toBe('moods');
+      container.remove();
+      const locked = await render({ state: 'locked', layout: 'mood-first', moodSlot: MOODS, topSlot: bar });
+      expect(locked.querySelector('[data-testid="bar"]')).toBeTruthy();
+    });
+
     it('puts the mood cards first, then one card with the top three, a Directions button each, and refresh by the title', async () => {
       const onRefresh = vi.fn();
       const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, onRefresh, distanceMiles: 10 });
