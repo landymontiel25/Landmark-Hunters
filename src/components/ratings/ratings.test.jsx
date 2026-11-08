@@ -137,16 +137,11 @@ describe('RatingsCardLine (Places tab row)', () => {
 
 describe('RatingsCardLine: no Google rating', () => {
   const appTag = <span className="tag rating-tag app-own">⭐ 4.0 (3)</span>;
-  it('shows the app\'s own rating when Google has none', async () => {
+  it('never shows the app\'s own rating when Google has none (owner, 2026-11-08)', async () => {
     hookState = done({ google: null, tripadvisor: null, googleNoRating: true });
     await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
-    expect(container.querySelector('.app-own')).toBeTruthy();
-    expect(container.querySelector('.ratings-none')).toBeNull();
-  });
-  it('invites the first rating when neither Google nor the app has one', async () => {
-    hookState = done({ google: null, tripadvisor: null, googleNoRating: true });
-    await render(<RatingsCardLine landmark={landmark} fallback={null} flags={FLAGS_OFF} />);
-    expect(container.querySelector('.ratings-none').textContent).toBe('No ratings yet. Be the first');
+    expect(container.querySelector('.app-own')).toBeNull();
+    expect(container.querySelector('.ratings-none').textContent).toBe('No Google rating yet');
   });
 });
 
@@ -176,9 +171,10 @@ describe('HeaderRating (under the landmark title)', () => {
     expect(g.querySelector('[aria-label="Google Maps"]')).toBeTruthy();
     expect(container.textContent).not.toContain('No ratings yet');
   });
-  it('falls back to the app\'s own stars, or "No ratings yet", when Google has none', async () => {
-    await render(<HeaderRating outside={done({ google: null, tripadvisor: null })} agg={null} />);
-    expect(container.textContent).toContain('No ratings yet');
+  it('never shows the app\'s own stars: "No Google rating yet" when Google has none (owner, 2026-11-08)', async () => {
+    await render(<HeaderRating outside={done({ google: null, tripadvisor: null, googleNoRating: true })} agg={{ avg: 4.8, count: 9 }} />);
+    expect(container.textContent).toContain('No Google rating yet');
+    expect(container.textContent).not.toContain('4.8');
   });
   it('shows a placeholder, not "No ratings yet", while Google loads', async () => {
     await render(<HeaderRating outside={{ status: 'loading', sources: null }} agg={null} />);

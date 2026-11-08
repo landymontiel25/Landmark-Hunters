@@ -34,12 +34,10 @@ function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS, pre
           {'⭐'} {google.rating.toFixed(1)} <span className="ratings-count">({formatReviews(google.count)})</span> <GoogleAttribution />
         </span>
       ) : status === 'done' && sources.googleNoRating ? (
-        // Google has none: the app's own rating, else an invitation to give it.
-        fallback || (
-          <span className="tag rating-tag ratings-none" data-source="none">
-            No ratings yet. Be the first
-          </span>
-        )
+        // Google has none. The app's own ratings never show (owner, 2026-11-08).
+        <span className="tag rating-tag ratings-none" data-source="none">
+          No Google rating yet
+        </span>
       ) : (
         fallback
       )}

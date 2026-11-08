@@ -142,7 +142,8 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
             {pick.distanceMeters != null && ' · '}
             {categoryLabel(primaryCategory(pick.categories))}
             {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
-            {pick.google ? <GoogleStars google={pick.google} /> : pick.rating?.count ? ` · ${'\u{2605}'} ${Number(pick.rating.avg).toFixed(1)}` : ''}
+            {/* Google's stars only; the app's own ratings never show (owner, 2026-11-08). */}
+            <GoogleStars google={pick.google} />
           </span>
           {pick.reason && <span className="mpp-card-reason">{pick.reason}</span>}
           {foundByLine(pick) && <span className="mpp-card-reason mpp-card-found">{foundByLine(pick)}</span>}

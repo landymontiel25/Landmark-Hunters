@@ -1032,7 +1032,7 @@ function LandmarkDetailBody() {
       )}
 
       <div className="center" style={{ marginBottom: 18 }}>
-        <HeaderRating outside={outside} agg={agg} />
+        <HeaderRating outside={outside} />
       </div>
 
       <div className="card section">
