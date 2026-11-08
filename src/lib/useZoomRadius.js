@@ -1,32 +1,25 @@
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'lh-zoom-radius-miles';
 const DEFAULT_RADIUS = 5;
 export const ZOOM_RADIUS_OPTIONS = [1, 2, 5, 10, 25, 50, 100];
 
-// scope: the Test tab keeps its own remembered radius ('test'), so it starts
-// at the default instead of inheriting whatever the real Map was left on.
-const keyFor = (scope) => (scope ? `${STORAGE_KEY}:${scope}` : STORAGE_KEY);
-
-function getInitialRadius(scope) {
-  try {
-    const stored = Number(localStorage.getItem(keyFor(scope)));
-    return ZOOM_RADIUS_OPTIONS.includes(stored) ? stored : DEFAULT_RADIUS;
-  } catch {
-    return DEFAULT_RADIUS; // storage blocked
-  }
-}
+// The Map opens at 5 mi every launch (owner, 2026-11-08). A choice lasts
+// while the app stays open (hopping between tabs) and is never saved on the
+// device, so closing the app goes back to 5.
+// scope: the Test tab keeps its own value ('test'), so trying it never
+// changes the real Map's distance.
+const sessionRadius = new Map();
 
 export function useZoomRadius(scope = null) {
-  const [radiusMiles, setRadiusMiles] = useState(() => getInitialRadius(scope));
-
+  const key = scope || 'map';
+  const [radiusMiles, setRadiusMiles] = useState(() => sessionRadius.get(key) ?? DEFAULT_RADIUS);
   useEffect(() => {
-    try {
-      localStorage.setItem(keyFor(scope), String(radiusMiles));
-    } catch {
-      /* storage full or blocked */
-    }
-  }, [radiusMiles, scope]);
-
+    sessionRadius.set(key, radiusMiles);
+  }, [key, radiusMiles]);
   return [radiusMiles, setRadiusMiles];
+}
+
+// Tests only.
+export function _resetZoomRadius() {
+  sessionRadius.clear();
 }

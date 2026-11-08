@@ -3,6 +3,12 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Map opens at 5 mi (2026-11-08)
+
+`useZoomRadius` keeps the Map's distance in memory only: 5 mi at every
+launch, the choice kept while the app is open. The old saved
+`lh-zoom-radius-miles` value is ignored.
+
 ## Ratings outage and lookup cuts (2026-11-08)
 
 Ratings vanished on 2026-11-08: Google's GetPlaceRequest per day (1,000)
