@@ -9,8 +9,8 @@ describe('Top Rated order', () => {
     const order = ['mound', 'jerry', 'cosford', 'gusman'].sort((a, b) => ratedScore({ id: b }, google, {}) - ratedScore({ id: a }, google, {}));
     expect(order).toEqual(['gusman', 'cosford', 'jerry', 'mound']);
   });
-  it("falls back to the app's ratings, else no score", () => {
-    expect(ratedScore({ id: 'x' }, {}, { x: { avg: 5, count: 3 } })).toBeGreaterThan(4);
+  it("ignores the app's own ratings: Google only (owner, 2026-11-08)", () => {
+    expect(ratedScore({ id: 'x' }, {}, { x: { avg: 5, count: 3 } })).toBeNull();
     expect(ratedScore({ id: 'y' }, {}, {})).toBeNull();
   });
 });
@@ -31,9 +31,9 @@ describe('Top Landmarks', () => {
     expect(ids(topLandmarksOrder(all, google))).toEqual(['vizcaya', 'gesu', 'mound', 'none']);
   });
 
-  it("uses the app's own ratings where Google has none, among places equally popular", () => {
-    const all = [lm('a'), lm('b'), lm('own')];
-    expect(ids(topLandmarksOrder(all, {}, { own: { avg: 4.9, count: 50 } }))).toEqual(['own', 'a', 'b']);
+  it("never uses the app's own ratings where Google has none (owner, 2026-11-08)", () => {
+    const all = [lm('b'), lm('own'), lm('a')];
+    expect(ids(topLandmarksOrder(all, {}, { own: { avg: 4.9, count: 50 } }))).toEqual(['a', 'b', 'own']);
   });
 
   it('puts Miami malls last, even with the best score or no Google data', () => {
@@ -83,9 +83,9 @@ describe('Top Landmarks by number of Google reviews (owner, 2026-11-06)', () => 
   it('breaks a tie on reviews by stars', () => {
     expect(ids(topLandmarksOrder([lm('a'), lm('b')], { a: g(4.0, 500), b: g(4.8, 500) }))).toEqual(['b', 'a']);
   });
-  it('places Google has no answer for follow: app-rated ones first, then by name', () => {
+  it('places Google has no answer for follow by name; app ratings never count', () => {
     const all = [lm('zeta'), lm('alpha'), lm('app'), lm('google')];
-    expect(ids(topLandmarksOrder(all, { google: g(4, 3) }, { app: { avg: 5, count: 2 } }))).toEqual(['google', 'app', 'alpha', 'zeta']);
+    expect(ids(topLandmarksOrder(all, { google: g(4, 3) }, { app: { avg: 5, count: 2 } }))).toEqual(['google', 'alpha', 'app', 'zeta']);
   });
   it('still puts Miami malls last', () => {
     const all = [lm('dolphin-mall', { mall: true }), lm('x')];
