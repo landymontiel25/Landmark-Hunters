@@ -1,14 +1,13 @@
-import RatingStars from '../RatingStars';
 import { Skeleton } from '../Skeleton';
 import { formatReviews, hasRating } from '../../lib/ratingSources';
 import GoogleAttribution from './GoogleAttribution';
 
 // The rating under a landmark page's title: the Google rating when Google
-// has one ("⭐ 3.9 (7,398 reviews) Google Maps"), otherwise the app's own users'
-// average (RatingStars, "No ratings yet" when there is none). `outside` is
+// has one ("⭐ 3.9 (7,398 reviews) Google Maps"), "No Google rating yet" when
+// Google has none. `agg` (the app's own average) is no longer shown. `outside` is
 // useLandmarkRatings' result, shared with the Ratings section below so the
 // page makes one call.
-export default function HeaderRating({ outside, agg }) {
+export default function HeaderRating({ outside }) {
   const google = outside?.status === 'done' && hasRating(outside.sources?.google) ? outside.sources.google : null;
   if (google) {
     return (
@@ -21,8 +20,8 @@ export default function HeaderRating({ outside, agg }) {
       </span>
     );
   }
-  // Still loading and nothing of our own to show: a quiet placeholder rather
-  // than "No ratings yet" that a second later turns into a Google rating.
-  if (outside?.status === 'loading' && !agg?.count) return <Skeleton width={140} height={18} />;
-  return <RatingStars value={agg?.avg || 0} count={agg?.count || 0} size="1.15rem" />;
+  // Google only (owner, 2026-11-08): the app's own average never shows.
+  if (outside?.status === 'loading' || outside?.status === 'idle') return <Skeleton width={140} height={18} />;
+  if (outside?.status === 'done' && outside.sources?.googleNoRating) return <span className="header-google-rating ratings-none">No Google rating yet</span>;
+  return null;
 }

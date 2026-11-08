@@ -150,11 +150,12 @@ describe('Landmarks tab', () => {
     expect(document.body.querySelector('.modal-card')).toBeTruthy();
   }, 60000);
 
-  it('the app rating shows as a score badge on the photo', async () => {
+  it('never shows the app\'s own rating on a card (owner, 2026-11-08: Google only)', async () => {
     const { ALL_LANDMARKS } = await import('../data/regions');
     const ratings = Object.fromEntries(ALL_LANDMARKS.map((l) => [l.id, { avg: 4.2, count: 3 }]));
     await renderIt({ ratings });
-    expect(el.querySelector('.lm-card-photo .lm-card-badge').textContent).toContain('4.2 (3)');
+    expect(el.querySelector('.lm-card-badge')).toBeNull();
+    expect(el.textContent).not.toContain('4.2 (3)');
   }, 60000);
 
   it('For Me on the Test tab: the same list, For Me locked on, no subtabs', async () => {

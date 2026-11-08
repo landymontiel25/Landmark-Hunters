@@ -223,8 +223,6 @@ const LandmarkRow = memo(function LandmarkRow({
   l,
   isSelected,
   photo,
-  ratingAvg,
-  ratingCount,
   distanceText,
   user,
   firebaseEnabled,
@@ -236,9 +234,6 @@ const LandmarkRow = memo(function LandmarkRow({
   onInfo,
   ratingSources,
 }) {
-  // The app's own average (Landmark Hunters users) sits on the photo as the
-  // score badge; the Google line below still falls back to "No ratings yet".
-  const hasAppRating = ratingCount > 0;
   const toggle = () => onToggle(l);
   const thumb = <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />;
   return (
@@ -272,11 +267,8 @@ const LandmarkRow = memo(function LandmarkRow({
         >
           {isSelected ? '✓' : ''}
         </div>
-        {hasAppRating && (
-          <span className="nb-score-badge lm-card-badge band-none" title="Landmark Hunters rating">
-            {'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})
-          </span>
-        )}
+        {/* No Landmark Hunters rating badge: only Google's ratings show
+            (owner, 2026-11-08). */}
         <div className="lr-corner lm-card-corner">
           <SaveLandmarkButton landmark={l} regionId={l.regionId} />
           <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
@@ -768,15 +760,12 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
       );
     if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
     const photo = myPhotos[l.id]?.[0];
-    const rating = ratings[l.id];
     return (
       <LandmarkRow
         key={`${l.regionId}-${l.id}`}
         l={l}
         isSelected={getRegionSelection(l.regionId).includes(l.id)}
         photo={photo}
-        ratingAvg={rating?.count > 0 ? rating.avg : null}
-        ratingCount={rating?.count || 0}
         ratingSources={(topWanted ? top.live[l.id] : pageRatings[ratingKey(l)]) || null}
         distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
         user={user}
