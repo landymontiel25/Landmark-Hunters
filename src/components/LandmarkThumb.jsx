@@ -34,10 +34,11 @@ function Thumb({ landmark, size = 52, width, height, myPhoto }) {
   const [loaded, setLoaded] = useState(null);
   const image = [myPhoto, ...(landmark.images || [])].find((src) => src && !failed.has(src));
   const wantsFallback = !myPhoto && !landmark.images?.length;
-  // Imported places only look up a Google photo when opened (detail page,
-  // pick and swipe cards), so scrolling a long list can't spend the day's
-  // search quota.
-  const place = usePlacePhoto(landmark, { enabled: wantsFallback, lookup: landmark.source !== 'osm' });
+  // Imported places look up their Google photo in lists too (owner,
+  // 2026-11-08: photos must be there before you tap). Only tiles on or near
+  // the screen ask (usePlacePhoto), and the server's place-ID cache keeps
+  // repeat views off the Text Search quota (docs/photos.md).
+  const place = usePlacePhoto(landmark, { enabled: wantsFallback });
   const w = width ?? size;
   const h = height ?? size;
   const style = { width: w, height: h };

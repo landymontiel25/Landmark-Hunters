@@ -3,6 +3,19 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Photos load in lists before you tap (2026-11-08)
+
+Imported places in the Landmarks list now look up their Google photo as the
+card nears the screen (`LandmarkThumb.jsx`, `usePlacePhoto.js` 400 px
+margin, `placePhoto.js` 6 at once). Before, they waited until opened.
+
+Still open:
+- Watch the Places API daily caps (docs/photos.md): Text Search 100,
+  GetPlace 300, photo media 1,000. A place with no stored place ID spends a
+  Text Search on first view. Running the admin photo backfill for the
+  imported regions stores the IDs ahead of time. Raise the caps in the
+  Cloud console if photos stop loading.
+
 ## Highest rated = Google reviews; Landmarks tab shows at once (2026-11-08)
 
 The Map sheet's "Highest rated" sort (`moodPlaces` in `src/lib/nearbyPicks.js`,

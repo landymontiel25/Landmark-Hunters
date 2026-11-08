@@ -12,7 +12,9 @@ import { getCommunityPhoto } from './communityPhotos';
 
 const SUCCESS_TTL_MS = 2 * 60 * 60 * 1000;
 const FAILURE_TTL_MS = 5 * 60 * 1000;
-const MAX_CONCURRENT = 3;
+// 6 at once (was 3): a screen of Landmarks cards fills in without waiting
+// on a long queue (owner, 2026-11-08).
+const MAX_CONCURRENT = 6;
 
 const cache = new Map(); // key -> { value, expires } | { promise }
 let active = 0;

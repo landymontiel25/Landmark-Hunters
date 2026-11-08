@@ -144,7 +144,7 @@ describe('LandmarkThumb Google photo fallback', () => {
 });
 
 describe('loadPlacePhoto', () => {
-  it('limits concurrency to 3 requests in flight', async () => {
+  it('limits concurrency to 6 requests in flight', async () => {
     let inFlight = 0;
     let peak = 0;
     const resolvers = [];
@@ -166,7 +166,7 @@ describe('loadPlacePhoto', () => {
     }
     await Promise.all(all);
     expect(fetchMock).toHaveBeenCalledTimes(8);
-    expect(peak).toBeLessThanOrEqual(3);
+    expect(peak).toBeLessThanOrEqual(6);
   });
 
   it('pauses all requests after a rate-limit response', async () => {
