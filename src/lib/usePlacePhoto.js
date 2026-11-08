@@ -39,7 +39,9 @@ export function usePlacePhoto(landmark, { enabled = true, lookup = true } = {}) 
           io.disconnect();
         }
       },
-      { rootMargin: '150px' }
+      // Starts a little before the tile scrolls in, so the photo is there
+      // when it arrives (owner, 2026-11-08).
+      { rootMargin: '400px' }
     );
     io.observe(node);
     return () => io.disconnect();
