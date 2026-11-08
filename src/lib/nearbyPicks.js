@@ -758,7 +758,7 @@ export const MOODS = [
 // covers bars, clubs, live music, shows, zoos and amusement parks.
 export const TEST_MOODS = MOODS.filter((m) => m.id !== 'tech' && m.id !== 'outdoors');
 // "Top landmarks" (the Map sheet's first button): every category at once.
-export const TOP_MOOD = { id: 'top', icon: '\u{2B50}', label: 'Top landmarks', categories: null };
+export const TOP_MOOD = { id: 'top', icon: '\u{2B50}', label: 'Popular landmarks', categories: null };
 // Where the Test tab's picks start, until someone taps a distance chip.
 export const TEST_DEFAULT_DISTANCE_MI = 5;
 // 'foryou' (the default) is Mapr's ranking (maprRank/surfaces.js rankPlaces):

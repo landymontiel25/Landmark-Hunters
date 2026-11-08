@@ -7979,6 +7979,15 @@ p.tag {
 }
 .places-title-row .screen-title {
   min-width: 0;
+  /* My Memories sits close under the title when it wraps (owner, 2026-11-08). */
+  margin-bottom: 2px;
+}
+.places-title-row {
+  margin-bottom: 12px;
+}
+/* The city picker sits right under the search box (owner, 2026-11-08). */
+.lm-search-field {
+  margin-bottom: 8px;
 }
 .places-checkins-btn {
   flex-shrink: 0;

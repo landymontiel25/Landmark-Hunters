@@ -7,7 +7,7 @@
 export const TURNED_OFF = [
   {
     name: 'For Me sort (Landmarks tab)',
-    hides: 'The "✨ For Me" sort button on the Landmarks tab. The list now sorts by Top Landmarks or Near Me there.',
+    hides: 'The "✨ For Me" sort button on the Landmarks tab. The list now sorts by Popular Landmarks or Near Me there.',
     keeps: 'For Me still works under Planner launch on the Test tab: the same list, Mapr ranking for you, with check-in and rating.',
     since: '2026-11-06',
     pr: 802,

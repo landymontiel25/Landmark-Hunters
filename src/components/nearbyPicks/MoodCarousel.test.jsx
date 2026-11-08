@@ -39,8 +39,8 @@ const labels = (el) => [...el.querySelectorAll('.mpp-mood')].map((b) => b.textCo
 describe('MoodCarousel', () => {
   it('opens on Top landmarks with Places beside it, and the moods only show under Places', async () => {
     const el = await render();
-    expect([...el.querySelectorAll('[role="tab"]')].map((b) => b.textContent)).toEqual([expect.stringContaining('Top landmarks'), expect.stringContaining('Places')]);
-    expect(tab(el, 'Top landmarks').getAttribute('aria-selected')).toBe('true');
+    expect([...el.querySelectorAll('[role="tab"]')].map((b) => b.textContent)).toEqual([expect.stringContaining('Popular landmarks'), expect.stringContaining('Places')]);
+    expect(tab(el, 'Popular landmarks').getAttribute('aria-selected')).toBe('true');
     expect(labels(el)).toEqual([]);
     await act(async () => tab(el, 'Places').click());
     expect(tab(el, 'Places').getAttribute('aria-selected')).toBe('true');
@@ -56,7 +56,7 @@ describe('MoodCarousel', () => {
     expect(l[1]).toContain('Art & culture');
     expect(l.some((x) => x.includes('Tech spots'))).toBe(false);
     expect(l.some((x) => x.includes('Fresh air'))).toBe(false);
-    expect(el.querySelector('.mpp-section-title').textContent).toBe('Discover top landmarks');
+    expect(el.querySelector('.mpp-section-title').textContent).toBe('Discover popular landmarks');
   });
 
   it('Top landmarks lists the best places, highest rated first, without restaurants', async () => {
