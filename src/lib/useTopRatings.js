@@ -2,19 +2,33 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { loadLandmarkRatings } from './landmarkRatings';
 
 // Top Landmarks (owner, 2026-11-06) ranks by Google's stars and review count
-// (topRated.js topLandmarksOrder), so it needs Google's answer for each place
-// before it can show the list. Google's terms forbid keeping ratings, so they
-// live in this screen's state only, for this visit, and the rows reuse them
-// (no second call per place).
+// (topRated.js topLandmarksOrder), and the Map sheet's Highest rated sort by
+// Google's weighted stars. Google's terms forbid storing ratings, so they
+// live in memory only (this module, for as long as the app stays open;
+// never localStorage or Firestore), and the rows reuse them (no second call
+// per place). Keeping them for the session makes a second visit to the
+// Landmarks tab instant and saves the per-account lookup limit.
 //
-// At most TOP_RANK_MAX places are looked up (the ratings endpoint allows a
-// user 300 lookups in 10 minutes). A longer list (All Cities, or a city with
-// hundreds of imported places) looks up its hand-picked places first, then
-// imported ones, up to the cap; the rest follow unranked.
+// The list shows right away (owner, 2026-11-08: "it needs to happen right
+// when users open the landmarks tab") in its fallback order, then takes the
+// Google order once, when every answer is in or TOP_WAIT_MS has passed.
+//
 export const TOP_RANK_MAX = 120;
 // Nothing shows until the answers are in or this long has passed, so the
 // order is fixed once and never reshuffles under your thumb.
 export const TOP_WAIT_MS = 6000;
+
+// landmarkId -> sources, for this app session (memory only, see above).
+const sessionAnswers = new Map();
+const fromSession = (cands) => {
+  const out = {};
+  for (const l of cands) if (sessionAnswers.has(l.id)) out[l.id] = sessionAnswers.get(l.id);
+  return out;
+};
+// Tests only.
+export function _resetTopRatings() {
+  sessionAnswers.clear();
+}
 
 const isImported = (l) => l?.source === 'osm' || String(l?.id || '').startsWith('osm-');
 
@@ -30,17 +44,21 @@ export function topCandidates(list, max = TOP_RANK_MAX) {
 export function useTopRatings(list, enabled) {
   const cands = useMemo(() => (enabled ? topCandidates(list) : []), [list, enabled]);
   const sig = cands.map((l) => `${l.regionId || l.region}/${l.id}`).join('|');
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState(() => fromSession(cands));
   const [timedOut, setTimedOut] = useState(null);
   const asked = useRef(new Set());
 
   useEffect(() => {
     if (!enabled) return undefined;
     let cancelled = false;
+    const known = fromSession(cands);
+    if (Object.keys(known).length) setAnswers((cur) => ({ ...known, ...cur }));
     for (const l of cands) {
-      if (asked.current.has(l.id)) continue;
+      if (asked.current.has(l.id) || sessionAnswers.has(l.id)) continue;
       asked.current.add(l.id);
       loadLandmarkRatings(l).then((sources) => {
+        // A failed lookup (no Google answer at all) is asked again next time.
+        if (sources?.google || sources?.googleNoRating) sessionAnswers.set(l.id, sources);
         if (!cancelled) setAnswers((cur) => ({ ...cur, [l.id]: sources }));
       });
     }
@@ -55,7 +73,7 @@ export function useTopRatings(list, enabled) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, sig]);
 
-  const answered = cands.every((l) => answers[l.id] !== undefined);
+  const answered = cands.every((l) => answers[l.id] !== undefined || sessionAnswers.has(l.id));
   const ready = !enabled || answered || timedOut === sig;
   // Freeze the order's data once ready for this list.
   const snap = useRef({ sig: null, google: {} });

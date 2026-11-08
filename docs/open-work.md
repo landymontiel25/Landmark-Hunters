@@ -3,6 +3,24 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Highest rated = Google reviews; Landmarks tab shows at once (2026-11-08)
+
+The Map sheet's "Highest rated" sort (`moodPlaces` in `src/lib/nearbyPicks.js`,
+`MoodCarousel.jsx`) now ranks by Google's stars weighted by review count
+(`topRated.js ratedScore`), looking up the closest 120 places' ratings; the
+app's own ratings stand in only where Google has none. The Landmarks tab's
+Top Landmarks no longer hides the list behind a skeleton while Google answers:
+it shows the fallback order at once and reorders once. `useTopRatings.js`
+keeps Google's answers in memory for the app session (never storage) and
+`landmarkRatings.js` runs 24 lookups at once (was 12).
+
+Still open:
+- The first open of a session still reorders once after a second or two.
+  Removing that needs a batch ratings endpoint (one request for 120 places)
+  or a prefetch when the app starts.
+- The meal row ("Time to eat"), Mapr chat's "Top rated" and the trip
+  planner's rated sort still use the app's own ratings.
+
 ## Map: category bar, opens empty (2026-11-07)
 
 The Map opens with no pins; the bar at its top (`src/components/MapCategoryBar.jsx`)

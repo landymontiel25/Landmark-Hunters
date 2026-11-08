@@ -10,6 +10,11 @@ vi.mock('../../lib/UnitsContext', () => ({
   useUnits: () => ({ units: 'imperial' }),
   formatDistance: (m) => `${(m / 1609.34).toFixed(1)} mi`,
 }));
+// Google's answers per landmark id (the Highest rated sort looks them up).
+const googleAnswers = {};
+vi.mock('../../lib/landmarkRatings', () => ({
+  loadLandmarkRatings: (l) => Promise.resolve({ google: googleAnswers[l.id] || null, tripadvisor: null, googleNoRating: !googleAnswers[l.id] }),
+}));
 
 import MoodCarousel from './MoodCarousel';
 
@@ -64,6 +69,25 @@ describe('MoodCarousel', () => {
     expect(names.some((n) => n.includes('park'))).toBe(true);
     // Owner, 2026-11-05: restaurants and malls are not top landmarks.
     expect(names.some((n) => n.includes('near-cafe'))).toBe(false);
+  });
+
+  it('Highest rated goes by Google reviews, weighted by how many there are', async () => {
+    const mk = (id, d) => ({ id, region: 'miami', regionId: 'miami', name: id, lat: 25.76, lng: -80.19, categories: ['history-culture'], distanceMeters: d, image: null });
+    const pool = [mk('closest', 100), mk('few-reviews', 200), mk('many-reviews', 300), mk('no-google', 50)];
+    Object.assign(googleAnswers, {
+      closest: { rating: 3.8, count: 900 },
+      'few-reviews': { rating: 5, count: 2 },
+      'many-reviews': { rating: 4.7, count: 5000 },
+    });
+    // The app's own ratings no longer decide the order when Google has one.
+    const ratings = { closest: { avg: 5, count: 50 } };
+    const el = await render({ pool, ratings, moods: TEST_MOODS });
+    await act(async () => {});
+    const names = [...el.querySelectorAll('.mpp-card-name')].map((c) => c.textContent);
+    expect(names).toEqual(['many-reviews', 'few-reviews', 'closest', 'no-google']);
+    expect(el.querySelector('.mpp-google').textContent).toContain('4.7');
+    expect(el.querySelector('.mpp-google').textContent).toContain('Google Maps');
+    for (const k of Object.keys(googleAnswers)) delete googleAnswers[k];
   });
 
   it('switches between carousel and list, and remembers the choice', async () => {

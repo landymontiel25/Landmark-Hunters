@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { MOODS, MOOD_SORTS, TOP_MOOD, moodPlaces } from '../../lib/nearbyPicks';
+import { MOODS, MOOD_SORTS, TOP_MOOD, moodCandidates, moodPlaces } from '../../lib/nearbyPicks';
+import { TOP_RANK_MAX, useTopRatings } from '../../lib/useTopRatings';
 import { useReadyItems } from './useNearbyPicks';
 import { useShownEffect } from './useShownEffect';
 import PickCard, { PickRow } from './PickCard';
@@ -49,11 +50,18 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
       /* private mode: the choice lasts until the page reloads */
     }
   };
+  // Highest rated goes by Google's reviews (owner, 2026-11-08): look up the
+  // closest TOP_RANK_MAX places' Google ratings (useTopRatings.js, memory
+  // only). The places show at once and take Google's order once it is in.
+  const rated = sort === 'rated' && !!mood;
+  const ratedCands = useMemo(() => (rated ? moodCandidates({ moodId: mood, pool, moods, limit: TOP_RANK_MAX }) : []), [rated, mood, pool, moods]);
+  const top = useTopRatings(ratedCands, rated);
   const places = useMemo(() => {
     if (!mood) return [];
-    if (sort !== 'foryou' || !rank) return moodPlaces({ moodId: mood, pool, sort: sort === 'foryou' ? 'closest' : sort, ratings, limit: 12, moods });
+    if (sort === 'rated') return moodPlaces({ moodId: mood, pool: ratedCands, sort, ratings, google: top.google, limit: 12, moods });
+    if (sort !== 'foryou' || !rank) return moodPlaces({ moodId: mood, pool, sort: 'closest', ratings, limit: 12, moods });
     return rank(moodPlaces({ moodId: mood, pool, sort: 'closest', ratings, limit: 60, moods })).slice(0, 12);
-  }, [mood, pool, sort, ratings, moods, rank]);
+  }, [mood, pool, sort, ratings, moods, rank, ratedCands, top.google]);
   const ready = useReadyItems(places, 8);
   useShownEffect(onShown, ready);
 

@@ -10,6 +10,20 @@ import DirectionsButton from '../DirectionsButton';
 import { usePlacePhoto } from '../../lib/usePlacePhoto';
 import PlacePhotoCredit from '../PlacePhotoCredit';
 import { admissionText } from '../AdmissionTag';
+import GoogleAttribution from '../ratings/GoogleAttribution';
+import { formatCount } from '../../lib/ratingSources';
+
+// Google's stars on a pick (the Map sheet's Highest rated sort), with the
+// Google Maps attribution its terms require.
+function GoogleStars({ google }) {
+  if (!google) return null;
+  return (
+    <span className="mpp-google" data-source="google">
+      {' · \u{2B50} '}
+      {google.rating.toFixed(1)} ({formatCount(google.count)}) <GoogleAttribution />
+    </span>
+  );
+}
 
 // One pick: photo, name, distance, one-line reason, Directions. Tapping a
 // card or a row opens a small sheet with Directions and the landmark's own
@@ -128,7 +142,7 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
             {pick.distanceMeters != null && ' · '}
             {categoryLabel(primaryCategory(pick.categories))}
             {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
-            {pick.rating?.count ? ` · ${'\u{2605}'} ${Number(pick.rating.avg).toFixed(1)}` : ''}
+            {pick.google ? <GoogleStars google={pick.google} /> : pick.rating?.count ? ` · ${'\u{2605}'} ${Number(pick.rating.avg).toFixed(1)}` : ''}
           </span>
           {pick.reason && <span className="mpp-card-reason">{pick.reason}</span>}
           {foundByLine(pick) && <span className="mpp-card-reason mpp-card-found">{foundByLine(pick)}</span>}
@@ -159,6 +173,7 @@ export function PickRow({ pick, action = null, voteSlot = null }) {
             {pick.distanceMeters != null ? formatDistance(pick.distanceMeters, units) : ''}
             {pick.favorite ? ' · You loved this' : pick.pickType === 'new' ? ' · Something new' : ''}
             {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
+            <GoogleStars google={pick.google} />
           </span>
         </span>
       </button>
