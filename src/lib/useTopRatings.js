@@ -88,9 +88,9 @@ export function useTopRatings(list, enabled) {
 // for the city the Landmarks tab will open on), so tapping Popular there
 // sorts at once. Answers land in this module's session memory only.
 // Resolves when every lookup settled.
-export function prefetchTopRatings(list) {
+export function prefetchTopRatings(list, max = TOP_RANK_MAX) {
   const jobs = [];
-  for (const l of topCandidates(list)) {
+  for (const l of topCandidates(list, max)) {
     if (sessionAnswers.has(l.id) || prefetching.has(l.id)) continue;
     prefetching.add(l.id);
     jobs.push(

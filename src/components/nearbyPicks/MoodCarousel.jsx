@@ -1,6 +1,10 @@
 import { useMemo, useState } from 'react';
 import { MOODS, MOOD_SORTS, TOP_MOOD, moodCandidates, moodPlaces } from '../../lib/nearbyPicks';
-import { TOP_RANK_MAX, useTopRatings } from '../../lib/useTopRatings';
+import { useTopRatings } from '../../lib/useTopRatings';
+
+// How many places Highest rated looks up on Google (owner, 2026-11-08: 120
+// per sort and mood used up the daily lookup cap). Hand-picked first.
+export const SHEET_RATED_MAX = 40;
 import { useReadyItems } from './useNearbyPicks';
 import { useShownEffect } from './useShownEffect';
 import PickCard, { PickRow } from './PickCard';
@@ -51,10 +55,10 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
     }
   };
   // Highest rated goes by Google's reviews (owner, 2026-11-08): look up the
-  // closest TOP_RANK_MAX places' Google ratings (useTopRatings.js, memory
+  // first SHEET_RATED_MAX places' Google ratings (useTopRatings.js, memory
   // only). The places show at once and take Google's order once it is in.
   const rated = sort === 'rated' && !!mood;
-  const ratedCands = useMemo(() => (rated ? moodCandidates({ moodId: mood, pool, moods, limit: TOP_RANK_MAX }) : []), [rated, mood, pool, moods]);
+  const ratedCands = useMemo(() => (rated ? moodCandidates({ moodId: mood, pool, moods, limit: SHEET_RATED_MAX }) : []), [rated, mood, pool, moods]);
   const top = useTopRatings(ratedCands, rated);
   const places = useMemo(() => {
     if (!mood) return [];

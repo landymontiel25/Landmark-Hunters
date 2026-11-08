@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Ratings outage and lookup cuts (2026-11-08)
+
+Ratings vanished on 2026-11-08: Google's GetPlaceRequest per day (1,000)
+hit 100%, and the owner's account hit the app's own 1,500-a-day ratings
+limit (`ai-ratings` in `api/_lib/usageQuota.js`, now 4,000). The owner
+raised the Google quota. To spend fewer lookups: `landmarkRatings.js`
+remembers real answers in memory for the session (shared by every
+surface), the Map sheet's Highest rated checks 40 places (was 120), and the
+launch preload checks 60 per city (was 120). Owner's budget: $500 a month.
+
 ## One distance for the Map and its sheet (2026-11-08)
 
 The Map's radius menu (`useZoomRadius`) now sets the picks sheet's distance

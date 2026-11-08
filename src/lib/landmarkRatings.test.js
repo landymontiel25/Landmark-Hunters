@@ -21,7 +21,14 @@ describe('loadLandmarkRatings', () => {
     expect(a).toEqual(b);
     expect(fetchImpl.mock.calls[0][0]).toBe('/api/landmark-ratings?region=philly&id=liberty-bell-center');
   });
-  it('keeps nothing after a request settles (the terms forbid caching)', async () => {
+  it('remembers a real answer in memory for the session, so each place costs one lookup (owner, 2026-11-08)', async () => {
+    const fetchImpl = ok({ google: { rating: 4.5, count: 10 }, tripadvisor: null });
+    await loadLandmarkRatings(lm, { fetchImpl });
+    const again = await loadLandmarkRatings(lm, { fetchImpl });
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+    expect(again.google.rating).toBe(4.5);
+  });
+  it('asks again when the last answer had no Google data (a failure is not remembered)', async () => {
     const fetchImpl = ok({ google: null, tripadvisor: null });
     await loadLandmarkRatings(lm, { fetchImpl });
     await loadLandmarkRatings(lm, { fetchImpl });
