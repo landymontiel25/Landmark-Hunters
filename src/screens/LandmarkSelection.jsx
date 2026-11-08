@@ -558,8 +558,8 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   // Popular ranks by Google's review count (src/lib/useTopRatings.js; signed
   // in only). The ratings load while no sort is picked too, so Popular is
   // ready when tapped; the Map tab started them already
-  // (LandmarkRatingsPrefetch). Popular shows at once in its fallback order
-  // (the app's own ratings, then name) if any are still missing.
+  // (LandmarkRatingsPrefetch). Popular shows at once (A to Z for places Google
+  // has not answered yet; the app's own ratings never count).
   const topWanted = (sortBy === 'rated' || sortBy === null) && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const top = useTopRatings(filteredLandmarks, topWanted);
 
@@ -631,7 +631,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     if (!sortBy) return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
     // Popular: Google's review count (src/lib/topRated.js). top.google
     // is empty until the ratings are in, then frozen (one reorder at most).
-    return topLandmarksOrder(filtered, top.google, ratings);
+    return topLandmarksOrder(filtered, top.google);
   }, [filteredLandmarks, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings, top.google]);
 
   // Checked in vs not: an up arrow puts the places you haven't checked into

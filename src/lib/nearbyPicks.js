@@ -773,15 +773,15 @@ export const MOOD_SORTS = [
 // Places for one mood, sorted closest first or highest rated. Highest rated
 // (owner, 2026-11-08: "change that to google reviews") is Google's stars
 // weighted by its review count (topRated.js ratedScore), so 5.0 from 2
-// reviews can't beat 4.8 from 1,000; the app's own ratings (RatingsContext's
-// { [landmarkId]: { avg, count } }) stand in where Google has none. google:
+// reviews can't beat 4.8 from 1,000. Google only (owner, 2026-11-08): the
+// app's own ratings and check-ins never move a place. google:
 // { [landmarkId]: { google: { rating, count } } }, fetched live
 // (useTopRatings.js). Unrated places sort after rated ones, closest first.
 export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, google = {}, limit = 10, moods = MOODS }) {
   const mood = moodId === TOP_MOOD.id ? TOP_MOOD : moods.find((m) => m.id === moodId);
   if (!mood) return [];
   const wanted = mood.categories ? new Set(mood.categories) : null;
-  const score = (l) => ratedScore(l, google || {}, ratings || {}) ?? -1;
+  const score = (l) => ratedScore(l, google || {}) ?? -1;
   const sorted = moodCandidates({ mood, pool })
     // Highest rated: the weighted stars, then closest. No hand-typed
     // popularity score (owner, 2026-11-06).

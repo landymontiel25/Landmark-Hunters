@@ -275,8 +275,11 @@ describe('mood sort and the cached set', () => {
   it('sorts a mood closest first or by highest rating', () => {
     const pool = withinDistance([place('near', 1), place('far', 3), place('park', 2, { categories: ['parks-nature'] })], ORIGIN, 10);
     const ratings = { far: { avg: 4.9, count: 10 }, near: { avg: 3.1, count: 4 } };
+    const google = { far: { google: { rating: 4.8, count: 900 } }, near: { google: { rating: 3.9, count: 40 } } };
     expect(moodPlaces({ moodId: 'eat', pool, sort: 'closest', ratings }).map((p) => p.id)).toEqual(['near', 'far']);
-    expect(moodPlaces({ moodId: 'eat', pool, sort: 'rated', ratings }).map((p) => p.id)).toEqual(['far', 'near']);
+    expect(moodPlaces({ moodId: 'eat', pool, sort: 'rated', ratings, google }).map((p) => p.id)).toEqual(['far', 'near']);
+    // Google only (owner, 2026-11-08): the app's own ratings never reorder.
+    expect(moodPlaces({ moodId: 'eat', pool, sort: 'rated', ratings }).map((p) => p.id)).toEqual(['near', 'far']);
   });
 
   it('keeps the last set and marks it stale after 4 hours', () => {
@@ -435,6 +438,8 @@ describe('Top landmarks mood, highest rated: no hand-typed popularity (owner, 20
   ];
   it('orders by rating, then closest, whatever the popularity number says', () => {
     expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', limit: 10 }).map((p) => p.id)).toEqual(['a', 'b', 'c']);
-    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', ratings: { c: { avg: 4.9, count: 90 } }, limit: 10 }).map((p) => p.id)).toEqual(['c', 'a', 'b']);
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', google: { c: { google: { rating: 4.9, count: 90 } } }, limit: 10 }).map((p) => p.id)).toEqual(['c', 'a', 'b']);
+    // The app's own ratings never count (owner, 2026-11-08).
+    expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', ratings: { c: { avg: 4.9, count: 90 } }, limit: 10 }).map((p) => p.id)).toEqual(['a', 'b', 'c']);
   });
 });

@@ -1,19 +1,18 @@
 import { mallsLast } from './maprRank/mallsLast.js';
 import { isMallPlace } from './malls.js';
 
-// "Top Rated" (owner, 2026-10-18: replaces Popular): Google's rating weighted
-// by its review count, so 5.0 from 2 reviews can't beat 4.8 from 103. The
-// app's own ratings stand in where Google has none; unrated places follow,
-// in the old Popular order. Google's terms forbid storing its ratings, so
+// "Top Rated" (owner, 2026-10-18): Google's rating weighted by its review
+// count, so 5.0 from 2 reviews can't beat 4.8 from 103. Google only. Google's terms forbid storing its ratings, so
 // they're fetched live for this visit only (the Landmarks tab caps how many a visit).
 export const RATED_PRIOR_COUNT = 20;
 const RATED_PRIOR_STARS = 4;
 export const weightedStars = (stars, count) => (count * stars + RATED_PRIOR_COUNT * RATED_PRIOR_STARS) / (count + RATED_PRIOR_COUNT);
-export function ratedScore(l, googleById, ratings) {
-  const g = googleById[l.id]?.google;
-  if (g?.rating > 0 && g.count > 0) return weightedStars(g.rating, g.count);
-  const r = ratings[l.id];
-  return r?.count > 0 ? weightedStars(r.avg, r.count) : null;
+// Google only (owner, 2026-11-08: "it should completely be only google
+// reviews"): the app's own ratings and check-ins never count. null when
+// Google has no rating for the place.
+export function ratedScore(l, googleById) {
+  const g = googleById?.[l.id]?.google;
+  return g?.rating > 0 && g.count > 0 ? weightedStars(g.rating, g.count) : null;
 }
 
 // "Top Landmarks" (owner, 2026-11-06): the number of Google reviews, most
@@ -22,7 +21,7 @@ export function ratedScore(l, googleById, ratings) {
 // Chain (10,138). No hand-typed score: the 0-10 `popularity` numbers in
 // src/data had no source and tied 13 Miami places at 7, which then sorted A
 // to Z (owner: "we should not be using that"). Places Google has no answer
-// for follow, by the app's own ratings, then name. Miami malls come last of
+// for follow, A to Z. Miami malls come last of
 // all (maprRank/mallsLast.js). Google's terms forbid storing its ratings, so
 // the Landmarks tab fetches them live (useTopRatings.js) before it shows the
 // list. Miami first (owner): it fits the lookup cap whole; bigger lists are
@@ -33,20 +32,21 @@ const googleOf = (google, l) => {
 };
 // landmarks: every place in the list. google: { [landmarkId]: { google:
 // { rating, count } } }. ratings: the app's own { [landmarkId]: { avg, count } }.
-export function topLandmarksOrder(landmarks, google, ratings = {}) {
+// Google only (owner, 2026-11-08): the app's own ratings and check-ins
+// never move a place; places Google has no rating for follow, A to Z.
+export function topLandmarksOrder(landmarks, google) {
   const key = new Map(
     landmarks.map((l) => {
       const g = googleOf(google, l);
-      const r = ratings?.[l.id];
-      return [l, { g: g ? g.count : null, stars: g ? g.rating : 0, app: r?.count > 0 ? weightedStars(r.avg, r.count) : null }];
+      return [l, { g: g ? g.count : null, stars: g ? g.rating : 0 }];
     })
   );
-  const tier = (k) => (k.g != null ? 0 : k.app != null ? 1 : 2);
+  const tier = (k) => (k.g != null ? 0 : 1);
   return mallsLast(
     [...landmarks].sort((a, b) => {
       const ka = key.get(a);
       const kb = key.get(b);
-      return tier(ka) - tier(kb) || (kb.g ?? 0) - (ka.g ?? 0) || kb.stars - ka.stars || (kb.app ?? 0) - (ka.app ?? 0) || a.name.localeCompare(b.name);
+      return tier(ka) - tier(kb) || (kb.g ?? 0) - (ka.g ?? 0) || kb.stars - ka.stars || a.name.localeCompare(b.name);
     })
   );
 }

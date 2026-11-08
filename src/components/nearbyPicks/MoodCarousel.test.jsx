@@ -62,9 +62,13 @@ describe('MoodCarousel', () => {
   it('Top landmarks lists the best places, highest rated first, without restaurants', async () => {
     const mk = (id, categories, d) => ({ id, region: 'miami', regionId: 'miami', name: id, lat: 25.76, lng: -80.19, categories, distanceMeters: d, image: null });
     const pool = [mk('near-cafe', ['food'], 100), mk('park', ['parks-nature'], 300), mk('museum', ['history-culture'], 500)];
-    const ratings = { museum: { avg: 4.8, count: 200 }, park: { avg: 5, count: 1 } };
+    Object.assign(googleAnswers, { museum: { rating: 4.8, count: 200 }, park: { rating: 5, count: 1 } });
+    // The app's own ratings never count (owner, 2026-11-08): park's 5.0 here changes nothing.
+    const ratings = { park: { avg: 5, count: 500 } };
     const el = await render({ pool, ratings, moods: TEST_MOODS });
+    await act(async () => {});
     const names = [...el.querySelectorAll('.mpp-card, .mpp-row')].map((c) => c.textContent);
+    for (const k of Object.keys(googleAnswers)) delete googleAnswers[k];
     expect(names[0]).toContain('museum');
     expect(names.some((n) => n.includes('park'))).toBe(true);
     // Owner, 2026-11-05: restaurants and malls are not top landmarks.
