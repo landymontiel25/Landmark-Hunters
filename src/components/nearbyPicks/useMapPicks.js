@@ -63,7 +63,17 @@ const round3 = (n) => Math.round(n * 1000) / 1000;
 // sheet's other rows (Because you liked, Found by people like you, meal,
 // nearby interest), all ranked by Mapr (maprRank/surfaces.js), plus the
 // distance chosen and the shown-loggers. `hidden` stops logging.
-export function useMapPicks({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, showRefresh = false }) {
+// The sheet's distance: the Map's radius menu when it is wired in, else the
+// chip the person tapped, else the Test tab's default or the smart default.
+export function sheetDistance({ mapDistance = null, chosen = null, showRefresh = false, auto = null }) {
+  return mapDistance ?? chosen ?? (showRefresh ? TEST_DEFAULT_DISTANCE_MI : auto);
+}
+
+// mapDistance / onMapDistance / distanceOptions: the Map tab's own radius
+// menu (owner, 2026-11-08: moving it to 50 mi makes the sheet's lists look
+// 50 mi out). When given, that menu is the one distance for the whole sheet:
+// its chips and "Widen to" set the menu, and they offer the menu's options.
+export function useMapPicks({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, showRefresh = false, mapDistance = null, onMapDistance = null, distanceOptions = null }) {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const { ratings, myReviews } = useRatings();
@@ -84,10 +94,11 @@ export function useMapPicks({ hidden = false, coords, geoError, overrides = null
     setStoredFor(store);
     setChosen(readStoredDistance(store));
   }
-  const chooseDistance = (n) => {
+  const chooseOwnDistance = (n) => {
     setChosen(n);
     writeStoredDistance(store, n);
   };
+  const chooseDistance = mapDistance != null && onMapDistance ? onMapDistance : chooseOwnDistance;
   // The overlay stays mounted while the app is open, so "now" has to move:
   // a frozen clock never showed the lunch card after a morning launch.
   const [now, setNow] = useState(() => Date.now());
@@ -135,7 +146,7 @@ export function useMapPicks({ hidden = false, coords, geoError, overrides = null
     () => smartDistance({ origin, units, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks }),
     [origin, units, lowRated, now, overrides, customLandmarks]
   );
-  const distance = chosen ?? (showRefresh ? TEST_DEFAULT_DISTANCE_MI : auto);
+  const distance = sheetDistance({ mapDistance, chosen, showRefresh, auto });
   const miles = optionToMiles(distance, units);
 
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
@@ -255,9 +266,9 @@ export function useMapPicks({ hidden = false, coords, geoError, overrides = null
   const beyond = useMemo(() => {
     if (state !== 'ready' || !origin || !picks || picks.length >= SHEET_PICKS) return null;
     const places = nearestBeyond({ origin, miles, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks });
-    const widenTo = widenChip(places, distance, units);
+    const widenTo = widenChip(places, distance, units, distanceOptions || undefined);
     return { places, widenTo };
-  }, [state, origin, picks, miles, distance, units, lowRated, now, overrides, customLandmarks]);
+  }, [state, origin, picks, miles, distance, units, lowRated, now, overrides, customLandmarks, distanceOptions]);
 
   // Log each card once, the first time it is on screen in this set.
   const logShown = useShownLogger({ uid, profile: myProfile, surface: 'map-sheet', source: 'map-picks', isTest: showRefresh });

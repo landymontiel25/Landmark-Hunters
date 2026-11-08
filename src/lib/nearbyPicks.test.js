@@ -443,3 +443,17 @@ describe('Top landmarks mood, highest rated: no hand-typed popularity (owner, 20
     expect(moodPlaces({ moodId: 'top', pool, sort: 'rated', ratings: { c: { avg: 4.9, count: 90 } }, limit: 10 }).map((p) => p.id)).toEqual(['a', 'b', 'c']);
   });
 });
+
+import { moodCandidates } from './nearbyPicks';
+describe('Highest rated looks up hand-picked places first (owner, 2026-11-08)', () => {
+  it('puts hand-picked places before imported ones, closest first in each', () => {
+    const pool = [
+      place('osm-near', 1, { categories: ['history-culture'], source: 'osm', distanceMeters: 1609 }),
+      place('curated-far', 40, { categories: ['history-culture'], distanceMeters: 64360 }),
+      place('curated-near', 3, { categories: ['history-culture'], distanceMeters: 4827 }),
+      place('osm-far', 30, { categories: ['history-culture'], source: 'osm', distanceMeters: 48270 }),
+    ];
+    expect(moodCandidates({ moodId: 'top', pool }).map((p) => p.id)).toEqual(['curated-near', 'curated-far', 'osm-near', 'osm-far']);
+    expect(moodCandidates({ moodId: 'top', pool, limit: 2 }).map((p) => p.id)).toEqual(['curated-near', 'curated-far']);
+  });
+});

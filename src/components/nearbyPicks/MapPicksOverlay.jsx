@@ -18,7 +18,7 @@ import './nearbyPicks.css';
 // with location off it asks for location, an old cached set shows with
 // "Updating...", and offline the last set stays up.
 
-export default function MapPicksOverlay({ topSlot = null, hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, showRefresh = false }) {
+export default function MapPicksOverlay({ topSlot = null, mapDistance = null, onMapDistance = null, distanceOptions = null, hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, showRefresh = false }) {
   const {
     uid,
     state,
@@ -48,7 +48,7 @@ export default function MapPicksOverlay({ topSlot = null, hidden = false, coords
     onMoodShown,
     onMealShown,
     onInterestShown,
-  } = useMapPicks({ hidden, coords, geoError, overrides, customLandmarks, showRefresh });
+  } = useMapPicks({ hidden, coords, geoError, overrides, customLandmarks, showRefresh, mapDistance, onMapDistance, distanceOptions });
 
   // MapExplore only mounts this signed in, once the account's own ratings
   // have loaded (so a new account isn't confused with one mid-load).
@@ -77,7 +77,7 @@ export default function MapPicksOverlay({ topSlot = null, hidden = false, coords
         onShown={onShown}
         uid={showRefresh ? null : uid}
         origin={origin}
-        toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
+        toolbar={<DistanceFilter value={distance} onChange={chooseDistance} {...(distanceOptions ? { options: distanceOptions } : {})} />}
       >
         {!showRefresh && <ShakeUpCard uid={uid} show={stagnating && online} onShake={showDifferent} />}
         <FoundByPeopleRow places={found} uid={uid} origin={origin} onShown={onFoundShown} />
