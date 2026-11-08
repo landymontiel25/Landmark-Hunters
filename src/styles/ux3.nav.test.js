@@ -7,8 +7,9 @@ describe('ux-3 bottom nav label size', () => {
     expect(css).toMatch(/\.bottom-nav a \{[^}]*font-size: min\(0\.7rem, 12px\)/);
   });
 
-  it('lets tabs size from their labels under 360px so "Landmarks" is not clipped', () => {
+  it('lets every tab be at least as wide as its label so "Landmarks" is not clipped (owner, 2026-11-08)', () => {
     const css = readFileSync(new URL('./ux-3.css', import.meta.url), 'utf8');
-    expect(css).toMatch(/@media \(max-width: 359px\) \{\s*\.bottom-nav a \{\s*flex: 1 1 auto;/);
+    expect(css).toMatch(/\.bottom-nav a \{\s*flex: 1 0 auto;/);
+    expect(css).toMatch(/\.bottom-nav a > span:last-child \{\s*white-space: nowrap;/);
   });
 });
