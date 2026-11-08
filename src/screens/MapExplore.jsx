@@ -1550,17 +1550,13 @@ export default function MapExplore({ experiments = false }) {
               </button>
             </div>
           )}
-          {!searchOpen && !drawMode && <MapCategoryBar value={mapCats} onChange={setMapCats} />}
-          {!mapCats && !searchOpen && !drawMode && (
-            <p className="map-filter-pill map-cat-prompt" role="status">
-              Pick what to see on the map
-            </p>
-          )}
+          {/* Signed in, the bar sits in the picks sheet instead (owner,
+              2026-11-08), and the "Pick what to see" hint is gone. */}
+          {!picksReady && !searchOpen && !drawMode && <MapCategoryBar value={mapCats} onChange={setMapCats} />}
           {drawnArea && !drawMode && (
             <button
               type="button"
               className="map-filter-pill map-draw-pill"
-              style={!mapCats ? { top: 'calc(var(--header-h) + 108px)' } : undefined}
               onClick={() => setDrawnArea(null)}
             >
               {'\u{270F}\u{FE0F}'} {areaCount} {areaCount === 1 ? 'landmark' : 'landmarks'} in your area · Clear
@@ -1694,6 +1690,7 @@ export default function MapExplore({ experiments = false }) {
       {picksReady && (
         <MapPicksOverlay
           showRefresh
+          topSlot={<MapCategoryBar value={mapCats} onChange={setMapCats} className="map-cat-bar-sheet" />}
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}

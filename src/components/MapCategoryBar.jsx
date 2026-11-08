@@ -2,10 +2,12 @@ import { PICKABLE_INTERESTS } from '../data/regions';
 
 // The Map's category bar (owner, 2026-11-07): the Map opens with nothing
 // chosen and no pins; you pick "Select All" or one or more category emojis
-// at the top. `value` is null (nothing yet), 'all', or a list of category
+// at the top. Signed in, it sits in the picks sheet above "Discover popular
+// landmarks" (className map-cat-bar-sheet; owner, 2026-11-08), else over
+// the map. `value` is null (nothing yet), 'all', or a list of category
 // ids. MapExplore keeps it in session state, so it holds while you switch
 // tabs and resets when the app is closed.
-export default function MapCategoryBar({ value, onChange }) {
+export default function MapCategoryBar({ value, onChange, className = '' }) {
   const all = value === 'all';
   const picked = Array.isArray(value) ? value : [];
   const toggle = (id) => {
@@ -15,7 +17,7 @@ export default function MapCategoryBar({ value, onChange }) {
     onChange(next.length ? next : null);
   };
   return (
-    <div className="map-cat-bar" role="group" aria-label="Show on the map">
+    <div className={`map-cat-bar ${className}`.trim()} role="group" aria-label="Show on the map">
       <button type="button" className={`map-cat-chip map-cat-all ${all ? 'on' : ''}`} aria-pressed={all} onClick={() => onChange(all ? null : 'all')}>
         Select All
       </button>

@@ -2145,16 +2145,22 @@ img {
   color: #fff;
   box-shadow: 0 0 0 3px var(--mapr-blue-soft);
 }
-.map-filter-pill.map-cat-prompt,
 .map-filter-pill.map-draw-pill {
   top: calc(var(--header-h) + 64px);
 }
-.map-filter-pill.map-cat-prompt {
-  margin: 0;
-  pointer-events: none;
-  white-space: nowrap;
-}
-.map-nav-active .map-cat-bar,
-.map-nav-active .map-cat-prompt {
+.map-nav-active .map-cat-bar {
   display: none !important;
+}
+/* In the picks sheet, above "Discover popular landmarks" (owner,
+   2026-11-08): a scrolling row, no floating shadows. */
+.map-cat-bar.map-cat-bar-sheet {
+  position: static;
+  margin: 0 0 12px;
+  padding: 2px 0 4px;
+}
+.map-cat-bar-sheet .map-cat-chip {
+  box-shadow: none;
+}
+.map-cat-bar-sheet .map-cat-chip.on {
+  box-shadow: 0 0 0 3px var(--mapr-blue-soft);
 }

@@ -42,6 +42,10 @@ Still open:
 
 ## Map: category bar, opens empty (2026-11-07)
 
+Update 2026-11-08: signed in, the bar sits in the picks sheet above
+"Discover popular landmarks" (MapPicksOverlay `topSlot`); the "Pick what
+to see on the map" note is gone. Signed out, it stays over the map.
+
 The Map opens with no pins; the bar at its top (`src/components/MapCategoryBar.jsx`)
 picks Select All or category emojis. Session state (`map.categories`): kept
 across tabs, reset at launch. Replaces the 🗂️ filter button and its
