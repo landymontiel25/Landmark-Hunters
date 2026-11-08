@@ -3,6 +3,14 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## One distance for the Map and its sheet (2026-11-08)
+
+The Map's radius menu (`useZoomRadius`) now sets the picks sheet's distance
+too (`useMapPicks` mapDistance / onMapDistance, `sheetDistance`). The
+sheet's Within chips and "Widen to" offer the menu's options and move the
+map. Highest rated checks Google for up to 120 places, hand-picked first
+(`moodCandidates`), so at 50 mi some imported places go unranked.
+
 ## Photos load in lists before you tap (2026-11-08)
 
 Imported places in the Landmarks list now look up their Google photo as the

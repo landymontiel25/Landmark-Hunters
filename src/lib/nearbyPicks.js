@@ -796,16 +796,20 @@ export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, 
   });
 }
 
-// The places a mood (or Top landmarks) covers, closest first. The Map sheet
-// looks up Google's ratings for the first `limit` of these before it sorts
-// by highest rated.
+// The places a mood (or Popular landmarks) covers: hand-picked ones first,
+// then imported (OpenStreetMap) ones, closest first within each. The Map
+// sheet looks up Google's ratings for the first `limit` of these before it
+// sorts by highest rated, so a wide radius (50 mi, owner 2026-11-08) still
+// ranks the catalog's landmarks instead of only the nearest imports.
+const isImportedPlace = (l) => (l?.source === 'osm' || String(l?.id || '').startsWith('osm-') ? 1 : 0);
+
 export function moodCandidates({ mood, moodId, pool = [], moods = MOODS, limit = Infinity }) {
   const m = mood || (moodId === TOP_MOOD.id ? TOP_MOOD : moods.find((x) => x.id === moodId));
   if (!m) return [];
   const wanted = m.categories ? new Set(m.categories) : null;
   return pool
     .filter((l) => (wanted ? (l.categories || []).some((c) => wanted.has(c)) : !isRestaurantOrMall(l)))
-    .sort((a, b) => a.distanceMeters - b.distanceMeters)
+    .sort((a, b) => isImportedPlace(a) - isImportedPlace(b) || a.distanceMeters - b.distanceMeters)
     .slice(0, limit);
 }
 

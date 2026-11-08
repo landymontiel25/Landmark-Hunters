@@ -746,8 +746,10 @@ export default function MapExplore({ experiments = false }) {
     ];
   });
 
-  const handleRadiusChange = (e) => {
-    const n = Number(e.target.value);
+  const handleRadiusChange = (e) => chooseRadius(Number(e.target.value));
+  // One distance for the Map and its sheet (owner, 2026-11-08): the menu,
+  // the sheet's Within chips and its "Widen to" button all set this.
+  const chooseRadius = (n) => {
     setRadiusMiles(n);
     const miles = optionToMiles(n, units);
     if (coords && mapRef.current) {
@@ -1691,6 +1693,9 @@ export default function MapExplore({ experiments = false }) {
         <MapPicksOverlay
           showRefresh
           topSlot={<MapCategoryBar value={mapCats} onChange={setMapCats} className="map-cat-bar-sheet" />}
+          mapDistance={radiusOption}
+          onMapDistance={chooseRadius}
+          distanceOptions={ZOOM_RADIUS_OPTIONS}
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}
