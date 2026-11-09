@@ -111,7 +111,7 @@ describe('Landmarks tab', () => {
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('Top Restaurants');
   }, 60000);
 
-  it('rows are big photo cards with every field and button (mockup, 2026-11-09)', async () => {
+  it('rows keep the place photo, every field and button, with a "..." menu (owner, 2026-11-09)', async () => {
     await renderIt();
     const card = el.querySelector('.nb-grid .landmark-row.lm-card');
     expect(card).toBeTruthy();
@@ -121,9 +121,10 @@ describe('Landmarks tab', () => {
     // The photo (or the category tile) is the row's image, not a small circle.
     expect(photo.querySelector('.landmark-thumb, .landmark-thumb-fallback, img')).toBeTruthy();
     expect(photo.querySelector('.lm-card-icon')).toBeNull();
-    // Bookmark and share sit on the photo; the category shows as a tag.
-    expect(photo.querySelector('[aria-label="Save"]')).toBeTruthy();
-    expect(card.querySelector('.lm-card-cat')).toBeTruthy();
+    // Save and Share sit behind the "..." on the right of the row.
+    expect(card.querySelector('[aria-label="Save"]')).toBeNull();
+    await act(async () => card.querySelector('.lm-card-more').click());
+    expect(card.querySelector('.lm-card-menu [aria-label="Save"]')).toBeTruthy();
     expect(card.querySelector('.quick-rate-btn')).toBeTruthy();
     expect(card.querySelector('.google-line')).toBeTruthy();
     expect(card.querySelector('.lr-category-icons')).toBeTruthy();
