@@ -69,7 +69,7 @@ export const SHOW_FOR_ME_SORT = false;
 // default. Its label follows the category picked (owner, 2026-11-08): the
 // plate makes it "Popular Restaurants", the glass "Popular Nightlife".
 const ALL_SORT_OPTIONS = [
-  { id: 'rated', label: '\u{2B50} Popular Landmarks' },
+  { id: 'rated', label: '\u{2B50} Top Landmarks' },
   { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
 ];
@@ -84,14 +84,25 @@ const POPULAR_NOUN = {
   attractions: 'Attractions',
   tech: 'Tech Spots',
 };
+// The short word under each category circle (owner's mockup, 2026-11-09).
+const SHORT_CATEGORY = {
+  'history-culture': 'Museum',
+  food: 'Food',
+  'local-life': 'Drinks',
+  'parks-nature': 'Nature',
+  sports: 'Sports',
+  shopping: 'Shopping',
+  attractions: 'Fun',
+  tech: 'Tech',
+};
 // The Popular button's label for the categories picked: none is Landmarks,
 // one is that category's noun (a custom interest uses its own words), two or
 // more is Places.
 export function popularLabel(activeCategories = []) {
-  if (activeCategories.length > 1) return '\u{2B50} Popular Places';
+  if (activeCategories.length > 1) return '\u{2B50} Top Places';
   const id = activeCategories[0];
-  if (!id) return '\u{2B50} Popular Landmarks';
-  return `\u{2B50} Popular ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
+  if (!id) return '\u{2B50} Top Landmarks';
+  return `\u{2B50} Top ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
 }
 const SORT_OPTIONS = ALL_SORT_OPTIONS.filter((s) => s.id !== 'forMe' || SHOW_FOR_ME_SORT);
 const FOR_ME_ONLY = ALL_SORT_OPTIONS.filter((s) => s.id === 'forMe');
@@ -218,9 +229,9 @@ const PAGE_SIZE = 25;
 // they come on screen.
 const NO_ROWS = [];
 
-// Each row shows the place's photo (owner, 2026-11-09), big enough to see
-// while scrolling; CSS rounds it (apple-live.css).
-const ROW_THUMB = 104;
+// Each row shows the place's photo (owner, 2026-11-09), big across the card
+// so it shows while scrolling; CSS rounds it (apple-live.css).
+const ROW_THUMB = 360;
 
 // One row of the landmark list. Memoized: with ~870 rows, re-rendering all of
 // them on every keystroke elsewhere, selection tick or GPS update froze phones.
@@ -240,7 +251,6 @@ const LandmarkRow = memo(function LandmarkRow({
   ratingSources,
 }) {
   const toggle = () => onToggle(l);
-  const [menuOpen, setMenuOpen] = useState(false);
   const thumb = <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />;
   return (
     <div className={`landmark-row lm-card ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
@@ -268,6 +278,11 @@ const LandmarkRow = memo(function LandmarkRow({
         >
           {isSelected ? '✓' : ''}
         </div>
+        {/* Bookmark and share sit on the photo's top right. */}
+        <div className="lr-corner lm-card-corner">
+          <SaveLandmarkButton landmark={l} regionId={l.regionId} />
+          <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
+        </div>
         {/* No Landmark Hunters rating badge: only Google's ratings show
             (owner, 2026-11-08). */}
       </div>
@@ -284,29 +299,9 @@ const LandmarkRow = memo(function LandmarkRow({
               out the endpoint answers nothing, so the card skips the call. */}
           {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} />}
           {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
+          <span className="tag lm-card-cat">{SHORT_CATEGORY[l.categories[0]] || INTERESTS.find((i) => i.id === l.categories[0])?.label || ''}</span>
         </div>
       </div>
-      {/* The "..." on the right of the row: save and share. */}
-      <button
-        type="button"
-        className="lm-card-more"
-        aria-label={`More for ${l.name}`}
-        aria-haspopup="true"
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen((o) => !o)}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="5.5" cy="12" r="1.7" />
-          <circle cx="12" cy="12" r="1.7" />
-          <circle cx="18.5" cy="12" r="1.7" />
-        </svg>
-      </button>
-      {menuOpen && (
-        <div className="lr-corner lm-card-corner lm-card-menu" role="group" aria-label={`${l.name} actions`}>
-          <SaveLandmarkButton landmark={l} regionId={l.regionId} />
-          <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
-        </div>
-      )}
       <div className="lr-actions">
         <button type="button" className="btn btn-ghost btn-tight" onClick={() => onInfo(l)}>
           Info
@@ -953,6 +948,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
               onClick={() => toggleCategory(i.id)}
             >
               <span className="lm-cat-glyph">{i.icon}</span>
+              <span className="lm-cat-label">{SHORT_CATEGORY[i.id] || i.label}</span>
             </button>
           );
         })}

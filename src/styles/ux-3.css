@@ -399,7 +399,7 @@ button.back-sticky,
 .save-sheet-row.on .save-sheet-mark {
   background: var(--mapr-blue);
   border-color: var(--mapr-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .save-sheet-tabs {
   margin: 12px 0 4px;
@@ -495,7 +495,7 @@ button.back-sticky,
   align-items: center;
   justify-content: center;
   background: var(--mapr-blue);
-  color: #fff;
+  color: var(--gold-ink);
   font-weight: 800;
   font-size: 0.8rem;
   border: 3px solid #fff;
@@ -528,7 +528,7 @@ button.back-sticky,
   gap: 12px;
   padding: 12px 14px;
   border-radius: var(--radius-md);
-  background: var(--mapr-blue-soft, rgba(91, 140, 255, 0.12));
+  background: var(--mapr-blue-soft, rgba(201, 151, 26, 0.12));
 }
 .no-friends-emoji {
   font-size: 1.6rem;
@@ -558,7 +558,7 @@ button.back-sticky,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--mapr-blue-soft, rgba(91, 140, 255, 0.15));
+  background: var(--mapr-blue-soft, rgba(201, 151, 26, 0.15));
   font-size: 1.3rem;
   flex-shrink: 0;
 }
@@ -616,7 +616,7 @@ button.back-sticky,
   border: none;
   padding: 0;
   font: inherit;
-  color: var(--mapr-blue, #5b8cff);
+  color: var(--mapr-blue, #c9971a);
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
@@ -756,7 +756,7 @@ button.back-sticky,
   cursor: pointer;
 }
 .tut-dot.done {
-  background: var(--mapr-blue-soft, rgba(91, 140, 255, 0.5));
+  background: var(--mapr-blue-soft, rgba(201, 151, 26, 0.5));
 }
 .tut-dot.active {
   background: var(--color-gold, #c9a227);
@@ -873,7 +873,7 @@ button.back-sticky,
   justify-content: center;
   font-size: 2.6rem;
   border-radius: 10px;
-  background: var(--mapr-blue-soft, rgba(91, 140, 255, 0.15));
+  background: var(--mapr-blue-soft, rgba(201, 151, 26, 0.15));
 }
 .tut-swipe {
   width: 70%;
@@ -896,7 +896,7 @@ button.back-sticky,
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
-  color: var(--mapr-blue, #5b8cff);
+  color: var(--mapr-blue, #c9971a);
   border-radius: 6px;
 }
 .tut-screen {
@@ -1274,7 +1274,7 @@ button.back-sticky,
   border-radius: 12px;
   background:
     repeating-linear-gradient(90deg, transparent 0 8px, rgba(255, 255, 255, 0.18) 8px 14px) center / 100% 2px no-repeat,
-    var(--mapr-blue-soft, rgba(91, 140, 255, 0.12));
+    var(--mapr-blue-soft, rgba(201, 151, 26, 0.12));
 }
 .itut-pin {
   width: 30px;
@@ -1646,7 +1646,7 @@ button.back-sticky,
 }
 .intro-stop.on .intro-stop-num {
   background: var(--mapr-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .intro-stop-photo {
   flex: none;
@@ -2142,7 +2142,7 @@ img {
 .map-cat-chip.on {
   border-color: var(--mapr-blue);
   background: var(--mapr-blue);
-  color: #fff;
+  color: var(--gold-ink);
   box-shadow: 0 0 0 3px var(--mapr-blue-soft);
 }
 .map-filter-pill.map-draw-pill {

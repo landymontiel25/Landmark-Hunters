@@ -9,7 +9,7 @@
 body[data-apple] {
   /* Mapr's look (owner, 2026-11-09): near-black page with a soft blue glow
      at the top, a serif display face for titles, SF Pro for everything
-     else, hairline white borders, #5b8cff blue. */
+     else, hairline white borders, #c9971a blue. */
   --ap-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
   --ap-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
   --ap-bg: #050709;
@@ -17,7 +17,7 @@ body[data-apple] {
   --ap-card-2: #181e27;
   --ap-text: #ffffff;
   --ap-sub: #98a0b3;
-  --ap-blue: #5b8cff;
+  --ap-blue: #c9971a;
   --ap-green: #30d158;
   --ap-red: #ff453a;
   --ap-line: rgba(255, 255, 255, 0.14);
@@ -33,7 +33,7 @@ body[data-apple] {
   --ap-card-2: #f2f2f2;
   --ap-text: #000000;
   --ap-sub: #5f5f5f;
-  --ap-blue: #2f5fe0;
+  --ap-blue: #c9971a;
   --ap-line: rgba(0, 0, 0, 0.16);
   --ap-bar: rgba(255, 255, 255, 0.94);
   --ap-glass: rgba(255, 255, 255, 0.92);
@@ -59,7 +59,7 @@ body[data-apple] .aps .screen-title {
 body[data-apple] .aps .btn-primary,
 body[data-apple] .aps .btn-success {
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 
 /* ---------- Header and "where I am": flat pills ---------- */
@@ -273,7 +273,7 @@ body[data-apple] .map-fullscreen .map-locate-btn {
   top: calc(var(--header-h) + 130px);
 }
 body[data-apple] .map-fullscreen .map-locate-btn svg {
-  color: #0a84ff;
+  color: #c9971a;
 }
 body[data-apple] .map-fullscreen .map-edit-hint {
   left: 12px;
@@ -289,9 +289,9 @@ body[data-apple] .map-fullscreen .map-cat-chip {
   font-family: var(--ap-font);
 }
 body[data-apple] .map-fullscreen .map-cat-chip.on {
-  border-color: #0a84ff;
-  background: #0a84ff;
-  color: #fff;
+  border-color: #c9971a;
+  background: #c9971a;
+  color: var(--gold-ink);
 }
 body[data-apple] .map-fullscreen .radius-select {
   height: 40px;
@@ -474,7 +474,7 @@ body[data-apple] .aps-live .lm-category-tabs .tab-btn[data-cat] {
 }
 body[data-apple] .aps-live .lm-category-tabs .tab-btn.active,
 body[data-apple] .aps-live .lm-category-tabs .tab-btn[data-cat].active {
-  background: rgba(91, 140, 255, 0.18);
+  background: rgba(201, 151, 26, 0.18);
   border-color: var(--ap-blue);
 }
 body[data-apple] .aps-live .lm-category-tabs .lm-cat-glyph,
@@ -656,4 +656,221 @@ body[data-apple] .aps .profile-stat-label {
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
+}
+
+/* =====================================================================
+   Landmarks tab, to the owner's mockup (2026-11-09): Inter, no serif; a big
+   bold heading; My Memories pill; pill search bar and city dropdown;
+   category circles with a short word under each; filter pills with the
+   selected one filled gold; big photo cards with the bookmark on the photo.
+   Only the Landmarks tab (body[data-apple='landmarks']).
+   ===================================================================== */
+body[data-apple='landmarks'] {
+  --ap-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --ap-display: var(--ap-font);
+  --ap-serif: var(--ap-font);
+}
+body[data-apple='landmarks'] .aps-eyebrow {
+  display: none;
+}
+body[data-apple='landmarks'] .aps .screen-title {
+  margin: 0;
+  font-family: var(--ap-font) !important;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.8px !important;
+}
+body[data-apple='landmarks'] .aps .places-title-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 4px 0 14px;
+}
+body[data-apple='landmarks'] .aps .places-checkins-btn {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--ap-line);
+  border-radius: 999px;
+  background: var(--ap-card);
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Search bar: a pill in the page, not floating */
+body[data-apple='landmarks'] .aps-landmarks .lm-search-field {
+  position: static;
+  max-width: none;
+  margin: 0 0 12px !important;
+}
+body[data-apple='landmarks'] .aps-landmarks .lm-search-field input[type='search'] {
+  height: 48px;
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  box-shadow: none;
+}
+body[data-apple='landmarks'] .aps-landmarks .aps-body {
+  padding-bottom: 120px;
+}
+
+/* Category circles with a word under each */
+body[data-apple='landmarks'] .aps-live .lm-category-tabs {
+  justify-content: space-between;
+  gap: 0;
+  margin: 16px 0 12px;
+  padding: 0;
+}
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn,
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn[data-cat],
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn.active,
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn[data-cat].active {
+  display: flex;
+  flex: 0 0 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 40px;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ap-text);
+}
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .lm-cat-glyph,
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn[data-cat] .lm-cat-glyph {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ap-line);
+  border-radius: 50%;
+  background: var(--ap-card);
+  font-size: 18px;
+  line-height: 1;
+}
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn.active .lm-cat-glyph {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+}
+body[data-apple='landmarks'] .aps-live .lm-cat-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--ap-sub);
+  white-space: nowrap;
+  margin: 0 -4px;
+}
+body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn.active .lm-cat-label {
+  color: var(--ap-text);
+}
+
+/* Filter pills: the selected one is filled gold */
+body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn {
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 600;
+}
+body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn.active {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--gold-ink);
+}
+
+/* Big photo cards */
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card,
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
+  display: block;
+  margin: 0 0 18px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--ap-line);
+  border-radius: 24px;
+  background: var(--ap-card);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
+  border: 2px solid var(--ap-green);
+}
+body[data-apple='landmarks'] .aps-live .lm-card-photo,
+body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
+body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child,
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-wrap,
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  display: block;
+  width: 100% !important;
+  height: 210px !important;
+  border-radius: 0 !important;
+  object-fit: cover;
+}
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  display: flex;
+  font-size: 56px;
+}
+body[data-apple='landmarks'] .aps-live .lm-card-photo {
+  position: relative;
+  overflow: hidden;
+}
+body[data-apple='landmarks'] .aps-live .lm-card-check {
+  top: 12px;
+  left: 12px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+body[data-apple='landmarks'] .aps-live .lr-corner.lm-card-corner {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  left: auto;
+  bottom: auto;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+body[data-apple='landmarks'] .aps-live .lm-card-corner button,
+body[data-apple='landmarks'] .aps-live .lm-card-corner .share-icon-btn {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  color: #111;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+body[data-apple='landmarks'] .aps-live .lm-card .lr-main {
+  padding: 14px 16px 0;
+}
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card h4 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+body[data-apple='landmarks'] .aps-live .lm-card .lr-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+body[data-apple='landmarks'] .aps-live .lm-card-cat {
+  padding: 3px 10px;
+  border: 1px solid var(--ap-line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ap-text);
+}
+body[data-apple='landmarks'] .aps-live .lm-card-cat:empty {
+  display: none;
+}
+body[data-apple='landmarks'] .aps-live .lm-card .lr-actions {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px 16px;
+  margin: 0;
 }

@@ -3,6 +3,22 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Landmarks mockup and gold selected states (2026-11-09)
+
+Landmarks tab redesigned to the owner's mockup (Inter, big photo cards,
+category circles with words, "Top Landmarks" gold pill; styles in the last
+block of `apple-live.css`, `body[data-apple='landmarks']`). Gold replaces blue
+for selected / active states app-wide: tokens `--gold`, `--gold-ink`,
+`--gold-soft` and `--mapr-blue*` (now gold) in `theme.css`, plus blue hex and
+rgba values in the CSS files (done by script, 58 blocks). Kept blue on
+purpose: map pins and clusters, the Mapr tab's own screens (`.mui`,
+`.chatlab`, `.mapr-home` re-pin `--mapr-blue` to the old blue), route/overlay
+colors in JSX (`MapExplore`, `tripLegs`). The mockup image did not arrive, so
+the gold (#C9971A) is my pick; change `--gold` in `theme.css` to match.
+Default sort is still none (the mockup shows Top Landmarks filled; it only
+fills once picked). Search is inline at the top of the tab, no longer a
+floating pill.
+
 ## Light mode is white and black (2026-11-09)
 
 Owner: no cream anywhere. The light theme's cream page and cards (`#f6efe0`,
