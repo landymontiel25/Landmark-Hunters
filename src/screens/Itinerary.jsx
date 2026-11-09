@@ -49,6 +49,7 @@ import ErrorNotice from '../components/ErrorNotice';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import { ScreenSkeleton, Skeleton, SkeletonCard, SkeletonList } from '../components/Skeleton';
+import { fmtVisitMinutes, placeSummary } from '../lib/itineraryCard';
 
 const ROUTE_BLUE = '#2b7fff';
 // Turn-by-turn's actual route, once directions are up -- distinct from the
@@ -245,6 +246,9 @@ function ItinWhere({ region }) {
     </p>
   );
 }
+
+const cardDate = (ts) =>
+  ts?.seconds ? new Date(ts.seconds * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
 // Driving times match a route by its stop order, not its array identity:
 // the route is recomputed on small GPS moves and ratings reloads with the
@@ -817,6 +821,18 @@ function ItineraryBody({ sectionTabs }) {
                 <div style={{ textAlign: 'left' }}>
                   <h3 style={{ margin: 0 }}>{t.name}</h3>
                   <ItinWhere region={getRegion(t.regionId)} />
+                  {cardDate(t.createdAt) && <p className="itin-card-times">{'\u{1F4C5}'} Created {cardDate(t.createdAt)}</p>}
+                  {(() => {
+                    const lms = new Map((getRegion(t.regionId)?.landmarks || []).map((l) => [l.id, l]));
+                    const names = (t.landmarkIds || []).map((id) => lms.get(id)?.name).filter(Boolean);
+                    const mins = (t.landmarkIds || []).reduce((n, id) => n + (lms.get(id)?.typicalMinutes ?? 15), 0);
+                    return (
+                      <>
+                        {names.length > 0 && <p className="itin-card-places">{placeSummary(names)}</p>}
+                        {mins > 0 && <p className="itin-card-times">{'\u{23F1}\u{FE0F}'} ~{fmtVisitMinutes(mins)} at the stops</p>}
+                      </>
+                    );
+                  })()}
                   <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
                     {(t.memberUids || []).length} member{(t.memberUids || []).length !== 1 ? 's' : ''}
                     {groupPhase(t) === 'past' ? ` · ${pastLabel(groupKey(t.id), t.landmarkIds)}` : ''}
@@ -836,11 +852,20 @@ function ItineraryBody({ sectionTabs }) {
           const r = getRegion(rid);
           const count = catalogIdsFor(rid).length + (trip.placesByRegion?.[rid] || []).length;
           const named = itineraryName(rid);
+          // The trip's real places and the time they take (typical visit
+          // length per place; Mapr-found places count 45 min).
+          const byId = new Map([...(r?.landmarks || []), ...customLms.filter((l) => l.region === rid)].map((l) => [l.id, l]));
+          const stops = catalogIdsFor(rid).map((id) => byId.get(id)).filter(Boolean);
+          const extra = trip.placesByRegion?.[rid] || [];
+          const placeNames = [...stops.map((l) => l.name), ...extra.map((p) => p.name)];
+          const minutes = stops.reduce((n, l) => n + (l.typicalMinutes ?? 15), 0) + extra.length * 45;
           return (
             <button key={rid} type="button" className="card itin-city-card" onClick={() => setOpenRegion(rid)}>
               <div style={{ textAlign: 'left' }}>
                 <h3 style={{ margin: 0 }}>{named}</h3>
                 <ItinWhere region={r} />
+                {placeNames.length > 0 && <p className="itin-card-places">{placeSummary(placeNames)}</p>}
+                {minutes > 0 && <p className="itin-card-times">{'\u{23F1}\u{FE0F}'} ~{fmtVisitMinutes(minutes)} at the stops</p>}
                 <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
                   {count} stop{count !== 1 ? 's' : ''}
                   {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, catalogIdsFor(rid))}` : ''}
