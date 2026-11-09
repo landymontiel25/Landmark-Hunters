@@ -15,7 +15,7 @@ purpose: map pins and clusters, the Mapr tab's own screens (`.mui`,
 `.chatlab`, `.mapr-home` re-pin `--mapr-blue` to the old blue), route/overlay
 colors in JSX (`MapExplore`, `tripLegs`). The mockup image did not arrive, so
 the gold (#C9971A) is my pick; change `--gold` in `theme.css` to match.
-Default sort is still none (the mockup shows Top Landmarks filled; it only
+The Landmarks cards went back to the earlier rows (photo square on the left, "..." menu for save and share, Info / Directions / Check In under the text) at the owner's request; the category circles, gold pill and Inter heading stay. Default sort is still none (the mockup shows Top Landmarks filled; it only
 fills once picked). Search is inline at the top of the tab, no longer a
 floating pill.
 
