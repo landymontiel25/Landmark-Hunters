@@ -27,6 +27,19 @@ body[data-apple] {
   --ap-glow: radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%);
   font-family: var(--ap-font);
 }
+[data-theme='light'] body[data-apple] {
+  --ap-bg: #f6efe0;
+  --ap-card: #fffaf0;
+  --ap-card-2: #f1e8d4;
+  --ap-text: #2b2620;
+  --ap-sub: #6b5f4e;
+  --ap-blue: #2f5fe0;
+  --ap-line: rgba(43, 38, 32, 0.16);
+  --ap-bar: rgba(255, 250, 240, 0.94);
+  --ap-glass: rgba(255, 250, 240, 0.92);
+  --ap-shadow: 0 6px 18px rgba(43, 38, 32, 0.14);
+  --ap-glow: radial-gradient(90% 30% at 50% 0%, rgba(91, 140, 255, 0.14), transparent 75%);
+}
 body[data-apple]:not([data-apple='map']) {
   background: var(--ap-glow), var(--ap-bg);
   background-attachment: fixed;
@@ -515,7 +528,7 @@ body[data-apple]:not([data-apple='map']) .where-am-i {
   position: fixed;
   left: 12px;
   right: 12px;
-  bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 160px);
+  bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 136px);
   max-width: 390px;
   margin: 0 auto;
   border: 0.5px solid var(--ap-line);
@@ -561,7 +574,7 @@ body[data-apple]:not([data-apple='map']) .where-am-i {
   position: fixed;
   left: 12px;
   right: 12px;
-  bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 96px);
+  bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 72px);
   z-index: 30;
   max-width: 390px;
   margin: 0 auto !important;
@@ -576,7 +589,7 @@ body[data-apple]:not([data-apple='map']) .where-am-i {
 }
 .aps-landmarks .aps-body,
 .aps-itinerary .aps-body {
-  padding-bottom: 96px;
+  padding-bottom: 72px;
 }
 .aps-itinerary .itin-search {
   width: auto;
@@ -604,48 +617,12 @@ body[data-apple] .map-cat-bar {
   -webkit-overflow-scrolling: touch;
 }
 
-/* =====================================================================
-   Sage and green redesign (owner's reference app, 2026-11-09)
-   Pale sage page, big white rounded cards, a heavy display title with a
-   date line above it, spaced gray labels, deep green accent, full-width
-   green pill buttons, a floating white tab bar with a green dash under the
-   active tab. Same tokens, so every rule above follows. Map pins stay blue
-   (not checked in) and green (checked in).
-   ===================================================================== */
-[data-theme='light'] body[data-apple],
+/* Font and text only (owner, 2026-11-09): a heavy display title under a small
+   date line (AppleSkin.jsx), spaced uppercase labels. Colors and shapes are
+   the ones above. */
 body[data-apple] {
   --ap-display: 'Archivo', 'Archivo Black', -apple-system, 'SF Pro Display', system-ui, sans-serif;
-  --ap-serif: var(--ap-display);
-  --ap-bg: #e9efeb;
-  --ap-card: #ffffff;
-  --ap-card-2: #f1f5f2;
-  --ap-text: #0b0f0d;
-  --ap-sub: #8a948e;
-  --ap-accent: #16783f;
-  --ap-blue: var(--ap-accent);
-  --ap-line: rgba(11, 15, 13, 0.08);
-  --ap-bar: #ffffff;
-  --ap-glass: #ffffff;
-  --ap-shadow: 0 8px 24px rgba(20, 50, 30, 0.1);
-  --ap-glow: none;
 }
-[data-theme='dark'] body[data-apple] {
-  --ap-bg: #0a0f0c;
-  --ap-card: #151c17;
-  --ap-card-2: #1e2822;
-  --ap-text: #f3f7f4;
-  --ap-sub: #8e9a92;
-  --ap-accent: #2ebf6b;
-  --ap-line: rgba(255, 255, 255, 0.08);
-  --ap-bar: #151c17;
-  --ap-glass: #151c17;
-  --ap-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-}
-body[data-apple]:not([data-apple='map']) {
-  background: var(--ap-bg);
-}
-
-/* Date line and big display title */
 .aps-eyebrow {
   margin: 4px 0 0;
   color: var(--ap-sub);
@@ -658,7 +635,6 @@ body[data-apple] .aps .screen-title {
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -1.2px !important;
-  color: var(--ap-text);
 }
 body[data-apple] .aps .screen-title > span:first-child {
   display: none;
@@ -670,137 +646,6 @@ body[data-apple] .mpp-section-title {
   font-weight: 800;
   letter-spacing: -0.3px !important;
 }
-
-/* Header chips and "where I am": white pills */
-body[data-apple]:not([data-apple='map']) .app-header {
-  background: transparent;
-}
-body[data-apple] .score-chip,
-body[data-apple] .header-streak,
-body[data-apple] .where-am-i {
-  border: 0;
-  background: var(--ap-card);
-  box-shadow: 0 2px 10px rgba(20, 50, 30, 0.08);
-  color: var(--ap-text);
-}
-
-/* Cards */
-body[data-apple] .aps .card,
-body[data-apple] .aps .card.section,
-body[data-apple] .aps .discovery-stats-card,
-body[data-apple] .aps .taste-profile-card,
-body[data-apple] .aps .streak-focus,
-body[data-apple] .aps .itin-city-card {
-  border: 0;
-  border-radius: 28px;
-  background: var(--ap-card);
-  box-shadow: none;
-}
-body[data-apple] .aps .card.section {
-  padding: 20px;
-}
-
-/* Chips: white pills, green when on */
-body[data-apple] .aps .tab-btn,
-body[data-apple] .aps .lm-subtab {
-  border: 1px solid var(--ap-line);
-  background: var(--ap-card);
-  color: var(--ap-text);
-  height: 44px;
-  font-size: 17px;
-  font-weight: 600;
-}
-body[data-apple] .aps .tab-btn.active,
-body[data-apple] .aps .lm-subtab.on,
-body[data-apple] .aps .tab-btn[aria-selected='true'],
-body[data-apple] .aps .lm-category-tabs .tab-btn.active {
-  border-color: var(--ap-accent);
-  background: var(--ap-accent);
-  color: #fff;
-}
-body[data-apple] .aps .lm-category-tabs .tab-btn,
-body[data-apple] .aps .lm-category-tabs .tab-btn[data-cat] {
-  width: 44px;
-  height: 44px;
-}
-body[data-apple] .aps .lm-category-tabs .tab-btn.active,
-body[data-apple] .aps .lm-category-tabs .tab-btn[data-cat].active {
-  background: color-mix(in srgb, var(--ap-accent) 18%, var(--ap-card));
-  border-color: var(--ap-accent);
-}
-
-/* Buttons: full green pills */
-body[data-apple] .aps .btn-primary,
-body[data-apple] .aps .btn-success {
-  background: var(--ap-accent);
-  color: #fff;
-  border: 0;
-  border-radius: 999px;
-  font-weight: 700;
-}
-body[data-apple] .aps .btn-block,
-body[data-apple] .aps .empty-state .btn {
-  height: 56px;
-  font-size: 18px;
-}
-
-/* Search */
-body[data-apple] .aps input[type='search'],
-body[data-apple] .aps .itin-search,
-body[data-apple] .aps .field input {
-  border: 0;
-  background: var(--ap-card);
-  box-shadow: 0 2px 10px rgba(20, 50, 30, 0.06);
-}
-body[data-apple] .aps-landmarks .lm-search-field input[type='search'],
-body[data-apple] .aps-itinerary .itin-search {
-  box-shadow: var(--ap-shadow);
-}
-
-/* Landmarks: each place is a white card */
-body[data-apple] .aps-live .landmark-row.lm-card {
-  margin: 0 0 12px;
-  padding: 14px;
-  border: 0;
-  border-radius: 28px;
-  background: var(--ap-card);
-}
-body[data-apple] .aps-live .landmark-row.lm-card.visited {
-  margin: 0 0 12px;
-  padding: 14px;
-  border: 2px solid var(--ap-accent);
-  border-radius: 28px;
-}
-body[data-apple] .aps-live .lm-card-photo,
-body[data-apple] .aps-live .lm-card-photo > .lr-thumb-btn,
-body[data-apple] .aps-live .lm-card-photo > div:first-child,
-body[data-apple] .aps-live .lm-card-photo .landmark-thumb,
-body[data-apple] .aps-live .lm-card-photo .landmark-thumb-wrap,
-body[data-apple] .aps-live .lm-card-photo .landmark-thumb-fallback {
-  border-radius: 22px !important;
-}
-body[data-apple] .aps-live .lm-card .lr-actions .btn-ghost,
-body[data-apple] .aps-live .lm-card .lr-actions .btn:not(.btn-primary):not(.btn-success) {
-  border: 1px solid var(--ap-line);
-  background: var(--ap-card-2);
-  color: var(--ap-text);
-}
-body[data-apple] .aps-live .lm-card .lr-actions .btn-success {
-  background: transparent;
-  border: 1.5px solid var(--ap-accent);
-  color: var(--ap-accent);
-}
-body[data-apple] .aps-live .lm-card-check[aria-checked='true'] {
-  background: var(--ap-accent);
-}
-
-/* Profile stats: big numbers, spaced labels */
-body[data-apple] .aps .profile-stat {
-  border: 0;
-  border-radius: 28px;
-  background: var(--ap-card);
-  padding: 20px 6px;
-}
 body[data-apple] .aps .profile-stat-num {
   font-family: var(--ap-display) !important;
   font-size: 36px;
@@ -811,77 +656,4 @@ body[data-apple] .aps .profile-stat-label {
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--ap-sub);
-}
-body[data-apple] .aps .rating-progress-fill {
-  background: var(--ap-accent);
-}
-
-/* Tab bar: floating white capsule, green label and dash under the active tab */
-body[data-apple] .bottom-nav {
-  left: 12px;
-  right: 12px;
-  height: 80px;
-  max-width: 420px;
-  border: 0;
-  border-radius: 40px;
-  background: var(--ap-bar);
-  box-shadow: var(--ap-shadow);
-}
-body[data-apple] .bottom-nav a {
-  position: relative;
-  margin: 0 2px;
-  background: none !important;
-  color: var(--ap-sub);
-  font-size: 11px;
-  font-weight: 600;
-}
-body[data-apple] .bottom-nav a.active {
-  color: var(--ap-accent);
-}
-body[data-apple] .bottom-nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: 9px;
-  left: 50%;
-  width: 20px;
-  height: 3px;
-  margin-left: -10px;
-  border-radius: 2px;
-  background: var(--ap-accent);
-}
-
-/* Map: white round controls and pill search, white picks card */
-body[data-apple] .map-fullscreen .map-add-btn,
-body[data-apple] .map-fullscreen .map-locate-btn {
-  border: 0;
-  background: var(--ap-card);
-  color: var(--ap-text);
-  box-shadow: var(--ap-shadow);
-}
-body[data-apple] .map-fullscreen .map-locate-btn svg {
-  color: var(--ap-accent);
-}
-body[data-apple] .map-fullscreen .ap-search-pill,
-body[data-apple] .map-fullscreen .radius-select {
-  border: 0;
-  background: var(--ap-card);
-  color: var(--ap-sub);
-}
-body[data-apple] .map-fullscreen .radius-select {
-  color: var(--ap-text);
-}
-body[data-apple] .map-fullscreen .map-cat-chip {
-  border: 0;
-  background: var(--ap-card);
-  box-shadow: 0 2px 10px rgba(20, 50, 30, 0.1);
-}
-body[data-apple] .map-fullscreen .map-cat-chip.on {
-  background: var(--ap-accent);
-  color: #fff;
-}
-body[data-apple] .mpp-sheet {
-  border: 0;
-  border-radius: 32px;
-  background: var(--ap-card);
 }
