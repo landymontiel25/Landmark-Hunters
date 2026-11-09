@@ -7,6 +7,7 @@ import { ALL_BADGES, RARITY_ORDER } from '../lib/streaks';
 import { SHOW_BADGES } from '../lib/featureFlags';
 import { levelProgress } from '../lib/level';
 import CheckinsGallery from '../components/CheckinsGallery';
+import MyStatTiles from '../components/MyStatTiles';
 import { SkeletonCard } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { HOVER_CLICK_GRACE_MS, mouseOnly } from '../lib/mouseOnly';
@@ -104,6 +105,9 @@ export default function FullStats() {
       <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
         {'\u{2190}'} Back to Profile
       </button>
+
+      {/* Check-ins, cities, streak and rated lead the page. */}
+      <MyStatTiles />
 
       {/* Until stats land, "Level 1 · 0 pts" would be a wrong answer, not a placeholder. */}
       {stats?.failed ? (

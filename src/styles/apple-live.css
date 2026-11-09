@@ -1118,3 +1118,17 @@ body[data-apple='profile'] .aps .screen-title {
 .pf-screen .card.section > div:first-child {
   justify-content: flex-end !important;
 }
+
+/* Stat tiles at the top of Full Stats and a friend's profile. */
+body[data-apple] .my-stat-tiles,
+body[data-apple] .fp-stat-tiles {
+  margin: 0 0 16px;
+}
+body[data-apple] .my-stat-tiles .profile-stat,
+body[data-apple] .fp-stat-tiles .profile-stat {
+  min-width: 0;
+}
+.my-stat-tiles,
+.fp-stat-tiles {
+  margin-bottom: 16px;
+}
