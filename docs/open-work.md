@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Mapr's look on the four tabs, photos back in Landmarks rows (2026-11-09)
+
+Owner: the Map, Landmarks, Itinerary and Profile tabs take Mapr's look
+(near-black page with a blue glow, DM Serif Display titles, SF Pro body,
+hairline white borders, #5b8cff; light mode keeps the app's cream with
+blue #2f5fe0). Tokens: `body[data-apple]` in `apple-live.css`. Landmarks
+rows show the place photo again (104 px rounded, tap for full size) and the
+category buttons are plain emojis. The Mapr home's top-left title reads
+"Landmark Hunters" (was "Mapr"); the Mapr chat header still says Mapr.
+Pins stay blue and green. The Test tab's UI lab still has the older SF Pro
+look.
+
 ## Apple Maps look on the live Map, Landmarks, Itinerary, Profile (2026-11-09)
 
 The Test tab's Apple Maps UI is now live on the four tabs (branch

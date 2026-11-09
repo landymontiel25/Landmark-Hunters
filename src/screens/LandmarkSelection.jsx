@@ -11,6 +11,7 @@ import { useNavigate, useNavigationType } from 'react-router-dom';
 import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
+import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -23,6 +24,8 @@ import { distanceMeters } from '../lib/geo';
 import { getMapView, nearestPickableCity, setMapView } from '../lib/nearestCity';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
+import LandmarkThumb from '../components/LandmarkThumb';
+import Lightbox from '../components/Lightbox';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton from '../components/SaveLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
@@ -211,11 +214,16 @@ function CityDropdown({ value, onChange }) {
 // (src/lib/usePageRatings.js).
 const PAGE_SIZE = 25;
 
+// Each row shows the place's photo (owner, 2026-11-09), big enough to see
+// while scrolling; CSS rounds it (apple-live.css).
+const ROW_THUMB = 104;
+
 // One row of the landmark list. Memoized: with ~870 rows, re-rendering all of
 // them on every keystroke elsewhere, selection tick or GPS update froze phones.
 const LandmarkRow = memo(function LandmarkRow({
   l,
   isSelected,
+  photo,
   distanceText,
   user,
   firebaseEnabled,
@@ -223,19 +231,23 @@ const LandmarkRow = memo(function LandmarkRow({
   checkingIn,
   onToggle,
   onCheckIn,
+  onOpenPhoto,
   onInfo,
   ratingSources,
 }) {
   const toggle = () => onToggle(l);
   const [menuOpen, setMenuOpen] = useState(false);
-  const icon = l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c])[0] || '\u{1F4CD}';
+  const thumb = <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />;
   return (
     <div className={`landmark-row lm-card ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
       <div className="lm-card-photo">
-        {/* A circular place icon (Apple Maps list row), not a photo. */}
-        <span className="lm-card-icon" data-cat={l.categories[0]} aria-hidden="true" onClick={toggle}>
-          {icon}
-        </span>
+        {photo || l.images?.[0] ? (
+          <button type="button" className="lr-thumb-btn" onClick={() => onOpenPhoto({ src: photo || l.images[0], alt: l.name })} aria-label={`View photo of ${l.name}`}>
+            {thumb}
+          </button>
+        ) : (
+          <div onClick={toggle}>{thumb}</div>
+        )}
         <div
           className="check-circle lm-card-check"
           role="checkbox"
@@ -326,6 +338,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     setCustomInterestEmoji,
   } = useTrip();
   const { coords } = useGeo();
+  const { myPhotos } = useMyPhotos();
   const { units } = useUnits();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { applyEdit } = useLandmarkEdits();
@@ -736,6 +749,9 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
   const scopeCount = scope.regionIds ? scope.regionIds.reduce((n, r) => n + getRegionSelection(r).length, 0) : selectedCount;
+  // Tapping a row's photo opens it full-screen.
+  const [lightbox, setLightbox] = useState(null);
+
   // The places you have picked, listed in the bottom bar with a trash button
   // each (owner, 2026-11-05).
   const nameByKey = useMemo(() => new Map([...editedLandmarks, ...normalizedCustomLandmarks].map((l) => [`${l.regionId}/${l.id}`, l.name])), [editedLandmarks, normalizedCustomLandmarks]);
@@ -758,10 +774,12 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         </div>
       );
     if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
+    const photo = myPhotos[l.id]?.[0];
     return (
       <LandmarkRow
         key={`${l.regionId}-${l.id}`}
         l={l}
+        photo={photo}
         isSelected={getRegionSelection(l.regionId).includes(l.id)}
         ratingSources={(topWanted ? top.live[l.id] : pageRatings[ratingKey(l)]) || null}
         distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
@@ -771,6 +789,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         checkingIn={checkingIn}
         onToggle={stableToggle}
         onCheckIn={stableCheckIn}
+        onOpenPhoto={setLightbox}
         onInfo={stableInfo}
       />
     );
@@ -1062,6 +1081,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           </div>
         </>
       )}
+      <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
     </div>
   );
 }

@@ -282,7 +282,7 @@ export default function MaprHome({
     <div className="mui" ref={outerRef}>
       <div className="mui-screen" style={{ zoom }}>
         <header className="mui-top">
-          <h1 className="mui-brand">Mapr</h1>
+          <h1 className="mui-brand">Landmark Hunters</h1>
           <div className="mui-top-right">
             <div className="mui-city-wrap" ref={cityRef}>
               <button type="button" className="mui-city" aria-haspopup="listbox" aria-expanded={cityOpen} onClick={() => setCityOpen((o) => !o)}>
