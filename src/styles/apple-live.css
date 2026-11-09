@@ -779,3 +779,28 @@ body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn.active {
   background: var(--gold);
   color: var(--gold-ink);
 }
+
+/* Each landmark is a rectangle (owner, 2026-11-09): a bordered card with a
+   wide, short photo, not a square photo with a divider under it. */
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card,
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
+  grid-template-columns: 112px minmax(0, 1fr) 30px;
+  margin: 0 0 12px;
+  padding: 14px;
+  border: 1px solid var(--ap-line);
+  border-radius: 20px;
+  background: var(--ap-card);
+}
+body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
+  border: 2px solid var(--ap-green);
+}
+body[data-apple='landmarks'] .aps-live .lm-card-photo,
+body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
+body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child,
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-wrap,
+body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  width: 112px !important;
+  height: 88px !important;
+  border-radius: 14px !important;
+}
