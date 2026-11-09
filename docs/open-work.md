@@ -3,6 +3,14 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Light mode is white and black (2026-11-09)
+
+Owner: no cream anywhere. The light theme's cream page and cards (`#f6efe0`,
+`#fffaf0`, warm browns and the brass gold accent) are now white, neutral
+grays, black text and blue (`theme.css` light block, `MaprHome.css` light
+block, `apple-live.css` light tokens). Dark mode is unchanged. Cards sit on
+the white page with hairline borders.
+
 ## Fonts and text only (2026-11-09)
 
 The sage-and-green colors and shapes (PR #828) were taken back at the

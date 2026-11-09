@@ -28,17 +28,17 @@ body[data-apple] {
   font-family: var(--ap-font);
 }
 [data-theme='light'] body[data-apple] {
-  --ap-bg: #f6efe0;
-  --ap-card: #fffaf0;
-  --ap-card-2: #f1e8d4;
-  --ap-text: #2b2620;
-  --ap-sub: #6b5f4e;
+  --ap-bg: #ffffff;
+  --ap-card: #ffffff;
+  --ap-card-2: #f2f2f2;
+  --ap-text: #000000;
+  --ap-sub: #5f5f5f;
   --ap-blue: #2f5fe0;
-  --ap-line: rgba(43, 38, 32, 0.16);
-  --ap-bar: rgba(255, 250, 240, 0.94);
-  --ap-glass: rgba(255, 250, 240, 0.92);
-  --ap-shadow: 0 6px 18px rgba(43, 38, 32, 0.14);
-  --ap-glow: radial-gradient(90% 30% at 50% 0%, rgba(91, 140, 255, 0.14), transparent 75%);
+  --ap-line: rgba(0, 0, 0, 0.16);
+  --ap-bar: rgba(255, 255, 255, 0.94);
+  --ap-glass: rgba(255, 255, 255, 0.92);
+  --ap-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  --ap-glow: none;
 }
 body[data-apple]:not([data-apple='map']) {
   background: var(--ap-glow), var(--ap-bg);
