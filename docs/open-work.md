@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Profile small fixes (2026-11-09)
+
+My Memories (Profile list) shows every memory at once (`ProfileMemories all`,
+photos warmed ahead); Full Stats opens with check-ins, cities, streak and
+rated tiles (`MyStatTiles.jsx`); a friend's full profile starts with points,
+check-ins and cities tiles above the old rows (private profiles still show
+only the header and a note). Full Stats and the friend page are not in the new
+look yet (old serif title).
+
 ## Profile tab to the mockup (2026-11-09)
 
 Profile is now a list (`src/screens/Profile.jsx`, `src/components/ProfileList.jsx`,

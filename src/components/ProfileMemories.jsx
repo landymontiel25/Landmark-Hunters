@@ -6,6 +6,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { getUserCheckins, isRealCheckin } from '../lib/leaderboard';
 import { oneVisitPerDay } from '../lib/realCheckin';
 import { getLandmark } from '../data/regions';
+import { warmImages } from '../lib/warmImages';
 
 // Your memories as photo tiles at the top of Profile (owner, 2026-10-20),
 // newest first, one per place per day like My Memories. One row shows at
@@ -15,7 +16,9 @@ import { getLandmark } from '../data/regions';
 // height-capped grid's rows into slivers instead of scrolling them.
 const PER_ROW = 3;
 
-export default function ProfileMemories() {
+// all: the My Memories screen shows every memory at once, with no "Show more"
+// (owner, 2026-11-09: opening it once is enough).
+export default function ProfileMemories({ all = false }) {
   const { user, firebaseEnabled } = useAuth();
   const { claimedMap } = useCheckIn();
   const { myPhotos } = useMyPhotos();
@@ -40,6 +43,12 @@ export default function ProfileMemories() {
   }, [firebaseEnabled, uid, claimedMap]);
 
   const rows = loaded.uid === uid ? loaded.rows : null;
+  // Start the photo downloads ahead of the tiles scrolling into view.
+  const warmSig = (rows || []).map((c) => (c.photoURLs?.length ? c.photoURLs[c.photoURLs.length - 1] : c.photoURL) || '').join('|');
+  useEffect(() => {
+    if (!all || !warmSig) return undefined;
+    return warmImages(warmSig.split('|'));
+  }, [all, warmSig]);
   if (!firebaseEnabled || !user || !rows || rows.length === 0) return null;
 
   const tiles = rows.map((c) => {
@@ -53,7 +62,7 @@ export default function ProfileMemories() {
       photo: own || myPhotos[c.landmarkId]?.[0] || lm?.images?.[0] || null,
     };
   });
-  const shown = open ? tiles : tiles.slice(0, PER_ROW);
+  const shown = all || open ? tiles : tiles.slice(0, PER_ROW);
 
   return (
     <div className="card section profile-memories">
@@ -65,7 +74,7 @@ export default function ProfileMemories() {
           See all ›
         </button>
       </div>
-      <div className={open ? 'profile-memories-scroll' : undefined}>
+      <div className={!all && open ? 'profile-memories-scroll' : undefined}>
         <div className="checkin-grid">
           {shown.map((t) => (
             <button type="button" key={t.id} className="checkin-tile" onClick={() => navigate(`/landmarks/${t.regionId}/${t.landmarkId}`)}>
@@ -79,7 +88,7 @@ export default function ProfileMemories() {
           ))}
         </div>
       </div>
-      {tiles.length > PER_ROW && (
+      {!all && tiles.length > PER_ROW && (
         <button type="button" className="btn btn-ghost btn-sm badges-more" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
           {open ? 'Show less' : `Show more (${tiles.length - PER_ROW})`}
         </button>

@@ -28,6 +28,8 @@ async function render(path, importScreen, { stats, profileFresh = true }) {
     useBadges: () => ({ stats, badges: [], badgeEarnedAt: {}, reload }),
   }));
   vi.doMock('../lib/TripContext', () => ({ useTrip: () => ({ trip: { savedInterests: [] }, toggleSavedInterest: () => {} }) }));
+  vi.doMock('../lib/RatingsContext', () => ({ useRatings: () => ({ myReviews: {} }) }));
+  vi.doMock('../lib/soloStreaks', () => ({ subscribeMySoloStreak: () => () => {} }));
   vi.doMock('../lib/useCheckIn', () => ({ useCheckIn: () => ({ claimedMap: {} }) }));
   vi.doMock('../components/CheckinsGallery', () => ({ default: () => null }));
   const { default: Screen } = await importScreen();

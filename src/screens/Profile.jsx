@@ -455,7 +455,7 @@ export default function Profile() {
     </div>
   );
 
-  if (view === 'memories') return sectionScreen('My Memories', <ProfileMemories />);
+  if (view === 'memories') return sectionScreen('My Memories', <ProfileMemories all />);
   if (view === 'stats')
     return sectionScreen(
       'Your Stats',

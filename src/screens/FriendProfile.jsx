@@ -183,6 +183,23 @@ export default function FriendProfile() {
         </div>
       ) : (
         <>
+          {/* The headline numbers first: points, check-ins and cities (owner,
+              2026-11-09); the rows below stay as they were. */}
+          <div className="profile-stats fp-stat-tiles">
+            <div className="profile-stat">
+              <span className="profile-stat-num">{standing.points === MISSING ? MISSING : Number(standing.points).toLocaleString()}</span>
+              <span className="profile-stat-label">pts {PERIOD_LABEL[period]}</span>
+            </div>
+            <div className="profile-stat">
+              <span className="profile-stat-num">{countText(stats?.checkins)}</span>
+              <span className="profile-stat-label">check-ins</span>
+            </div>
+            <div className="profile-stat">
+              <span className="profile-stat-num">{countText(stats?.cities)}</span>
+              <span className="profile-stat-label">cities</span>
+            </div>
+          </div>
+
           {/* 2. Points, from the leaderboard */}
           <div className="card section">
             <Row label={`Points (${PERIOD_LABEL[period]})`} value={standing.points === MISSING ? MISSING : `${standing.points} pts`} />
