@@ -39,6 +39,17 @@ describe('scoreNeighborhoods', () => {
     expect(s.Quiet.averagePropertyPrice).toBe(0);
   });
 
+  it('averages the home-value and rent scores, and uses one when the other is missing', () => {
+    const r = scoreNeighborhoods({
+      Cheap: { medianHomeValue: 200000, medianRent: 3000 },
+      Pricey: { medianHomeValue: 800000, medianRent: 1000 },
+      RentOnly: { medianHomeValue: null, medianRent: 3000 },
+    });
+    expect(r.Cheap.averagePropertyPrice).toBe(2.5);
+    expect(r.Pricey.averagePropertyPrice).toBe(2.5);
+    expect(r.RentOnly.averagePropertyPrice).toBe(5);
+  });
+
   it('a missing home value stays null', () => {
     expect(s.NoTract.averagePropertyPrice).toBeNull();
     expect(s.NoTract.restaurants.quantity).toBeGreaterThan(0);

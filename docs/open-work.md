@@ -193,6 +193,18 @@ Still open:
   Kendall scores high on counts; Coral Way's culture score (35 places,
   mostly public art) looks high; Geoapify's coverage is thinner than
   Google's.
+- Neighborhood price and safety (2026-11-09): South Beach read cheaper than
+  Little Havana because the tract at its center had a $285k median home value
+  (small condos, owner-occupied only). Average Property Price now averages the
+  home-value score and a median-rent score (ACS B25064), each averaged over
+  every tract inside the outline or circle (`scripts/fetch-neighborhood-metrics.mjs`,
+  TIGERweb tract points, center tract as fallback). The script change is NOT
+  run yet: the Census key lives in repo secrets, so the owner has to run the
+  "Neighborhood data" workflow and merge its `data/neighborhood-ratings` PR
+  before the new scores show. Safety still has no source; the Safety row now
+  says "No crime data yet". Next: check whether City of Miami, Miami Beach and
+  Miami-Dade publish incident data (this cloud session's network blocked
+  those hosts, so it was not checked), and score the neighborhoods they cover.
 - Info and tags are still empty on purpose. A separate pipeline
   fills them; until then every score is "–" and the tag chips (Art &
   Culture, Food & Drinks, Beaches, Family, Hidden Gems) show "No
