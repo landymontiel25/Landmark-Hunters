@@ -34,7 +34,7 @@ share.
 
 Still open:
 - 3D and Look Around buttons are not built: the map engine (Leaflet) has no
-  tilt. The round Map button switches satellite and street map.
+  tilt.
 - Not seen in a browser with data (the sandbox has no Firebase): Profile,
   the signed-in "Picked for you right now" card, check-in states. Check them
   on the Vercel preview in dark and light.
