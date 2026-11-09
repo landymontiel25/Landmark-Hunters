@@ -804,3 +804,82 @@ body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
   height: 88px !important;
   border-radius: 14px !important;
 }
+
+/* =====================================================================
+   Map tab, to the owner's mockup (2026-11-09): Inter, pure white in light
+   mode, a pill search bar, round white controls on the right, a white
+   "Picked for you right now" card at the bottom, gold for what is selected.
+   Only the Map (body[data-apple='map']). Pins stay blue (not checked in) and
+   green (checked in), round, no photos.
+   ===================================================================== */
+body[data-apple='map'] {
+  --ap-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --ap-display: var(--ap-font);
+  --ap-serif: var(--ap-font);
+  font-family: var(--ap-font);
+}
+body[data-apple='map'] .map-fullscreen,
+body[data-apple='map'] .map-fullscreen * {
+  font-family: var(--ap-font);
+}
+body[data-apple='map'] .map-fullscreen .ap-search-pill {
+  height: 50px;
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-sub);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  font-size: 16px;
+}
+body[data-apple='map'] .map-fullscreen .map-add-btn,
+body[data-apple='map'] .map-fullscreen .map-locate-btn {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+body[data-apple='map'] .map-fullscreen .map-cat-chip {
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+body[data-apple='map'] .map-fullscreen .map-cat-chip.on {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--gold-ink);
+}
+body[data-apple='map'] .map-fullscreen .radius-select {
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+}
+body[data-apple='map'] .mpp-sheet {
+  border: 1px solid var(--ap-line);
+  border-radius: 28px;
+  background: var(--ap-card);
+  color: var(--ap-text);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.14);
+}
+body[data-apple='map'] .mpp-sheet-title,
+body[data-apple='map'] .mpp-section-title {
+  font-family: var(--ap-font) !important;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.3px !important;
+  color: var(--ap-text);
+}
+body[data-apple='map'] .mpp-pill {
+  border: 1px solid var(--ap-line);
+  background: var(--ap-card);
+  color: var(--ap-text);
+}
+body[data-apple='map'] .mpp-pill.on,
+body[data-apple='map'] .mpp-pill[aria-pressed='true'] {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--gold-ink);
+}
