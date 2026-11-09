@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Map tab to the mockup (2026-11-09)
+
+Map restyled in the last block of `apple-live.css` (`body[data-apple='map']`):
+Inter, white round controls and pill search in light mode (dark in dark
+mode), gold chips, a white "Picked for you right now" card, and the radius
+bubble and drawn area in gold (`MapExplore.jsx`). Pins and clusters stay
+blue / green. The mockup image did not arrive; built from the written
+description. The signed-in picks card was not seen with data.
+
 ## Landmarks mockup and gold selected states (2026-11-09)
 
 Landmarks tab redesigned to the owner's mockup (Inter, big photo cards,

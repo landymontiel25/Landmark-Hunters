@@ -329,7 +329,7 @@ const REROUTE_MS = 15000;
 // The search-result area flash: an outline and fill in the kind's color (CSS fades it).
 const AREA_COLORS = { city: '#2dd4bf', state: '#fbbf24', country: '#a78bfa' };
 const areaFlashStyle = (kind) => {
-  const c = AREA_COLORS[kind] || '#5b8cff';
+  const c = AREA_COLORS[kind] || '#c9971a';
   return { color: c, weight: 3, fillColor: c, fillOpacity: 0.25 };
 };
 
@@ -1362,11 +1362,11 @@ export default function MapExplore({ experiments = false }) {
               center={[bubble.lat, bubble.lng]}
               radius={bubble.radius}
               interactive={false}
-              pathOptions={{ color: '#5b8cff', weight: 2, fillColor: '#5b8cff', fillOpacity: 0.18 }}
+              pathOptions={{ color: '#c9971a', weight: 2, fillColor: '#c9971a', fillOpacity: 0.18 }}
             />
           )}
           {drawnArea?.length > 2 && (
-            <Polygon positions={drawnArea} interactive={false} pathOptions={{ color: '#5b8cff', weight: 3, dashArray: '8 6', fillColor: '#5b8cff', fillOpacity: 0.08 }} />
+            <Polygon positions={drawnArea} interactive={false} pathOptions={{ color: '#c9971a', weight: 3, dashArray: '8 6', fillColor: '#c9971a', fillOpacity: 0.08 }} />
           )}
           {areaFlash?.area && (
             <Polygon key={areaFlash.at} positions={areaFlash.area} interactive={false} className="map-area-flash" pathOptions={areaFlashStyle(areaFlash.kind)} />
