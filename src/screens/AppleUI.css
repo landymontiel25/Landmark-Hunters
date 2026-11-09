@@ -10,7 +10,7 @@
   --ap-card-2: #2c2c2e;
   --ap-text: #ffffff;
   --ap-sub: #98989d;
-  --ap-blue: #0a84ff;
+  --ap-blue: #c9971a;
   --ap-green: #30d158;
   --ap-red: #ff453a;
   --ap-line: rgba(84, 84, 88, 0.6);
@@ -110,7 +110,7 @@
 .ap-pill.on {
   border-color: var(--ap-blue);
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .ap-pill:active {
   opacity: 0.65;

@@ -144,7 +144,7 @@
 .aps .tab-btn[aria-selected='true'] {
   border-color: var(--ap-blue);
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .aps .lm-subtabs {
   display: flex;
@@ -181,7 +181,7 @@
   border-radius: 999px;
   border: 0;
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
   font-size: 17px;
   font-weight: 600;
   box-shadow: none;

@@ -77,7 +77,7 @@
   margin-top: -1px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 8px solid #0a84ff;
+  border-top: 8px solid #c9971a;
 }
 
 .mul-ui {
@@ -188,7 +188,7 @@
 .mul-round.on {
   background: var(--ap-blue);
   border-color: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .mul-locate {
   color: var(--ap-blue);
@@ -258,7 +258,7 @@
 }
 .mul-dist-menu button.on {
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .mul-locate:disabled {
   opacity: 0.5;
@@ -315,7 +315,7 @@
   height: 44px;
   border-radius: 50%;
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
 }
 .mul-pincard-icon.done {
   background: var(--ap-green);
@@ -732,7 +732,7 @@
   border-radius: 999px;
   border: 0;
   background: var(--ap-blue);
-  color: #fff;
+  color: var(--gold-ink);
   font: inherit;
   font-size: 17px;
   font-weight: 600;

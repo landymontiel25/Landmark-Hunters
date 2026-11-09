@@ -37,8 +37,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 .uil-tab.on {
-  background: #5b8cff;
-  color: #fff;
+  background: #c9971a;
+  color: var(--gold-ink);
   font-weight: 600;
 }
 .uil-full-btn {
@@ -70,8 +70,8 @@
   padding: 10px 18px;
   border: 0;
   border-radius: 999px;
-  background: #5b8cff;
-  color: #fff;
+  background: #c9971a;
+  color: var(--gold-ink);
   font: inherit;
   font-size: 15px;
   font-weight: 600;
