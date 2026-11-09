@@ -883,3 +883,60 @@ body[data-apple='map'] .mpp-pill[aria-pressed='true'] {
   background: var(--gold);
   color: var(--gold-ink);
 }
+
+/* =====================================================================
+   Itinerary tab, to the owner's mockup (2026-11-09): Inter, no serif, white
+   page in light mode; trips as rounded cards with a bold header, the place
+   line, the time line and a chevron. Only the Itinerary (data-apple='itinerary').
+   ===================================================================== */
+body[data-apple='itinerary'] {
+  --ap-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --ap-display: var(--ap-font);
+  --ap-serif: var(--ap-font);
+}
+body[data-apple='itinerary'] .aps-eyebrow {
+  display: none;
+}
+body[data-apple='itinerary'] .aps .screen-title {
+  font-family: var(--ap-font) !important;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.8px !important;
+}
+body[data-apple='itinerary'] .aps h3 {
+  font-family: var(--ap-font) !important;
+  font-weight: 800;
+}
+body[data-apple='itinerary'] .aps-live .itin-city-card {
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 18px 18px 18px 20px;
+  border: 1px solid var(--ap-line);
+  border-radius: 24px;
+  background: var(--ap-card);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+body[data-apple='itinerary'] .aps-live .itin-city-card h3 {
+  font-size: 20px;
+  line-height: 1.2;
+}
+body[data-apple='itinerary'] .aps-live .itin-card-places {
+  margin: 6px 0 0;
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 500;
+}
+body[data-apple='itinerary'] .aps-live .itin-card-times {
+  margin: 4px 0 0;
+  color: var(--ap-sub);
+  font-size: 14px;
+}
+body[data-apple='itinerary'] .aps-live .itin-city-arrow {
+  color: var(--ap-text);
+}
+body[data-apple='itinerary'] .aps-itinerary .itin-search {
+  width: auto;
+  box-sizing: border-box;
+  border: 1px solid var(--ap-line);
+}

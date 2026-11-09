@@ -3,6 +3,17 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Itinerary tab to the mockup (2026-11-09, PR waiting on the owner's preview)
+
+Itinerary restyled in `apple-live.css` (`body[data-apple='itinerary']`): Inter,
+white page, trip cards with a bold header, the first three places
+(`placeSummary`), the time the stops take (typical visit minutes summed;
+Mapr-found places count 45) and a chevron (`src/lib/itineraryCard.js`).
+Group trip cards also show the date the trip was created. Solo trips store
+no date, so their cards show none. Every section and button is kept. The
+mockup image did not arrive. Inter weights 700 and 800 added to the font
+link in `index.html`.
+
 ## Map tab to the mockup (2026-11-09)
 
 Map restyled in the last block of `apple-live.css` (`body[data-apple='map']`):
