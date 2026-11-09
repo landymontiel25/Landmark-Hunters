@@ -111,15 +111,16 @@ describe('Landmarks tab', () => {
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('Popular Restaurants');
   }, 60000);
 
-  it('rows are Apple Maps list rows: circular icon, every field and button, "..." menu (owner, 2026-11-09)', async () => {
+  it('rows keep the place photo, every field and button, with a "..." menu (owner, 2026-11-09)', async () => {
     await renderIt();
     const card = el.querySelector('.nb-grid .landmark-row.lm-card');
     expect(card).toBeTruthy();
     const photo = card.querySelector('.lm-card-photo');
     expect(photo.compareDocumentPosition(card.querySelector('h4')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(photo.querySelector('.check-circle[role="checkbox"]')).toBeTruthy();
-    expect(photo.querySelector('.lm-card-icon')).toBeTruthy();
-    expect(card.querySelector('img')).toBeNull();
+    // The photo (or the category tile) is the row's image, not a small circle.
+    expect(photo.querySelector('.landmark-thumb, .landmark-thumb-fallback, img')).toBeTruthy();
+    expect(photo.querySelector('.lm-card-icon')).toBeNull();
     // Save and Share sit behind the "..." on the right of the row.
     expect(card.querySelector('[aria-label="Save"]')).toBeNull();
     await act(async () => card.querySelector('.lm-card-more').click());

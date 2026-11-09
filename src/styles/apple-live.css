@@ -7,34 +7,59 @@
    list screens are also skinned by AppleScreens.css (.aps). */
 
 body[data-apple] {
-  --ap-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif;
-  --ap-bg: #000000;
-  --ap-card: #1c1c1e;
-  --ap-card-2: #2c2c2e;
+  /* Mapr's look (owner, 2026-11-09): near-black page with a soft blue glow
+     at the top, a serif display face for titles, SF Pro for everything
+     else, hairline white borders, #5b8cff blue. */
+  --ap-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  --ap-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --ap-bg: #050709;
+  --ap-card: #11151f;
+  --ap-card-2: #181e27;
   --ap-text: #ffffff;
-  --ap-sub: #98989d;
-  --ap-blue: #0a84ff;
+  --ap-sub: #98a0b3;
+  --ap-blue: #5b8cff;
   --ap-green: #30d158;
   --ap-red: #ff453a;
-  --ap-line: rgba(84, 84, 88, 0.6);
-  --ap-bar: rgba(28, 28, 30, 0.9);
-  --ap-glass: rgba(28, 28, 30, 0.88);
-  --ap-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --ap-line: rgba(255, 255, 255, 0.14);
+  --ap-bar: rgba(13, 18, 28, 0.92);
+  --ap-glass: rgba(15, 21, 38, 0.88);
+  --ap-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --ap-glow: radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%);
   font-family: var(--ap-font);
 }
 [data-theme='light'] body[data-apple] {
-  --ap-bg: #ffffff;
-  --ap-card: #f2f2f7;
-  --ap-card-2: #e5e5ea;
-  --ap-text: #000000;
-  --ap-sub: #8e8e93;
-  --ap-line: rgba(60, 60, 67, 0.29);
-  --ap-bar: rgba(255, 255, 255, 0.9);
-  --ap-glass: rgba(255, 255, 255, 0.88);
-  --ap-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --ap-bg: #f6efe0;
+  --ap-card: #fffaf0;
+  --ap-card-2: #f1e8d4;
+  --ap-text: #2b2620;
+  --ap-sub: #6b5f4e;
+  --ap-blue: #2f5fe0;
+  --ap-line: rgba(43, 38, 32, 0.16);
+  --ap-bar: rgba(255, 250, 240, 0.94);
+  --ap-glass: rgba(255, 250, 240, 0.92);
+  --ap-shadow: 0 6px 18px rgba(43, 38, 32, 0.14);
+  --ap-glow: radial-gradient(90% 30% at 50% 0%, rgba(91, 140, 255, 0.14), transparent 75%);
 }
 body[data-apple]:not([data-apple='map']) {
-  background: var(--ap-bg);
+  background: var(--ap-glow), var(--ap-bg);
+  background-attachment: fixed;
+}
+/* Titles and section headers use Mapr's serif. */
+body[data-apple] .aps .screen-title,
+body[data-apple] .aps h3,
+body[data-apple] .mpp-sheet-title,
+body[data-apple] .mpp-section-title {
+  font-family: var(--ap-serif) !important;
+  font-weight: 400;
+  letter-spacing: 0 !important;
+}
+body[data-apple] .aps .screen-title {
+  font-size: 34px;
+}
+body[data-apple] .aps .btn-primary,
+body[data-apple] .aps .btn-success {
+  background: var(--ap-blue);
+  color: #fff;
 }
 
 /* ---------- Header and "where I am": flat pills ---------- */
@@ -325,60 +350,59 @@ body[data-apple] .mpp-pill {
 }
 
 /* =====================================================================
-   Landmarks list rows (Apple Maps): circular icon, text, "..." on the right
+   Landmarks list rows (Apple Maps): the place's photo, text, "..." right
    ===================================================================== */
-.aps-live .landmark-row.lm-card {
-  grid-template-columns: 44px minmax(0, 1fr) 34px;
-  align-items: center;
+body[data-apple] .aps-live .landmark-row.lm-card {
+  grid-template-columns: 104px minmax(0, 1fr) 34px;
+  align-items: start;
 }
-.aps-live .lm-card-photo {
+body[data-apple] .aps-live .lm-card-photo {
   display: block;
   position: relative;
   grid-column: 1;
-  grid-row: 1;
-  width: 44px;
-  height: 44px;
-  aspect-ratio: auto;
-  overflow: visible;
-  border-radius: 50%;
-  background: transparent;
+  grid-row: 1 / span 2;
+  width: 104px;
+  height: 104px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--ap-card-2);
 }
-.aps-live .lm-card-icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #8e8e93;
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
+body[data-apple] .aps-live .lm-card-photo > .lr-thumb-btn,
+body[data-apple] .aps-live .lm-card-photo > div:first-child,
+body[data-apple] .aps-live .lm-card-photo .landmark-thumb,
+body[data-apple] .aps-live .lm-card-photo .landmark-thumb-wrap,
+body[data-apple] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  display: block;
+  width: 104px !important;
+  height: 104px !important;
+  border-radius: 18px !important;
+  object-fit: cover;
 }
-.aps-live .lm-card-icon[data-cat='history-culture'] { background: #ff9f0a; }
-.aps-live .lm-card-icon[data-cat='food'] { background: #ff6b3d; }
-.aps-live .lm-card-icon[data-cat='local-life'] { background: #bf5af2; }
-.aps-live .lm-card-icon[data-cat='parks-nature'] { background: #34c759; }
-.aps-live .lm-card-icon[data-cat='sports'] { background: #ff453a; }
-.aps-live .lm-card-icon[data-cat='stadiums'] { background: #5e5ce6; }
-.aps-live .lm-card-icon[data-cat='shopping'] { background: #ff375f; }
-.aps-live .lm-card-icon[data-cat='airports'] { background: #64d2ff; }
-.aps-live .lm-card-check {
+body[data-apple] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  display: flex;
+  font-size: 40px;
+}
+body[data-apple] .aps-live .lm-card-check {
   position: absolute;
-  top: 28px;
-  left: 28px;
-  width: 20px;
-  height: 20px;
-  font-size: 11px;
-  border: 1.5px solid var(--ap-bg);
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  border: 1.5px solid #fff;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+body[data-apple] .aps-live .lm-card-check[aria-checked='true'] {
+  background: var(--ap-blue);
+  border-color: #fff;
 }
 .aps-live .lm-card .lr-main {
   grid-column: 2;
   grid-row: 1;
   padding-right: 0;
   min-width: 0;
-}
-.aps-live .lm-card .lr-category-icons {
-  display: none;
 }
 .aps-live .lm-card-more {
   grid-column: 3;
@@ -399,7 +423,7 @@ body[data-apple] .mpp-pill {
 }
 .aps-live .lm-card .lm-card-menu {
   position: absolute;
-  top: 52px;
+  top: 40px;
   right: 0;
   z-index: 4;
   padding: 6px;
@@ -411,10 +435,34 @@ body[data-apple] .mpp-pill {
 .aps-live .lm-card .lr-actions {
   grid-column: 2 / -1;
   grid-row: 2;
+  align-self: end;
 }
 .aps-live .lm-card .lr-actions .btn {
   height: 34px;
   font-size: 14px;
+}
+
+/* Category buttons: the emoji itself, no colored circle. */
+body[data-apple] .aps-live .lm-category-tabs .tab-btn,
+body[data-apple] .aps-live .lm-category-tabs .tab-btn[data-cat] {
+  background: var(--ap-card);
+  border: 1px solid var(--ap-line);
+  opacity: 1;
+}
+body[data-apple] .aps-live .lm-category-tabs .tab-btn.active,
+body[data-apple] .aps-live .lm-category-tabs .tab-btn[data-cat].active {
+  background: rgba(91, 140, 255, 0.18);
+  border-color: var(--ap-blue);
+}
+body[data-apple] .aps-live .lm-category-tabs .lm-cat-glyph,
+body[data-apple] .aps-live .lm-category-tabs .tab-btn[data-cat] .lm-cat-glyph {
+  width: auto;
+  height: auto;
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+  font-size: 22px;
+  line-height: 1;
 }
 
 /* Section headers: bold, with a chevron. */

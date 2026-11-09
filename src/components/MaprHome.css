@@ -67,9 +67,10 @@
   margin: 0;
   font-family: var(--mui-serif);
   font-weight: 400;
-  font-size: 34.5px;
+  font-size: 25px;
   line-height: 1;
   margin-top: -3px;
+  white-space: nowrap;
   letter-spacing: 0.2px;
   color: #fff;
 }
