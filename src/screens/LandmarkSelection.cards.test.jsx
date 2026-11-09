@@ -111,14 +111,19 @@ describe('Landmarks tab', () => {
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('Popular Restaurants');
   }, 60000);
 
-  it('cards sit in the two-column grid, photo on top, with every field and button', async () => {
+  it('rows are Apple Maps list rows: circular icon, every field and button, "..." menu (owner, 2026-11-09)', async () => {
     await renderIt();
     const card = el.querySelector('.nb-grid .landmark-row.lm-card');
     expect(card).toBeTruthy();
     const photo = card.querySelector('.lm-card-photo');
     expect(photo.compareDocumentPosition(card.querySelector('h4')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(photo.querySelector('.check-circle[role="checkbox"]')).toBeTruthy();
-    expect(photo.querySelector('[aria-label="Save"]')).toBeTruthy();
+    expect(photo.querySelector('.lm-card-icon')).toBeTruthy();
+    expect(card.querySelector('img')).toBeNull();
+    // Save and Share sit behind the "..." on the right of the row.
+    expect(card.querySelector('[aria-label="Save"]')).toBeNull();
+    await act(async () => card.querySelector('.lm-card-more').click());
+    expect(card.querySelector('.lm-card-menu [aria-label="Save"]')).toBeTruthy();
     expect(card.querySelector('.quick-rate-btn')).toBeTruthy();
     expect(card.querySelector('.google-line')).toBeTruthy();
     expect(card.querySelector('.lr-category-icons')).toBeTruthy();

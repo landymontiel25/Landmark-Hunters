@@ -64,6 +64,8 @@ const CATEGORY_LABEL = Object.fromEntries(INTERESTS.map((i) => [i.id, i.label]))
 // avoids feeding unnecessary churn into the marker cluster layer, which
 // rebuilds (visibly, including any open popup) when it sees new icon refs.
 const PIN_ICON_CACHE = new Map();
+const BUILDING_GLYPH =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4.5A1.5 1.5 0 0 1 6.5 3h7A1.5 1.5 0 0 1 15 4.5V21M15 10h3.5A1.5 1.5 0 0 1 20 11.5V21M3 21h18M9 7.5h2M9 11h2M9 14.5h2"/></svg>';
 
 function pinIcon(checkedIn, addedToTrip) {
   const key = `${checkedIn}-${addedToTrip}`;
@@ -72,19 +74,18 @@ function pinIcon(checkedIn, addedToTrip) {
       key,
       L.divIcon({
         className: '',
+        // A round building pin: blue until you check in, green after. No
+        // photo on a pin (owner, 2026-11-09). The circle is centered on its
+        // coordinate.
         html: `
           <div class="map-pin-wrap">
-            <div class="map-pin ${checkedIn ? 'map-pin-checked-in' : ''}"></div>
+            <div class="map-pin ${checkedIn ? 'map-pin-checked-in' : ''}">${BUILDING_GLYPH}</div>
             ${addedToTrip ? '<span class="map-pin-star">★</span>' : ''}
           </div>
         `,
-        // The 20px pin sits at the wrap's top-left and rotates about its own
-        // center (10,10); its square corner lands 10*sqrt(2) below that, so
-        // the tip is at (10, 24) -- that's the point that must sit on the
-        // coordinate, not the wrap's bottom edge.
-        iconSize: [22, 26],
-        iconAnchor: [10, 24],
-        popupAnchor: [0, -28],
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor: [0, -18],
       })
     );
   }
@@ -164,7 +165,7 @@ function googleTileGuard(onFailed) {
 
 const TILE_LAYERS = {
   street: {
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    url: 'https://{s}.basemaps.cartocdn.com/{style}_all/{z}/{x}/{y}{r}.png',
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
   },
@@ -347,6 +348,8 @@ export default function MapExplore({ experiments = false }) {
   const mapRef = useRef(null);
   const location = useLocation();
   const [satellite] = useState(true);
+  // The round Map button: satellite imagery, or a plain street map.
+  const [streetMap, setStreetMap] = useState(false);
   // Google's map while online (lib/googleTiles.js); null keeps the Esri/Carto
   // layers (offline, or no key set). Google ratings in popups only with it.
   const googleMap = useGoogleTiles();
@@ -1218,7 +1221,7 @@ export default function MapExplore({ experiments = false }) {
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
           <AttributionControl position="bottomright" prefix={false} />
           {SHOW_ADD_LANDMARK && <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />}
-          {googleMap ? (
+          {googleMap && !streetMap ? (
             <>
               {/* Google satellite imagery with Google's labels (one layer). */}
               <TileLayer
@@ -1231,15 +1234,19 @@ export default function MapExplore({ experiments = false }) {
             </>
           ) : (
             <TileLayer
-              key={satellite ? 'satellite' : 'street'}
-              attribution={TILE_LAYERS[satellite ? 'satellite' : 'street'].attribution}
-              url={TILE_LAYERS[satellite ? 'satellite' : 'street'].url}
+              key={satellite && !streetMap ? 'satellite' : 'street'}
+              attribution={TILE_LAYERS[satellite && !streetMap ? 'satellite' : 'street'].attribution}
+              url={
+                satellite && !streetMap
+                  ? TILE_LAYERS.satellite.url
+                  : TILE_LAYERS.street.url.replace('{style}', document.documentElement.dataset.theme === 'light' ? 'light' : 'dark')
+              }
             />
           )}
           {/* Transparent labels overlay on top of the satellite imagery: country
               names when zoomed out, cities mid-zoom, neighborhoods/streets up
               close — so you can orient without leaving the satellite view. */}
-          {!googleMap && satellite && (
+          {!(googleMap && !streetMap) && satellite && !streetMap && (
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
               attribution="&copy; Esri"
@@ -1506,8 +1513,9 @@ export default function MapExplore({ experiments = false }) {
 
       {!placingPin && !drawMode && (
         <>
-          <button type="button" className="map-search-btn" title="Search landmarks" aria-label={searchOpen ? "Close search" : "Search landmarks"} aria-expanded={searchOpen} onClick={toggleSearch}>
-            {searchOpen ? '\u{2715}' : '\u{1F50D}'}
+          <button type="button" className="map-search-btn ap-search-pill" title="Search landmarks" aria-label={searchOpen ? "Close search" : "Search landmarks"} aria-expanded={searchOpen} onClick={toggleSearch}>
+            <span className="ap-search-glyph" aria-hidden="true">{searchOpen ? '\u{2715}' : '\u{1F50D}'}</span>
+            <span className="ap-search-label">{searchOpen ? 'Close' : 'Search landmarks'}</span>
           </button>
           {/* The + opens a small dial: add a landmark, or draw an area. */}
           <button
@@ -1633,6 +1641,21 @@ export default function MapExplore({ experiments = false }) {
             </div>
           )}
 
+          {/* Round map controls down the right edge: the map style here, the
+              locate button (inside the map) under it. Satellite, or a plain
+              street map. */}
+          <button
+            type="button"
+            className="ap-map-style-btn"
+            aria-label={streetMap ? 'Show satellite map' : 'Show street map'}
+            aria-pressed={streetMap}
+            title={streetMap ? 'Satellite map' : 'Street map'}
+            onClick={() => setStreetMap((v) => !v)}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20zM9 4v13.5M15 6.5V20" />
+            </svg>
+          </button>
           <div className="map-fab-bar">
             <select className="radius-select" value={radiusOption} onChange={handleRadiusChange} title="Zoom radius" aria-label="Zoom radius">
               {ZOOM_RADIUS_OPTIONS.map((miles) => (

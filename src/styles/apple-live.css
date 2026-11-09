@@ -1,0 +1,538 @@
+/* The live Map, Landmarks, Itinerary and Profile tabs in the Apple Maps look
+   (owner, 2026-11-09). Everything is scoped to body[data-apple], which
+   App.jsx sets only on those four tabs (src/lib/appleRoutes.js), so Mapr and
+   every other screen keep their own design. The tokens (--ap-*) match the
+   ones AppleUI.css defines for the Test tab's UI lab; the light set follows
+   the app's theme ([data-theme='light']). SF Pro only, no serif. The three
+   list screens are also skinned by AppleScreens.css (.aps). */
+
+body[data-apple] {
+  --ap-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  --ap-bg: #000000;
+  --ap-card: #1c1c1e;
+  --ap-card-2: #2c2c2e;
+  --ap-text: #ffffff;
+  --ap-sub: #98989d;
+  --ap-blue: #0a84ff;
+  --ap-green: #30d158;
+  --ap-red: #ff453a;
+  --ap-line: rgba(84, 84, 88, 0.6);
+  --ap-bar: rgba(28, 28, 30, 0.9);
+  --ap-glass: rgba(28, 28, 30, 0.88);
+  --ap-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  font-family: var(--ap-font);
+}
+[data-theme='light'] body[data-apple] {
+  --ap-bg: #ffffff;
+  --ap-card: #f2f2f7;
+  --ap-card-2: #e5e5ea;
+  --ap-text: #000000;
+  --ap-sub: #8e8e93;
+  --ap-line: rgba(60, 60, 67, 0.29);
+  --ap-bar: rgba(255, 255, 255, 0.9);
+  --ap-glass: rgba(255, 255, 255, 0.88);
+  --ap-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+body[data-apple]:not([data-apple='map']) {
+  background: var(--ap-bg);
+}
+
+/* ---------- Header and "where I am": flat pills ---------- */
+body[data-apple] .app-header {
+  margin-left: 12px;
+  margin-right: 12px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+body[data-apple] .app-header,
+body[data-apple] .app-header * {
+  font-family: var(--ap-font);
+}
+body[data-apple] .score-chip,
+body[data-apple] .header-streak {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  background-image: none;
+  box-shadow: none;
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 600;
+}
+body[data-apple] .score-chip-pts,
+body[data-apple] .header-streak-num {
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 600;
+}
+body[data-apple] .where-am-i {
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-glass);
+  color: var(--ap-text);
+  box-shadow: none;
+  font-family: var(--ap-font);
+  font-size: 15px;
+  font-weight: 500;
+}
+body[data-apple] .where-am-i-row .btn-primary {
+  background: var(--ap-blue);
+  border: 0;
+  border-radius: 999px;
+}
+
+/* ---------- Floating capsule tab bar ---------- */
+body[data-apple] .bottom-nav {
+  left: 8px;
+  right: 8px;
+  margin: 0 auto;
+  height: 64px;
+  max-width: 414px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-bar);
+  box-shadow: var(--ap-shadow);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  font-family: var(--ap-font);
+}
+body[data-apple] .bottom-nav a {
+  margin: 4px 2px;
+  border-radius: 999px;
+  color: var(--ap-sub);
+  font-family: var(--ap-font);
+  font-size: 10px;
+  font-weight: 500;
+}
+body[data-apple] .bottom-nav a.active {
+  color: var(--ap-blue);
+  background: var(--ap-card-2);
+}
+
+/* =====================================================================
+   Map
+   ===================================================================== */
+
+/* Pins: a round building icon, blue until checked in, green after. */
+body[data-apple] .map-fullscreen .map-pin {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transform: none;
+  border: 2px solid #fff;
+  background: #0a84ff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+body[data-apple] .map-fullscreen .map-pin.map-pin-checked-in {
+  background: #30d158;
+  border-color: #fff;
+}
+body[data-apple] .map-fullscreen .map-pin-wrap {
+  width: 30px;
+  height: 30px;
+}
+body[data-apple] .map-fullscreen .map-pin-star {
+  top: -6px;
+  right: -6px;
+  font-size: 13px;
+  color: #ffd60a;
+}
+body[data-apple] .map-fullscreen .map-cluster {
+  background: #0a84ff;
+  border: 2px solid #fff;
+  color: #fff;
+  font-family: var(--ap-font);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+body[data-apple] .map-fullscreen .map-cluster.map-cluster-done {
+  background: #30d158;
+  border-color: #fff;
+}
+
+/* The big pill search bar, top. */
+body[data-apple] .map-fullscreen .ap-search-pill {
+  left: 12px;
+  right: 12px;
+  width: auto;
+  height: 48px;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-glass);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  color: var(--ap-sub);
+  font-family: var(--ap-font);
+  font-size: 17px;
+  font-weight: 400;
+  box-shadow: var(--ap-shadow);
+}
+body[data-apple] .map-fullscreen .map-search-panel {
+  top: calc(var(--header-h) + 66px);
+  left: 12px;
+  right: 12px;
+  max-width: none;
+  border-radius: 20px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  box-shadow: var(--ap-shadow);
+  overflow: hidden;
+  font-family: var(--ap-font);
+}
+body[data-apple] .map-fullscreen .map-search-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 18px;
+  border: 0;
+  border-bottom: 0.5px solid var(--ap-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ap-text);
+  font-family: var(--ap-font);
+  font-size: 17px;
+  box-sizing: border-box;
+}
+body[data-apple] .map-fullscreen .map-search-result {
+  border-bottom: 0.5px solid var(--ap-line);
+  color: var(--ap-text);
+  font-family: var(--ap-font);
+}
+body[data-apple] .map-fullscreen .map-search-result-city,
+body[data-apple] .map-fullscreen .map-search-heading {
+  color: var(--ap-sub);
+  font-family: var(--ap-font);
+}
+
+/* Round dark controls down the right edge: map style, add, locate. */
+body[data-apple] .map-fullscreen .map-add-btn,
+body[data-apple] .map-fullscreen .ap-map-style-btn,
+body[data-apple] .map-fullscreen .map-locate-btn {
+  position: absolute;
+  left: auto;
+  right: 12px;
+  bottom: auto;
+  z-index: 1000;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  background: rgba(28, 28, 30, 0.92);
+  background-image: none;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+body[data-apple] .map-fullscreen .ap-map-style-btn {
+  top: calc(var(--header-h) + 76px);
+}
+body[data-apple] .map-fullscreen .ap-map-style-btn[aria-pressed='true'] {
+  background: #0a84ff;
+}
+body[data-apple] .map-fullscreen .map-add-btn {
+  top: calc(var(--header-h) + 130px) !important;
+  font-size: 20px;
+}
+body[data-apple] .map-fullscreen .map-dial {
+  top: calc(var(--header-h) + 130px) !important;
+  right: 66px;
+  left: auto;
+}
+body[data-apple] .map-fullscreen .map-locate-btn {
+  top: calc(var(--header-h) + 184px);
+}
+body[data-apple] .map-fullscreen .map-locate-btn svg {
+  color: #0a84ff;
+}
+body[data-apple] .map-fullscreen .map-edit-hint {
+  left: 12px;
+  top: calc(var(--header-h) + 66px);
+}
+
+/* Category chips and the distance menu: flat pills. */
+body[data-apple] .map-fullscreen .map-cat-chip {
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-glass);
+  color: var(--ap-text);
+  box-shadow: none;
+  font-family: var(--ap-font);
+}
+body[data-apple] .map-fullscreen .map-cat-chip.on {
+  border-color: #0a84ff;
+  background: #0a84ff;
+  color: #fff;
+}
+body[data-apple] .map-fullscreen .radius-select {
+  height: 40px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-glass);
+  color: var(--ap-text);
+  font-family: var(--ap-font);
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: var(--ap-shadow);
+}
+
+/* "Picked for you right now": a rounded card floating over the map. */
+body[data-apple] .mpp-sheet {
+  background: var(--ap-card);
+  color: var(--ap-text);
+  font-family: var(--ap-font);
+  border: 0.5px solid var(--ap-line);
+  border-radius: 28px;
+  box-shadow: var(--ap-shadow);
+}
+body[data-apple] .mpp-sheet *:not(svg):not(path) {
+  font-family: var(--ap-font);
+}
+body[data-apple] .mpp-sheet-title,
+body[data-apple] .mpp-section-title {
+  color: var(--ap-text);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+body[data-apple] .mpp-sheet-title::after,
+body[data-apple] .mpp-section-title::after {
+  content: '\203A';
+  margin-left: 6px;
+  color: var(--ap-sub);
+  font-weight: 400;
+}
+body[data-apple] .mpp-handle {
+  background: var(--ap-sub);
+  opacity: 0.5;
+}
+body[data-apple] .mpp-pill {
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card-2);
+  color: var(--ap-text);
+  box-shadow: none;
+}
+
+/* =====================================================================
+   Landmarks list rows (Apple Maps): circular icon, text, "..." on the right
+   ===================================================================== */
+.aps-live .landmark-row.lm-card {
+  grid-template-columns: 44px minmax(0, 1fr) 34px;
+  align-items: center;
+}
+.aps-live .lm-card-photo {
+  display: block;
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  width: 44px;
+  height: 44px;
+  aspect-ratio: auto;
+  overflow: visible;
+  border-radius: 50%;
+  background: transparent;
+}
+.aps-live .lm-card-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #8e8e93;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.aps-live .lm-card-icon[data-cat='history-culture'] { background: #ff9f0a; }
+.aps-live .lm-card-icon[data-cat='food'] { background: #ff6b3d; }
+.aps-live .lm-card-icon[data-cat='local-life'] { background: #bf5af2; }
+.aps-live .lm-card-icon[data-cat='parks-nature'] { background: #34c759; }
+.aps-live .lm-card-icon[data-cat='sports'] { background: #ff453a; }
+.aps-live .lm-card-icon[data-cat='stadiums'] { background: #5e5ce6; }
+.aps-live .lm-card-icon[data-cat='shopping'] { background: #ff375f; }
+.aps-live .lm-card-icon[data-cat='airports'] { background: #64d2ff; }
+.aps-live .lm-card-check {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  border: 1.5px solid var(--ap-bg);
+}
+.aps-live .lm-card .lr-main {
+  grid-column: 2;
+  grid-row: 1;
+  padding-right: 0;
+  min-width: 0;
+}
+.aps-live .lm-card .lr-category-icons {
+  display: none;
+}
+.aps-live .lm-card-more {
+  grid-column: 3;
+  grid-row: 1;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ap-sub);
+  cursor: pointer;
+}
+.aps-live .lm-card-more:active {
+  background: var(--ap-card-2);
+}
+.aps-live .lm-card .lm-card-menu {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  z-index: 4;
+  padding: 6px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ap-line);
+  background: var(--ap-card);
+  box-shadow: var(--ap-shadow);
+}
+.aps-live .lm-card .lr-actions {
+  grid-column: 2 / -1;
+  grid-row: 2;
+}
+.aps-live .lm-card .lr-actions .btn {
+  height: 34px;
+  font-size: 14px;
+}
+
+/* Section headers: bold, with a chevron. */
+.aps-live .card.section > h3:first-child:not(:only-child)::after {
+  content: '\203A';
+  margin-left: 6px;
+  color: var(--ap-sub);
+  font-weight: 400;
+}
+
+body[data-apple] .map-fullscreen .map-cat-bar {
+  top: calc(var(--header-h) + 66px);
+  left: 12px;
+  right: 70px;
+  font-family: var(--ap-font);
+}
+.aps-live .lm-card-check {
+  background: var(--ap-card);
+  color: #fff;
+}
+.aps-live .lm-card-check[aria-checked='true'] {
+  background: var(--ap-blue);
+  border-color: var(--ap-blue);
+}
+.aps-live .places-title-row .screen-title {
+  font-size: 28px;
+}
+
+/* The header scrolls with the page on the three list tabs, so it needs a
+   solid fill; on the Map it floats over the map. */
+body[data-apple]:not([data-apple='map']) .app-header {
+  background: var(--ap-bg);
+}
+body[data-apple]:not([data-apple='map']) .where-am-i {
+  background: var(--ap-card);
+}
+
+/* "Plan your game": a rounded card floating above the capsule tab bar. */
+.aps-live .fixed-action-bar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 136px);
+  max-width: 390px;
+  margin: 0 auto;
+  border: 0.5px solid var(--ap-line);
+  border-radius: 24px;
+  background: var(--ap-card);
+  box-shadow: var(--ap-shadow);
+}
+
+/* Itinerary stops: list rows with a circular icon and a hairline between. */
+.aps-live .route-step .card {
+  padding: 10px 0 12px;
+  border: 0;
+  border-bottom: 0.5px solid var(--ap-line);
+  border-radius: 0;
+  background: transparent;
+}
+.aps-live .route-step .card.visited {
+  border-bottom-color: var(--ap-green);
+}
+.aps-live .route-step .landmark-thumb,
+.aps-live .route-step .landmark-thumb-wrap,
+.aps-live .route-step .landmark-thumb-fallback,
+.aps-live .route-step .chatlab-stop-globe {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+.aps-live .route-step h4 {
+  color: var(--ap-text) !important;
+  font-size: 17px;
+  font-weight: 700;
+}
+.aps-live .route-step .route-num {
+  border-color: var(--ap-blue);
+  color: var(--ap-blue);
+  background: transparent;
+}
+
+/* The search bar floats at the bottom, a pill above the capsule tab bar. */
+.aps-landmarks .lm-search-field,
+.aps-itinerary .itin-search {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 72px);
+  z-index: 30;
+  max-width: 390px;
+  margin: 0 auto !important;
+}
+.aps-landmarks .lm-search-field input[type='search'],
+.aps-itinerary .itin-search {
+  height: 48px;
+  background: var(--ap-glass);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: var(--ap-shadow);
+}
+.aps-landmarks .aps-body,
+.aps-itinerary .aps-body {
+  padding-bottom: 72px;
+}
+.aps-itinerary .itin-search {
+  width: auto;
+  box-sizing: border-box;
+}
+
+/* Search open: the results are a plain list in the card, and the round
+   controls step aside. */
+body[data-apple] .map-fullscreen .map-search-results {
+  background: transparent;
+  max-height: 52vh;
+}
+body[data-apple] .map-fullscreen:has(.map-search-panel) .ap-map-style-btn,
+body[data-apple] .map-fullscreen:has(.map-search-panel) .map-add-btn,
+body[data-apple] .map-fullscreen:has(.map-search-panel) .map-locate-btn {
+  display: none;
+}

@@ -3,6 +3,30 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Apple Maps look on the live Map, Landmarks, Itinerary, Profile (2026-11-09)
+
+The Test tab's Apple Maps UI is now live on the four tabs (branch
+`claude/apple-maps-ui-redesign`, PR waiting on the owner's Vercel preview
+look; restore point: tag `before-ui-redesign`, commit `bacca06`).
+`App.jsx` sets `body[data-apple]` on `/`, `/landmarks`, `/itinerary`,
+`/profile` only (`src/lib/appleRoutes.js`), and `src/styles/apple-live.css`
+restyles the header, capsule tab bar, Map controls and picks card under that
+flag. Landmarks, Itinerary and Profile sit in `AppleSkin.jsx` (the `.aps`
+skin from `AppleScreens.css`). Mapr (`/mapr`) never gets the flag, so its
+screen is unchanged; its tab bar is the old one while you are on Mapr.
+Map pins are round building icons (blue, green when checked in, no photos).
+Landmarks rows are Apple Maps list rows: circular category icon (no
+thumbnail, so the list no longer looks up photos), "..." menu for save and
+share.
+
+Still open:
+- 3D and Look Around buttons are not built: the map engine (Leaflet) has no
+  tilt. The round Map button switches satellite and street map.
+- Not seen in a browser with data (the sandbox has no Firebase): Profile,
+  the signed-in "Picked for you right now" card, check-in states. Check them
+  on the Vercel preview in dark and light.
+- Test tab UI lab still exists with its own copy of the same look.
+
 ## Map opens at 5 mi (2026-11-08)
 
 `useZoomRadius` keeps the Map's distance in memory only: 5 mi at every

@@ -13,7 +13,6 @@ import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
-import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useFriends } from '../lib/FriendsContext';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
 import { rankPlaces } from '../lib/maprRank/surfaces.js';
@@ -29,9 +28,7 @@ import SaveLandmarkButton from '../components/SaveLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
 import { classifyInterest } from '../lib/interestClassifier';
 import CheckInButton from '../components/CheckInButton';
-import LandmarkThumb from '../components/LandmarkThumb';
 import RatingsCardLine from '../components/ratings/RatingsCardLine';
-import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, getRegion, getLandmark } from '../data/regions';
 import { inArea, inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
@@ -99,9 +96,6 @@ const FOR_ME_ONLY = ALL_SORT_OPTIONS.filter((s) => s.id === 'forMe');
 // The "Add a Landmark" button under the search box is hidden for now (owner,
 // 2026-10-27); flip this to bring it back.
 const SHOW_ADD_LANDMARK = false;
-// Cards sit two to a row with the photo on top (owner, 2026-11-06); CSS
-// stretches the photo to the card's width (LandmarkCards.css).
-const ROW_THUMB = 180;
 
 
 // "For Me": how likely you are to actually go -- the same learned per-city
@@ -222,7 +216,6 @@ const PAGE_SIZE = 25;
 const LandmarkRow = memo(function LandmarkRow({
   l,
   isSelected,
-  photo,
   distanceText,
   user,
   firebaseEnabled,
@@ -230,27 +223,19 @@ const LandmarkRow = memo(function LandmarkRow({
   checkingIn,
   onToggle,
   onCheckIn,
-  onOpenPhoto,
   onInfo,
   ratingSources,
 }) {
   const toggle = () => onToggle(l);
-  const thumb = <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const icon = l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c])[0] || '\u{1F4CD}';
   return (
     <div className={`landmark-row lm-card ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
       <div className="lm-card-photo">
-        {photo || l.images?.[0] ? (
-          <button
-            type="button"
-            className="lr-thumb-btn"
-            onClick={() => onOpenPhoto({ src: photo || l.images[0], alt: l.name })}
-            aria-label={`View photo of ${l.name}`}
-          >
-            {thumb}
-          </button>
-        ) : (
-          <div onClick={toggle}>{thumb}</div>
-        )}
+        {/* A circular place icon (Apple Maps list row), not a photo. */}
+        <span className="lm-card-icon" data-cat={l.categories[0]} aria-hidden="true" onClick={toggle}>
+          {icon}
+        </span>
         <div
           className="check-circle lm-card-check"
           role="checkbox"
@@ -269,10 +254,6 @@ const LandmarkRow = memo(function LandmarkRow({
         </div>
         {/* No Landmark Hunters rating badge: only Google's ratings show
             (owner, 2026-11-08). */}
-        <div className="lr-corner lm-card-corner">
-          <SaveLandmarkButton landmark={l} regionId={l.regionId} />
-          <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
-        </div>
       </div>
       <div className="lr-main" onClick={toggle}>
         <h4>
@@ -289,6 +270,27 @@ const LandmarkRow = memo(function LandmarkRow({
           {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
         </div>
       </div>
+      {/* The "..." on the right of the row: save and share. */}
+      <button
+        type="button"
+        className="lm-card-more"
+        aria-label={`More for ${l.name}`}
+        aria-haspopup="true"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((o) => !o)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="5.5" cy="12" r="1.7" />
+          <circle cx="12" cy="12" r="1.7" />
+          <circle cx="18.5" cy="12" r="1.7" />
+        </svg>
+      </button>
+      {menuOpen && (
+        <div className="lr-corner lm-card-corner lm-card-menu" role="group" aria-label={`${l.name} actions`}>
+          <SaveLandmarkButton landmark={l} regionId={l.regionId} />
+          <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
+        </div>
+      )}
       <div className="lr-actions">
         <button type="button" className="btn btn-ghost btn-tight" onClick={() => onInfo(l)}>
           Info
@@ -327,7 +329,6 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   const { units } = useUnits();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { applyEdit } = useLandmarkEdits();
-  const { myPhotos } = useMyPhotos();
   const { ratings, myReviews } = useRatings();
   const { myProfile } = useFriends();
   const navigate = useNavigate();
@@ -435,8 +436,6 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     if (!activeCategories.includes(key) && !savedSort && !forMeLab) setSortBy(TOP_LANDMARKS_SORT);
     setActiveCategories((cur) => (cur.includes(key) ? cur.filter((k) => k !== key) : [...cur, key]));
   };
-  // Tapping a row's thumbnail opens the photo full-screen.
-  const [lightbox, setLightbox] = useState(null);
   const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
   // No sort is picked when the app opens (owner, 2026-11-08): the list shows
   // A to Z while Google's ratings load in the background, and Popular is
@@ -759,13 +758,11 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         </div>
       );
     if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
-    const photo = myPhotos[l.id]?.[0];
     return (
       <LandmarkRow
         key={`${l.regionId}-${l.id}`}
         l={l}
         isSelected={getRegionSelection(l.regionId).includes(l.id)}
-        photo={photo}
         ratingSources={(topWanted ? top.live[l.id] : pageRatings[ratingKey(l)]) || null}
         distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
         user={user}
@@ -774,7 +771,6 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         checkingIn={checkingIn}
         onToggle={stableToggle}
         onCheckIn={stableCheckIn}
-        onOpenPhoto={setLightbox}
         onInfo={stableInfo}
       />
     );
@@ -1066,7 +1062,6 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           </div>
         </>
       )}
-      <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
     </div>
   );
 }
