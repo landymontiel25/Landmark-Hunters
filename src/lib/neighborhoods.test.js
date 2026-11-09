@@ -22,13 +22,14 @@ const ratings = (o = {}) => ({
 });
 
 describe('the data file', () => {
-  it('lists every neighborhood once, with empty info and tags, and ratings null or 0-5', () => {
+  it('lists every neighborhood once, with empty info, only allowed tags, and ratings null or 0-5', () => {
     const names = DATA.neighborhoods.map((n) => n.name);
     expect(new Set(names).size).toBe(names.length);
     for (const name of ['Brickell', 'Midtown', 'South Beach', 'North Beach', 'Coral Gables', 'Sweetwater']) expect(names).toContain(name);
     for (const n of DATA.neighborhoods) {
       expect(n.info).toBe('');
-      expect(n.tags).toEqual([]);
+      // Tags are the five chip labels (sources: miamiNeighborhoods.tags.test.js).
+      for (const tag of n.tags) expect(['Art & Culture', 'Food & Drinks', 'Beaches', 'Family', 'Hidden Gems']).toContain(tag);
       const values = [n.ratings.safety, n.ratings.walkability, n.ratings.nightlife, n.ratings.averagePropertyPrice, n.ratings.artAndCulture, n.ratings.shopping, n.ratings.restaurants.quantity, n.ratings.restaurants.diversity];
       for (const v of values) expect(v === null || (v >= 0 && v <= 5)).toBe(true);
       expect(n.ratings.restaurants.price).toBeNull();
