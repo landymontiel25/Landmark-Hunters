@@ -236,9 +236,8 @@ body[data-apple] .map-fullscreen .map-search-heading {
   font-family: var(--ap-font);
 }
 
-/* Round dark controls down the right edge: map style, add, locate. */
+/* Round dark controls down the right edge: add and locate. */
 body[data-apple] .map-fullscreen .map-add-btn,
-body[data-apple] .map-fullscreen .ap-map-style-btn,
 body[data-apple] .map-fullscreen .map-locate-btn {
   position: absolute;
   left: auto;
@@ -261,23 +260,17 @@ body[data-apple] .map-fullscreen .map-locate-btn {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   cursor: pointer;
 }
-body[data-apple] .map-fullscreen .ap-map-style-btn {
-  top: calc(var(--header-h) + 76px);
-}
-body[data-apple] .map-fullscreen .ap-map-style-btn[aria-pressed='true'] {
-  background: #0a84ff;
-}
 body[data-apple] .map-fullscreen .map-add-btn {
-  top: calc(var(--header-h) + 130px) !important;
+  top: calc(var(--header-h) + 76px) !important;
   font-size: 20px;
 }
 body[data-apple] .map-fullscreen .map-dial {
-  top: calc(var(--header-h) + 130px) !important;
+  top: calc(var(--header-h) + 76px) !important;
   right: 66px;
   left: auto;
 }
 body[data-apple] .map-fullscreen .map-locate-btn {
-  top: calc(var(--header-h) + 184px);
+  top: calc(var(--header-h) + 130px);
 }
 body[data-apple] .map-fullscreen .map-locate-btn svg {
   color: #0a84ff;
@@ -579,7 +572,6 @@ body[data-apple] .map-fullscreen .map-search-results {
   background: transparent;
   max-height: 52vh;
 }
-body[data-apple] .map-fullscreen:has(.map-search-panel) .ap-map-style-btn,
 body[data-apple] .map-fullscreen:has(.map-search-panel) .map-add-btn,
 body[data-apple] .map-fullscreen:has(.map-search-panel) .map-locate-btn {
   display: none;

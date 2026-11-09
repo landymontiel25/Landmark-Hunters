@@ -348,8 +348,6 @@ export default function MapExplore({ experiments = false }) {
   const mapRef = useRef(null);
   const location = useLocation();
   const [satellite] = useState(true);
-  // The round Map button: satellite imagery, or a plain street map.
-  const [streetMap, setStreetMap] = useState(false);
   // Google's map while online (lib/googleTiles.js); null keeps the Esri/Carto
   // layers (offline, or no key set). Google ratings in popups only with it.
   const googleMap = useGoogleTiles();
@@ -1221,7 +1219,7 @@ export default function MapExplore({ experiments = false }) {
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
           <AttributionControl position="bottomright" prefix={false} />
           {SHOW_ADD_LANDMARK && <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />}
-          {googleMap && !streetMap ? (
+          {googleMap ? (
             <>
               {/* Google satellite imagery with Google's labels (one layer). */}
               <TileLayer
@@ -1234,10 +1232,10 @@ export default function MapExplore({ experiments = false }) {
             </>
           ) : (
             <TileLayer
-              key={satellite && !streetMap ? 'satellite' : 'street'}
-              attribution={TILE_LAYERS[satellite && !streetMap ? 'satellite' : 'street'].attribution}
+              key={satellite ? 'satellite' : 'street'}
+              attribution={TILE_LAYERS[satellite ? 'satellite' : 'street'].attribution}
               url={
-                satellite && !streetMap
+                satellite
                   ? TILE_LAYERS.satellite.url
                   : TILE_LAYERS.street.url.replace('{style}', document.documentElement.dataset.theme === 'light' ? 'light' : 'dark')
               }
@@ -1246,7 +1244,7 @@ export default function MapExplore({ experiments = false }) {
           {/* Transparent labels overlay on top of the satellite imagery: country
               names when zoomed out, cities mid-zoom, neighborhoods/streets up
               close — so you can orient without leaving the satellite view. */}
-          {!(googleMap && !streetMap) && satellite && !streetMap && (
+          {!googleMap && satellite && (
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
               attribution="&copy; Esri"
@@ -1641,21 +1639,6 @@ export default function MapExplore({ experiments = false }) {
             </div>
           )}
 
-          {/* Round map controls down the right edge: the map style here, the
-              locate button (inside the map) under it. Satellite, or a plain
-              street map. */}
-          <button
-            type="button"
-            className="ap-map-style-btn"
-            aria-label={streetMap ? 'Show satellite map' : 'Show street map'}
-            aria-pressed={streetMap}
-            title={streetMap ? 'Satellite map' : 'Street map'}
-            onClick={() => setStreetMap((v) => !v)}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20zM9 4v13.5M15 6.5V20" />
-            </svg>
-          </button>
           <div className="map-fab-bar">
             <select className="radius-select" value={radiusOption} onChange={handleRadiusChange} title="Zoom radius" aria-label="Zoom radius">
               {ZOOM_RADIUS_OPTIONS.map((miles) => (
