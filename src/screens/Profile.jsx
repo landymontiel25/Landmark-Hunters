@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
@@ -33,6 +33,7 @@ import FriendPopoverName from '../components/FriendPopoverName';
 import RegionSearch from '../components/RegionSearch';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
 import ProfileMemories from '../components/ProfileMemories';
+import ProfileList from '../components/ProfileList';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
@@ -119,6 +120,14 @@ export default function Profile() {
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
   const navigate = useNavigate();
+  // Which Profile screen is open: none is the list; a row opens its own screen
+  // (?view=...), so the browser Back button returns to the list. The old
+  // /leaderboard path opens the leaderboard.
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const viewParam = params.get('view') || (location.pathname === '/leaderboard' ? 'leaderboard' : null);
+  const view = ['memories', 'stats', 'today', 'ranks', 'leaderboard', 'friends'].includes(viewParam) ? viewParam : null;
+  const openView = (v) => navigate(`/profile?view=${v}`);
   const { stats, reload: reloadStats } = useBadges();
   // Solo streak's own doc (mode: 'solo', streaks/{uid}) -- kept live here
   // the same way Header's badge and the streak-risk banner below do, so
@@ -414,11 +423,43 @@ export default function Profile() {
       ? `${getRegion(regionalRegionId)?.name || 'Regional'} Leaderboard`
       : 'Leaderboard';
 
-  return (
-    <div>
-      {/* Your memories' photos lead the page, above Your Stats. */}
-      <ProfileMemories />
-      {/* Your Stats -- moved to the top of the page, ahead of everything else. */}
+  const scopeTabs = (
+    <div className="tabs" style={{ justifyContent: 'center', marginBottom: 14 }}>
+      <button type="button" className={`tab-btn ${scope === 'friends' ? 'active' : ''}`} aria-pressed={!!(scope === 'friends')} onClick={() => setScope('friends')}>
+        Friends
+      </button>
+      <button type="button" className={`tab-btn ${scope === 'global' ? 'active' : ''}`} aria-pressed={!!(scope === 'global')} onClick={() => setScope('global')}>
+        Global
+      </button>
+    </div>
+  );
+  const periodTabs = (
+    <div className="tabs" style={{ marginTop: 12, flexWrap: 'wrap' }}>
+      {TABS.map((t) => (
+        <button key={t.id} className={`tab-btn ${tab === t.id ? 'active' : ''}`} aria-pressed={!!(tab === t.id)} onClick={() => setTab(t.id)}>
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  // One section's own screen: a Back button, its title, then what used to be
+  // stacked on the long Profile page.
+  const sectionScreen = (title, children) => (
+    <div className="pf-screen">
+      <button type="button" className="btn btn-ghost btn-sm pf-back" onClick={() => navigate('/profile')}>
+        {'\u2190'} Profile
+      </button>
+      <h1 className="screen-title">{title}</h1>
+      {children}
+    </div>
+  );
+
+  if (view === 'memories') return sectionScreen('My Memories', <ProfileMemories />);
+  if (view === 'stats')
+    return sectionScreen(
+      'Your Stats',
+      <>
       <div className="card section">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <h3 style={{ margin: 0 }}>{'\u{1F4CA}'} Your Stats</h3>
@@ -481,6 +522,11 @@ export default function Profile() {
             />
           </div>
         </div>
+      </div>
+      <DiscoveryStatsCard />
+      </>
+    );
+  if (view === 'today') return sectionScreen("Today's landmarks", <>      <div className="card section">
         <div className="streak-focus">
           <p style={{ margin: '0 0 4px', fontWeight: 700 }}>{'\u{1F525}'} Today's landmarks</p>
           <p className="screen-subtitle" style={{ margin: '0 0 10px' }}>
@@ -502,11 +548,11 @@ export default function Profile() {
             {'\u{2705}'} Your {soloCount}-day streak is safe today
           </p>
         )}
-      </div>
-
-      {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => navigate('/onboarding')} />}
-      <DiscoveryStatsCard />
-
+      </div></>);
+  if (view === 'ranks')
+    return sectionScreen(
+      'Ranks',
+      <>
       {closestRival && (
         <div className="card section">
           <p style={{ margin: 0 }}>
@@ -516,20 +562,7 @@ export default function Profile() {
         </div>
       )}
 
-      {/* Points/leaderboard are secondary now (item 7) -- a lighter heading
-          than the Discovery card above it gets, not the page's headline. */}
-      <h2 className="screen-title" style={{ fontSize: '1.1rem', opacity: 0.75 }}>
-        <span>{'\u{1F3C6}'}</span> Ranks
-      </h2>
-
-      <div className="tabs" style={{ justifyContent: 'center', marginBottom: 14 }}>
-        <button type="button" className={`tab-btn ${scope === 'friends' ? 'active' : ''}`} aria-pressed={!!(scope === 'friends')} onClick={() => setScope('friends')}>
-          Friends
-        </button>
-        <button type="button" className={`tab-btn ${scope === 'global' ? 'active' : ''}`} aria-pressed={!!(scope === 'global')} onClick={() => setScope('global')}>
-          Global
-        </button>
-      </div>
+      {scopeTabs}
 
       {/* 1 — Your hero card */}
       <div className="card section rank-hero">
@@ -588,7 +621,14 @@ export default function Profile() {
           ))}
         </div>
       </div>
-
+      </>
+    );
+  if (view === 'leaderboard')
+    return sectionScreen(
+      'Leaderboard',
+      <>
+        {scopeTabs}
+        {periodTabs}
       {/* 2 — Leaderboard */}
       <div className="section">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -660,7 +700,12 @@ export default function Profile() {
         ))}
 
       </div>
-
+      </>
+    );
+  if (view === 'friends')
+    return sectionScreen(
+      'Friends',
+      <>
       {/* 3 — Friends & invite */}
       <div className="section">
         <InviteButton myUsername={myUsername} />
@@ -673,13 +718,64 @@ export default function Profile() {
           <FollowsPanel />
         </>
       )}
+      </>
+    );
 
-      <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
-        {'\u{2699}\u{FE0F}'} Settings
-      </Link>
-      <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} disabled={signingOut} onClick={handleSignOut}>
-        Sign Out
-      </button>
+  // The list: header, the three headline numbers, then one row per section.
+  const shownName = myUsername ? `@${myUsername}` : user.displayName || 'Explorer';
+  const initial = (myUsername || user.displayName || user.email || 'E').replace(/^@/, '')[0].toUpperCase();
+  return (
+    <div className="pf-hub">
+      <div className="pf-head">
+        <div className="pf-avatar" aria-hidden="true">
+          {initial}
+        </div>
+        <div className="pf-head-text">
+          <h1 className="pf-name">{shownName}</h1>
+          <p className="pf-sub">Landmark Hunter</p>
+          <button type="button" className="pf-edit" onClick={() => navigate('/settings')}>
+            {'\u270F\uFE0F'} Edit Profile
+          </button>
+        </div>
+      </div>
+
+      <div className="pf-stats3">
+        <div className="pf-stat3">
+          <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F3C6}'}</span>
+          <span className="pf-stat3-num">{loading ? <Skeleton className="skeleton-inline" width={44} height={22} /> : myPoints.toLocaleString()}</span>
+          <span className="pf-stat3-label">Points {PERIOD_LABEL[period].toLowerCase()}</span>
+        </div>
+        <div className="pf-stat3">
+          <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F4CD}'}</span>
+          <span className="pf-stat3-num">{stats?.failed ? '–' : stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}</span>
+          <span className="pf-stat3-label">Check-ins</span>
+        </div>
+        <div className="pf-stat3">
+          <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F525}'}</span>
+          <span className="pf-stat3-num">{soloCount}</span>
+          <span className="pf-stat3-label">Day streak</span>
+        </div>
+      </div>
+
+      {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => navigate('/onboarding')} />}
+      <ProfileList
+        label="Profile sections"
+        items={[
+          { id: 'memories', icon: 'memories', label: 'My Memories', onClick: () => openView('memories') },
+          { id: 'stats', icon: 'stats', label: 'Your Stats', detail: stats && !stats.failed ? `${stats.checkins.toLocaleString()} check-ins` : '', onClick: () => openView('stats') },
+          { id: 'today', icon: 'today', label: "Today's landmarks", detail: soloStreakAtRisk ? 'Streak at risk' : '', onClick: () => openView('today') },
+          { id: 'ranks', icon: 'ranks', label: 'Ranks', detail: myRank ? `#${myRank}` : '', onClick: () => openView('ranks') },
+          { id: 'leaderboard', icon: 'leaderboard', label: 'Leaderboard', onClick: () => openView('leaderboard') },
+          { id: 'friends', icon: 'friends', label: 'Friends', detail: friendUids?.size ? String(friendUids.size) : '', onClick: () => openView('friends') },
+        ]}
+      />
+      <ProfileList
+        label="Account"
+        items={[
+          { id: 'settings', icon: 'settings', label: 'Settings', onClick: () => navigate('/settings') },
+          { id: 'signout', icon: 'signout', label: 'Sign Out', disabled: signingOut, onClick: handleSignOut },
+        ]}
+      />
     </div>
   );
 }
