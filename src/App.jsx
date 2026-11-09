@@ -38,6 +38,8 @@ import { useTripAccountGuard } from './lib/tripAccountGuard';
 import { installModalA11y } from './lib/modalA11y';
 import { useDocumentTitle } from './lib/useDocumentTitle';
 import { shouldResetScroll } from './lib/scrollReset';
+import { appleScreenFor } from './lib/appleRoutes';
+import AppleSkin from './screens/AppleSkin';
 import WhereAmI from './components/WhereAmI';
 import { flagSet, settleScreenModule, shouldReloadForChunkError } from './lib/chunkReload';
 
@@ -172,13 +174,13 @@ function AppRoutes() {
           <Route path="/" element={<MapExplore />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/add-landmark" element={<AddLandmark />} />
-          <Route path="/landmarks" element={<LandmarkSelection />} />
+          <Route path="/landmarks" element={<AppleSkin name="landmarks"><LandmarkSelection /></AppleSkin>} />
           <Route path="/landmarks/:region/:id" element={<LandmarkDetail />} />
-          <Route path="/itinerary" element={<Itinerary />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/leaderboard" element={<Profile />} />
+          <Route path="/itinerary" element={<AppleSkin name="itinerary"><Itinerary /></AppleSkin>} />
+          <Route path="/profile" element={<AppleSkin name="profile"><Profile /></AppleSkin>} />
+          <Route path="/leaderboard" element={<AppleSkin name="profile"><Profile /></AppleSkin>} />
           <Route path="/leaderboard/full" element={<FullLeaderboard />} />
-          <Route path="/account" element={<Profile />} />
+          <Route path="/account" element={<AppleSkin name="profile"><Profile /></AppleSkin>} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/group/:tripId" element={<GroupTrip />} />
           <Route path="/settings" element={<Settings />} />
@@ -234,6 +236,21 @@ function prefetchScreens() {
   };
 }
 
+// Flags the body while one of the four Apple Maps tabs is open
+// (body[data-apple], src/styles/apple-live.css). Mapr never sets it.
+function AppleRouteSync() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const screen = appleScreenFor(pathname);
+    if (screen) document.body.dataset.apple = screen;
+    else delete document.body.dataset.apple;
+    return () => {
+      delete document.body.dataset.apple;
+    };
+  }, [pathname]);
+  return null;
+}
+
 // The Feed opens first (Phase 6) only in a city past the density gate:
 // once per session, opening the app on the Map takes you to the Feed.
 // Everywhere else the Map stays home.
@@ -278,6 +295,7 @@ export default function App() {
           <HashRouter>
           <TripAccountGuard />
           <DocumentTitleSync />
+          <AppleRouteSync />
           <ScrollToTopOnNavigate />
           <BackgroundLocationSync />
           <PushNotificationsSync />
