@@ -6,7 +6,7 @@ import { getCustomLandmarks } from './customLandmarks';
 import { streetAddress } from './geocode';
 import { reverseGeocodePlace } from './placeLookup';
 import { distanceMeters } from './geo';
-import { STOP_AFTER_MS, isMoving, nearestPlace, placeAt, shortAddress } from './whereAmI';
+import { STOP_AFTER_MS, isMoving, isStationary, nearestPlace, placeAt, shortAddress, updateAnchor } from './whereAmI';
 
 const RESOLVE_AGAIN_METERS = 40;
 const TICK_MS = 5_000;
@@ -19,6 +19,7 @@ export function useWhereAmI() {
   const packsVersion = usePlacePacksVersion();
   const fixes = useRef([]);
   const lastMovingAt = useRef(0);
+  const anchor = useRef(null);
   const [now, setNow] = useState(() => Date.now());
   const [custom, setCustom] = useState([]);
   const [here, setHere] = useState(null); // { label, place?, at: {lat,lng} }
@@ -38,7 +39,10 @@ export function useWhereAmI() {
     if (!coords) return;
     const t = Date.now();
     fixes.current = [...fixes.current.filter((f) => t - f.t <= 60_000), { ...coords, t }];
-    if (isMoving(fixes.current, t)) lastMovingAt.current = t;
+    anchor.current = updateAnchor(anchor.current, coords, t);
+    // Three minutes around one spot is staying put, never traveling.
+    if (isStationary(anchor.current, t)) lastMovingAt.current = 0;
+    else if (isMoving(fixes.current, t)) lastMovingAt.current = t;
     setNow(t);
   }, [coords]);
 
@@ -48,7 +52,7 @@ export function useWhereAmI() {
     return () => clearInterval(id);
   }, []);
 
-  const traveling = !!coords && now - lastMovingAt.current < STOP_AFTER_MS && lastMovingAt.current > 0;
+  const traveling = !!coords && !isStationary(anchor.current, now) && now - lastMovingAt.current < STOP_AFTER_MS && lastMovingAt.current > 0;
 
   const places = useMemo(
     () => [...ALL_LANDMARKS, ...custom],

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isMoving, nearestPlace, placeAt, placesWithin, shortAddress } from './whereAmI';
+import { STATIONARY_MS, isMoving, isStationary, updateAnchor, nearestPlace, placeAt, placesWithin, shortAddress } from './whereAmI';
 
 // About 111 m per 0.001 degree of latitude.
 const fix = (t, dLat, accuracy = 10) => ({ lat: 25.76 + dLat, lng: -80.2, accuracy, t: t * 1000 });
@@ -70,5 +70,22 @@ describe('placesWithin', () => {
   it('keeps places within the radius, unvisited first, then nearest', () => {
     const got = placesWithin({ lat: 25.76, lng: -80.2 }, places, 30, { 'near-done': true }).map((p) => p.id);
     expect(got).toEqual(['new', 'near-done']);
+  });
+});
+
+describe('staying put is never traveling (owner, 2026-11-09)', () => {
+  it('keeps the anchor while GPS drifts inside 150 m, and is stationary after 3 minutes', () => {
+    let a = updateAnchor(null, fix(0, 0), 0);
+    a = updateAnchor(a, fix(60, 0.0008), 60_000);
+    a = updateAnchor(a, fix(120, -0.0006), 120_000);
+    expect(a.since).toBe(0);
+    expect(isStationary(a, STATIONARY_MS - 1)).toBe(false);
+    expect(isStationary(a, STATIONARY_MS)).toBe(true);
+  });
+  it('a real move starts a new anchor', () => {
+    let a = updateAnchor(null, fix(0, 0), 0);
+    a = updateAnchor(a, fix(200, 0.01), 200_000);
+    expect(a.since).toBe(200_000);
+    expect(isStationary(a, 200_000 + 60_000)).toBe(false);
   });
 });

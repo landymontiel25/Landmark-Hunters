@@ -14,6 +14,24 @@ export const MOVE_MIN_SPEED = 0.9; // m/s, a slow walk
 // After the last sign of movement, how long until you count as stopped.
 export const STOP_AFTER_MS = 25_000;
 
+// Staying put: within this radius of where you were for this long, you are
+// not traveling, whatever GPS drift looks like (owner, 2026-11-09: "if I'm
+// in one place for more than 3 minutes I should not be traveling").
+export const STATIONARY_MS = 180_000;
+export const STATIONARY_METERS = 150;
+
+// The spot you have been around, and since when. A fix inside the radius
+// keeps the anchor; a fix outside it starts a new one.
+export function updateAnchor(anchor, fix, now = Date.now()) {
+  if (!fix) return anchor;
+  if (anchor && distanceMeters(anchor.lat, anchor.lng, fix.lat, fix.lng) <= STATIONARY_METERS) return anchor;
+  return { lat: fix.lat, lng: fix.lng, since: now };
+}
+
+export function isStationary(anchor, now = Date.now()) {
+  return !!anchor && now - anchor.since >= STATIONARY_MS;
+}
+
 export function isMoving(fixes, now = Date.now()) {
   const recent = fixes.filter((f) => now - f.t <= MOVE_WINDOW_MS);
   if (recent.length < 2) return false;
