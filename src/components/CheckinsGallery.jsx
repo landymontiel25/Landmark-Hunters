@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { warmImages } from '../lib/warmImages';
 import { useLocation } from 'react-router-dom';
 import { getLandmark, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
@@ -239,6 +240,12 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   }, [smart.ids, matched, sorted]);
   const shown = matched ? [...matched, ...smartExtra] : null;
   // What's rendered: the plain matches, then a "Mapr thinks you mean" divider.
+  // Start downloading the photos in the order shown, ahead of scrolling.
+  const warmSig = (shown || []).map((it) => it.photo || '').join('|');
+  useEffect(() => {
+    if (!warmSig) return undefined;
+    return warmImages(warmSig.split('|'));
+  }, [warmSig]);
   const display = matched ? [...matched, ...(smartExtra.length ? [SMART_DIVIDER, ...smartExtra] : [])] : null;
 
   const go = (it) => {
@@ -349,10 +356,12 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       </div>
     </div>
   );
-  const renderTile = (it) => (
+  // The first rows load at once and at high priority; the rest lazily, after
+  // warmImages has already fetched them.
+  const renderTile = (it, i = 99) => (
     <button type="button" key={it.id} className="checkin-tile" onClick={() => go(it)}>
       {it.photo ? (
-        <img src={it.photo} alt={it.name} loading="lazy" decoding="async" />
+        <img src={it.photo} alt={it.name} loading={i < 12 ? 'eager' : 'lazy'} fetchPriority={i < 12 ? 'high' : 'auto'} decoding="async" />
       ) : (
         <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
       )}
@@ -472,13 +481,13 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
 
       {!byCity && shown && shown.length > 0 && layout === 'grid' && (
         <div className="checkin-grid">
-          {display.map((it) =>
+          {display.map((it, i) =>
             it === SMART_DIVIDER ? (
               <div key={it.id} className="checkin-grid-divider">
                 <SmartSearchLabel count={smartExtra.length} />
               </div>
             ) : (
-            renderTile(it)
+            renderTile(it, i)
             )
           )}
         </div>
