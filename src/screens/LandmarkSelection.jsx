@@ -69,7 +69,7 @@ export const SHOW_FOR_ME_SORT = false;
 // default. Its label follows the category picked (owner, 2026-11-08): the
 // plate makes it "Popular Restaurants", the glass "Popular Nightlife".
 const ALL_SORT_OPTIONS = [
-  { id: 'rated', label: '\u{2B50} Top Landmarks' },
+  { id: 'rated', label: '\u{2B50} Popular Landmarks' },
   { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
 ];
@@ -99,10 +99,10 @@ const SHORT_CATEGORY = {
 // one is that category's noun (a custom interest uses its own words), two or
 // more is Places.
 export function popularLabel(activeCategories = []) {
-  if (activeCategories.length > 1) return '\u{2B50} Top Places';
+  if (activeCategories.length > 1) return '\u{2B50} Popular Places';
   const id = activeCategories[0];
-  if (!id) return '\u{2B50} Top Landmarks';
-  return `\u{2B50} Top ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
+  if (!id) return '\u{2B50} Popular Landmarks';
+  return `\u{2B50} Popular ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
 }
 const SORT_OPTIONS = ALL_SORT_OPTIONS.filter((s) => s.id !== 'forMe' || SHOW_FOR_ME_SORT);
 const FOR_ME_ONLY = ALL_SORT_OPTIONS.filter((s) => s.id === 'forMe');
