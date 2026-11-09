@@ -6,8 +6,9 @@ the PR that finishes it.
 ## Apple Maps look on the live Map, Landmarks, Itinerary, Profile (2026-11-09)
 
 The Test tab's Apple Maps UI is now live on the four tabs (branch
-`claude/apple-maps-ui-redesign`, PR waiting on the owner's Vercel preview
-look; restore point: tag `before-ui-redesign`, commit `bacca06`).
+`claude/apple-maps-ui-redesign`, PR #819, merged 2026-11-09 as `66101e7`;
+restore point: branch `before-ui-redesign` = `bacca06`; undo with
+`git revert -m 1 66101e7`).
 `App.jsx` sets `body[data-apple]` on `/`, `/landmarks`, `/itinerary`,
 `/profile` only (`src/lib/appleRoutes.js`), and `src/styles/apple-live.css`
 restyles the header, capsule tab bar, Map controls and picks card under that
