@@ -31,7 +31,9 @@ export function useLandmarkRatings(landmark, { detail = false, lazy = true, enab
           io.disconnect();
         }
       },
-      { rootMargin: '100px' }
+      // Two or three screens ahead, so a rating is already there when the row
+      // scrolls into view (owner, 2026-11-09).
+      { rootMargin: '1500px' }
     );
     io.observe(node);
     return () => io.disconnect();

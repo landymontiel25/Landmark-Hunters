@@ -568,7 +568,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   // ready when tapped; the Map tab started them already
   // (LandmarkRatingsPrefetch). Popular shows at once (A to Z for places Google
   // has not answered yet; the app's own ratings never count).
-  const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
+  const topWanted = (sortBy === 'rated' || sortBy === null) && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const top = useTopRatings(filteredLandmarks, topWanted);
 
   const sortedLandmarks = useMemo(() => {
