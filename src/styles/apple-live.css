@@ -940,3 +940,181 @@ body[data-apple='itinerary'] .aps-itinerary .itin-search {
   box-sizing: border-box;
   border: 1px solid var(--ap-line);
 }
+
+/* =====================================================================
+   Profile tab, to the owner's mockup (2026-11-09): Inter, no serif, white
+   page in light mode; a header with the circular avatar, @name, "Landmark
+   Hunter" and a gold-outlined Edit Profile; the three headline numbers in a
+   rounded card with dividers; every section as a list row (gold icon, label,
+   chevron) that opens its own screen. Only the Profile (data-apple='profile').
+   ===================================================================== */
+body[data-apple='profile'] {
+  --ap-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --ap-display: var(--ap-font);
+  --ap-serif: var(--ap-font);
+}
+body[data-apple='profile'] .aps-eyebrow {
+  display: none;
+}
+body[data-apple='profile'] .aps .screen-title,
+body[data-apple='profile'] .aps h3 {
+  font-family: var(--ap-font) !important;
+  font-weight: 800;
+  letter-spacing: -0.6px !important;
+}
+body[data-apple='profile'] .aps .screen-title {
+  font-size: 32px;
+}
+.pf-screen > .pf-back {
+  margin: 4px 0 8px;
+}
+.pf-hub {
+  padding-bottom: 110px;
+}
+.pf-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 8px 0 22px;
+}
+.pf-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--gold-ink);
+  font-size: 44px;
+  font-weight: 800;
+}
+.pf-head-text {
+  min-width: 0;
+}
+.pf-name {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+  color: var(--ap-text);
+}
+.pf-sub {
+  margin: 4px 0 12px;
+  color: var(--ap-sub);
+  font-size: 17px;
+}
+.pf-edit {
+  height: 42px;
+  padding: 0 18px;
+  border: 1.5px solid var(--gold);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pf-stats3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 0 22px;
+  padding: 18px 0 16px;
+  border: 1px solid var(--ap-line);
+  border-radius: 24px;
+  background: var(--ap-card);
+}
+.pf-stat3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  text-align: center;
+}
+.pf-stat3 + .pf-stat3 {
+  border-left: 1px solid var(--ap-line);
+}
+.pf-stat3-icon {
+  font-size: 26px;
+  line-height: 1.1;
+}
+.pf-stat3-num {
+  min-height: 28px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 28px;
+  color: var(--ap-text);
+}
+.pf-stat3-label {
+  font-size: 13px;
+  color: var(--ap-sub);
+}
+.pf-list {
+  margin: 0 0 18px;
+  padding: 0 0 0 0;
+  border: 1px solid var(--ap-line);
+  border-radius: 24px;
+  background: var(--ap-card);
+  overflow: hidden;
+}
+.pf-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 62px;
+  padding: 0 18px;
+  border: 0;
+  background: transparent;
+  color: var(--ap-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pf-row + .pf-row {
+  position: relative;
+}
+.pf-row + .pf-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 18px;
+  left: 60px;
+  border-top: 1px solid var(--ap-line);
+}
+.pf-row:active {
+  background: var(--ap-card-2);
+}
+.pf-row:disabled {
+  opacity: 0.5;
+}
+.pf-row-icon {
+  flex: none;
+  color: var(--gold);
+}
+.pf-row-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+.pf-row-detail {
+  color: var(--ap-sub);
+  font-size: 14px;
+}
+.pf-row-chevron {
+  flex: none;
+  color: var(--ap-sub);
+}
+/* The screen's own title already says "Your Stats". */
+.pf-screen .card.section > div:first-child > h3 {
+  display: none;
+}
+.pf-screen .card.section > div:first-child {
+  justify-content: flex-end !important;
+}

@@ -3,6 +3,21 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Profile tab to the mockup (2026-11-09)
+
+Profile is now a list (`src/screens/Profile.jsx`, `src/components/ProfileList.jsx`,
+styles in `apple-live.css`, `body[data-apple='profile']`): header (initial
+avatar, @name, "Landmark Hunter", gold-outlined Edit Profile that opens
+Settings), the three numbers in a card (points for the saved leaderboard
+period, check-ins, day streak), then rows that open their own screen through
+`?view=` (memories, stats, today, ranks, leaderboard, friends), then Settings
+and Sign Out. Every old section kept: Your Stats holds the tiles, rating
+progress and Discovery card; Today's landmarks the streak card; Ranks the
+rival line and your rank card; Leaderboard the podium and list; Friends the
+invite and friends panels. `/leaderboard` opens the Leaderboard screen.
+Not built: profile photo (the app stores none, so the avatar is your
+initial), Notifications / Help / About rows from the mockup.
+
 ## Itinerary tab to the mockup (2026-11-09, PR waiting on the owner's preview)
 
 Itinerary restyled in `apple-live.css` (`body[data-apple='itinerary']`): Inter,
