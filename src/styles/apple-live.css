@@ -772,9 +772,9 @@ body[data-apple='landmarks'] .aps .lm-sort-tabs {
 body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn {
   flex: 1 1 0;
   min-width: 0;
-  height: 34px;
-  min-height: 34px;
-  padding: 0 6px;
+  height: auto;
+  min-height: 44px;
+  padding: 4px 6px;
   border: 1px solid var(--ap-line);
   background: var(--ap-card);
   color: var(--ap-text);
@@ -782,9 +782,11 @@ body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.15;
+  /* The full phrase always shows: a long label wraps onto a second line
+     ("Popular" above "Landmarks") instead of being cut off. */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn.active {
   border-color: var(--gold);
