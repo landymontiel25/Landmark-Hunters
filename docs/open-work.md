@@ -3,6 +3,17 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Cut Google lookups (2026-11-09)
+
+Google's GetPlaceRequest per day (1,500) hit 87% in about 15 minutes of use.
+Removed the three bulk spenders: the launch prefetch of 60 places per city
+(`LandmarkRatingsPrefetch`, no longer rendered in `App.jsx`), the Landmarks
+tab looking up a whole city's ratings on open (Popular now loads them only
+when tapped, and checks 40 places, was 120), and the page-ahead preload of
+25 + 25 rows (rows now ask for their own rating as they scroll into view).
+Still open: photos (`usePlacePhoto`) spend GetPlace and Text Search for rows
+with no stored image; watch the console after a day of use.
+
 ## Mapr's look on the four tabs, photos back in Landmarks rows (2026-11-09)
 
 Owner: the Map, Landmarks, Itinerary and Profile tabs take Mapr's look

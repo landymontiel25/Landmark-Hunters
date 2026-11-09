@@ -5,9 +5,9 @@ const { topCandidates, TOP_RANK_MAX } = await import('./useTopRatings');
 
 describe('topCandidates (which places Top Landmarks looks up on Google)', () => {
   const lm = (id, extra = {}) => ({ id, regionId: 'miami', ...extra });
-  it('looks up every place in a city that fits the cap, like Miami', () => {
-    const miami = Array.from({ length: 101 }, (_, i) => lm(`p${i}`));
-    expect(topCandidates(miami)).toHaveLength(101);
+  it('looks up every place in a city that fits the cap', () => {
+    const miami = Array.from({ length: TOP_RANK_MAX - 1 }, (_, i) => lm(`p${i}`));
+    expect(topCandidates(miami)).toHaveLength(TOP_RANK_MAX - 1);
   });
   it('past the cap, hand-picked places go first, then imported ones', () => {
     const imported = Array.from({ length: TOP_RANK_MAX }, (_, i) => lm(`osm-w${i}`, { source: 'osm' }));
