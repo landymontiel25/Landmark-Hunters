@@ -133,7 +133,9 @@ async function countyTracts(state, county) {
     const url = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5?get=B25077_001E,B25064_001E&for=tract:*&in=state:${state}%20county:${county}&key=${CENSUS}`;
     const rows = await getJson(url);
     const pos = (v) => (Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : null);
-    countyCache.set(key, new Map(rows.slice(1).map((r) => [r[3], { home: pos(r[0]), rent: pos(r[1]) }])));
+    // Columns: B25077, B25064, state, county, tract.
+    const iTract = rows[0].indexOf('tract');
+    countyCache.set(key, new Map(rows.slice(1).map((r) => [r[iTract], { home: pos(r[0]), rent: pos(r[1]) }])));
   }
   return countyCache.get(key);
 }
@@ -219,6 +221,12 @@ for (const n of DATA.neighborhoods) {
   console.log(
     `${n.name}: ${row.area.kind}${row.area.name ? ` "${row.area.name}"` : ''} ${row.area.km2} km2 | ${row.restaurants} restaurants, ${row.cuisines.length} cuisines, ${row.nightlife} nightlife, ${row.shopping} shops, ${row.artAndCulture} culture, home $${row.medianHomeValue}, rent $${row.medianRent} (${row.tracts} tracts)`
   );
+}
+
+const priced = Object.values(out.neighborhoods).filter((r) => r.medianHomeValue || r.medianRent).length;
+if (priced < 20) {
+  console.error(`Only ${priced} neighborhoods have a home value or rent; the Census lookup is broken. Not writing ${OUT}.`);
+  process.exit(1);
 }
 
 writeFileSync(OUT, JSON.stringify(out, null, 2) + '\n');
