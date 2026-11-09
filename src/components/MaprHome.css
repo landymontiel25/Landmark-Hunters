@@ -585,3 +585,97 @@
 .mapr-score-sheet .taste-profile-card {
   margin: 0 0 10px;
 }
+
+/* ---------- Light mode (owner, 2026-11-09) ----------
+   Mapr follows the app's theme like every other tab. The orb, the photo
+   cards' title over a dark gradient and the blue send button keep their
+   own colors in both themes (text on a photo stays white). */
+[data-theme='light'] .mui {
+  --mui-bg: var(--bg-primary, #f6efe0);
+  --mui-line: rgba(43, 38, 32, 0.14);
+  --mui-fill: rgba(255, 250, 240, 0.9);
+  --mui-blue: #2f5fe0;
+  background: radial-gradient(90% 30% at 50% 0%, rgba(77, 127, 255, 0.14), transparent 75%), var(--mui-bg);
+  color: var(--text-primary, #2b2620);
+}
+[data-theme='light'] .mui-brand,
+[data-theme='light'] .mui-hello {
+  color: var(--text-primary, #2b2620);
+}
+[data-theme='light'] .mui-sub,
+[data-theme='light'] .mui-section-head h3 {
+  color: var(--text-secondary, #6b5f4e);
+}
+[data-theme='light'] .mui-city,
+[data-theme='light'] .mui-avatar {
+  border-color: rgba(43, 38, 32, 0.14);
+  background: #fffaf0;
+}
+[data-theme='light'] .mui-city > svg:last-child {
+  color: #6b5f4e;
+}
+[data-theme='light'] .mui-city-menu {
+  background: #fffaf0;
+  box-shadow: 0 16px 40px rgba(43, 38, 32, 0.18);
+}
+[data-theme='light'] .mui-city-menu button:hover,
+[data-theme='light'] .mui-city-menu button.on,
+[data-theme='light'] .mui-chip.on {
+  background: rgba(47, 95, 224, 0.12);
+}
+[data-theme='light'] .mui-ask {
+  border-color: rgba(47, 95, 224, 0.45);
+  background: #fffaf0;
+}
+[data-theme='light'] .mui-ask:focus-within {
+  border-color: #2f5fe0;
+  box-shadow: 0 0 0 3px rgba(47, 95, 224, 0.14);
+}
+[data-theme='light'] .mui-ask input {
+  color: var(--text-primary, #2b2620);
+}
+[data-theme='light'] .mui-ask input::placeholder {
+  color: #8a7f6d;
+}
+[data-theme='light'] .mui-chip {
+  border-color: rgba(43, 38, 32, 0.16);
+  color: #4a4136 !important;
+}
+[data-theme='light'] .mui-chip svg {
+  color: #2b2620;
+}
+[data-theme='light'] .mui-chip.on {
+  border-color: rgba(47, 95, 224, 0.7);
+  color: #1f3f9e !important;
+}
+[data-theme='light'] .mui-see-all {
+  color: #2f5fe0 !important;
+}
+[data-theme='light'] .mui-card {
+  border-color: rgba(43, 38, 32, 0.12);
+  background: #ede1c8;
+}
+[data-theme='light'] .mui-row {
+  border-color: rgba(43, 38, 32, 0.14);
+}
+[data-theme='light'] .mui-row:active {
+  background: rgba(43, 38, 32, 0.06);
+}
+[data-theme='light'] .mui-row-icon,
+[data-theme='light'] .mui-row > svg {
+  color: #2b2620;
+}
+[data-theme='light'] .mui-row-title {
+  color: #3d352b;
+}
+@media (min-width: 600px) {
+  [data-theme='light'] .mui {
+    border-color: rgba(43, 38, 32, 0.14);
+  }
+}
+.mui-pin-hole {
+  fill: #0d1018;
+}
+[data-theme='light'] .mui-pin-hole {
+  fill: #fffaf0;
+}

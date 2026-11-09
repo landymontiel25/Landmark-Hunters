@@ -288,7 +288,7 @@ export default function MaprHome({
               <button type="button" className="mui-city" aria-haspopup="listbox" aria-expanded={cityOpen} onClick={() => setCityOpen((o) => !o)}>
                 <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
                   <path d="M8 0.8C4.2 0.8 1.3 3.7 1.3 7.4c0 4.6 5.4 9.3 6.1 9.9.3.2.9.2 1.2 0 .7-.6 6.1-5.3 6.1-9.9C14.7 3.7 11.8.8 8 .8z" fill="#5b8cff" />
-                  <circle cx="8" cy="7.2" r="2.4" fill="#0d1018" />
+                  <circle cx="8" cy="7.2" r="2.4" className="mui-pin-hole" />
                 </svg>
                 <span>{city || 'Any city'}</span>
                 <Icon size={14} stroke={1.8} d="m6 9 6 6 6-6" />
