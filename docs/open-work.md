@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Sage and green redesign (2026-11-09)
+
+Owner sent a fitness app's screens as the reference: the four tabs (Map,
+Landmarks, Itinerary, Profile) now use pale sage #E9EFEB page, white cards
+(radius 28), Archivo 900 titles with a date line (`AppleSkin.jsx`), green
+#16783F accent (dark mode: #0A0F0C page, #2EBF6B), floating white tab bar
+with a green dash under the active tab. Layer at the end of
+`src/styles/apple-live.css`; it replaces the earlier Mapr-look tokens. Mapr
+(`/mapr`) keeps its own design. Profile not seen in a browser with data.
+
 ## Cut Google lookups (2026-11-09)
 
 Google's GetPlaceRequest per day (1,500) hit 87% in about 15 minutes of use.
