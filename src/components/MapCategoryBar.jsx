@@ -16,8 +16,16 @@ export default function MapCategoryBar({ value, onChange, className = '' }) {
     const next = picked.includes(id) ? picked.filter((c) => c !== id) : [...picked, id];
     onChange(next.length ? next : null);
   };
+  const needsPick = value == null;
+  const inSheet = className.includes('map-cat-bar-sheet');
   return (
-    <div className={`map-cat-bar ${className}`.trim()} role="group" aria-label="Show on the map">
+    <>
+    {inSheet && (
+      <p className={`map-cat-prompt ${needsPick ? 'needs-pick' : ''}`} role={needsPick ? 'status' : undefined}>
+        {needsPick ? 'Choose Select All or a category to see places on the map' : 'Swipe up for picks near you'}
+      </p>
+    )}
+    <div className={`map-cat-bar ${className} ${needsPick ? 'needs-pick' : ''}`.trim()} role="group" aria-label="Show on the map">
       <button type="button" className={`map-cat-chip map-cat-all ${all ? 'on' : ''}`} aria-pressed={all} onClick={() => onChange(all ? null : 'all')}>
         Select All
       </button>
@@ -38,6 +46,7 @@ export default function MapCategoryBar({ value, onChange, className = '' }) {
         );
       })}
     </div>
+    </>
   );
 }
 

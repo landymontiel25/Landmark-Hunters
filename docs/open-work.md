@@ -191,6 +191,12 @@ Still open:
 
 ## Map: category bar, opens empty (2026-11-07)
 
+Update 2026-11-09: the sheet opens at a "categories only" stop
+(`PICKS_SHEET_H.peek`, 156px): the bar plus a prompt ("Choose Select All or a
+category..."), Select All pulsing until something is chosen. Swipe up goes to
+half the screen (the cap), down steps back. `PicksBottomSheet` `peek` /
+`onPeekChange`; session state `map.picksPeek`.
+
 Update 2026-11-08: signed in, the bar sits in the picks sheet above
 "Discover popular landmarks" (MapPicksOverlay `topSlot`); the "Pick what
 to see on the map" note is gone. Signed out, it stays over the map.

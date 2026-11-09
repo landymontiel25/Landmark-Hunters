@@ -490,4 +490,17 @@ describe('PicksBottomSheet onShown (logging on view)', () => {
     await act(async () => root.render(tree({ updating: false })));
     expect(onShown).toHaveBeenCalledTimes(1);
   });
+
+  it('peek (Map): shows only the topSlot; the handle opens it to half the screen', async () => {
+    const onPeekChange = vi.fn();
+    const onMinimizedChange = vi.fn();
+    await render({ layout: 'mood-first', peek: true, onPeekChange, onMinimizedChange, expanded: true, picks: PICKS, topSlot: <p>category bar</p> });
+    expect(container.textContent).toContain('category bar');
+    expect(container.textContent).not.toContain('Place a');
+    const grip = container.querySelector('.mpp-sheet-grip');
+    await act(async () => {
+      grip.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    });
+    expect(onPeekChange).toHaveBeenCalledWith(false);
+  });
 });
