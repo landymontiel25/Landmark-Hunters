@@ -605,3 +605,13 @@ body[data-apple] .map-fullscreen:has(.map-search-panel) .map-add-btn,
 body[data-apple] .map-fullscreen:has(.map-search-panel) .map-locate-btn {
   display: none;
 }
+
+/* Chip rows (Popular Landmarks, Near Me, Checked in, categories) scroll
+   left and right only, never up and down (owner, 2026-11-09). */
+body[data-apple] .aps .tabs,
+body[data-apple] .map-cat-bar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
