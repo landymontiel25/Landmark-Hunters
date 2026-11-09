@@ -440,11 +440,12 @@ body[data-apple] .aps-live .lm-card .lr-actions > * {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  height: 42px;
+  gap: 3px;
+  height: 38px;
   min-height: 0;
-  padding: 0 8px;
-  font-size: 15px;
+  min-width: 0;
+  padding: 0 6px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
