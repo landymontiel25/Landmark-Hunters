@@ -1,0 +1,112 @@
+{
+  "Aventura": {
+    "Art & Culture": [
+      "https://www.miamiandbeaches.com/l/arts-and-culture/aventura-arts-and-cultural-center/5949"
+    ],
+    "Family": [
+      "https://www.cityofaventura.com/facilities/facility/details/Founders-Park-4"
+    ]
+  },
+  "Sunny Isles Beach": {
+    "Beaches": [
+      "https://www.miamiandbeaches.com/plan-your-trip/miami-trip-ideas/insider-guides/sunny-isles-guide",
+      "https://www.sibfl.gov/Parks-Recreation/Parks/Parks-Facilities/Samson-Oceanfront-Park"
+    ],
+    "Family": [
+      "https://www.sibfl.gov/Parks-Recreation/Parks/Parks-Facilities"
+    ]
+  },
+  "North Miami": {
+    "Art & Culture": [
+      "https://www.mocanomi.org/about"
+    ],
+    "Food & Drinks": [
+      "https://www.miamiandbeaches.com/restaurants/michelin-star-restaurants-in-miami"
+    ]
+  },
+  "Coral Gables": {
+    "Art & Culture": [
+      "https://coralgablesmuseum.org/"
+    ],
+    "Food & Drinks": [
+      "https://guide.michelin.com/en/article/dining-out/michelin-guide-florida-miami-orlando-tampa-new-additions-restaurants"
+    ],
+    "Family": [
+      "https://www.coralgables.com/venetian-pool"
+    ]
+  },
+  "Pinecrest": {
+    "Art & Culture": [
+      "https://www.pinecrest-fl.gov/Government/Pinecrest-Gardens"
+    ],
+    "Family": [
+      "https://www.pinecrestgardens.org/About-Us"
+    ]
+  },
+  "Hialeah": {
+    "Family": [
+      "https://www.miamidade.gov/global/recreation/park/amelia-earhart-park.page"
+    ]
+  },
+  "Doral": {
+    "Family": [
+      "https://www.cityofdoral.com/Departments/Parks-and-Recreation/Parks-and-Facilities/Doral-Central-Park"
+    ]
+  },
+  "Kendall": {
+    "Family": [
+      "https://www.miamidade.gov/global/recreation/park/kendall-indian-hammocks-park.page"
+    ]
+  },
+  "Homestead": {
+    "Art & Culture": [
+      "https://discoverdowntownhomestead.com/attraction/"
+    ],
+    "Beaches": [
+      "https://www.miamidade.gov/parks/Homestead-bayfront.asp"
+    ],
+    "Family": [
+      "https://www.visitflorida.com/places-to-go/southeast/homestead/"
+    ]
+  },
+  "Palmetto Bay": {
+    "Art & Culture": [
+      "https://deeringestate.org/"
+    ],
+    "Family": [
+      "https://www.palmettobay-fl.gov/213/Coral-Reef-Park"
+    ]
+  },
+  "Westchester": {
+    "Family": [
+      "https://www.miamiandbeaches.com/l/outdoor-experiences/tropical-park/2965",
+      "https://www.westchesterfl.com/parks-libraries"
+    ]
+  },
+  "South Miami": {
+    "Food & Drinks": [
+      "https://guide.michelin.com/en/article/dining-out/michelin-guide-florida-miami-orlando-tampa-new-additions-restaurants"
+    ]
+  },
+  "Brickell": {
+    "Food & Drinks": [
+      "https://guide.michelin.com/us/en/florida/miami/restaurant/elcielo-miami"
+    ]
+  },
+  "Downtown Miami": {
+    "Art & Culture": [
+      "https://www.bayfrontparkmiami.com/"
+    ],
+    "Family": [
+      "https://www.bayfrontparkmiami.com/"
+    ],
+    "Food & Drinks": [
+      "https://manawynwood.com/news/michelin-restaurants-downtown-miami-wynwood-2026/"
+    ]
+  },
+  "Wynwood": {
+    "Food & Drinks": [
+      "https://manawynwood.com/news/michelin-restaurants-downtown-miami-wynwood-2026/"
+    ]
+  }
+}

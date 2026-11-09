@@ -70,7 +70,9 @@
         "license": "Public domain",
         "source": "https://commons.wikimedia.org/wiki/File:Brickell_skyline_2012.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.76147,
         "lng": -80.19288,
@@ -101,7 +103,11 @@
         "license": "CC BY-SA 4.0",
         "source": "https://commons.wikimedia.org/wiki/File:Common_Downtown_shot_2011_all_tagged_including_OBP.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Food & Drinks",
+        "Family"
+      ],
       "location": {
         "lat": 25.7745,
         "lng": -80.192,
@@ -163,7 +169,9 @@
         "license": "CC BY-SA 2.0",
         "source": "https://commons.wikimedia.org/wiki/File:Wynwood_Walls_Miami_Florida_October_2013.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.80141,
         "lng": -80.19909,
@@ -767,7 +775,11 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Coral_Gables_skyline_20100403.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Food & Drinks",
+        "Family"
+      ],
       "location": {
         "lat": 25.73311,
         "lng": -80.25851,
@@ -825,7 +837,10 @@
       "info": "",
       "photo": "",
       "photoCredit": null,
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Family"
+      ],
       "location": {
         "lat": 25.66705,
         "lng": -80.30811,
@@ -856,7 +871,9 @@
         "license": "CC BY 2.0",
         "source": "https://commons.wikimedia.org/wiki/File:Hialeah_-_Flickr_-_Phillip_Pessar.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.82678,
         "lng": -80.2814,
@@ -887,7 +904,9 @@
         "license": "CC BY-SA 4.0",
         "source": "https://commons.wikimedia.org/wiki/File:Downtown_Doral,_Florida.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.81954,
         "lng": -80.35533,
@@ -918,7 +937,10 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Aventura_Skyline.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Family"
+      ],
       "location": {
         "lat": 25.95648,
         "lng": -80.13921,
@@ -949,7 +971,10 @@
         "license": "CC BY-SA 2.0",
         "source": "https://commons.wikimedia.org/wiki/File:Jade_Signature,_Jade_Beach,_Jade_Ocean,_Muse,_Ocean_4,_Chateau_Beach_March_2018_Sunny_Isles.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.94269,
         "lng": -80.12185,
@@ -980,7 +1005,10 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:North_Miami_FL_city_hall01.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.89009,
         "lng": -80.18671,
@@ -1104,7 +1132,9 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Kendall_Dadeland_ramp.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.67181,
         "lng": -80.35486,
@@ -1135,7 +1165,11 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Downtown_Homestead_street_clock.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.47189,
         "lng": -80.47599,
@@ -1193,7 +1227,10 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Paradise_Point,_Palmetto_Bay,_Florida.png"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Family"
+      ],
       "location": {
         "lat": 25.62177,
         "lng": -80.32477,
@@ -1375,7 +1412,9 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Westchester_sign.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.75482,
         "lng": -80.32727,
@@ -1429,7 +1468,9 @@
       "info": "",
       "photo": "",
       "photoCredit": null,
-      "tags": [],
+      "tags": [
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.7076,
         "lng": -80.29338,
