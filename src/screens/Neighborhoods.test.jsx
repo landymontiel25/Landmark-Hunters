@@ -153,7 +153,9 @@ describe('Neighborhood detail', () => {
     expect(el.querySelector('.nb-detail-info')).toBeNull();
     const labels = [...el.querySelectorAll('.nb-slider-label')].map((l) => l.textContent);
     expect(labels).toEqual(['Safety', 'Walkability', 'Restaurants', 'Nightlife', 'Average Property Price', 'Art and Culture', 'Shopping']);
-    for (const v of el.querySelectorAll('.nb-slider-value')) expect(v.textContent).toBe('–');
+    const values = [...el.querySelectorAll('.nb-slider-value')].map((v) => v.textContent);
+    expect(values[0]).toBe('No crime data yet');
+    for (const v of values.slice(1)) expect(v).toBe('–');
     expect(el.querySelectorAll('[data-testid="nb-fill"]').length).toBe(0);
     expect(el.textContent).not.toMatch(/check.?in/i);
     expect(el.textContent).not.toMatch(/landmark/i);

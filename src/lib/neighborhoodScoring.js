@@ -5,8 +5,11 @@
 //
 // Counts use a log scale between the lowest and highest neighborhood, so one
 // very dense area (Brickell, South Beach) doesn't flatten everyone else to 0.
-// Average Property Price uses the same scale on the median home value:
-// 5 = the priciest tract. Safety has no source yet and stays null.
+// Average Property Price uses the same scale on two Census figures and
+// averages them: the median home value (owner-occupied homes only) and the
+// median gross rent (renters too, so South Beach's rent-heavy condos count).
+// 5 = the priciest. Either figure alone is used when the other is missing.
+// Safety has no source yet and stays null.
 // Walkability counts every place in the other groups (food, nightlife,
 // shops, culture). Counts cover the neighborhood's OpenStreetMap outline, or
 // a 1 km circle around its center where it has none (see
@@ -27,8 +30,14 @@ export function logScale(value, values) {
   return round1(Math.max(0, Math.min(5, ((Math.log1p(value) - lo) / (hi - lo)) * 5)));
 }
 
+// Mean of the home-value and rent scores that exist; null when neither does.
+function priceScore(m, cols) {
+  const parts = [logScale(m.medianHomeValue, cols.home), logScale(m.medianRent, cols.rent)].filter(isNum);
+  return parts.length ? round1(parts.reduce((a, b) => a + b, 0) / parts.length) : null;
+}
+
 // metrics: { [name]: { restaurants, cuisines: [], nightlife, shopping,
-// artAndCulture, medianHomeValue } }
+// artAndCulture, medianHomeValue, medianRent } }
 // Returns { [name]: ratings } in the data file's shape.
 export function scoreNeighborhoods(metrics) {
   const rows = Object.entries(metrics);
@@ -44,6 +53,7 @@ export function scoreNeighborhoods(metrics) {
     cuisines: col((m) => (Array.isArray(m.cuisines) ? m.cuisines.length : null)),
     nightlife: col((m) => count(m, m.nightlife)),
     home: col((m) => m.medianHomeValue),
+    rent: col((m) => m.medianRent),
     culture: col((m) => count(m, m.artAndCulture)),
     shopping: col((m) => count(m, m.shopping)),
   };
@@ -58,7 +68,7 @@ export function scoreNeighborhoods(metrics) {
         diversity: logScale(Array.isArray(m.cuisines) ? m.cuisines.length : null, cols.cuisines),
       },
       nightlife: logScale(count(m, m.nightlife), cols.nightlife),
-      averagePropertyPrice: logScale(m.medianHomeValue, cols.home),
+      averagePropertyPrice: priceScore(m, cols),
       artAndCulture: logScale(count(m, m.artAndCulture), cols.culture),
       shopping: logScale(count(m, m.shopping), cols.shopping),
     };

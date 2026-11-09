@@ -10,8 +10,10 @@
 //   (outlines.json can move a center, e.g. Coconut Grove to CocoWalk).
 // - Geoapify Places inside that area: restaurants (+ their cuisines),
 //   nightlife, shops, and art and culture places.
-// - Census: the tract at the center (Census geocoder) and its median home
-//   value (ACS 5-year, table B25077).
+// - Census (ACS 5-year): median home value (B25077) and median gross rent
+//   (B25064), each averaged over every tract whose internal point falls inside
+//   the area (TIGERweb). Where TIGERweb gives nothing, the one tract at the
+//   center (Census geocoder) stands in.
 // Writes scripts/neighborhoods/metrics.json. scripts/score-miami-neighborhoods.mjs
 // turns it into 0-5 ratings.
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -121,13 +123,63 @@ async function tractOf({ lat, lng }) {
   return t ? { geoid: t.GEOID, state: t.STATE, county: t.COUNTY, tract: t.TRACT } : null;
 }
 
-async function medianHomeValue(t) {
-  const url = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5?get=B25077_001E&for=tract:${t.tract}&in=state:${t.state}%20county:${t.county}&key=${CENSUS}`;
-  const rows = await getJson(url);
-  const v = Number(rows?.[1]?.[0]);
-  // The ACS marks suppressed values with large negative codes; 2000001 is its
-  // "$2,000,000 or more" top code, kept as is.
-  return Number.isFinite(v) && v > 0 ? v : null;
+// Home value and rent for every tract in one county, keyed by 6-digit tract.
+// The ACS marks suppressed values with large negative codes; 2000001 is its
+// "$2,000,000 or more" top code, kept as is.
+const countyCache = new Map();
+async function countyTracts(state, county) {
+  const key = `${state}${county}`;
+  if (!countyCache.has(key)) {
+    const url = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5?get=B25077_001E,B25064_001E&for=tract:*&in=state:${state}%20county:${county}&key=${CENSUS}`;
+    const rows = await getJson(url);
+    const pos = (v) => (Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : null);
+    countyCache.set(key, new Map(rows.slice(1).map((r) => [r[3], { home: pos(r[0]), rent: pos(r[1]) }])));
+  }
+  return countyCache.get(key);
+}
+
+// Internal point of every tract in a county (TIGERweb).
+const tractPoints = new Map();
+async function pointsIn(state, county) {
+  const key = `${state}${county}`;
+  if (!tractPoints.has(key)) {
+    const where = encodeURIComponent(`STATE='${state}' AND COUNTY='${county}'`);
+    const url = `https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer/0/query?where=${where}&outFields=TRACT,INTPTLAT,INTPTLON&returnGeometry=false&resultRecordCount=2000&f=json`;
+    const feats = (await getJson(url)).features || [];
+    tractPoints.set(key, feats.map((f) => ({ tract: f.attributes.TRACT, lat: +f.attributes.INTPTLAT, lng: +f.attributes.INTPTLON })));
+  }
+  return tractPoints.get(key);
+}
+const metersBetween = (a, b) => {
+  const r = Math.PI / 180;
+  const dx = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r);
+  const dy = (b.lat - a.lat) * r;
+  return Math.hypot(dx, dy) * 6371008.8;
+};
+
+const mean = (xs) => (xs.length ? Math.round(xs.reduce((a, b) => a + b, 0) / xs.length) : null);
+
+// { medianHomeValue, medianRent, tracts }, averaged over the area's tracts
+// (the outline, else the 1 km circle); the center tract when TIGERweb fails.
+async function censusFor(area, center, t) {
+  if (!t) return { medianHomeValue: null, medianRent: null, tracts: 0 };
+  const values = await countyTracts(t.state, t.county);
+  let ids = [];
+  try {
+    const pts = await pointsIn(t.state, t.county);
+    ids = pts
+      .filter((p) => (area.geometry ? inGeometry([p.lng, p.lat], area.geometry) : metersBetween(center, p) <= CIRCLE_M))
+      .map((p) => p.tract);
+  } catch (e) {
+    console.warn(`TIGERweb failed (${e.message}); using the center tract`);
+  }
+  if (!ids.length) ids = [t.tract];
+  const rows = ids.map((id) => values.get(id)).filter(Boolean);
+  return {
+    medianHomeValue: mean(rows.map((r) => r.home).filter((v) => v != null)),
+    medianRent: mean(rows.map((r) => r.rent).filter((v) => v != null)),
+    tracts: ids.length,
+  };
 }
 
 const out = {
@@ -135,7 +187,7 @@ const out = {
   sources: {
     places: 'Geoapify Places API (OpenStreetMap data), https://apidocs.geoapify.com/docs/places/',
     areas: 'OpenStreetMap outlines via Nominatim (scripts/neighborhoods/outlines.json), else a 1 km circle',
-    homeValue: `U.S. Census Bureau, ACS ${ACS_YEAR} 5-year, B25077 median home value, census tract at the neighborhood center`,
+    homeValue: `U.S. Census Bureau, ACS ${ACS_YEAR} 5-year, B25077 median home value and B25064 median gross rent, averaged over the census tracts inside the area (TIGERweb tract points), else the tract at the center`,
   },
   groups: GROUPS,
   neighborhoods: {},
@@ -162,10 +214,10 @@ for (const n of DATA.neighborhoods) {
   }
   const tract = await tractOf(n.location).catch(() => null);
   row.tract = tract?.geoid ?? null;
-  row.medianHomeValue = tract ? await medianHomeValue(tract).catch(() => null) : null;
+  Object.assign(row, await censusFor(area, center, tract).catch(() => ({ medianHomeValue: null, medianRent: null, tracts: 0 })));
   out.neighborhoods[n.name] = row;
   console.log(
-    `${n.name}: ${row.area.kind}${row.area.name ? ` "${row.area.name}"` : ''} ${row.area.km2} km2 | ${row.restaurants} restaurants, ${row.cuisines.length} cuisines, ${row.nightlife} nightlife, ${row.shopping} shops, ${row.artAndCulture} culture, home $${row.medianHomeValue}`
+    `${n.name}: ${row.area.kind}${row.area.name ? ` "${row.area.name}"` : ''} ${row.area.km2} km2 | ${row.restaurants} restaurants, ${row.cuisines.length} cuisines, ${row.nightlife} nightlife, ${row.shopping} shops, ${row.artAndCulture} culture, home $${row.medianHomeValue}, rent $${row.medianRent} (${row.tracts} tracts)`
   );
 }
 

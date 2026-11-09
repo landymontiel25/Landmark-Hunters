@@ -57,7 +57,7 @@ export function NeighborhoodCard({ n, onOpen }) {
 
 // One read-only rating: a 0-5 number line with ticks, filled from 0 to the
 // score in its band color. Null: empty track and "–".
-export function RatingSlider({ label, value, comingSoon = false, sub = false, children }) {
+export function RatingSlider({ label, value, comingSoon = false, emptyText = null, sub = false, children }) {
   const band = scoreBand(value);
   const pct = value == null ? 0 : Math.max(0, Math.min(5, value)) * 20;
   return (
@@ -65,7 +65,7 @@ export function RatingSlider({ label, value, comingSoon = false, sub = false, ch
       <div className="nb-slider-head">
         <span className="nb-slider-label">{label}</span>
         {children}
-        <span className="nb-slider-value">{comingSoon ? 'Coming soon' : formatScore(value)}</span>
+        <span className="nb-slider-value">{comingSoon ? 'Coming soon' : value == null && emptyText ? emptyText : formatScore(value)}</span>
       </div>
       <div className="nb-track" aria-hidden="true">
         {value != null && !comingSoon && <div className={`nb-fill band-${band}`} data-testid="nb-fill" style={{ width: `${pct}%` }} />}
@@ -121,7 +121,7 @@ export function NeighborhoodDetail({ n, onBack }) {
               )}
             </div>
           ) : (
-            <RatingSlider key={r.key} label={r.label} value={ratingValue(n.ratings, r.key)} />
+            <RatingSlider key={r.key} label={r.label} value={ratingValue(n.ratings, r.key)} emptyText={r.key === 'safety' ? 'No crime data yet' : null} />
           )
         )}
       </div>
