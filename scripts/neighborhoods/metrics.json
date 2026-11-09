@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-11-07T01:22:48.854Z",
+  "fetchedAt": "2026-11-09T21:58:26.125Z",
   "sources": {
     "places": "Geoapify Places API (OpenStreetMap data), https://apidocs.geoapify.com/docs/places/",
     "areas": "OpenStreetMap outlines via Nominatim (scripts/neighborhoods/outlines.json), else a 1 km circle",
-    "homeValue": "U.S. Census Bureau, ACS 2023 5-year, B25077 median home value, census tract at the neighborhood center"
+    "homeValue": "U.S. Census Bureau, ACS 2023 5-year, B25077 median home value and B25064 median gross rent, averaged over the census tracts inside the area (TIGERweb tract points), else the tract at the center"
   },
   "groups": {
     "restaurants": "catering.restaurant,catering.cafe,catering.fast_food,catering.food_court",
@@ -54,7 +54,9 @@
       "shopping": 76,
       "artAndCulture": 18,
       "tract": "12086006716",
-      "medianHomeValue": 732600
+      "medianHomeValue": 619717,
+      "medianRent": 2660,
+      "tracts": 15
     },
     "Downtown Miami": {
       "area": {
@@ -105,7 +107,9 @@
       "shopping": 109,
       "artAndCulture": 15,
       "tract": "12086003704",
-      "medianHomeValue": 364000
+      "medianHomeValue": 559850,
+      "medianRent": 2486,
+      "tracts": 10
     },
     "Edgewater": {
       "area": {
@@ -151,7 +155,9 @@
       "shopping": 39,
       "artAndCulture": 13,
       "tract": "12086002702",
-      "medianHomeValue": null
+      "medianHomeValue": 436267,
+      "medianRent": 2319,
+      "tracts": 5
     },
     "Wynwood": {
       "area": {
@@ -192,7 +198,9 @@
       "shopping": 53,
       "artAndCulture": 23,
       "tract": "12086002800",
-      "medianHomeValue": null
+      "medianHomeValue": 461400,
+      "medianRent": 1932,
+      "tracts": 2
     },
     "Design District": {
       "area": {
@@ -229,7 +237,9 @@
       "shopping": 191,
       "artAndCulture": 9,
       "tract": "12086002201",
-      "medianHomeValue": 618500
+      "medianHomeValue": 618500,
+      "medianRent": 2018,
+      "tracts": 1
     },
     "Little Havana": {
       "area": {
@@ -258,7 +268,9 @@
       "shopping": 26,
       "artAndCulture": 2,
       "tract": "12086005407",
-      "medianHomeValue": 471600
+      "medianHomeValue": 412571,
+      "medianRent": 1334,
+      "tracts": 7
     },
     "Little Haiti": {
       "area": {
@@ -288,7 +300,9 @@
       "shopping": 15,
       "artAndCulture": 0,
       "tract": "12086002004",
-      "medianHomeValue": 394100
+      "medianHomeValue": 349133,
+      "medianRent": 1088,
+      "tracts": 3
     },
     "Overtown": {
       "area": {
@@ -308,7 +322,9 @@
       "shopping": 6,
       "artAndCulture": 1,
       "tract": "12086003400",
-      "medianHomeValue": null
+      "medianHomeValue": null,
+      "medianRent": 1320,
+      "tracts": 1
     },
     "Allapattah": {
       "area": {
@@ -328,7 +344,9 @@
       "shopping": 11,
       "artAndCulture": 0,
       "tract": "12086002501",
-      "medianHomeValue": 277200
+      "medianHomeValue": 311233,
+      "medianRent": 1410,
+      "tracts": 3
     },
     "Coconut Grove": {
       "area": {
@@ -359,7 +377,9 @@
       "shopping": 14,
       "artAndCulture": 0,
       "tract": "12086007300",
-      "medianHomeValue": 1662800
+      "medianHomeValue": 667033,
+      "medianRent": 1758,
+      "tracts": 3
     },
     "Coral Way": {
       "area": {
@@ -380,7 +400,9 @@
       "shopping": 0,
       "artAndCulture": 35,
       "tract": "12086006715",
-      "medianHomeValue": 475900
+      "medianHomeValue": 1214200,
+      "medianRent": 1834,
+      "tracts": 2
     },
     "Flagami": {
       "area": {
@@ -403,7 +425,9 @@
       "shopping": 13,
       "artAndCulture": 0,
       "tract": "12086005902",
-      "medianHomeValue": 398300
+      "medianHomeValue": 450333,
+      "medianRent": 1670,
+      "tracts": 3
     },
     "Liberty City": {
       "area": {
@@ -425,7 +449,9 @@
       "shopping": 4,
       "artAndCulture": 0,
       "tract": "12086001904",
-      "medianHomeValue": 320700
+      "medianHomeValue": 347433,
+      "medianRent": 1429,
+      "tracts": 3
     },
     "Morningside": {
       "area": {
@@ -447,7 +473,9 @@
       "shopping": 5,
       "artAndCulture": 0,
       "tract": "12086002100",
-      "medianHomeValue": 1188500
+      "medianHomeValue": 1188500,
+      "medianRent": 2142,
+      "tracts": 1
     },
     "Shenandoah": {
       "area": {
@@ -477,7 +505,9 @@
       "shopping": 16,
       "artAndCulture": 2,
       "tract": "12086006403",
-      "medianHomeValue": 625600
+      "medianHomeValue": 496850,
+      "medianRent": 1571,
+      "tracts": 6
     },
     "Upper East Side": {
       "area": {
@@ -506,7 +536,9 @@
       "shopping": 13,
       "artAndCulture": 0,
       "tract": "12086001302",
-      "medianHomeValue": 547000
+      "medianHomeValue": 547000,
+      "medianRent": 1814,
+      "tracts": 1
     },
     "Midtown": {
       "area": {
@@ -555,7 +587,9 @@
       "shopping": 211,
       "artAndCulture": 11,
       "tract": "12086002600",
-      "medianHomeValue": 461400
+      "medianHomeValue": 444300,
+      "medianRent": 2402,
+      "tracts": 2
     },
     "Miami River District": {
       "area": {
@@ -588,7 +622,9 @@
       "shopping": 24,
       "artAndCulture": 4,
       "tract": "12086003606",
-      "medianHomeValue": null
+      "medianHomeValue": 618560,
+      "medianRent": 1660,
+      "tracts": 10
     },
     "South Beach": {
       "area": {
@@ -646,7 +682,9 @@
       "shopping": 83,
       "artAndCulture": 8,
       "tract": "12086004403",
-      "medianHomeValue": 285000
+      "medianHomeValue": 318320,
+      "medianRent": 1674,
+      "tracts": 5
     },
     "Mid-Beach": {
       "area": {
@@ -688,7 +726,9 @@
       "shopping": 10,
       "artAndCulture": 1,
       "tract": "12086004103",
-      "medianHomeValue": 395500
+      "medianHomeValue": 486450,
+      "medianRent": 2215,
+      "tracts": 2
     },
     "North Beach": {
       "area": {
@@ -727,7 +767,9 @@
       "shopping": 15,
       "artAndCulture": 1,
       "tract": "12086003909",
-      "medianHomeValue": null
+      "medianHomeValue": 272800,
+      "medianRent": 1545,
+      "tracts": 3
     },
     "South of Fifth": {
       "area": {
@@ -778,7 +820,9 @@
       "shopping": 66,
       "artAndCulture": 6,
       "tract": "12086004500",
-      "medianHomeValue": 2000001
+      "medianHomeValue": 290867,
+      "medianRent": 1505,
+      "tracts": 3
     },
     "Sunset Harbour": {
       "area": {
@@ -826,7 +870,9 @@
       "shopping": 168,
       "artAndCulture": 9,
       "tract": "12086004106",
-      "medianHomeValue": 1152300
+      "medianHomeValue": 655675,
+      "medianRent": 2426,
+      "tracts": 4
     },
     "Coral Gables": {
       "area": {
@@ -880,7 +926,9 @@
       "shopping": 62,
       "artAndCulture": 41,
       "tract": "12086007403",
-      "medianHomeValue": 907400
+      "medianHomeValue": 1101187,
+      "medianRent": 2664,
+      "tracts": 16
     },
     "Key Biscayne": {
       "area": {
@@ -905,7 +953,9 @@
       "shopping": 10,
       "artAndCulture": 1,
       "tract": "12086004602",
-      "medianHomeValue": 2000001
+      "medianHomeValue": 1320800,
+      "medianRent": 3303,
+      "tracts": 4
     },
     "Pinecrest": {
       "area": {
@@ -937,7 +987,9 @@
       "shopping": 52,
       "artAndCulture": 0,
       "tract": "12086007807",
-      "medianHomeValue": 1158800
+      "medianHomeValue": 1370825,
+      "medianRent": 2638,
+      "tracts": 4
     },
     "Hialeah": {
       "area": {
@@ -975,7 +1027,9 @@
       "shopping": 108,
       "artAndCulture": 1,
       "tract": "12086001605",
-      "medianHomeValue": 187800
+      "medianHomeValue": 346855,
+      "medianRent": 1663,
+      "tracts": 57
     },
     "Doral": {
       "area": {
@@ -1033,7 +1087,9 @@
       "shopping": 102,
       "artAndCulture": 6,
       "tract": "12086009058",
-      "medianHomeValue": 427400
+      "medianHomeValue": 498254,
+      "medianRent": 2611,
+      "tracts": 13
     },
     "Aventura": {
       "area": {
@@ -1079,7 +1135,9 @@
       "shopping": 119,
       "artAndCulture": 0,
       "tract": "12086000134",
-      "medianHomeValue": 234000
+      "medianHomeValue": 479983,
+      "medianRent": 2456,
+      "tracts": 12
     },
     "Sunny Isles Beach": {
       "area": {
@@ -1140,7 +1198,9 @@
       "shopping": 49,
       "artAndCulture": 7,
       "tract": "12086000123",
-      "medianHomeValue": 472600
+      "medianHomeValue": 593400,
+      "medianRent": 2062,
+      "tracts": 6
     },
     "North Miami": {
       "area": {
@@ -1189,7 +1249,9 @@
       "shopping": 125,
       "artAndCulture": 10,
       "tract": "12086000306",
-      "medianHomeValue": 496800
+      "medianHomeValue": 322888,
+      "medianRent": 1605,
+      "tracts": 16
     },
     "North Miami Beach": {
       "area": {
@@ -1240,7 +1302,9 @@
       "shopping": 97,
       "artAndCulture": 5,
       "tract": "12086000221",
-      "medianHomeValue": 323700
+      "medianHomeValue": 282771,
+      "medianRent": 1640,
+      "tracts": 8
     },
     "Miami Gardens": {
       "area": {
@@ -1266,7 +1330,9 @@
       "shopping": 50,
       "artAndCulture": 1,
       "tract": "12086010024",
-      "medianHomeValue": 377400
+      "medianHomeValue": 316407,
+      "medianRent": 1899,
+      "tracts": 29
     },
     "Miami Lakes": {
       "area": {
@@ -1290,7 +1356,9 @@
       "shopping": 9,
       "artAndCulture": 0,
       "tract": "12086009312",
-      "medianHomeValue": 278500
+      "medianHomeValue": 530517,
+      "medianRent": 2093,
+      "tracts": 6
     },
     "Kendall": {
       "area": {
@@ -1354,7 +1422,9 @@
       "shopping": 295,
       "artAndCulture": 14,
       "tract": "12086008428",
-      "medianHomeValue": 656100
+      "medianHomeValue": 502225,
+      "medianRent": 2015,
+      "tracts": 20
     },
     "Homestead": {
       "area": {
@@ -1391,7 +1461,9 @@
       "shopping": 76,
       "artAndCulture": 3,
       "tract": "12086011104",
-      "medianHomeValue": 402400
+      "medianHomeValue": 347425,
+      "medianRent": 1693,
+      "tracts": 13
     },
     "Cutler Bay": {
       "area": {
@@ -1426,7 +1498,9 @@
       "shopping": 122,
       "artAndCulture": 0,
       "tract": "12086010608",
-      "medianHomeValue": 410100
+      "medianHomeValue": 423660,
+      "medianRent": 2131,
+      "tracts": 10
     },
     "Palmetto Bay": {
       "area": {
@@ -1458,7 +1532,9 @@
       "shopping": 57,
       "artAndCulture": 0,
       "tract": "12086008207",
-      "medianHomeValue": 866300
+      "medianHomeValue": 799300,
+      "medianRent": 2358,
+      "tracts": 6
     },
     "Surfside": {
       "area": {
@@ -1479,7 +1555,9 @@
       "shopping": 6,
       "artAndCulture": 0,
       "tract": "12086003804",
-      "medianHomeValue": 736800
+      "medianHomeValue": 736800,
+      "medianRent": 1795,
+      "tracts": 1
     },
     "Bal Harbour": {
       "area": {
@@ -1497,7 +1575,9 @@
       "shopping": 9,
       "artAndCulture": 3,
       "tract": "12086003803",
-      "medianHomeValue": 1277200
+      "medianHomeValue": 1277200,
+      "medianRent": 2734,
+      "tracts": 1
     },
     "Miami Shores": {
       "area": {
@@ -1522,7 +1602,9 @@
       "shopping": 11,
       "artAndCulture": 0,
       "tract": "12086001104",
-      "medianHomeValue": 808000
+      "medianHomeValue": 683825,
+      "medianRent": 1849,
+      "tracts": 4
     },
     "Miami Springs": {
       "area": {
@@ -1550,7 +1632,9 @@
       "shopping": 9,
       "artAndCulture": 2,
       "tract": "12086004701",
-      "medianHomeValue": 560800
+      "medianHomeValue": 505867,
+      "medianRent": 1329,
+      "tracts": 3
     },
     "Opa-locka": {
       "area": {
@@ -1567,7 +1651,9 @@
       "shopping": 5,
       "artAndCulture": 0,
       "tract": "12086000504",
-      "medianHomeValue": 317500
+      "medianHomeValue": 305125,
+      "medianRent": 1213,
+      "tracts": 5
     },
     "Westchester": {
       "area": {
@@ -1593,7 +1679,9 @@
       "shopping": 8,
       "artAndCulture": 0,
       "tract": "12086008911",
-      "medianHomeValue": 481500
+      "medianHomeValue": 462400,
+      "medianRent": 2410,
+      "tracts": 2
     },
     "Sweetwater": {
       "area": {
@@ -1634,7 +1722,9 @@
       "shopping": 183,
       "artAndCulture": 0,
       "tract": "12086009021",
-      "medianHomeValue": 339600
+      "medianHomeValue": 261386,
+      "medianRent": 1759,
+      "tracts": 7
     },
     "South Miami": {
       "area": {
@@ -1661,7 +1751,9 @@
       "shopping": 25,
       "artAndCulture": 0,
       "tract": "12086007603",
-      "medianHomeValue": 466900
+      "medianHomeValue": 520033,
+      "medianRent": 1801,
+      "tracts": 3
     },
     "Hallandale Beach": {
       "area": {
@@ -1705,7 +1797,9 @@
       "shopping": 72,
       "artAndCulture": 0,
       "tract": "12011100301",
-      "medianHomeValue": 365000
+      "medianHomeValue": 268858,
+      "medianRent": 1775,
+      "tracts": 12
     }
   }
 }
