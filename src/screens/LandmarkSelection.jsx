@@ -213,6 +213,10 @@ function CityDropdown({ value, onChange }) {
 // page's load behind them, so a page is ready when you get to it
 // (src/lib/usePageRatings.js).
 const PAGE_SIZE = 25;
+// No ratings are looked up for the next page ahead of time: Google's daily
+// lookup quota ran out (owner, 2026-11-09). Rows ask for their own rating as
+// they come on screen.
+const NO_ROWS = [];
 
 // Each row shows the place's photo (owner, 2026-11-09), big enough to see
 // while scrolling; CSS rounds it (apple-live.css).
@@ -564,7 +568,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   // ready when tapped; the Map tab started them already
   // (LandmarkRatingsPrefetch). Popular shows at once (A to Z for places Google
   // has not answered yet; the app's own ratings never count).
-  const topWanted = (sortBy === 'rated' || sortBy === null) && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
+  const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const top = useTopRatings(filteredLandmarks, topWanted);
 
   const sortedLandmarks = useMemo(() => {
@@ -715,10 +719,9 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   const pageCount = Math.max(1, Math.ceil(allRows.length / PAGE_SIZE));
   const shownPage = Math.min(page, pageCount - 1);
   const pageRows = useMemo(() => allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE), [allRows, shownPage]);
-  const nextRows = useMemo(() => allRows.slice((shownPage + 1) * PAGE_SIZE, (shownPage + 2) * PAGE_SIZE), [allRows, shownPage]);
   // This page's Google ratings, then the next page's, loaded up front.
   // Top Landmarks already has them (top.live); other sorts load per page.
-  const pageRatings = usePageRatings(pageRows, nextRows, !!user && RATINGS_FLAGS.cardLine && !topWanted);
+  const pageRatings = usePageRatings(pageRows, NO_ROWS, false) // off: rows ask for their own rating as they scroll into view;
   const goToPage = (n) => {
     setPage(n);
     window.scrollTo({ top: 0 });

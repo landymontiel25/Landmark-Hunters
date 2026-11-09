@@ -13,7 +13,7 @@ import { loadLandmarkRatings } from './landmarkRatings';
 // when users open the landmarks tab") in its fallback order, then takes the
 // Google order once, when every answer is in or TOP_WAIT_MS has passed.
 //
-export const TOP_RANK_MAX = 120;
+export const TOP_RANK_MAX = 40;
 // Nothing shows until the answers are in or this long has passed, so the
 // order is fixed once and never reshuffles under your thumb.
 export const TOP_WAIT_MS = 6000;
