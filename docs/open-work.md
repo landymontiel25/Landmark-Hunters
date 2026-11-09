@@ -228,18 +228,30 @@ Still open:
   Kendall scores high on counts; Coral Way's culture score (35 places,
   mostly public art) looks high; Geoapify's coverage is thinner than
   Google's.
-- Neighborhood price and safety (2026-11-09): South Beach read cheaper than
-  Little Havana because the tract at its center had a $285k median home value
-  (small condos, owner-occupied only). Average Property Price now averages the
-  home-value score and a median-rent score (ACS B25064), each averaged over
-  every tract inside the outline or circle (`scripts/fetch-neighborhood-metrics.mjs`,
-  TIGERweb tract points, center tract as fallback). The script change is NOT
-  run yet: the Census key lives in repo secrets, so the owner has to run the
-  "Neighborhood data" workflow and merge its `data/neighborhood-ratings` PR
-  before the new scores show. Safety still has no source; the Safety row now
-  says "No crime data yet". Next: check whether City of Miami, Miami Beach and
-  Miami-Dade publish incident data (this cloud session's network blocked
-  those hosts, so it was not checked), and score the neighborhoods they cover.
+- Neighborhood price and safety (2026-11-09): Average Property Price averages
+  the home-value score and a median-rent score (ACS B25064), each averaged
+  over every census tract inside the outline or circle
+  (`scripts/fetch-neighborhood-metrics.mjs`, TIGERweb tract points). Workflow
+  run #7 filled all 47 (Overtown on rent alone). South Beach (1.3) scores
+  above Little Havana (1.2) but still low next to Brickell (3.3) and Mid-Beach
+  (2.6): the Census measures what residents pay (small older condos and
+  rentals), not visitor cost. A visitor-cost measure (hotel rates, restaurant
+  price levels) needs a citable source and is not built.
+  Safety has no source. A research pass on 2026-11-09 checked 12 police
+  departments (Miami, Miami Beach, Miami-Dade, Coral Gables, Hialeah, Doral,
+  Aventura, Sunny Isles Beach, North Miami, Key Biscayne, Pinecrest,
+  Homestead) and found no downloadable incident-level crime data with
+  coordinates. City of Miami and Coral Gables hubs hold police zone
+  boundaries only. CrimeMapping.com returned 0 records for Miami and
+  Miami-Dade. Miami Beach PD has a Power BI monthly dashboard (aggregates by
+  patrol area: South Beach, Mid-Beach, North Beach), with no download or API.
+  Pinecrest was not checked (HTTP 403) and Miami-Dade's BI crime dashboard
+  was not opened. Only agency-level totals exist (FBI Crime Data Explorer,
+  FDLE UCR), which would give every neighborhood in a city the same score.
+  The Safety row says "No crime data yet". Re-check these sources before
+  building on them; they change. Do not use a third-party claim of a City of
+  Miami incident feed at datahub-miamigis.opendata.arcgis.com: the hub search
+  found none.
 - Info and tags are still empty on purpose. A separate pipeline
   fills them; until then every score is "–" and the tag chips (Art &
   Culture, Food & Drinks, Beaches, Family, Hidden Gems) show "No
