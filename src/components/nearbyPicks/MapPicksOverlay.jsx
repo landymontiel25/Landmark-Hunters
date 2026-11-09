@@ -18,7 +18,7 @@ import './nearbyPicks.css';
 // with location off it asks for location, an old cached set shows with
 // "Updating...", and offline the last set stays up.
 
-export default function MapPicksOverlay({ topSlot = null, mapDistance = null, onMapDistance = null, distanceOptions = null, hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, showRefresh = false }) {
+export default function MapPicksOverlay({ topSlot = null, mapDistance = null, onMapDistance = null, distanceOptions = null, hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, peek = false, onPeekChange = null, showRefresh = false }) {
   const {
     uid,
     state,
@@ -65,6 +65,8 @@ export default function MapPicksOverlay({ topSlot = null, mapDistance = null, on
         onExpandedChange={onExpandedChange}
         minimized={minimized}
         onMinimizedChange={onMinimizedChange}
+        peek={peek}
+        onPeekChange={onPeekChange}
         distanceMiles={distance}
         beyond={beyond}
         onWiden={chooseDistance}

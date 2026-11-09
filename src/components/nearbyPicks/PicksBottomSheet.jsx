@@ -40,6 +40,10 @@ export default function PicksBottomSheet({
   onExpandedChange,
   minimized = false,
   onMinimizedChange = null,
+  // Map only (owner, 2026-11-09): a middle stop that shows just the topSlot
+  // (the category bar). Swipe up goes to half the screen, down comes back.
+  peek = false,
+  onPeekChange = null,
   showChainLabels = false,
   toolbar = null,
   distanceMiles = null,
@@ -69,6 +73,7 @@ export default function PicksBottomSheet({
   // handle, so it follows the finger. null = not dragging (CSS sets the height).
   const [dragH, setDragH] = useState(null);
   const dragging = dragH != null;
+  const hasPeek = moodFirst && !!onPeekChange;
   const heightBounds = () => ({ min: PICKS_SHEET_H.minimized, max: Math.max(PICKS_SHEET_H.minimized + 1, Math.round((typeof window !== 'undefined' ? window.innerHeight : 800) * 0.5)) });
 
   // The cards actually on screen (1-based rank = position in the set). Nothing
@@ -116,11 +121,25 @@ export default function PicksBottomSheet({
       const { min, max } = heightBounds();
       const endH = Math.min(max, Math.max(min, startH.current - dy));
       const speed = Math.abs(dy) / Math.max(1, Date.now() - startT.current);
+      setDragH(null);
+      if (hasPeek) {
+        // Three stops: title bar, categories only, half the screen.
+        const stops = [min, PICKS_SHEET_H.peek, max];
+        const cur = minimized ? 0 : peek ? 1 : 2;
+        let next;
+        if (Math.abs(dy) <= 4) next = cur === 2 ? 1 : cur + 1; // tap
+        else if (Math.abs(dy) > SWIPE_PX && speed >= FLICK_PX_PER_MS) next = Math.min(2, Math.max(0, cur + (dy < 0 ? 1 : -1)));
+        else next = stops.reduce((best, h, i) => (Math.abs(h - endH) < Math.abs(stops[best] - endH) ? i : best), 0);
+        if (next !== cur) {
+          onMinimizedChange?.(next === 0);
+          onPeekChange(next === 1);
+        }
+        return;
+      }
       let wantMin;
       if (Math.abs(dy) <= 4) wantMin = !minimized; // tap
       else if (Math.abs(dy) > SWIPE_PX && speed >= FLICK_PX_PER_MS) wantMin = dy > 0;
       else wantMin = endH < (min + max) / 2;
-      setDragH(null);
       if (wantMin !== minimized) onMinimizedChange?.(wantMin);
       return;
     }
@@ -178,7 +197,13 @@ export default function PicksBottomSheet({
     if (p?.started) endDrag(p.y);
   };
   const toggle = () => {
-    if (moodFirst) onMinimizedChange?.(!minimized);
+    if (hasPeek) {
+      // Keyboard and tap: title bar -> categories -> half screen -> categories.
+      if (minimized) {
+        onMinimizedChange?.(false);
+        onPeekChange(true);
+      } else onPeekChange(!peek);
+    } else if (moodFirst) onMinimizedChange?.(!minimized);
     else if (minimized) onMinimizedChange?.(false);
     else onExpandedChange(!expanded);
   };
@@ -313,7 +338,7 @@ export default function PicksBottomSheet({
   return (
     <section
       ref={sheetRef}
-      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized && !dragging ? 'minimized' : ''} ${moodFirst ? 'mpp-sheet-mood' : ''} ${dragging ? 'dragging' : ''}`}
+      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized && !dragging ? 'minimized' : ''} ${moodFirst ? 'mpp-sheet-mood' : ''} ${hasPeek && peek && !minimized ? 'peek' : ''} ${dragging ? 'dragging' : ''}`}
       style={dragging ? { height: `${dragH}px` } : undefined}
       aria-label="Picked for you right now"
     >
@@ -366,7 +391,8 @@ export default function PicksBottomSheet({
         {moodFirst ? (
           <>
             {topSlot}
-            {state === 'ready' && moodSlot}
+            {!(hasPeek && peek) && state === 'ready' && moodSlot}
+            {!(hasPeek && peek) && (
             <section className="mpp-section mpp-callout mpp-top3">
               <div className="mpp-top3-head">
                 <h3 className="mpp-section-title">Picked for you right now</h3>
@@ -382,7 +408,8 @@ export default function PicksBottomSheet({
               {body}
               {state === 'ready' && picks?.length > 0 && beyondNote}
             </section>
-            {expanded && state === 'ready' && children}
+            )}
+            {!(hasPeek && peek) && expanded && state === 'ready' && children}
           </>
         ) : (
           <>

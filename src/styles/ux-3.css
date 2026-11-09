@@ -2164,3 +2164,31 @@ img {
 .map-cat-bar-sheet .map-cat-chip.on {
   box-shadow: 0 0 0 3px var(--mapr-blue-soft);
 }
+
+/* First visit (owner, 2026-11-09): nothing is chosen, so the prompt over the
+   bar says to pick, and the bar pulses until a choice is made. */
+.map-cat-prompt {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-secondary);
+}
+.map-cat-prompt.needs-pick {
+  color: var(--text-primary);
+}
+.map-cat-bar.needs-pick .map-cat-chip.map-cat-all {
+  border-color: var(--mapr-blue);
+  animation: map-cat-pulse 1.6s ease-in-out infinite;
+}
+@keyframes map-cat-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--mapr-blue-soft); }
+  50% { box-shadow: 0 0 0 6px var(--mapr-blue-soft); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-cat-bar.needs-pick .map-cat-chip.map-cat-all { animation: none; box-shadow: 0 0 0 3px var(--mapr-blue-soft); }
+}
+/* Categories-only stop: the bar is the whole sheet body. */
+.map-picks .mpp-sheet.peek .mpp-sheet-scroll {
+  overflow: hidden;
+}

@@ -309,6 +309,9 @@ describe('MapExplore shows "Picked for you right now" over the live map', () => 
     vi.doMock('../lib/pickReasonsApi', () => ({ fetchPickReasons: async () => ({}) }));
     vi.doMock('../lib/recommendationLog', () => ({ logRecommendations, logShownPicks: vi.fn(async () => 0), makeSetId: () => 'set' }));
     vi.doMock('../components/OnboardingBanner', () => ({ default: () => null }));
+    // The sheet opens at its categories-only stop; these tests look at the open one.
+    const { setSessionValue } = await import('../lib/usePersistentState');
+    setSessionValue('map.picksPeek', false);
     const { default: MapExplore } = await import('./MapExplore.jsx');
     const el = await mount(
       <MemoryRouter>

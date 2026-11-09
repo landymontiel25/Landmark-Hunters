@@ -56,6 +56,8 @@ export const SHEET_PICKS = 3;
 // for the mood cards and three picks, capped so it never covers the whole map.
 export const PICKS_SHEET_H = {
   minimized: 58,
+  // Map: just the category bar and its prompt (owner, 2026-11-09).
+  peek: 156,
   collapsed: 232,
   moodCollapsed: 'min(380px, calc(100dvh - var(--header-h, 64px) - var(--nav-h, 64px) - 120px))',
   // Swiping up goes half way up the screen, not to the top.

@@ -535,6 +535,9 @@ export default function MapExplore({ experiments = false }) {
   // every visit to the Map tab.
   const { myReviewsLoaded } = useRatings();
   const [picksMinimized, setPicksMinimized] = useSessionState('map.picksMinimized', false);
+  // The sheet opens showing only the category bar; swipe up for half the
+  // screen (owner, 2026-11-09).
+  const [picksPeek, setPicksPeek] = useSessionState('map.picksPeek', true);
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -1169,7 +1172,9 @@ export default function MapExplore({ experiments = false }) {
   const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !drawMode && !dialOpen;
   const picksH = picksMinimized
     ? `${PICKS_SHEET_H.minimized}px`
-    : PICKS_SHEET_H.moodExpanded;
+    : picksPeek
+      ? `${PICKS_SHEET_H.peek}px`
+      : PICKS_SHEET_H.moodExpanded;
 
   return (
     <div
@@ -1709,6 +1714,8 @@ export default function MapExplore({ experiments = false }) {
           customLandmarks={customLandmarks}
           expanded
           onExpandedChange={() => {}}
+          peek={picksPeek}
+          onPeekChange={setPicksPeek}
           minimized={picksMinimized}
           onMinimizedChange={(v) => {
             setPicksMinimized(v);
