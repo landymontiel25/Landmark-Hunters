@@ -258,19 +258,22 @@ Still open:
   building on them; they change. Do not use a third-party claim of a City of
   Miami incident feed at datahub-miamigis.opendata.arcgis.com: the hub search
   found none.
-- Info is still empty on purpose. Tags (2026-11-09): filled from sourced
-  evidence only, in `src/data/miamiNeighborhoods.json` (`tags`) with every URL in
-  `scripts/neighborhoods/tag-sources.json`; `miamiNeighborhoods.tags.test.js`
-  checks the five allowed strings and a URL per tag. Five research agents
-  gathered claims, then separate agents re-read each cited page; only claims
-  a second reading confirmed are in (28 of 86 when this shipped, because the
-  Firecrawl daily credits ran out during the re-read and the rest could not
-  be checked). Hidden Gems has no neighborhood yet: its two candidates (Little
-  Haiti and Allapattah, from Greater Miami's "Miami's Hidden Gems", 2026) were
-  among the unchecked. Still open: re-run the verification for the rest of
-  the claims in `batch-*.json` (kept in the session scratchpad; rebuild them by
-  searching each tag's evidence rule in the task text) and add what passes.
-  Re-running the build script keeps filled fields.
+- Info is still empty on purpose. Tags (2026-11-09, completed 2026-11-10):
+  filled from sourced evidence only, in `src/data/miamiNeighborhoods.json`
+  (`tags`) with every URL in `scripts/neighborhoods/tag-sources.json`;
+  `miamiNeighborhoods.tags.test.js` checks the five allowed strings and a URL
+  per tag. Five research agents gathered claims; separate agents re-read each
+  cited page and only claims a second reading confirmed are in. Left out on
+  purpose: South Beach Art & Culture (the museum page never says South
+  Beach), Mid-Beach Beaches, all South of Fifth tags (park and restaurant
+  pages say "South Beach" or give only a street address), Miami Shores Family
+  (only a department office address). Untagged: Flagami, Morningside,
+  Shenandoah, Upper East Side, Miami River District, South of Fifth, Miami
+  Gardens, Cutler Bay, Miami Shores, Miami Springs, Opa-locka, Sweetwater
+  (no page that passed). Hidden Gems is Little Haiti and Allapattah, from the
+  Greater Miami and Miami Beach CVB article of 2026-08-11. Re-check these
+  sources before building on them; they change. Re-running the build script
+  keeps filled fields.
 - The owner's tier list named six places that were not in the first list;
   they were added: South of Fifth, Sunset Harbour (Miami Beach), Miami River
   District (City of Miami), South Miami, and Hallandale Beach (in Broward,

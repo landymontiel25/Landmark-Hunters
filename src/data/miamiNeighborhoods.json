@@ -138,7 +138,9 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Edgewater_Miami_Florida_southern.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.80083,
         "lng": -80.18921,
@@ -170,6 +172,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Wynwood_Walls_Miami_Florida_October_2013.jpg"
       },
       "tags": [
+        "Art & Culture",
         "Food & Drinks"
       ],
       "location": {
@@ -202,7 +205,10 @@
         "license": "CC BY 2.0",
         "source": "https://commons.wikimedia.org/wiki/File:Design_District,_Miami,_Florida_2021_-_What_is_Miami.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.81466,
         "lng": -80.19143,
@@ -233,7 +239,10 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Little_Havana_Dominos_Park.JPG"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.76815,
         "lng": -80.23347,
@@ -264,7 +273,10 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Little_Haiti_south.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Hidden Gems"
+      ],
       "location": {
         "lat": 25.83037,
         "lng": -80.19283,
@@ -295,7 +307,9 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Miami_FL_Overtown_3rd_Ave.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture"
+      ],
       "location": {
         "lat": 25.7847,
         "lng": -80.19893,
@@ -326,7 +340,10 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Allapattah_in_Miami.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Hidden Gems"
+      ],
       "location": {
         "lat": 25.80871,
         "lng": -80.21547,
@@ -357,7 +374,10 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Coconut_Grove_Street_20100321.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks",
+        "Family"
+      ],
       "location": {
         "lat": 25.7126,
         "lng": -80.25699,
@@ -388,7 +408,9 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Coral_Way_Miami_20100430.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.75102,
         "lng": -80.21454,
@@ -446,7 +468,9 @@
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:MLKMIA.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture"
+      ],
       "location": {
         "lat": 25.82487,
         "lng": -80.21605,
@@ -562,7 +586,9 @@
         "license": "CC0",
         "source": "https://commons.wikimedia.org/wiki/File:Midtown_Miami_2012.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.80833,
         "lng": -80.19346,
@@ -624,7 +650,11 @@
         "license": "CC BY-SA 4.0",
         "source": "https://commons.wikimedia.org/wiki/File:Ocean_drive_day_2009j.JPG"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks",
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.77443,
         "lng": -80.13324,
@@ -655,7 +685,9 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Miami_Beach,_31th_Street.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.81245,
         "lng": -80.12188,
@@ -686,7 +718,11 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:North_Beach_Miami_Beach.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Art & Culture",
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.86468,
         "lng": -80.12017,
@@ -744,7 +780,9 @@
       "info": "",
       "photo": "",
       "photoCredit": null,
-      "tags": [],
+      "tags": [
+        "Food & Drinks"
+      ],
       "location": {
         "lat": 25.7946,
         "lng": -80.14409,
@@ -810,7 +848,10 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Crandon_Park_Modified.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.69684,
         "lng": -80.16353,
@@ -1007,7 +1048,8 @@
       },
       "tags": [
         "Art & Culture",
-        "Food & Drinks"
+        "Food & Drinks",
+        "Family"
       ],
       "location": {
         "lat": 25.89009,
@@ -1039,7 +1081,9 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:North_Miami_FL_Fulford_by_the_Sea_Entrance04.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Family"
+      ],
       "location": {
         "lat": 25.93315,
         "lng": -80.16255,
@@ -1101,7 +1145,10 @@
         "license": "CC BY-SA 4.0",
         "source": "https://commons.wikimedia.org/wiki/File:Christ_the_Saviour_Orthodox_Cathedral_-_Miami_Lakes,_Florida.JPG"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks",
+        "Family"
+      ],
       "location": {
         "lat": 25.90871,
         "lng": -80.30866,
@@ -1261,7 +1308,11 @@
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Surfside-Florida-2014.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Food & Drinks",
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.87843,
         "lng": -80.1256,
@@ -1292,7 +1343,10 @@
         "license": "Public domain",
         "source": "https://commons.wikimedia.org/wiki/File:Balharbour_fla.jpg"
       },
-      "tags": [],
+      "tags": [
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.89176,
         "lng": -80.12699,
@@ -1469,7 +1523,8 @@
       "photo": "",
       "photoCredit": null,
       "tags": [
-        "Food & Drinks"
+        "Food & Drinks",
+        "Family"
       ],
       "location": {
         "lat": 25.7076,
@@ -1501,7 +1556,10 @@
         "license": "Public domain",
         "source": "https://commons.wikimedia.org/wiki/File:Hallandale_Beach_sunset.JPG"
       },
-      "tags": [],
+      "tags": [
+        "Beaches",
+        "Family"
+      ],
       "location": {
         "lat": 25.9812,
         "lng": -80.14838,
