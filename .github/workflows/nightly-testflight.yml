@@ -52,6 +52,13 @@ jobs:
           mkdir -p ~/.appstoreconnect/private_keys
           printf '%s' "$ASC_PRIVATE_KEY" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.ASC_KEY_ID }}.p8
 
+      - name: Install App Store provisioning profile
+        env:
+          PROFILE: ${{ secrets.IOS_APPSTORE_PROFILE }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/LH.mobileprovision
+
       - name: Bump build number
         working-directory: ios/App
         run: xcrun agvtool new-version -all "$(date +%Y%m%d%H%M)"
@@ -80,7 +87,11 @@ jobs:
             <string>app-store-connect</string>
             <key>uploadSymbols</key>
             <true/>
-          </dict>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.landmarkhunters.app</key>
+              <string>LH</string>
+            </dict>
           </plist>
           EOF
           xcodebuild -exportArchive \
