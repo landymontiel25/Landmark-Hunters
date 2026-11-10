@@ -164,7 +164,9 @@ describe('catalog text and image hygiene', () => {
     const all = [...getRegion('miami').landmarks, ...packed];
     expect(new Set(all.map((l) => l.id)).size).toBe(all.length);
     // 178: Miami Seaquarium deleted (closed for good; owner, 2026-11-08).
-    expect(getRegion('miami').landmarks).toHaveLength(178);
+    // 177: 1 Alhambra Plaza deleted too (an office building, not a landmark; owner, 2026-11-10).
+    expect(getRegion('miami').landmarks).toHaveLength(177);
+    expect(all.some((l) => l.id === 'one-alhambra-plaza')).toBe(false);
     expect(all.some((l) => l.id === 'miami-seaquarium' || /seaquarium/i.test(l.name))).toBe(false);
     expect(packed).toHaveLength(882);
     expect(all.filter((l) => (l.categories || []).includes('airports')).map((l) => l.name)).toEqual(expect.arrayContaining(['Miami International Airport']));
