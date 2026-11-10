@@ -116,6 +116,13 @@ reference page. If the first `--limit=1` run logs a 400, fix `terraNearbyUrl`.
 
 ## Cost
 
+Since 2026-11-10 the Landmarks tab looks up ratings only for the page on
+screen and the next page (`usePageRatings`, 25 places a page). Popular looks
+up the first 50 places (`TOP_RANK_MAX`) only once Popular is picked. Rows never
+look themselves up (`RatingsCardLine fetchOwn={false}`), a search looks up
+nothing (open a place and its page loads the rating), and the Map-tab
+prefetch is not mounted.
+
 Every call bills, because nothing may be cached. Google's rating and review
 count are Place Details Enterprise fields, and reviews add the Atmosphere
 tier; matching uses Text Search Pro (one call per landmark, once). Check

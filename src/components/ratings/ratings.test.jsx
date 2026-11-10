@@ -8,7 +8,13 @@ import { act } from 'react';
 // Drive the hook's states and the logo check directly.
 let hookState;
 let logo = 'ok';
-vi.mock('../../lib/useLandmarkRatings', () => ({ useLandmarkRatings: () => hookState }));
+let lastOpts;
+vi.mock('../../lib/useLandmarkRatings', () => ({
+  useLandmarkRatings: (_l, opts) => {
+    lastOpts = opts;
+    return hookState;
+  },
+}));
 vi.mock('./useImageAvailable', () => ({ useImageAvailable: () => logo }));
 
 import RatingsSection from './RatingsSection';
@@ -132,6 +138,17 @@ describe('RatingsCardLine (Places tab row)', () => {
     await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={{ cardLine: false, landmarkHunters: false }} />);
     expect(container.querySelector('.app-own')).toBeTruthy();
     expect(container.querySelector('.ratings-inline')).toBeNull();
+  });
+});
+
+describe('RatingsCardLine: fetchOwn false (Landmarks list, owner 2026-11-10)', () => {
+  it('never looks itself up and shows what the list preloaded', async () => {
+    hookState = { ref: () => {}, status: 'off', sources: null };
+    await render(<RatingsCardLine landmark={landmark} fallback={null} flags={FLAGS_OFF} fetchOwn={false} />);
+    expect(lastOpts.enabled).toBe(false);
+    expect(container.textContent).toBe('');
+    await render(<RatingsCardLine landmark={landmark} fallback={null} flags={FLAGS_OFF} fetchOwn={false} preloaded={{ google: GOOGLE, tripadvisor: null }} />);
+    expect(container.textContent).toContain('4.7');
   });
 });
 
