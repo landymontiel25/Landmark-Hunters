@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-09T21:58:26.125Z",
+  "fetchedAt": "2026-11-10T00:29:51.092Z",
   "sources": {
     "places": "Geoapify Places API (OpenStreetMap data), https://apidocs.geoapify.com/docs/places/",
     "areas": "OpenStreetMap outlines via Nominatim (scripts/neighborhoods/outlines.json), else a 1 km circle",

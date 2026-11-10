@@ -1524,7 +1524,7 @@
     }
   ],
   "ratingsSource": {
-    "fetchedAt": "2026-11-09T21:58:26.125Z",
+    "fetchedAt": "2026-11-10T00:29:51.092Z",
     "places": "Geoapify Places API (OpenStreetMap data), https://apidocs.geoapify.com/docs/places/",
     "areas": "OpenStreetMap outlines via Nominatim (scripts/neighborhoods/outlines.json), else a 1 km circle",
     "homeValue": "U.S. Census Bureau, ACS 2023 5-year, B25077 median home value and B25064 median gross rent, averaged over the census tracts inside the area (TIGERweb tract points), else the tract at the center",
