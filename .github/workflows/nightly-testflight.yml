@@ -85,13 +85,16 @@ jobs:
           <dict>
             <key>method</key>
             <string>app-store-connect</string>
-            <key>uploadSymbols</key>
-            <true/>
+            <key>signingStyle</key>
+            <string>manual</string>
             <key>provisioningProfiles</key>
             <dict>
               <key>com.landmarkhunters.app</key>
               <string>LH</string>
             </dict>
+            <key>uploadSymbols</key>
+            <true/>
+          </dict>
           </plist>
           EOF
           xcodebuild -exportArchive \
