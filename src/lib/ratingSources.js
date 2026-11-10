@@ -5,11 +5,10 @@
 // The sources the endpoint asks, in display order. Each one needs its own
 // ID per landmark (src/data/ratingSourceIds.json, filled by
 // scripts/match-rating-sources.mjs) and its own server key.
-export const OUTSIDE_SOURCES = ['google', 'tripadvisor'];
+export const OUTSIDE_SOURCES = ['google'];
 
 export const SOURCE_LABELS = {
   google: 'Google Maps',
-  tripadvisor: 'Tripadvisor',
   landmarkHunters: 'Landmark Hunters',
 };
 
@@ -26,10 +25,6 @@ export const RATINGS_FLAGS = {
 // Short review quotes per source on the detail screen.
 export const MAX_SNIPPETS = 2;
 export const SNIPPET_MAX_CHARS = 220;
-
-// Tripadvisor only lets a partner quote a 5-bubble review, and only when the
-// place's overall rating is at least 4 (its Display Requirements).
-export const TRIPADVISOR_QUOTE_MIN_OVERALL = 4;
 
 // "1,234" for review counts.
 export function formatCount(n) {

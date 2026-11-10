@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { loadLandmarkRatings } from './landmarkRatings';
+import { loadLandmarkRatings, LOOKUP_DELAY_MS } from './landmarkRatings';
 
-// Outside (Google / Tripadvisor) ratings for a page of the Landmarks list,
+// Google ratings for a page of the Landmarks list,
 // loaded up front instead of row by row as you scroll (owner, 2026-11-05: the
 // ratings were still loading in at the bottom of the list). The current page
 // loads first, then the NEXT page loads behind it, so by the time you tap
@@ -18,13 +18,17 @@ import { loadLandmarkRatings } from './landmarkRatings';
 // already in flight, so a row that asks for the same place makes no second
 // call, and it pauses a minute after a 401/429/503.)
 const BATCH = 6;
+// A page waits LOOKUP_DELAY_MS before it looks anything up, and a page you
+// leave inside that time looks up nothing (owner, 2026-11-10: tapping Next,
+// Next, Next paid for pages nobody read).
+
 const NONE = {};
 
 export const ratingKey = (l) => `${l.regionId ?? l.region}/${l.id}`;
 
 // A failed or paused lookup comes back empty; keep nothing for it, so the
 // row's own lookup can still try later.
-const hasAnswer = (s) => !!s && (!!s.google || !!s.tripadvisor || s.googleNoRating === true);
+const hasAnswer = (s) => !!s && (!!s.google || s.googleNoRating === true);
 
 // current / next: the landmarks on this page and on the next one (items that
 // are not places, like a divider, are skipped). Returns { [region/id]: sources }.
@@ -42,7 +46,11 @@ export function usePageRatings(current, next, enabled = true) {
     const wanted = new Set(groups.flat().map(ratingKey));
     // Drop the answers of pages we have moved past.
     store.current = Object.fromEntries(Object.entries(store.current).filter(([k]) => wanted.has(k)));
+    let timer;
     (async () => {
+      await new Promise((resolve) => {
+        timer = setTimeout(resolve, LOOKUP_DELAY_MS);
+      });
       for (const group of groups) {
         const todo = group.filter((l) => !store.current[ratingKey(l)]);
         for (let i = 0; i < todo.length; i += BATCH) {
@@ -60,6 +68,7 @@ export function usePageRatings(current, next, enabled = true) {
     })();
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
     // The page contents are captured by the signatures.
     // eslint-disable-next-line react-hooks/exhaustive-deps

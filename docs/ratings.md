@@ -1,4 +1,9 @@
-# Outside ratings (Google, Tripadvisor)
+# Outside ratings (Google)
+
+**2026-11-10: Tripadvisor is removed completely** (server fetcher, UI, logo
+check, `tripadvisorLocationId`, the Terra matching in
+`scripts/match-rating-sources.mjs`, the allowlist file). Only Google remains;
+the Tripadvisor notes below are history. Lookups were also cut: see Cost.
 
 Landmark cards and landmark pages show each place's Google Maps and
 Tripadvisor rating, review count, a link to the source's page, and (on the

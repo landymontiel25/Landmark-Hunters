@@ -10,16 +10,17 @@ import { act } from 'react';
 const calls = [];
 const answers = {};
 vi.mock('./landmarkRatings', () => ({
+  LOOKUP_DELAY_MS: 20,
   loadLandmarkRatings: vi.fn(async (l) => {
     calls.push(l.id);
-    return answers[l.id] || { google: null, tripadvisor: null, googleNoRating: false };
+    return answers[l.id] || { google: null, googleNoRating: false };
   }),
 }));
 
 import { usePageRatings, ratingKey } from './usePageRatings';
 
 const lm = (id) => ({ id, name: id, regionId: 'philly' });
-const g = (rating, count) => ({ google: { rating, count }, tripadvisor: null, googleNoRating: false });
+const g = (rating, count) => ({ google: { rating, count }, googleNoRating: false });
 let latest;
 
 function Probe({ current, next, enabled = true }) {
@@ -29,13 +30,17 @@ function Probe({ current, next, enabled = true }) {
 async function mount(props) {
   const container = document.createElement('div');
   const root = createRoot(container);
+  // The hook waits LOOKUP_DELAY_MS (20 ms here) before it looks anything up.
+  const settle = () => new Promise((r) => setTimeout(r, 60));
   await act(async () => {
     root.render(<Probe {...props} />);
   });
+  await act(settle);
   const rerender = async (p) => {
     await act(async () => {
       root.render(<Probe {...p} />);
     });
+    await act(settle);
   };
   return { rerender };
 }
@@ -68,7 +73,7 @@ describe('usePageRatings', () => {
   });
 
   it('keeps an answer that says Google has no rating', async () => {
-    answers.a = { google: null, tripadvisor: null, googleNoRating: true };
+    answers.a = { google: null, googleNoRating: true };
     await mount({ current: [lm('a')], next: [] });
     expect(latest['philly/a'].googleNoRating).toBe(true);
   });
@@ -86,5 +91,19 @@ describe('usePageRatings', () => {
     answers.a = g(4.8, 9);
     await mount({ current: [lm('a'), { id: 'divider' }, null], next: [] });
     expect(calls).toEqual(['a']);
+  });
+
+  it('looks up nothing for a page you leave inside the delay (owner, 2026-11-10)', async () => {
+    const container = document.createElement('div');
+    const root = createRoot(container);
+    await act(async () => {
+      root.render(<Probe current={[lm('a')]} next={[lm('b')]} />);
+    });
+    // Flip to another page straight away, before the delay is up.
+    await act(async () => {
+      root.render(<Probe current={[lm('c')]} next={[lm('d')]} />);
+    });
+    await act(() => new Promise((r) => setTimeout(r, 60)));
+    expect(calls).toEqual(['c', 'd']);
   });
 });

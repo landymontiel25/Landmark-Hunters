@@ -1,27 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizeGoogle, normalizeTripadvisor } from './ratingSources.js';
-
-const loc = (rating) => ({
-  traveler_ratings: { overall: { rating, count: 10, icon_url: 'https://static.tacdn.com/x.svg' } },
-  urls: { tripadvisor: { main: 'https://www.tripadvisor.com/x' } },
-});
-const five = { rating: 5, text: [{ language: 'en', value: 'Loved it' }], publish_ts: '2026-01-02T00:00:00Z' };
-
-describe('normalizeTripadvisor (quoting rules)', () => {
-  it('quotes 5-bubble reviews only when the place is rated 4 or more', () => {
-    expect(normalizeTripadvisor(loc(4.5), { data: [five] }).snippets).toHaveLength(1);
-    expect(normalizeTripadvisor(loc(3.5), { data: [five] }).snippets).toEqual([]);
-    expect(normalizeTripadvisor(loc(4.5), { data: [{ ...five, rating: 4 }] }).snippets).toEqual([]);
-  });
-  it('skips a review with no date, and keeps at most 2', () => {
-    expect(normalizeTripadvisor(loc(5), { data: [{ ...five, publish_ts: '' }] }).snippets).toEqual([]);
-    expect(normalizeTripadvisor(loc(5), { data: [five, five, five] }).snippets).toHaveLength(2);
-  });
-  it('is null without a rating, a count or a link back', () => {
-    expect(normalizeTripadvisor({})).toBeNull();
-    expect(normalizeTripadvisor({ ...loc(4), urls: {} })).toBeNull();
-  });
-});
+import { normalizeGoogle } from './ratingSources.js';
 
 describe('normalizeGoogle', () => {
   it('keeps author attribution and trims long reviews', () => {

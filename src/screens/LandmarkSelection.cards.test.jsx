@@ -104,8 +104,10 @@ describe('Landmarks tab', () => {
     expect(popular()).toContain('Popular Landmarks');
   }, 60000);
 
-  it('opens with no sort picked; a category tap picks Popular (owner, 2026-11-08)', async () => {
+  it('opens on Popular; tapping it again turns it off, and a category tap picks it back (owner, 2026-11-10)', async () => {
     await renderIt();
+    expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('Popular Landmarks');
+    await act(async () => el.querySelector('.lm-sort-tabs .tab-btn').click());
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active')).toBeNull();
     await act(async () => el.querySelector('.lm-category-tabs [data-cat="food"]').click());
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('Popular Restaurants');

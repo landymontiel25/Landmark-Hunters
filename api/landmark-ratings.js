@@ -10,7 +10,7 @@ import { canonicalRegionId, getLandmark } from '../src/data/regions.js';
 
 // GET /api/landmark-ratings?region=&id=[&detail=1]
 // Ratings for one landmark from each outside source (docs/ratings.md):
-//   { sources: { google: {...} | null, tripadvisor: {...} | null }, googleNoRating }
+//   { sources: { google: {...} | null }, googleNoRating }
 // A source with no ID for this landmark, no key, no data or an error is
 // null; the request itself still answers 200. googleNoRating says the null
 // is final (no Google listing, or one with no rating), not an error.
@@ -58,7 +58,7 @@ export const _setCatalogLookup = (fn) => {
   catalogLookup = fn;
 };
 
-const ID_FIELD = { google: 'googlePlaceId', tripadvisor: 'tripadvisorLocationId' };
+const ID_FIELD = { google: 'googlePlaceId' };
 const SAFE = /^[A-Za-z0-9_.:-]{1,100}$/;
 
 async function handler(req, res) {

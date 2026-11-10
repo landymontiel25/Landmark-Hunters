@@ -8,7 +8,7 @@ import { loadLandmarkRatings } from './landmarkRatings';
  * fetches.
  *
  * Returns { ref, status, sources }: status is 'idle' (not on screen yet),
- * 'loading' or 'done'; sources is { google, tripadvisor } once done.
+ * 'loading' or 'done'; sources is { google } once done.
  */
 export function useLandmarkRatings(landmark, { detail = false, lazy = true, enabled = true } = {}) {
   const key = landmark?.id ? `${landmark.regionId ?? landmark.region}/${landmark.id}|${detail ? 1 : 0}` : null;
