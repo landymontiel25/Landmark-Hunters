@@ -224,10 +224,10 @@ function CityDropdown({ value, onChange }) {
 // page's load behind them, so a page is ready when you get to it
 // (src/lib/usePageRatings.js).
 const PAGE_SIZE = 25;
-// No ratings are looked up for the next page ahead of time: Google's daily
-// lookup quota ran out (owner, 2026-11-09). Rows ask for their own rating as
-// they come on screen.
-const NO_ROWS = [];
+// Ratings are looked up for the page you are on and the page after it, and
+// nothing else (owner, 2026-11-10: lookups cost money). Rows never ask for
+// their own rating, and a search looks up none: tap a result and its page
+// loads that place's rating.
 
 // Each row shows the place's photo (owner, 2026-11-09), big enough to see
 // while scrolling; CSS rounds it (apple-live.css).
@@ -293,7 +293,7 @@ const LandmarkRow = memo(function LandmarkRow({
           {/* The Google rating (⭐ 4.6 (1,234) Google Maps); with no Google
               rating the app's own average is the badge on the photo. Signed
               out the endpoint answers nothing, so the card skips the call. */}
-          {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} />}
+          {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} fetchOwn={false} />}
           {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
         </div>
       </div>
@@ -575,11 +575,12 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   }, [editedLandmarks, normalizedCustomLandmarks, scope, drawnShape, activeCategories, foundOnly, hasFound, isFound, search]);
 
   // Popular ranks by Google's review count (src/lib/useTopRatings.js; signed
-  // in only). The ratings load while no sort is picked too, so Popular is
-  // ready when tapped; the Map tab started them already
-  // (LandmarkRatingsPrefetch). Popular shows at once (A to Z for places Google
-  // has not answered yet; the app's own ratings never count).
-  const topWanted = (sortBy === 'rated' || sortBy === null) && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
+  // in only). They load only once Popular is picked (owner, 2026-11-10: the
+  // first two pages' worth, TOP_RANK_MAX places); every other sort looks up
+  // just the page you are on and the next (usePageRatings). Popular shows at
+  // once (A to Z for places Google has not answered yet; the app's own
+  // ratings never count).
+  const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const top = useTopRatings(filteredLandmarks, topWanted);
 
   const sortedLandmarks = useMemo(() => {
@@ -732,7 +733,10 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   const pageRows = useMemo(() => allRows.slice(shownPage * PAGE_SIZE, (shownPage + 1) * PAGE_SIZE), [allRows, shownPage]);
   // This page's Google ratings, then the next page's, loaded up front.
   // Top Landmarks already has them (top.live); other sorts load per page.
-  const pageRatings = usePageRatings(pageRows, NO_ROWS, false) // off: rows ask for their own rating as they scroll into view;
+  const nextPageRows = useMemo(() => allRows.slice((shownPage + 1) * PAGE_SIZE, (shownPage + 2) * PAGE_SIZE), [allRows, shownPage]);
+  // Popular waits for its order first, so it does not look up the places of a
+  // page that is about to be reordered. A search looks nothing up.
+  const pageRatings = usePageRatings(pageRows, nextPageRows, !!user && RATINGS_FLAGS.cardLine && !search.trim() && (!topWanted || top.ready));
   const goToPage = (n) => {
     setPage(n);
     window.scrollTo({ top: 0 });
@@ -795,7 +799,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         l={l}
         photo={photo}
         isSelected={getRegionSelection(l.regionId).includes(l.id)}
-        ratingSources={(topWanted ? top.live[l.id] : pageRatings[ratingKey(l)]) || null}
+        ratingSources={(topWanted && top.live[l.id]) || pageRatings[ratingKey(l)] || null}
         distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
         user={user}
         firebaseEnabled={firebaseEnabled}
