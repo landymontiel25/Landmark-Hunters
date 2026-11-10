@@ -76,7 +76,7 @@ jobs:
             -allowProvisioningUpdates \
             DEVELOPMENT_TEAM=BXX99G4L3M
 
-      - name: Export and upload to TestFlight
+      - name: Export
         run: |
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
@@ -105,3 +105,14 @@ jobs:
             -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
             -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }} \
             -allowProvisioningUpdates
+
+      - name: Find the .ipa
+        run: echo "IPA_PATH=$(ls $RUNNER_TEMP/export/*.ipa)" >> $GITHUB_ENV
+
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v5
+        with:
+          app-path: ${{ env.IPA_PATH }}
+          issuer-id: ${{ secrets.ASC_ISSUER_ID }}
+          api-key-id: ${{ secrets.ASC_KEY_ID }}
+          api-private-key: ${{ secrets.ASC_PRIVATE_KEY }}
