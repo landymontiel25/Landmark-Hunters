@@ -116,3 +116,5 @@ jobs:
           issuer-id: ${{ secrets.ASC_ISSUER_ID }}
           api-key-id: ${{ secrets.ASC_KEY_ID }}
           api-private-key: ${{ secrets.ASC_PRIVATE_KEY }}
+          wait-for-processing: 'false'
+          
