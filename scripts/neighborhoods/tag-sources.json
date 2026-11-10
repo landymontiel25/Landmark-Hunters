@@ -1,4 +1,65 @@
 {
+  "South Beach": {
+    "Beaches": [
+      "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/lummus-park/"
+    ],
+    "Family": [
+      "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/lummus-park/"
+    ],
+    "Food & Drinks": [
+      "https://lincolnroad.com/store-directory/dining/"
+    ]
+  },
+  "Mid-Beach": {
+    "Family": [
+      "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/mid-beach-park/"
+    ]
+  },
+  "North Beach": {
+    "Beaches": [
+      "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/north-beach-oceanside-park/",
+      "https://www.miamibeachfl.gov/projects/north-beach-open-side-park/"
+    ],
+    "Family": [
+      "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/north-beach-oceanside-park/"
+    ],
+    "Art & Culture": [
+      "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/north-beach-bandshell/"
+    ]
+  },
+  "Sunset Harbour": {
+    "Food & Drinks": [
+      "https://www.miamiandbeaches.com/things-to-do/attractions/explore-sunset-harbour-on-south-beach"
+    ]
+  },
+  "Key Biscayne": {
+    "Beaches": [
+      "https://www.floridastateparks.org/parks-and-trails/bill-baggs-cape-florida-state-park",
+      "https://www.miamiandbeaches.com/l/beaches/crandon-park-beach/3765"
+    ],
+    "Family": [
+      "https://www.miamiandbeaches.com/l/beaches/crandon-park-beach/3765"
+    ]
+  },
+  "Surfside": {
+    "Beaches": [
+      "https://www.townofsurfsidefl.gov/departments-services/parks-and-recreation/parks-and-recreation-quick-links/beach"
+    ],
+    "Family": [
+      "https://www.townofsurfsidefl.gov/departments-services/parks-and-recreation/community-center"
+    ],
+    "Food & Drinks": [
+      "https://guide.michelin.com/us/en/florida/surfside/restaurant/the-surf-club-restaurant"
+    ]
+  },
+  "Bal Harbour": {
+    "Beaches": [
+      "https://www.miamiandbeaches.com/things-to-do/beaches/beach-day-in-bal-harbour"
+    ],
+    "Family": [
+      "https://balharbourfl.gov/departments/recreation-arts-culture/bal-harbour-waterfront-park/"
+    ]
+  },
   "Aventura": {
     "Art & Culture": [
       "https://www.miamiandbeaches.com/l/arts-and-culture/aventura-arts-and-cultural-center/5949"
@@ -22,6 +83,31 @@
     ],
     "Food & Drinks": [
       "https://www.miamiandbeaches.com/restaurants/michelin-star-restaurants-in-miami"
+    ],
+    "Family": [
+      "https://www.northmiamifl.gov/facilities/facility/details/Enchanted-Forest-Elaine-Gordon-Park-12"
+    ]
+  },
+  "North Miami Beach": {
+    "Family": [
+      "https://floridastateparks.org/oletariver"
+    ]
+  },
+  "Miami Lakes": {
+    "Food & Drinks": [
+      "https://mainstreetmiamilakes.com/"
+    ],
+    "Family": [
+      "https://www.miamilakes-fl.gov/departments/parks-recreation/"
+    ]
+  },
+  "Hallandale Beach": {
+    "Beaches": [
+      "https://hallandalebeachfl.gov/Facilities/Facility/Details/South-City-Beach-Park-2",
+      "https://www.visitflorida.com/travel-ideas/articles/beach-guide-hallandale-beach/"
+    ],
+    "Family": [
+      "https://hallandalebeachfl.gov/Facilities/Facility/Details/South-City-Beach-Park-2"
     ]
   },
   "Coral Gables": {
@@ -86,6 +172,51 @@
   "South Miami": {
     "Food & Drinks": [
       "https://guide.michelin.com/en/article/dining-out/michelin-guide-florida-miami-orlando-tampa-new-additions-restaurants"
+    ],
+    "Family": [
+      "https://www.southmiamifl.gov/Facilities/Facility/Details/3"
+    ]
+  },
+  "Little Havana": {
+    "Art & Culture": [
+      "https://www.miamiandbeaches.com/things-to-do/art-and-culture/explore-arts-culture-in-little-havana"
+    ],
+    "Food & Drinks": [
+      "https://guide.michelin.com/us/en/florida/miami/restaurant/sanguich-de-miami"
+    ]
+  },
+  "Little Haiti": {
+    "Art & Culture": [
+      "https://www.miamiandbeaches.com/thing-to-do/arts-culture/little-haiti-cultural-complex/5668"
+    ],
+    "Hidden Gems": [
+      "https://www.miamiandbeaches.com/plan-your-trip/miami-itineraries/miami-s-hidden-gems"
+    ]
+  },
+  "Allapattah": {
+    "Art & Culture": [
+      "https://rubellmuseum.org/miami/about-rubell-museum-miami"
+    ],
+    "Hidden Gems": [
+      "https://www.miamiandbeaches.com/plan-your-trip/miami-itineraries/miami-s-hidden-gems"
+    ]
+  },
+  "Coconut Grove": {
+    "Food & Drinks": [
+      "https://guide.michelin.com/us/en/florida/miami/restaurant/ariete"
+    ],
+    "Family": [
+      "https://www.miamiandbeaches.com/neighborhoods/coconut-grove"
+    ]
+  },
+  "Coral Way": {
+    "Food & Drinks": [
+      "https://guide.michelin.com/us/en/florida/miami/restaurant/the-gibson-room"
+    ]
+  },
+  "Liberty City": {
+    "Art & Culture": [
+      "https://www.miamidade.gov/ahcac/about/african-heritage-center.page"
     ]
   },
   "Brickell": {
@@ -104,9 +235,36 @@
       "https://manawynwood.com/news/michelin-restaurants-downtown-miami-wynwood-2026/"
     ]
   },
+  "Edgewater": {
+    "Family": [
+      "https://www.miamiandbeaches.com/l/outdoor-experiences/margaret-pace-park/23894"
+    ]
+  },
   "Wynwood": {
+    "Art & Culture": [
+      "https://thewynwoodwalls.com/"
+    ],
     "Food & Drinks": [
       "https://manawynwood.com/news/michelin-restaurants-downtown-miami-wynwood-2026/"
+    ]
+  },
+  "Design District": {
+    "Art & Culture": [
+      "https://icamiami.org/"
+    ],
+    "Food & Drinks": [
+      "https://guide.michelin.com/us/en/florida/miami/restaurant/l-atelier-de-joel-robuchon-miami"
+    ]
+  },
+  "Midtown": {
+    "Food & Drinks": [
+      "https://michelinmedia.com/pages/blog/detail/article/c/a1401/"
+    ]
+  },
+  "Overtown": {
+    "Art & Culture": [
+      "https://www.bahlt.org/",
+      "https://www.miamiandbeaches.com/l/arts-and-culture/black-archives-historic-lyric-theater-cultural-arts-complex/3278"
     ]
   }
 }
