@@ -150,6 +150,28 @@ export const CORALGABLES_LANDMARKS = [
     typicalMinutes: 30
   },
   {
+    id: "one-alhambra-plaza",
+    editorialRank: 3,
+    popularity: 6,
+    cost: "Free",
+    neighborhood: "Downtown Coral Gables",
+    firstTimerPriority: "Medium",
+    images: [],
+    name: "1 Alhambra Plaza",
+    region: 'miami',
+    lat: 25.75254,
+    lng: -80.25478,
+    checkInRadiusMeters: 100,
+    // Not Art & Culture (owner, 2026-11-10); no category fits an office
+    // building, so it sits under Attractions.
+    categories: ["attractions"],
+    summary: "An office building in the Moorish-styled Alhambra Plaza complex.",
+    facts: ["An office building in the Alhambra Plaza complex","Part of a Moorish-and-Mediterranean-styled mixed-use development","Set along Alhambra Circle in downtown Coral Gables","Shares its complex with the Hyatt Regency hotel","Its architecture echoes the Alhambra palace of Granada, Spain","A Class A office address in the Gables business district","Landscaped plazas and fountains tie the complex together","Named, like much of the city, for a Spanish landmark","Home to law, finance and corporate offices","Reflects Coral Gables' signature Spanish-Mediterranean theme"],
+    free: true,
+    bookingUrl: null,
+    typicalMinutes: 20
+  },
+  {
     id: "hyatt-regency-coral-gables",
     editorialRank: 4,
     popularity: 6,
