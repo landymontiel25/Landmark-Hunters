@@ -8,7 +8,7 @@ const asked = [];
 vi.mock('../lib/landmarkRatings', () => ({
   loadLandmarkRatings: (l) => {
     asked.push(l.id);
-    return Promise.resolve({ google: { rating: 4.5, count: 10 }, tripadvisor: null, googleNoRating: false });
+    return Promise.resolve({ google: { rating: 4.5, count: 10 }, googleNoRating: false });
   },
 }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1' } }) }));

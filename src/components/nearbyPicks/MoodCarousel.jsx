@@ -4,7 +4,7 @@ import { useTopRatings } from '../../lib/useTopRatings';
 
 // How many places Highest rated looks up on Google (owner, 2026-11-08: 120
 // per sort and mood used up the daily lookup cap). Hand-picked first.
-export const SHEET_RATED_MAX = 40;
+export const SHEET_RATED_MAX = 20; // owner, 2026-11-10: was 40 (lookups cost money)
 import { useReadyItems } from './useNearbyPicks';
 import { useShownEffect } from './useShownEffect';
 import PickCard, { PickRow } from './PickCard';

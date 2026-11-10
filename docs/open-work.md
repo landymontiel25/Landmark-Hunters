@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Ratings lookups cut (2026-11-10)
+
+Owner: lookups cost money. Landmarks tab looks up only the current and next
+page (25 each) after a 500 ms pause (`LOOKUP_DELAY_MS`), rows never look
+themselves up, search shows no ratings (open a place and its page loads
+one), Popular looks up 50 places and is the default sort, the Map sheet's
+Highest rated looks up 20, Tripadvisor is gone, and the per-account daily
+cap (`ai-ratings` in `api/_lib/usageQuota.js`) is 800. Still open: Map
+sheet and Landmarks tab both look up on the same visit if a user uses both.
+
 ## Profile small fixes (2026-11-09)
 
 My Memories (Profile list) shows every memory at once (`ProfileMemories all`,

@@ -1,8 +1,8 @@
 import { setSessionValue } from './usePersistentState';
 
 // The Landmarks tab's sort, held for as long as the app is open (session
-// state). The app opens with none picked (owner, 2026-11-08), so Google's
-// ratings can load before someone taps Popular.
+// state). The tab opens on Popular (owner, 2026-11-10); tapping Popular again
+// turns it off and the list goes A to Z.
 export const LANDMARKS_SORT_KEY = 'landmarks.sort';
 export const TOP_LANDMARKS_SORT = 'rated';
 

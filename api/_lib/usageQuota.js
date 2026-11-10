@@ -38,10 +38,12 @@ export const DAILY_QUOTAS = {
   'ai-picks': { user: 200, global: 20000, env: 'AI_PICKS_DAILY_GLOBAL_CAP' },
   'ai-classify': { user: 100, global: 10000, env: 'AI_CLASSIFY_DAILY_GLOBAL_CAP' },
   'ai-verify': { user: 60, global: 5000, env: 'AI_VERIFY_DAILY_GLOBAL_CAP' },
-  // 4,000 a day per account (was 1,500, which the owner used up testing on
-  // 2026-11-08 and lost every rating until midnight). Google's own daily
-  // quota in Cloud console is the spending limit.
-  'ai-ratings': { user: 4000, global: 60000, env: 'AI_RATINGS_DAILY_GLOBAL_CAP' },
+  // 800 lookups a day per account (owner, 2026-11-10; was 4,000, and 1,500
+  // before that). The Landmarks tab looks up two pages (up to 50 places) per
+  // visit, so this is about 16 fresh pages a day. Change `user` here to raise
+  // or lower it. Google's own daily quota in Cloud console is the spending
+  // limit.
+  'ai-ratings': { user: 800, global: 60000, env: 'AI_RATINGS_DAILY_GLOBAL_CAP' },
   'google-autocomplete': { user: 600, anon: 150, global: 20000, env: 'GOOGLE_AUTOCOMPLETE_DAILY_GLOBAL_CAP' },
   'google-details': { user: 300, anon: 60, global: 10000, env: 'GOOGLE_DETAILS_DAILY_GLOBAL_CAP' },
   'google-nearby': { user: 150, anon: 30, global: 5000, env: 'GOOGLE_NEARBY_DAILY_GLOBAL_CAP' },

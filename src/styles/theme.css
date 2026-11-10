@@ -7575,33 +7575,6 @@ p.tag {
 .ratings-count {
   opacity: 0.75;
 }
-/* Tripadvisor: Ollie logo at least 20px tall, bubbles on white, at least
-   55px wide. */
-.ta-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: #ffffff;
-  border-radius: 4px;
-  padding: 1px 4px;
-}
-.ta-logo {
-  height: 20px;
-  width: auto;
-}
-.ta-bubbles {
-  width: 70px;
-  height: auto;
-}
-.ta-mark-compact .ta-bubbles {
-  width: 55px;
-}
-.ta-bubbles-small {
-  width: 55px;
-  display: block;
-  background: #ffffff;
-  border-radius: 3px;
-}
 .ratings-section h3 {
   margin-top: 0;
 }

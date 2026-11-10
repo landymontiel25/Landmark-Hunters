@@ -465,12 +465,11 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
     setActiveCategories((cur) => (cur.includes(key) ? cur.filter((k) => k !== key) : [...cur, key]));
   };
   const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
-  // No sort is picked when the app opens (owner, 2026-11-08): the list shows
-  // A to Z while Google's ratings load in the background, and Popular is
-  // ready by the time someone taps it or a category. The choice lasts while
-  // the app is open (session state); Play and the Popular Landmarks chip on
-  // Create New Trip open the tab on Popular (landmarksSort.js).
-  const [savedSort, setSortBy] = useSessionState(LANDMARKS_SORT_KEY, null);
+  // The tab opens on Popular (owner, 2026-11-10; it opened on no sort before).
+  // Tapping Popular again turns it off (A to Z). The choice lasts while the
+  // app is open (session state); Play and the Popular Landmarks chip on
+  // Create New Trip open the tab on Popular too (landmarksSort.js).
+  const [savedSort, setSortBy] = useSessionState(LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT);
   // Up arrow: not-checked-in first. Down arrow: checked-in first. null: neither.
   const [savedCheckInOrder, setCheckInOrder] = usePersistentState('landmarks.checkInOrder', null, { isEmpty: NEVER_EMPTY });
   const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;

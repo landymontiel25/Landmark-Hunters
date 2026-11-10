@@ -95,15 +95,6 @@ export const TURNED_OFF = [
     file: 'src/lib/maprConstants.js',
     check: 'REQUIRE_GPS_CHECKIN = false',
   },
-  {
-    name: 'Tripadvisor ratings',
-    hides: 'Tripadvisor ratings next to Google’s on Landmarks and each landmark’s page.',
-    keeps: 'Built and ready; it turns on once a Tripadvisor API key is added.',
-    since: '2026-10-13',
-    pr: 655,
-    file: 'api/_lib/ratingSources.js',
-    check: 'process.env.TRIPADVISOR_API_KEY',
-  },
 ];
 
 // Taken out of the app, not behind a switch: bringing these back means

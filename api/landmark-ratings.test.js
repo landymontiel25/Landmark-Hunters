@@ -20,27 +20,11 @@ const GOOGLE_OK = {
     },
   ],
 };
-const TA_LOCATION = {
-  id: 60763,
-  traveler_ratings: { overall: { rating: 4.5, count: 890, icon_url: 'https://static.tacdn.com/img2/ratings/traveler/4.5.svg' } },
-  urls: { tripadvisor: { main: 'https://www.tripadvisor.com/Attraction_Review-60763' } },
-};
-const TA_REVIEWS = {
-  data: [
-    { id: 1, rating: 5, text: [{ language: 'en', value: 'A must see.' }], publish_ts: '2026-09-01T10:00:00Z', user: { username: 'traveler1' }, url: 'https://www.tripadvisor.com/ShowUserReviews-1' },
-    { id: 2, rating: 4, text: [{ language: 'en', value: 'Good.' }], publish_ts: '2026-09-02T10:00:00Z' },
-  ],
-  pagination: { page: 1 },
-};
-
 const json = (body, status = 200) => ({ ok: status < 400, status, json: async () => body, text: async () => JSON.stringify(body) });
 let google;
-let tripadvisor;
 const fetchMock = vi.fn(async (url) => {
   const u = String(url);
   if (u.includes('places.googleapis.com')) return google();
-  if (u.includes('/reviews')) return tripadvisor.reviews();
-  if (u.includes('terra.tripadvisor.com')) return tripadvisor.location();
   throw new Error(`unexpected ${u}`);
 });
 
@@ -53,25 +37,20 @@ const call = async (query) => {
 beforeEach(() => {
   signedIn = true;
   process.env.GOOGLE_PLACES_API_KEY = 'g-secret-key';
-  process.env.TRIPADVISOR_API_KEY = 'ta-secret-key';
-  _setRatingIds({ 'philly/liberty-bell-center': { googlePlaceId: 'ChIJabc', tripadvisorLocationId: '60763' } });
+  _setRatingIds({ 'philly/liberty-bell-center': { googlePlaceId: 'ChIJabc' } });
   _setCatalogLookup(async () => null);
   google = async () => json(GOOGLE_OK);
-  tripadvisor = { location: async () => json(TA_LOCATION), reviews: async () => json(TA_REVIEWS) };
   vi.stubGlobal('fetch', fetchMock);
   fetchMock.mockClear();
 });
 afterEach(() => vi.unstubAllGlobals());
 
 describe('api/landmark-ratings', () => {
-  it('success: both sources, with snippets on the detail screen', async () => {
+  it('success: Google, with snippets on the detail screen', async () => {
     const { code, body, res } = await call({ region: 'philly', id: 'liberty-bell-center', detail: '1' });
     expect(code).toBe(200);
     expect(body.sources.google).toMatchObject({ rating: 4.7, count: 1234, url: 'https://maps.google.com/?cid=1' });
     expect(body.sources.google.snippets[0]).toMatchObject({ text: 'Worth the line.', author: 'Ana', url: 'https://www.google.com/maps/reviews/1' });
-    expect(body.sources.tripadvisor).toMatchObject({ rating: 4.5, count: 890, url: 'https://www.tripadvisor.com/Attraction_Review-60763' });
-    // Only the 5-bubble review is quoted, with its date.
-    expect(body.sources.tripadvisor.snippets).toEqual([expect.objectContaining({ text: 'A must see.', date: '2026-09-01' })]);
     expect(res.headers['Cache-Control']).toBe('no-store');
     // Keys never leave the server.
     expect(JSON.stringify(body)).not.toMatch(/secret-key/);
@@ -85,47 +64,28 @@ describe('api/landmark-ratings', () => {
     expect(googleCall[1].headers['X-Goog-FieldMask']).toBe('rating,userRatingCount,googleMapsUri');
   });
 
-  it('one source down: Google errors, Tripadvisor still answers', async () => {
+  it('Google errors: 200 with no rating, not "no ratings"', async () => {
     google = async () => json({ error: 'boom' }, 500);
     const { code, body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(code).toBe(200);
     expect(body.sources.google).toBeNull();
     expect(body.googleNoRating).toBe(false);
-    expect(body.sources.tripadvisor).toMatchObject({ rating: 4.5 });
   });
 
-  it('one source down: Tripadvisor throws (network), Google still answers', async () => {
-    tripadvisor.location = async () => {
-      throw new TypeError('fetch failed');
-    };
-    const { code, body } = await call({ region: 'philly', id: 'liberty-bell-center', detail: '1' });
-    expect(code).toBe(200);
-    expect(body.sources.tripadvisor).toBeNull();
-    expect(body.sources.google).toMatchObject({ rating: 4.7 });
-  });
-
-  it('both down: 200 with both null', async () => {
+  it('Google down: 200 with null', async () => {
     google = async () => json({}, 503);
-    tripadvisor.location = async () => json({}, 404);
     const { code, body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(code).toBe(200);
-    expect(body.sources).toEqual({ google: null, tripadvisor: null });
+    expect(body.sources).toEqual({ google: null });
     // A failed lookup is not "no ratings".
     expect(body.googleNoRating).toBe(false);
   });
 
   it('a landmark with no IDs makes no outside calls', async () => {
     const { body } = await call({ region: 'philly', id: 'somewhere-else' });
-    expect(body.sources).toEqual({ google: null, tripadvisor: null });
+    expect(body.sources).toEqual({ google: null });
     expect(body.googleNoRating).toBe(true);
     expect(fetchMock).not.toHaveBeenCalled();
-  });
-
-  it('a missing key means that source is null, not an error', async () => {
-    delete process.env.TRIPADVISOR_API_KEY;
-    const { body } = await call({ region: 'philly', id: 'liberty-bell-center' });
-    expect(body.sources.tripadvisor).toBeNull();
-    expect(body.sources.google).not.toBeNull();
   });
 
   it('a catalog landmark with no ID is matched on first sight from the name and spot the app sends', async () => {

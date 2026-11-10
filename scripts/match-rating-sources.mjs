@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-// Fills googlePlaceId and tripadvisorLocationId for every landmark
+// Fills googlePlaceId for every landmark
 // (docs/ratings.md). Matches on name plus latitude/longitude; a match it is
 // not sure about goes to a review file instead. Writes after every batch,
 // so a crash or Ctrl-C loses at most one batch, and a re-run picks up where
 // it stopped.
 //
-//   GOOGLE_PLACES_API_KEY=... TRIPADVISOR_API_KEY=... \
+//   GOOGLE_PLACES_API_KEY=... \
 //     node scripts/match-rating-sources.mjs --batch=20 --limit=40 --region=philly
 //
 // Options:
-//   --sources=google,tripadvisor   which sources to match (default both)
+//   --sources=google               which sources to match (Google only)
 //   --batch=20                     landmarks per batch (writes after each)
 //   --limit=N                      stop after N landmarks this run
 //   --region=philly                only one region
@@ -26,13 +26,9 @@
 //   src/data/ratingSourceIds.json             sure matches ("region/id" -> IDs)
 //   scripts/rating-sources/review.json        unsure matches, with candidates
 //   scripts/rating-sources/no-match.json      nothing close by
-//   scripts/rating-sources/tripadvisor-allowlist.txt
-//       Tripadvisor location IDs to add to the Terra allowlist (Terra
-//       answers 404 for any location not on it).
 //
-// What it stores is allowed by both sources' terms: Google place IDs may be
-// kept indefinitely, Tripadvisor location IDs may be cached. No names,
-// ratings or coordinates from either source are written to the ID map.
+// What it stores is allowed by Google's terms: place IDs may be kept
+// indefinitely. No names, ratings or coordinates are written to the ID map.
 
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -46,9 +42,8 @@ const OUT = {
   ids: path.join(root, 'src/data/ratingSourceIds.json'),
   review: path.join(root, 'scripts/rating-sources/review.json'),
   none: path.join(root, 'scripts/rating-sources/no-match.json'),
-  allowlist: path.join(root, 'scripts/rating-sources/tripadvisor-allowlist.txt'),
 };
-const FIELD = { google: 'googlePlaceId', tripadvisor: 'tripadvisorLocationId' };
+const FIELD = { google: 'googlePlaceId' };
 
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
@@ -56,7 +51,7 @@ const args = Object.fromEntries(
     return [k, v ?? true];
   })
 );
-const SOURCES = String(args.sources || 'google,tripadvisor').split(',').filter((s) => FIELD[s]);
+const SOURCES = String(args.sources || 'google').split(',').filter((s) => FIELD[s]);
 const BATCH = Math.max(1, Number(args.batch) || 20);
 const LIMIT = Number(args.limit) || Infinity;
 const PAUSE = Number(args.pause ?? 300);
@@ -87,7 +82,7 @@ function allLandmarks() {
 }
 
 // ---- Source searches: each returns [{ id, name, lat, lng }] -------------
-const calls = { google: 0, tripadvisor: 0 };
+const calls = { google: 0 };
 
 // Places API (New) Text Search, biased to 250 m around the landmark. Field
 // mask id + displayName + location (Text Search Pro).
@@ -138,41 +133,12 @@ async function searchGoogle(l) {
   return (data.places || []).map((p) => ({ id: p.id, name: p.displayName?.text, lat: p.location?.latitude, lng: p.location?.longitude }));
 }
 
-// Terra Catalog nearby search (not limited by the allowlist, which is the
-// point: we are finding IDs to put on it). Parameter names follow Terra's
-// "center point and radius" description but could not be confirmed from
-// this repo's build environment; run --batch=1 --limit=1 first and check
-// for a 400.
-export function terraNearbyUrl(l) {
-  const qs = new URLSearchParams({ version: '1', latitude: String(l.lat), longitude: String(l.lng), radius: '500', unit: 'm' });
-  return `https://terra.tripadvisor.com/api/catalog/locations/nearby?${qs}`;
-}
-const terraName = (x) => {
-  if (Array.isArray(x?.names)) return (x.names.find((n) => n.primary) || x.names[0])?.value;
-  return x?.name;
-};
-async function searchTripadvisor(l) {
-  calls.tripadvisor += 1;
-  const r = await fetch(terraNearbyUrl(l), {
-    headers: { 'X-API-Key': process.env.TRIPADVISOR_API_KEY, Accept: 'application/json' },
-    signal: AbortSignal.timeout(15000),
-  });
-  if (!r.ok) throw new Error(`tripadvisor ${r.status}: ${(await r.text()).slice(0, 200)}`);
-  const body = await r.json();
-  const list = Array.isArray(body) ? body : body.data || body.locations || [];
-  return list.map((x) => ({
-    id: x.id ?? x.location_id,
-    name: terraName(x),
-    lat: Number(x.coordinates?.latitude ?? x.latitude),
-    lng: Number(x.coordinates?.longitude ?? x.longitude),
-  }));
-}
-const SEARCH = { google: searchGoogle, tripadvisor: searchTripadvisor };
+const SEARCH = { google: searchGoogle };
 
 // ---- Run ----------------------------------------------------------------
 async function main() {
   for (const s of SOURCES) {
-    const env = s === 'google' ? 'GOOGLE_PLACES_API_KEY' : 'TRIPADVISOR_API_KEY';
+    const env = 'GOOGLE_PLACES_API_KEY';
     if (!DRY && !process.env[env]) {
       console.error(`${env} is not set. Set it, drop --sources=${s}, or use --dry-run.`);
       process.exit(1);
@@ -199,7 +165,7 @@ async function main() {
 
   const tally = { sure: 0, review: 0, none: 0, errors: 0, deferred: 0 };
   // A source that hit its daily quota is skipped for the rest of the run
-  // (Google: "... per day"; Terra: its daily call cap). Re-run tomorrow.
+  // (Google: "... per day"). Re-run tomorrow.
   const outOfQuota = new Set();
   for (let i = 0; i < pending.length; i += BATCH) {
     const batch = pending.slice(i, i + BATCH);
@@ -239,8 +205,6 @@ async function main() {
     writeFileSync(OUT.ids, `${JSON.stringify(sortKeys(ids), null, 2)}\n`);
     writeFileSync(OUT.review, `${JSON.stringify(sortKeys(review), null, 2)}\n`);
     writeFileSync(OUT.none, `${JSON.stringify(sortKeys(none), null, 2)}\n`);
-    const ta = [...new Set(Object.values(ids).map((v) => v.tripadvisorLocationId).filter(Boolean))].sort();
-    writeFileSync(OUT.allowlist, ta.length ? `${ta.join('\n')}\n` : '');
     if (SOURCES.every((s) => outOfQuota.has(s))) {
       console.log('Every source hit its daily quota. Progress is saved; run the same command tomorrow.');
       break;
@@ -248,10 +212,10 @@ async function main() {
     console.log(
       `batch ${i / BATCH + 1}: ${Math.min(i + BATCH, pending.length)}/${pending.length} done. ` +
         `sure ${tally.sure}, review ${tally.review}, no match ${tally.none}, errors ${tally.errors}${GOOGLE_NEARBY ? `, left for text search ${tally.deferred}` : ''}. ` +
-        `API calls so far: google ${calls.google}, tripadvisor ${calls.tripadvisor}.`
+        `API calls so far: google ${calls.google}.`
     );
   }
-  console.log(`Finished. Total API calls: google ${calls.google}, tripadvisor ${calls.tripadvisor}.`);
+  console.log(`Finished. Total API calls: google ${calls.google}.`);
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {

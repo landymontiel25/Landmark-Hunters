@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { loadLandmarkRatings } from './landmarkRatings';
+import { loadLandmarkRatings, LOOKUP_DELAY_MS } from './landmarkRatings';
 
 // Top Landmarks (owner, 2026-11-06) ranks by Google's stars and review count
 // (topRated.js topLandmarksOrder), and the Map sheet's Highest rated sort by
@@ -56,18 +56,23 @@ export function useTopRatings(list, enabled) {
     let cancelled = false;
     const known = fromSession(cands);
     if (Object.keys(known).length) setAnswers((cur) => ({ ...known, ...cur }));
-    for (const l of cands) {
-      if (asked.current.has(l.id) || sessionAnswers.has(l.id)) continue;
-      asked.current.add(l.id);
-      loadLandmarkRatings(l).then((sources) => {
-        // A failed lookup (no Google answer at all) is asked again next time.
-        if (sources?.google || sources?.googleNoRating) sessionAnswers.set(l.id, sources);
-        if (!cancelled) setAnswers((cur) => ({ ...cur, [l.id]: sources }));
-      });
-    }
+    // Looks up nothing until the list has stayed put for LOOKUP_DELAY_MS
+    // (owner, 2026-11-10): a quick change of sort, city or mood costs no calls.
+    const start = setTimeout(() => {
+      for (const l of cands) {
+        if (asked.current.has(l.id) || sessionAnswers.has(l.id)) continue;
+        asked.current.add(l.id);
+        loadLandmarkRatings(l).then((sources) => {
+          // A failed lookup (no Google answer at all) is asked again next time.
+          if (sources?.google || sources?.googleNoRating) sessionAnswers.set(l.id, sources);
+          if (!cancelled) setAnswers((cur) => ({ ...cur, [l.id]: sources }));
+        });
+      }
+    }, LOOKUP_DELAY_MS);
     const t = setTimeout(() => !cancelled && setTimedOut(sig), TOP_WAIT_MS);
     return () => {
       cancelled = true;
+      clearTimeout(start);
       clearTimeout(t);
       // An unmounted screen's requests still settle; asking again next time
       // is right (nothing is kept).

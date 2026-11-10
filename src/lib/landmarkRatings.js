@@ -11,6 +11,8 @@ import { authHeaders } from './apiAuth';
 
 // 24 at once: Top Landmarks looks up a whole city (up to 120 places) on its
 // first open, so twice the old 12 halves the wait for its order.
+// How long a screen waits before it looks anything up (owner, 2026-11-10).
+export const LOOKUP_DELAY_MS = 500;
 const MAX_CONCURRENT = 24;
 const PAUSE_MS = 60 * 1000;
 
@@ -37,9 +39,9 @@ function pump() {
   }
 }
 
-const EMPTY = { google: null, tripadvisor: null, googleNoRating: false };
+const EMPTY = { google: null, googleNoRating: false };
 
-// Resolves to { google, tripadvisor } (each a result or null) plus
+// Resolves to { google } (a result or null) plus
 // googleNoRating (true only when the server says Google has no rating for the
 // place; any failure leaves it false). Never throws.
 export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetch } = {}) {
@@ -65,7 +67,6 @@ export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetc
         const body = await r.json().catch(() => null);
         const answer = {
           google: body?.sources?.google || null,
-          tripadvisor: body?.sources?.tripadvisor || null,
           googleNoRating: body?.googleNoRating === true,
         };
         if (answer.google || answer.googleNoRating) remembered.set(key, answer);

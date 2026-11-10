@@ -13,7 +13,8 @@ vi.mock('../../lib/UnitsContext', () => ({
 // Google's answers per landmark id (the Highest rated sort looks them up).
 const googleAnswers = {};
 vi.mock('../../lib/landmarkRatings', () => ({
-  loadLandmarkRatings: (l) => Promise.resolve({ google: googleAnswers[l.id] || null, tripadvisor: null, googleNoRating: !googleAnswers[l.id] }),
+  LOOKUP_DELAY_MS: 0,
+  loadLandmarkRatings: (l) => Promise.resolve({ google: googleAnswers[l.id] || null, googleNoRating: !googleAnswers[l.id] }),
 }));
 
 import MoodCarousel from './MoodCarousel';
