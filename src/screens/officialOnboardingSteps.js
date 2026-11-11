@@ -64,7 +64,14 @@ export const SAY = {
   tasteSkip: ["Skip and I'll guess. Pick and I'll get it right."],
   rate: ['Rate 10 places you know. Every one counts, and at 10 I can pick for you.'],
   notes: ["Anything else you love or hate that the cards didn't cover?"],
-  primer: ['Allow location so I can verify you’re here and give you the points — While Using the App only.'],
+  // Always location (owner, 2026-11-11): Mapr needs to know where you are
+  // all the time. iOS never offers Always on its first prompt, so the flow is
+  // primer → While Using → iOS's own "Change to Always Allow" right after.
+  primer: [
+    'Allow location Always so I can verify you’re here, give you the points, and tell you when you pass a place worth a stop.',
+  ],
+  promptFirst: ["This is the iPhone's own question. Pick Allow While Using App. Always comes on the next screen."],
+  promptAlways: ['Now pick Change to Always Allow, so I know where you are even with the app closed.'],
   checkinWin: [`First check-in! +${CHECKIN_POINTS}.`],
   review: ['Loving it so far? A quick rating helps other travelers find me.'],
   commitAsk: ['How committed are you to exploring like this?'],
