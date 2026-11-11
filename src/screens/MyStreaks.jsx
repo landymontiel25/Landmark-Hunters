@@ -147,7 +147,9 @@ function VoteCard({ streak, landmark, prompt, onVote, onError }) {
 // Travel Picks itself defaults to wherever you are.
 function StreakDetail({ streak, onBack, onLeave }) {
   const { user } = useAuth();
-  const { coords } = useGeo();
+  const { coords: liveCoords, lastKnown, loading: geoLoading } = useGeo();
+  // Where you are, even before the first fresh fix (the last one the app saw).
+  const coords = liveCoords || lastKnown || null;
   const { closeToday } = usePairStreaks();
   const [entries, setEntries] = useState({});
   const [freezeBusy, setFreezeBusy] = useState(false);
@@ -232,14 +234,17 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const pickedCityRef = useRef(false);
   useEffect(() => {
     if (streak.cityId || pickedCityRef.current) return;
+    // Wait for the GPS fix instead of picking a city blind (owner, 2026-11-11:
+    // the city must be where the person is, not a random one).
+    if (!coords && geoLoading) return;
     const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
-    const defaultRegionId = pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
+    const defaultRegionId = (origin && nearestPickableCity(origin, Infinity)) || pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
     if (!defaultRegionId) return;
     pickedCityRef.current = true;
     setStreakCity(streak.id, defaultRegionId).catch(() => {
       pickedCityRef.current = false;
     });
-  }, [streak.id, streak.cityId, coords, pickedCityRef]);
+  }, [streak.id, streak.cityId, coords, geoLoading, pickedCityRef]);
 
   const myEntry = entries[user.uid] || { uid: user.uid, ratings: {}, guesses: {} };
   const partnerEntry = entries[partnerUid];
@@ -585,7 +590,9 @@ function SoloCityPicker({ value, options, hereName, locked, busy, onChange }) {
 
 function SoloStreakDetail({ streak, onBack, onInvite }) {
   const { user } = useAuth();
-  const { coords } = useGeo();
+  const { coords: liveCoords, lastKnown, loading: geoLoading } = useGeo();
+  // Where you are, even before the first fresh fix (the last one the app saw).
+  const coords = liveCoords || lastKnown || null;
   const [entry, setEntry] = useState({ uid: user.uid, ratings: {} });
   // Which day's entry has arrived from the database (null until it has).
   const [entryDay, setEntryDay] = useState(null);
@@ -654,7 +661,9 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const hereLat = coords ? Math.round(coords.lat * 100) / 100 : null;
   const hereLng = coords ? Math.round(coords.lng * 100) / 100 : null;
   const gpsCity = useMemo(
-    () => (hereLat != null ? nearestPickableCity({ lat: hereLat, lng: hereLng }, 30) : null),
+    // The nearest city, however far (owner, 2026-11-11): outside 30 miles of
+    // every city used to fall through to a fixed fallback city.
+    () => (hereLat != null ? nearestPickableCity({ lat: hereLat, lng: hereLng }, Infinity) : null),
     [hereLat, hereLng]
   );
 
@@ -670,6 +679,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const ratedToday = Object.keys(entry.ratings || {}).length;
   useEffect(() => {
     const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
+    // No city yet: wait for the GPS fix rather than pick one blind.
+    if (!streak.cityId && !coords && geoLoading) return;
     const target = streak.cityId
       ? !streak.cityPinned && entryDay === today && ratedToday === 0 && gpsCity && gpsCity !== streak.cityId
         ? gpsCity
@@ -680,7 +691,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
     setSoloStreakCity(streak.id, target).catch(() => {
       pickedCityRef.current = null;
     });
-  }, [streak.id, streak.cityId, streak.cityPinned, coords, gpsCity, entryDay, today, ratedToday]);
+  }, [streak.id, streak.cityId, streak.cityPinned, coords, geoLoading, gpsCity, entryDay, today, ratedToday]);
 
   // The city dropdown: every city with cards, and how many of its places you
   // have never answered or been to, so you can pick one with new cards.
