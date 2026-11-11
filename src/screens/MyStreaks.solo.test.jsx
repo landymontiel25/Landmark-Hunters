@@ -39,7 +39,8 @@ const spendSoloFreezeMock = vi.fn(async () => ({ freezesLeft: 0 }));
 vi.mock('../lib/RatingsContext', () => ({ useRatings: () => ({ myReviews: {} }) }));
 vi.mock('../lib/usePickVotes', () => ({ usePickVotes: () => ({ vote: () => Promise.resolve(null) }) }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true }) }));
-vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 25.77, lng: -80.19 } }) }));
+let geo = { coords: { lat: 25.77, lng: -80.19 } };
+vi.mock('../lib/GeoContext', () => ({ useGeo: () => geo }));
 vi.mock('../lib/FriendsContext', () => ({ useFriends: () => ({ myUsername: 'me' }) }));
 vi.mock('../lib/PairStreakContext', () => ({
   usePairStreaks: () => ({ streaks: currentDualStreaks, leaveStreak: vi.fn(), startStreakWith: vi.fn(), closeToday: vi.fn() }),
@@ -96,6 +97,7 @@ afterEach(() => {
   closeSoloTodayMock.mockClear();
   spendSoloFreezeMock.mockClear();
   setSoloStreakCity.mockClear();
+  geo = { coords: { lat: 25.77, lng: -80.19 } };
   soloStreak.cityId = 'miami';
   delete soloStreak.cityPinned;
   history.answered = new Map();
@@ -174,6 +176,17 @@ describe('MyStreaks - solo streak', () => {
 
   it('moves the cards to the city you are in (Miami, not Villanova) before any is rated', async () => {
     soloStreak.cityId = 'villanova';
+    await render();
+    expect(setSoloStreakCity).toHaveBeenCalledWith('me', 'miami');
+  });
+
+  it('picks no city for a new streak until the GPS fix arrives, then the city you are in (owner, 2026-11-11)', async () => {
+    soloStreak.cityId = null;
+    geo = { coords: null, loading: true };
+    await render();
+    expect(setSoloStreakCity).not.toHaveBeenCalled();
+    geo = { coords: { lat: 25.77, lng: -80.19 } };
+    container.remove();
     await render();
     expect(setSoloStreakCity).toHaveBeenCalledWith('me', 'miami');
   });

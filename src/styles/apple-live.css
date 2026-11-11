@@ -1007,13 +1007,20 @@ body[data-apple='profile'] .aps .screen-title {
   font-weight: 800;
 }
 .pf-head-text {
+  flex: 1 1 0;
   min-width: 0;
+  container-type: inline-size;
 }
 .pf-name {
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 26px;
+  /* The whole name stays on one line (owner, 2026-11-11): the type shrinks
+     with the name's length (--len, set in Profile.jsx) from 26px down to
+     13px, so a long username like @landymontiel25 never wraps its last
+     digit under it. */
+  white-space: nowrap;
+  font-size: clamp(13px, calc(100cqw / (var(--len, 10) * 0.62)), 26px);
   font-weight: 800;
   letter-spacing: -0.6px;
   line-height: 1.15;

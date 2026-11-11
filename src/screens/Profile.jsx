@@ -731,7 +731,7 @@ export default function Profile() {
           {initial}
         </div>
         <div className="pf-head-text">
-          <h1 className="pf-name">{shownName}</h1>
+          <h1 className="pf-name" style={{ '--len': shownName.length }}>{shownName}</h1>
           <p className="pf-sub">Landmark Hunter</p>
           <button type="button" className="pf-edit" onClick={() => navigate('/settings')}>
             {'\u270F\uFE0F'} Edit Profile
