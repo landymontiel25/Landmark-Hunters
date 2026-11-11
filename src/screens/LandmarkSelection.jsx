@@ -87,7 +87,7 @@ const POPULAR_NOUN = {
 };
 // The short word under each category circle (owner's mockup, 2026-11-09).
 const SHORT_CATEGORY = {
-  'history-culture': 'Museum',
+  'history-culture': 'Art & Culture',
   food: 'Food',
   'local-life': 'Drinks',
   'parks-nature': 'Nature',
@@ -576,8 +576,8 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
 
   // Popular ranks by Google's review count (src/lib/useTopRatings.js; signed
   // in only). They load only once Popular is picked (owner, 2026-11-10: the
-  // first two pages' worth, TOP_RANK_MAX places); every other sort looks up
-  // just the page you are on and the next (usePageRatings). Popular shows at
+  // top TOP_RANK_MAX = 50 places); every page also looks up the page you are
+  // on and the next (usePageRatings). Popular shows at
   // once (A to Z for places Google has not answered yet; the app's own
   // ratings never count).
   const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
@@ -667,13 +667,14 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
 
   // Every sort goes by Google's review count (owner, 2026-11-11), most first.
   // Google's terms forbid storing the counts and there is no batch lookup, so
-  // the count is only known for the places looked up: the first two pages
-  // (TOP_RANK_MAX places) of whatever order the sort gives. Those places are
+  // the count is only known for the places looked up: the first
+  // TOP_RANK_MAX (50) places of whatever order the sort gives, in the
+  // category picked. Those places are
   // reordered by review count within their group (all of them with no
   // Checked in arrow, the checked-in and not-checked-in groups apart with
   // one), and the rest follow in the sort's own order. Near Me is therefore
   // "the 50 nearest, most reviewed first". Popular already does this itself;
-  // a search keeps its best-match order. No new lookups: this is the same 50.
+  // a search keeps its best-match order. No new lookups beyond page one.
   const reviewSortWanted = sortBy !== 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
   const reviewWindow = useMemo(() => baseLandmarks.filter((l) => l && l.id && (l.regionId || l.region)).slice(0, TOP_RANK_MAX), [baseLandmarks]);
   const reviewTop = useTopRatings(reviewWindow, reviewSortWanted);
