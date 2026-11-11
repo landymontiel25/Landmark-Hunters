@@ -126,19 +126,21 @@ export function TabScreen({ stop, live = false }) {
 }
 
 // One stop per tab; tap a tab in the drawn bar to jump to it.
-export function TutorialTabs({ onDone }) {
+// `stops` picks the tabs to show (Official Onboarding tours Map and
+// Itinerary only); every other tutorial shows all five.
+export function TutorialTabs({ onDone, stops = TABS }) {
   const [i, setI] = useState(0);
-  const stop = TABS[i];
-  const last = i === TABS.length - 1;
+  const stop = stops[i];
+  const last = i === stops.length - 1;
   return (
     <div className="tut nav-clear">
       <p className="tut-count">
-        Tab {i + 1} of {TABS.length}: <strong>{stop.tab}</strong>
+        Tab {i + 1} of {stops.length}: <strong>{stop.tab}</strong>
       </p>
       <Phone key={stop.tab}>
         <TabScreen stop={stop} live={!!stop.live} />
         <div className="tut-nav">
-          {TABS.map((t, n) => (
+          {stops.map((t, n) => (
             <button
               key={t.tab}
               type="button"
@@ -185,7 +187,9 @@ export function LabNotes({ data, set, onDone }) {
   );
 }
 
-export function LabSignUp({ data, set, onDone }) {
+// googleFirst (Official Onboarding): Sign up with Google on top, the email
+// form under it.
+export function LabSignUp({ data, set, onDone, googleFirst = false }) {
   const [error, setError] = useState('');
   const submit = (e) => {
     e.preventDefault();
@@ -202,6 +206,16 @@ export function LabSignUp({ data, set, onDone }) {
         <span>{'\u{1F6C2}'}</span> Sign In
       </h1>
       <p className="screen-subtitle">Sign in to check in, rate places, add friends, and hit the leaderboard.</p>
+      {googleFirst && (
+        <>
+          <button type="button" className="btn btn-primary btn-block" onClick={() => onDone('Google')}>
+            {'\u{1F510}'} Sign up with Google
+          </button>
+          <div className="lab-divider">
+            <span>or use email</span>
+          </div>
+        </>
+      )}
       <form onSubmit={submit}>
         <div className="field">
           <label htmlFor="lab-name">Display Name</label>
@@ -243,12 +257,16 @@ export function LabSignUp({ data, set, onDone }) {
           Create Account
         </button>
       </form>
-      <div className="lab-divider">
-        <span>or</span>
-      </div>
-      <button type="button" className="btn btn-ghost btn-block" onClick={() => onDone('Google')}>
-        {'\u{1F510}'} Sign up with Google
-      </button>
+      {!googleFirst && (
+        <>
+          <div className="lab-divider">
+            <span>or</span>
+          </div>
+          <button type="button" className="btn btn-ghost btn-block" onClick={() => onDone('Google')}>
+            {'\u{1F510}'} Sign up with Google
+          </button>
+        </>
+      )}
     </div>
   );
 }

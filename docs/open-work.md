@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Official Onboarding test (2026-11-11)
+
+Test tab "Official Onboarding" (`OfficialOnboardingLab.jsx`, words and route
+building in `officialOnboardingSteps.js`): the owner's 9-step Planner-first
+flow, Test only, nothing saved. The Planner and Game tutorials stay for
+comparison. Not built for real yet: saving the 10 cards as real ratings, the
+city as the saved scope on every tab, the notes as Mapr context, the check-in,
+the review prompt and sign-up. Decisions: the 10th rating goes straight to the
+Reflection step (no "all done" screen), then the day; "Not sure" doesn't count
+toward 10; the "X people built a day like this today" line shows a sample
+number (128) because the app counts no built days yet.
+
 ## Review-count order in every sort (2026-11-11)
 
 Owner: every Landmarks sort goes by Google review count. Counts cannot be

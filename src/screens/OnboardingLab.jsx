@@ -10,6 +10,7 @@ import RatingSliderLab from './RatingSliderLab';
 import ItineraryTutorialLab from './ItineraryTutorialLab';
 import UltimateTutorialLab from './UltimateTutorialLab';
 import GameTutorialLab from './GameTutorialLab';
+import OfficialOnboardingLab from './OfficialOnboardingLab';
 import UILab from './UILab';
 import PlannerLab from './PlannerLab';
 
@@ -19,7 +20,8 @@ export { progressTier };
 // tutorial (UltimateTutorialLab.jsx) and Game tutorial (GameTutorialLab.jsx),
 // built from the step pieces in SignupTutorialLab.jsx, FirstRunLab.jsx and
 // ExplainerImagesLab.jsx. The old Tutorial and Tutorial 2 bubbles were
-// removed (owner, 2026-11-02). Nothing in any test is saved.
+// removed (owner, 2026-11-02). Official Onboarding (OfficialOnboardingLab.jsx)
+// is the Planner-first flow (owner, 2026-11-11). Nothing in any test is saved.
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
@@ -28,6 +30,7 @@ const TESTS = [
   { id: 'malls', label: 'Malls' },
   { id: 'ultimate', label: 'Planner tutorial' },
   { id: 'game', label: 'Game tutorial' },
+  { id: 'official', label: 'Official Onboarding' },
   { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
   { id: 'planner', label: 'Planner launch' },
@@ -120,6 +123,17 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <GameTutorialLab />
+      </div>
+    );
+  }
+
+  // Official Onboarding (owner, 2026-11-11): the Planner-first flow. The
+  // Planner and Game tutorials stay for comparison.
+  if (test === 'official') {
+    return (
+      <div>
+        {testTabs}
+        <OfficialOnboardingLab />
       </div>
     );
   }
