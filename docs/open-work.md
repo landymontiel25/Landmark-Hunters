@@ -13,7 +13,8 @@ city as the saved scope on every tab, the notes as Mapr context, the check-in,
 the review prompt and sign-up. Decisions: the 10th rating goes straight to the
 Reflection step (no "all done" screen), then the day; "Not sure" doesn't count
 toward 10; the "X people built a day like this today" line shows a sample
-number (128) because the app counts no built days yet.
+number (128) because the app counts no built days yet. Location asks for Always (owner, 2026-11-11, reversing "While Using only"): primer,
+then iOS While Using, then iOS's Change to Always Allow right after.
 
 ## Review-count order in every sort (2026-11-11)
 

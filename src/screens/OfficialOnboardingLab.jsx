@@ -42,7 +42,7 @@ import {
 // Test tab "Official Onboarding" (owner, 2026-11-11): the Planner-first
 // flow in 9 steps and three acts. Act 1 intro (problem + solution, city,
 // taste pick), Act 2 climax (rate 10 places in the city, Mapr repeats it
-// back, the first Mapr day, the first check-in with the location primer and
+// back, the first Mapr day, the first check-in with the Always location ask and
 // review ask), Act 3 (summary + commitment, then sign-up for the first
 // time, with a Map + Itinerary tour). Same shell as the Planner and Game
 // tutorials, which stay as they are for comparison. Nothing is saved: no
@@ -63,7 +63,7 @@ const empty = () => ({
   places: [],
   stops: [],
   savedDay: false,
-  location: null, // 'allowed' | 'not-now'
+  location: null, // 'prompt' | 'upgrade' | 'always' | 'allowed' (While Using) | 'not-now'
   checkedIn: false,
   review: null, // 'rated' | 'skipped'
   commitment: null,
@@ -195,8 +195,8 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
           <div className="tut-hero" aria-hidden="true">
             {'\u{1F4CD}'}
           </div>
-          <div className="tut-screen-title">Location, While Using the App</div>
-          <p className="tut-small">Only to check you in at {nearest.place.name}.</p>
+          <div className="tut-screen-title">Location, Always</div>
+          <p className="tut-small">To check you in at {nearest.place.name} and spot places as you pass them.</p>
         </Phone>
         <NextButton
           onClick={() => {
@@ -223,12 +223,12 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
 
   if (data.location === 'prompt') {
     const answer = (how) => {
-      set({ location: how === 'deny' ? 'not-now' : 'allowed' });
+      set({ location: how === 'deny' ? 'not-now' : how === 'Allow While Using App' ? 'upgrade' : 'allowed' });
       note(how === 'deny' ? "iOS prompt: Don't Allow (pretend)" : `iOS prompt: ${how} (pretend)`);
     };
     return (
       <div className="tut nav-clear">
-        <MaprBubble>This is the iPhone's own question. Pick While Using the App.</MaprBubble>
+        <MaprSays lines={SAY.promptFirst} />
         <Phone>
           <div className="tut-dialog">
             <strong>Allow "Landmark Hunters" to use your location?</strong>
@@ -240,6 +240,30 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
             </button>
             <button type="button" className="tut-dialog-btn oo-dialog-btn" onClick={() => answer('deny')}>
               Don't Allow
+            </button>
+          </div>
+        </Phone>
+      </div>
+    );
+  }
+
+  // iOS's second question, right after While Using: the upgrade to Always.
+  if (data.location === 'upgrade') {
+    const answer = (always) => {
+      set({ location: always ? 'always' : 'allowed' });
+      note(always ? 'iOS prompt: Change to Always Allow (pretend)' : 'iOS prompt: Keep Only While Using (pretend)');
+    };
+    return (
+      <div className="tut nav-clear">
+        <MaprSays lines={SAY.promptAlways} />
+        <Phone>
+          <div className="tut-dialog">
+            <strong>Allow "Landmark Hunters" to also use your location even when you are not using the app?</strong>
+            <button type="button" className="tut-dialog-btn oo-dialog-btn" onClick={() => answer(false)}>
+              Keep Only While Using
+            </button>
+            <button type="button" className="tut-dialog-btn oo-dialog-btn tut-pulse" onClick={() => answer(true)}>
+              Change to Always Allow
             </button>
           </div>
         </Phone>
@@ -318,7 +342,7 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
           )}
         </div>
       </Phone>
-      {inside && data.location === 'allowed' && (
+      {inside && (data.location === 'always' || data.location === 'allowed') && (
         <NextButton
           onClick={() => {
             set({ checkedIn: true });
@@ -621,7 +645,7 @@ export default function OfficialOnboardingLab() {
               <strong>Mapr's day:</strong> {data.stops.length ? `${data.stops.map((s) => s.name).join(' → ')}${data.savedDay ? ' (saved)' : ''}` : '—'}
             </p>
             <p>
-              <strong>Location:</strong> {data.location === 'allowed' ? 'While Using the App' : data.location === 'not-now' ? 'not now' : '—'}
+              <strong>Location:</strong> {data.location === 'always' ? 'Always' : data.location === 'allowed' ? 'While Using the App' : data.location === 'not-now' ? 'not now' : '—'}
               {' · '}
               <strong>Review ask:</strong> {data.review || '—'}
             </p>

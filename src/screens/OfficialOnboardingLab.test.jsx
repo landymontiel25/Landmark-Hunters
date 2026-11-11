@@ -109,12 +109,12 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).toContain('How long it takes');
     await click(button(el, 'Save this day'));
 
-    // Location primer first, then the iOS prompt without Always.
-    expect(bubbles(el)).toContain('While Using the App only');
+    // Location primer asks for Always, then iOS: While Using, then the upgrade.
+    expect(bubbles(el)).toContain('Allow location Always');
     await click(button(el, 'Allow location'));
-    expect(el.textContent).toContain('Allow While Using App');
-    expect(el.textContent).not.toContain('Always');
     await click(button(el, 'Allow While Using App'));
+    expect(el.textContent).toContain('Keep Only While Using');
+    await click(button(el, 'Change to Always Allow'));
     await click(button(el, 'Check in now'));
     expect(bubbles(el)).toContain('First check-in! +100.');
     await click(button(el, 'Not Now'));
@@ -147,6 +147,7 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).toContain('tagScores changes');
     expect(el.textContent).toContain('What Mapr reads');
     expect(el.textContent).toContain('"No chains please"');
+    expect(el.textContent).toContain('Location: Always');
     expect(el.textContent).toContain('What happened');
   });
 
