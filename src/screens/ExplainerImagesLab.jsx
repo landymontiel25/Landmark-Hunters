@@ -46,7 +46,7 @@ function Credit({ photo }) {
   );
 }
 
-function Photo({ landmark, className = '', credit = true }) {
+export function Photo({ landmark, className = '', credit = true }) {
   const [skip, setSkip] = useState(0);
   const pick = landmark?.introPhoto;
   const images = [...(pick ? [pick.url] : []), ...(landmark?.images || [])];
@@ -108,7 +108,7 @@ function Discover({ places }) {
   );
 }
 
-function Prepared({ places }) {
+export function Prepared({ places }) {
   const navigate = useNavigate();
   const place = places[0];
   const [open, setOpen] = useState(null);
@@ -212,10 +212,12 @@ function RouteMap({ stops, onOpen }) {
   );
 }
 
-function Plan({ places, coords }) {
+// keepOrder (Official Onboarding's first Mapr pick): the stops in the order
+// given instead of closest-first.
+export function Plan({ places, coords, keepOrder = false, title = 'Your route' }) {
   const { units } = useUnits();
   const navigate = useNavigate();
-  const stops = routeOrder(places, coords);
+  const stops = keepOrder ? places : routeOrder(places, coords);
   const credits = stops.map((st) => st.introPhoto?.credit).filter(Boolean);
   if (stops.length < 2) return null;
   let total = 0;
@@ -227,7 +229,7 @@ function Plan({ places, coords }) {
       <div className="intro-panel">
         <div className="intro-panel-head">
           <span>
-            <span className="intro-panel-title">Your route</span>
+            <span className="intro-panel-title">{title}</span>
             <span className="intro-panel-sub">
               {stops.length} stops · {formatDistance(total, units)}
             </span>

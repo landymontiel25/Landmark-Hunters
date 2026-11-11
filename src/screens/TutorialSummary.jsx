@@ -6,7 +6,9 @@ import { tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS, PLACE_DELTA 
 // run's log. Nothing here was saved. Tutorial and Ultimate tutorial both
 // end on it; `chips` (Ultimate's taste picks) and `showPlaces` (Tutorial's
 // "Your places" step) add or drop their lines.
-export default function LabSummary({ data, log, onRestart, showPlaces = true }) {
+// `goal` (Official Onboarding: 10) counts loved + disliked cards against it
+// instead of the deck size; `children` adds lines to the top card.
+export default function LabSummary({ data, log, onRestart, showPlaces = true, goal = null, children = null }) {
   const tagLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || id;
   const deltas = tagDeltasFromAnswers(data.answers, data.places);
   const intro = tasteIntroFromAnswers(data.answers, data.notes, data.places);
@@ -28,7 +30,7 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true }) 
           </p>
         ) : (
           <p>
-            <strong>Cards:</strong> {data.answers.length} of {data.cards.length} rated — {count('love')} love it,{' '}
+            <strong>Cards:</strong> {goal ? count('love') + count('dislike') : data.answers.length} of {goal || data.cards.length} rated — {count('love')} love it,{' '}
             {count('dislike')} don't like it, {count('unsure')} not sure
           </p>
         )}
@@ -43,8 +45,9 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true }) 
           </p>
         )}
         <p>
-          <strong>First check-in:</strong> {data.checkedIn ? 'yes' : 'skipped'}
+          <strong>First check-in:</strong> {data.checkedIn ? (goal ? 'done' : 'yes') : 'skipped'}
         </p>
+        {children}
       </div>
 
       {!data.skippedRating && (
