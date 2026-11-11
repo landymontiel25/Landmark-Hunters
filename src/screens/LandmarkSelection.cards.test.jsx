@@ -45,7 +45,7 @@ async function renderIt({ props = {}, ratings = {} } = {}) {
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
   vi.doMock('../lib/FriendsContext', () => ({ useFriends: () => ({ myProfile: null }) }));
   // Network-backed pieces: Google's ratings and the save sheet.
-  vi.doMock('../lib/useTopRatings', () => ({ useTopRatings: () => ({ ready: true, google: {}, live: {} }) }));
+  vi.doMock('../lib/useTopRatings', () => ({ TOP_RANK_MAX: 50, useTopRatings: () => ({ ready: true, google: {}, live: {} }) }));
   vi.doMock('../lib/usePageRatings', () => ({ usePageRatings: () => ({}), ratingKey: (l) => l.id }));
   vi.doMock('../lib/maprRank/modelStore.js', () => ({ loadMaprModels: () => new Promise(() => {}) }));
   vi.doMock('../components/ratings/RatingsCardLine', () => ({ default: () => <span className="tag google-line">Google</span> }));

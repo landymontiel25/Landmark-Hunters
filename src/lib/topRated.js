@@ -51,6 +51,20 @@ export function topLandmarksOrder(landmarks, google) {
   );
 }
 
+// Every other sort goes by review count too (owner, 2026-11-11): `list` keeps
+// its group order (`groupOf(l)` is a number, lower first; 0 for all when the
+// sort has no groups), and inside a group the places Google answered come
+// first, most reviews first, then stars, then the place's old position.
+export function reorderByReviews(list, google, groupOf = () => 0) {
+  const pos = new Map(list.map((l, i) => [l, i]));
+  const g = (l) => googleOf(google, l);
+  return [...list].sort((a, b) => {
+    const ga = g(a);
+    const gb = g(b);
+    return groupOf(a) - groupOf(b) || (gb ? 1 : 0) - (ga ? 1 : 0) || (gb?.count ?? 0) - (ga?.count ?? 0) || (gb?.rating ?? 0) - (ga?.rating ?? 0) || pos.get(a) - pos.get(b);
+  });
+}
+
 // Owner, 2026-11-05: Top Landmarks are places you would take a picture at.
 // Restaurants and malls are not shown there; the Landmarks tab keeps them
 // behind "Restaurants" and "Malls" tabs side by side under the list, and the Map sheet's
