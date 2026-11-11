@@ -13,8 +13,8 @@ import { loadLandmarkRatings, LOOKUP_DELAY_MS } from './landmarkRatings';
 // when users open the landmarks tab") in its fallback order, then takes the
 // Google order once, when every answer is in or TOP_WAIT_MS has passed.
 //
-// Two pages of the Landmarks list (25 each): Popular only looks up the places
-// the first two pages will show (owner, 2026-11-10).
+// The top 50 of the sort's order are sorted by review count, in each category
+// you pick (a category filters the list first; owner, 2026-11-11).
 export const TOP_RANK_MAX = 50;
 // Nothing shows until the answers are in or this long has passed, so the
 // order is fixed once and never reshuffles under your thumb.

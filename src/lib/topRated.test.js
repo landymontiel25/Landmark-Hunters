@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ratedScore } from './topRated';
+import { ratedScore, reorderByReviews } from './topRated';
 
 // Owner, 2026-10-18: Popular became an order by reviews.
 describe('Top Rated order', () => {
@@ -90,5 +90,22 @@ describe('Top Landmarks by number of Google reviews (owner, 2026-11-06)', () => 
   it('still puts Miami malls last', () => {
     const all = [lm('dolphin-mall', { mall: true }), lm('x')];
     expect(ids(topLandmarksOrder(all, { 'dolphin-mall': g(4.5, 90000), x: g(4, 10) }))).toEqual(['x', 'dolphin-mall']);
+  });
+});
+
+// Owner, 2026-11-11: every sort goes by review count.
+describe('reorderByReviews', () => {
+  const g = (count, rating = 4.5) => ({ google: { rating, count } });
+  const list = ['near', 'mid', 'far', 'unknown'].map((id) => ({ id }));
+  const google = { near: g(100), mid: g(5000), far: g(900) };
+  it('puts the most reviewed first and places Google did not answer last', () => {
+    expect(reorderByReviews(list, google).map((l) => l.id)).toEqual(['mid', 'far', 'near', 'unknown']);
+  });
+  it('keeps groups apart (checked in vs not), ordering each by reviews', () => {
+    const group = (l) => (l.id === 'mid' ? 1 : 0);
+    expect(reorderByReviews(list, google, group).map((l) => l.id)).toEqual(['far', 'near', 'unknown', 'mid']);
+  });
+  it('keeps the old order for ties', () => {
+    expect(reorderByReviews(list, {}).map((l) => l.id)).toEqual(['near', 'mid', 'far', 'unknown']);
   });
 });

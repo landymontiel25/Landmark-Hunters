@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Review-count order in every sort (2026-11-11)
+
+Owner: every Landmarks sort goes by Google review count. Counts cannot be
+stored or batched, so only the first 50 places of each sort's order (per picked
+category) are looked up (`reviewWindow` in `LandmarkSelection.jsx`) and reordered
+(`reorderByReviews`, `src/lib/topRated.js`) inside their Checked in group;
+the rest keep the sort's own order. Past place 50 nothing is sorted by
+reviews until someone finds a cheaper source.
+
 ## Ratings lookups cut (2026-11-10)
 
 Owner: lookups cost money. Landmarks tab looks up only the current and next

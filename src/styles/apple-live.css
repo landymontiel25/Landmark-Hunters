@@ -757,8 +757,11 @@ body[data-apple='landmarks'] .aps-live .lm-cat-label {
   font-size: 9.5px;
   font-weight: 600;
   color: var(--ap-sub);
-  white-space: nowrap;
-  margin: 0 -4px;
+  /* "Art & Culture" wraps to two lines to fit under its circle. */
+  white-space: normal;
+  text-align: center;
+  line-height: 1.1;
+  margin: 0 -2px;
 }
 body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn.active .lm-cat-label {
   color: var(--ap-text);

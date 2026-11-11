@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePageRatings, ratingKey } from '../lib/usePageRatings';
-import { useTopRatings } from '../lib/useTopRatings';
+import { useTopRatings, TOP_RANK_MAX } from '../lib/useTopRatings';
+import { reorderByReviews } from '../lib/topRated';
 import { RATINGS_FLAGS } from '../lib/ratingSources';
 import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
 import { isMallPlace } from '../lib/malls';
@@ -86,7 +87,7 @@ const POPULAR_NOUN = {
 };
 // The short word under each category circle (owner's mockup, 2026-11-09).
 const SHORT_CATEGORY = {
-  'history-culture': 'Museum',
+  'history-culture': 'Art & Culture',
   food: 'Food',
   'local-life': 'Drinks',
   'parks-nature': 'Nature',
@@ -575,8 +576,8 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
 
   // Popular ranks by Google's review count (src/lib/useTopRatings.js; signed
   // in only). They load only once Popular is picked (owner, 2026-11-10: the
-  // first two pages' worth, TOP_RANK_MAX places); every other sort looks up
-  // just the page you are on and the next (usePageRatings). Popular shows at
+  // top TOP_RANK_MAX = 50 places); every page also looks up the page you are
+  // on and the next (usePageRatings). Popular shows at
   // once (A to Z for places Google has not answered yet; the app's own
   // ratings never count).
   const topWanted = sortBy === 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
@@ -657,12 +658,33 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   // first, a down arrow puts the checked-in ones first, no arrow leaves the
   // sort above alone. Stable, so each group keeps that order. A search term
   // keeps its best-match order.
-  const landmarks = useMemo(() => {
+  const baseLandmarks = useMemo(() => {
     if (!checkInOrder || search.trim()) return sortedLandmarks;
     const done = (l) => (claimedMap[l.id] ? 1 : 0);
     const dir = checkInOrder === 'up' ? 1 : -1;
     return [...sortedLandmarks].sort((a, b) => (done(a) - done(b)) * dir);
   }, [sortedLandmarks, checkInOrder, claimedMap, search]);
+
+  // Every sort goes by Google's review count (owner, 2026-11-11), most first.
+  // Google's terms forbid storing the counts and there is no batch lookup, so
+  // the count is only known for the places looked up: the first
+  // TOP_RANK_MAX (50) places of whatever order the sort gives, in the
+  // category picked. Those places are
+  // reordered by review count within their group (all of them with no
+  // Checked in arrow, the checked-in and not-checked-in groups apart with
+  // one), and the rest follow in the sort's own order. Near Me is therefore
+  // "the 50 nearest, most reviewed first". Popular already does this itself;
+  // a search keeps its best-match order. No new lookups beyond page one.
+  const reviewSortWanted = sortBy !== 'rated' && !!user && !search.trim() && RATINGS_FLAGS.cardLine;
+  const reviewWindow = useMemo(() => baseLandmarks.filter((l) => l && l.id && (l.regionId || l.region)).slice(0, TOP_RANK_MAX), [baseLandmarks]);
+  const reviewTop = useTopRatings(reviewWindow, reviewSortWanted);
+  const landmarks = useMemo(() => {
+    if (!reviewSortWanted || !reviewTop.ready || reviewWindow.length < 2) return baseLandmarks;
+    const inWindow = new Set(reviewWindow);
+    const done = (l) => (checkInOrder ? (claimedMap[l.id] ? 1 : 0) * (checkInOrder === 'up' ? 1 : -1) : 0);
+    const ordered = reorderByReviews(reviewWindow, reviewTop.google, done);
+    return [...ordered, ...baseLandmarks.filter((l) => !inWindow.has(l))];
+  }, [baseLandmarks, reviewWindow, reviewTop.ready, reviewTop.google, reviewSortWanted, checkInOrder, claimedMap]);
 
   // Row callbacks keep one identity for the life of the screen so the memoized
   // rows (867 of them) skip re-rendering when something unrelated changes.
@@ -735,7 +757,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   const nextPageRows = useMemo(() => allRows.slice((shownPage + 1) * PAGE_SIZE, (shownPage + 2) * PAGE_SIZE), [allRows, shownPage]);
   // Popular waits for its order first, so it does not look up the places of a
   // page that is about to be reordered. A search looks nothing up.
-  const pageRatings = usePageRatings(pageRows, nextPageRows, !!user && RATINGS_FLAGS.cardLine && !search.trim() && (!topWanted || top.ready));
+  const pageRatings = usePageRatings(pageRows, nextPageRows, !!user && RATINGS_FLAGS.cardLine && !search.trim() && (!topWanted || top.ready) && (!reviewSortWanted || reviewTop.ready));
   const goToPage = (n) => {
     setPage(n);
     window.scrollTo({ top: 0 });
