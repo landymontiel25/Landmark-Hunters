@@ -37,8 +37,8 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "parks-nature",
-    "file": "places/miami/parks-nature.b9434aa4a4.json",
-    "count": 143
+    "file": "places/miami/parks-nature.d53c82acd0.json",
+    "count": 142
   },
   {
     "region": "miami",

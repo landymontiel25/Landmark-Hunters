@@ -66,10 +66,12 @@ export const formatScore = (score) => (isNum(score) ? score.toFixed(1) : DASH);
 // Subtitle under a card: the tags joined with " · ".
 export const tagLine = (n) => (n.tags || []).join(' · ');
 
+// Order (owner, 2026-11-12): All areas, Popular, Nearby. Popular is still the
+// tab the screen opens on.
 export const TOP_TABS = [
+  { id: 'all', label: 'All areas' },
   { id: 'popular', label: 'Popular' },
   { id: 'nearby', label: 'Nearby' },
-  { id: 'all', label: 'All areas' },
 ];
 
 // Single-select chips. Must-See is the featured list; the rest match a tag,

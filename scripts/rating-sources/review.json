@@ -1734,25 +1734,6 @@
       ]
     }
   },
-  "miami/osm-w552197202": {
-    "name": "Alhambra Tower Plaza",
-    "lat": 25.752473,
-    "lng": -80.257886,
-    "google": {
-      "reason": "nearby place with a similar name",
-      "candidates": [
-        {
-          "id": "ChIJyxIjVZi32YgRsroHyLsYY70",
-          "name": "Alhambra Towers",
-          "lat": 25.7524637,
-          "lng": -80.2571579,
-          "distanceM": 73,
-          "nameMatch": false,
-          "overlap": 0.5
-        }
-      ]
-    }
-  },
   "miami/osm-w564987068": {
     "name": "Lincoln-Drexel Building",
     "lat": 25.790934,

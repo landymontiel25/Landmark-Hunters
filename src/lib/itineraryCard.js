@@ -7,7 +7,7 @@ export function fmtVisitMinutes(total) {
   const r = m % 60;
   return h ? `${h} h${r ? ` ${r} min` : ''}` : `${r} min`;
 }
-// "Brickell Park, Alhambra Plaza +2" -- the first few places on a trip.
+// "Brickell Park, Vizcaya +2" -- the first few places on a trip.
 export function placeSummary(names, shown = 3) {
   const list = (names || []).filter(Boolean);
   if (!list.length) return '';

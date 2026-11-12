@@ -157,7 +157,7 @@ describe('catalog text and image hygiene', () => {
   });
 
   // Owner, 2026-10-27 cut Miami to their top 100; owner, 2026-11-07 put every
-  // removed place back (179 hand-picked, 882 imported). Airports are always
+  // removed place back (179 hand-picked, 881 imported). Airports are always
   // landmarks (owner, 2026-10-29).
   it('keeps every Miami place, the top 100 and the ones put back', () => {
     const packed = PLACE_PACKS.filter((p) => p.region === 'miami').flatMap((p) => JSON.parse(readFileSync(`public/${p.file}`, 'utf8')));
@@ -166,9 +166,10 @@ describe('catalog text and image hygiene', () => {
     // 178: Miami Seaquarium deleted (closed for good; owner, 2026-11-08).
     // 177: 1 Alhambra Plaza deleted for good (an office building; owner, 2026-11-11).
     expect(getRegion('miami').landmarks).toHaveLength(177);
-    expect(all.some((l) => l.id === 'one-alhambra-plaza')).toBe(false);
+    expect(all.some((l) => l.id === 'one-alhambra-plaza' || /alhambra (tower )?plaza/i.test(l.name))).toBe(false);
     expect(all.some((l) => l.id === 'miami-seaquarium' || /seaquarium/i.test(l.name))).toBe(false);
-    expect(packed).toHaveLength(882);
+    // 881: Alhambra Tower Plaza (an office plaza mapped as a park) dropped too (owner, 2026-11-12).
+    expect(packed).toHaveLength(881);
     expect(all.filter((l) => (l.categories || []).includes('airports')).map((l) => l.name)).toEqual(expect.arrayContaining(['Miami International Airport']));
     expect(all.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum', 'Venetian Pool']));
   });

@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { buildDay, cityById, CITIES, progressLine, rateDeck, reflectLine, lighterDay } from './officialOnboardingSteps';
+import { answersFromCats, buildDay, cityById, cityCategories, CITIES, reflectLine, lighterDay } from './officialOnboardingSteps';
 import { PITCHES, pitchFor } from './officialOnboardingPitches';
 import { ALL_LANDMARKS } from '../data/regions';
 
@@ -45,7 +45,7 @@ describe('Official Onboarding (Test tab)', () => {
       '1. Problem + solution',
       '2. City',
       '3. Taste pick',
-      '4. Rate 10',
+      '4. Categories',
       '5. Reflection',
       '6. First Mapr pick',
       '7. First check-in',
@@ -85,36 +85,26 @@ describe('Official Onboarding (Test tab)', () => {
     expect(next().disabled).toBe(false);
     await click(next());
 
-    // No practice: the first card is real.
-    expect(el.textContent).toContain('0 of 10 — 10 more and Mapr can pick for you.');
+    // Categories instead of rating 10 places: every category with places in
+    // Miami, icons and all, starting from the three picked a step ago.
+    expect(bubbles(el)).toContain("Categories you'd like to visit.");
+    expect(el.textContent).not.toContain('Rate 10');
+    expect(el.querySelector('.lab-card')).toBeNull();
     expect(el.textContent).not.toContain('Sign up with Google');
-    expect(el.querySelector('.lab-card-blurb').textContent.length).toBeGreaterThan(40);
-    expect(button(el, 'Previous card').disabled).toBe(true);
-    await click(el.querySelector('[aria-label="Not sure"]'));
-    await wait(260);
-    expect(el.textContent).toContain('0 of 10');
-    // A mistake: love it, then go back to the same card.
-    const second = el.querySelector('.lab-card-word').textContent;
-    await click(el.querySelector('[aria-label="Love it"]'));
-    await wait(260);
-    expect(el.textContent).toContain('1 of 10');
-    await click(button(el, 'Previous card'));
-    expect(el.textContent).toContain('0 of 10');
-    expect(el.querySelector('.lab-card-word').textContent).toBe(second);
-    // Back once more undoes the "not sure" and returns to the first card.
-    await click(button(el, 'Previous card'));
-    expect(el.querySelector('.lab-card-word').textContent).not.toBe(second);
-    await click(el.querySelector('[aria-label="Not sure"]'));
-    await wait(260);
-    expect(el.querySelector('.lab-card-word').textContent).toBe(second);
-    for (let i = 0; i < 10; i++) {
-      await click(el.querySelector(i < 7 ? '[aria-label="Love it"]' : `[aria-label="Don't like it"]`));
-      await wait(260);
-      if (i === 6) expect(el.textContent).toContain('7 of 10 — 3 more and Mapr can pick for you.');
-    }
+    expect(el.textContent).toContain('3 picked');
+    const tile = (name) => [...el.querySelectorAll('.oo-cat')].find((b) => b.querySelector('.oo-cat-name').textContent === name);
+    expect(tile('Food').getAttribute('aria-pressed')).toBe('true');
+    expect(tile('Shopping').getAttribute('aria-pressed')).toBe('false');
+    expect(tile('Food').querySelector('.oo-cat-icon').textContent).not.toBe('');
+    await click(tile('Shopping'));
+    expect(el.textContent).toContain('4 picked');
+    expect(el.textContent).toContain('+10 Shopping');
+    await click(tile('Shopping'));
+    expect(el.textContent).toContain('3 picked');
+    await click(next());
 
-    // The 10th rating goes straight on.
-    expect(bubbles(el)).toMatch(/Okay — you want food, parks & nature and art & culture, and you loved .+\. Got it\./);
+    // Mapr repeats the picks back.
+    expect(bubbles(el)).toContain('Okay — you want food, parks & nature and art & culture. Got it.');
     expect(bubbles(el)).toContain("Anything else you love or hate that the cards didn't cover?");
     await act(async () => {
       const t = el.querySelector('textarea');
@@ -161,7 +151,7 @@ describe('Official Onboarding (Test tab)', () => {
 
     expect(el.textContent).toContain('Tutorial finished');
     expect(el.textContent).toContain('Signed up with: Google');
-    expect(el.textContent).toContain("10 of 10 rated — 7 love it, 3 don't like it, 1 not sure");
+    expect(el.textContent).toContain('Categories: 3 picked, each +10: Food, Parks & Nature, Art & Culture');
     expect(el.textContent).toContain('First check-in: done');
     expect(el.textContent).toContain('tagScores changes');
     expect(el.textContent).toContain('What Mapr reads');
@@ -183,38 +173,25 @@ describe('Official Onboarding (Test tab)', () => {
 describe('Official Onboarding pieces', () => {
   const miami = cityById('miami');
 
-  it("deals the city's famous places, more than 10", () => {
-    const deck = rateDeck(miami, ['food']);
-    expect(deck.length).toBeGreaterThan(10);
-    expect(deck.every((c) => c.place.regionId === 'miami' && c.photos.length === 1)).toBe(true);
+  it('lists only categories the city has places for, with the app icons', () => {
+    const cats = cityCategories(miami);
+    expect(cats.map((c) => c.id)).toEqual(expect.arrayContaining(['food', 'history-culture', 'parks-nature']));
+    expect(cats.every((c) => c.icon && c.count > 0)).toBe(true);
+    for (const city of CITIES) expect(cityCategories(city).length).toBeGreaterThan(2);
   });
 
-  it('builds a 3-stop day starting at a loved place, never a disliked one', () => {
-    const deck = rateDeck(miami, ['food', 'parks-nature']);
-    const answers = [
-      { card: deck[0], answer: 'dislike' },
-      { card: deck[1], answer: 'love' },
-    ];
-    const day = buildDay(miami, ['food', 'parks-nature'], answers);
+  it('builds a 3-stop day from the picked categories', () => {
+    const day = buildDay(miami, ['food', 'parks-nature'], []);
     expect(day).toHaveLength(3);
-    expect(day[0].id).toBe(deck[1].place.id);
-    expect(day.some((s) => s.id === deck[0].place.id)).toBe(false);
     expect(new Set(day.map((s) => s.id)).size).toBe(3);
+    expect(day[1].categories).toContain('food');
     expect(lighterDay(day)).toHaveLength(2);
   });
 
-  it('says progress and the reflection in the owner’s words', () => {
-    expect(progressLine(7)).toBe('7 of 10 — 3 more and Mapr can pick for you.');
-    expect(reflectLine(['food'], [{ card: { word: 'Wynwood Walls' }, answer: 'love' }])).toBe('Okay — you want food, and you loved Wynwood Walls. Got it.');
-  });
-
-  it('gives every card in the four featured cities a written blurb with a photo', () => {
-    for (const city of CITIES) {
-      const deck = rateDeck(city);
-      expect(deck.length).toBeGreaterThan(12);
-      expect(deck.every((c) => c.blurb && c.blurb.length > 40 && c.photos.length === 1)).toBe(true);
-    }
-    expect(rateDeck(miami, [], ALL_LANDMARKS)[0].blurb.length).toBeGreaterThan(0);
+  it("says the reflection in the owner's words and turns picks into love-it answers", () => {
+    expect(reflectLine(['food', 'local-life'])).toBe('Okay — you want food and nightlife. Got it.');
+    expect(reflectLine([])).toContain('Got it.');
+    expect(answersFromCats(['food']).map((a) => [a.card.tag, a.answer])).toEqual([['food', 'love']]);
   });
 
   it('only writes blurbs for places that exist, short enough for a card', () => {

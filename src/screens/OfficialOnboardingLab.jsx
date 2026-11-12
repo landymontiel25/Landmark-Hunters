@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useGeo } from '../lib/GeoContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { radiusFor } from '../lib/checkinRules';
-import { SwipeCardStack } from '../components/OnboardingSteps';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
 import ConfettiBurst from '../components/ConfettiBurst';
 import { LabSignUp, TutorialTabs } from './SignupTutorialLab';
 import { Plan, Prepared } from './ExplainerImagesLab';
 import LabSummary from './TutorialSummary';
+import { pitchFor } from './officialOnboardingPitches';
 import {
   CHECKIN_POINTS,
   CITIES,
@@ -18,21 +18,19 @@ import {
   OO_STEPS,
   OO_TABS,
   OTHER_CITIES,
-  RATE_GOAL,
   SAMPLE_BUILT_TODAY,
   SAY,
   TASTES,
+  CATEGORY_DELTA,
+  answersFromCats,
   buildDay,
+  cityCategories,
   cityById,
   cityName,
   cityScopeKey,
   dayLine,
-  deltaOf,
   lighterDay,
   nearestStop,
-  progressLine,
-  rateDeck,
-  ratedCount,
   reflectLine,
   routeMeters,
   summaryLines,
@@ -41,8 +39,8 @@ import {
 
 // Test tab "Official Onboarding" (owner, 2026-11-11): the Planner-first
 // flow in 9 steps and three acts. Act 1 intro (problem + solution, city,
-// taste pick), Act 2 climax (rate 10 places in the city, Mapr repeats it
-// back, the first Mapr day, the first check-in with the Always location ask and
+// taste pick), Act 2 climax (pick the categories you'd like to visit, Mapr
+// repeats it back, the first Mapr day, the first check-in with the Always location ask and
 // review ask), Act 3 (summary + commitment, then sign-up for the first
 // time, with a Map + Itinerary tour). Same shell as the Planner and Game
 // tutorials, which stay as they are for comparison. Nothing is saved: no
@@ -57,8 +55,7 @@ const empty = () => ({
   via: null,
   city: null,
   chips: null,
-  cards: [],
-  answers: [],
+  cats: null, // step 4's picks; until then the taste picks stand in
   notes: '',
   places: [],
   stops: [],
@@ -69,6 +66,9 @@ const empty = () => ({
   commitment: null,
   lighter: false,
 });
+
+// The categories in play: step 4's picks, else step 3's.
+const catsOf = (d) => d.cats ?? d.chips ?? [];
 
 function Phone({ children, className = '' }) {
   return <div className={`tut-phone oo-phone ${className}`}>{children}</div>;
@@ -159,24 +159,43 @@ function TastePick({ onNext, onSkip }) {
   );
 }
 
-// The rate step's progress bar and the tiny win over the last card.
-function RateProgress({ rated, win }) {
+// Step 4: every category the app has places for in this city, with its icon.
+// Starts from the step 3 picks. A tap is a tiny win: +10 on that kind of place.
+function CategoryPick({ city, initial, onNext }) {
+  const options = cityCategories(city);
+  const [picked, setPicked] = useState(initial);
+  const [win, setWin] = useState(null);
+  const toggle = (c) => {
+    const on = picked.includes(c.id);
+    setPicked(on ? picked.filter((x) => x !== c.id) : [...picked, c.id]);
+    setWin(on ? null : { key: `${c.id}-${picked.length}`, label: c.label });
+  };
   return (
-    <div className="oo-progress">
-      <div className="oo-bar" role="progressbar" aria-valuemin={0} aria-valuemax={RATE_GOAL} aria-valuenow={rated} aria-label="Places rated">
-        <span style={{ width: `${(Math.min(rated, RATE_GOAL) / RATE_GOAL) * 100}%` }} />
-      </div>
+    <div className="nav-clear">
+      <MaprSays lines={SAY.categories} />
       <div className="oo-progress-row">
         <p className="oo-progress-line" role="status">
-          {progressLine(rated)}
+          {picked.length} picked
         </p>
         {win && (
-          <span key={win.key} className={`oo-win ${win.delta > 0 ? 'up' : win.delta < 0 ? 'down' : ''}`} aria-live="polite">
-            {win.delta > 0 ? '+' : ''}
-            {win.delta} {win.label}
+          <span key={win.key} className="oo-win up" aria-live="polite">
+            +{CATEGORY_DELTA} {win.label}
           </span>
         )}
       </div>
+      <div className="oo-cats" role="group" aria-label="Categories you'd like to visit">
+        {options.map((c) => (
+          <button key={c.id} type="button" className={`oo-cat ${picked.includes(c.id) ? 'on' : ''}`} aria-pressed={picked.includes(c.id)} onClick={() => toggle(c)}>
+            <span className="oo-cat-icon" aria-hidden="true">
+              {c.icon}
+            </span>
+            <span className="oo-cat-name">{c.label}</span>
+            <span className="oo-cat-count">{c.count} places</span>
+          </button>
+        ))}
+      </div>
+      <div className="oo-gap" />
+      <NextButton onClick={() => onNext(picked)} />
     </div>
   );
 }
@@ -369,7 +388,7 @@ function Commit({ data, set, note, onNext }) {
   const pick = COMMIT.find((c) => c.id === data.commitment);
   return (
     <div className="tut nav-clear">
-      <MaprSays lines={summaryLines({ city: cityById(data.city), chips: data.chips || [], rated: ratedCount(data.answers) })} />
+      <MaprSays lines={summaryLines({ city: cityById(data.city), chips: catsOf(data) })} />
       <MaprSays lines={SAY.commitAsk} />
       <div className="oo-options" role="radiogroup" aria-label="How committed are you?">
         {COMMIT.map((c) => (
@@ -469,7 +488,6 @@ export default function OfficialOnboardingLab() {
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
   const [pretend, setPretend] = useState(false);
-  const [win, setWin] = useState(null);
   const set = (patch) => setData((d) => ({ ...d, ...patch }));
   const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
   const labelOf = (i) => (i === OO_STEPS.length ? 'Done' : OO_STEPS[i].label);
@@ -480,12 +498,11 @@ export default function OfficialOnboardingLab() {
     setDone(next === OO_STEPS.length);
     setStep(Math.min(next, OO_STEPS.length - 1));
     // The first Mapr pick builds when you reach it, from what's picked so far.
-    if (next >= 5 && next < OO_STEPS.length) setData((d) => (d.stops.length ? d : { ...d, stops: buildDay(cityById(d.city) || CITIES[0], d.chips || [], d.answers) }));
+    if (next >= 5 && next < OO_STEPS.length) setData((d) => (d.stops.length ? d : { ...d, stops: buildDay(cityById(d.city) || CITIES[0], catsOf(d), []) }));
   };
   const restart = () => {
     setData(empty());
     setLog([]);
-    setWin(null);
     setDone(false);
     setStep(0);
   };
@@ -493,8 +510,6 @@ export default function OfficialOnboardingLab() {
   const id = done ? 'done' : OO_STEPS[step].id;
   const city = cityById(data.city);
   const deckCity = city || CITIES[0];
-  const cards = data.cards.length ? data.cards : rateDeck(deckCity, data.chips || []);
-  const rated = ratedCount(data.answers);
 
   return (
     <div>
@@ -542,8 +557,8 @@ export default function OfficialOnboardingLab() {
           <CityPick
             value={data.city}
             onPick={(c) => {
-              // A new city deals a new deck and a new day.
-              set({ city: c, cards: [], answers: [], stops: [] });
+              // A new city means a new list of categories and a new day.
+              set({ city: c, stops: [] });
               note(`Picked ${cityById(c).label}: Map, Landmarks, Mapr and Itinerary open on ${cityScopeKey(cityById(c))} (pretend)`);
             }}
           />
@@ -553,68 +568,29 @@ export default function OfficialOnboardingLab() {
       {id === 'taste' && (
         <TastePick
           onNext={(chips) => {
-            set({ chips, cards: [] });
-            go('rate', `Picked ${chips.map(tasteLabel).join(', ')}`);
+            set({ chips, cats: null, stops: [] });
+            go('categories', `Picked ${chips.map(tasteLabel).join(', ')}`);
           }}
           onSkip={() => {
-            set({ chips: [] });
-            go('rate', 'Skipped taste pick');
+            set({ chips: [], cats: null, stops: [] });
+            go('categories', 'Skipped taste pick');
           }}
         />
       )}
-      {id === 'rate' && (
-        <div className="nav-clear">
-          <MaprSays lines={SAY.rate} />
-          <RateProgress rated={rated} win={win} />
-          <button
-            type="button"
-            className="btn btn-ghost btn-sm oo-undo"
-            disabled={!data.answers.length}
-            onClick={() => {
-              const last = data.answers[data.answers.length - 1];
-              note(`Went back to ${last.card.word} (undid ${last.answer === 'love' ? 'love it' : last.answer === 'dislike' ? "don't like it" : 'not sure'})`);
-              setWin(null);
-              set({ answers: data.answers.slice(0, -1), stops: [] });
-            }}
-          >
-            {'\u{2190}'} Previous card
-          </button>
-          <SwipeCardStack
-            practice
-            labels
-            cards={cards}
-            answers={data.answers}
-            onAnswer={(card, answer) => {
-              const answers = [...data.answers.filter((a) => a.card.word !== card.word), { card, answer }];
-              const delta = deltaOf(answer);
-              setWin({ key: answers.length, delta, label: tasteLabel(card.tag) });
-              note(`${card.word}: ${answer === 'love' ? 'love it' : answer === 'dislike' ? "don't like it" : 'not sure'} (${delta > 0 ? '+' : ''}${delta} ${tasteLabel(card.tag)})`);
-              // New ratings, new day: Mapr rebuilds it at step 6.
-              set({ answers, cards, stops: [] });
-              // The 10th rating unlocks Mapr's picks: straight on, no "all done" screen.
-              if (ratedCount(answers) >= RATE_GOAL && ratedCount(data.answers) < RATE_GOAL) go('reflect', `Rated ${RATE_GOAL}: Mapr picks unlocked`);
-            }}
-          />
-          {data.answers.length >= cards.length && rated < RATE_GOAL && (
-            <>
-              <MaprBubble>That's every place I have here. Want to look again at the ones you weren't sure about?</MaprBubble>
-              <button
-                type="button"
-                className="btn btn-primary btn-block"
-                onClick={() => {
-                  note('Brought back the cards marked not sure');
-                  set({ answers: data.answers.filter((a) => a.answer !== 'unsure'), stops: [] });
-                }}
-              >
-                Show the ones I skipped
-              </button>
-            </>
-          )}
-        </div>
+      {id === 'categories' && (
+        <CategoryPick
+          key={`${data.city}-${(data.chips || []).join(',')}`}
+          city={city || deckCity}
+          initial={catsOf(data)}
+          onNext={(cats) => {
+            set({ cats, stops: [] });
+            go('reflect', cats.length ? `Picked ${cats.length} categories: ${cats.map(tasteLabel).join(', ')} (+${CATEGORY_DELTA} each)` : 'Picked no categories');
+          }}
+        />
       )}
       {id === 'reflect' && (
         <div className="nav-clear">
-          <MaprBubble>{reflectLine(data.chips || [], data.answers)}</MaprBubble>
+          <MaprBubble>{reflectLine(catsOf(data))}</MaprBubble>
           <MaprSays lines={SAY.notes} />
           <textarea
             className="rating-comment"
@@ -641,7 +617,7 @@ export default function OfficialOnboardingLab() {
               <div className="oo-intro">
                 <Plan places={data.stops} keepOrder title={`Your ${cityName(city || deckCity)} day`} />
               </div>
-              <MaprBubble>Arrive prepared at {data.stops[0].name}: tap a row.</MaprBubble>
+              <MaprBubble>Arrive prepared at {data.stops[0].name}. {pitchFor(data.stops[0])}</MaprBubble>
               <div className="oo-intro">
                 <Prepared places={[data.stops[0]]} />
               </div>
@@ -665,7 +641,7 @@ export default function OfficialOnboardingLab() {
       {id === 'done' && (
         <>
           <MaprSays lines={SAY.done} />
-          <LabSummary data={{ ...data, cards, skippedRating: !data.answers.length }} log={log} onRestart={restart} showPlaces={false} goal={RATE_GOAL}>
+          <LabSummary data={{ ...data, cards: [], answers: answersFromCats(catsOf(data)), skippedRating: !catsOf(data).length }} log={log} onRestart={restart} showPlaces={false} categories>
             <p>
               <strong>City:</strong> {city ? `${city.label} (${cityScopeKey(city)} on Map, Landmarks, Mapr and Itinerary)` : '—'}
             </p>
