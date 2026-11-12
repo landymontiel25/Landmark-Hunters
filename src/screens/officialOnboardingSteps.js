@@ -4,7 +4,6 @@
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, PICKABLE_REGIONS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { SWIPE_DELTAS } from '../lib/onboardingCards';
-import { PITCHES, pitchFor } from './officialOnboardingPitches';
 
 // The 9 steps in the owner's order, three acts.
 export const OO_STEPS = [
