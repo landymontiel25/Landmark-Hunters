@@ -152,7 +152,6 @@ function TastePick({ onNext, onSkip }) {
       </Phone>
       <NextButton disabled={chips.length < MIN_TASTE} onClick={() => onNext(chips)} />
       <div className="oo-gap" />
-      <MaprSays lines={SAY.tasteSkip} />
       <button type="button" className="btn btn-ghost btn-block" onClick={onSkip}>
         Skip for now
       </button>
@@ -167,15 +166,17 @@ function RateProgress({ rated, win }) {
       <div className="oo-bar" role="progressbar" aria-valuemin={0} aria-valuemax={RATE_GOAL} aria-valuenow={rated} aria-label="Places rated">
         <span style={{ width: `${(Math.min(rated, RATE_GOAL) / RATE_GOAL) * 100}%` }} />
       </div>
-      <p className="oo-progress-line" role="status">
-        {progressLine(rated)}
-      </p>
-      {win && (
-        <span key={win.key} className={`oo-win ${win.delta > 0 ? 'up' : win.delta < 0 ? 'down' : ''}`} aria-live="polite">
-          {win.delta > 0 ? '+' : ''}
-          {win.delta} {win.label}
-        </span>
-      )}
+      <div className="oo-progress-row">
+        <p className="oo-progress-line" role="status">
+          {progressLine(rated)}
+        </p>
+        {win && (
+          <span key={win.key} className={`oo-win ${win.delta > 0 ? 'up' : win.delta < 0 ? 'down' : ''}`} aria-live="polite">
+            {win.delta > 0 ? '+' : ''}
+            {win.delta} {win.label}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -565,6 +566,19 @@ export default function OfficialOnboardingLab() {
         <div className="nav-clear">
           <MaprSays lines={SAY.rate} />
           <RateProgress rated={rated} win={win} />
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm oo-undo"
+            disabled={!data.answers.length}
+            onClick={() => {
+              const last = data.answers[data.answers.length - 1];
+              note(`Went back to ${last.card.word} (undid ${last.answer === 'love' ? 'love it' : last.answer === 'dislike' ? "don't like it" : 'not sure'})`);
+              setWin(null);
+              set({ answers: data.answers.slice(0, -1), stops: [] });
+            }}
+          >
+            {'\u{2190}'} Previous card
+          </button>
           <SwipeCardStack
             practice
             labels
@@ -581,7 +595,21 @@ export default function OfficialOnboardingLab() {
               if (ratedCount(answers) >= RATE_GOAL && ratedCount(data.answers) < RATE_GOAL) go('reflect', `Rated ${RATE_GOAL}: Mapr picks unlocked`);
             }}
           />
-          {data.answers.length >= cards.length && rated < RATE_GOAL && <MaprBubble>That's every famous place I have here. Next step to keep going.</MaprBubble>}
+          {data.answers.length >= cards.length && rated < RATE_GOAL && (
+            <>
+              <MaprBubble>That's every place I have here. Want to look again at the ones you weren't sure about?</MaprBubble>
+              <button
+                type="button"
+                className="btn btn-primary btn-block"
+                onClick={() => {
+                  note('Brought back the cards marked not sure');
+                  set({ answers: data.answers.filter((a) => a.answer !== 'unsure'), stops: [] });
+                }}
+              >
+                Show the ones I skipped
+              </button>
+            </>
+          )}
         </div>
       )}
       {id === 'reflect' && (

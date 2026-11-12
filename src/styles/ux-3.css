@@ -2256,13 +2256,15 @@ img {
   font-size: 0.85rem;
   color: var(--text-secondary);
 }
+.oo-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 34px;
+}
 .oo-win {
-  position: absolute;
-  left: 50%;
-  top: 40px;
-  z-index: 2;
-  margin-left: -60px;
-  min-width: 120px;
+  flex: none;
   text-align: center;
   padding: 4px 10px;
   border-radius: 999px;
@@ -2373,4 +2375,22 @@ img {
 }
 .oo-gap {
   height: 14px;
+}
+.oo-undo {
+  margin: 0 0 8px;
+}
+.lab-card-blurb {
+  margin: -8px 0 0;
+  padding: 0 16px 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+/* Arrive prepared in Official Onboarding: a taller photo, showing its lower part so the sea and the ground both stay in view. */
+.oo-intro .intro-prepared-photo {
+  height: 230px;
+}
+.oo-intro .intro-prepared-photo img {
+  object-position: center 80%;
 }

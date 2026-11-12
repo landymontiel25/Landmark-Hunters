@@ -13,7 +13,12 @@ city as the saved scope on every tab, the notes as Mapr context, the check-in,
 the review prompt and sign-up. Decisions: the 10th rating goes straight to the
 Reflection step (no "all done" screen), then the day; "Not sure" doesn't count
 toward 10; the "X people built a day like this today" line shows a sample
-number (128) because the app counts no built days yet. Location asks for Always (owner, 2026-11-11, reversing "While Using only"): primer,
+number (128) because the app counts no built days yet. Rate cards (2026-11-12) carry a researched line each (`officialOnboardingPitches.js`,
+72 places across Miami, Philly, Milan/Monza and Lake Como; other cities fall back to
+the place's first fact), a "Previous card" arrow undoes the last answer, and the first
+intro screen uses the owner's new Mapr greeting. Still open: owner's note to swap "Rate
+10 places you know" for "categories you'd like to visit" with the category icons is not
+done (unclear if it replaces the cards or only the heading). Location asks for Always (owner, 2026-11-11, reversing "While Using only"): primer,
 then iOS While Using, then iOS's Change to Always Allow right after.
 
 ## Review-count order in every sort (2026-11-11)
