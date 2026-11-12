@@ -349,16 +349,25 @@ body[data-apple] .aps-live .landmark-row.lm-card {
   grid-template-columns: 104px minmax(0, 1fr) 34px;
   align-items: start;
 }
+/* The add circle sits under the photo, not on it (owner, 2026-11-12), so a
+   tap on the picture never lands on it. */
 body[data-apple] .aps-live .lm-card-photo {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   position: relative;
   grid-column: 1;
   grid-row: 1;
   width: 104px;
-  height: 104px;
-  overflow: hidden;
-  border-radius: 18px;
-  background: var(--ap-card-2);
+  height: auto;
+  aspect-ratio: auto;
+  overflow: visible;
+  background: none;
+  border-radius: 0;
+}
+body[data-apple] .aps-live .lm-card-photo > * {
+  flex: none;
 }
 body[data-apple] .aps-live .lm-card-photo > .lr-thumb-btn,
 body[data-apple] .aps-live .lm-card-photo > div:first-child,
@@ -373,23 +382,27 @@ body[data-apple] .aps-live .lm-card-photo .landmark-thumb-fallback {
 }
 body[data-apple] .aps-live .lm-card-photo .landmark-thumb-fallback {
   display: flex;
+  box-sizing: border-box;
+  padding-bottom: 0;
   font-size: 40px;
 }
 body[data-apple] .aps-live .lm-card-check {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  z-index: 2;
-  width: 24px;
-  height: 24px;
-  font-size: 12px;
-  border: 1.5px solid #fff;
-  background: rgba(0, 0, 0, 0.45);
-  color: #fff;
+  position: static;
+  width: 36px;
+  height: 36px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  border: 2px solid var(--gold);
+  background: var(--ap-card);
+  color: var(--ap-text);
+  cursor: pointer;
 }
 body[data-apple] .aps-live .lm-card-check[aria-checked='true'] {
-  background: var(--ap-blue);
-  border-color: #fff;
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--gold-ink);
+  font-size: 18px;
 }
 .aps-live .lm-card .lr-main {
   grid-column: 2;
@@ -502,14 +515,7 @@ body[data-apple] .map-fullscreen .map-cat-bar {
   right: 70px;
   font-family: var(--ap-font);
 }
-.aps-live .lm-card-check {
-  background: var(--ap-card);
-  color: #fff;
-}
-.aps-live .lm-card-check[aria-checked='true'] {
-  background: var(--ap-blue);
-  border-color: var(--ap-blue);
-}
+
 .aps-live .places-title-row .screen-title {
   font-size: 28px;
 }
@@ -811,7 +817,9 @@ body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
 body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
   border: 2px solid var(--ap-green);
 }
-body[data-apple='landmarks'] .aps-live .lm-card-photo,
+body[data-apple='landmarks'] .aps-live .lm-card-photo {
+  width: 112px;
+}
 body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
 body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child,
 body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,

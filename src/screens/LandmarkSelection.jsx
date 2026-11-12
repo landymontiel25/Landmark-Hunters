@@ -278,7 +278,7 @@ const LandmarkRow = memo(function LandmarkRow({
             }
           }}
         >
-          {isSelected ? '✓' : ''}
+          {isSelected ? '✓' : '+'}
         </div>
         {/* No Landmark Hunters rating badge: only Google's ratings show
             (owner, 2026-11-08). */}

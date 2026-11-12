@@ -1,17 +1,16 @@
 // Test tab "Official Onboarding" (owner, 2026-11-11): the words and the pure
 // pieces of the Planner-first flow (OfficialOnboardingLab.jsx). Edit the
 // words here. Nothing in the test is saved.
-import { ALL_LANDMARKS, INTERESTS, PICKABLE_REGIONS } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, PICKABLE_REGIONS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { SWIPE_DELTAS } from '../lib/onboardingCards';
-import { PITCHES, pitchFor } from './officialOnboardingPitches';
 
 // The 9 steps in the owner's order, three acts.
 export const OO_STEPS = [
   { id: 'intro', label: 'Problem + solution', act: 1 },
   { id: 'city', label: 'City', act: 1 },
   { id: 'taste', label: 'Taste pick', act: 1 },
-  { id: 'rate', label: 'Rate 10', act: 2 },
+  { id: 'categories', label: 'Categories', act: 2 },
   { id: 'reflect', label: 'Reflection', act: 2 },
   { id: 'route', label: 'First Mapr pick', act: 2 },
   { id: 'checkin', label: 'First check-in', act: 2 },
@@ -19,7 +18,6 @@ export const OO_STEPS = [
   { id: 'signup', label: 'Sign up', act: 3 },
 ];
 
-export const RATE_GOAL = 10;
 export const CHECKIN_POINTS = 100;
 export const MIN_TASTE = 3;
 export const MAX_TASTE = 5;
@@ -66,7 +64,9 @@ export const tasteLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || i
 export const SAY = {
   city: ['Where are you exploring?'],
   taste: ["Pick 3 to 5 kinds of places you're into. I'll look for these first."],
-  rate: ['Rate 10 places you know. Every one counts, and at 10 I can pick for you.'],
+  // Owner, 2026-11-12: categories instead of rating 10 places, because a
+  // traveler in a new city doesn't know the places yet.
+  categories: ["Categories you'd like to visit.", "Tap every one that sounds good. You don't need to know the city, I'll find the places for each."],
   notes: ["Anything else you love or hate that the cards didn't cover?"],
   // Always location (owner, 2026-11-11): Mapr needs to know where you are
   // all the time. iOS never offers Always on its first prompt, so the flow is
@@ -109,58 +109,33 @@ export const SAMPLE_BUILT_TODAY = 128;
 const regionOf = (l) => l.regionId || l.region;
 const inCity = (city) => (l) => city.regions.includes(regionOf(l));
 const HIDE_KINDS = new Set(['airports', 'benches']);
-// The swipe card's tile color while its photo loads (theme.css .lab-photo-*).
-const TILE = { 'history-culture': 'history', food: 'food', 'parks-nature': 'nature', attractions: 'entertainment', sports: 'sports', stadiums: 'sports' };
+// Each picked category counts as a "love it" on that kind of place (+10).
+export const CATEGORY_DELTA = SWIPE_DELTAS.love;
 
-// The swipe deck: the city's famous places with a photo, most popular first,
-// the picked kinds a little ahead. Places with a written pitch
-// (officialOnboardingPitches.js) come first, so each card says why to go; a
-// city with fewer than 14 of them is topped up from its other photo places
-// (their line is their first fact). More than 10, so "Not sure" never runs it
-// dry. Each card is shaped like an onboarding swipe card, plus `blurb`.
-export function rateDeck(city, chips = [], landmarks = ALL_LANDMARKS, size = 24) {
+// The categories the app has places for in this city, with how many, in the
+// app's own order and with its own icons.
+export function cityCategories(city, landmarks = ALL_LANDMARKS) {
   if (!city) return [];
-  const want = new Set(chips);
-  const ranked = landmarks
-    .filter(inCity(city))
-    .filter((l) => l.images?.length && !HIDE_KINDS.has(l.categories?.[0]))
-    .map((l) => ({ l, s: (l.popularity || 0) + ((l.categories || []).some((c) => want.has(c)) ? 1.5 : 0) }))
-    .sort((a, b) => b.s - a.s)
-    .map(({ l }) => l);
-  const pitched = ranked.filter((l) => PITCHES[l.id]);
-  const list = pitched.length >= 14 ? pitched : [...pitched, ...ranked.filter((l) => !PITCHES[l.id])];
-  return list.slice(0, size).map((l) => ({
-    word: l.name,
-    blurb: pitchFor(l),
-    icon: INTERESTS.find((i) => i.id === l.categories?.[0])?.icon || '\u{1F4CD}',
-    group: TILE[l.categories?.[0]] || 'local',
-    tag: l.categories?.[0] || null,
-    photos: [l.images[0]],
-    photoPages: [],
-    place: l,
+  const counts = {};
+  for (const l of landmarks.filter(inCity(city))) for (const c of new Set(l.categories || [])) counts[c] = (counts[c] || 0) + 1;
+  return PICKABLE_INTERESTS.filter((i) => counts[i.id]).map((i) => ({ id: i.id, label: i.label, icon: i.icon, count: counts[i.id] }));
+}
+
+// The categories as "love it" answers, the shape the results screen and the
+// tagScores math already read.
+export const answersFromCats = (cats = []) =>
+  cats.map((id) => ({
+    card: { word: tasteLabel(id), icon: INTERESTS.find((i) => i.id === id)?.icon || '', tag: id, photos: [], photoPages: [] },
+    answer: 'love',
   }));
-}
-
-export const ratedCount = (answers) => answers.filter((a) => a.answer !== 'unsure').length;
-export const deltaOf = (answer) => SWIPE_DELTAS[answer] || 0;
-
-export function progressLine(n, goal = RATE_GOAL) {
-  const left = Math.max(0, goal - n);
-  return left ? `${n} of ${goal} — ${left} more and Mapr can pick for you.` : `${goal} of ${goal} — Mapr can pick for you now.`;
-}
 
 const joinAnd = (list) => (list.length < 2 ? list.join('') : `${list.slice(0, -1).join(', ')} and ${list[list.length - 1]}`);
 
-// Mapr repeats the picks back: "Okay — you want food and parks & nature, and
-// you loved Wynwood Walls. Got it."
-export function reflectLine(chips = [], answers = []) {
-  const kinds = chips.map((c) => tasteLabel(c).toLowerCase());
-  const loved = answers.filter((a) => a.answer === 'love').map((a) => a.card.word);
-  const parts = [];
-  if (kinds.length) parts.push(`you want ${joinAnd(kinds)}`);
-  if (loved.length) parts.push(`you loved ${loved[0]}`);
-  if (!parts.length) return "Okay — I'll start with the places most people love here. Got it.";
-  return `Okay — ${parts.join(', and ')}. Got it.`;
+// Mapr repeats the picks back: "Okay — you want food, parks & nature and art
+// & culture. Got it."
+export function reflectLine(cats = []) {
+  if (!cats.length) return "Okay — I'll start with the places most people love here. Got it.";
+  return `Okay — you want ${joinAnd(cats.map((c) => tasteLabel(c).toLowerCase()))}. Got it.`;
 }
 
 const near = (a, b) => distanceMeters(a.lat, a.lng, b.lat, b.lng);
@@ -222,10 +197,10 @@ export function lighterDay(stops) {
   return best;
 }
 
-export function summaryLines({ city, chips, rated }) {
+export function summaryLines({ city, chips }) {
   const kinds = chips.length ? chips.map((c) => tasteLabel(c).toLowerCase()).join(' + ') : 'nothing yet (I guessed)';
   return [
-    `You picked ${kinds}. You rated ${rated} places. Mapr built your ${cityName(city)} day. You'll finish it in one afternoon.`,
+    `You picked ${kinds}. Mapr built your ${cityName(city)} day. You'll finish it in one afternoon.`,
     `That's a day planned in 2 minutes — instead of hours of searching.`,
   ];
 }

@@ -51,6 +51,11 @@ describe('Neighborhoods subtab', () => {
     expect(el.querySelector('[data-testid="nb-explore-list"]').textContent).toBe('4 neighborhoods · South Beach, Wynwood, Downtown Miami, Little Havana');
   });
 
+  it('lists the tabs All areas, Popular, Nearby', async () => {
+    await mount(<NeighborhoodsView data={DATA} />);
+    expect([...el.querySelectorAll('.nb-tab')].map((t) => t.textContent)).toEqual(['All areas', 'Popular', 'Nearby']);
+  });
+
   it('with every rating null, every card shows "–"', async () => {
     const empty = { ...DATA, neighborhoods: DATA.neighborhoods.map((n) => ({ ...n, ratings: ratings() })) };
     await mount(<NeighborhoodsView data={empty} />);

@@ -131,7 +131,6 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
           aria-label={`${card.word}. Swipe right to love it, left if you don't like it, or tap if you're not sure or don't care.`}
         >
           <div className="lab-card-word">{card.word}</div>
-          {card.blurb && <p className="lab-card-blurb">{card.blurb}</p>}
           <div className={`lab-card-photo lab-photo-${card.group} ${card.photos.length > 1 ? 'split' : ''}`}>
             <span aria-hidden="true">{card.icon}</span>
             {card.photos.map((src) => (

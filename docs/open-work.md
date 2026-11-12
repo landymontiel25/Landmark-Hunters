@@ -8,17 +8,18 @@ the PR that finishes it.
 Test tab "Official Onboarding" (`OfficialOnboardingLab.jsx`, words and route
 building in `officialOnboardingSteps.js`): the owner's 9-step Planner-first
 flow, Test only, nothing saved. The Planner and Game tutorials stay for
-comparison. Not built for real yet: saving the 10 cards as real ratings, the
+comparison. Not built for real yet: saving the category picks, the
 city as the saved scope on every tab, the notes as Mapr context, the check-in,
-the review prompt and sign-up. Decisions: the 10th rating goes straight to the
-Reflection step (no "all done" screen), then the day; "Not sure" doesn't count
-toward 10; the "X people built a day like this today" line shows a sample
-number (128) because the app counts no built days yet. Rate cards (2026-11-12) carry a researched line each (`officialOnboardingPitches.js`,
-72 places across Miami, Philly, Milan/Monza and Lake Como; other cities fall back to
-the place's first fact), a "Previous card" arrow undoes the last answer, and the first
-intro screen uses the owner's new Mapr greeting. Still open: owner's note to swap "Rate
-10 places you know" for "categories you'd like to visit" with the category icons is not
-done (unclear if it replaces the cards or only the heading). Location asks for Always (owner, 2026-11-11, reversing "While Using only"): primer,
+the review prompt and sign-up. Decision: the "X people built a day like this
+today" line shows a sample number (128) because the app counts no built days
+yet. Step 4 is now "Categories you'd like to visit" (owner, 2026-11-12: a traveler in a
+new city doesn't know the places to rate): every category the city has places for,
+with the app's icons, prefilled from the step 3 picks; each pick is +10 on that kind
+of place. It replaces rating 10 places, so these picks no longer produce real ratings
+and don't unlock Mapr by the 10-ratings rule; steps 3 and 4 overlap, merge them if it
+feels repetitive. `officialOnboardingPitches.js` (72 researched lines) now shows under
+the route's first stop. The first intro screen uses the owner's new Mapr greeting.
+Location asks for Always (owner, 2026-11-11, reversing "While Using only"): primer,
 then iOS While Using, then iOS's Change to Always Allow right after.
 
 ## Review-count order in every sort (2026-11-11)

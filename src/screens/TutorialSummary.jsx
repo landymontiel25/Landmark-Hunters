@@ -6,9 +6,9 @@ import { tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS, PLACE_DELTA 
 // run's log. Nothing here was saved. Tutorial and Ultimate tutorial both
 // end on it; `chips` (Ultimate's taste picks) and `showPlaces` (Tutorial's
 // "Your places" step) add or drop their lines.
-// `goal` (Official Onboarding: 10) counts loved + disliked cards against it
-// instead of the deck size; `children` adds lines to the top card.
-export default function LabSummary({ data, log, onRestart, showPlaces = true, goal = null, children = null }) {
+// `categories` (Official Onboarding): the answers are picked categories, not
+// swipe cards; `children` adds lines to the top card.
+export default function LabSummary({ data, log, onRestart, showPlaces = true, categories = false, children = null }) {
   const tagLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || id;
   const deltas = tagDeltasFromAnswers(data.answers, data.places);
   const intro = tasteIntroFromAnswers(data.answers, data.notes, data.places);
@@ -26,11 +26,15 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true, go
         </p>
         {data.skippedRating ? (
           <p>
-            <strong>Cards:</strong> skipped, no preference data yet
+            <strong>{categories ? 'Categories' : 'Cards'}:</strong> skipped, no preference data yet
+          </p>
+        ) : categories ? (
+          <p>
+            <strong>Categories:</strong> {data.answers.length} picked, each +{SWIPE_DELTAS.love}: {data.answers.map((a) => a.card.word).join(', ')}
           </p>
         ) : (
           <p>
-            <strong>Cards:</strong> {goal ? count('love') + count('dislike') : data.answers.length} of {goal || data.cards.length} rated — {count('love')} love it,{' '}
+            <strong>Cards:</strong> {data.answers.length} of {data.cards.length} rated — {count('love')} love it,{' '}
             {count('dislike')} don't like it, {count('unsure')} not sure
           </p>
         )}
@@ -45,7 +49,7 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true, go
           </p>
         )}
         <p>
-          <strong>First check-in:</strong> {data.checkedIn ? (goal ? 'done' : 'yes') : 'skipped'}
+          <strong>First check-in:</strong> {data.checkedIn ? (categories ? 'done' : 'yes') : 'skipped'}
         </p>
         {children}
       </div>
@@ -77,7 +81,7 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true, go
           </div>
 
           <div className="card section">
-            <strong>Each card</strong>
+            <strong>{categories ? 'Each category' : 'Each card'}</strong>
             <ul className="lab-log">
               {data.answers.map(({ card, answer }) => (
                 <li key={card.word}>
