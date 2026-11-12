@@ -3,7 +3,9 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { buildDay, cityById, progressLine, rateDeck, reflectLine, lighterDay } from './officialOnboardingSteps';
+import { buildDay, cityById, CITIES, progressLine, rateDeck, reflectLine, lighterDay } from './officialOnboardingSteps';
+import { PITCHES, pitchFor } from './officialOnboardingPitches';
+import { ALL_LANDMARKS } from '../data/regions';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -60,7 +62,7 @@ describe('Official Onboarding (Test tab)', () => {
     const el = await render();
     await click(el.querySelector('.fr-toggle input'));
     const next = () => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next \u{2192}');
-    expect(bubbles(el)).toContain("Hi! I'm Mapr, your personal AI guide.");
+    expect(bubbles(el)).toContain('Hi, I’m Mapr, your personal travel planner and guide. Together, we’ll create a trip built around you—your interests, your time, and your sense of adventure. Let\'s do it!');
     await click(next());
     expect(bubbles(el)).toContain('tourist traps');
     await click(next());
@@ -73,7 +75,8 @@ describe('Official Onboarding (Test tab)', () => {
     await click(next());
 
     expect(bubbles(el)).toContain('Pick 3 to 5 kinds of places');
-    expect(bubbles(el)).toContain("Skip and I'll guess. Pick and I'll get it right.");
+    expect(bubbles(el)).not.toContain("Skip and I'll guess");
+    expect(button(el, 'Skip for now')).toBeTruthy();
     expect(next().disabled).toBe(true);
     await click(button(el, 'Food'));
     await click(button(el, 'Parks & Nature'));
@@ -85,9 +88,25 @@ describe('Official Onboarding (Test tab)', () => {
     // No practice: the first card is real.
     expect(el.textContent).toContain('0 of 10 — 10 more and Mapr can pick for you.');
     expect(el.textContent).not.toContain('Sign up with Google');
+    expect(el.querySelector('.lab-card-blurb').textContent.length).toBeGreaterThan(40);
+    expect(button(el, 'Previous card').disabled).toBe(true);
     await click(el.querySelector('[aria-label="Not sure"]'));
     await wait(260);
     expect(el.textContent).toContain('0 of 10');
+    // A mistake: love it, then go back to the same card.
+    const second = el.querySelector('.lab-card-word').textContent;
+    await click(el.querySelector('[aria-label="Love it"]'));
+    await wait(260);
+    expect(el.textContent).toContain('1 of 10');
+    await click(button(el, 'Previous card'));
+    expect(el.textContent).toContain('0 of 10');
+    expect(el.querySelector('.lab-card-word').textContent).toBe(second);
+    // Back once more undoes the "not sure" and returns to the first card.
+    await click(button(el, 'Previous card'));
+    expect(el.querySelector('.lab-card-word').textContent).not.toBe(second);
+    await click(el.querySelector('[aria-label="Not sure"]'));
+    await wait(260);
+    expect(el.querySelector('.lab-card-word').textContent).toBe(second);
     for (let i = 0; i < 10; i++) {
       await click(el.querySelector(i < 7 ? '[aria-label="Love it"]' : `[aria-label="Don't like it"]`));
       await wait(260);
@@ -187,5 +206,24 @@ describe('Official Onboarding pieces', () => {
   it('says progress and the reflection in the owner’s words', () => {
     expect(progressLine(7)).toBe('7 of 10 — 3 more and Mapr can pick for you.');
     expect(reflectLine(['food'], [{ card: { word: 'Wynwood Walls' }, answer: 'love' }])).toBe('Okay — you want food, and you loved Wynwood Walls. Got it.');
+  });
+
+  it('gives every card in the four featured cities a written blurb with a photo', () => {
+    for (const city of CITIES) {
+      const deck = rateDeck(city);
+      expect(deck.length).toBeGreaterThan(12);
+      expect(deck.every((c) => c.blurb && c.blurb.length > 40 && c.photos.length === 1)).toBe(true);
+    }
+    expect(rateDeck(miami, [], ALL_LANDMARKS)[0].blurb.length).toBeGreaterThan(0);
+  });
+
+  it('only writes blurbs for places that exist, short enough for a card', () => {
+    const ids = new Set(ALL_LANDMARKS.map((l) => l.id));
+    for (const [id, text] of Object.entries(PITCHES)) {
+      expect(ids.has(id), id).toBe(true);
+      expect(text.length, id).toBeLessThan(200);
+      expect(text, id).not.toContain('\u2014');
+    }
+    expect(pitchFor({ id: 'nope', facts: ['A fact.'] })).toBe('A fact.');
   });
 });

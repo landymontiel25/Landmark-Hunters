@@ -4,6 +4,7 @@
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_REGIONS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { SWIPE_DELTAS } from '../lib/onboardingCards';
+import { PITCHES, pitchFor } from './officialOnboardingPitches';
 
 // The 9 steps in the owner's order, three acts.
 export const OO_STEPS = [
@@ -25,7 +26,11 @@ export const MAX_TASTE = 5;
 
 // The three intro screens, three taps.
 export const INTRO = [
-  { hero: '\u{1F9E0}', say: "Hi! I'm Mapr, your personal AI guide.", button: 'Next' },
+  {
+    hero: '\u{1F9E0}',
+    say: 'Hi, I’m Mapr, your personal travel planner and guide. Together, we’ll create a trip built around you—your interests, your time, and your sense of adventure. Let\'s do it!',
+    button: 'Next',
+  },
   {
     hero: '\u{1F635}\u{200D}\u{1F4AB}',
     say: 'You land somewhere new and waste hours figuring out where to go — and still end up at the tourist traps.',
@@ -61,7 +66,6 @@ export const tasteLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || i
 export const SAY = {
   city: ['Where are you exploring?'],
   taste: ["Pick 3 to 5 kinds of places you're into. I'll look for these first."],
-  tasteSkip: ["Skip and I'll guess. Pick and I'll get it right."],
   rate: ['Rate 10 places you know. Every one counts, and at 10 I can pick for you.'],
   notes: ["Anything else you love or hate that the cards didn't cover?"],
   // Always location (owner, 2026-11-11): Mapr needs to know where you are
@@ -109,26 +113,32 @@ const HIDE_KINDS = new Set(['airports', 'benches']);
 const TILE = { 'history-culture': 'history', food: 'food', 'parks-nature': 'nature', attractions: 'entertainment', sports: 'sports', stadiums: 'sports' };
 
 // The swipe deck: the city's famous places with a photo, most popular first,
-// the picked kinds a little ahead. More than 10, so "Not sure" never runs it
-// dry. Each card is shaped like an onboarding swipe card.
+// the picked kinds a little ahead. Places with a written pitch
+// (officialOnboardingPitches.js) come first, so each card says why to go; a
+// city with fewer than 14 of them is topped up from its other photo places
+// (their line is their first fact). More than 10, so "Not sure" never runs it
+// dry. Each card is shaped like an onboarding swipe card, plus `blurb`.
 export function rateDeck(city, chips = [], landmarks = ALL_LANDMARKS, size = 24) {
   if (!city) return [];
   const want = new Set(chips);
-  return landmarks
+  const ranked = landmarks
     .filter(inCity(city))
     .filter((l) => l.images?.length && !HIDE_KINDS.has(l.categories?.[0]))
     .map((l) => ({ l, s: (l.popularity || 0) + ((l.categories || []).some((c) => want.has(c)) ? 1.5 : 0) }))
     .sort((a, b) => b.s - a.s)
-    .slice(0, size)
-    .map(({ l }) => ({
-      word: l.name,
-      icon: INTERESTS.find((i) => i.id === l.categories?.[0])?.icon || '\u{1F4CD}',
-      group: TILE[l.categories?.[0]] || 'local',
-      tag: l.categories?.[0] || null,
-      photos: [l.images[0]],
-      photoPages: [],
-      place: l,
-    }));
+    .map(({ l }) => l);
+  const pitched = ranked.filter((l) => PITCHES[l.id]);
+  const list = pitched.length >= 14 ? pitched : [...pitched, ...ranked.filter((l) => !PITCHES[l.id])];
+  return list.slice(0, size).map((l) => ({
+    word: l.name,
+    blurb: pitchFor(l),
+    icon: INTERESTS.find((i) => i.id === l.categories?.[0])?.icon || '\u{1F4CD}',
+    group: TILE[l.categories?.[0]] || 'local',
+    tag: l.categories?.[0] || null,
+    photos: [l.images[0]],
+    photoPages: [],
+    place: l,
+  }));
 }
 
 export const ratedCount = (answers) => answers.filter((a) => a.answer !== 'unsure').length;
