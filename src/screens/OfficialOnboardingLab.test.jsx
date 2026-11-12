@@ -203,4 +203,23 @@ describe('Official Onboarding pieces', () => {
     }
     expect(pitchFor({ id: 'nope', facts: ['A fact.'] })).toBe('A fact.');
   });
+
+  it('gives every card in the four featured cities a written blurb with a photo', () => {
+    for (const city of CITIES) {
+      const deck = rateDeck(city);
+      expect(deck.length).toBeGreaterThan(12);
+      expect(deck.every((c) => c.blurb && c.blurb.length > 40 && c.photos.length === 1)).toBe(true);
+    }
+    expect(rateDeck(miami, [], ALL_LANDMARKS)[0].blurb.length).toBeGreaterThan(0);
+  });
+
+  it('only writes blurbs for places that exist, short enough for a card', () => {
+    const ids = new Set(ALL_LANDMARKS.map((l) => l.id));
+    for (const [id, text] of Object.entries(PITCHES)) {
+      expect(ids.has(id), id).toBe(true);
+      expect(text.length, id).toBeLessThan(200);
+      expect(text, id).not.toContain('\u2014');
+    }
+    expect(pitchFor({ id: 'nope', facts: ['A fact.'] })).toBe('A fact.');
+  });
 });
