@@ -460,7 +460,7 @@ export default function Mapr() {
     // only feedback that tap needs, since the button itself can't visibly
     // change state twice in a row for the same thing.
     if (creatingKeys.has(stopKey(m.id, idx, stop.name))) {
-      toast.show('Still setting this up — hang tight.');
+      toast.show("I'm still setting this up. Hang tight.");
     }
     try {
       const created = await ensureStopCreated(m, idx, stop);
@@ -469,7 +469,7 @@ export default function Mapr() {
       // Couldn't create it (signed out, unverified, not found on the map,
       // or timed out -- already reflected as createFailed) -- stays put,
       // Source link still works, tapping again retries.
-      toast.show(friendlyError(err, "Couldn't open that place — tap it again to retry."));
+      toast.show(friendlyError(err, "I couldn't open that place. Tap it again to retry."));
     }
   };
 
@@ -793,7 +793,7 @@ export default function Mapr() {
         ...cur,
         {
           role: 'assistant',
-          text: friendlyError(err, "Mapr couldn't answer just now. Try again."),
+          text: friendlyError(err, "I couldn't answer just now. Try again."),
           stops: [],
           error: true,
           retryText: text,
@@ -1159,7 +1159,7 @@ export default function Mapr() {
                           <div className="chatlab-stop-text">
                             <strong>
                               {stop.name}
-                              {!resolved && stop.place ? ` — ${stop.place}` : ''}
+                              {!resolved && stop.place ? ` (${stop.place})` : ''}
                             </strong>
                             {stop.address && <span className="chatlab-stop-address">{'\u{1F4CD}'} {stop.address}</span>}
                             {(distance || loading || stars != null) && (
@@ -1176,7 +1176,7 @@ export default function Mapr() {
                               </span>
                             )}
                             <span>{stop.reason}</span>
-                            {stop.createFailed && <span className="chatlab-stop-address">Couldn't open this one — tap to try again, or use Directions below.</span>}
+                            {stop.createFailed && <span className="chatlab-stop-address">I couldn't open this one. Tap to try again, or use Directions below.</span>}
                           </div>
                         </button>
                         <div className="chatlab-stop-links" onClick={(e) => e.stopPropagation()}>

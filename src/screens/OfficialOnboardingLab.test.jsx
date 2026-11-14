@@ -67,11 +67,11 @@ describe('Official Onboarding (Test tab)', () => {
     const el = await render();
     await click(el.querySelector('.fr-toggle input'));
     const next = () => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next \u{2192}');
-    expect(bubbles(el)).toContain("Hi, I am Mapr, your personal travel planner and guide. Together, we will create a trip built around you, your interests, your time, and your sense of adventure. Let's do it!");
+    expect(bubbles(el)).toContain("Hi, I'm Mapr, your personal travel planner and guide. Together, we'll create a trip built around you, your interests, your time, and your sense of adventure. Let's do it!");
     await click(next());
     expect(bubbles(el)).toContain('tourist traps');
     await click(next());
-    expect(bubbles(el)).toContain("Mapr builds your day from what you like.");
+    expect(bubbles(el)).toContain("I build your day from what you like.");
     await click(button(el, "Let's build my day"));
 
     expect(bubbles(el)).toContain('Where are you exploring?');
@@ -136,8 +136,10 @@ describe('Official Onboarding (Test tab)', () => {
 
     expect(bubbles(el)).toContain("That's a day planned in 2 minutes, instead of hours of searching.");
     // The summary is built from the real picks (owner, 2026-11-14).
-    expect(bubbles(el)).toMatch(/Based on what you picked \((Food|Parks & Nature|Art & Culture), (Food|Parks & Nature|Art & Culture), and (Food|Parks & Nature|Art & Culture)\), Mapr built your Miami day around you\. 3 stops, picked for you, in one afternoon\. This is not a guess\. It is built from your picks\./);
+    expect(bubbles(el)).toMatch(/Based on what you picked \((Food|Parks & Nature|Art & Culture), (Food|Parks & Nature|Art & Culture), and (Food|Parks & Nature|Art & Culture)\), I built your Miami day around you\. 3 stops, picked for you, in one afternoon\. This isn't a guess\. It's built from your picks\./);
     expect(bubbles(el)).not.toMatch(/picked nothing|I guessed|your your/);
+    // Mapr speaks in the first person with contractions (owner, 2026-11-14).
+    expect(bubbles(el)).not.toMatch(/Mapr built|This is not|It is built/);
     expect(bubbles(el)).toContain('How committed are you to exploring like this?');
     await click(button(el, 'Not really'));
     expect(bubbles(el)).toContain('No pressure.');
@@ -154,32 +156,32 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Next tab'));
     expect(bubbles(el)).toContain("Your day lives here. I can fill a day with places you'll like.");
     await click(button(el, 'Finish'));
-    expect(bubbles(el)).toContain('Come back tomorrow. I will have 3 new places near you.');
+    expect(bubbles(el)).toContain("Come back tomorrow. I'll have 3 new places near you.");
     await click(button(el, 'Finish'));
 
     // Step 10: onboarding only asks where home is (owner, 2026-11-14). No pitch.
-    expect(bubbles(el)).toContain('Where is home?');
+    expect(bubbles(el)).toContain("Where's home?");
     expect(el.textContent).not.toContain('already convinced');
     await click(button(el, 'Miami'));
     await click(button(el, 'Finish'));
 
     // Step 11, after the trip: one notification with their real numbers.
     const notif = el.querySelector('.oo-notif');
-    expect(notif.textContent).toMatch(/You are back home in Miami\. You have only been to 12 of [\d,]+ places here, and I already know what you like\. Want me to pick 3 near you for tomorrow\?/);
+    expect(notif.textContent).toMatch(/You're back home in Miami\. You've only been to 12 of [\d,]+ places here, and I already know what you like\. Want me to pick 3 near you for tomorrow\?/);
     await click(notif);
 
     // Step 12: the Hometown Transition screen it opens.
     expect(el.textContent).toContain('Official Onboarding: Hometown Transition');
     expect(el.querySelector('.oo-home-map')).toBeTruthy();
-    expect(el.querySelector('.oo-home-stat').textContent).toMatch(/^You have been to 12 of [\d,]+ places in Miami\.$/);
-    expect(bubbles(el)).toMatch(/You already trust me with your trips \(and I know what you like from those trips\)\. You live in Miami and you have only been to 12 of [\d,]+ places here\. Based on what you picked, here are 3 places near you that you will love\./);
+    expect(el.querySelector('.oo-home-stat').textContent).toMatch(/^You've been to 12 of [\d,]+ places in Miami\.$/);
+    expect(bubbles(el)).toMatch(/You already trust me with your trips \(and I know what you like from those trips\)\. You live in Miami and you've only been to 12 of [\d,]+ places here\. Based on what you picked, here are 3 places near you that you'll love\./);
     expect(bubbles(el)).not.toMatch(/guess/i);
     const picks = [...el.querySelectorAll('.oo-home-pick-row')];
     expect(picks).toHaveLength(3);
     expect(picks.map((r) => r.textContent).join(' ')).toMatch(/Because you picked (food|parks & nature|art & culture)/);
     expect(el.textContent).toContain('Your streak is at 3 days, don\'t break it. I found a spot for tomorrow.');
     expect(el.textContent).not.toContain('\u2014');
-    expect(el.textContent).toContain('Mapr only messages when he has a real pick.');
+    expect(el.textContent).toContain("I only message you when I've got a real pick.");
     await click(button(el, 'Save to Tomorrow in Miami'));
     expect(button(el, 'Saved to Tomorrow in Miami')).toBeTruthy();
     await click(button(el, 'Show me my city'));
@@ -246,7 +248,7 @@ describe('Official Onboarding pieces', () => {
     const { summaryLines } = await import('./officialOnboardingSteps');
     const day = buildDay(miami, ['food'], []);
     const [line] = summaryLines({ city: miami, chips: ['food', 'parks-nature'], loved: ['Vizcaya'], stops: day });
-    expect(line).toBe('Based on what you picked (Food and Parks & Nature) and the places you loved (Vizcaya), Mapr built your Miami day around you. 3 stops, picked for you, in one afternoon. This is not a guess. It is built from your picks.');
+    expect(line).toBe("Based on what you picked (Food and Parks & Nature) and the places you loved (Vizcaya), I built your Miami day around you. 3 stops, picked for you, in one afternoon. This isn't a guess. It's built from your picks.");
     for (const chips of [[], ['food']]) {
       const text = summaryLines({ city: miami, chips, stops: day }).join(' ');
       expect(text).not.toMatch(/picked nothing|I guessed|your your|\u2014/);

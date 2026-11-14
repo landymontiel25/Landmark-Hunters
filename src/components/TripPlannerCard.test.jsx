@@ -159,7 +159,7 @@ describe('Plan Your Trip wizard', () => {
     await click('Next');
     await click('Solo');
     await click('Plan my trip');
-    expect(question()).toBe('Who is this plan for?');
+    expect(question()).toBe("Who's this plan for?");
     expect(onPlan).not.toHaveBeenCalled(); // nothing is sent until one is chosen
     expect(button('Just me')).toBeTruthy();
     await click('A group');

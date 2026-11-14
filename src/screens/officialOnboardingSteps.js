@@ -34,7 +34,7 @@ export const INTRO = [
     // The owner's infographic (owner, 2026-11-14): no brain anywhere.
     image: '/onboarding/onboarding-infographic.png',
     alt: 'A trip built around you: your interests, your time and your adventure go into Mapr, which turns them into your personalized itinerary.',
-    say: "Hi, I am Mapr, your personal travel planner and guide. Together, we will create a trip built around you, your interests, your time, and your sense of adventure. Let's do it!",
+    say: "Hi, I'm Mapr, your personal travel planner and guide. Together, we'll create a trip built around you, your interests, your time, and your sense of adventure. Let's do it!",
     button: 'Next',
   },
   {
@@ -48,7 +48,7 @@ export const INTRO = [
   {
     // The real Landmark Hunters map with a real route (owner, 2026-11-14).
     map: true,
-    say: "Mapr builds your day from what you like. Tell me what you're into, I'll line up the places.",
+    say: "I build your day from what you like. Tell me what you're into, I'll line up the places.",
     button: "Let's build my day",
   },
 ];
@@ -87,7 +87,7 @@ export const SAY = {
     'Allow location Always so I can verify you’re here, give you the points, and tell you when you pass a place worth a stop.',
   ],
   promptFirst: ["This is the iPhone's own question. Pick Allow While Using App. Always comes on the next screen."],
-  promptAlways: ['Now pick Change to Always Allow, so I know where you are even with the app closed.'],
+  promptAlways: ["Now pick Change to Always Allow, so I can find you even with the app closed."],
   checkinWin: [`First check-in! +${CHECKIN_POINTS}.`],
   review: ['Loving it so far? A quick rating helps other travelers find me.'],
   commitAsk: ['How committed are you to exploring like this?'],
@@ -98,8 +98,8 @@ export const SAY = {
   commitHigh: ["Love it. I'll keep lining up places like these."],
   signup: ['Save your 100 points + your day. It takes 20 seconds.'],
   verifyLater: ['I sent you a link to verify your email. Tap it any time. Nothing waits on it.'],
-  hook: ['Come back tomorrow. I will have 3 new places near you.'],
-  home: ['One last thing. Where is home? I will remember it, so when you get back from a trip I can help you there too.'],
+  hook: ["Come back tomorrow. I'll have 3 new places near you."],
+  home: ["One last thing. Where's home? I'll remember it, so when you get back from a trip I can help you there too."],
   done: ["That's your first day. See you tomorrow."],
 };
 
@@ -222,12 +222,12 @@ export function summaryLines({ city, chips = [], loved = [], stops = [] }) {
   const n = stops.length || 3;
   const picked = chips.map(tasteLabel);
   const from = picked.length
-    ? `Based on what you picked (${listOf(picked)})${loved.length ? ` and the places you loved (${listOf(loved)})` : ''}, Mapr built your ${where} day around you.`
+    ? `Based on what you picked (${listOf(picked)})${loved.length ? ` and the places you loved (${listOf(loved)})` : ''}, I built your ${where} day around you.`
     : loved.length
-      ? `Based on the places you loved (${listOf(loved)}), Mapr built your ${where} day around you.`
-      : `Mapr built your ${where} day around the places travelers love most here.`;
+      ? `Based on the places you loved (${listOf(loved)}), I built your ${where} day around you.`
+      : `I built your ${where} day around the places travelers love most here.`;
   return [
-    `${from} ${n} stops, picked for you, in one afternoon. ${picked.length || loved.length ? 'This is not a guess. It is built from your picks.' : 'Pick a few categories and I will build the next one from your picks.'}`,
+    `${from} ${n} stops, picked for you, in one afternoon. ${picked.length || loved.length ? "This isn't a guess. It's built from your picks." : "Pick a few categories and I'll build the next one from your picks."}`,
     "That's a day planned in 2 minutes, instead of hours of searching.",
   ];
 }

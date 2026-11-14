@@ -33,7 +33,7 @@ const HTTP = {
   504: 'That took too long. Try again.',
 };
 
-export const OFFLINE_MESSAGE = "You're offline. Reconnect and try again — nothing you entered was lost.";
+export const OFFLINE_MESSAGE = "You're offline. Reconnect and try again. Nothing you entered was lost.";
 
 export function isOffline() {
   return typeof navigator !== 'undefined' && navigator.onLine === false;

@@ -45,7 +45,7 @@ export default function PickVoteButtons({ name = 'this place', vote, onVote, onR
       )}
       {status === 'pending' && (
         <p className="pick-vote-note pending" role="status">
-          Not saved yet. It will send when you're back online.
+          Not saved yet. It'll send when you're back online.
         </p>
       )}
       {status === 'error' && (

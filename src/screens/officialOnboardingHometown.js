@@ -76,13 +76,13 @@ export const shockStat = (city, visited, total) => `${visited.toLocaleString('en
 // Mapr on the Hometown Transition screen (owner, 2026-11-14): their real
 // city and numbers, never "I guessed" or "let me guess".
 export const hometownSay = (city, visited, total) => [
-  `You already trust me with your trips (and I know what you like from those trips). You live in ${cityName(city)} and you have only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places here. Based on what you picked, here are 3 places near you that you will love.`,
+  `You already trust me with your trips (and I know what you like from those trips). You live in ${cityName(city)} and you've only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places here. Based on what you picked, here are 3 places near you that you'll love.`,
 ];
 
 // The one notification after a trip, once they are back home (owner,
 // 2026-11-14). Tapping it opens the Hometown Transition screen. Sent once.
 export const hometownNotification = (city, visited, total) =>
-  `You are back home in ${cityName(city)}. You have only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places here, and I already know what you like. Want me to pick 3 near you for tomorrow?`;
+  `You're back home in ${cityName(city)}. You've only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places here, and I already know what you like. Want me to pick 3 near you for tomorrow?`;
 
 // The two lists one tap saves the picks to.
 export const saveLists = (city) => [
@@ -93,10 +93,10 @@ export const saveLists = (city) => [
 // The daily companion loop. Mapr only sends one of these when it has a real pick.
 export function dailyLoop(firstPick, points) {
   return [
-    { id: 'morning', when: 'Morning', what: 'Mapr picks 1 place near you for today.', sample: firstPick ? `Today: ${firstPick.name}. It's close, and it's your kind of place.` : 'Today: 1 place near you.' },
-    { id: 'after', when: 'After you go', what: `Check in, +${points} points, Mapr celebrates.`, sample: firstPick ? `Checked in at ${firstPick.name}. +${points}. That's one more of your city.` : `Checked in. +${points}.` },
+    { id: 'morning', when: 'Morning', what: 'I pick 1 place near you for today.', sample: firstPick ? `Today: ${firstPick.name}. It's close, and it's your kind of place.` : 'Today: 1 place near you.' },
+    { id: 'after', when: 'After you go', what: `Check in, +${points} points, and I celebrate with you.`, sample: firstPick ? `Checked in at ${firstPick.name}. +${points}. That's one more of your city.` : `Checked in. +${points}.` },
     { id: 'skip', when: 'If you skip a day', what: 'One nudge, with a pick in it.', sample: `Your streak is at ${SAMPLE_STREAK} days, don't break it. I found a spot for tomorrow.` },
   ];
 }
 
-export const QUIET_RULE = 'Mapr only messages when he has a real pick. No pick, no message.';
+export const QUIET_RULE = "I only message you when I've got a real pick. No pick, no message.";

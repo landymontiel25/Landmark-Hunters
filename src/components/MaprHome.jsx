@@ -349,7 +349,7 @@ export default function MaprHome({
 
         {/* One line about the score under the orb (owner, 2026-11-14). */}
         <p className="mui-score-note">
-          {score != null ? 'Mapr Score is how often Mapr guesses your rating right. Rate places to raise it.' : 'Rate a few places and Mapr starts scoring how well it knows your taste.'}
+          {score != null ? "Your Mapr Score is how often I guess your rating right. Rate places to raise it." : "Rate a few places and I'll start scoring how well I know your taste."}
         </p>
 
         {/* The greeting stays on one line: the type shrinks with a long
