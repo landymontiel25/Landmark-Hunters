@@ -386,7 +386,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     },
     {
       id: 'plan',
-      question: asking ? 'Who is this plan for?' : "All set. Here's what I've got:",
+      question: asking ? "Who's this plan for?" : "All set. Here's what I've got:",
       skippable: false,
       choices: asking ? REQUEST_FOR_CHOICES.map((c) => ({ ...c, disabled: planning })) : null,
       value: null,

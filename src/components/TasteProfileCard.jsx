@@ -207,14 +207,14 @@ export default function TasteProfileCard() {
         <p className={`taste-bar-word taste-bar-${tone.key}`}>{tone.label}</p>
       )}
       <p className="taste-raise-hint" style={{ margin: '6px 0 0', fontSize: '0.85rem', fontWeight: 600 }}>
-        Raise your score and Mapr understands you better. Rate places and answer picks to climb.
+        Raise your score and I'll understand you better. Rate places and answer picks to climb.
       </p>
       <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
         {learning && estimated != null
-          ? 'Rate the places Mapr suggests and this will switch to scoring its real guesses.'
+          ? "Rate the places I suggest and this'll switch to scoring my real guesses."
           : learning
-          ? 'Rate the places Mapr suggests and it will start scoring how well it understands you.'
-          : `How often Mapr guessed your answer right on its last ${TASTE_WINDOW} picks. Your newest answer on a place is the one that counts.`}
+          ? "Rate the places I suggest and I'll start scoring how well I understand you."
+          : `How often I guessed your answer right on my last ${TASTE_WINDOW} picks. Your newest answer on a place is the one that counts.`}
       </p>
     </div>
   );

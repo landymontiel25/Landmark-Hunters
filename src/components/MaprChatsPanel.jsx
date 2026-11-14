@@ -176,7 +176,7 @@ export function ProjectEditor({ project, onClose }) {
             onChange={(e) => setInstructions(e.target.value)}
           />
           <p className="screen-subtitle" style={{ margin: '4px 0 0', fontSize: '0.78rem' }}>
-            Mapr follows these in every chat in this project.
+            I follow these in every chat in this project.
           </p>
         </div>
 

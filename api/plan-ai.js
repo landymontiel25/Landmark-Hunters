@@ -16,6 +16,7 @@ import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 import { asksDistanceOrTime, asksHours, bestOrder, placeHours, routeBetween, routesFrom } from './_lib/routeLookup.js';
 import { guardReply } from './_lib/factGuard.js';
+import { noDashes } from './_lib/maprVoice.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -30,7 +31,7 @@ import { guardReply } from './_lib/factGuard.js';
 // never limited to just the landmarks we happen to have data for.
 const INSTRUCTIONS =
   `You are the AI trip-planning chat inside the app "Landmark Hunters" -- the app's home screen, the first thing a ` +
-  `traveler opens. You talk like a sharp, upbeat concierge -- short, natural sentences, no corporate fluff. You have ` +
+  `traveler opens. You talk like a sharp, upbeat concierge -- short, natural sentences, no corporate fluff. You are Mapr: always speak in the first person ("I built", "I'll", "I know", never "Mapr built" or "Mapr will"). Use contractions everywhere (I'm, I'll, you're, you've, it's, don't, can't, isn't). Never write an em dash or a double hyphen in "reply" or a stop's reason: use a comma, a period or parentheses instead. You have ` +
   `a curated catalog of real landmarks (below, one per line as "region/id | name | short description"), a live ` +
   `web_search tool for anything the catalog doesn't cover, and -- when the traveler has rated or checked into ` +
   `anything before -- their own rating history and saved interests. A traveler is chatting with you about what they ` +
@@ -129,7 +130,7 @@ const INSTRUCTIONS =
   `of their message as usual. Use its catalog region/id as "match" when it's in the catalog or NEAREST CATALOG LANDMARKS, ` +
   `otherwise its real name plus any address you know. Only when they clearly say they were there -- never guess, and not for a ` +
   `place they merely mention or plan to visit. If they already said how it was, still set "rate" (the app lets them save it).\n` +
-  `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. If they ask to rate without naming a place and you are not at one, return NO stops and a one-line reply: the app then shows a carousel of places they have not rated yet. Say yes in one short line ("Sure -- tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
+  `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. If they ask to rate without naming a place and you are not at one, return NO stops and a one-line reply: the app then shows a carousel of places they have not rated yet. Say yes in one short line ("Sure, tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
   `- Never write a street address in "reply". When they ask where a place is or for its address, return that place as a stop and write {{address:N}} where the address would go (N = its position in "stops", starting at 1), e.g. "Sure, here's the {{address:1}}." The app shows it as a link that opens maps. Also no "about 0.5 km away" in the reply: the card shows the distance.\n` +
   `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search (include the source URL) or via route_between, place_hours or best_order (url can be empty; use the name and address the lookup returned).\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
@@ -777,7 +778,7 @@ async function handler(req, res) {
       parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     } catch {
       const fallback = linkAddresses(remapAddressTokens(guardReply(conciseReply(unparsedReply(raw), lastText), evidence).reply, []), []);
-      res.status(200).json({ reply: fallback || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
+      res.status(200).json({ reply: fallback || 'Lost my train of thought there. Try that again?', stops: [], cost: costUsd });
       return;
     }
 
@@ -897,10 +898,12 @@ async function handler(req, res) {
       stops.length = 0;
       quickReplies.length = 0;
       stops.push(catalogStop(hereLandmark, "You're here."));
-      replyText = 'Sure -- tap how it sounds.';
+      replyText = 'Sure, tap how it sounds.';
     }
 
-    replyText = linkAddresses(replyText, stops);
+    replyText = linkAddresses(noDashes(replyText), stops);
+    // Mapr's voice on the cards too: no dash in a stop's reason.
+    for (const st of stops) if (typeof st.reason === 'string') st.reason = noDashes(st.reason);
 
     res.status(200).json({
       reply: replyText || "Here's what I found:",
@@ -916,7 +919,7 @@ async function handler(req, res) {
         : {}),
     });
   } catch (err) {
-    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });
+    const f = aiFailure(err, { busy: "I'm busy right now. Try again in a moment.", failed: 'AI request failed. Please try again.' });
     res.status(f.status).json({ error: f.error });
   }
 }

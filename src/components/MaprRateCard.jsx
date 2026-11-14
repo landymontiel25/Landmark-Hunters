@@ -26,7 +26,7 @@ export default function MaprRateCard({ place }) {
 
   if (!user) return null;
   if (review?.ratingTier && (review.updatedAt?.seconds || 0) >= shownAt) {
-    return <p className="mapr-rate-done">{'\u{2705}'} Rated {place.name}. Thanks -- Mapr learns from it.</p>;
+    return <p className="mapr-rate-done">{'\u{2705}'} Rated {place.name}. Thanks, I learn from every rating.</p>;
   }
 
   const rate = async (tierId) => {

@@ -306,7 +306,7 @@ describe('places Mapr found on the web', () => {
     await setValue('arepas');
     await submit();
     expect(h.landmarkForRating).toHaveBeenCalledTimes(1);
-    expect(container.textContent).toContain("Couldn't open this one");
+    expect(container.textContent).toContain("I couldn't open this one");
     h.fetchJson.mockResolvedValue({ reply: 'Anything else?', stops: [], quickReplies: [] });
     await setValue('thanks');
     await submit();

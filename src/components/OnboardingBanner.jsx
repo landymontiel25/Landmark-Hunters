@@ -41,7 +41,7 @@ function Banner({ uid, variant }) {
   return (
     <div className={`onboarding-banner ${variant === 'fixed' ? 'onboarding-banner-fixed' : ''}`} role="region" aria-label="Finish the swipe cards">
       <button type="button" className="onboarding-banner-main" onClick={() => navigate('/onboarding')}>
-        <span aria-hidden="true">{'\u{2728}'}</span> Finish the swipe cards to get better picks from Mapr {'\u{2192}'}
+        <span aria-hidden="true">{'\u{2728}'}</span> Finish the swipe cards and I'll pick better for you {'\u{2192}'}
       </button>
       <button type="button" className="onboarding-banner-dismiss" aria-label="Dismiss for now" onClick={() => setDismissed(true)}>
         <span aria-hidden="true">{'\u{00D7}'}</span>

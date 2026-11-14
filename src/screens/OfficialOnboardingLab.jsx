@@ -323,7 +323,7 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
         <MaprSays lines={SAY.promptAlways} />
         <Phone>
           <div className="tut-dialog">
-            <strong>Allow "Landmark Hunters" to also use your location even when you are not using the app?</strong>
+            <strong>Allow "Landmark Hunters" to also use your location even when you're not using the app?</strong>
             <button type="button" className="tut-dialog-btn oo-dialog-btn" onClick={() => answer(false)}>
               Keep Only While Using
             </button>
@@ -600,7 +600,7 @@ function BackHome({ data, note, onOpen }) {
   const visited = Math.min(SAMPLE_VISITED, visitedSample(places).length);
   return (
     <div className="tut nav-clear">
-      <p className="tut-small oo-later">Later, after a trip. Once you are back in {cityName(city)}, Mapr sends this one notification, and only once.</p>
+      <p className="tut-small oo-later">Later, after a trip. Once you're back in {cityName(city)}, I'll send you this one notification, and only once.</p>
       <div className="oo-lock">
         <p className="oo-lock-time">9:41</p>
         <button
@@ -678,7 +678,7 @@ function Hometown({ data, set, coords, note, onDone }) {
       </Phone>
 
       <p className="oo-home-stat" role="status">
-        You have been to {shockStat(city, Math.min(SAMPLE_VISITED, visited.length), places.length)}.
+        You've been to {shockStat(city, Math.min(SAMPLE_VISITED, visited.length), places.length)}.
       </p>
       <p className="tut-small oo-home-sample">"Been to" is a sample in Test: the {SAMPLE_VISITED} best known places. A real run counts your own check-ins.</p>
 
@@ -707,7 +707,7 @@ function Hometown({ data, set, coords, note, onDone }) {
         ))}
       </div>
 
-      <h3 className="oo-home-h3">Every day, Mapr comes with you</h3>
+      <h3 className="oo-home-h3">Every day, I come with you</h3>
       <ol className="oo-loop">
         {loop.map((s) => (
           <li key={s.id}>
@@ -846,7 +846,7 @@ export default function OfficialOnboardingLab() {
             onChange={(e) => set({ notes: e.target.value })}
           />
           <p className="tut-small" style={{ margin: '6px 0 14px' }}>
-            Kept word for word and passed to Mapr on every surface. Never turned into tags.
+            I keep your words exactly as you wrote them and use them everywhere I help you. They never get turned into tags.
           </p>
           <NextButton onClick={() => go('route', data.notes.trim() ? 'Added notes' : 'No notes')}>{data.notes.trim() ? 'Save & build my day' : 'Build my day'}</NextButton>
         </div>

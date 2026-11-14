@@ -47,7 +47,7 @@ export const SAY = {
   // Tutorial 2, which had no Mapr.
   taste: ["Now pick 3 to 5 kinds of places you're into.", "I'll look for these first when I pick places for you."],
   checkinNear: [
-    'Checking in is how you collect a landmark. You have to be close to it.',
+    "Checking in is how you collect a landmark. You've got to be close to it.",
     "I'll show you how far away you are. Not near one? Skip for now.",
   ],
   progress: ['Every place you rate teaches me your taste. Rate 10 and my picks get sharper.'],
@@ -104,9 +104,9 @@ export const PRACTICE = [
 // that screen (tap a pin on the Map) without leaving the tutorial; `tryIt`
 // says so.
 export const TABS = [
-  { tab: 'Map', path: '/', live: true, tryIt: 'Try it: tap a pin.', icon: '\u{1F310}', say: 'The Map shows every landmark near you. Tap a pin to see the place and check in when you are there.' },
+  { tab: 'Map', path: '/', live: true, tryIt: 'Try it: tap a pin.', icon: '\u{1F310}', say: "The Map shows every landmark near you. Tap a pin to see the place and check in when you're there." },
   { tab: 'Landmarks', path: '/landmarks', icon: '\u{1F4CD}', say: 'Landmarks lists every place by city, with the popular landmarks first.' },
   { tab: 'Mapr', path: '/mapr', icon: createElement(MaprTabIcon), say: 'Ask me anything here: where to eat, what to see this afternoon, or how the app works.' },
-  { tab: 'Itinerary', path: '/itinerary', icon: '\u{1F5FA}\u{FE0F}', say: 'Plan a trip, alone or with friends. I can fill a day with places you will like.' },
+  { tab: 'Itinerary', path: '/itinerary', icon: '\u{1F5FA}\u{FE0F}', say: "Plan a trip, alone or with friends. I can fill a day with places you'll like." },
   { tab: 'Profile', path: '/profile', icon: '\u{1F3C6}', say: 'Your points, streaks, memories and friends live here, along with the leaderboard.' },
 ];

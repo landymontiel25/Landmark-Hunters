@@ -29,7 +29,7 @@ describe('friendlyError', () => {
 
   it('never shows a raw auth/ code from a token refresh or similar', () => {
     expect(friendlyError({ code: 'auth/network-request-failed', message: 'Firebase: Error (auth/network-request-failed).' })).toBe(
-      'Network error — check your connection and try again.'
+      'Network error. Check your connection and try again.'
     );
     expect(friendlyError({ code: 'auth/some-new-code' })).not.toMatch(/auth\//);
   });

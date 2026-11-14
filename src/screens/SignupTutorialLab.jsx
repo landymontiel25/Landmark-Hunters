@@ -244,7 +244,7 @@ export function LabSignUp({ data, set, onDone, googleFirst = false }) {
         )}
         <label className="lab-age check-age-label">
           <input type="checkbox" checked={data.age} onChange={(e) => set({ age: e.target.checked })} />
-          <span>I am 13 years of age or older.</span>
+          <span>I'm 13 years of age or older.</span>
         </label>
         <p style={{ textAlign: 'center', fontSize: '0.72rem', color: 'var(--color-parchment-dim)', margin: '0 0 10px' }}>
           By creating an account, you agree to our{' '}

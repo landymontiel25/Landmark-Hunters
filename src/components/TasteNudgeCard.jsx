@@ -23,7 +23,7 @@ function commitBaseline(uid, values, reloadFriends) {
 
 function reportFailure(err, uid, values, reloadFriends, toast) {
   console.error('[TasteNudgeCard] saveTasteBaseline failed:', err);
-  toast.show(friendlyError(err, "Your taste picks didn't save. They're kept on this device — tap Edit to see them."), {
+  toast.show(friendlyError(err, "Your taste picks didn't save. They're kept on this device. Tap Edit to see them."), {
     actionLabel: 'Retry',
     onAction: () =>
       commitBaseline(uid, values, reloadFriends).catch((e) => reportFailure(e, uid, values, reloadFriends, toast)),
@@ -162,12 +162,12 @@ export default function TasteNudgeCard({
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
         <div>
           <h3 style={{ margin: 0, fontSize: '0.95rem' }}>
-            {'\u{1F44B}'} {editing ? 'Edit what you told Mapr' : "Tell Mapr what you like — and don't"}
+            {'\u{1F44B}'} {editing ? 'Edit what you told me' : "Tell me what you like (and don't)"}
           </h3>
           <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>
             {editing
-              ? 'Change any pick, add notes, then save — this replaces your saved baseline.'
-              : "Or just say it in the chat — either way counts and you won't see this again. This becomes your baseline; rating actual landmarks fills in the specifics later."}
+              ? "Change any pick, add notes, then save. This replaces your saved baseline."
+              : "Or just say it in the chat. Either way counts, and you won't see this again. This becomes your baseline; rating actual landmarks fills in the specifics later."}
           </p>
         </div>
         <button type="button" className="btn btn-ghost btn-sm" style={{ flexShrink: 0 }} onClick={dismiss} aria-label="Dismiss">
@@ -200,7 +200,7 @@ export default function TasteNudgeCard({
           return (
             <div key={q.id}>
               <p style={{ margin: '0 0 4px', fontSize: '0.82rem', fontWeight: 600 }}>
-                {q.icon} {q.label} — <span style={{ fontWeight: 400 }}>{q.prompt}</span>{' '}
+                {q.icon} {q.label}: <span style={{ fontWeight: 400 }}>{q.prompt}</span>{' '}
                 <button
                   type="button"
                   onClick={() => toggleComment(q.id)}
