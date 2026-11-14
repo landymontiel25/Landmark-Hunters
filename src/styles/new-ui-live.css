@@ -765,3 +765,115 @@ html body[data-apple='itinerary'] .aps-live .route-step .itin-free {
 html[data-theme='light'] body[data-apple='itinerary'] .aps .btn-danger {
   color: #a01c12;
 }
+
+/* =====================================================================
+   6. Profile in the New UI layout (NewUILab's ProfileTab): avatar with a
+   gold ring, the three numbers in one hairline card, the city ring, the
+   Mapr line, plain rows with hairlines, Edit profile at the bottom.
+   ===================================================================== */
+html body[data-apple='profile'] .pf-head {
+  gap: 14px;
+  margin: 8px 0 20px;
+}
+html body[data-apple='profile'] .pf-avatar {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--gold);
+  background: var(--ap-card-2);
+  color: var(--ap-text);
+  font-size: 26px;
+}
+html body[data-apple='profile'] .pf-name {
+  font-size: clamp(13px, calc(100cqw / (var(--len, 10) * 0.62)), 24px);
+  letter-spacing: -0.02em;
+}
+html body[data-apple='profile'] .pf-sub {
+  margin: 2px 0 0;
+  color: var(--ap-text);
+  font-size: 13px;
+}
+html body[data-apple='profile'] .pf-stats3 {
+  margin: 0 0 20px;
+  padding: 0;
+  border-radius: 14px;
+  background: transparent;
+}
+html body[data-apple='profile'] .pf-stat3 {
+  gap: 2px;
+  padding: 14px 4px;
+}
+html body[data-apple='profile'] .pf-stat3-icon {
+  display: none;
+}
+html body[data-apple='profile'] .pf-stat3-num {
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+html body[data-apple='profile'] .pf-stat3-label {
+  color: var(--ap-text);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nl-found {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 4px;
+}
+.nl-found-title {
+  margin: 0;
+  color: var(--nl-text);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+.nl-found-sub {
+  margin: 0;
+  color: var(--nl-text);
+  font-size: 13px;
+  line-height: 18px;
+}
+html body[data-apple='profile'] .pf-list {
+  margin: 28px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+html body[data-apple='profile'] .pf-list + .pf-list {
+  margin-top: 0;
+  border-top: 1px solid var(--ap-line);
+}
+html body[data-apple='profile'] .pf-row {
+  gap: 12px;
+  min-height: 52px;
+  padding: 0;
+}
+html body[data-apple='profile'] .pf-row + .pf-row::before {
+  left: 0;
+  right: 0;
+}
+html body[data-apple='profile'] .pf-row-icon {
+  display: none;
+}
+html body[data-apple='profile'] .pf-row-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+html body[data-apple='profile'] .pf-row-detail,
+html body[data-apple='profile'] .pf-row-chevron {
+  color: var(--ap-text);
+}
+html body[data-apple='profile'] .pf-edit {
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin-top: 16px;
+  border: 1px solid var(--ap-line);
+  border-radius: 999px;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+  font-size: 15px;
+  font-weight: 600;
+}
