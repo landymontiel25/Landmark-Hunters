@@ -59,6 +59,7 @@ const SMART_DIVIDER = { id: '__smart__' };
 const MORE_TAB = { id: '__restaurants-malls__' };
 
 const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
+const CATEGORY_LABEL = Object.fromEntries(INTERESTS.map((i) => [i.id, i.label]));
 
 
 // "For Me" moved to the Test tab's Planner launch bubble (owner,
@@ -70,9 +71,9 @@ export const SHOW_FOR_ME_SORT = false;
 // default. Its label follows the category picked (owner, 2026-11-08): the
 // plate makes it "Popular Restaurants", the glass "Popular Nightlife".
 const ALL_SORT_OPTIONS = [
-  { id: 'rated', label: '\u{2B50} Popular Landmarks' },
-  { id: 'forMe', label: '\u{2728} For Me' },
-  { id: 'nearMe', label: '\u{1F4CD} Near Me' },
+  { id: 'rated', label: 'Popular Landmarks' },
+  { id: 'forMe', label: 'For Me' },
+  { id: 'nearMe', label: 'Near Me' },
 ];
 // What "Popular ___" says for each category; one not listed uses its label.
 const POPULAR_NOUN = {
@@ -100,10 +101,10 @@ const SHORT_CATEGORY = {
 // one is that category's noun (a custom interest uses its own words), two or
 // more is Places.
 export function popularLabel(activeCategories = []) {
-  if (activeCategories.length > 1) return '\u{2B50} Popular Places';
+  if (activeCategories.length > 1) return 'Popular Places';
   const id = activeCategories[0];
-  if (!id) return '\u{2B50} Popular Landmarks';
-  return `\u{2B50} Popular ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
+  if (!id) return 'Popular Landmarks';
+  return `Popular ${POPULAR_NOUN[id] || INTERESTS.find((i) => i.id === id)?.label || id}`;
 }
 const SORT_OPTIONS = ALL_SORT_OPTIONS.filter((s) => s.id !== 'forMe' || SHOW_FOR_ME_SORT);
 const FOR_ME_ONLY = ALL_SORT_OPTIONS.filter((s) => s.id === 'forMe');
@@ -283,13 +284,16 @@ const LandmarkRow = memo(function LandmarkRow({
         {/* No Landmark Hunters rating badge: only Google's ratings show
             (owner, 2026-11-08). */}
       </div>
-      <div className="lr-main" onClick={toggle}>
+      {/* New UI (owner, 2026-11-14): a tap on the row opens the place, the
+          circle adds it to the trip, and every action sits behind "...". */}
+      <div className="lr-main" onClick={() => onInfo(l)}>
         <h4>
           <span className="lr-category-icons">{l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c]).join('')}</span>
           {l.name}
           <QuickRateButton landmark={l} />
         </h4>
         <div className="lr-meta">
+          <span className="lr-where">{l.neighborhood || CATEGORY_LABEL[l.categories?.[0]] || ''}</span>
           <AdmissionTag landmark={l} short />
           {/* The Google rating (⭐ 4.6 (1,234) Google Maps); with no Google
               rating the app's own average is the badge on the photo. Signed
@@ -319,6 +323,7 @@ const LandmarkRow = memo(function LandmarkRow({
           <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
         </div>
       )}
+      {menuOpen && (
       <div className="lr-actions">
         <button type="button" className="btn btn-ghost btn-tight" onClick={() => onInfo(l)}>
           Info
@@ -334,6 +339,7 @@ const LandmarkRow = memo(function LandmarkRow({
           className="btn-tight"
         />
       </div>
+      )}
     </div>
   );
 });
@@ -870,10 +876,11 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   return (
     <div>
       {subtabs}
+      <p className="nl-label">
+        {scope.label} · {landmarks.length.toLocaleString('en-US')} places
+      </p>
       <div className="places-title-row">
-        <h1 className="screen-title">
-          <span>{forMeLab ? '\u{2728}' : '\u{1F4CD}'}</span> {forMeLab ? 'For Me' : 'Landmarks'}{` (${landmarks.length})`}
-        </h1>
+        <h1 className="screen-title">{forMeLab ? 'For Me' : 'Landmarks'}</h1>
         {/* Your check-ins, opened on Grid (photos first). */}
         {user && !forMeLab && (
           <button
@@ -901,7 +908,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           aria-label="Search landmarks"
           autoComplete="off"
           enterKeyHint="search"
-          placeholder={'\u{1F50D} Search landmarks…'}
+          placeholder="Search places"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -1047,7 +1054,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           }
           onClick={() => setCheckInOrder((cur) => (cur === 'up' ? 'down' : cur === 'down' ? null : 'up'))}
         >
-          {'\u{2705}'} Checked in
+          Checked in
           {checkInOrder === 'up' ? ' \u{2191}' : checkInOrder === 'down' ? ' \u{2193}' : ''}
         </button>
       </div>

@@ -210,14 +210,14 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
 
   it('the check-in arrow button cycles: off, up (not checked in first), down (checked in first)', async () => {
     const el = await renderIt({}, { 'corr-hall-arch': true });
-    const btn = () => [...el.querySelectorAll('.tabs .tab-btn')].find((b) => b.textContent.includes('\u{2705}'));
+    const btn = () => [...el.querySelectorAll('.tabs .tab-btn')].find((b) => b.textContent.includes('Checked in'));
     const first = () => el.querySelector('.landmark-row')?.textContent || '';
     const click = async () => {
       await act(async () => {
         btn().click();
       });
     };
-    expect(btn().textContent.trim()).toBe('\u{2705} Checked in');
+    expect(btn().textContent.trim()).toBe('Checked in');
     await click();
     expect(btn().textContent).toContain('\u{2191}');
     expect(first()).not.toContain('Corr Hall Arch');
@@ -225,7 +225,7 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     expect(btn().textContent).toContain('\u{2193}');
     expect(first()).toContain('Corr Hall Arch');
     await click();
-    expect(btn().textContent.trim()).toBe('\u{2705} Checked in');
+    expect(btn().textContent.trim()).toBe('Checked in');
   }, 40000);
 
   it('shows no Plan your game bar until a landmark is picked', async () => {
