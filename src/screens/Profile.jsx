@@ -4,7 +4,6 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
-import { isAdmin } from '../lib/admins';
 import { MaprLine, ProgressRing } from '../components/NewUI';
 import {
   subscribeLeaderboard,
@@ -807,8 +806,6 @@ export default function Profile() {
         label="Account"
         items={[
           { id: 'settings', icon: 'settings', label: 'Settings', onClick: () => navigate('/settings') },
-          // The owner's Test tab, out of the bottom bar since 2026-11-14.
-          ...(isAdmin(user?.email) ? [{ id: 'test', icon: 'stats', label: 'Test', onClick: () => navigate('/test') }] : []),
           { id: 'signout', icon: 'signout', label: 'Sign Out', disabled: signingOut, onClick: handleSignOut },
         ]}
       />
