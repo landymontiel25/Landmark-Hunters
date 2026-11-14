@@ -1,58 +1,100 @@
-import { useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import { MapContainer, TileLayer, CircleMarker, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
+import { ensurePlacePacks, usePlacePacksVersion } from '../lib/placePacks';
 import './NewUILab.css';
 
-// Test tab: "New UI" (owner, 2026-11-14). The reference build of the design
-// language in docs/design-language.md: Quiet base (white, Inter, gold as the
-// only accent) with Mapr as the Character inside it. Three sample screens
-// (Plan, Place, Trip) on sample data. Nothing here touches the live app and
-// nothing is saved; the Light / Dark switch only changes this preview.
+// The real Mapr tab, exactly as it is in the app (owner, 2026-11-14).
+const Mapr = lazy(() => import('./Mapr'));
 
-const PLACES = [
-  {
-    id: 'statue',
-    name: 'Statue of Liberty',
-    area: 'Liberty Island',
-    photo: '/intro/nyc-statue-clear-sky.jpg',
-    why: 'Because you liked Ellis Island',
-    fact: 'Dedicated on October 28, 1886.',
-    source: 'nps.gov',
-    sourceUrl: 'https://www.nps.gov/stli/learn/historyculture/index.htm',
-  },
-  {
-    id: 'park',
-    name: 'Central Park',
-    area: 'Manhattan',
-    photo: '/intro/nyc-central-park.jpg',
-    why: 'You save a lot of parks',
-    fact: 'Parts of the park first opened to the public in 1858.',
-    source: 'centralparknyc.org',
-    sourceUrl: 'https://www.centralparknyc.org/park-history',
-  },
-  {
-    id: 'times',
-    name: 'Times Square',
-    area: 'Midtown',
-    photo: '/intro/nyc-times-square.jpg',
-    why: 'Found by people like you',
-    fact: 'Named Times Square in 1904.',
-    source: 'timessquarenyc.org',
-    sourceUrl: 'https://www.timessquarenyc.org/history',
-  },
+// Test tab: "New UI" (owner, 2026-11-14). The app in the design language of
+// docs/design-language.md: Quiet base (white, Inter, gold as the only
+// accent) with Mapr as the Character inside it. The full bottom tab bar
+// with all 5 tabs; Map, Landmarks, Itinerary and Profile are redesigned,
+// Mapr is the live Mapr tab unchanged. Places are the real Miami catalog;
+// trips, points and the "why you" lines are samples. Nothing in the
+// redesigned tabs is saved; the Light / Dark switch only changes this preview.
+
+const TABS = [
+  { id: 'map', label: 'Map' },
+  { id: 'landmarks', label: 'Landmarks' },
+  { id: 'mapr', label: 'Mapr' },
+  { id: 'itinerary', label: 'Itinerary' },
+  { id: 'profile', label: 'Profile' },
 ];
 
-const STOPS = [
-  { time: '9:30', place: PLACES[0], found: true, walk: null },
-  { time: '12:15', place: PLACES[2], found: true, walk: '25 min by subway' },
-  { time: '2:00', place: PLACES[1], found: false, walk: '12 min walk' },
-];
+const TAB_ICONS = {
+  map: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5s1.1-6.1 3.5-8.5z" />
+    </>
+  ),
+  landmarks: (
+    <>
+      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" />
+      <circle cx="12" cy="10" r="2.3" />
+    </>
+  ),
+  mapr: <path d="M12 3c.8 5 3 7.3 8.5 9-5.5 1.7-7.7 4-8.5 9-.8-5-3-7.3-8.5-9 5.5-1.7 7.7-4 8.5-9z" />,
+  itinerary: (
+    <>
+      <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z" />
+      <path d="M9 4v13.5M15 6.5V20" />
+    </>
+  ),
+  profile: (
+    <>
+      <circle cx="12" cy="8.5" r="3.8" />
+      <path d="M4.5 20.5c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6" />
+    </>
+  ),
+};
 
-const MOODS = ['Outdoors', 'History', 'Food', 'Art', 'Views'];
+const CITY = { id: 'miami', name: 'Miami' };
+const HIDE_KINDS = new Set(['airports', 'benches']);
+// Sample: the places "found" so far, as many as this of the best known ones.
+const SAMPLE_FOUND = 12;
+const SAMPLE_PROFILE = { name: 'You', handle: '@you', points: 1240, checkins: 12, streak: 3 };
+const SAMPLE_TASTE = ['history-culture', 'parks-nature', 'food'];
 
-const SCREENS = [
-  { id: 'plan', label: 'Plan' },
-  { id: 'place', label: 'Place' },
-  { id: 'trip', label: 'Trip' },
-];
+const labelOf = (id) => INTERESTS.find((i) => i.id === id)?.label || 'Places';
+const kindOf = (l) => l.categories?.[0];
+const minutes = (m) => (m >= 60 ? `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ''}` : `${m} min`);
+// The sample "why you" line (a real build reads Mapr's own reason).
+const whyFor = (l, i) =>
+  SAMPLE_TASTE.includes(kindOf(l)) ? `Because you like ${labelOf(kindOf(l)).toLowerCase()}` : i % 2 ? 'Found by people like you' : 'Near places you saved';
+
+// The real Miami places (bundled + imported packs), with a photo, best known first.
+function useCityPlaces() {
+  const version = usePlacePacksVersion();
+  useEffect(() => {
+    ensurePlacePacks();
+  }, []);
+  return useMemo(() => {
+    const all = ALL_LANDMARKS.filter((l) => (l.regionId || l.region) === CITY.id && Number.isFinite(l.lat) && !HIDE_KINDS.has(kindOf(l)));
+    const sorted = [...all].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    return { all: sorted, withPhoto: sorted.filter((l) => l.images?.length) };
+  }, [version]); // eslint-disable-line react-hooks/exhaustive-deps -- recount when a place pack lands
+}
+
+function Icon({ d, size = 18, className = '' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" className={`nui-icon ${className}`}>
+      {d}
+    </svg>
+  );
+}
+const SEARCH = (
+  <>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-4-4" />
+  </>
+);
+const CHEVRON = <path d="m9 6 6 6-6 6" />;
+const BACK = <path d="m15 6-6 6 6 6" />;
 
 function MaprSpark({ size = 18 }) {
   return (
@@ -71,175 +113,332 @@ function MaprLine({ children }) {
   );
 }
 
-function PlaceCard({ place, onOpen }) {
+function Photo({ place, className }) {
+  const [broken, setBroken] = useState(false);
+  const src = place.images?.[0];
+  return <span className={`nui-photo ${className}`}>{src && !broken ? <img src={src} alt="" loading="lazy" onError={() => setBroken(true)} /> : null}</span>;
+}
+
+function PlaceCard({ place, why, onOpen }) {
   return (
     <button type="button" className="nui-card" onClick={() => onOpen(place)}>
-      <img src={place.photo} alt="" className="nui-card-photo" />
+      <Photo place={place} className="nui-card-photo" />
       <span className="nui-card-name">{place.name}</span>
-      <span className="nui-card-why">{place.why}</span>
+      <span className="nui-card-why">{why}</span>
     </button>
   );
 }
 
-function PlanScreen({ onOpen }) {
-  const [mood, setMood] = useState('History');
+function ProgressRing({ found, total, size = 56, count = true }) {
+  const r = size / 2 - 6;
+  const c = 2 * Math.PI * r;
   return (
-    <div className="nui-screen">
-      <p className="nui-label">Saturday, November 14</p>
-      <h1 className="nui-title">Plan</h1>
-      <div className="nui-search" role="search">
-        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" className="nui-icon">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-4-4" />
-        </svg>
-        <span>Search places</span>
-      </div>
-      <MaprLine>Morning. You have the afternoon free in Midtown. I found three stops that fit.</MaprLine>
-      <button type="button" className="nui-btn-primary nui-wide">See the plan</button>
-
-      <section className="nui-section">
-        <h2 className="nui-h2">Picked for you</h2>
-        <div className="nui-chips" role="group" aria-label="Mood">
-          {MOODS.map((m) => (
-            <button
-              key={m}
-              type="button"
-              className={`nui-chip ${mood === m ? 'on' : ''}`}
-              aria-pressed={mood === m}
-              onClick={() => setMood(m)}
-            >
-              {m}
-            </button>
-          ))}
-        </div>
-        <div className="nui-row-scroll">
-          {PLACES.map((p) => (
-            <PlaceCard key={p.id} place={p} onOpen={onOpen} />
-          ))}
-        </div>
-      </section>
-
-      <section className="nui-section">
-        <h2 className="nui-h2">Near you</h2>
-        <ul className="nui-list">
-          {PLACES.map((p) => (
-            <li key={p.id}>
-              <button type="button" className="nui-list-row" onClick={() => onOpen(p)}>
-                <img src={p.photo} alt="" className="nui-thumb" />
-                <span className="nui-list-text">
-                  <span className="nui-row-title">{p.name}</span>
-                  <span className="nui-meta">{p.area}</span>
-                </span>
-                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" className="nui-icon nui-chev">
-                  <path d="m9 6 6 6-6 6" />
-                </svg>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
+    <div className="nui-ring" style={{ width: size, height: size }} role="img" aria-label={`${found} of ${total} found`}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+        <circle cx={size / 2} cy={size / 2} r={r} className="nui-ring-track" />
+        <circle cx={size / 2} cy={size / 2} r={r} className="nui-ring-fill" strokeDasharray={c} strokeDashoffset={c * (1 - Math.min(1, found / total))} />
+      </svg>
+      {count && (
+        <span>
+          <strong>{found}</strong>/{total}
+        </span>
+      )}
     </div>
   );
 }
 
-function PlaceScreen({ place, onBack }) {
+// ---------- Place (opens from any tab) ----------
+
+function PlaceScreen({ place, why, onBack }) {
   const [added, setAdded] = useState(false);
+  const sourced = (place.facts || []).filter((f) => place.factSources?.[f]).slice(0, 3);
   return (
-    <div className="nui-screen nui-screen-flush">
+    <div className="nui-screen-flush">
       <div className="nui-hero">
-        <img src={place.photo} alt="" />
+        <Photo place={place} className="nui-hero-photo" />
         <button type="button" className="nui-hero-back" onClick={onBack} aria-label="Back">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" className="nui-icon">
-            <path d="m15 6-6 6 6 6" />
-          </svg>
+          <Icon d={BACK} />
         </button>
         <div className="nui-hero-text">
-          <p className="nui-hero-area">{place.area}</p>
+          <p className="nui-hero-area">{place.neighborhood || labelOf(kindOf(place))}</p>
           <h1 className="nui-hero-title">{place.name}</h1>
         </div>
       </div>
       <div className="nui-pad">
-        <MaprLine>{place.why}. It's a 12 minute walk from your last stop, so it fits before sunset.</MaprLine>
+        <p className="nui-meta">
+          {labelOf(kindOf(place))}
+          {place.typicalMinutes ? ` · about ${minutes(place.typicalMinutes)}` : ''}
+        </p>
+        <MaprLine>{why}. It fits in an afternoon, and I can put it on your day.</MaprLine>
         <div className="nui-actions">
-          <button
-            type="button"
-            className="nui-btn-primary"
-            aria-pressed={added}
-            onClick={() => setAdded((a) => !a)}
-          >
+          <button type="button" className="nui-btn-primary" aria-pressed={added} onClick={() => setAdded((a) => !a)}>
             {added ? 'Added to trip' : 'Add to trip'}
           </button>
-          <button type="button" className="nui-btn">Directions</button>
+          <button type="button" className="nui-btn">
+            Directions
+          </button>
         </div>
-        <section className="nui-section">
-          <p className="nui-label">Facts</p>
-          <div className="nui-fact">
-            <p>{place.fact}</p>
-            <a href={place.sourceUrl} target="_blank" rel="noreferrer" className="nui-source">
-              Source: {place.source}
-            </a>
-          </div>
-        </section>
+        {sourced.length > 0 && (
+          <section className="nui-section">
+            <p className="nui-label">Facts</p>
+            {sourced.map((f) => (
+              <div key={f} className="nui-fact">
+                <p>{f}</p>
+                <a href={place.factSources[f]} target="_blank" rel="noreferrer" className="nui-source">
+                  Source: {hostOf(place.factSources[f])}
+                </a>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </div>
   );
 }
 
-function ProgressRing({ found, total }) {
-  const r = 22;
-  const c = 2 * Math.PI * r;
+const hostOf = (url) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+};
+
+// ---------- Map ----------
+
+const pickIcon = (n) => L.divIcon({ className: 'nui-map-pick', html: `<span>${n}</span>`, iconSize: [28, 28], iconAnchor: [14, 14] });
+const tilesFor = (mode) => `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${mode === 'dark' ? 'Dark' : 'Light'}_Gray_Base/MapServer/tile/{z}/{y}/{x}`;
+
+function MapTab({ places, mode, onOpen }) {
+  const picks = places.withPhoto.slice(3, 6);
+  const pickIds = new Set(picks.map((p) => p.id));
+  // The picks sit in the open part of the map, above the sheet.
+  const bounds = picks.length ? L.latLngBounds(picks.map((p) => [p.lat, p.lng])).pad(0.6) : L.latLngBounds([25.70, -80.30], [25.86, -80.12]);
   return (
-    <div className="nui-ring" role="img" aria-label={`${found} of ${total} found`}>
-      <svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
-        <circle cx="28" cy="28" r={r} className="nui-ring-track" />
-        <circle
-          cx="28"
-          cy="28"
-          r={r}
-          className="nui-ring-fill"
-          strokeDasharray={c}
-          strokeDashoffset={c * (1 - found / total)}
-        />
-      </svg>
-      <span>
-        <strong>{found}</strong>/{total}
-      </span>
+    <div className="nui-map-tab">
+      <MapContainer key={mode} className="nui-map" bounds={bounds} boundsOptions={{ paddingTopLeft: [24, 80], paddingBottomRight: [24, 400], maxZoom: 14 }} zoomSnap={0.25} zoomControl={false} attributionControl={false}>
+        <TileLayer url={tilesFor(mode)} maxZoom={16} />
+        {places.all
+          .filter((l) => !pickIds.has(l.id))
+          .map((l) => (
+            <CircleMarker
+              key={l.id}
+              center={[l.lat, l.lng]}
+              radius={4}
+              pathOptions={{ color: mode === 'dark' ? '#000' : '#fff', weight: 1, fillColor: '#8a8a8a', fillOpacity: 0.9 }}
+              eventHandlers={{ click: () => onOpen(l) }}
+            />
+          ))}
+        {picks.map((p, i) => (
+          <Marker key={p.id} position={[p.lat, p.lng]} icon={pickIcon(i + 1)} title={p.name} eventHandlers={{ click: () => onOpen(p) }} />
+        ))}
+      </MapContainer>
+      <div className="nui-map-top">
+        <div className="nui-search nui-search-float" role="search">
+          <Icon d={SEARCH} size={16} />
+          <span>Search {CITY.name}</span>
+        </div>
+      </div>
+      <div className="nui-sheet">
+        <span className="nui-sheet-grip" aria-hidden="true" />
+        <h2 className="nui-h2">Picked for you</h2>
+        <MaprLine>Three places near you fit this afternoon. They're the gold pins.</MaprLine>
+        <div className="nui-row-scroll nui-sheet-row">
+          {picks.map((p, i) => (
+            <PlaceCard key={p.id} place={p} why={whyFor(p, i)} onOpen={onOpen} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
-function TripScreen({ onOpen }) {
-  const found = STOPS.filter((s) => s.found).length;
+// ---------- Landmarks ----------
+
+const SORTS = [
+  { id: 'for-you', label: 'For you' },
+  { id: 'nearby', label: 'Nearby' },
+  { id: 'az', label: 'A–Z' },
+];
+
+function LandmarksTab({ places, onOpen }) {
+  const [kind, setKind] = useState('all');
+  const [sort, setSort] = useState('for-you');
+  const kinds = useMemo(() => {
+    const counts = {};
+    for (const l of places.withPhoto) counts[kindOf(l)] = (counts[kindOf(l)] || 0) + 1;
+    return INTERESTS.filter((i) => counts[i.id]).map((i) => i.id);
+  }, [places]);
+  let list = places.withPhoto.filter((l) => kind === 'all' || kindOf(l) === kind);
+  if (sort === 'az') list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+  if (sort === 'nearby') list = [...list].sort((a, b) => a.lat - b.lat);
   return (
     <div className="nui-screen">
-      <p className="nui-label">Today · New York</p>
-      <div className="nui-title-row">
-        <h1 className="nui-title">Trip</h1>
-        <ProgressRing found={found} total={STOPS.length} />
-      </div>
-      <p className="nui-meta">
-        {found} of {STOPS.length} found
+      <p className="nui-label">
+        {CITY.name} · {places.all.length.toLocaleString('en-US')} places
       </p>
-      <MaprLine>One stop left. Central Park is 12 minutes on foot from here.</MaprLine>
-      <ol className="nui-stops">
-        {STOPS.map((s, i) => (
-          <li key={s.place.id} className="nui-stop">
-            {s.walk && <p className="nui-walk">{s.walk}</p>}
-            <button type="button" className="nui-stop-row" onClick={() => onOpen(s.place)}>
-              <span className={`nui-stop-num ${s.found ? 'found' : ''}`}>{i + 1}</span>
-              <span className="nui-stop-time">{s.time}</span>
+      <h1 className="nui-title">Landmarks</h1>
+      <div className="nui-search" role="search">
+        <Icon d={SEARCH} size={16} />
+        <span>Search places</span>
+      </div>
+      <div className="nui-chips nui-gap-top" role="group" aria-label="Kind of place">
+        {['all', ...kinds].map((k) => (
+          <button key={k} type="button" className={`nui-chip ${kind === k ? 'on' : ''}`} aria-pressed={kind === k} onClick={() => setKind(k)}>
+            {k === 'all' ? 'All' : labelOf(k)}
+          </button>
+        ))}
+      </div>
+      <div className="nui-seg nui-seg-inline" role="tablist" aria-label="Sort">
+        {SORTS.map((s) => (
+          <button key={s.id} type="button" role="tab" aria-selected={sort === s.id} className={sort === s.id ? 'on' : ''} onClick={() => setSort(s.id)}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+      <ul className="nui-list">
+        {list.slice(0, 30).map((p, i) => (
+          <li key={p.id}>
+            <button type="button" className="nui-list-row" onClick={() => onOpen(p)}>
+              <Photo place={p} className="nui-thumb" />
               <span className="nui-list-text">
-                <span className="nui-row-title">{s.place.name}</span>
-                <span className="nui-meta">{s.found ? 'Checked in' : s.place.area}</span>
+                <span className="nui-row-title">{p.name}</span>
+                <span className="nui-meta">
+                  {p.neighborhood || labelOf(kindOf(p))}
+                  {p.typicalMinutes ? ` · ${minutes(p.typicalMinutes)}` : ''}
+                </span>
+                <span className="nui-why">{whyFor(p, i)}</span>
+              </span>
+              <Icon d={CHEVRON} size={16} className="nui-chev" />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ---------- Itinerary ----------
+
+function ItineraryTab({ places, onOpen }) {
+  const day = places.withPhoto.slice(0, 3);
+  const found = 2;
+  const trips = [
+    { id: 'weekend', name: `${CITY.name} weekend`, when: 'Nov 21 – 23', stops: places.withPhoto.slice(3, 8) },
+    { id: 'beach', name: 'South Beach morning', when: 'Saved', stops: places.withPhoto.slice(8, 11) },
+  ];
+  const walk = ['', '12 min walk', '25 min by bus'];
+  return (
+    <div className="nui-screen">
+      <p className="nui-label">Today · {CITY.name}</p>
+      <div className="nui-title-row">
+        <h1 className="nui-title">Itinerary</h1>
+        <ProgressRing found={found} total={day.length} />
+      </div>
+      {day.length > 2 && <MaprLine>One stop left. {day[2].name} is next, and it closes out your day.</MaprLine>}
+      <ol className="nui-stops">
+        {day.map((p, i) => (
+          <li key={p.id} className="nui-stop">
+            {walk[i] && <p className="nui-walk">{walk[i]}</p>}
+            <button type="button" className="nui-stop-row" onClick={() => onOpen(p)}>
+              <span className={`nui-stop-num ${i < found ? 'found' : ''}`}>{i + 1}</span>
+              <span className="nui-stop-time">{['9:30', '12:15', '2:00'][i]}</span>
+              <span className="nui-list-text">
+                <span className="nui-row-title">{p.name}</span>
+                <span className="nui-meta">{i < found ? 'Checked in' : p.neighborhood || labelOf(kindOf(p))}</span>
               </span>
             </button>
           </li>
         ))}
       </ol>
-      <button type="button" className="nui-btn nui-wide">Add a stop</button>
+      <button type="button" className="nui-btn-primary nui-wide">
+        Plan a trip
+      </button>
+
+      <section className="nui-section">
+        <h2 className="nui-h2">Your trips</h2>
+        {trips.map((t) => (
+          <button key={t.id} type="button" className="nui-trip" onClick={() => t.stops[0] && onOpen(t.stops[0])}>
+            <span className="nui-trip-photos" aria-hidden="true">
+              {t.stops.slice(0, 3).map((s) => (
+                <Photo key={s.id} place={s} className="nui-trip-photo" />
+              ))}
+            </span>
+            <span className="nui-trip-text">
+              <span className="nui-row-title">{t.name}</span>
+              <span className="nui-meta">
+                {t.when} · {t.stops.length} places · about {minutes(t.stops.reduce((m, s) => m + (s.typicalMinutes || 45), 0))}
+              </span>
+              <span className="nui-why">{t.stops.slice(0, 3).map((s) => s.name).join(', ')}</span>
+            </span>
+            <Icon d={CHEVRON} size={16} className="nui-chev" />
+          </button>
+        ))}
+      </section>
     </div>
   );
 }
+
+// ---------- Profile ----------
+
+const PROFILE_ROWS = ['My memories', 'Full stats', 'Ranks', 'Leaderboard', 'Friends', 'Settings'];
+
+function ProfileTab({ places }) {
+  const p = SAMPLE_PROFILE;
+  const total = places.all.length;
+  return (
+    <div className="nui-screen">
+      <div className="nui-profile-head">
+        <span className="nui-avatar" aria-hidden="true">
+          {p.name[0]}
+        </span>
+        <div>
+          <h1 className="nui-title nui-title-sm">{p.handle}</h1>
+          <p className="nui-meta">Landmark Hunter</p>
+        </div>
+      </div>
+      <div className="nui-stats" role="group" aria-label="Your numbers">
+        {[
+          [p.points.toLocaleString('en-US'), 'Points'],
+          [p.checkins, 'Check-ins'],
+          [p.streak, 'Day streak'],
+        ].map(([n, label]) => (
+          <div key={label} className="nui-stat">
+            <strong>{n}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+      <div className="nui-found">
+        <ProgressRing found={SAMPLE_FOUND} total={total || 1} size={52} count={false} />
+        <div>
+          <p className="nui-row-title">
+            {SAMPLE_FOUND} of {total.toLocaleString('en-US')} found in {CITY.name}
+          </p>
+          <p className="nui-meta">Every check-in fills the ring.</p>
+        </div>
+      </div>
+      <MaprLine>You're on a {p.streak} day streak. I have a pick for tomorrow when you want it.</MaprLine>
+      <ul className="nui-list nui-section">
+        {PROFILE_ROWS.map((r) => (
+          <li key={r}>
+            <div className="nui-list-row nui-row-static">
+              <span className="nui-list-text">
+                <span className="nui-row-title">{r}</span>
+              </span>
+              <Icon d={CHEVRON} size={16} className="nui-chev" />
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button type="button" className="nui-btn nui-wide">
+        Edit profile
+      </button>
+    </div>
+  );
+}
+
+// ---------- Shell ----------
 
 function initialMode() {
   if (typeof document === 'undefined') return 'light';
@@ -247,49 +446,86 @@ function initialMode() {
 }
 
 export default function NewUILab() {
-  const [screen, setScreen] = useState('plan');
+  const [tab, setTab] = useState('map');
   const [mode, setMode] = useState(initialMode);
-  const [place, setPlace] = useState(PLACES[0]);
-  const [back, setBack] = useState('plan');
+  const [place, setPlace] = useState(null);
+  const [full, setFull] = useState(false);
+  const places = useCityPlaces();
 
-  const open = (p) => {
-    setPlace(p);
-    setBack(screen === 'place' ? back : screen);
-    setScreen('place');
+  useEffect(() => {
+    if (!full) return undefined;
+    document.body.classList.add('ui-lab-full');
+    const onKey = (e) => e.key === 'Escape' && setFull(false);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.classList.remove('ui-lab-full');
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [full]);
+
+  const open = (p) => setPlace({ p, why: whyFor(p, places.withPhoto.indexOf(p)) });
+  const go = (id) => {
+    setPlace(null);
+    setTab(id);
   };
 
-  return (
-    <div className="nui" data-mode={mode}>
-      <div className="nui-bar">
-        <div className="nui-seg" role="tablist" aria-label="New UI screens">
-          {SCREENS.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={screen === s.id}
-              className={screen === s.id ? 'on' : ''}
-              onClick={() => setScreen(s.id)}
-            >
-              {s.label}
-            </button>
-          ))}
+  let body;
+  if (place) body = <PlaceScreen place={place.p} why={place.why} onBack={() => setPlace(null)} />;
+  else if (tab === 'map') body = <MapTab places={places} mode={mode} onOpen={open} />;
+  else if (tab === 'landmarks') body = <LandmarksTab places={places} onOpen={open} />;
+  else if (tab === 'itinerary') body = <ItineraryTab places={places} onOpen={open} />;
+  else if (tab === 'profile') body = <ProfileTab places={places} />;
+
+  const phone = (
+    <div className={`nui-frame ${full ? 'nui-full' : ''}`} data-tab={tab}>
+      {tab === 'mapr' && !place ? (
+        // The live Mapr tab, unchanged: none of the New UI styles reach it.
+        <div className="nui-scroll nui-live">
+          <Suspense fallback={null}>
+            <Mapr />
+          </Suspense>
         </div>
-        <button
-          type="button"
-          className="nui-mode"
-          onClick={() => setMode((m) => (m === 'dark' ? 'light' : 'dark'))}
-          aria-label={`Show ${mode === 'dark' ? 'light' : 'dark'} mode`}
-        >
+      ) : (
+        <div className="nui nui-scroll" data-mode={mode} key={place ? place.p.id : tab}>
+          {body}
+        </div>
+      )}
+      <nav className="nui nui-tabbar" data-mode={mode} aria-label="Tabs">
+        {TABS.map((t) => (
+          <button key={t.id} type="button" className={tab === t.id ? 'on' : ''} aria-current={tab === t.id ? 'page' : undefined} onClick={() => go(t.id)}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              {TAB_ICONS[t.id]}
+            </svg>
+            <span>{t.label}</span>
+          </button>
+        ))}
+      </nav>
+      {full && (
+        <button type="button" className="nui-exit" aria-label="Exit full screen" onClick={() => setFull(false)}>
+          <Icon d={<path d="M6 6l12 12M18 6 6 18" />} size={14} />
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="nui-lab">
+      <div className="nui nui-bar" data-mode={mode}>
+        <p className="nui-bar-note">New UI · nothing here is saved</p>
+        <button type="button" className="nui-mode" onClick={() => setMode((m) => (m === 'dark' ? 'light' : 'dark'))} aria-label={`Show ${mode === 'dark' ? 'light' : 'dark'} mode`}>
           {mode === 'dark' ? 'Light' : 'Dark'}
         </button>
+        <button type="button" className="nui-mode" onClick={() => setFull(true)} aria-label="Full screen">
+          Full screen
+        </button>
       </div>
-      <div className="nui-phone" key={screen}>
-        {screen === 'plan' && <PlanScreen onOpen={open} />}
-        {screen === 'place' && <PlaceScreen place={place} onBack={() => setScreen(back)} />}
-        {screen === 'trip' && <TripScreen onOpen={open} />}
-      </div>
-      <p className="nui-note">Sample screens built from docs/design-language.md. Nothing here is saved.</p>
+      {full ? (
+        <div role="dialog" aria-modal="true" aria-label="New UI, full screen">
+          {phone}
+        </div>
+      ) : (
+        phone
+      )}
     </div>
   );
 }

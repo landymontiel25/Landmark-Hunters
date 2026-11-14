@@ -21,12 +21,16 @@ the summary. Not built: the real daily push (morning pick, streak nudge).
 `docs/design-language.md` is the design language, built from AppMonkey's
 top-earning travel apps (Expedia, Skyscanner, TripIt, Polarsteps, Wanderlog,
 plus Airbnb). Quiet base, Mapr as the Character, white / Inter / gold only.
-The Test tab's "New UI" sub-tab (`NewUILab.jsx`) shows it on three sample
-screens (Plan, Place, Trip) with sample data; nothing in the live app uses it
-yet. Not done: moving the real tabs onto the `--nui-*` tokens (the live app
-still uses `theme.css` / `apple-live.css`), the map sheet, and the Mapr chat
-screen in the new look. The sources were App Store listing screenshots, not
-screens captured inside the apps.
+The Test tab's "New UI" sub-tab (`NewUILab.jsx`) is the app in that look:
+the full bottom tab bar with Map, Landmarks, Mapr, Itinerary and Profile,
+plus a place screen that opens from any of them. Map, Landmarks, Itinerary
+and Profile are redesigned on the real Miami places; trips, points, streak
+and the "why you" lines are samples. Mapr is the live Mapr tab, unchanged
+and outside the New UI styles, so chatting there works (and saves) like the
+real tab. Nothing in the redesigned tabs is saved. Not done: moving the real
+tabs onto the `--nui-*` tokens, real user data in the redesigned tabs. The
+sources were App Store listing screenshots, not screens captured inside the
+apps.
 
 ## Official Onboarding test (2026-11-11)
 
