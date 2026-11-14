@@ -36,6 +36,11 @@ iCloud, not any local folder.
   branch, open the PR, and merge it into `main` once tests, lint and build
   pass (Vercel deploys `main`). Never leave finished work on a branch waiting
   for the owner to merge it.
+- Read `docs/design-language.md` before building or restyling any screen
+  (owner, 2026-11-14). It is the design language for every screen: Quiet base
+  (pure white, Inter, gold the only accent) with Mapr as the Character inside
+  it. Its reference build is the Test tab's "New UI" sub-tab
+  (`src/screens/NewUILab.jsx`). Run the checklist at its end before shipping.
 - Check every UI change in both light AND dark mode (owner, 2026-11-04).
   Screenshot it both ways before shipping. Text on a photo stays white with
   a dark gradient behind it in both themes.

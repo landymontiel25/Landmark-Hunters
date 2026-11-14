@@ -79,7 +79,7 @@ describe('OnboardingLab', () => {
   it('opens on the UI bubble, with Rating slider and Malls next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['UI', 'Rating slider', 'Malls', 'Planner tutorial', 'Game tutorial', 'Official Onboarding', 'Itinerary tutorial', 'Taste Profile', 'Planner launch']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['UI', 'Rating slider', 'Malls', 'Planner tutorial', 'Game tutorial', 'Official Onboarding', 'New UI', 'Itinerary tutorial', 'Taste Profile', 'Planner launch']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.uil-frame .map-ui-stub')).toBeTruthy();
   });
@@ -88,6 +88,14 @@ describe('OnboardingLab', () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'Rating slider'));
     expect(el.querySelector('.rate-slider')).toBeTruthy();
+  });
+
+  it('the New UI bubble shows the design language screens, and the tutorials stay', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: null });
+    await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'New UI'));
+    expect(el.querySelector('.nui .nui-mapr')).toBeTruthy();
+    const names = [...el.querySelectorAll('.lab-tabs [role="tab"]')].map((t) => t.textContent);
+    expect(names).toEqual(expect.arrayContaining(['Planner tutorial', 'Game tutorial', 'Official Onboarding']));
   });
 
   it('the Malls bubble shows the mall map', async () => {
