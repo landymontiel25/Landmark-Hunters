@@ -19,8 +19,6 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--nui-bg);
   color: var(--nui-text);
-  min-height: 100%;
-  padding: 12px 0 32px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -53,14 +51,22 @@
   margin: 0;
 }
 
-/* Preview bar: segmented control + light/dark switch */
+/* Preview bar: note + light/dark + full screen */
 .nui-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 16px 12px;
+  min-height: 0;
+  padding: 0 0 12px;
+  background: transparent;
   max-width: 430px;
   margin: 0 auto;
+}
+
+.nui-bar-note {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-secondary, var(--nui-text-3));
 }
 
 .nui-seg {
@@ -91,7 +97,7 @@
 }
 
 .nui-mode {
-  min-height: 42px;
+  min-height: 40px;
   padding: 0 16px;
   border: 1px solid var(--nui-line);
   border-radius: 999px;
@@ -101,20 +107,7 @@
   cursor: pointer;
 }
 
-.nui-phone {
-  max-width: 430px;
-  margin: 0 auto;
-  animation: nui-rise 240ms var(--nui-ease) both;
-}
 
-.nui-note {
-  max-width: 430px;
-  margin: 24px auto 0 ;
-  padding: 0 16px;
-  font-size: 12px;
-  color: var(--nui-text-3);
-  text-align: center;
-}
 
 /* Screens */
 .nui-screen {
@@ -577,8 +570,363 @@
 
 @media (prefers-reduced-motion: reduce) {
   .nui *,
-  .nui-phone {
-    animation: none ;
-    transition-property: background, color, border-color ;
+  .nui-scroll {
+    animation: none;
   }
+}
+
+/* ---------- Phone frame with the bottom tab bar ---------- */
+.nui-frame {
+  --nui-tabbar-h: 64px;
+  position: relative;
+  height: calc(100dvh - var(--header-h, 72px) - var(--nav-h, 92px) - 76px);
+  min-height: 600px;
+  max-height: 932px;
+  max-width: 430px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid var(--border-default, #e5e5e5);
+  /* Fixed children of the live Mapr screen stay inside the frame. */
+  transform: translateZ(0);
+}
+
+.nui-full {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  max-width: none;
+  max-height: none;
+  height: auto;
+  border: none;
+  border-radius: 0;
+}
+
+.nui-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: calc(var(--nui-tabbar-h) + 24px);
+  -webkit-overflow-scrolling: touch;
+  animation: nui-rise 240ms var(--nui-ease) both;
+}
+
+.nui-full .nui-scroll > * {
+  max-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nui-live {
+  background: var(--bg-primary);
+  animation: none;
+}
+
+.nui-tabbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200;
+  display: flex;
+  height: calc(var(--nui-tabbar-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--nui-line);
+  background: var(--nui-bg);
+}
+
+.nui-tabbar button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 44px;
+  border: none;
+  background: none;
+  color: var(--nui-text-3);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 200ms var(--nui-ease);
+}
+
+.nui-tabbar button.on {
+  color: var(--nui-gold-text);
+}
+
+.nui-tabbar button.on svg {
+  color: var(--nui-gold);
+}
+
+.nui-exit {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  right: 16px;
+  z-index: 1300;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+}
+
+.nui-screen {
+  padding: 20px 16px 0;
+}
+
+.nui-gap-top {
+  margin-top: 12px;
+}
+
+.nui-title-sm {
+  font-size: 24px;
+  line-height: 30px;
+  margin-top: 0;
+}
+
+.nui-why {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--nui-gold-text);
+}
+
+.nui-row-static {
+  cursor: default;
+}
+
+/* Photos */
+.nui-photo {
+  display: block;
+  overflow: hidden;
+  background: var(--nui-surface);
+}
+
+.nui-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nui-card-photo {
+  height: auto;
+}
+
+.nui-thumb {
+  display: block;
+}
+
+.nui-hero-photo {
+  width: 100%;
+  height: 100%;
+}
+
+/* Map tab */
+.nui-map-tab {
+  position: absolute;
+  inset: 0;
+}
+
+.nui-map {
+  position: absolute;
+  inset: 0;
+  background: var(--nui-surface);
+}
+
+.nui-map-top {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  right: 16px;
+  z-index: 500;
+}
+
+.nui-search-float {
+  margin-top: 0;
+  background: var(--nui-bg);
+  border: 1px solid var(--nui-line);
+  box-shadow: var(--nui-shadow);
+}
+
+.nui-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--nui-tabbar-h);
+  z-index: 500;
+  padding: 8px 16px 16px;
+  border-radius: 20px 20px 0 0;
+  background: var(--nui-bg);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--nui-line);
+}
+
+.nui-sheet-grip {
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  background: var(--nui-line);
+}
+
+.nui-sheet .nui-h2 {
+  margin-bottom: 0;
+}
+
+.nui-sheet .nui-mapr {
+  margin: 10px 0 12px;
+}
+
+.nui-sheet-row .nui-card {
+  flex-basis: 150px;
+}
+
+.nui-sheet-row .nui-card-photo {
+  aspect-ratio: 4 / 3;
+}
+
+.nui-map-pick span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #c9971a;
+  color: #1a1300;
+  font: 800 13px/1 'Inter', system-ui, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Landmarks tab */
+.nui-seg-inline {
+  margin: 4px 0 8px;
+}
+
+.nui-seg-inline button {
+  min-height: 32px;
+  font-size: 13px;
+}
+
+/* Itinerary tab */
+.nui-trip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid var(--nui-line);
+  border-radius: 14px;
+  background: var(--nui-bg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.nui-trip-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.nui-trip-photo:first-child {
+  grid-row: span 2;
+}
+
+.nui-trip-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.nui-trip-text .nui-why {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--nui-text-2);
+}
+
+/* Profile tab */
+.nui-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nui-avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--nui-gold);
+  background: var(--nui-surface);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.nui-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 20px;
+  border: 1px solid var(--nui-line);
+  border-radius: 14px;
+}
+
+.nui-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 4px;
+}
+
+.nui-stat + .nui-stat {
+  border-left: 1px solid var(--nui-line);
+}
+
+.nui-stat strong {
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.nui-stat span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nui-text-3);
+}
+
+.nui-found {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+/* The app's global heading font (a serif) never reaches the new screens. */
+.nui :is(h1, h2, h3, .nui-title, .nui-h2, .nui-hero-title) {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Text on a photo is white in both themes, whatever the global heading color. */
+.nui .nui-hero-title,
+.nui .nui-hero-area {
+  color: #fff;
 }

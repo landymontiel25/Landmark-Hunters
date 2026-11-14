@@ -3,8 +3,9 @@
 Read this before building or restyling any screen. It sets the colors, type,
 spacing, corners, motion and voice for every screen. The reference build is
 the Test tab's **New UI** sub-tab (`src/screens/NewUILab.jsx`,
-`src/screens/NewUILab.css`); copy its tokens and parts rather than inventing
-new ones.
+`src/screens/NewUILab.css`): the full tab bar with Map, Landmarks, Itinerary
+and Profile redesigned (Mapr stays as it is). Copy its tokens and parts rather
+than inventing new ones.
 
 **In one line:** Quiet is the base (a travel planner), and Mapr is the
 Character inside it. Pure white, Inter, and gold is the only accent. Mapr is a
@@ -293,6 +294,13 @@ Use these before making a new one. Each has a class in `NewUILab.css`.
 - **Progress ring** (`.nui-ring`): gold arc on a hairline circle, "2 of 5".
 - **Segmented control** (`.nui-seg`): surface pill, selected segment is the
   page color with a hairline.
+- **Tab bar** (`.nui-tabbar`): page color with a hairline on top, gray icons
+  and labels; the current tab is gold.
+- **Map sheet** (`.nui-sheet`): 20 pt top corners over the map, a grip, the
+  heading, one Mapr line, a row of place cards. Map pins are gray; Mapr's
+  picks are numbered gold pins.
+- **Trip card** (`.nui-trip`): three photos, name, when · places · time.
+- **Stats** (`.nui-stats`): three numbers in one hairline card.
 
 ## 11. Checklist before shipping a screen
 
