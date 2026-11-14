@@ -263,7 +263,9 @@ const LandmarkRow = memo(function LandmarkRow({
             {thumb}
           </button>
         ) : (
-          <div onClick={toggle}>{thumb}</div>
+          // No photo to enlarge: the tile opens the place, like the rest of
+          // the row; only the gold circle adds it (owner, 2026-11-14).
+          <div onClick={() => onInfo(l)}>{thumb}</div>
         )}
         <div
           className="check-circle lm-card-check"

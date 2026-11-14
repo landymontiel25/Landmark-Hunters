@@ -146,6 +146,18 @@ describe('Landmarks tab', () => {
     expect(el.querySelector('.screen-title').textContent).toBe('Landmarks');
   }, 60000);
 
+  it('a photo-less tile opens the place too; only the gold circle adds it (owner, 2026-11-14)', async () => {
+    toggleLandmark.mockClear();
+    await renderIt();
+    const tile = [...el.querySelectorAll('.lm-card-photo > div:first-child')][0];
+    if (tile) {
+      await act(async () => tile.click());
+      expect(toggleLandmark).not.toHaveBeenCalled();
+    }
+    await act(async () => el.querySelector('.landmark-row .lm-card-check').click());
+    expect(toggleLandmark).toHaveBeenCalledTimes(1);
+  }, 60000);
+
   it('Check In still checks in the landmark on that card', async () => {
     checkIn.mockClear();
     await renderIt();
