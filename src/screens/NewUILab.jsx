@@ -13,7 +13,8 @@ const Mapr = lazy(() => import('./Mapr'));
 // docs/design-language.md: Quiet base (white, Inter, gold as the only
 // accent) with Mapr as the Character inside it. The full bottom tab bar
 // with all 5 tabs; Map, Landmarks, Itinerary and Profile are redesigned,
-// Mapr is the live Mapr tab unchanged. Places are the real Miami catalog;
+// Mapr is the live Mapr tab unchanged, shown in the preview's
+// Light / Dark. Places are the real Miami catalog;
 // trips, points and the "why you" lines are samples. Nothing in the
 // redesigned tabs is saved; the Light / Dark switch only changes this preview.
 
@@ -462,6 +463,20 @@ export default function NewUILab() {
       window.removeEventListener('keydown', onKey);
     };
   }, [full]);
+
+  // The live Mapr tab reads the app's theme from <html data-theme>, so while
+  // it shows, the page takes the preview's Light / Dark and gets it back after.
+  const maprShown = tab === 'mapr' && !place;
+  useEffect(() => {
+    if (!maprShown) return undefined;
+    const root = document.documentElement;
+    const before = root.getAttribute('data-theme');
+    root.setAttribute('data-theme', mode);
+    return () => {
+      if (before == null) root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', before);
+    };
+  }, [maprShown, mode]);
 
   const open = (p) => setPlace({ p, why: whyFor(p, places.withPhoto.indexOf(p)) });
   const go = (id) => {

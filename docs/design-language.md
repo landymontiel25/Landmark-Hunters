@@ -102,7 +102,7 @@ What each one does:
 
 ## 2. Genre
 
-- **Base: Quiet.** White page, black text, gray for secondary text, hairline
+- **Base: Quiet.** White page, black text (secondary text too: no gray text), hairline
   dividers, generous space. The app gets out of the way of the places.
 - **Inside it: Character (Mapr).** Mapr is the only thing on screen with a
   personality. It has a mark (the gold four-point spark), a voice, and the
@@ -128,8 +128,8 @@ only places older colors remain.
 | `--nui-surface` | `#F5F5F5` | Search field, segmented control, quiet chips. |
 | `--nui-line` | `#EBEBEB` | Hairline dividers and card borders (1 px). |
 | `--nui-text` | `#0A0A0A` | Titles and body. |
-| `--nui-text-2` | `#6B6B6B` | Secondary lines, metadata. |
-| `--nui-text-3` | `#767676` | Labels, placeholders (4.5:1 on white). |
+| `--nui-text-2` | `#0A0A0A` | Secondary lines, metadata. Black: no gray text (owner, 2026-11-14). |
+| `--nui-text-3` | `#0A0A0A` | Labels, placeholders. Black, same rule. |
 | `--nui-gold` | `#C9971A` | Fills, the Mapr mark, progress, icons, large text. |
 | `--nui-gold-text` | `#8A6512` | Gold text under 18 pt (reads at 5:1 on white). |
 | `--nui-gold-ink` | `#1A1300` | Text on a gold fill. |
@@ -143,8 +143,8 @@ only places older colors remain.
 | `--nui-surface` | `#141414` |
 | `--nui-line` | `#242424` |
 | `--nui-text` | `#F5F5F5` |
-| `--nui-text-2` | `#A3A3A3` |
-| `--nui-text-3` | `#8A8A8A` |
+| `--nui-text-2` | `#F5F5F5` |
+| `--nui-text-3` | `#F5F5F5` |
 | `--nui-gold` | `#D4A42A` |
 | `--nui-gold-text` | `#E0B649` |
 | `--nui-gold-ink` | `#1A1300` |
@@ -285,16 +285,16 @@ Use these before making a new one. Each has a class in `NewUILab.css`.
   border, pill.
 - **Chip** (`.nui-chip`): surface pill; selected is gold-soft with gold-text.
 - **Place card** (`.nui-card`): photo (14 pt corners), name below in 16/600,
-  the "why you" line below in 13 gray. Nothing drawn on the photo.
+  the "why you" line below in 13 black. Nothing drawn on the photo.
 - **Hero** (`.nui-hero`): full-width photo, white title on the dark gradient.
-- **Fact row** (`.nui-fact`): the fact in body text, its source as a small gray
+- **Fact row** (`.nui-fact`): the fact in body text, its source as a small black
   link under it.
 - **Stop** (`.nui-stop`): numbered gold circle (gold when found, outlined when
   not), time in tabular numbers, place name, walk time between stops.
 - **Progress ring** (`.nui-ring`): gold arc on a hairline circle, "2 of 5".
 - **Segmented control** (`.nui-seg`): surface pill, selected segment is the
   page color with a hairline.
-- **Tab bar** (`.nui-tabbar`): page color with a hairline on top, gray icons
+- **Tab bar** (`.nui-tabbar`): page color with a hairline on top, black icons
   and labels; the current tab is gold.
 - **Map sheet** (`.nui-sheet`): 20 pt top corners over the map, a grip, the
   heading, one Mapr line, a row of place cards. Map pins are gray; Mapr's

@@ -6,8 +6,9 @@
   --nui-surface: #f5f5f5;
   --nui-line: #ebebeb;
   --nui-text: #0a0a0a;
-  --nui-text-2: #6b6b6b;
-  --nui-text-3: #767676;
+  /* No gray text: secondary lines are black too (owner, 2026-11-14). */
+  --nui-text-2: #0a0a0a;
+  --nui-text-3: #0a0a0a;
   --nui-gold: #c9971a;
   --nui-gold-text: #8a6512;
   --nui-gold-ink: #1a1300;
@@ -27,8 +28,8 @@
   --nui-surface: #141414;
   --nui-line: #242424;
   --nui-text: #f5f5f5;
-  --nui-text-2: #a3a3a3;
-  --nui-text-3: #8a8a8a;
+  --nui-text-2: #f5f5f5;
+  --nui-text-3: #f5f5f5;
   --nui-gold: #d4a42a;
   --nui-gold-text: #e0b649;
   --nui-gold-soft: rgba(212, 164, 42, 0.16);
@@ -923,6 +924,12 @@
 /* The app's global heading font (a serif) never reaches the new screens. */
 .nui :is(h1, h2, h3, .nui-title, .nui-h2, .nui-hero-title) {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* The app's global h1/h2/p colors (light text in its dark theme) never reach
+   the new screens: text takes the preview's own color. */
+.nui :is(h1, h2, h3, p) {
+  color: inherit;
 }
 
 /* Text on a photo is white in both themes, whatever the global heading color. */
