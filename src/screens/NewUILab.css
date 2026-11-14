@@ -1,0 +1,584 @@
+/* Test tab "New UI": the reference build of docs/design-language.md.
+   Everything is scoped under .nui so nothing leaks into the live app. */
+
+.nui {
+  --nui-bg: #ffffff;
+  --nui-surface: #f5f5f5;
+  --nui-line: #ebebeb;
+  --nui-text: #0a0a0a;
+  --nui-text-2: #6b6b6b;
+  --nui-text-3: #767676;
+  --nui-gold: #c9971a;
+  --nui-gold-text: #8a6512;
+  --nui-gold-ink: #1a1300;
+  --nui-gold-soft: rgba(201, 151, 26, 0.12);
+  --nui-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --nui-photo-shade: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0) 60%);
+  --nui-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--nui-bg);
+  color: var(--nui-text);
+  min-height: 100%;
+  padding: 12px 0 32px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nui[data-mode='dark'] {
+  --nui-bg: #000000;
+  --nui-surface: #141414;
+  --nui-line: #242424;
+  --nui-text: #f5f5f5;
+  --nui-text-2: #a3a3a3;
+  --nui-text-3: #8a8a8a;
+  --nui-gold: #d4a42a;
+  --nui-gold-text: #e0b649;
+  --nui-gold-soft: rgba(212, 164, 42, 0.16);
+  --nui-shadow: none;
+}
+
+.nui *,
+.nui *::before,
+.nui *::after {
+  box-sizing: border-box;
+}
+
+:where(.nui) button {
+  font-family: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(.nui) :is(p, h1, h2, ol, ul) {
+  margin: 0;
+}
+
+/* Preview bar: segmented control + light/dark switch */
+.nui-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 12px;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.nui-seg {
+  display: flex;
+  flex: 1;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--nui-surface);
+}
+
+.nui-seg button {
+  flex: 1;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nui-text-2);
+  cursor: pointer;
+  transition: background 200ms var(--nui-ease), color 200ms var(--nui-ease);
+}
+
+.nui-seg button.on {
+  background: var(--nui-bg);
+  border-color: var(--nui-line);
+  color: var(--nui-text);
+}
+
+.nui-mode {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--nui-line);
+  border-radius: 999px;
+  background: var(--nui-bg);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nui-phone {
+  max-width: 430px;
+  margin: 0 auto;
+  animation: nui-rise 240ms var(--nui-ease) both;
+}
+
+.nui-note {
+  max-width: 430px;
+  margin: 24px auto 0 ;
+  padding: 0 16px;
+  font-size: 12px;
+  color: var(--nui-text-3);
+  text-align: center;
+}
+
+/* Screens */
+.nui-screen {
+  padding: 8px 16px 0;
+}
+
+.nui-screen-flush {
+  padding: 0;
+}
+
+.nui-pad {
+  padding: 16px 16px 0;
+}
+
+.nui-label {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nui-text-3);
+}
+
+.nui-title {
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-top: 4px ;
+}
+
+.nui-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nui-h2 {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px ;
+}
+
+.nui-section {
+  margin-top: 28px;
+}
+
+.nui-meta {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--nui-text-2);
+}
+
+.nui-row-title {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.nui-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* Search */
+.nui-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--nui-surface);
+  color: var(--nui-text-3);
+  font-size: 15px;
+}
+
+/* Mapr line: the Character */
+.nui-mapr {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--nui-gold-soft);
+}
+
+.nui-mapr p {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.nui-spark {
+  flex-shrink: 0;
+  margin-top: 2px;
+  fill: var(--nui-gold);
+  animation: nui-spark-arrive 600ms var(--nui-ease) both;
+}
+
+/* Buttons */
+.nui-btn-primary,
+.nui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 200ms ease-out, background 200ms var(--nui-ease);
+}
+
+.nui-btn-primary {
+  border: none;
+  background: var(--nui-gold);
+  color: var(--nui-gold-ink) ;
+}
+
+.nui-btn {
+  border: 1px solid var(--nui-line);
+  background: var(--nui-bg);
+}
+
+.nui-btn-primary:active,
+.nui-btn:active,
+.nui-card:active,
+.nui-chip:active {
+  transform: scale(0.97);
+  transition-duration: 120ms;
+}
+
+.nui-wide {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.nui-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.nui-actions > * {
+  flex: 1;
+}
+
+/* Chips */
+.nui-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 0 -16px 12px;
+  padding: 0 16px;
+  scrollbar-width: none;
+}
+
+.nui-chip {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--nui-surface);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 200ms var(--nui-ease), color 200ms var(--nui-ease), transform 200ms ease-out;
+}
+
+.nui-chip.on {
+  background: var(--nui-gold-soft);
+  color: var(--nui-gold-text);
+  font-weight: 600;
+}
+
+/* Place cards: nothing drawn on the photo */
+.nui-row-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  margin: 0 -16px;
+  padding: 0 16px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 16px;
+  scrollbar-width: none;
+}
+
+.nui-card {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 200ms ease-out;
+}
+
+.nui-card-photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  background: var(--nui-surface);
+}
+
+.nui-card-name {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.nui-card-why {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--nui-text-2);
+}
+
+/* List rows */
+.nui-list,
+.nui-stops {
+  list-style: none;
+  padding: 0;
+}
+
+.nui-list li + li {
+  border-top: 1px solid var(--nui-line);
+}
+
+.nui-list-row,
+.nui-stop-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nui-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.nui-list-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.nui-chev {
+  color: var(--nui-text-3);
+}
+
+/* Hero: white text on a dark gradient, both themes */
+.nui-hero {
+  position: relative;
+  aspect-ratio: 4 / 3.4;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+  background: #111;
+}
+
+.nui-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nui-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nui-photo-shade);
+  pointer-events: none;
+}
+
+.nui-hero-back {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff ;
+  cursor: pointer;
+}
+
+.nui-hero-text {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  color: #fff;
+}
+
+.nui-hero-area {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.nui-hero-title {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Facts */
+.nui-fact {
+  margin-top: 8px;
+  padding: 14px 0;
+  border-top: 1px solid var(--nui-line);
+  border-bottom: 1px solid var(--nui-line);
+}
+
+.nui-fact p {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.nui-source {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--nui-text-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--nui-line);
+}
+
+/* Trip: stops and progress */
+.nui-ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+}
+
+.nui-ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.nui-ring circle {
+  fill: none;
+  stroke-width: 4;
+}
+
+.nui-ring-track {
+  stroke: var(--nui-line);
+}
+
+.nui-ring-fill {
+  stroke: var(--nui-gold);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 600ms var(--nui-ease);
+}
+
+.nui-ring span {
+  font-size: 13px;
+  color: var(--nui-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.nui-ring strong {
+  color: var(--nui-text);
+}
+
+.nui-stops {
+  margin-top: 20px ;
+}
+
+.nui-stop + .nui-stop {
+  border-top: 1px solid var(--nui-line);
+}
+
+.nui-walk {
+  padding: 10px 0 0 40px;
+  font-size: 13px;
+  color: var(--nui-text-3);
+}
+
+.nui-stop-num {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--nui-gold);
+  color: var(--nui-gold-text);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.nui-stop-num.found {
+  background: var(--nui-gold);
+  color: var(--nui-gold-ink);
+}
+
+.nui-stop-time {
+  width: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--nui-text-2);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* Motion */
+@keyframes nui-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes nui-spark-arrive {
+  from {
+    transform: rotate(-90deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nui *,
+  .nui-phone {
+    animation: none ;
+    transition-property: background, color, border-color ;
+  }
+}

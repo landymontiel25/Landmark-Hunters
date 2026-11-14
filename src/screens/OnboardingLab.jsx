@@ -13,6 +13,7 @@ import GameTutorialLab from './GameTutorialLab';
 import OfficialOnboardingLab from './OfficialOnboardingLab';
 import UILab from './UILab';
 import PlannerLab from './PlannerLab';
+import NewUILab from './NewUILab';
 
 export { progressTier };
 
@@ -31,6 +32,7 @@ const TESTS = [
   { id: 'ultimate', label: 'Planner tutorial' },
   { id: 'game', label: 'Game tutorial' },
   { id: 'official', label: 'Official Onboarding' },
+  { id: 'newui', label: 'New UI' },
   { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
   { id: 'planner', label: 'Planner launch' },
@@ -74,6 +76,17 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <RatingSliderLab />
+      </div>
+    );
+  }
+
+  // New UI (owner, 2026-11-14): the design language in
+  // docs/design-language.md, on sample screens. Nothing is saved.
+  if (test === 'newui') {
+    return (
+      <div>
+        {testTabs}
+        <NewUILab />
       </div>
     );
   }
