@@ -298,6 +298,10 @@ html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallb
   font-size: 24px;
 }
 html body[data-apple='landmarks'] .aps-live .lm-card-check {
+  /* Positioned, so its slightly larger tap area (ux-3.css ::after) wraps
+     the circle only. Static, that area covered the whole row and every tap
+     on a place added it instead of opening it (owner, 2026-11-14). */
+  position: relative;
   grid-column: 3;
   grid-row: 1;
   display: grid;
