@@ -1,6 +1,8 @@
 // Everything Mapr says in the Test tab's Tutorial (screens/OnboardingLab),
 // the sign-up tutorial and onboarding combined into one flow. Edit the
 // words here. `say` is a list: one Mapr bubble per line.
+import { createElement } from 'react';
+import MaprTabIcon from '../components/MaprTabIcon';
 
 // The steps, in order. `label` is the step's button in the test controls.
 export const TUTORIAL_STEPS = [
@@ -104,7 +106,7 @@ export const PRACTICE = [
 export const TABS = [
   { tab: 'Map', path: '/', live: true, tryIt: 'Try it: tap a pin.', icon: '\u{1F310}', say: 'The Map shows every landmark near you. Tap a pin to see the place and check in when you are there.' },
   { tab: 'Landmarks', path: '/landmarks', icon: '\u{1F4CD}', say: 'Landmarks lists every place by city, with the popular landmarks first.' },
-  { tab: 'Mapr', path: '/mapr', icon: '\u{1F9E0}', say: 'Ask me anything here: where to eat, what to see this afternoon, or how the app works.' },
+  { tab: 'Mapr', path: '/mapr', icon: createElement(MaprTabIcon), say: 'Ask me anything here: where to eat, what to see this afternoon, or how the app works.' },
   { tab: 'Itinerary', path: '/itinerary', icon: '\u{1F5FA}\u{FE0F}', say: 'Plan a trip, alone or with friends. I can fill a day with places you will like.' },
   { tab: 'Profile', path: '/profile', icon: '\u{1F3C6}', say: 'Your points, streaks, memories and friends live here, along with the leaderboard.' },
 ];

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import MaprTabIcon from './MaprTabIcon';
 import { useAuth } from '../lib/AuthContext';
 import { isAdmin } from '../lib/admins';
 import { useFeedCity } from '../lib/useFeedGate';
@@ -11,7 +12,8 @@ import { useFeedCity } from '../lib/useFeedGate';
 export const NAV_ITEMS = [
   { to: '/', label: 'Map', icon: '\u{1F310}', end: true },
   { to: '/landmarks', label: 'Landmarks', icon: '\u{1F4CD}' },
-  { to: '/mapr', label: 'Mapr', icon: '\u{1F9E0}' },
+  // The Landmark Hunters logo in a squircle (owner, 2026-11-14; was a brain).
+  { to: '/mapr', label: 'Mapr', icon: <MaprTabIcon /> },
   { to: '/itinerary', label: 'Itinerary', icon: '\u{1F5FA}\u{FE0F}' },
   { to: '/profile', label: 'Profile', icon: '\u{1F3C6}' },
 ];

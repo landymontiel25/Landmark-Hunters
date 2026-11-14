@@ -9,7 +9,7 @@ import { radiusFor } from '../lib/checkinRules';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
 import ConfettiBurst from '../components/ConfettiBurst';
 import { LabSignUp, TutorialTabs } from './SignupTutorialLab';
-import { Plan, Prepared } from './ExplainerImagesLab';
+import { Plan, Prepared, RouteMap } from './ExplainerImagesLab';
 import LabSummary from './TutorialSummary';
 import { pitchFor } from './officialOnboardingPitches';
 import {
@@ -41,7 +41,8 @@ import {
   tasteLabel,
 } from './officialOnboardingSteps';
 import {
-  HOMETOWN_SAY,
+  hometownNotification,
+  hometownSay,
   QUIET_RULE,
   SAMPLE_VISITED,
   cityPlaces,
@@ -112,12 +113,35 @@ function Intro({ onDone }) {
         Screen {i + 1} of {INTRO.length}
       </p>
       <MaprBubble>{screen.say}</MaprBubble>
-      <Phone key={i}>
-        <div className="tut-hero" aria-hidden="true">
-          {screen.hero}
-        </div>
+      <Phone key={i} className={screen.image || screen.map ? 'oo-intro-card' : ''}>
+        {screen.image && <img className={`oo-intro-img ${screen.photo ? 'photo' : ''}`} src={screen.image} alt={screen.alt} />}
+        {screen.map && <IntroMap />}
       </Phone>
       <NextButton onClick={() => (i === INTRO.length - 1 ? onDone() : setI(i + 1))}>{screen.button}</NextButton>
+    </div>
+  );
+}
+
+// Intro screen 3: the real map (satellite, the city's places as pins) with
+// a real 3-stop Mapr day drawn as a gold route. Miami until a city is picked.
+function IntroMap() {
+  const packs = usePlacePacksVersion();
+  useEffect(() => {
+    ensurePlacePacks();
+  }, []);
+  const city = CITIES[0];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stops = useMemo(() => buildDay(city, ['history-culture', 'food', 'parks-nature'], []), [packs]);
+  const others = useMemo(() => {
+    if (stops.length < 2) return [];
+    const box = L.latLngBounds(stops.map((st) => [st.lat, st.lng])).pad(0.6);
+    const ids = new Set(stops.map((st) => st.id));
+    return cityPlaces(city).filter((l) => !ids.has(l.id) && box.contains([l.lat, l.lng])).slice(0, 120);
+  }, [stops]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (stops.length < 2) return null;
+  return (
+    <div className="oo-intro-map" role="img" aria-label={`A real Mapr day in ${cityName(city)}: ${stops.map((st) => st.name).join(', then ')}`}>
+      <RouteMap stops={stops} others={others} color="#c9971a" className="intro-map oo-intro-map-inner" onOpen={() => {}} />
     </div>
   );
 }
@@ -371,7 +395,7 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
           ? `Check in at ${nearest.place.name} when you're there.`
           : inside
             ? `You're at ${nearest.place.name}. Check in now.`
-            : `You're ${away} away — check in when you're there.`}
+            : `You're ${away} away. Check in when you're there.`}
       </MaprBubble>
       <Phone>
         <div className="fr-checkin">
@@ -409,7 +433,7 @@ function Commit({ data, set, note, onNext }) {
   const pick = COMMIT.find((c) => c.id === data.commitment);
   return (
     <div className="tut nav-clear">
-      <MaprSays lines={summaryLines({ city: cityById(data.city), chips: catsOf(data) })} />
+      <MaprSays lines={summaryLines({ city: cityById(data.city) || CITIES[0], chips: catsOf(data), loved: data.loved || [], stops: data.stops })} />
       <MaprSays lines={SAY.commitAsk} />
       <div className="oo-options" role="radiogroup" aria-label="How committed are you?">
         {COMMIT.map((c) => (
@@ -511,6 +535,99 @@ const tilesFor = () =>
 // grey pins for every place not visited yet, the count in their own
 // numbers, 3 picks near them from the same taste and category picks, and
 // the daily companion loop. Nothing is saved.
+// Act 3 (owner, 2026-11-14): onboarding only asks where home is, so Mapr
+// knows it for later. No pitch here.
+function HomeAsk({ data, set, note, onNext }) {
+  const all = [...CITIES, ...OTHER_CITIES];
+  return (
+    <div className="tut nav-clear">
+      <MaprSays lines={SAY.home} />
+      <div className="oo-options" role="radiogroup" aria-label="Your hometown">
+        {CITIES.map((c) => (
+          <button
+            key={c.id}
+            type="button"
+            role="radio"
+            aria-checked={data.home === c.id}
+            className={`fr-chip oo-option ${data.home === c.id ? 'on' : ''}`}
+            onClick={() => {
+              set({ home: c.id, homeSaved: null, homePicks: [] });
+              note(`Hometown: ${c.label} (saved to the profile in a real run)`);
+            }}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+      <label className="oo-home-city">
+        Somewhere else
+        <select
+          className="oo-select"
+          value={CITIES.some((c) => c.id === data.home) ? '' : data.home}
+          onChange={(e) => {
+            if (!e.target.value) return;
+            set({ home: e.target.value, homeSaved: null, homePicks: [] });
+            note(`Hometown: ${cityById(e.target.value).label} (saved to the profile in a real run)`);
+          }}
+        >
+          <option value="">Pick a city</option>
+          {all
+            .filter((c) => !CITIES.includes(c))
+            .map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.label}
+              </option>
+            ))}
+        </select>
+      </label>
+      <NextButton disabled={!data.home} onClick={onNext}>
+        Finish
+      </NextButton>
+    </div>
+  );
+}
+
+// Act 4, after the trip (owner, 2026-11-14): once they are back home, Mapr
+// sends ONE notification. Tapping it opens the Hometown Transition screen.
+function BackHome({ data, note, onOpen }) {
+  const packs = usePlacePacksVersion();
+  useEffect(() => {
+    ensurePlacePacks();
+  }, []);
+  const city = cityById(data.home) || CITIES[0];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const places = useMemo(() => cityPlaces(city), [city, packs]);
+  const visited = Math.min(SAMPLE_VISITED, visitedSample(places).length);
+  return (
+    <div className="tut nav-clear">
+      <p className="tut-small oo-later">Later, after a trip. Once you are back in {cityName(city)}, Mapr sends this one notification, and only once.</p>
+      <div className="oo-lock">
+        <p className="oo-lock-time">9:41</p>
+        <button
+          type="button"
+          className="oo-notif"
+          onClick={() => {
+            note('Opened the back-home notification');
+            onOpen();
+          }}
+        >
+          <span className="oo-notif-icon" aria-hidden="true">
+            <img src="/logo.png" alt="" />
+          </span>
+          <span className="oo-notif-body">
+            <span className="oo-notif-head">
+              <strong>Landmark Hunters</strong>
+              <span>now</span>
+            </span>
+            <span className="oo-notif-text">{hometownNotification(city, visited, places.length)}</span>
+          </span>
+        </button>
+      </div>
+      <p className="tut-small oo-later">Tap the notification to open it.</p>
+    </div>
+  );
+}
+
 function Hometown({ data, set, coords, note, onDone }) {
   const { units } = useUnits();
   const packs = usePlacePacksVersion();
@@ -535,23 +652,6 @@ function Hometown({ data, set, coords, note, onDone }) {
   return (
     <div className="tut nav-clear oo-home">
       <h2 className="oo-section-title">Official Onboarding: Hometown Transition</h2>
-      <label className="oo-home-city">
-        Home city <small>(Test only)</small>
-        <select
-          className="oo-select"
-          value={city.id}
-          onChange={(e) => {
-            set({ home: e.target.value, homeSaved: null, homePicks: [] });
-            note(`Home city: ${cityById(e.target.value).label}`);
-          }}
-        >
-          {[...CITIES, ...OTHER_CITIES].map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label}
-            </option>
-          ))}
-        </select>
-      </label>
 
       <Phone className="oo-home-phone">
         {bounds && (
@@ -578,11 +678,11 @@ function Hometown({ data, set, coords, note, onDone }) {
       </Phone>
 
       <p className="oo-home-stat" role="status">
-        {shockStat(city, Math.min(SAMPLE_VISITED, visited.length), places.length)}
+        You have been to {shockStat(city, Math.min(SAMPLE_VISITED, visited.length), places.length)}.
       </p>
       <p className="tut-small oo-home-sample">"Been to" is a sample in Test: the {SAMPLE_VISITED} best known places. A real run counts your own check-ins.</p>
 
-      <MaprSays lines={HOMETOWN_SAY} />
+      <MaprSays lines={hometownSay(city, Math.min(SAMPLE_VISITED, visited.length), places.length)} />
 
       <div className="oo-home-picks" role="list" aria-label="Hometown picks">
         {picks.map((p, i) => (
@@ -633,7 +733,7 @@ export default function OfficialOnboardingLab() {
   const [log, setLog] = useState([]);
   const [pretend, setPretend] = useState(false);
   const set = (patch) => setData((d) => ({ ...d, ...patch }));
-  const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
+  const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()}: ${text}`]);
   const labelOf = (i) => (i === OO_STEPS.length ? 'Done' : OO_STEPS[i].label);
   const go = (target, why) => {
     const i = typeof target === 'string' ? (target === 'done' ? OO_STEPS.length : OO_STEPS.findIndex((s) => s.id === target)) : target;
@@ -781,29 +881,31 @@ export default function OfficialOnboardingLab() {
       )}
       {id === 'checkin' && <CheckIn data={data} set={set} coords={coords} pretend={pretend} note={note} onNext={(why) => go('commit', why)} />}
       {id === 'commit' && <Commit data={data} set={set} note={note} onNext={(why) => go('signup', why)} />}
-      {id === 'signup' && <SignUp data={data} set={set} note={note} onDone={() => go('hometown', 'Finished sign-up')} />}
+      {id === 'signup' && <SignUp data={data} set={set} note={note} onDone={() => go('home', 'Finished sign-up')} />}
+      {id === 'home' && <HomeAsk data={data} set={set} note={note} onNext={() => go('notify', `Hometown: ${cityById(data.home)?.label}`)} />}
+      {id === 'notify' && <BackHome data={data} note={note} onOpen={() => go('hometown', 'Tapped the back-home notification')} />}
       {id === 'hometown' && <Hometown data={data} set={set} coords={coords} note={note} onDone={() => go('done', 'Show me my city')} />}
       {id === 'done' && (
         <>
           <MaprSays lines={SAY.done} />
           <LabSummary data={{ ...data, cards: [], answers: answersFromCats(catsOf(data)), skippedRating: !catsOf(data).length }} log={log} onRestart={restart} showPlaces={false} categories>
             <p>
-              <strong>City:</strong> {city ? `${city.label} (${cityScopeKey(city)} on Map, Landmarks, Mapr and Itinerary)` : '—'}
+              <strong>City:</strong> {city ? `${city.label} (${cityScopeKey(city)} on Map, Landmarks, Mapr and Itinerary)` : 'None'}
             </p>
             <p>
-              <strong>Mapr's day:</strong> {data.stops.length ? `${data.stops.map((s) => s.name).join(' → ')}${data.savedDay ? ' (saved)' : ''}` : '—'}
+              <strong>Mapr's day:</strong> {data.stops.length ? `${data.stops.map((s) => s.name).join(' → ')}${data.savedDay ? ' (saved)' : ''}` : 'None'}
             </p>
             <p>
-              <strong>Location:</strong> {data.location === 'always' ? 'Always' : data.location === 'allowed' ? 'While Using the App' : data.location === 'not-now' ? 'not now' : '—'}
+              <strong>Location:</strong> {data.location === 'always' ? 'Always' : data.location === 'allowed' ? 'While Using the App' : data.location === 'not-now' ? 'not now' : 'None'}
               {' · '}
-              <strong>Review ask:</strong> {data.review || '—'}
+              <strong>Review ask:</strong> {data.review || 'None'}
             </p>
             <p>
-              <strong>Commitment:</strong> {COMMIT.find((c) => c.id === data.commitment)?.label || '—'}
+              <strong>Commitment:</strong> {COMMIT.find((c) => c.id === data.commitment)?.label || 'None'}
               {data.lighter ? ' (rebuilt a lighter day)' : ''}
             </p>
             <p>
-              <strong>Hometown:</strong> {cityById(data.home)?.label || '—'}
+              <strong>Hometown:</strong> {cityById(data.home)?.label || 'None'}
               {' · '}
               <strong>Picks:</strong> {data.homePicks.length ? `${data.homePicks.join(', ')} (saved to ${data.homeSaved})` : 'not saved'}
             </p>

@@ -1165,3 +1165,209 @@ html body[data-apple='landmarks'] .aps-live .lm-card-check:not([aria-checked='tr
 html body[data-apple='landmarks'] .aps-live .lm-card-check[aria-checked='true'] {
   line-height: 1;
 }
+
+/* =====================================================================
+   13. Mapr tab icon (owner, 2026-11-14): the gold pin logo in a squircle
+   with a tiny gold sparkle at its top right. Same in the app's bar and
+   the Test tab's New UI.
+   ===================================================================== */
+.mapr-tab-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  /* A squircle: a rounded square with continuous corners. */
+  border-radius: 30%;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(201, 151, 26, 0.45);
+  line-height: 0;
+}
+[data-theme='dark'] .mapr-tab-icon {
+  background: #141414;
+  box-shadow: inset 0 0 0 1px rgba(212, 164, 42, 0.55);
+}
+@supports (corner-shape: squircle) {
+  .mapr-tab-icon {
+    border-radius: 50%;
+    corner-shape: squircle;
+  }
+}
+.mapr-tab-icon img {
+  width: 15px !important;
+  max-width: none;
+  height: auto;
+  display: block;
+}
+.mapr-tab-icon .mapr-tab-spark,
+.bottom-nav .nav-icon .mapr-tab-icon .mapr-tab-spark {
+  /* Tiny, whatever size a bar gives its icons. */
+  width: 9px !important;
+  height: 9px !important;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  fill: var(--gold, #c9971a);
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9));
+}
+
+/* =====================================================================
+   14. Profile pictures (owner, 2026-11-14): a squircle photo, or the gold
+   initial; tap it on Profile to change it.
+   ===================================================================== */
+.user-avatar {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.user-avatar.has-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+html body .pf-avatar.pf-avatar-btn {
+  position: relative;
+  padding: 0;
+  border-radius: 30%;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  overflow: visible;
+}
+@supports (corner-shape: squircle) {
+  html body .pf-avatar.pf-avatar-btn {
+    border-radius: 50%;
+    corner-shape: squircle;
+  }
+}
+.pf-avatar-btn .user-avatar {
+  font-size: 26px;
+  font-weight: 800;
+}
+.pf-avatar-btn .user-avatar.has-photo {
+  border-radius: 28%;
+}
+.pf-avatar-edit {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--ap-bg, #fff);
+  border-radius: 50%;
+  background: var(--gold, #c9971a);
+  color: var(--gold-ink, #1a1300);
+}
+.mui-avatar .user-avatar.has-photo {
+  border-radius: 50%;
+}
+/* The sheet */
+.avatar-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+.avatar-sheet {
+  width: 100%;
+  max-width: 430px;
+  padding: 10px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+  border-radius: 20px 20px 0 0;
+  background: var(--nl-bg, #fff);
+  color: var(--nl-text, #0a0a0a);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+.avatar-sheet-grip {
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  background: var(--nl-line, #ebebeb);
+}
+.avatar-sheet-title {
+  margin: 0 0 14px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  color: inherit;
+}
+.avatar-sheet .btn {
+  min-height: 48px;
+  margin-top: 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.avatar-sheet .btn-ghost {
+  border: 1px solid var(--nl-line, #ebebeb);
+  background: var(--nl-bg, #fff);
+  color: var(--nl-text, #0a0a0a);
+}
+.avatar-sheet .btn-primary {
+  border: 0;
+  background: var(--gold, #c9971a);
+  color: var(--gold-ink, #1a1300);
+}
+.avatar-sheet .avatar-remove {
+  color: #a01c12;
+}
+[data-theme='dark'] .avatar-sheet .avatar-remove {
+  color: #ff6b5e;
+}
+/* The crop frame: the picture under a squircle window. */
+.avatar-crop {
+  position: relative;
+  margin: 0 auto 14px;
+  overflow: hidden;
+  border-radius: 28%;
+  background: #111;
+  touch-action: none;
+  cursor: grab;
+  box-shadow: 0 0 0 2px var(--gold, #c9971a);
+}
+@supports (corner-shape: squircle) {
+  .avatar-crop {
+    border-radius: 50%;
+    corner-shape: squircle;
+  }
+}
+.avatar-crop img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+.avatar-zoom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.avatar-zoom input {
+  flex: 1;
+  accent-color: var(--gold, #c9971a);
+}
+.avatar-error {
+  margin: 10px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: #a01c12;
+}
+[data-theme='dark'] .avatar-error {
+  color: #ff6b5e;
+}

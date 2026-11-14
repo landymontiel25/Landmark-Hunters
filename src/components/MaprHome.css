@@ -695,3 +695,7 @@
 [data-theme='light'] .mui-pin-hole {
   fill: #ffffff;
 }
+/* A profile picture fills the round button (owner, 2026-11-14). */
+.mui-avatar {
+  overflow: hidden;
+}

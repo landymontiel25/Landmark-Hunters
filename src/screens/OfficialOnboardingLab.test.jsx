@@ -51,19 +51,23 @@ describe('Official Onboarding (Test tab)', () => {
       '7. First check-in',
       '8. Summary',
       '9. Sign up',
-      '10. Hometown Transition',
+      '10. Hometown',
+      '11. Back-home notification',
+      '12. Hometown Transition',
     ]);
     expect(el.textContent).toContain('Nothing here is saved');
     for (const b of ['Restart', 'Back', 'Next step']) expect(button(el, b)).toBeTruthy();
     expect(el.textContent).toContain("Pretend I'm at the place");
-    expect(el.querySelector('.mapr-bubble-face').textContent).toBe('\u{1F9E0}');
+    // Mapr's face is the logo in a squircle, no brain anywhere (owner, 2026-11-14).
+    expect(el.querySelector('.mapr-bubble-face .mapr-tab-icon img').getAttribute('src')).toBe('/logo.png');
+    expect(el.textContent).not.toContain('\u{1F9E0}');
   });
 
   it('walks the whole flow: no sign-up before step 9, 10 ratings jump on, check-in +100, summary', async () => {
     const el = await render();
     await click(el.querySelector('.fr-toggle input'));
     const next = () => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next \u{2192}');
-    expect(bubbles(el)).toContain('Hi, I’m Mapr, your personal travel planner and guide. Together, we’ll create a trip built around you—your interests, your time, and your sense of adventure. Let\'s do it!');
+    expect(bubbles(el)).toContain("Hi, I am Mapr, your personal travel planner and guide. Together, we will create a trip built around you, your interests, your time, and your sense of adventure. Let's do it!");
     await click(next());
     expect(bubbles(el)).toContain('tourist traps');
     await click(next());
@@ -105,7 +109,7 @@ describe('Official Onboarding (Test tab)', () => {
     await click(next());
 
     // Mapr repeats the picks back.
-    expect(bubbles(el)).toContain('Okay — you want food, parks & nature and art & culture. Got it.');
+    expect(bubbles(el)).toContain('Okay, you want food, parks & nature and art & culture. Got it.');
     expect(bubbles(el)).toContain("Anything else you love or hate that the cards didn't cover?");
     await act(async () => {
       const t = el.querySelector('textarea');
@@ -130,7 +134,10 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Not Now'));
     await click(next());
 
-    expect(bubbles(el)).toContain("That's a day planned in 2 minutes — instead of hours of searching.");
+    expect(bubbles(el)).toContain("That's a day planned in 2 minutes, instead of hours of searching.");
+    // The summary is built from the real picks (owner, 2026-11-14).
+    expect(bubbles(el)).toMatch(/Based on what you picked \((Food|Parks & Nature|Art & Culture), (Food|Parks & Nature|Art & Culture), and (Food|Parks & Nature|Art & Culture)\), Mapr built your Miami day around you\. 3 stops, picked for you, in one afternoon\. This is not a guess\. It is built from your picks\./);
+    expect(bubbles(el)).not.toMatch(/picked nothing|I guessed|your your/);
     expect(bubbles(el)).toContain('How committed are you to exploring like this?');
     await click(button(el, 'Not really'));
     expect(bubbles(el)).toContain('No pressure.');
@@ -147,24 +154,39 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Next tab'));
     expect(bubbles(el)).toContain("Your day lives here. I can fill a day with places you'll like.");
     await click(button(el, 'Finish'));
-    expect(bubbles(el)).toContain('Come back tomorrow — 3 new places near you.');
+    expect(bubbles(el)).toContain('Come back tomorrow. I will have 3 new places near you.');
     await click(button(el, 'Finish'));
 
-    // Step 10: Hometown Transition.
+    // Step 10: onboarding only asks where home is (owner, 2026-11-14). No pitch.
+    expect(bubbles(el)).toContain('Where is home?');
+    expect(el.textContent).not.toContain('already convinced');
+    await click(button(el, 'Miami'));
+    await click(button(el, 'Finish'));
+
+    // Step 11, after the trip: one notification with their real numbers.
+    const notif = el.querySelector('.oo-notif');
+    expect(notif.textContent).toMatch(/You are back home in Miami\. You have only been to 12 of [\d,]+ places here, and I already know what you like\. Want me to pick 3 near you for tomorrow\?/);
+    await click(notif);
+
+    // Step 12: the Hometown Transition screen it opens.
     expect(el.textContent).toContain('Official Onboarding: Hometown Transition');
     expect(el.querySelector('.oo-home-map')).toBeTruthy();
-    expect(el.querySelector('.oo-home-stat').textContent).toMatch(/^You've only been to 12 of [\d,]+ places in Miami\. You live here\.$/);
-    expect(bubbles(el)).toContain('I already know what you like — let me guess 3 places near you you\'d love.');
+    expect(el.querySelector('.oo-home-stat').textContent).toMatch(/^You have been to 12 of [\d,]+ places in Miami\.$/);
+    expect(bubbles(el)).toMatch(/You already trust me with your trips \(and I know what you like from those trips\)\. You live in Miami and you have only been to 12 of [\d,]+ places here\. Based on what you picked, here are 3 places near you that you will love\./);
+    expect(bubbles(el)).not.toMatch(/guess/i);
     const picks = [...el.querySelectorAll('.oo-home-pick-row')];
     expect(picks).toHaveLength(3);
     expect(picks.map((r) => r.textContent).join(' ')).toMatch(/Because you picked (food|parks & nature|art & culture)/);
-    expect(el.textContent).toContain('Your streak is at 3 days, don\'t break it — I found a spot for tomorrow.');
+    expect(el.textContent).toContain('Your streak is at 3 days, don\'t break it. I found a spot for tomorrow.');
+    expect(el.textContent).not.toContain('\u2014');
     expect(el.textContent).toContain('Mapr only messages when he has a real pick.');
     await click(button(el, 'Save to Tomorrow in Miami'));
     expect(button(el, 'Saved to Tomorrow in Miami')).toBeTruthy();
     await click(button(el, 'Show me my city'));
 
     expect(el.textContent).toContain('Tutorial finished');
+    // No em dash anywhere in Official Onboarding (owner, 2026-11-14).
+    expect(el.textContent).not.toContain('\u2014');
     expect(el.textContent).toContain('Signed up with: Google');
     expect(el.textContent).toContain('Categories: 3 picked, each +10: Food, Parks & Nature, Art & Culture');
     expect(el.textContent).toContain('First check-in: done');
@@ -198,7 +220,7 @@ describe('Hometown Transition pieces', () => {
     expect(picks.map((p) => p.kind)).toEqual(['food', 'parks-nature', 'food']);
     const seen = new Set(visited.map((l) => l.id));
     expect(picks.some((p) => seen.has(p.place.id))).toBe(false);
-    expect(shockStat(miami, 12, 1059)).toBe("You've only been to 12 of 1,059 places in Miami. You live here.");
+    expect(shockStat(miami, 12, 1059)).toBe('12 of 1,059 places in Miami');
   });
 });
 
@@ -220,8 +242,19 @@ describe('Official Onboarding pieces', () => {
     expect(lighterDay(day)).toHaveLength(2);
   });
 
+  it('writes the summary from the real picks, never "picked nothing" or "I guessed" (owner, 2026-11-14)', async () => {
+    const { summaryLines } = await import('./officialOnboardingSteps');
+    const day = buildDay(miami, ['food'], []);
+    const [line] = summaryLines({ city: miami, chips: ['food', 'parks-nature'], loved: ['Vizcaya'], stops: day });
+    expect(line).toBe('Based on what you picked (Food and Parks & Nature) and the places you loved (Vizcaya), Mapr built your Miami day around you. 3 stops, picked for you, in one afternoon. This is not a guess. It is built from your picks.');
+    for (const chips of [[], ['food']]) {
+      const text = summaryLines({ city: miami, chips, stops: day }).join(' ');
+      expect(text).not.toMatch(/picked nothing|I guessed|your your|\u2014/);
+    }
+  });
+
   it("says the reflection in the owner's words and turns picks into love-it answers", () => {
-    expect(reflectLine(['food', 'local-life'])).toBe('Okay — you want food and nightlife. Got it.');
+    expect(reflectLine(['food', 'local-life'])).toBe('Okay, you want food and nightlife. Got it.');
     expect(reflectLine([])).toContain('Got it.');
     expect(answersFromCats(['food']).map((a) => [a.card.tag, a.answer])).toEqual([['food', 'love']]);
   });

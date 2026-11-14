@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MaprTabIcon from './MaprTabIcon';
 import { SwipeCardStack } from './OnboardingSteps';
 import { PRACTICE, SAY } from '../screens/signupTutorialSteps';
 
@@ -7,8 +8,10 @@ import { PRACTICE, SAY } from '../screens/signupTutorialSteps';
 export function MaprBubble({ children, ask = false }) {
   return (
     <div className={`mapr-bubble ${ask ? 'mapr-bubble-ask' : ''}`}>
+      {/* Mapr's face is the Landmark Hunters logo in a squircle, the same
+          as its tab (owner, 2026-11-14: no brain anywhere). */}
       <span className="mapr-bubble-face" aria-hidden="true">
-        {'\u{1F9E0}'}
+        <MaprTabIcon />
       </span>
       <div className="mapr-bubble-text">{children}</div>
     </div>

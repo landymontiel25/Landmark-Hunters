@@ -17,6 +17,10 @@ export const OO_STEPS = [
   { id: 'checkin', label: 'First check-in', act: 2 },
   { id: 'commit', label: 'Summary', act: 3 },
   { id: 'signup', label: 'Sign up', act: 3 },
+  // Owner, 2026-11-14: onboarding only asks where home is. The hometown
+  // pitch waits for the trip to end: one notification, then the screen.
+  { id: 'home', label: 'Hometown', act: 3 },
+  { id: 'notify', label: 'Back-home notification', act: 4 },
   { id: 'hometown', label: 'Hometown Transition', act: 4 },
 ];
 
@@ -27,17 +31,23 @@ export const MAX_TASTE = 5;
 // The three intro screens, three taps.
 export const INTRO = [
   {
-    hero: '\u{1F9E0}',
-    say: 'Hi, I’m Mapr, your personal travel planner and guide. Together, we’ll create a trip built around you—your interests, your time, and your sense of adventure. Let\'s do it!',
+    // The owner's infographic (owner, 2026-11-14): no brain anywhere.
+    image: '/onboarding/onboarding-infographic.png',
+    alt: 'A trip built around you: your interests, your time and your adventure go into Mapr, which turns them into your personalized itinerary.',
+    say: "Hi, I am Mapr, your personal travel planner and guide. Together, we will create a trip built around you, your interests, your time, and your sense of adventure. Let's do it!",
     button: 'Next',
   },
   {
-    hero: '\u{1F635}\u{200D}\u{1F4AB}',
-    say: 'You land somewhere new and waste hours figuring out where to go — and still end up at the tourist traps.',
+    // The owner's photo of a young traveler lost in a city (owner, 2026-11-14).
+    image: '/onboarding/onboarding-confused-traveler.jpg',
+    alt: 'A young traveler in a city street, holding a paper map and a phone, unsure where to go.',
+    photo: true,
+    say: 'You land somewhere new and waste hours figuring out where to go, and still end up at the tourist traps.',
     button: 'Next',
   },
   {
-    hero: '\u{1F5FA}\u{FE0F}',
+    // The real Landmark Hunters map with a real route (owner, 2026-11-14).
+    map: true,
     say: "Mapr builds your day from what you like. Tell me what you're into, I'll line up the places.",
     button: "Let's build my day",
   },
@@ -88,7 +98,8 @@ export const SAY = {
   commitHigh: ["Love it. I'll keep lining up places like these."],
   signup: ['Save your 100 points + your day. It takes 20 seconds.'],
   verifyLater: ['I sent you a link to verify your email. Tap it any time. Nothing waits on it.'],
-  hook: ['Come back tomorrow — 3 new places near you.'],
+  hook: ['Come back tomorrow. I will have 3 new places near you.'],
+  home: ['One last thing. Where is home? I will remember it, so when you get back from a trip I can help you there too.'],
   done: ["That's your first day. See you tomorrow."],
 };
 
@@ -133,11 +144,11 @@ export const answersFromCats = (cats = []) =>
 
 const joinAnd = (list) => (list.length < 2 ? list.join('') : `${list.slice(0, -1).join(', ')} and ${list[list.length - 1]}`);
 
-// Mapr repeats the picks back: "Okay — you want food, parks & nature and art
+// Mapr repeats the picks back: "Okay, you want food, parks & nature and art
 // & culture. Got it."
 export function reflectLine(cats = []) {
-  if (!cats.length) return "Okay — I'll start with the places most people love here. Got it.";
-  return `Okay — you want ${joinAnd(cats.map((c) => tasteLabel(c).toLowerCase()))}. Got it.`;
+  if (!cats.length) return "Okay, I'll start with the places most people love here. Got it.";
+  return `Okay, you want ${joinAnd(cats.map((c) => tasteLabel(c).toLowerCase()))}. Got it.`;
 }
 
 const near = (a, b) => distanceMeters(a.lat, a.lng, b.lat, b.lng);
@@ -199,10 +210,24 @@ export function lighterDay(stops) {
   return best;
 }
 
-export function summaryLines({ city, chips }) {
-  const kinds = chips.length ? chips.map((c) => tasteLabel(c).toLowerCase()).join(' + ') : 'nothing yet (I guessed)';
+// "Food, Parks & Nature, and Art & Culture".
+const listOf = (items) => (items.length < 3 ? items.join(' and ') : `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`);
+
+// The summary (owner, 2026-11-14): built from what they actually picked and
+// loved. Never "you picked nothing", never "I guessed".
+//   city: the trip's city; cats: their categories; loved: names of places
+//   they loved; stops: the day Mapr built.
+export function summaryLines({ city, chips = [], loved = [], stops = [] }) {
+  const where = cityName(city);
+  const n = stops.length || 3;
+  const picked = chips.map(tasteLabel);
+  const from = picked.length
+    ? `Based on what you picked (${listOf(picked)})${loved.length ? ` and the places you loved (${listOf(loved)})` : ''}, Mapr built your ${where} day around you.`
+    : loved.length
+      ? `Based on the places you loved (${listOf(loved)}), Mapr built your ${where} day around you.`
+      : `Mapr built your ${where} day around the places travelers love most here.`;
   return [
-    `You picked ${kinds}. Mapr built your ${cityName(city)} day. You'll finish it in one afternoon.`,
-    `That's a day planned in 2 minutes — instead of hours of searching.`,
+    `${from} ${n} stops, picked for you, in one afternoon. ${picked.length || loved.length ? 'This is not a guess. It is built from your picks.' : 'Pick a few categories and I will build the next one from your picks.'}`,
+    "That's a day planned in 2 minutes, instead of hours of searching.",
   ];
 }

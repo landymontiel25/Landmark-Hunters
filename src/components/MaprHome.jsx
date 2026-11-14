@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
+import UserAvatar from './UserAvatar';
 import { REGIONS } from '../data/regions';
 import './MaprHome.css';
 
@@ -200,6 +201,8 @@ export default function MaprHome({
   score = null,
   scoreEstimated = false,
   onOrbTap = null,
+  // The profile picture (users/{uid}.avatarURL); none shows the initials.
+  avatarURL = null,
   children = null,
 }) {
   const { user } = useAuth();
@@ -325,7 +328,7 @@ export default function MaprHome({
               )}
             </div>
             <button type="button" className="mui-avatar" aria-label="Profile" onClick={() => navigate('/profile')}>
-              {initialsOf(user)}
+              <UserAvatar url={avatarURL} initial={initialsOf(user)} />
             </button>
           </div>
         </header>

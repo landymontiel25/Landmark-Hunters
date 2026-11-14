@@ -871,6 +871,7 @@ export default function Mapr() {
         <OnboardingBanner />
         {showTasteNudge && <TasteNudgeCard onDone={dismissNudge} onDismiss={dismissNudge} />}
         <MaprHome
+          avatarURL={myProfile?.avatarURL || null}
           regions={regions}
           onSetRegions={setRegions}
           draft={draft}

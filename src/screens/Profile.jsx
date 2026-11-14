@@ -4,6 +4,8 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
+import AvatarEditor from '../components/AvatarEditor';
+import UserAvatar from '../components/UserAvatar';
 import { MaprLine, ProgressRing } from '../components/NewUI';
 import {
   subscribeLeaderboard,
@@ -120,7 +122,11 @@ export default function Profile() {
       setSigningOut(false);
     }
   };
-  const { myUsername, friendUids, myProfile } = useFriends();
+  const { myUsername, friendUids, myProfile, reload: reloadFriends } = useFriends();
+  const [editingAvatar, setEditingAvatar] = useState(false);
+  // The picture just saved shows right away, before the profile reloads.
+  const [avatarOverride, setAvatarOverride] = useState(undefined);
+  const myAvatar = avatarOverride !== undefined ? avatarOverride : myProfile?.avatarURL || null;
   const { trip } = useTrip();
   const { claimedMap } = useCheckIn();
   // Recount the city once the imported place packs land.
@@ -744,9 +750,27 @@ export default function Profile() {
   return (
     <div className="pf-hub">
       <div className="pf-head">
-        <div className="pf-avatar" aria-hidden="true">
-          {initial}
-        </div>
+        {/* Tap your picture to take or choose a new one (owner, 2026-11-14). */}
+        <button type="button" className="pf-avatar pf-avatar-btn" aria-label={myAvatar ? 'Change your profile picture' : 'Add a profile picture'} onClick={() => setEditingAvatar(true)}>
+          <UserAvatar url={myAvatar} initial={initial} className="pf-avatar-img" />
+          <span className="pf-avatar-edit" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+              <circle cx="12" cy="13" r="3.5" />
+            </svg>
+          </span>
+        </button>
+        {editingAvatar && (
+          <AvatarEditor
+            uid={user.uid}
+            hasPhoto={!!myAvatar}
+            onClose={() => setEditingAvatar(false)}
+            onSaved={(url) => {
+              setAvatarOverride(url);
+              reloadFriends?.();
+            }}
+          />
+        )}
         <div className="pf-head-text">
           <h1 className="pf-name" style={{ '--len': shownName.length }}>{shownName}</h1>
           <p className="pf-sub">Landmark Hunter</p>

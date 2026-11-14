@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { distanceMeters } from '../lib/geo';
@@ -192,13 +192,18 @@ const stopIcon = (n, name, photo) =>
   });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
-function RouteMap({ stops, onOpen }) {
+// color / others: Official Onboarding's intro screen 3 draws the route in
+// gold and shows the city's other places as small pins (owner, 2026-11-14).
+export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], className = 'intro-map' }) {
   const line = stops.map((s) => [s.lat, s.lng]);
   return (
-    <MapContainer className="intro-map" bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }} zoomSnap={0.1} attributionControl={false} {...STILL}>
+    <MapContainer className={className} bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }} zoomSnap={0.1} attributionControl={false} {...STILL}>
       <TileLayer url={SATELLITE} maxZoom={19} />
       <TileLayer url={LABELS} maxZoom={19} zIndex={650} />
-      <Polyline positions={line} pathOptions={{ color: '#4d7fff', weight: 4, dashArray: '2 9', lineCap: 'round' }} />
+      {others.map((o) => (
+        <CircleMarker key={o.id} center={[o.lat, o.lng]} radius={4} pathOptions={{ color: '#ffffff', weight: 1.5, fillColor: '#0a84ff', fillOpacity: 1 }} />
+      ))}
+      <Polyline positions={line} pathOptions={{ color, weight: 4, dashArray: '2 9', lineCap: 'round' }} />
       {stops.map((s, i) => (
         <Marker
           key={s.id}
