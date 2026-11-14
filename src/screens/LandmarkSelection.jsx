@@ -35,6 +35,7 @@ import CheckInButton from '../components/CheckInButton';
 import RatingsCardLine from '../components/ratings/RatingsCardLine';
 import QuickRateButton from '../components/QuickRateButton';
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, getRegion, getLandmark } from '../data/regions';
+import { SHORT_CATEGORY } from '../data/categoryLabels';
 import { inArea, inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
@@ -87,16 +88,6 @@ const POPULAR_NOUN = {
   tech: 'Tech Spots',
 };
 // The short word under each category circle (owner's mockup, 2026-11-09).
-const SHORT_CATEGORY = {
-  'history-culture': 'Art & Culture',
-  food: 'Food',
-  'local-life': 'Drinks',
-  'parks-nature': 'Nature',
-  sports: 'Sports',
-  shopping: 'Shopping',
-  attractions: 'Fun',
-  tech: 'Tech',
-};
 // The Popular button's label for the categories picked: none is Landmarks,
 // one is that category's noun (a custom interest uses its own words), two or
 // more is Places.

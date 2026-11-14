@@ -72,9 +72,10 @@ async function render(entry = '/itinerary') {
 const tab = (el, label) => [...el.querySelectorAll('[role="tab"]')].find((b) => b.textContent.includes(label));
 
 describe('Itinerary sub-tabs', () => {
-  it('opens on Itineraries; Favorites shows every favorite and filters by city', async () => {
+  it('one switch: Current, Past, Favorites (owner, 2026-11-14); Favorites shows every favorite and filters by city', async () => {
     const el = await render();
-    expect(tab(el, 'Itineraries').getAttribute('aria-selected')).toBe('true');
+    expect([...el.querySelectorAll('[role="tab"]')].map((b) => b.textContent)).toEqual(['Current', 'Past', 'Favorites (2)']);
+    expect(tab(el, 'Current').getAttribute('aria-selected')).toBe('true');
     expect(tab(el, 'Favorites').textContent).toContain('(2)');
     expect(el.textContent).not.toContain('Vizcaya');
 
@@ -91,7 +92,8 @@ describe('Itinerary sub-tabs', () => {
     expect(el.textContent).toContain('Vizcaya');
     expect(el.textContent).not.toContain('Pizzeria X');
 
-    await act(async () => tab(el, 'Itineraries').click());
+    await act(async () => tab(el, 'Past').click());
+    expect(tab(el, 'Past').getAttribute('aria-selected')).toBe('true');
     expect(el.textContent).not.toContain('Vizcaya');
   });
 

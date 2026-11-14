@@ -1,7 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../lib/AuthContext';
-import { isAdmin } from '../lib/admins';
 import { useFeedCity } from '../lib/useFeedGate';
 
 // 5 tabs -- Setup is no longer one of them (it's the "Create New Trip"
@@ -20,8 +18,9 @@ export const NAV_ITEMS = [
 // density gate.
 const FEED_TAB = { to: '/feed', label: 'Feed', icon: '\u{1F4F0}' };
 
-// Admin-only sandbox for trying out sign-up/onboarding (screens/OnboardingLab).
-const TEST_TAB = { to: '/test', label: 'Test', icon: '\u{1F9EA}' };
+// The owner's Test tab (screens/OnboardingLab) left the bar (owner,
+// 2026-11-14: six tabs crowded the pill on a phone); it opens from the
+// Test row on Profile, and /test still works.
 
 // Plain-anchor stand-in, shown by App's boundary if BottomNav itself crashes:
 // without it the user has no way off the current screen except a reload.
@@ -41,10 +40,8 @@ export function BottomNavFallback() {
 
 export default function BottomNav() {
   const navRef = useRef(null);
-  const { user } = useAuth();
   const feedCity = useFeedCity();
-  const base = feedCity ? [FEED_TAB, ...NAV_ITEMS] : NAV_ITEMS;
-  const tabs = isAdmin(user?.email) ? [...base, TEST_TAB] : base;
+  const tabs = feedCity ? [FEED_TAB, ...NAV_ITEMS] : NAV_ITEMS;
 
   // If the page is zoomed anyway (pinch), position: fixed sticks to the
   // unzoomed layout viewport on iOS and the bar lands mid-screen. The

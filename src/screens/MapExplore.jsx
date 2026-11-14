@@ -188,7 +188,7 @@ function zoomForRadiusMiles(map, lat, miles) {
   return Math.log2((EARTH_MPP_ZOOM0 * Math.cos((lat * Math.PI) / 180)) / metersPerPixel);
 }
 
-function InitialView({ coords, lastKnown, bounds, regionBounds, stopBounds, focusPoint, radiusMiles }) {
+function InitialView({ coords, lastKnown, bounds, homeBounds, regionBounds, stopBounds, focusPoint, radiusMiles }) {
   const map = useMap();
   const framed = useRef(null); // 'fixed' (a landmark, itinerary or city) | 'provisional' | 'gps'
   const userMoved = useRef(false);
@@ -236,6 +236,9 @@ function InitialView({ coords, lastKnown, bounds, regionBounds, stopBounds, focu
     } else if (!framed.current) {
       framed.current = 'provisional';
       if (lastKnown) map.setView([lastKnown.lat, lastKnown.lng], zoomForRadiusMiles(map, lastKnown.lat, radiusMiles));
+      // No location yet (or it's off): open on your city, never the empty
+      // world map (owner, 2026-11-14).
+      else if (homeBounds) map.fitBounds(homeBounds, { padding: [30, 30], maxZoom: 13 });
       else map.fitBounds(bounds, { padding: [30, 30] });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -260,15 +263,19 @@ function PinDropHandler({ onDrop, disabled }) {
   return null;
 }
 
-function LocateControl({ coords, radiusMiles }) {
+function LocateControl({ coords, radiusMiles, locationOff, onRetry }) {
   const map = useMap();
+  // Location off: the button stays tappable and asks for location again,
+  // instead of a greyed-out "Locating…" (owner, 2026-11-14).
+  const label = coords ? 'Center on my location' : locationOff ? 'Location is off. Tap to try again' : 'Locating…';
   return (
     <button
       type="button"
-      className="map-locate-btn"
-      disabled={!coords}
-      title={coords ? 'Center on my location' : 'Locating…'}
-      onClick={() => coords && map.flyTo([coords.lat, coords.lng], zoomForRadiusMiles(map, coords.lat, radiusMiles))}
+      className={`map-locate-btn ${locationOff && !coords ? 'is-off' : ''}`}
+      disabled={!coords && !locationOff}
+      title={label}
+      aria-label={label}
+      onClick={() => (coords ? map.flyTo([coords.lat, coords.lng], zoomForRadiusMiles(map, coords.lat, radiusMiles)) : onRetry?.())}
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" transform="rotate(45 12 12)" />
@@ -343,7 +350,7 @@ export default function MapExplore({ experiments = false }) {
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
-  const { coords, error: geoError, loading: geoLoading, lastKnown } = useGeo();
+  const { coords, error: geoError, loading: geoLoading, lastKnown, refresh: refreshGeo } = useGeo();
   const { units } = useUnits();
   const mapRef = useRef(null);
   const location = useLocation();
@@ -737,6 +744,26 @@ export default function MapExplore({ experiments = false }) {
       [Math.max(...lats), Math.max(...lngs)],
     ];
   }, [mapFocus]);
+
+  // The city the map opens on before (or without) a location fix: the city
+  // you browse (Landmarks / Itinerary), else Miami.
+  const homeBounds = useMemo(() => {
+    const r = getRegion(trip?.activeRegion) || getRegion('miami');
+    const pts = (r?.landmarks || []).filter((l) => Number.isFinite(l.lat) && Number.isFinite(l.lng));
+    if (!pts.length) return null;
+    // The middle of the city's places (trim the far outliers on each side).
+    const trim = (arr) => {
+      const v = [...arr].sort((a, b) => a - b);
+      const k = Math.floor(v.length * 0.1);
+      return [v[k], v[v.length - 1 - k]];
+    };
+    const [la0, la1] = trim(pts.map((l) => l.lat));
+    const [ln0, ln1] = trim(pts.map((l) => l.lng));
+    return [
+      [la0, ln0],
+      [la1, ln1],
+    ];
+  }, [trip?.activeRegion]);
 
   // Opened from an itinerary: frame all of its stops (captured once, so
   // later changes don't yank the map around while you're using it).
@@ -1216,12 +1243,13 @@ export default function MapExplore({ experiments = false }) {
             coords={coords}
             lastKnown={lastKnown}
             bounds={ALL_LANDMARKS_BOUNDS}
+            homeBounds={homeBounds}
             regionBounds={regionBounds}
             stopBounds={stopBounds}
             focusPoint={focusLandmarkPos}
             radiusMiles={radiusMiles}
           />
-          {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
+          {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} locationOff={!!geoError} onRetry={refreshGeo} />}
           <AttributionControl position="bottomright" prefix={false} />
           {SHOW_ADD_LANDMARK && <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />}
           {googleMap ? (

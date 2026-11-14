@@ -4,6 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
+import { isAdmin } from '../lib/admins';
 import { MaprLine, ProgressRing } from '../components/NewUI';
 import {
   subscribeLeaderboard,
@@ -480,7 +481,7 @@ export default function Profile() {
             onClick={() => stats?.checkins && navigate('/checkins')}
           >
             <span className="profile-stat-num">
-              {stats?.failed ? '–' : stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}
+              {stats && !stats.failed ? stats.checkins.toLocaleString() : '–'}
             </span>
             <span className="profile-stat-label">check-ins{stats?.checkins ? ' ›' : ''}</span>
           </button>
@@ -754,14 +755,17 @@ export default function Profile() {
       </div>
 
       <div className="pf-stats3">
+        {/* Lifetime points, with this period's beside them (owner,
+            2026-11-14): never a grey placeholder, never a lone 0. */}
         <div className="pf-stat3">
           <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F3C6}'}</span>
-          <span className="pf-stat3-num">{loading ? <Skeleton className="skeleton-inline" width={44} height={22} /> : myPoints.toLocaleString()}</span>
-          <span className="pf-stat3-label">Points {PERIOD_LABEL[period].toLowerCase()}</span>
+          <span className="pf-stat3-num">{stats && !stats.failed ? (stats.totalPoints || 0).toLocaleString() : '–'}</span>
+          <span className="pf-stat3-label">Lifetime points</span>
+          <span className="pf-stat3-sub">{loading ? '\u00A0' : `${myPoints.toLocaleString()} ${PERIOD_LABEL[period].toLowerCase()}`}</span>
         </div>
         <div className="pf-stat3">
           <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F4CD}'}</span>
-          <span className="pf-stat3-num">{stats?.failed ? '–' : stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}</span>
+          <span className="pf-stat3-num">{stats && !stats.failed ? stats.checkins.toLocaleString() : '–'}</span>
           <span className="pf-stat3-label">Check-ins</span>
         </div>
         <div className="pf-stat3">
@@ -771,6 +775,9 @@ export default function Profile() {
         </div>
       </div>
 
+      <p className="pf-rank-line">
+        <strong>{loading ? 'Rank' : myRank ? `Rank #${myRank}` : 'Unranked'}</strong> {PERIOD_LABEL[period].toLowerCase()}. Rank counts points earned {PERIOD_LABEL[period].toLowerCase()}; lifetime points never reset.
+      </p>
       {homeRegion && cityPlaces.length > 0 && (
         <div className="nl-found">
           <ProgressRing found={cityFound} total={cityPlaces.length} size={52} count={false} />
@@ -800,6 +807,8 @@ export default function Profile() {
         label="Account"
         items={[
           { id: 'settings', icon: 'settings', label: 'Settings', onClick: () => navigate('/settings') },
+          // The owner's Test tab, out of the bottom bar since 2026-11-14.
+          ...(isAdmin(user?.email) ? [{ id: 'test', icon: 'stats', label: 'Test', onClick: () => navigate('/test') }] : []),
           { id: 'signout', icon: 'signout', label: 'Sign Out', disabled: signingOut, onClick: handleSignOut },
         ]}
       />

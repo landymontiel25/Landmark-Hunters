@@ -256,7 +256,7 @@ const cardDate = (ts) =>
 // same order, and those shouldn't drop back to estimates.
 const routeOrderKey = (route) => route.map((s) => s.id).join('|');
 
-function ItineraryBody({ sectionTabs }) {
+function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   const {
     trip,
     toggleLandmark,
@@ -663,7 +663,6 @@ function ItineraryBody({ sectionTabs }) {
 
   // Current vs Past (src/lib/itineraryStatus.js): done = every catalog
   // landmark checked into, or moved there by hand.
-  const [itinTab, setItinTab] = usePersistentState('itinerary.tab', 'current');
   const statusOverrides = trip.itineraryStatus || {};
   // byRegion also holds Mapr-found places' ids once Edit List has saved an
   // order; those aren't catalog stops (no check-in), so they're left out of
@@ -677,8 +676,6 @@ function ItineraryBody({ sectionTabs }) {
   };
   const soloPhase = (rid) => itineraryPhase(rid, catalogIdsFor(rid), claimedMap, statusOverrides);
   const groupPhase = (g) => itineraryPhase(groupKey(g.id), g.landmarkIds, claimedMap, statusOverrides);
-  const pastCount = myRegions.filter((rid) => soloPhase(rid) === 'past').length + groupTrips.filter((g) => groupPhase(g) === 'past').length;
-  const currentCount = myRegions.length + groupTrips.length - pastCount;
   // Typing a city searches Current and Past together, by itinerary name,
   // city and country, so a 10-city Europe trip is one search away.
   const [itinQuery, setItinQuery] = useState('');
@@ -766,23 +763,6 @@ function ItineraryBody({ sectionTabs }) {
           value={itinQuery}
           onChange={(e) => setItinQuery(e.target.value)}
         />
-        {!searching && (
-        <div className="tabs nl-seg" style={{ marginBottom: 14 }}>
-          {[
-            { id: 'current', label: 'Current', count: currentCount },
-            { id: 'past', label: 'Past', count: pastCount },
-          ].map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              className={`tab-btn ${itinTab === t.id ? 'active' : ''}`} aria-pressed={!!(itinTab === t.id)}
-              onClick={() => setItinTab(t.id)}
-            >
-              {t.label} ({t.count})
-            </button>
-          ))}
-        </div>
-        )}
         {searching && tabGroups.length + tabSolo.length === 0 && (
           <p className="screen-subtitle">No itinerary matches “{itinQuery.trim()}”.</p>
         )}
@@ -867,12 +847,13 @@ function ItineraryBody({ sectionTabs }) {
               <div style={{ textAlign: 'left' }}>
                 <h3 style={{ margin: 0 }}>{named}</h3>
                 <ItinWhere region={r} />
-                {placeNames.length > 0 && <p className="itin-card-places">{placeSummary(placeNames)}</p>}
-                {minutes > 0 && <p className="itin-card-times">About {fmtVisitMinutes(minutes)} at the stops</p>}
-                <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
+                {/* One meta line (owner, 2026-11-14): stops · time · past. */}
+                <p className="itin-card-times">
                   {count} stop{count !== 1 ? 's' : ''}
+                  {minutes > 0 ? ` · about ${fmtVisitMinutes(minutes)}` : ''}
                   {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, catalogIdsFor(rid))}` : ''}
                 </p>
+                {placeNames.length > 0 && <p className="itin-card-places">{placeSummary(placeNames)}</p>}
               </div>
               <span className="itin-city-arrow">{'→'}</span>
             </button>
@@ -1318,19 +1299,28 @@ export default function Itinerary() {
   }, [location.key]);
   const { favorites } = useFavorites();
 
+  // Current, Past and Favorites on one switch (owner, 2026-11-14; was two
+  // stacked switches: Itineraries | Favorites, then Current | Past).
+  const [itinTab, setItinTab] = usePersistentState('itinerary.tab', 'current');
+  const shown = section === 'favorites' ? 'favorites' : itinTab;
   const tabs = (
     <div className="tabs itin-sections nl-seg" style={{ marginBottom: 14 }} role="tablist" aria-label="Itinerary sections">
       {[
-        { id: 'itineraries', label: 'Itineraries' },
+        { id: 'current', label: 'Current' },
+        { id: 'past', label: 'Past' },
         { id: 'favorites', label: `Favorites${favorites.length ? ` (${favorites.length})` : ''}` },
       ].map((t) => (
         <button
           key={t.id}
           type="button"
           role="tab"
-          aria-selected={section === t.id}
-          className={`tab-btn ${section === t.id ? 'active' : ''}`}
-          onClick={() => setSection(t.id)}
+          aria-selected={shown === t.id}
+          className={`tab-btn ${shown === t.id ? 'active' : ''}`}
+          onClick={() => {
+            if (t.id === 'favorites') return setSection('favorites');
+            setSection('itineraries');
+            setItinTab(t.id);
+          }}
         >
           {t.label}
         </button>
@@ -1348,5 +1338,5 @@ export default function Itinerary() {
       </div>
     );
   }
-  return <ItineraryBody sectionTabs={tabs} />;
+  return <ItineraryBody sectionTabs={tabs} itinTab={itinTab} setItinTab={setItinTab} />;
 }

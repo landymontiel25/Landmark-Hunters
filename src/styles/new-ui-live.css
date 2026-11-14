@@ -109,8 +109,9 @@ html[data-theme] body .bottom-nav a {
   border-radius: 999px;
   color: var(--nl-text);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-size: 11px;
-  font-weight: 500;
+  /* Bigger labels (owner, 2026-11-14): 12 pt, never cut. */
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
   transition: background 200ms cubic-bezier(0.2, 0, 0, 1), color 200ms cubic-bezier(0.2, 0, 0, 1);
@@ -120,8 +121,13 @@ html[data-theme] body .bottom-nav a.active {
   color: var(--nl-gold-text);
   font-weight: 600;
 }
+/* Every emoji in the same 26 pt box, so they line up and read as one set. */
 html[data-theme] body .bottom-nav .nav-icon {
-  font-size: 24px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 26px;
+  font-size: 23px;
   line-height: 1;
 }
 
@@ -876,4 +882,269 @@ html body[data-apple='profile'] .pf-edit {
   color: var(--ap-text);
   font-size: 15px;
   font-weight: 600;
+}
+
+/* =====================================================================
+   7. Live Map fixes at phone width (owner, 2026-11-14)
+   ===================================================================== */
+/* Location off: a solid dark pill with white text above the sheet and
+   the distance menu, never red text over the satellite map. */
+html[data-theme] body .map-error-toast {
+  left: 50%;
+  right: auto;
+  bottom: calc(var(--nav-h) + 64px);
+  width: max-content;
+  max-width: calc(100% - 32px);
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  text-align: center;
+  white-space: normal;
+}
+/* Category chips: an emoji with its name, 44 pt tall, gold fill when on. */
+html[data-theme] body .map-cat-chip,
+html[data-theme] body[data-apple] .map-fullscreen .map-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px 0 12px;
+  border: 1px solid var(--nl-line);
+  border-radius: 999px;
+  background: var(--nl-bg);
+  color: var(--nl-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  line-height: 1;
+}
+html[data-theme] body .map-cat-chip .map-cat-name {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+html[data-theme] body .map-cat-chip.map-cat-all,
+html[data-theme] body[data-apple] .map-fullscreen .map-cat-chip.map-cat-all {
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+html[data-theme] body .map-cat-chip.on,
+html[data-theme] body[data-apple] .map-fullscreen .map-cat-chip.on {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--gold-ink);
+  box-shadow: none;
+}
+/* Locate button while location is off: tappable (asks again), shown with a
+   slash so it reads as off rather than broken. */
+html[data-theme] body .map-locate-btn.is-off {
+  opacity: 1;
+  color: var(--nl-text);
+}
+html[data-theme] body .map-locate-btn.is-off::before {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: rotate(-45deg);
+}
+/* Over the map, the row stops short of the round buttons on the right. */
+html[data-theme] body .map-fullscreen .map-cat-bar:not(.map-cat-bar-sheet) {
+  right: 68px;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+}
+
+/* =====================================================================
+   8. Landmarks fixes at phone width (owner, 2026-11-14)
+   ===================================================================== */
+/* Branded placeholder: a loading photo and the no-photo tile are warm gold
+   with the logo (or the category emoji), never a blank box or a random
+   color. */
+html[data-theme] body .landmark-thumb.img-loading {
+  background: rgba(201, 151, 26, 0.14) url('/logo.png') center / 46% no-repeat;
+  animation: none;
+}
+html[data-theme] body .landmark-thumb-fallback {
+  background: linear-gradient(135deg, #f7edd3, #ead39a) !important;
+}
+html[data-theme='dark'] body .landmark-thumb-fallback {
+  background: linear-gradient(135deg, #2b2310, #4a3a12) !important;
+}
+/* The gold + is a full 44 pt target, with clear space before the "...". */
+html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card,
+html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
+  grid-template-columns: 56px minmax(0, 1fr) 44px 36px;
+  column-gap: 10px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-check {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-more {
+  width: 36px;
+  height: 44px;
+  margin-left: 4px;
+}
+/* Category chips scroll sideways: a fade on the right says there is more,
+   and no chip is squeezed (Sports keeps its whole word). */
+html body[data-apple='landmarks'] .aps-live .lm-category-tabs {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+  padding-right: 40px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn,
+html body[data-apple='landmarks'] .aps-live .lm-category-tabs .tab-btn[data-cat] {
+  flex-shrink: 0 !important;
+  min-width: max-content;
+}
+/* Sorts: three pills on one line, the same height, each as wide as its
+   words. */
+html body[data-apple='landmarks'] .aps .lm-sort-tabs .tab-btn {
+  flex: 1 1 auto;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 10px;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  font-size: 13px;
+  line-height: 1;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-check,
+html body[data-apple='landmarks'] .aps-live .lm-card-more {
+  align-self: center;
+}
+
+/* =====================================================================
+   9. Profile: lifetime points and the rank line (owner, 2026-11-14)
+   ===================================================================== */
+html body[data-apple='profile'] .pf-stat3-sub {
+  color: var(--ap-text);
+  font-size: 12px;
+  line-height: 16px;
+}
+html body[data-apple='profile'] .pf-stats3 {
+  margin-bottom: 10px;
+}
+.pf-rank-line {
+  margin: 0 0 18px;
+  color: var(--ap-text, var(--nl-text));
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* =====================================================================
+   10. Header at phone width (owner, 2026-11-14): the streak and trophy
+   pills keep their full size; only @username gives way (with "…"), and
+   the notification count stays fully visible.
+   ===================================================================== */
+html[data-theme] body .app-header .app-header-center {
+  flex: 0 0 auto;
+}
+html[data-theme] body .app-header .header-streak-wrap,
+html[data-theme] body .app-header .header-streak {
+  flex-shrink: 0;
+  min-width: max-content;
+}
+html[data-theme] body .app-header .app-header-actions {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+html[data-theme] body .app-header .profile-menu {
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+}
+html[data-theme] body .app-header .profile-menu-trigger {
+  position: relative;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+}
+html[data-theme] body .app-header .score-chip-pts {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+html[data-theme] body .app-header .notif-badge {
+  z-index: 2;
+}
+
+/* =====================================================================
+   11. Mapr in the app's gold and black (owner, 2026-11-14): Mapr's own
+   screens used to switch the accent back to blue and purple.
+   ===================================================================== */
+.mui,
+.chatlab,
+.mapr-home {
+  --mapr-blue: #d4a42a;
+  --mapr-blue-hover: #e0b649;
+  --mapr-blue-active: #c9971a;
+  --mapr-blue-soft: rgba(212, 164, 42, 0.18);
+  --mapr-blue-border: rgba(212, 164, 42, 0.45);
+  --mapr-gradient: linear-gradient(135deg, #e6b83a, #8a6512);
+  --color-brass: #d4a42a;
+  --color-brass-bright: #d4a42a;
+}
+[data-theme='light'] .mui,
+[data-theme='light'] .chatlab,
+[data-theme='light'] .mapr-home {
+  --mapr-blue: #c9971a;
+  --mapr-blue-hover: #b5860f;
+  --mapr-blue-active: #a87a10;
+  --color-brass: #c9971a;
+  --color-brass-bright: #c9971a;
+}
+
+/* =====================================================================
+   12. Itinerary trip cards (owner, 2026-11-14): real photos or the gold
+   tile, one meta line, roomier text.
+   ===================================================================== */
+.nl-trip-photo .landmark-thumb,
+.nl-trip-photo .landmark-thumb-wrap,
+.nl-trip-photo .landmark-thumb-fallback {
+  display: grid;
+  place-items: center;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  object-fit: cover;
+}
+.nl-trip-photo .landmark-thumb-fallback span {
+  font-size: 20px !important;
+}
+.nl-trip-photo-logo {
+  grid-column: span 2;
+  grid-row: span 2;
+  background: rgba(201, 151, 26, 0.14) url('/logo.png') center / 50% no-repeat;
+}
+html body[data-apple='itinerary'] .aps-live .itin-city-card {
+  align-items: center;
+  padding: 12px 14px 12px 12px;
+}
+html body[data-apple='itinerary'] .aps-live .itin-city-card h3 {
+  margin: 0 0 2px !important;
+}
+html body[data-apple='itinerary'] .aps-live .itin-card-times {
+  margin-top: 4px;
+  font-weight: 500;
+}
+html body[data-apple='itinerary'] .aps-itinerary .itin-search {
+  margin: 0 0 14px !important;
 }

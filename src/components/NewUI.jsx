@@ -1,3 +1,5 @@
+import LandmarkThumb from './LandmarkThumb';
+
 // Shared parts of the New UI (docs/design-language.md) for the live screens.
 // The Test tab's reference build (src/screens/NewUILab.jsx) has the same
 // shapes; styles live in src/styles/new-ui-live.css under .nl-*.
@@ -35,14 +37,17 @@ export function ProgressRing({ found, total, size = 56, count = true }) {
 }
 
 // Up to three photos of a trip's stops: one tall on the left, two stacked.
+// Each is the place's photo (or its Google photo, looked up like any list
+// thumbnail), else the gold category tile; a trip with no places shows the
+// logo (owner, 2026-11-14: never a blank box).
 export function TripPhotos({ places = [] }) {
   const shown = places.slice(0, 3);
   return (
     <span className="nl-trip-photos" aria-hidden="true">
-      {shown.length === 0 && <span className="nl-trip-photo" />}
+      {shown.length === 0 && <span className="nl-trip-photo nl-trip-photo-logo" />}
       {shown.map((p, i) => (
         <span key={p.id || i} className="nl-trip-photo">
-          {p.images?.[0] ? <img src={p.images[0]} alt="" loading="lazy" /> : null}
+          <LandmarkThumb landmark={p} size={64} />
         </span>
       ))}
     </span>
