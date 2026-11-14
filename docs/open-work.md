@@ -27,8 +27,13 @@ plus a place screen that opens from any of them. Map, Landmarks, Itinerary
 and Profile are redesigned on the real Miami places; trips, points, streak
 and the "why you" lines are samples. Mapr is the live Mapr tab, unchanged
 and outside the New UI styles, so chatting there works (and saves) like the
-real tab. Nothing in the redesigned tabs is saved. Not done: moving the real
-tabs onto the `--nui-*` tokens, real user data in the redesigned tabs. The
+real tab. Nothing in the redesigned tabs is saved. Live app (owner, 2026-11-14, `src/styles/new-ui-live.css`):
+Landmarks, Itinerary and Profile now use the New UI colors and type (white /
+black page, Inter, black text, gold accent) on their real layouts and data,
+and the header and emoji tab bar float as pills on every screen. The Map
+keeps its exact look and Mapr keeps its own design. Not done: the New UI
+layouts themselves (the lab's list rows, Mapr line, stop list and stats
+card) on the real screens. The
 sources were App Store listing screenshots, not screens captured inside the
 apps.
 
