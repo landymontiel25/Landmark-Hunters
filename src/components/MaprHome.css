@@ -4,16 +4,18 @@
    Scoped under .mui so nothing leaks into the real app. */
 
 .mui {
-  --mui-bg: #050709;
+  /* Gold and black, the app's brand (owner, 2026-11-14; was blue and
+     purple). */
+  --mui-bg: #000000;
   --mui-line: rgba(255, 255, 255, 0.14);
   --mui-fill: rgba(255, 255, 255, 0.018);
-  --mui-blue: #5b8cff;
+  --mui-blue: #d4a42a;
   --mui-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
   --mui-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
 
   margin: 0 -20px;
   min-height: 100%;
-  background: radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%), var(--mui-bg);
+  background: radial-gradient(90% 30% at 50% 0%, rgba(212, 164, 42, 0.14), transparent 75%), var(--mui-bg);
   color: #fff;
   font-family: var(--mui-sans);
   overflow: hidden;
@@ -46,7 +48,8 @@
 
 .mui-screen {
   width: 393px;
-  padding: 8px 11.5px 30px;
+  /* Room for the floating tab bar, so the photo cards clear it. */
+  padding: 8px 11.5px 120px;
   box-sizing: border-box;
 }
 
@@ -135,7 +138,7 @@
 }
 .mui-city-menu button:hover,
 .mui-city-menu button.on {
-  background: rgba(91, 140, 255, 0.16);
+  background: rgba(212, 164, 42, 0.16);
 }
 .mui-avatar {
   width: 29px;
@@ -174,7 +177,8 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  text-shadow: 0 1px 6px rgba(10, 20, 90, 0.6);
+  color: #1a1300;
+  text-shadow: 0 1px 4px rgba(255, 240, 200, 0.5);
   pointer-events: none;
 }
 .mui-orb-score strong {
@@ -194,7 +198,7 @@
   position: absolute;
   inset: -22px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(60, 90, 255, 0.42) 0%, rgba(70, 70, 220, 0.14) 48%, transparent 70%);
+  background: radial-gradient(circle, rgba(212, 164, 42, 0.42) 0%, rgba(201, 151, 26, 0.14) 48%, transparent 70%);
   animation: mui-breathe 4.5s ease-in-out infinite;
 }
 .mui-orb {
@@ -203,21 +207,21 @@
   border-radius: 50%;
   overflow: hidden;
   background:
-    radial-gradient(55% 55% at 52% 55%, #0a1a92 0%, rgba(14, 34, 170, 0.85) 45%, transparent 80%),
-    radial-gradient(70% 60% at 82% 22%, #b46ce6 0%, rgba(150, 100, 235, 0.6) 35%, transparent 70%),
-    radial-gradient(80% 70% at 18% 82%, #5aa2ff 0%, rgba(70, 130, 255, 0.5) 40%, transparent 75%),
-    linear-gradient(135deg, #3f6cf0 0%, #2c45d8 50%, #6a4fe0 100%);
+    radial-gradient(55% 55% at 52% 55%, #f7d77e 0%, rgba(240, 200, 100, 0.85) 45%, transparent 80%),
+    radial-gradient(70% 60% at 82% 22%, #fff1c4 0%, rgba(255, 236, 180, 0.6) 35%, transparent 70%),
+    radial-gradient(80% 70% at 18% 82%, #a87a10 0%, rgba(150, 105, 15, 0.5) 40%, transparent 75%),
+    linear-gradient(135deg, #e6b83a 0%, #c9971a 50%, #8a6512 100%);
   box-shadow:
-    inset 0 0 6px rgba(160, 190, 255, 0.55),
-    0 0 18px rgba(70, 100, 255, 0.5);
+    inset 0 0 6px rgba(255, 236, 180, 0.55),
+    0 0 18px rgba(201, 151, 26, 0.5);
 }
 .mui-orb::before,
 .mui-orb::after {
   content: '';
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(150, 175, 255, 0.16), transparent 62%);
-  box-shadow: inset 2px 2px 6px rgba(170, 190, 255, 0.12);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 240, 200, 0.2), transparent 62%);
+  box-shadow: inset 2px 2px 6px rgba(255, 240, 200, 0.14);
 }
 .mui-orb::before {
   inset: 8% 4% 18% 22%;
@@ -250,17 +254,28 @@
   text-align: center;
   font-family: var(--mui-serif);
   font-weight: 400;
-  font-size: 41.8px;
+  font-size: min(41.8px, calc(370px / (var(--len, 12) * 0.52)));
   line-height: 1.1;
   letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #fff;
+}
+.mui-score-note {
+  max-width: 300px;
+  margin: 10px auto 0;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #ffffff;
 }
 .mui-sub {
   margin: 5px 0 0;
   text-align: center;
   font-size: 17.5px;
   line-height: 1.2;
-  color: #a3a7bd;
+  color: #e6e6e6;
 }
 
 /* ---------- Ask bar ---------- */
@@ -271,16 +286,16 @@
   margin: 23px 0 0;
   padding: 0 8.5px 0 18px;
   border-radius: 19px;
-  border: 1px solid #3e4f78;
-  background: linear-gradient(180deg, #0f1526 0%, #0d121c 100%);
+  border: 1px solid rgba(212, 164, 42, 0.45);
+  background: #0d0d0d;
   box-sizing: border-box;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
 }
 .mui-ask:focus-within {
-  border-color: #5b7fd6;
-  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.12);
+  border-color: #d4a42a;
+  box-shadow: 0 0 0 3px rgba(212, 164, 42, 0.16);
 }
 .mui-ask-spark {
   flex: none;
@@ -312,16 +327,16 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 30%, #6896ff, #4a80fb 75%);
-  color: #fff !important;
-  box-shadow: 0 0 14px rgba(70, 120, 255, 0.45);
+  background: radial-gradient(circle at 40% 30%, #e6b83a, #c9971a 75%);
+  color: #1a1300 !important;
+  box-shadow: 0 0 14px rgba(201, 151, 26, 0.4);
   cursor: pointer;
   transition: transform 0.15s;
 }
 .mui-send svg {
   width: 16px;
   height: 16px;
-  color: #0b1530;
+  color: #1a1300;
 }
 .mui-send:active {
   transform: scale(0.92);
@@ -365,8 +380,8 @@
   color: #eef1f6;
 }
 .mui-chip.on {
-  border-color: rgba(91, 140, 255, 0.7);
-  background: rgba(91, 140, 255, 0.16);
+  border-color: #d4a42a;
+  background: rgba(212, 164, 42, 0.18);
   color: #fff !important;
 }
 
@@ -391,7 +406,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #6f9fe0 !important;
+  color: #e0b649 !important;
   font-size: 11.2px !important;
   cursor: pointer;
 }
@@ -495,7 +510,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 39px;
+  height: 44px;
   padding: 0 12px 0 15px;
   border-radius: 11px;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -523,8 +538,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 10.85px;
-  color: #cdd2de;
+  font-size: 13px;
+  color: #f2f2f2;
 }
 .mui-row > svg {
   width: 15px;
@@ -594,8 +609,8 @@
   --mui-bg: var(--bg-primary, #ffffff);
   --mui-line: rgba(0, 0, 0, 0.14);
   --mui-fill: rgba(255, 255, 255, 0.9);
-  --mui-blue: #2f5fe0;
-  background: radial-gradient(90% 30% at 50% 0%, rgba(77, 127, 255, 0.14), transparent 75%), var(--mui-bg);
+  --mui-blue: #c9971a;
+  background: radial-gradient(90% 30% at 50% 0%, rgba(201, 151, 26, 0.12), transparent 75%), var(--mui-bg);
   color: var(--text-primary, #000000);
 }
 [data-theme='light'] .mui-brand,
@@ -603,8 +618,9 @@
   color: var(--text-primary, #000000);
 }
 [data-theme='light'] .mui-sub,
-[data-theme='light'] .mui-section-head h3 {
-  color: var(--text-secondary, #5f5f5f);
+[data-theme='light'] .mui-section-head h3,
+[data-theme='light'] .mui-score-note {
+  color: #1f1f1f;
 }
 [data-theme='light'] .mui-city,
 [data-theme='light'] .mui-avatar {
@@ -621,21 +637,21 @@
 [data-theme='light'] .mui-city-menu button:hover,
 [data-theme='light'] .mui-city-menu button.on,
 [data-theme='light'] .mui-chip.on {
-  background: rgba(47, 95, 224, 0.12);
+  background: rgba(201, 151, 26, 0.14);
 }
 [data-theme='light'] .mui-ask {
-  border-color: rgba(47, 95, 224, 0.45);
+  border-color: rgba(201, 151, 26, 0.55);
   background: #ffffff;
 }
 [data-theme='light'] .mui-ask:focus-within {
-  border-color: #2f5fe0;
-  box-shadow: 0 0 0 3px rgba(47, 95, 224, 0.14);
+  border-color: #c9971a;
+  box-shadow: 0 0 0 3px rgba(201, 151, 26, 0.16);
 }
 [data-theme='light'] .mui-ask input {
   color: var(--text-primary, #000000);
 }
 [data-theme='light'] .mui-ask input::placeholder {
-  color: #8a7f6d;
+  color: #555555;
 }
 [data-theme='light'] .mui-chip {
   border-color: rgba(0, 0, 0, 0.16);
@@ -645,11 +661,11 @@
   color: #000000;
 }
 [data-theme='light'] .mui-chip.on {
-  border-color: rgba(47, 95, 224, 0.7);
-  color: #1f3f9e !important;
+  border-color: #c9971a;
+  color: #5c4208 !important;
 }
 [data-theme='light'] .mui-see-all {
-  color: #2f5fe0 !important;
+  color: #8a6512 !important;
 }
 [data-theme='light'] .mui-card {
   border-color: rgba(0, 0, 0, 0.12);
@@ -666,7 +682,7 @@
   color: #000000;
 }
 [data-theme='light'] .mui-row-title {
-  color: #3d352b;
+  color: #0a0a0a;
 }
 @media (min-width: 600px) {
   [data-theme='light'] .mui {

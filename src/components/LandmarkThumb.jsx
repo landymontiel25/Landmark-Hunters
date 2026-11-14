@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { paletteFor, landmarkIcon } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
@@ -42,6 +42,15 @@ function Thumb({ landmark, size = 52, width, height, myPhoto }) {
   const w = width ?? size;
   const h = height ?? size;
   const style = { width: w, height: h };
+
+  // A photo still loading after 8 s (a stalled host) gives way to the next
+  // one, then the category tile, so a row is never a blank box (owner,
+  // 2026-11-14).
+  useEffect(() => {
+    if (!image || loaded === image) return undefined;
+    const t = setTimeout(() => setFailed((cur) => new Set(cur).add(image)), 8000);
+    return () => clearTimeout(t);
+  }, [image, loaded]);
 
   if (image) {
     return (

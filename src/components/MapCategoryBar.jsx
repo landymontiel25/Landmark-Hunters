@@ -1,4 +1,5 @@
 import { PICKABLE_INTERESTS } from '../data/regions';
+import { SHORT_CATEGORY } from '../data/categoryLabels';
 
 // The Map's category bar (owner, 2026-11-07): the Map opens with nothing
 // chosen and no pins; you pick "Select All" or one or more category emojis
@@ -42,6 +43,10 @@ export default function MapCategoryBar({ value, onChange, className = '' }) {
             onClick={() => toggle(i.id)}
           >
             <span aria-hidden="true">{i.icon}</span>
+            {/* Every icon has its name beside it (owner, 2026-11-14). */}
+            <span className="map-cat-name" aria-hidden="true">
+              {SHORT_CATEGORY[i.id] || i.label}
+            </span>
           </button>
         );
       })}

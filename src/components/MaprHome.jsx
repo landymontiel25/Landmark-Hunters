@@ -39,7 +39,7 @@ const ICONS = {
   ),
   map: (
     <Icon>
-      <path d="M9 4l6 2.5V20l-6-2.5z" fill="#4f7dff" stroke="none" opacity="0.9" />
+      <path d="M9 4l6 2.5V20l-6-2.5z" fill="#c9971a" stroke="none" opacity="0.9" />
       <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z" />
       <path d="M9 4v13.5" />
       <path d="M15 6.5V20" />
@@ -241,6 +241,14 @@ export default function MaprHome({
   }, [region, city]);
 
   const recent = chats.slice(0, 3);
+  // A title saved already cut ("...the effect of ai in the mo...") ends on a
+  // whole word instead; CSS adds "…" when the row is too narrow.
+  const cleanTitle = (t = '') => {
+    const m = String(t).match(/^(.*?)(?:\s*(?:\.\.\.|…))$/);
+    if (!m) return t;
+    const cut = m[1].replace(/\s+\S*$/, '');
+    return `${cut || m[1]}…`;
+  };
 
   useEffect(() => {
     if (!cityOpen) return undefined;
@@ -287,7 +295,7 @@ export default function MaprHome({
             <div className="mui-city-wrap" ref={cityRef}>
               <button type="button" className="mui-city" aria-haspopup="listbox" aria-expanded={cityOpen} onClick={() => setCityOpen((o) => !o)}>
                 <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
-                  <path d="M8 0.8C4.2 0.8 1.3 3.7 1.3 7.4c0 4.6 5.4 9.3 6.1 9.9.3.2.9.2 1.2 0 .7-.6 6.1-5.3 6.1-9.9C14.7 3.7 11.8.8 8 .8z" fill="#5b8cff" />
+                  <path d="M8 0.8C4.2 0.8 1.3 3.7 1.3 7.4c0 4.6 5.4 9.3 6.1 9.9.3.2.9.2 1.2 0 .7-.6 6.1-5.3 6.1-9.9C14.7 3.7 11.8.8 8 .8z" fill="#c9971a" />
                   <circle cx="8" cy="7.2" r="2.4" className="mui-pin-hole" />
                 </svg>
                 <span>{city || 'Any city'}</span>
@@ -336,7 +344,16 @@ export default function MaprHome({
           </span>
         </button>
 
-        <h2 className="mui-hello">Hey {firstName},</h2>
+        {/* One line about the score under the orb (owner, 2026-11-14). */}
+        <p className="mui-score-note">
+          {score != null ? 'Mapr Score is how often Mapr guesses your rating right. Rate places to raise it.' : 'Rate a few places and Mapr starts scoring how well it knows your taste.'}
+        </p>
+
+        {/* The greeting stays on one line: the type shrinks with a long
+            name (owner, 2026-11-14). */}
+        <h2 className="mui-hello" style={{ '--len': `Hey ${firstName},`.length }}>
+          Hey {firstName},
+        </h2>
         <p className="mui-sub">What are you in the mood for?</p>
 
         <form
@@ -349,7 +366,7 @@ export default function MaprHome({
           <svg className="mui-ask-spark" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M12 2.5c.7 4.9 2.9 7.6 8.5 9.5-5.6 1.9-7.8 4.6-8.5 9.5-.7-4.9-2.9-7.6-8.5-9.5 5.6-1.9 7.8-4.6 8.5-9.5z"
-              stroke="#5b8cff"
+              stroke="#c9971a"
               strokeWidth="1.7"
               strokeLinejoin="round"
             />
@@ -389,7 +406,7 @@ export default function MaprHome({
                 <li key={c.id}>
                   <button type="button" className="mui-row" onClick={() => onOpenChat?.(c.id)}>
                     <span className="mui-row-icon">{chatIcon(c.title)}</span>
-                    <span className="mui-row-title">{c.title}</span>
+                    <span className="mui-row-title">{cleanTitle(c.title)}</span>
                     <Icon size={18} stroke={1.8} d="m9 6 6 6-6 6" />
                   </button>
                 </li>
