@@ -578,7 +578,9 @@
 
 /* ---------- Phone frame with the bottom tab bar ---------- */
 .nui-frame {
-  --nui-tabbar-h: 64px;
+  --nui-tabbar-h: 68px;
+  /* Room for the floating header: 12 above, 56 tall, 12 below. */
+  --nui-head-h: 80px;
   position: relative;
   height: calc(100dvh - var(--header-h, 72px) - var(--nav-h, 92px) - 76px);
   min-height: 600px;
@@ -607,8 +609,8 @@
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: calc(var(--nui-tabbar-h) + 24px);
+  padding-top: calc(var(--nui-head-h) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(var(--nui-tabbar-h) + 36px);
   -webkit-overflow-scrolling: touch;
   animation: nui-rise 240ms var(--nui-ease) both;
 }
@@ -624,47 +626,81 @@
   animation: none;
 }
 
+/* The app's own emoji tabs, as a floating capsule (owner, 2026-11-14). */
 .nui-tabbar {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   z-index: 1200;
   display: flex;
-  height: calc(var(--nui-tabbar-h) + env(safe-area-inset-bottom, 0px));
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  border-top: 1px solid var(--nui-line);
+  height: var(--nui-tabbar-h);
+  padding: 6px;
+  border: 1px solid var(--nui-line);
+  border-radius: 999px;
   background: var(--nui-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.nui-tabbar[data-mode='dark'] {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 .nui-tabbar button {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   min-height: 44px;
   border: none;
+  border-radius: 999px;
   background: none;
-  color: var(--nui-text-3);
+  color: var(--nui-text-2);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: color 200ms var(--nui-ease);
+  transition: color 200ms var(--nui-ease), background 200ms var(--nui-ease);
+}
+
+.nui-tab-icon {
+  font-size: 24px;
+  line-height: 1;
 }
 
 .nui-tabbar button.on {
+  background: var(--nui-gold-soft);
   color: var(--nui-gold-text);
+  font-weight: 600;
 }
 
-.nui-tabbar button.on svg {
-  color: var(--nui-gold);
+/* The app's real header, floating over the top of every tab. */
+.nui-apphead {
+  position: absolute;
+  top: env(safe-area-inset-top, 0px);
+  left: 0;
+  right: 0;
+  z-index: 1250;
+  pointer-events: none;
+}
+
+.nui-apphead .app-header {
+  position: relative;
+  top: auto;
+  margin: 12px 12px 0;
+  pointer-events: auto;
+}
+
+/* Full screen hides the page's own header; this one stays. */
+body.ui-lab-full .nui-apphead .app-header {
+  display: flex !important;
 }
 
 .nui-exit {
   position: absolute;
-  top: calc(12px + env(safe-area-inset-top, 0px));
+  top: calc(var(--nui-head-h) + 8px + env(safe-area-inset-top, 0px));
   right: 16px;
   z-index: 1300;
   display: grid;
@@ -727,84 +763,6 @@
 .nui-hero-photo {
   width: 100%;
   height: 100%;
-}
-
-/* Map tab */
-.nui-map-tab {
-  position: absolute;
-  inset: 0;
-}
-
-.nui-map {
-  position: absolute;
-  inset: 0;
-  background: var(--nui-surface);
-}
-
-.nui-map-top {
-  position: absolute;
-  top: 12px;
-  left: 16px;
-  right: 16px;
-  z-index: 500;
-}
-
-.nui-search-float {
-  margin-top: 0;
-  background: var(--nui-bg);
-  border: 1px solid var(--nui-line);
-  box-shadow: var(--nui-shadow);
-}
-
-.nui-sheet {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: var(--nui-tabbar-h);
-  z-index: 500;
-  padding: 8px 16px 16px;
-  border-radius: 20px 20px 0 0;
-  background: var(--nui-bg);
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.08);
-  border-top: 1px solid var(--nui-line);
-}
-
-.nui-sheet-grip {
-  display: block;
-  width: 36px;
-  height: 4px;
-  margin: 0 auto 12px;
-  border-radius: 999px;
-  background: var(--nui-line);
-}
-
-.nui-sheet .nui-h2 {
-  margin-bottom: 0;
-}
-
-.nui-sheet .nui-mapr {
-  margin: 10px 0 12px;
-}
-
-.nui-sheet-row .nui-card {
-  flex-basis: 150px;
-}
-
-.nui-sheet-row .nui-card-photo {
-  aspect-ratio: 4 / 3;
-}
-
-.nui-map-pick span {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background: #c9971a;
-  color: #1a1300;
-  font: 800 13px/1 'Inter', system-ui, sans-serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Landmarks tab */

@@ -3,8 +3,10 @@
 Read this before building or restyling any screen. It sets the colors, type,
 spacing, corners, motion and voice for every screen. The reference build is
 the Test tab's **New UI** sub-tab (`src/screens/NewUILab.jsx`,
-`src/screens/NewUILab.css`): the full tab bar with Map, Landmarks, Itinerary
-and Profile redesigned (Mapr stays as it is). Copy its tokens and parts rather
+`src/screens/NewUILab.css`): Landmarks, Itinerary and Profile redesigned.
+The app's own header (logo, streak, points, @username) and its emoji tab bar
+float over every tab, and Map and Mapr are the live tabs as they are
+(owner, 2026-11-14). Copy its tokens and parts rather
 than inventing new ones.
 
 **In one line:** Quiet is the base (a travel planner), and Mapr is the
@@ -294,11 +296,11 @@ Use these before making a new one. Each has a class in `NewUILab.css`.
 - **Progress ring** (`.nui-ring`): gold arc on a hairline circle, "2 of 5".
 - **Segmented control** (`.nui-seg`): surface pill, selected segment is the
   page color with a hairline.
-- **Tab bar** (`.nui-tabbar`): page color with a hairline on top, black icons
-  and labels; the current tab is gold.
-- **Map sheet** (`.nui-sheet`): 20 pt top corners over the map, a grip, the
-  heading, one Mapr line, a row of place cards. Map pins are gray; Mapr's
-  picks are numbered gold pins.
+- **Tab bar** (`.nui-tabbar`): the app's own emoji tabs (🌐 📍 🧠 🗺️ 🏆) in a
+  floating pill, 12 pt off the edges, page color with a hairline and a soft
+  shadow. Labels are black; the current tab sits on gold-soft with gold text.
+- **Header** (`.nui-apphead`): the app's real header, floating 12 pt from the
+  top: logo, streak, points, @username with the notification count.
 - **Trip card** (`.nui-trip`): three photos, name, when · places · time.
 - **Stats** (`.nui-stats`): three numbers in one hairline card.
 

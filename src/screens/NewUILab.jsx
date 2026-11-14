@@ -1,58 +1,31 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Marker } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { ensurePlacePacks, usePlacePacksVersion } from '../lib/placePacks';
+import { NAV_ITEMS } from '../components/BottomNav';
 import './NewUILab.css';
 
 // The real Mapr tab, exactly as it is in the app (owner, 2026-11-14).
 const Mapr = lazy(() => import('./Mapr'));
+// The real Map tab, exactly as it is in the app: satellite view, blue pins,
+// green once checked in (owner, 2026-11-14).
+const LiveMap = lazy(() => import('./MapExplore'));
+// The app's real header (logo, streak, points, @username), kept as it is
+// and floating over the New UI (owner, 2026-11-14).
+const Header = lazy(() => import('../components/Header'));
 
 // Test tab: "New UI" (owner, 2026-11-14). The app in the design language of
 // docs/design-language.md: Quiet base (white, Inter, gold as the only
 // accent) with Mapr as the Character inside it. The full bottom tab bar
-// with all 5 tabs; Map, Landmarks, Itinerary and Profile are redesigned,
-// Mapr is the live Mapr tab unchanged, shown in the preview's
-// Light / Dark. Places are the real Miami catalog;
+// with all 5 tabs; Landmarks, Itinerary and Profile are redesigned,
+// Map and Mapr are the live tabs unchanged, shown in the preview's
+// Light / Dark. The app's real header and its emoji tabs float on top. Places are the real Miami catalog;
 // trips, points and the "why you" lines are samples. Nothing in the
 // redesigned tabs is saved; the Light / Dark switch only changes this preview.
 
-const TABS = [
-  { id: 'map', label: 'Map' },
-  { id: 'landmarks', label: 'Landmarks' },
-  { id: 'mapr', label: 'Mapr' },
-  { id: 'itinerary', label: 'Itinerary' },
-  { id: 'profile', label: 'Profile' },
-];
-
-const TAB_ICONS = {
-  map: (
-    <>
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5s1.1-6.1 3.5-8.5z" />
-    </>
-  ),
-  landmarks: (
-    <>
-      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" />
-      <circle cx="12" cy="10" r="2.3" />
-    </>
-  ),
-  mapr: <path d="M12 3c.8 5 3 7.3 8.5 9-5.5 1.7-7.7 4-8.5 9-.8-5-3-7.3-8.5-9 5.5-1.7 7.7-4 8.5-9z" />,
-  itinerary: (
-    <>
-      <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z" />
-      <path d="M9 4v13.5M15 6.5V20" />
-    </>
-  ),
-  profile: (
-    <>
-      <circle cx="12" cy="8.5" r="3.8" />
-      <path d="M4.5 20.5c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6" />
-    </>
-  ),
-};
+// The app's own bottom tabs with their emojis, kept (owner, 2026-11-14),
+// as a floating capsule. Same labels and emojis as src/components/BottomNav.
+const TAB_IDS = { Map: 'map', Landmarks: 'landmarks', Mapr: 'mapr', Itinerary: 'itinerary', Profile: 'profile' };
+const TABS = NAV_ITEMS.map((n) => ({ id: TAB_IDS[n.label], label: n.label, icon: n.icon }));
 
 const CITY = { id: 'miami', name: 'Miami' };
 const HIDE_KINDS = new Set(['airports', 'benches']);
@@ -204,55 +177,6 @@ const hostOf = (url) => {
     return url;
   }
 };
-
-// ---------- Map ----------
-
-const pickIcon = (n) => L.divIcon({ className: 'nui-map-pick', html: `<span>${n}</span>`, iconSize: [28, 28], iconAnchor: [14, 14] });
-const tilesFor = (mode) => `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${mode === 'dark' ? 'Dark' : 'Light'}_Gray_Base/MapServer/tile/{z}/{y}/{x}`;
-
-function MapTab({ places, mode, onOpen }) {
-  const picks = places.withPhoto.slice(3, 6);
-  const pickIds = new Set(picks.map((p) => p.id));
-  // The picks sit in the open part of the map, above the sheet.
-  const bounds = picks.length ? L.latLngBounds(picks.map((p) => [p.lat, p.lng])).pad(0.6) : L.latLngBounds([25.70, -80.30], [25.86, -80.12]);
-  return (
-    <div className="nui-map-tab">
-      <MapContainer key={mode} className="nui-map" bounds={bounds} boundsOptions={{ paddingTopLeft: [24, 80], paddingBottomRight: [24, 400], maxZoom: 14 }} zoomSnap={0.25} zoomControl={false} attributionControl={false}>
-        <TileLayer url={tilesFor(mode)} maxZoom={16} />
-        {places.all
-          .filter((l) => !pickIds.has(l.id))
-          .map((l) => (
-            <CircleMarker
-              key={l.id}
-              center={[l.lat, l.lng]}
-              radius={4}
-              pathOptions={{ color: mode === 'dark' ? '#000' : '#fff', weight: 1, fillColor: '#8a8a8a', fillOpacity: 0.9 }}
-              eventHandlers={{ click: () => onOpen(l) }}
-            />
-          ))}
-        {picks.map((p, i) => (
-          <Marker key={p.id} position={[p.lat, p.lng]} icon={pickIcon(i + 1)} title={p.name} eventHandlers={{ click: () => onOpen(p) }} />
-        ))}
-      </MapContainer>
-      <div className="nui-map-top">
-        <div className="nui-search nui-search-float" role="search">
-          <Icon d={SEARCH} size={16} />
-          <span>Search {CITY.name}</span>
-        </div>
-      </div>
-      <div className="nui-sheet">
-        <span className="nui-sheet-grip" aria-hidden="true" />
-        <h2 className="nui-h2">Picked for you</h2>
-        <MaprLine>Three places near you fit this afternoon. They're the gold pins.</MaprLine>
-        <div className="nui-row-scroll nui-sheet-row">
-          {picks.map((p, i) => (
-            <PlaceCard key={p.id} place={p} why={whyFor(p, i)} onOpen={onOpen} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ---------- Landmarks ----------
 
@@ -464,11 +388,10 @@ export default function NewUILab() {
     };
   }, [full]);
 
-  // The live Mapr tab reads the app's theme from <html data-theme>, so while
-  // it shows, the page takes the preview's Light / Dark and gets it back after.
-  const maprShown = tab === 'mapr' && !place;
+  // The live parts (header, Mapr tab) read the app's theme from
+  // <html data-theme>, so while the New UI is open the page takes the
+  // preview's Light / Dark, and gets its own back when you leave.
   useEffect(() => {
-    if (!maprShown) return undefined;
     const root = document.documentElement;
     const before = root.getAttribute('data-theme');
     root.setAttribute('data-theme', mode);
@@ -476,7 +399,21 @@ export default function NewUILab() {
       if (before == null) root.removeAttribute('data-theme');
       else root.setAttribute('data-theme', before);
     };
-  }, [maprShown, mode]);
+  }, [mode]);
+
+  // The live map's look (blue pins, green when checked in) is scoped to
+  // body[data-apple='map'], which the app sets only on its Map route.
+  const live = (tab === 'map' || tab === 'mapr') && !place;
+  const liveMap = tab === 'map' && !place;
+  useEffect(() => {
+    if (!liveMap) return undefined;
+    const before = document.body.dataset.apple;
+    document.body.dataset.apple = 'map';
+    return () => {
+      if (before == null) delete document.body.dataset.apple;
+      else document.body.dataset.apple = before;
+    };
+  }, [liveMap]);
 
   const open = (p) => setPlace({ p, why: whyFor(p, places.withPhoto.indexOf(p)) });
   const go = (id) => {
@@ -486,31 +423,33 @@ export default function NewUILab() {
 
   let body;
   if (place) body = <PlaceScreen place={place.p} why={place.why} onBack={() => setPlace(null)} />;
-  else if (tab === 'map') body = <MapTab places={places} mode={mode} onOpen={open} />;
   else if (tab === 'landmarks') body = <LandmarksTab places={places} onOpen={open} />;
   else if (tab === 'itinerary') body = <ItineraryTab places={places} onOpen={open} />;
   else if (tab === 'profile') body = <ProfileTab places={places} />;
 
   const phone = (
     <div className={`nui-frame ${full ? 'nui-full' : ''}`} data-tab={tab}>
-      {tab === 'mapr' && !place ? (
-        // The live Mapr tab, unchanged: none of the New UI styles reach it.
-        <div className="nui-scroll nui-live">
-          <Suspense fallback={null}>
-            <Mapr />
-          </Suspense>
+      {live ? (
+        // The live Map and Mapr tabs, unchanged: none of the New UI styles reach them.
+        <div className={`nui-scroll nui-live nui-live-${tab}`} key={tab}>
+          <Suspense fallback={null}>{tab === 'map' ? <LiveMap /> : <Mapr />}</Suspense>
         </div>
       ) : (
         <div className="nui nui-scroll" data-mode={mode} key={place ? place.p.id : tab}>
           {body}
         </div>
       )}
+      <div className="nui-apphead">
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
+      </div>
       <nav className="nui nui-tabbar" data-mode={mode} aria-label="Tabs">
         {TABS.map((t) => (
           <button key={t.id} type="button" className={tab === t.id ? 'on' : ''} aria-current={tab === t.id ? 'page' : undefined} onClick={() => go(t.id)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              {TAB_ICONS[t.id]}
-            </svg>
+            <span className="nui-tab-icon" aria-hidden="true">
+              {t.icon}
+            </span>
             <span>{t.label}</span>
           </button>
         ))}
