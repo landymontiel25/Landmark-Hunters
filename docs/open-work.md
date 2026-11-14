@@ -3,6 +3,19 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Official Onboarding step 10: Hometown Transition (2026-11-14)
+
+Test tab only (`officialOnboardingHometown.js`, `Hometown` in
+`OfficialOnboardingLab.jsx`). After sign-up: home city map (grey = not been,
+gold = been), "You've only been to 12 of N places in <city>. You live here.",
+the owner's Mapr line, 3 picks from the step 3/4 picks (closest of the 40
+best known per kind, not visited), one-tap save to "Tomorrow in <city>" /
+"This week at home", and the daily loop. "Been to" is a sample (the 12 best
+known places) because the Test tab has no check-ins; a real build counts
+the user's check-ins in their home city. Home city is a picker in Test; a
+real build would know it. The step 9 hook's Finish now leads here instead of
+the summary. Not built: the real daily push (morning pick, streak nudge).
+
 ## Design language and New UI (2026-11-14)
 
 `docs/design-language.md` is the design language, built from AppMonkey's

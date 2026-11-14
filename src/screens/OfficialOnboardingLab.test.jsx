@@ -39,7 +39,7 @@ const bubbles = (el) => [...el.querySelectorAll('.mapr-bubble')].map((b) => b.te
 const wait = (ms) => act(() => new Promise((r) => setTimeout(r, ms)));
 
 describe('Official Onboarding (Test tab)', () => {
-  it("lists the owner's 9 steps in order, with the shared controls", async () => {
+  it("lists the owner's 9 steps in order, then the Hometown Transition, with the shared controls", async () => {
     const el = await render();
     expect([...el.querySelectorAll('.lab-step')].map((b) => b.textContent)).toEqual([
       '1. Problem + solution',
@@ -51,6 +51,7 @@ describe('Official Onboarding (Test tab)', () => {
       '7. First check-in',
       '8. Summary',
       '9. Sign up',
+      '10. Hometown Transition',
     ]);
     expect(el.textContent).toContain('Nothing here is saved');
     for (const b of ['Restart', 'Back', 'Next step']) expect(button(el, b)).toBeTruthy();
@@ -149,6 +150,20 @@ describe('Official Onboarding (Test tab)', () => {
     expect(bubbles(el)).toContain('Come back tomorrow — 3 new places near you.');
     await click(button(el, 'Finish'));
 
+    // Step 10: Hometown Transition.
+    expect(el.textContent).toContain('Official Onboarding: Hometown Transition');
+    expect(el.querySelector('.oo-home-map')).toBeTruthy();
+    expect(el.querySelector('.oo-home-stat').textContent).toMatch(/^You've only been to 12 of [\d,]+ places in Miami\. You live here\.$/);
+    expect(bubbles(el)).toContain('I already know what you like — let me guess 3 places near you you\'d love.');
+    const picks = [...el.querySelectorAll('.oo-home-pick-row')];
+    expect(picks).toHaveLength(3);
+    expect(picks.map((r) => r.textContent).join(' ')).toMatch(/Because you picked (food|parks & nature|art & culture)/);
+    expect(el.textContent).toContain('Your streak is at 3 days, don\'t break it — I found a spot for tomorrow.');
+    expect(el.textContent).toContain('Mapr only messages when he has a real pick.');
+    await click(button(el, 'Save to Tomorrow in Miami'));
+    expect(button(el, 'Saved to Tomorrow in Miami')).toBeTruthy();
+    await click(button(el, 'Show me my city'));
+
     expect(el.textContent).toContain('Tutorial finished');
     expect(el.textContent).toContain('Signed up with: Google');
     expect(el.textContent).toContain('Categories: 3 picked, each +10: Food, Parks & Nature, Art & Culture');
@@ -157,6 +172,7 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).toContain('What Mapr reads');
     expect(el.textContent).toContain('"No chains please"');
     expect(el.textContent).toContain('Location: Always');
+    expect(el.textContent).toMatch(/Picks: .+, .+, .+ \(saved to Tomorrow in Miami\)/);
     expect(el.textContent).toContain('What happened');
   });
 
@@ -167,6 +183,22 @@ describe('Official Onboarding (Test tab)', () => {
     expect(button(el, 'Check in now')).toBeFalsy();
     await click(button(el, 'Skip for now'));
     expect(bubbles(el)).toContain('How committed are you');
+  });
+});
+
+describe('Hometown Transition pieces', () => {
+  it('picks 3 unvisited places, one per picked kind, closest first', async () => {
+    const { cityPlaces, visitedSample, hometownPicks, shockStat, homeAnchor } = await import('./officialOnboardingHometown');
+    const miami = cityById('miami');
+    const places = cityPlaces(miami);
+    const visited = visitedSample(places);
+    expect(visited).toHaveLength(12);
+    const picks = hometownPicks(places, visited, ['food', 'parks-nature'], homeAnchor(places, visited, null));
+    expect(picks).toHaveLength(3);
+    expect(picks.map((p) => p.kind)).toEqual(['food', 'parks-nature', 'food']);
+    const seen = new Set(visited.map((l) => l.id));
+    expect(picks.some((p) => seen.has(p.place.id))).toBe(false);
+    expect(shockStat(miami, 12, 1059)).toBe("You've only been to 12 of 1,059 places in Miami. You live here.");
   });
 });
 

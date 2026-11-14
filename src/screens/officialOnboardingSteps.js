@@ -5,7 +5,8 @@ import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, PICKABLE_REGIONS } from '
 import { distanceMeters } from '../lib/geo';
 import { SWIPE_DELTAS } from '../lib/onboardingCards';
 
-// The 9 steps in the owner's order, three acts.
+// The 9 steps in the owner's order, three acts, then the Hometown
+// Transition (owner, 2026-11-14; officialOnboardingHometown.js).
 export const OO_STEPS = [
   { id: 'intro', label: 'Problem + solution', act: 1 },
   { id: 'city', label: 'City', act: 1 },
@@ -16,6 +17,7 @@ export const OO_STEPS = [
   { id: 'checkin', label: 'First check-in', act: 2 },
   { id: 'commit', label: 'Summary', act: 3 },
   { id: 'signup', label: 'Sign up', act: 3 },
+  { id: 'hometown', label: 'Hometown Transition', act: 4 },
 ];
 
 export const CHECKIN_POINTS = 100;
