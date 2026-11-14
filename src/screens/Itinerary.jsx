@@ -50,6 +50,7 @@ import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import { ScreenSkeleton, Skeleton, SkeletonCard, SkeletonList } from '../components/Skeleton';
 import { fmtVisitMinutes, placeSummary } from '../lib/itineraryCard';
+import { MaprLine, ProgressRing, TripPhotos } from '../components/NewUI';
 
 const ROUTE_BLUE = '#2b7fff';
 // Turn-by-turn's actual route, once directions are up -- distinct from the
@@ -658,6 +659,7 @@ function ItineraryBody({ sectionTabs }) {
 
   // How many of this city's planned landmarks you've already checked in at.
   const visitedCount = selectedLandmarks.filter((l) => claimedMap[l.id]).length;
+  const internalCount = selectedLandmarks.filter((l) => !l.external).length;
 
   // Current vs Past (src/lib/itineraryStatus.js): done = every catalog
   // landmark checked into, or moved there by hand.
@@ -711,7 +713,7 @@ function ItineraryBody({ sectionTabs }) {
         {sectionTabs}
         <ErrorNotice error={groupsError} message={friendlyError(groupsError, "Couldn't load your group trips.")} onRetry={loadGroupTrips} />
         <button className="btn btn-ghost" style={{ marginTop: 10 }} onClick={() => setShowCreateTrip(true)}>
-          {'\u{2795}'} Create New Trip
+          Create New Trip
         </button>
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
       </div>
@@ -728,10 +730,10 @@ function ItineraryBody({ sectionTabs }) {
           className="btn btn-primary"
           onClick={() => navigate('/mapr', { state: { openTripPlanner: true } })}
         >
-          {'\u{1F9ED}'} Use Mapr (recommended)
+          Plan a trip with Mapr
         </button>
         <button className="btn btn-ghost" style={{ marginTop: 10 }} onClick={() => setShowCreateTrip(true)}>
-          {'\u{2795}'} Create New Trip
+          Create New Trip
         </button>
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
       </div>
@@ -743,9 +745,8 @@ function ItineraryBody({ sectionTabs }) {
     return (
       <div>
         {sectionTabs}
-        <h1 className="screen-title">
-          <span>{'\u{1F5FA}\u{FE0F}'}</span> Your Itineraries
-        </h1>
+        <p className="nl-label">Your trips</p>
+        <h1 className="screen-title">Itinerary</h1>
         {groupsLoading && <SkeletonList count={1} label="Loading group trips" />}
         {groupsError && !groupsLoading && (
           <ErrorNotice
@@ -759,14 +760,14 @@ function ItineraryBody({ sectionTabs }) {
           type="search"
           className="itin-search"
           aria-label="Search your itineraries"
-          placeholder={'\u{1F50D} Search your cities'}
+          placeholder="Search your trips"
           autoComplete="off"
           enterKeyHint="search"
           value={itinQuery}
           onChange={(e) => setItinQuery(e.target.value)}
         />
         {!searching && (
-        <div className="tabs" style={{ marginBottom: 14 }}>
+        <div className="tabs nl-seg" style={{ marginBottom: 14 }}>
           {[
             { id: 'current', label: 'Current', count: currentCount },
             { id: 'past', label: 'Past', count: pastCount },
@@ -800,7 +801,7 @@ function ItineraryBody({ sectionTabs }) {
         {savedCount > 0 && !searching && itinTab === 'current' && (
           <button type="button" className="card itin-city-card" onClick={() => setOpenSaved(true)} style={{ marginBottom: 14 }}>
             <div style={{ textAlign: 'left' }}>
-              <h3 style={{ margin: 0 }}>{'\u{1F516}'} Save for later</h3>
+              <h3 style={{ margin: 0 }}>Save for later</h3>
               <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
                 {savedCount} saved {savedCount === 1 ? 'place' : 'places'}
               </p>
@@ -810,7 +811,7 @@ function ItineraryBody({ sectionTabs }) {
         )}
         {tabGroups.length > 0 && (
           <div style={{ marginBottom: 18 }}>
-            <h3 style={{ margin: '0 0 8px' }}>{'\u{1F465}'} Group Trips</h3>
+            <h3 style={{ margin: '0 0 8px' }}>Group trips</h3>
             {tabGroups.map((t) => (
               <button
                 key={t.id}
@@ -818,10 +819,11 @@ function ItineraryBody({ sectionTabs }) {
                 className="card itin-city-card"
                 onClick={() => navigate(`/group/${t.id}`)}
               >
+                <TripPhotos places={(() => { const lms = new Map((getRegion(t.regionId)?.landmarks || []).map((l) => [l.id, l])); return (t.landmarkIds || []).map((id) => lms.get(id)).filter(Boolean); })()} />
                 <div style={{ textAlign: 'left' }}>
                   <h3 style={{ margin: 0 }}>{t.name}</h3>
                   <ItinWhere region={getRegion(t.regionId)} />
-                  {cardDate(t.createdAt) && <p className="itin-card-times">{'\u{1F4C5}'} Created {cardDate(t.createdAt)}</p>}
+                  {cardDate(t.createdAt) && <p className="itin-card-times">Created {cardDate(t.createdAt)}</p>}
                   {(() => {
                     const lms = new Map((getRegion(t.regionId)?.landmarks || []).map((l) => [l.id, l]));
                     const names = (t.landmarkIds || []).map((id) => lms.get(id)?.name).filter(Boolean);
@@ -829,7 +831,7 @@ function ItineraryBody({ sectionTabs }) {
                     return (
                       <>
                         {names.length > 0 && <p className="itin-card-places">{placeSummary(names)}</p>}
-                        {mins > 0 && <p className="itin-card-times">{'\u{23F1}\u{FE0F}'} ~{fmtVisitMinutes(mins)} at the stops</p>}
+                        {mins > 0 && <p className="itin-card-times">About {fmtVisitMinutes(mins)} at the stops</p>}
                       </>
                     );
                   })()}
@@ -861,11 +863,12 @@ function ItineraryBody({ sectionTabs }) {
           const minutes = stops.reduce((n, l) => n + (l.typicalMinutes ?? 15), 0) + extra.length * 45;
           return (
             <button key={rid} type="button" className="card itin-city-card" onClick={() => setOpenRegion(rid)}>
+              <TripPhotos places={stops} />
               <div style={{ textAlign: 'left' }}>
                 <h3 style={{ margin: 0 }}>{named}</h3>
                 <ItinWhere region={r} />
                 {placeNames.length > 0 && <p className="itin-card-places">{placeSummary(placeNames)}</p>}
-                {minutes > 0 && <p className="itin-card-times">{'\u{23F1}\u{FE0F}'} ~{fmtVisitMinutes(minutes)} at the stops</p>}
+                {minutes > 0 && <p className="itin-card-times">About {fmtVisitMinutes(minutes)} at the stops</p>}
                 <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
                   {count} stop{count !== 1 ? 's' : ''}
                   {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, catalogIdsFor(rid))}` : ''}
@@ -880,10 +883,10 @@ function ItineraryBody({ sectionTabs }) {
           style={{ marginTop: 16 }}
           onClick={() => navigate('/mapr', { state: { openTripPlanner: true } })}
         >
-          {'\u{1F9ED}'} Use Mapr (recommended)
+          Plan a trip with Mapr
         </button>
         <button className="btn btn-ghost btn-block" style={{ marginTop: 8 }} onClick={() => setShowCreateTrip(true)}>
-          {'\u{2795}'} Create New Trip
+          Create New Trip
         </button>
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
       </div>
@@ -907,16 +910,28 @@ function ItineraryBody({ sectionTabs }) {
     );
   }
 
+  // The Mapr line over the route (New UI): what is left and what is next.
+  const nextStop = orderedRoute.find((st) => !st.external && !claimedMap[st.id]);
+  const leftCount = orderedRoute.filter((st) => !st.external && !claimedMap[st.id]).length;
+  const maprNote =
+    internalCount === 0
+      ? null
+      : !nextStop
+        ? 'You checked into every stop on this trip. I can plan the next one when you want it.'
+        : `${leftCount} ${leftCount === 1 ? 'stop' : 'stops'} left. ${nextStop.name} is next.`;
+
   return (
     <div>
       <button className="btn btn-ghost btn-sm" style={{ marginBottom: 12 }} onClick={() => setOpenRegion(null)}>
         {'←'} My Itineraries
       </button>
-      <EditableTitle
-        value={itineraryName(region.id)}
-        onSave={(name) => renameItinerary(region.id, name)}
-        prefix={<span>{'\u{1F5FA}\u{FE0F}'}</span>}
-      />
+      <p className="nl-label">
+        {region.name} · {displayRoute.length} stop{displayRoute.length === 1 ? '' : 's'}
+      </p>
+      <div className="nl-title-row">
+        <EditableTitle value={itineraryName(region.id)} onSave={(name) => renameItinerary(region.id, name)} />
+        {internalCount > 0 && <ProgressRing found={visitedCount} total={internalCount} />}
+      </div>
       <p className="screen-subtitle">
         {itineraryName(region.id) !== region.name ? `${region.name} · ` : ''}
         {sort === 'custom' ? 'My order' : 'Nearest to me'}
@@ -926,16 +941,17 @@ function ItineraryBody({ sectionTabs }) {
         · {displayRoute.length} stop{displayRoute.length === 1 ? '' : 's'}
       </p>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+      {maprNote && <MaprLine>{maprNote}</MaprLine>}
+      <div className="nl-itin-tags" style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
         <span className="tag">
-          {'\u{1F4CD}'} {selectedLandmarks.length} landmark{selectedLandmarks.length !== 1 ? 's' : ''} in {region.name}
+          {selectedLandmarks.length} landmark{selectedLandmarks.length !== 1 ? 's' : ''} in {region.name}
         </span>
         <span className="tag">
-          {'\u{2705}'} {visitedCount} of {selectedLandmarks.filter((l) => !l.external).length} visited
+          {visitedCount} of {internalCount} visited
         </span>
         {visitedCount > 0 && (
           <button type="button" className="btn btn-ghost btn-tight" onClick={() => setShowRecap(true)}>
-            {'\u{1F3AC}'} Trip Recap
+            Trip Recap
           </button>
         )}
       </div>
@@ -975,20 +991,20 @@ function ItineraryBody({ sectionTabs }) {
       )}
 
       <div className="itin-toolbar">
-        <div className="tabs" style={{ margin: 0, flex: 1, maxWidth: 240 }}>
+        <div className="tabs nl-seg" style={{ margin: 0, flex: 1, maxWidth: 240 }}>
           <button
             type="button"
             className={`tab-btn ${view === 'list' ? 'active' : ''}`} aria-pressed={!!(view === 'list')}
             onClick={() => setView('list')}
           >
-            {'\u{1F5D2}\u{FE0F}'} List
+            List
           </button>
           <button
             type="button"
             className={`tab-btn ${view === 'map' ? 'active' : ''}`} aria-pressed={!!(view === 'map')}
             onClick={() => setView('map')}
           >
-            {'\u{1F5FA}\u{FE0F}'} Map
+            Map
           </button>
         </div>
         {!editing && sortPref && (
@@ -1056,14 +1072,14 @@ function ItineraryBody({ sectionTabs }) {
         {displayRoute.length > 0 && (
           <div className="itin-trip-actions">
             <button type="button" className="btn btn-primary" onClick={() => startTrip()}>
-              {'\u{25B6}\u{FE0F}'} Start Trip
+              Start Trip
             </button>
             <button type="button" className="btn btn-ghost" onClick={shareItinerary}>
-              {'\u{1F4E4}'} Share
+              Share
             </button>
             {allStopsLinks.map((href, i) => (
               <a key={href} className="btn btn-ghost" href={href} target="_blank" rel="noreferrer">
-                {'\u{1F5FA}\u{FE0F}'} {allStopsLinks.length > 1 ? `Google Maps, part ${i + 1} of ${allStopsLinks.length}` : 'All stops in Google Maps'}
+                {allStopsLinks.length > 1 ? `Google Maps, part ${i + 1} of ${allStopsLinks.length}` : 'All stops in Google Maps'}
               </a>
             ))}
           </div>
@@ -1081,7 +1097,7 @@ function ItineraryBody({ sectionTabs }) {
           >
             {(idx > 0 || stop.distanceFromPrevMeters <= 80000) && (
               <div className="route-travel">
-                {stop.distanceFromPrevMeters <= 1200 ? '\u{1F6B6}' : '\u{1F697}'} {stop.travelMinutesFromPrev || 1} min ·{' '}
+                {stop.travelMinutesFromPrev || 1} min {stop.distanceFromPrevMeters <= 1200 ? 'walk' : 'drive'} ·{' '}
                 {formatDistance(stop.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}
@@ -1097,7 +1113,7 @@ function ItineraryBody({ sectionTabs }) {
                   {'−'}
                 </button>
               ) : (
-                <div className="route-num">{idx + 1}</div>
+                <div className={`route-num ${claimedMap[stop.id] ? 'found' : ''}`}>{idx + 1}</div>
               )}
               <div className={`card ${claimedMap[stop.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
@@ -1194,9 +1210,7 @@ function ItineraryBody({ sectionTabs }) {
                       </a>
                     )
                   ) : stop.free == null && !stop.bookingUrl ? null : stop.free ? (
-                    <button className="btn btn-sm" disabled style={{ borderColor: 'var(--color-green)', color: '#bfe0c8' }}>
-                      Free to Visit
-                    </button>
+                    <span className="tag itin-free">Free to Visit</span>
                   ) : (
                     <a className="btn btn-primary btn-sm" href={stop.bookingUrl || '#'} target="_blank" rel="noreferrer">
                       Book Now
@@ -1219,8 +1233,8 @@ function ItineraryBody({ sectionTabs }) {
         ))}
       </div>
 
-      <button type="button" className="btn btn-primary btn-block" onClick={() => navigate('/')}>
-        {'\u{1F3AF}'} Start Checking In on the Map
+      <button type="button" className="btn btn-ghost btn-block" onClick={() => navigate('/')}>
+        Start Checking In on the Map
       </button>
 
       <button
@@ -1235,7 +1249,7 @@ function ItineraryBody({ sectionTabs }) {
           toast.show(`Moved ${itineraryName(region.id)} to ${toPast ? 'Past' : 'Current'}.`, { tone: 'success' });
         }}
       >
-        {openPhase === 'past' ? `${'\u{21A9}\u{FE0F}'} Move back to Current` : `${'\u{1F4E6}'} Move to Past`}
+        {openPhase === 'past' ? 'Move back to Current' : 'Move to Past'}
       </button>
 
       <button type="button" className="btn btn-danger btn-block" style={{ marginTop: 12 }} onClick={() => setConfirmDelete(true)}>
@@ -1305,10 +1319,10 @@ export default function Itinerary() {
   const { favorites } = useFavorites();
 
   const tabs = (
-    <div className="tabs itin-sections" style={{ marginBottom: 14 }} role="tablist" aria-label="Itinerary sections">
+    <div className="tabs itin-sections nl-seg" style={{ marginBottom: 14 }} role="tablist" aria-label="Itinerary sections">
       {[
-        { id: 'itineraries', label: '\u{1F5FA}\u{FE0F} Itineraries' },
-        { id: 'favorites', label: `\u{2B50} Favorites${favorites.length ? ` (${favorites.length})` : ''}` },
+        { id: 'itineraries', label: 'Itineraries' },
+        { id: 'favorites', label: `Favorites${favorites.length ? ` (${favorites.length})` : ''}` },
       ].map((t) => (
         <button
           key={t.id}
@@ -1328,9 +1342,8 @@ export default function Itinerary() {
     return (
       <div>
         {tabs}
-        <h1 className="screen-title">
-          <span>{'\u{2B50}'}</span> Favorites
-        </h1>
+        <p className="nl-label">Places you loved</p>
+        <h1 className="screen-title">Favorites</h1>
         <FavoritesList />
       </div>
     );

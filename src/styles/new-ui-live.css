@@ -420,3 +420,344 @@ html body[data-apple='landmarks'] .aps .lm-pager .btn {
 html body[data-apple='landmarks'] .aps .lm-pager-label {
   color: var(--ap-text);
 }
+
+/* =====================================================================
+   4. Shared New UI parts (src/components/NewUI.jsx)
+   ===================================================================== */
+.nl-mapr {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--nl-gold-soft);
+}
+.nl-mapr p {
+  margin: 0;
+  color: var(--nl-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+.nl-spark {
+  flex-shrink: 0;
+  margin-top: 2px;
+  fill: var(--gold);
+  animation: nl-spark-arrive 600ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+@keyframes nl-spark-arrive {
+  from {
+    transform: rotate(-90deg) scale(0.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nl-spark {
+    animation: none;
+  }
+}
+.nl-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.nl-ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.nl-ring circle {
+  fill: none;
+  stroke-width: 4;
+}
+.nl-ring-track {
+  stroke: var(--nl-line);
+}
+.nl-ring-fill {
+  stroke: var(--gold);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 600ms cubic-bezier(0.2, 0, 0, 1);
+}
+.nl-ring span {
+  color: var(--nl-text);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.nl-ring strong {
+  font-weight: 700;
+}
+.nl-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nl-trip-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.nl-trip-photo {
+  display: block;
+  overflow: hidden;
+  background: var(--ap-card-2, #f5f5f5);
+}
+.nl-trip-photo:first-child {
+  grid-row: span 2;
+}
+.nl-trip-photo:only-child {
+  grid-column: span 2;
+}
+.nl-trip-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Segmented control (Itineraries | Favorites, Current | Past) */
+html body[data-apple]:not([data-apple='map']) .aps .tabs.nl-seg {
+  display: flex;
+  gap: 0;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--ap-card-2);
+  overflow: hidden;
+}
+html body[data-apple]:not([data-apple='map']) .aps .tabs.nl-seg .tab-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ap-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+html body[data-apple]:not([data-apple='map']) .aps .tabs.nl-seg .tab-btn.active,
+html body[data-apple]:not([data-apple='map']) .aps .tabs.nl-seg .tab-btn[aria-selected='true'] {
+  border-color: var(--ap-line);
+  background: var(--ap-bg);
+  color: var(--ap-text);
+}
+
+/* =====================================================================
+   5. Itinerary in the New UI layout (NewUILab's ItineraryTab)
+   ===================================================================== */
+html body[data-apple='itinerary'] .aps .screen-title {
+  margin: 4px 0 12px;
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 800;
+  letter-spacing: -0.02em !important;
+}
+html body[data-apple='itinerary'] .aps .nl-title-row .screen-title {
+  margin: 4px 0 0;
+}
+html body[data-apple='itinerary'] .aps h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em !important;
+}
+html body[data-apple='itinerary'] .aps-itinerary .itin-search {
+  height: 44px;
+  margin: 0 0 12px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ap-card-2);
+  color: var(--ap-text);
+  font-size: 15px;
+  box-shadow: none;
+}
+html body[data-apple='itinerary'] .aps-itinerary .itin-search::placeholder {
+  color: var(--ap-text);
+  opacity: 0.7;
+}
+/* Trip cards: photos, name, meta, chevron */
+html body[data-apple='itinerary'] .aps-live .itin-city-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 12px;
+  border: 1px solid var(--ap-line);
+  border-radius: 14px;
+  background: var(--ap-bg);
+  box-shadow: none;
+}
+html body[data-apple='itinerary'] .aps-live .itin-city-card > div {
+  flex: 1;
+  min-width: 0;
+}
+html body[data-apple='itinerary'] .aps-live .itin-city-card h3 {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+html body[data-apple='itinerary'] .aps .itin-city-card p,
+html body[data-apple='itinerary'] .aps .itin-where,
+html body[data-apple='itinerary'] .aps .itin-where-sub,
+html body[data-apple='itinerary'] .aps-live .itin-card-places,
+html body[data-apple='itinerary'] .aps-live .itin-card-times {
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: var(--ap-text) !important;
+  font-size: 13px !important;
+  line-height: 18px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* Plan a trip: the one gold button */
+html body[data-apple='itinerary'] .aps .btn-primary {
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--gold-ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+html body[data-apple='itinerary'] .aps .btn-ghost,
+html body[data-apple='itinerary'] .aps .btn:not(.btn-primary):not(.btn-danger) {
+  border: 1px solid var(--ap-line);
+  border-radius: 999px;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+  font-weight: 600;
+}
+html body[data-apple='itinerary'] .aps .nl-itin-tags .tag {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--ap-text);
+  font-size: 13px;
+}
+html body[data-apple='itinerary'] .aps .nl-itin-tags .tag + .tag::before {
+  content: '· ';
+}
+html body[data-apple='itinerary'] .aps .card.section {
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--ap-line);
+  border-bottom: 1px solid var(--ap-line);
+  border-radius: 0;
+  background: transparent;
+}
+/* Stops: numbered gold circles (filled once checked in), hairlines, and a
+   travel line between */
+html body[data-apple='itinerary'] .aps-live .route-step {
+  gap: 12px;
+  padding-bottom: 0;
+}
+html body[data-apple='itinerary'] .aps-live .route-step::before {
+  display: none;
+}
+html body[data-apple='itinerary'] .aps-live .route-step .route-num {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-top: 12px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--nl-gold-text);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: none;
+}
+html body[data-apple='itinerary'] .aps-live .route-step .route-num.found {
+  background: var(--gold);
+  color: var(--gold-ink);
+}
+html body[data-apple='itinerary'] .aps-live .route-step .card,
+html body[data-apple='itinerary'] .aps-live .route-step .card.visited {
+  padding: 12px 0 14px;
+  border: 0;
+  border-bottom: 1px solid var(--ap-line);
+  border-radius: 0;
+  background: transparent;
+}
+html body[data-apple='itinerary'] .aps-live .route-step .landmark-thumb,
+html body[data-apple='itinerary'] .aps-live .route-step .landmark-thumb-wrap,
+html body[data-apple='itinerary'] .aps-live .route-step .landmark-thumb-fallback,
+html body[data-apple='itinerary'] .aps-live .route-step .chatlab-stop-globe {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 10px !important;
+}
+html body[data-apple='itinerary'] .aps-live .route-step h4 {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+html body[data-apple='itinerary'] .aps-live .route-step .tag,
+html body[data-apple='itinerary'] .aps-live .route-address {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ap-text);
+  font-size: 13px;
+}
+html body[data-apple='itinerary'] .aps-live .route-step .btn-sm {
+  height: 34px;
+  min-height: 0;
+  padding: 0 12px;
+  font-size: 13px;
+}
+html body[data-apple='itinerary'] .aps-live .route-travel {
+  margin: 0;
+  padding: 10px 0 0 40px;
+  border: 0;
+  background: none;
+  color: var(--ap-text);
+  font-size: 13px;
+}
+html body[data-apple='itinerary'] .aps-live .itin-trip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 8px;
+}
+/* The trip's name shows (an older rule hid a title's first span, meant for
+   an emoji). */
+html body[data-apple='itinerary'] .aps .editable-title > span:first-child {
+  display: inline;
+}
+html body[data-apple='itinerary'] .aps .editable-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Search sits in the page, under the title. */
+html body[data-apple='itinerary'] .aps-itinerary .itin-search {
+  position: static;
+  display: block;
+  width: 100%;
+  max-width: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body[data-apple='itinerary'] .aps-itinerary .aps-body {
+  padding-bottom: 110px;
+}
+html body[data-apple='itinerary'] .aps-live .route-step .itin-free {
+  align-self: center;
+}
+html[data-theme='light'] body[data-apple='itinerary'] .aps .btn-danger {
+  color: #a01c12;
+}
