@@ -70,13 +70,19 @@ export function hometownPicks(places, visited, cats = [], anchor = null) {
 export const pickReason = (kind) => (kind ? `Because you picked ${tasteLabel(kind).toLowerCase()}` : "Close to you, and you haven't been");
 export const kindIcon = (kind) => INTERESTS.find((i) => i.id === kind)?.icon || '\u{1F4CD}';
 
-// "You've only been to 12 of 1,059 places in Miami. You live here."
-export const shockStat = (city, visited, total) =>
-  `You've only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places in ${cityName(city)}. You live here.`;
+// "12 of 1,059 places in Miami": the headline number on the screen.
+export const shockStat = (city, visited, total) => `${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places in ${cityName(city)}`;
 
-export const HOMETOWN_SAY = [
-  'We already convinced you to use it for your trips. You might as well just use it in your city now because you haven\'t visited everywhere in your city. I already know what you like — let me guess 3 places near you you\'d love.',
+// Mapr on the Hometown Transition screen (owner, 2026-11-14): their real
+// city and numbers, never "I guessed" or "let me guess".
+export const hometownSay = (city, visited, total) => [
+  `You already trust me with your trips (and I know what you like from those trips). You live in ${cityName(city)} and you have only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places here. Based on what you picked, here are 3 places near you that you will love.`,
 ];
+
+// The one notification after a trip, once they are back home (owner,
+// 2026-11-14). Tapping it opens the Hometown Transition screen. Sent once.
+export const hometownNotification = (city, visited, total) =>
+  `You are back home in ${cityName(city)}. You have only been to ${visited.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} places here, and I already know what you like. Want me to pick 3 near you for tomorrow?`;
 
 // The two lists one tap saves the picks to.
 export const saveLists = (city) => [
@@ -89,7 +95,7 @@ export function dailyLoop(firstPick, points) {
   return [
     { id: 'morning', when: 'Morning', what: 'Mapr picks 1 place near you for today.', sample: firstPick ? `Today: ${firstPick.name}. It's close, and it's your kind of place.` : 'Today: 1 place near you.' },
     { id: 'after', when: 'After you go', what: `Check in, +${points} points, Mapr celebrates.`, sample: firstPick ? `Checked in at ${firstPick.name}. +${points}. That's one more of your city.` : `Checked in. +${points}.` },
-    { id: 'skip', when: 'If you skip a day', what: 'One nudge, with a pick in it.', sample: `Your streak is at ${SAMPLE_STREAK} days, don't break it — I found a spot for tomorrow.` },
+    { id: 'skip', when: 'If you skip a day', what: 'One nudge, with a pick in it.', sample: `Your streak is at ${SAMPLE_STREAK} days, don't break it. I found a spot for tomorrow.` },
   ];
 }
 

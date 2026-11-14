@@ -36,8 +36,11 @@ describe('New UI (Test tab)', () => {
   it('has the app\'s emoji tabs and its real header, opening on Map', async () => {
     const el = await render();
     await wait();
-    expect([...el.querySelectorAll('.nui-tabbar button')].map((b) => b.textContent)).toEqual(['\u{1F310}Map', '\u{1F4CD}Landmarks', '\u{1F9E0}Mapr', '\u{1F5FA}\u{FE0F}Itinerary', '\u{1F3C6}Profile']);
+    expect([...el.querySelectorAll('.nui-tabbar button')].map((b) => b.textContent)).toEqual(['\u{1F310}Map', '\u{1F4CD}Landmarks', 'Mapr', '\u{1F5FA}\u{FE0F}Itinerary', '\u{1F3C6}Profile']);
     expect(el.querySelector('.nui-apphead .live-header-stub')).toBeTruthy();
+    // Mapr's tab is the logo in a squircle with a sparkle, no brain (owner, 2026-11-14).
+    expect(el.querySelector('.nui-tabbar .mapr-tab-icon img').getAttribute('src')).toBe('/logo.png');
+    expect(el.querySelector('.nui-tabbar').textContent).not.toContain('\u{1F9E0}');
     expect(tab(el, 'Map').getAttribute('aria-current')).toBe('page');
     // Map is the live map, in its own look (body[data-apple='map']).
     const map = el.querySelector('.live-map-stub');

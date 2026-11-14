@@ -22,7 +22,7 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true, ca
       <p className="screen-subtitle">What a real signup would have saved. Nothing here was actually saved.</p>
       <div className="card section">
         <p>
-          <strong>Signed up with:</strong> {data.via || '—'}
+          <strong>Signed up with:</strong> {data.via || 'None'}
         </p>
         {data.skippedRating ? (
           <p>
@@ -34,7 +34,7 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true, ca
           </p>
         ) : (
           <p>
-            <strong>Cards:</strong> {data.answers.length} of {data.cards.length} rated — {count('love')} love it,{' '}
+            <strong>Cards:</strong> {data.answers.length} of {data.cards.length} rated: {count('love')} love it,{' '}
             {count('dislike')} don't like it, {count('unsure')} not sure
           </p>
         )}
@@ -62,7 +62,7 @@ export default function LabSummary({ data, log, onRestart, showPlaces = true, ca
               Love it {SWIPE_DELTAS.love > 0 ? '+' : ''}
               {SWIPE_DELTAS.love}, don't like it {SWIPE_DELTAS.dislike}, not sure 0, each place you visit most{' '}
               {PLACE_DELTA > 0 ? '+' : ''}
-              {PLACE_DELTA} on each of its tags — summed per tag.
+              {PLACE_DELTA} on each of its tags, summed per tag.
             </p>
             {Object.keys(deltas).length ? (
               <ul className="lab-log">

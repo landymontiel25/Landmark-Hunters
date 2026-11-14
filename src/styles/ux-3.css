@@ -2582,3 +2582,131 @@ img {
   font-size: 0.85rem;
   color: var(--text-secondary);
 }
+
+/* Official Onboarding intro (owner, 2026-11-14): the three cards hold the
+   owner's infographic, the confused traveler photo and the real map with a
+   real route, edge to edge in a white squircle card. */
+.tut-phone.oo-intro-card {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #ebebeb;
+  border-radius: 28px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+[data-theme='dark'] .tut-phone.oo-intro-card {
+  border-color: #242424;
+  box-shadow: none;
+}
+.oo-intro-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.oo-intro-img.photo {
+  aspect-ratio: 4 / 4.4;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.oo-intro-map .oo-intro-map-inner {
+  height: 380px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+/* Mapr's face in a bubble: the logo squircle at bubble size (owner,
+   2026-11-14). */
+.mapr-bubble-face {
+  background: none;
+}
+.mapr-bubble-face .mapr-tab-icon {
+  width: 38px;
+  height: 38px;
+}
+.mapr-bubble-face .mapr-tab-icon img {
+  width: 21px !important;
+}
+.mapr-bubble-face .mapr-tab-icon .mapr-tab-spark {
+  width: 11px !important;
+  height: 11px !important;
+}
+/* The intro map's stop numbers in the brand gold. */
+.oo-intro-map .intro-map-pin-num {
+  background: #c9971a;
+  color: #1a1300;
+}
+/* Act 4: the back-home notification on an iPhone lock screen (owner,
+   2026-11-14). */
+.oo-later {
+  margin: 0 0 12px;
+  text-align: center;
+}
+.oo-lock {
+  padding: 22px 12px 28px;
+  margin: 0 0 12px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #1b1b1b, #000000);
+}
+.oo-lock-time {
+  margin: 0 0 18px;
+  color: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+.oo-notif {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 20px;
+  background: rgba(245, 245, 245, 0.94);
+  color: #0a0a0a;
+  text-align: left;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+}
+.oo-notif:active {
+  transform: scale(0.98);
+}
+.oo-notif-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 30%;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(201, 151, 26, 0.45);
+}
+.oo-notif-icon img {
+  width: 20px;
+  height: auto;
+}
+.oo-notif-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.oo-notif-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+.oo-notif-head span {
+  color: #3a3a3a;
+}
+.oo-notif-text {
+  font-size: 14px;
+  line-height: 19px;
+}
+[data-theme='dark'] .oo-lock {
+  box-shadow: inset 0 0 0 1px #2a2a2a;
+}

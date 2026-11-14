@@ -76,6 +76,16 @@ async function hasNoTipData(uid) {
 export async function deleteAccountData(uid) {
   if (!db) return;
 
+  // The profile picture's file (avatars/{uid}.jpg); the users doc that
+  // points at it goes with the rest below.
+  if (storage) {
+    try {
+      await deleteObject(ref(storage, `avatars/${uid}.jpg`));
+    } catch {
+      /* none, or already gone */
+    }
+  }
+
   let username = null;
   try {
     const userSnap = await getDoc(doc(db, 'users', uid));

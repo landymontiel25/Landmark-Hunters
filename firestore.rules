@@ -343,6 +343,11 @@ service cloud.firestore {
         // as server time, and never changed or removed afterwards.
         && (!changed.hasAny(['createdAt'])
             || ((resource == null || !('createdAt' in resource.data)) && d.createdAt == request.time))
+        // A profile picture can only point at the owner's own file in this
+        // project's Storage (avatars/{uid}.jpg), never an outside URL.
+        && (!changed.hasAny(['avatarURL']) || !('avatarURL' in d)
+            || (d.avatarURL is string && d.avatarURL.size() < 600
+                && d.avatarURL.matches('https://firebasestorage[.]googleapis[.]com/v0/b/[^/]+/o/avatars%2F' + request.auth.uid + '[.]jpg[?].*')))
         // Once onboarding is done it stays done, or its +10 could be re-earned.
         && (resource == null || resource.data.get('onboardingCompleted', false) != true
             || d.get('onboardingCompleted', false) == true);

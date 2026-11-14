@@ -931,6 +931,23 @@ await t('storage: only a verified admin email can delete someone else\'s photo',
   await assertSucceeds(deleteObject(ref(real, 'review_photos/lm/ann.jpg')));
 });
 
+await t('storage: a profile picture is only its owner\'s avatars/{uid}.jpg (owner, 2026-11-14)', async () => {
+  await assertSucceeds(uploadBytes(ref(stor('ann'), 'avatars/ann.jpg'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
+  await assertFails(uploadBytes(ref(stor('bob'), 'avatars/ann.jpg'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
+  await assertFails(uploadBytes(ref(stor('ann'), 'avatars/ann.svg'), new Uint8Array([1]), { contentType: 'image/svg+xml' }));
+  await assertSucceeds(getBytes(ref(stor('bob'), 'avatars/ann.jpg')));
+  await assertFails(listAll(ref(stor('bob'), 'avatars')));
+  await assertFails(deleteObject(ref(stor('bob'), 'avatars/ann.jpg')));
+  await assertSucceeds(deleteObject(ref(stor('ann'), 'avatars/ann.jpg')));
+});
+await t('users/{uid}.avatarURL only points at the owner\'s own Storage file', async () => {
+  const own = 'https://firebasestorage.googleapis.com/v0/b/demo-lh.appspot.com/o/avatars%2Fann.jpg?alt=media&token=x';
+  const other = 'https://firebasestorage.googleapis.com/v0/b/demo-lh.appspot.com/o/avatars%2Fbob.jpg?alt=media&token=x';
+  await assertSucceeds(setDoc(doc(as('ann'), 'users/ann'), { avatarURL: own }, { merge: true }));
+  await assertFails(setDoc(doc(as('ann'), 'users/ann'), { avatarURL: other }, { merge: true }));
+  await assertFails(setDoc(doc(as('ann'), 'users/ann'), { avatarURL: 'https://evil.example/pixel.gif' }, { merge: true }));
+});
+
 console.log('group trips: live location');
 await reset();
 await seed(async (db) => {

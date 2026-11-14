@@ -3,6 +3,23 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Official Onboarding: hometown ask + back-home notification (2026-11-14)
+
+Owner: onboarding no longer pitches the hometown. Step 10 only asks "Where
+is home?" (Test: saved in the run's data; a real run saves it to the
+profile). Act 4, after the trip: ONE notification, built by
+`hometownNotification()` in `officialOnboardingHometown.js` ("You are back
+home in Miami. You have only been to 12 of 1,056 places here..."), shown in
+Test as an iPhone lock screen; tapping it opens the Hometown Transition
+screen (map with grey pins, 3 picks, Show me my city) with the new copy
+(`hometownSay()`). Not built for real: detecting that a trip ended and
+the person is home, and sending that push once. The intro's three cards
+are the owner's infographic (`public/onboarding/onboarding-infographic.png`),
+the confused traveler photo (`onboarding-confused-traveler.jpg`, JPEG to
+keep it light) and the real map with a 3-stop route. Profile pictures are
+live (avatars/{uid}.jpg, users/{uid}.avatarURL); friends' pictures are not
+shown in lists yet (no list shows avatars today).
+
 ## Official Onboarding step 10: Hometown Transition (2026-11-14)
 
 Test tab only (`officialOnboardingHometown.js`, `Hometown` in
