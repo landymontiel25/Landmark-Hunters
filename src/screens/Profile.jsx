@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
+import { useCheckIn } from '../lib/useCheckIn';
+import { MaprLine, ProgressRing } from '../components/NewUI';
 import {
   subscribeLeaderboard,
   getFriendsLeaderboard,
@@ -14,7 +16,8 @@ import {
 } from '../lib/leaderboard';
 import { useRatings } from '../lib/RatingsContext';
 import { RATING_GOAL } from '../lib/ratingFlow';
-import { getRegion, REGIONS } from '../data/regions';
+import { ALL_LANDMARKS, getRegion, REGIONS } from '../data/regions';
+import { usePlacePacksVersion } from '../lib/placePacks';
 import { useBadges } from '../lib/BadgesContext';
 import { PICKS_STREAK_THRESHOLD, dayKey, displayStreakCount, isDayHeld } from '../lib/streaks';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
@@ -119,6 +122,9 @@ export default function Profile() {
   };
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
+  const { claimedMap } = useCheckIn();
+  // Recount the city once the imported place packs land.
+  usePlacePacksVersion();
   const navigate = useNavigate();
   // Which Profile screen is open: none is the list; a row opens its own screen
   // (?view=...), so the browser Back button returns to the list. The old
@@ -721,6 +727,17 @@ export default function Profile() {
       </>
     );
 
+  // New UI: how much of the city you're in you have found (places checked
+  // in out of the city's catalog), and Mapr's one line about your streak.
+  const homeRegion = getRegion(trip?.activeRegion);
+  const cityPlaces = homeRegion ? ALL_LANDMARKS.filter((l) => canonicalRegionId(l.regionId || l.region) === homeRegion.id) : [];
+  const cityFound = cityPlaces.filter((l) => claimedMap?.[l.id]).length;
+  const streakNote = soloStreakAtRisk
+    ? `Your ${soloCount} day streak ends tonight. One check-in keeps it going.`
+    : soloCount > 0
+      ? `You're on a ${soloCount} day streak. Check in anywhere today to keep it going.`
+      : "Check in at a place today and I'll start counting your streak.";
+
   // The list: header, the three headline numbers, then one row per section.
   const shownName = myUsername ? `@${myUsername}` : user.displayName || 'Explorer';
   const initial = (myUsername || user.displayName || user.email || 'E').replace(/^@/, '')[0].toUpperCase();
@@ -733,9 +750,6 @@ export default function Profile() {
         <div className="pf-head-text">
           <h1 className="pf-name" style={{ '--len': shownName.length }}>{shownName}</h1>
           <p className="pf-sub">Landmark Hunter</p>
-          <button type="button" className="pf-edit" onClick={() => navigate('/settings')}>
-            {'\u270F\uFE0F'} Edit Profile
-          </button>
         </div>
       </div>
 
@@ -757,6 +771,19 @@ export default function Profile() {
         </div>
       </div>
 
+      {homeRegion && cityPlaces.length > 0 && (
+        <div className="nl-found">
+          <ProgressRing found={cityFound} total={cityPlaces.length} size={52} count={false} />
+          <div>
+            <p className="nl-found-title">
+              {cityFound.toLocaleString()} of {cityPlaces.length.toLocaleString()} found in {homeRegion.name}
+            </p>
+            <p className="nl-found-sub">Every check-in fills the ring.</p>
+          </div>
+        </div>
+      )}
+      <MaprLine>{streakNote}</MaprLine>
+
       {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => navigate('/onboarding')} />}
       <ProfileList
         label="Profile sections"
@@ -776,6 +803,9 @@ export default function Profile() {
           { id: 'signout', icon: 'signout', label: 'Sign Out', disabled: signingOut, onClick: handleSignOut },
         ]}
       />
+      <button type="button" className="pf-edit" onClick={() => navigate('/settings')}>
+        Edit profile
+      </button>
     </div>
   );
 }

@@ -31,9 +31,14 @@ real tab. Nothing in the redesigned tabs is saved. Live app (owner, 2026-11-14, 
 Landmarks, Itinerary and Profile now use the New UI colors and type (white /
 black page, Inter, black text, gold accent) on their real layouts and data,
 and the header and emoji tab bar float as pills on every screen. The Map
-keeps its exact look and Mapr keeps its own design. Not done: the New UI
-layouts themselves (the lab's list rows, Mapr line, stop list and stats
-card) on the real screens. The
+keeps its exact look and Mapr keeps its own design. Then the New UI layouts
+too, one PR each (owner, 2026-11-14, every feature kept): Landmarks (dense
+rows, gold + to add, "..." for the rest, a row tap opens the place),
+Itinerary (trip cards with photos, progress ring, Mapr line, numbered gold
+stops) and Profile (city ring, Mapr streak line, plain rows). Shared parts
+in `src/components/NewUI.jsx`. Not done: the screens past these tabs
+(place page, Settings, Full Stats, Leaderboard, the Map's own sheet) still
+have the older look. The
 sources were App Store listing screenshots, not screens captured inside the
 apps.
 
