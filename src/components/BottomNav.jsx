@@ -8,7 +8,7 @@ import { useFeedCity } from '../lib/useFeedGate';
 // modal inside Itinerary now). Mapr sits dead center: it's the app's home
 // screen, the one thing people open every day, so it gets the "create"
 // position instead of an end slot.
-const items = [
+export const NAV_ITEMS = [
   { to: '/', label: 'Map', icon: '\u{1F310}', end: true },
   { to: '/landmarks', label: 'Landmarks', icon: '\u{1F4CD}' },
   { to: '/mapr', label: 'Mapr', icon: '\u{1F9E0}' },
@@ -29,7 +29,7 @@ const TEST_TAB = { to: '/test', label: 'Test', icon: '\u{1F9EA}' };
 export function BottomNavFallback() {
   return (
     <nav className="bottom-nav" aria-label="Main">
-      {items.map((item) => (
+      {NAV_ITEMS.map((item) => (
         <a key={item.to} href={`#${item.to}`}>
           <span className="nav-icon" aria-hidden="true">{item.icon}</span>
           <span>{item.label}</span>
@@ -43,7 +43,7 @@ export default function BottomNav() {
   const navRef = useRef(null);
   const { user } = useAuth();
   const feedCity = useFeedCity();
-  const base = feedCity ? [FEED_TAB, ...items] : items;
+  const base = feedCity ? [FEED_TAB, ...NAV_ITEMS] : NAV_ITEMS;
   const tabs = isAdmin(user?.email) ? [...base, TEST_TAB] : base;
 
   // If the page is zoomed anyway (pinch), position: fixed sticks to the

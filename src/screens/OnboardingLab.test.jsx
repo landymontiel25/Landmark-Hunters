@@ -27,6 +27,10 @@ async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScr
   vi.doMock('./MapUILab', () => ({ default: () => <p className="map-ui-stub">map</p> }));
   // The Landmarks tab has its own tests (LandmarkSelection.cards.test.jsx).
   vi.doMock('./LandmarkSelection', () => ({ default: ({ forMeLab }) => <p className="landmarks-stub">{forMeLab ? 'for me' : 'landmarks'}</p> }));
+  // The New UI's floating header is the app's real one (Header tests cover it).
+  vi.doMock('../components/Header', () => ({ default: () => <header className="header-stub" /> }));
+  // Its Map tab is the app's live map (MapExplore tests cover it).
+  vi.doMock('./MapExplore', () => ({ default: () => <p className="live-map-stub">map</p> }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
   const { default: OnboardingLab } = await import('./OnboardingLab.jsx');
   container = document.createElement('div');
@@ -93,7 +97,8 @@ describe('OnboardingLab', () => {
   it('the New UI bubble shows the design language screens, and the tutorials stay', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'New UI'));
-    expect(el.querySelector('.nui .nui-mapr')).toBeTruthy();
+    expect(el.querySelector('.nui-tabbar')).toBeTruthy();
+    expect(el.querySelector('.live-map-stub')).toBeTruthy();
     const names = [...el.querySelectorAll('.lab-tabs [role="tab"]')].map((t) => t.textContent);
     expect(names).toEqual(expect.arrayContaining(['Planner tutorial', 'Game tutorial', 'Official Onboarding']));
   });
