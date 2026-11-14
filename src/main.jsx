@@ -7,6 +7,7 @@ import './styles/ux-3.css';
 import './screens/AppleUI.css';
 import './screens/AppleScreens.css';
 import './styles/apple-live.css';
+import './styles/new-ui-live.css';
 import App from './App.jsx';
 import ErrorBoundary from './components/ErrorBoundary';
 import { capturePendingReferralFromUrl } from './lib/referrals';

@@ -1,0 +1,126 @@
+/* The New UI in the live app (owner, 2026-11-14): docs/design-language.md,
+   reference build in the Test tab's New UI (src/screens/NewUILab.*).
+   Loaded last (main.jsx), so it wins over theme.css, ux-*.css and
+   apple-live.css.
+
+   1. Landmarks, Itinerary and Profile (body[data-apple], not the map) take
+      the New UI tokens: pure white (black in dark), Inter only, black text
+      with no gray, gold the only accent. Same screens, same features.
+   2. The header (logo, streak, points, @username) and the emoji tab bar
+      float as pills on every screen.
+   The Map keeps its exact look (satellite, blue and green pins), and the
+   Mapr tab keeps its own design. */
+
+/* ---------- 1. New UI tokens on Landmarks, Itinerary, Profile ---------- */
+body[data-apple]:not([data-apple='map']) {
+  --ap-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --ap-serif: 'Inter', system-ui, -apple-system, sans-serif;
+  --ap-bg: #000000;
+  --ap-card: #000000;
+  --ap-card-2: #141414;
+  --ap-text: #f5f5f5;
+  --ap-sub: #f5f5f5;
+  --ap-blue: #d4a42a;
+  --ap-line: #242424;
+  --ap-bar: #000000;
+  --ap-glass: #000000;
+  --ap-shadow: none;
+  --ap-glow: none;
+}
+[data-theme='light'] body[data-apple]:not([data-apple='map']) {
+  --ap-bg: #ffffff;
+  --ap-card: #ffffff;
+  --ap-card-2: #f5f5f5;
+  --ap-text: #0a0a0a;
+  --ap-sub: #0a0a0a;
+  --ap-blue: #c9971a;
+  --ap-line: #ebebeb;
+  --ap-bar: #ffffff;
+  --ap-glass: #ffffff;
+  --ap-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+body[data-apple]:not([data-apple='map']) {
+  -webkit-font-smoothing: antialiased;
+}
+/* Large title: Inter 32 / 800, no serif. */
+body[data-apple]:not([data-apple='map']) .aps .screen-title {
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 800;
+  letter-spacing: -0.02em !important;
+}
+/* Section headings: Inter 20 / 700. */
+body[data-apple]:not([data-apple='map']) .aps h3,
+body[data-apple]:not([data-apple='map']) .mpp-section-title {
+  font-weight: 700;
+  letter-spacing: -0.01em !important;
+}
+
+/* ---------- 2. Floating header and emoji tab bar, every screen ---------- */
+html[data-theme] {
+  --nl-bg: #000000;
+  --nl-line: #242424;
+  --nl-text: #f5f5f5;
+  --nl-gold-text: #e0b649;
+  --nl-gold-soft: rgba(212, 164, 42, 0.16);
+  --nl-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+html[data-theme='light'] {
+  --nl-bg: #ffffff;
+  --nl-line: #ebebeb;
+  --nl-text: #0a0a0a;
+  --nl-gold-text: #8a6512;
+  --nl-gold-soft: rgba(201, 151, 26, 0.12);
+  --nl-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+html[data-theme] body .app-header {
+  margin-left: 12px;
+  margin-right: 12px;
+  background: var(--nl-bg);
+  border: 1px solid var(--nl-line);
+  border-radius: 999px;
+  box-shadow: var(--nl-shadow);
+}
+html[data-theme] body .app-header,
+html[data-theme] body .app-header * {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html[data-theme] body .bottom-nav {
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  height: 68px;
+  padding: 6px;
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--nl-bg);
+  border: 1px solid var(--nl-line);
+  border-radius: 999px;
+  box-shadow: var(--nl-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+html[data-theme] body .bottom-nav a {
+  gap: 2px;
+  margin: 0;
+  border-radius: 999px;
+  color: var(--nl-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: background 200ms cubic-bezier(0.2, 0, 0, 1), color 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+html[data-theme] body .bottom-nav a.active {
+  background: var(--nl-gold-soft);
+  color: var(--nl-gold-text);
+  font-weight: 600;
+}
+html[data-theme] body .bottom-nav .nav-icon {
+  font-size: 24px;
+  line-height: 1;
+}
