@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { MapContainer, TileLayer, CircleMarker, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useGeo } from '../lib/GeoContext';
+import { ensurePlacePacks, usePlacePacksVersion } from '../lib/placePacks';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { radiusFor } from '../lib/checkinRules';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
@@ -36,6 +40,20 @@ import {
   summaryLines,
   tasteLabel,
 } from './officialOnboardingSteps';
+import {
+  HOMETOWN_SAY,
+  QUIET_RULE,
+  SAMPLE_VISITED,
+  cityPlaces,
+  dailyLoop,
+  homeAnchor,
+  hometownPicks,
+  kindIcon,
+  pickReason,
+  saveLists,
+  shockStat,
+  visitedSample,
+} from './officialOnboardingHometown';
 
 // Test tab "Official Onboarding" (owner, 2026-11-11): the Planner-first
 // flow in 9 steps and three acts. Act 1 intro (problem + solution, city,
@@ -65,6 +83,9 @@ const empty = () => ({
   review: null, // 'rated' | 'skipped'
   commitment: null,
   lighter: false,
+  home: 'miami', // step 10's home city (Test: picked here, a real run knows it)
+  homePicks: [],
+  homeSaved: null, // the list the 3 hometown picks were saved to
 });
 
 // The categories in play: step 4's picks, else step 3's.
@@ -480,6 +501,129 @@ function SignUp({ data, set, note, onDone }) {
   );
 }
 
+const HOME_STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
+const pickIcon = (n) => L.divIcon({ className: 'oo-home-pick', html: `<span>${n}</span>`, iconSize: [26, 26], iconAnchor: [13, 13] });
+// A plain gray map, so the grey pins carry it; the same Esri tile server as the route map.
+const tilesFor = () =>
+  `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light' ? 'Light' : 'Dark'}_Gray_Base/MapServer/tile/{z}/{y}/{x}`;
+
+// Step 10, Hometown Transition (owner, 2026-11-14): the home city's map,
+// grey pins for every place not visited yet, the count in their own
+// numbers, 3 picks near them from the same taste and category picks, and
+// the daily companion loop. Nothing is saved.
+function Hometown({ data, set, coords, note, onDone }) {
+  const { units } = useUnits();
+  const packs = usePlacePacksVersion();
+  useEffect(() => {
+    ensurePlacePacks();
+  }, []);
+  const city = cityById(data.home) || CITIES[0];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const places = useMemo(() => cityPlaces(city), [city, packs]);
+  const visited = useMemo(() => visitedSample(places), [places]);
+  const anchor = homeAnchor(places, visited, coords);
+  const picks = useMemo(() => hometownPicks(places, visited, catsOf(data), anchor), [places, visited, data.cats, data.chips, anchor?.lat, anchor?.lng]); // eslint-disable-line react-hooks/exhaustive-deps
+  const seen = new Set(visited.map((l) => l.id));
+  const pickIds = new Set(picks.map((p) => p.place.id));
+  const bounds = places.length ? L.latLngBounds(places.map((l) => [l.lat, l.lng])) : null;
+  const loop = dailyLoop(picks[0]?.place, CHECKIN_POINTS);
+  const save = (list) => {
+    set({ homeSaved: list.label, homePicks: picks.map((p) => p.place.name) });
+    note(`Saved ${picks.map((p) => p.place.name).join(', ')} to "${list.label}" (pretend)`);
+  };
+
+  return (
+    <div className="tut nav-clear oo-home">
+      <h2 className="oo-section-title">Official Onboarding: Hometown Transition</h2>
+      <label className="oo-home-city">
+        Home city <small>(Test only)</small>
+        <select
+          className="oo-select"
+          value={city.id}
+          onChange={(e) => {
+            set({ home: e.target.value, homeSaved: null, homePicks: [] });
+            note(`Home city: ${cityById(e.target.value).label}`);
+          }}
+        >
+          {[...CITIES, ...OTHER_CITIES].map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <Phone className="oo-home-phone">
+        {bounds && (
+          <MapContainer key={`${city.id}-${places.length}`} className="oo-home-map" bounds={bounds} boundsOptions={{ padding: [18, 18] }} zoomSnap={0.1} attributionControl={false} {...HOME_STILL}>
+            <TileLayer url={tilesFor()} maxZoom={16} />
+            {/* Grey first, so the gold "been there" dots sit on top. */}
+            {[...places.filter((l) => !pickIds.has(l.id) && !seen.has(l.id)), ...visited]
+              .map((l) => (
+                <CircleMarker
+                  key={l.id}
+                  center={[l.lat, l.lng]}
+                  radius={seen.has(l.id) ? 5 : 3}
+                  pathOptions={seen.has(l.id) ? { color: '#ffffff', weight: 1.5, fillColor: '#c9971a', fillOpacity: 1 } : { stroke: false, fillColor: '#9a9a9a', fillOpacity: 0.75 }}
+                />
+              ))}
+            {picks.map((p, i) => (
+              <Marker key={p.place.id} position={[p.place.lat, p.place.lng]} icon={pickIcon(i + 1)} title={p.place.name} />
+            ))}
+          </MapContainer>
+        )}
+        <p className="oo-home-legend">
+          <span className="oo-dot grey" /> Not yet <span className="oo-dot gold" /> Been there
+        </p>
+      </Phone>
+
+      <p className="oo-home-stat" role="status">
+        {shockStat(city, Math.min(SAMPLE_VISITED, visited.length), places.length)}
+      </p>
+      <p className="tut-small oo-home-sample">"Been to" is a sample in Test: the {SAMPLE_VISITED} best known places. A real run counts your own check-ins.</p>
+
+      <MaprSays lines={HOMETOWN_SAY} />
+
+      <div className="oo-home-picks" role="list" aria-label="Hometown picks">
+        {picks.map((p, i) => (
+          <div key={p.place.id} className="oo-home-pick-row" role="listitem">
+            <span className="oo-home-num">{i + 1}</span>
+            <span className="oo-home-text">
+              <strong>{p.place.name}</strong>
+              <span>
+                {kindIcon(p.kind)} {pickReason(p.kind)}
+                {p.meters != null && ` · ${formatDistance(p.meters, units)}${anchor?.here ? ' from you' : ''}`}
+              </span>
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div className="oo-home-save" role="group" aria-label="Save the 3 picks">
+        {saveLists(city).map((list) => (
+          <button key={list.id} type="button" className={`fr-chip oo-option ${data.homeSaved === list.label ? 'on' : ''}`} aria-pressed={data.homeSaved === list.label} onClick={() => save(list)}>
+            {data.homeSaved === list.label ? `\u{2713} Saved to ${list.label}` : `Save to ${list.label}`}
+          </button>
+        ))}
+      </div>
+
+      <h3 className="oo-home-h3">Every day, Mapr comes with you</h3>
+      <ol className="oo-loop">
+        {loop.map((s) => (
+          <li key={s.id}>
+            <span className="oo-loop-when">{s.when}</span>
+            <span className="oo-loop-what">{s.what}</span>
+            <span className="oo-loop-note">{s.sample}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="oo-proof">{QUIET_RULE}</p>
+
+      <NextButton onClick={onDone}>Show me my city</NextButton>
+    </div>
+  );
+}
+
 export default function OfficialOnboardingLab() {
   const { coords } = useGeo();
   const { units } = useUnits();
@@ -637,7 +781,8 @@ export default function OfficialOnboardingLab() {
       )}
       {id === 'checkin' && <CheckIn data={data} set={set} coords={coords} pretend={pretend} note={note} onNext={(why) => go('commit', why)} />}
       {id === 'commit' && <Commit data={data} set={set} note={note} onNext={(why) => go('signup', why)} />}
-      {id === 'signup' && <SignUp data={data} set={set} note={note} onDone={() => go('done', 'Finished')} />}
+      {id === 'signup' && <SignUp data={data} set={set} note={note} onDone={() => go('hometown', 'Finished sign-up')} />}
+      {id === 'hometown' && <Hometown data={data} set={set} coords={coords} note={note} onDone={() => go('done', 'Show me my city')} />}
       {id === 'done' && (
         <>
           <MaprSays lines={SAY.done} />
@@ -656,6 +801,11 @@ export default function OfficialOnboardingLab() {
             <p>
               <strong>Commitment:</strong> {COMMIT.find((c) => c.id === data.commitment)?.label || '—'}
               {data.lighter ? ' (rebuilt a lighter day)' : ''}
+            </p>
+            <p>
+              <strong>Hometown:</strong> {cityById(data.home)?.label || '—'}
+              {' · '}
+              <strong>Picks:</strong> {data.homePicks.length ? `${data.homePicks.join(', ')} (saved to ${data.homeSaved})` : 'not saved'}
             </p>
           </LabSummary>
         </>

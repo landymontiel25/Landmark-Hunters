@@ -2424,3 +2424,161 @@ img {
 .oo-cat.on .oo-cat-count {
   color: #3b3217;
 }
+/* Official Onboarding step 10, Hometown Transition (owner, 2026-11-14).
+   Grey = not been yet, gold = been there and Mapr's picks. */
+.oo-section-title {
+  margin: 0 0 12px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.oo-home-city {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.oo-home-city small {
+  font-weight: 400;
+}
+.oo-home-phone {
+  padding: 0;
+  overflow: hidden;
+}
+.oo-home-map {
+  width: 100%;
+  height: 300px;
+  border-radius: 18px 18px 0 0;
+  background: var(--bg-elevated, #eee);
+}
+.oo-home-pick span {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--gold, #c9971a);
+  color: var(--gold-ink, #1a1300);
+  font: 800 13px/1 'Inter', system-ui, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.oo-home-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 10px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.oo-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+.oo-dot.grey {
+  background: #9a9a9a;
+}
+.oo-dot.gold {
+  margin-left: 10px;
+  background: var(--gold, #c9971a);
+}
+.oo-home-stat {
+  margin: 16px 0 4px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.oo-home-sample {
+  margin: 0 0 14px;
+}
+.oo-home-picks {
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0 12px;
+  border-top: 1px solid var(--border-default);
+}
+.oo-home-pick-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-default);
+}
+.oo-home-num {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gold, #c9971a);
+  color: var(--gold-ink, #1a1300);
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+.oo-home-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--text-primary);
+}
+.oo-home-text span {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.oo-home-save {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.oo-home-h3 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.oo-loop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.oo-loop li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-card, transparent);
+}
+.oo-loop-when {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold, #c9971a);
+}
+.oo-loop-what {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.oo-loop-note {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
