@@ -1148,3 +1148,20 @@ html body[data-apple='itinerary'] .aps-live .itin-card-times {
 html body[data-apple='itinerary'] .aps-itinerary .itin-search {
   margin: 0 0 14px !important;
 }
+
+/* The + is drawn, not typed, so it sits dead center in the gold circle on
+   every font (owner, 2026-11-14: the "+" sat low). The character stays in
+   the markup for screen readers and tests. */
+html body[data-apple='landmarks'] .aps-live .lm-card-check:not([aria-checked='true']) {
+  font-size: 0;
+  line-height: 0;
+  background-image:
+    linear-gradient(var(--nl-gold-text), var(--nl-gold-text)),
+    linear-gradient(var(--nl-gold-text), var(--nl-gold-text));
+  background-size: 16px 2px, 2px 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-check[aria-checked='true'] {
+  line-height: 1;
+}
