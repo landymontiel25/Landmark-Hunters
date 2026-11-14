@@ -136,11 +136,23 @@ describe('Landmarks tab', () => {
     expect(actions.some((t) => t.includes('Check In'))).toBe(true);
   }, 60000);
 
+  it('a tap on the row opens the place; the circle adds it (New UI, owner 2026-11-14)', async () => {
+    toggleLandmark.mockClear();
+    await renderIt();
+    const card = el.querySelector('.landmark-row');
+    expect(card.querySelector('.lr-actions')).toBeNull();
+    await act(async () => card.querySelector('.lr-main').click());
+    expect(toggleLandmark).not.toHaveBeenCalled();
+    expect(el.querySelector('.screen-title').textContent).toBe('Landmarks');
+  }, 60000);
+
   it('Check In still checks in the landmark on that card', async () => {
     checkIn.mockClear();
     await renderIt();
     const card = el.querySelector('.landmark-row');
     const name = card.querySelector('h4').textContent;
+    // New UI (owner, 2026-11-14): the row's actions sit behind its "...".
+    await act(async () => card.querySelector('.lm-card-more').click());
     const btn = [...card.querySelectorAll('.lr-actions button')].find((b) => b.textContent.includes('Check In'));
     expect(btn.disabled).toBe(false);
     await act(async () => btn.click());
@@ -175,6 +187,7 @@ describe('Landmarks tab', () => {
     expect(sorts.join(' ')).not.toContain('Popular Landmarks');
     expect(el.querySelector('.lm-sort-tabs .tab-btn.active').textContent).toContain('For Me');
     expect(el.querySelectorAll('.landmark-row').length).toBe(25);
+    await act(async () => el.querySelector('.lm-card-more').click());
     expect(buttons('Check In').length).toBeGreaterThan(0);
   }, 60000);
 });
