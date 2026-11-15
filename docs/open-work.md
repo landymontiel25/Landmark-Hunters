@@ -3,6 +3,22 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## New UI rebuilt with Apple's guidelines and motion (2026-11-14)
+
+Test tab only. The "New UI" sub-tab (`NewUILab.jsx`, `NewUILab.css`) is
+rebuilt with the apple-look skill (Human Interface Guidelines) and the
+apple-motion skill (Apple's springs and gestures), keeping the design
+language. Same structure: the full tab bar, Map and Mapr live and
+unchanged. New: each tab keeps its own navigation stack (place, trip and
+Profile rows push in; Back or a left-edge swipe pops; tapping the current
+tab goes to its top), live search, a sliding segmented control, a "Plan a
+trip" sheet with medium and large detents, a translucent tab bar,
+squircle corners where the browser supports `corner-shape` (plain
+corners elsewhere, Safari included for now), and type in rem so it grows
+with text size. Springs and gestures are in `src/screens/newUISpring.js`
+(no new dependency). Not done: none of this is in the live app yet; the
+Profile rows and "Plan" in the sheet go nowhere real (nothing is saved).
+
 ## Official Onboarding: hometown ask + back-home notification (2026-11-14)
 
 Owner: onboarding no longer pitches the hometown. Step 10 only asks "Where

@@ -1,5 +1,8 @@
-/* Test tab "New UI": the reference build of docs/design-language.md.
-   Everything is scoped under .nui so nothing leaks into the live app. */
+/* Test tab "New UI": the reference build of docs/design-language.md, rebuilt
+   with Apple's Human Interface Guidelines (apple-look) and Apple's motion
+   rules (apple-motion). Everything is scoped under .nui so nothing leaks into
+   the live app. Type is in rem (16 px = 1rem) so it grows with the reader's
+   text size; spacing stays on the 4 pt grid. */
 
 .nui {
   --nui-bg: #ffffff;
@@ -10,14 +13,21 @@
   --nui-text-2: #0a0a0a;
   --nui-text-3: #0a0a0a;
   --nui-gold: #c9971a;
+  /* 5.1:1 on white, 4.6:1 on gold-soft: AA for text under 18 pt. */
   --nui-gold-text: #8a6512;
+  /* 8.9:1 on gold. */
   --nui-gold-ink: #1a1300;
   --nui-gold-soft: rgba(201, 151, 26, 0.12);
+  --nui-press: rgba(0, 0, 0, 0.05);
   --nui-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   --nui-photo-shade: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0) 60%);
+  /* Floating chrome (tab bar, sheet head): a material, content scrolls under. */
+  --nui-material: rgba(255, 255, 255, 0.78);
+  --nui-material-edge: rgba(0, 0, 0, 0.06);
   --nui-ease: cubic-bezier(0.2, 0, 0, 1);
 
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-optical-sizing: auto;
   background: var(--nui-bg);
   color: var(--nui-text);
   -webkit-font-smoothing: antialiased;
@@ -33,7 +43,10 @@
   --nui-gold: #d4a42a;
   --nui-gold-text: #e0b649;
   --nui-gold-soft: rgba(212, 164, 42, 0.16);
+  --nui-press: rgba(255, 255, 255, 0.08);
   --nui-shadow: none;
+  --nui-material: rgba(18, 18, 18, 0.78);
+  --nui-material-edge: rgba(255, 255, 255, 0.1);
 }
 
 .nui *,
@@ -42,7 +55,7 @@
   box-sizing: border-box;
 }
 
-:where(.nui) button {
+:where(.nui) :is(button, input, a) {
   font-family: inherit;
   color: inherit;
   -webkit-tap-highlight-color: transparent;
@@ -52,12 +65,46 @@
   margin: 0;
 }
 
-/* Preview bar: note + light/dark + full screen */
+:where(.nui) :focus-visible {
+  outline: 2px solid var(--nui-gold);
+  outline-offset: 2px;
+}
+
+/* Squircles: continuous corners where the browser can draw them
+   (corner-shape), a plain radius elsewhere. A squircle reads tighter, so
+   its radius is larger for the same look. */
+.nui :is(.nui-photo, .nui-mapr, .nui-stats, .nui-group, .nui-empty, .nui-avatar) {
+  --nui-r: 14px;
+  border-radius: var(--nui-r);
+}
+
+.nui .nui-thumb,
+.nui .nui-trip-photo {
+  --nui-r: 10px;
+}
+
+@supports (corner-shape: squircle) {
+  .nui :is(.nui-photo, .nui-mapr, .nui-stats, .nui-group, .nui-empty, .nui-avatar) {
+    corner-shape: squircle;
+    border-radius: calc(var(--nui-r) * 1.7);
+  }
+
+  .nui .nui-hero {
+    corner-shape: squircle;
+    border-radius: 0 0 34px 34px;
+  }
+
+  .nui .nui-sheet {
+    corner-shape: squircle;
+    border-radius: 34px 34px 0 0;
+  }
+}
+
+/* ---------- Preview bar: note + light/dark + full screen ---------- */
 .nui-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 0;
   padding: 0 0 12px;
   background: transparent;
   max-width: 430px;
@@ -66,66 +113,25 @@
 
 .nui-bar-note {
   flex: 1;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--text-secondary, var(--nui-text-3));
 }
 
-.nui-seg {
-  display: flex;
-  flex: 1;
-  padding: 3px;
-  border-radius: 999px;
-  background: var(--nui-surface);
-}
-
-.nui-seg button {
-  flex: 1;
-  min-height: 36px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: transparent;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--nui-text-2);
-  cursor: pointer;
-  transition: background 200ms var(--nui-ease), color 200ms var(--nui-ease);
-}
-
-.nui-seg button.on {
-  background: var(--nui-bg);
-  border-color: var(--nui-line);
-  color: var(--nui-text);
-}
-
 .nui-mode {
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 16px;
   border: 1px solid var(--nui-line);
   border-radius: 999px;
   background: var(--nui-bg);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
 }
 
-
-
-/* Screens */
-.nui-screen {
-  padding: 8px 16px 0;
-}
-
-.nui-screen-flush {
-  padding: 0;
-}
-
-.nui-pad {
-  padding: 16px 16px 0;
-}
-
+/* ---------- Type ---------- */
 .nui-label {
-  font-size: 11px;
-  line-height: 14px;
+  font-size: 0.6875rem;
+  line-height: 1.27;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -133,81 +139,134 @@
 }
 
 .nui-title {
-  font-size: 32px;
-  line-height: 38px;
+  margin-top: 4px;
+  font-size: 2rem;
+  line-height: 1.19;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-top: 4px ;
+  overflow-wrap: anywhere;
+}
+
+.nui-title-sm {
+  margin-top: 0;
+  font-size: 1.5rem;
 }
 
 .nui-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .nui-h2 {
-  font-size: 20px;
-  line-height: 26px;
+  font-size: 1.25rem;
+  line-height: 1.3;
   font-weight: 700;
   letter-spacing: -0.01em;
-  margin-bottom: 12px ;
+  margin-bottom: 4px;
 }
 
 .nui-section {
   margin-top: 28px;
 }
 
+.nui-gap-top {
+  margin-top: 16px;
+}
+
+.nui-gap-sm {
+  margin-top: 8px;
+}
+
 .nui-meta {
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 0.8125rem;
+  line-height: 1.38;
   color: var(--nui-text-2);
 }
 
 .nui-row-title {
-  font-size: 16px;
-  line-height: 22px;
+  font-size: 1rem;
+  line-height: 1.375;
   font-weight: 600;
   letter-spacing: -0.005em;
 }
 
+.nui-why {
+  font-size: 0.8125rem;
+  line-height: 1.38;
+  /* Mapr's reason, so it's Mapr's gold. */
+  color: var(--nui-gold-text);
+}
+
 .nui-icon {
+  flex-shrink: 0;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  flex-shrink: 0;
 }
 
-/* Search */
+/* ---------- Search (HIG: placeholder says the scope, results as you type) ---------- */
 .nui-search {
   display: flex;
   align-items: center;
   gap: 8px;
   min-height: 44px;
   margin-top: 16px;
-  padding: 0 16px;
+  padding: 0 6px 0 14px;
   border-radius: 999px;
   background: var(--nui-surface);
-  color: var(--nui-text-3);
-  font-size: 15px;
 }
 
-/* Mapr line: the Character */
+.nui-search input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  border: none;
+  background: none;
+  outline: none;
+  /* 16 px or more, or iOS zooms the page on focus. */
+  font-size: max(1rem, 16px);
+  caret-color: var(--nui-gold);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.nui-search input::placeholder {
+  color: var(--nui-text-3);
+  opacity: 0.55;
+}
+
+.nui-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.nui-search-clear {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 999px;
+  background: var(--nui-line);
+  cursor: pointer;
+}
+
+/* ---------- Mapr line: the Character ---------- */
 .nui-mapr {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   margin-top: 16px;
   padding: 14px;
-  border-radius: 14px;
   background: var(--nui-gold-soft);
 }
 
 .nui-mapr p {
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 0.9375rem;
+  line-height: 1.47;
   font-weight: 500;
 }
 
@@ -215,29 +274,65 @@
   flex-shrink: 0;
   margin-top: 2px;
   fill: var(--nui-gold);
+  /* Mapr's only motion: a quarter turn that settles once. */
   animation: nui-spark-arrive 600ms var(--nui-ease) both;
 }
 
-/* Buttons */
+@keyframes nui-spark-arrive {
+  from {
+    transform: rotate(-90deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* ---------- Press feedback: on touch-down, instantly ---------- */
+/* Apple: respond on press, not release. The press goes in fast and comes
+   back slower, so a quick tap still reads. */
+.nui :is(.nui-btn-primary, .nui-btn, .nui-chip, .nui-mode, .nui-hero-back, .nui-search-clear, .nui-tabbar button, .nui-text-btn, .nui-backbar) {
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1), background-color 200ms var(--nui-ease), color 200ms var(--nui-ease), opacity 200ms var(--nui-ease);
+}
+
+.nui :is(.nui-btn-primary, .nui-btn, .nui-chip, .nui-mode, .nui-hero-back, .nui-search-clear, .nui-tabbar button):active {
+  transform: scale(0.96);
+  transition-duration: 90ms;
+}
+
+.nui :is(.nui-text-btn, .nui-backbar):active {
+  opacity: 0.45;
+  transition-duration: 0ms;
+}
+
+/* ---------- Buttons: pills, one gold per screen ---------- */
 .nui-btn-primary,
 .nui-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
+  gap: 6px;
+  min-height: 50px;
   padding: 0 22px;
   border-radius: 999px;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 0.9375rem;
+  line-height: 1.33;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-  transition: transform 200ms ease-out, background 200ms var(--nui-ease);
 }
 
 .nui-btn-primary {
   border: none;
   background: var(--nui-gold);
-  color: var(--nui-gold-ink) ;
+  color: var(--nui-gold-ink);
+}
+
+.nui-btn-primary.is-done {
+  background: var(--nui-gold-soft);
+  color: var(--nui-gold-text);
+}
+
+.nui-btn-primary:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .nui-btn {
@@ -245,50 +340,76 @@
   background: var(--nui-bg);
 }
 
-.nui-btn-primary:active,
-.nui-btn:active,
-.nui-card:active,
-.nui-chip:active {
-  transform: scale(0.97);
-  transition-duration: 120ms;
+.nui-btn-sm {
+  min-height: 36px;
+  padding: 0 16px;
+}
+
+.nui-text-btn {
+  min-height: 44px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .nui-wide {
   width: 100%;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 
 .nui-actions {
   display: flex;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 
 .nui-actions > * {
   flex: 1;
 }
 
-/* Chips */
+/* ---------- Chips ---------- */
 .nui-chips {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  margin: 0 -16px 12px;
+  margin: 16px -16px 0;
   padding: 0 16px;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.nui-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.nui-chips-wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+  margin: 8px 0 0;
+  padding: 0;
 }
 
 .nui-chip {
   flex-shrink: 0;
   min-height: 36px;
   padding: 0 14px;
-  border: 1px solid transparent;
+  border: none;
   border-radius: 999px;
   background: var(--nui-surface);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 200ms var(--nui-ease), color 200ms var(--nui-ease), transform 200ms ease-out;
+  /* The 36 pt pill keeps a 44 pt touch target. */
+  position: relative;
+}
+
+.nui-chip::after {
+  content: '';
+  position: absolute;
+  inset: -4px 0;
 }
 
 .nui-chip.on {
@@ -297,66 +418,62 @@
   font-weight: 600;
 }
 
-/* Place cards: nothing drawn on the photo */
-.nui-row-scroll {
+/* ---------- Segmented control: a pill that springs to the choice ---------- */
+.nui-seg {
+  position: relative;
   display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  margin: 0 -16px;
-  padding: 0 16px;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 16px;
-  scrollbar-width: none;
-}
-
-.nui-card {
-  flex: 0 0 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 0;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  scroll-snap-align: start;
-  transition: transform 200ms ease-out;
-}
-
-.nui-card-photo {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 14px;
-  margin-bottom: 8px;
+  padding: 3px;
+  border-radius: 999px;
   background: var(--nui-surface);
 }
 
-.nui-card-name {
-  font-size: 16px;
-  line-height: 22px;
+.nui-seg-pill {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  border-radius: 999px;
+  background: var(--nui-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--nui-line);
+  pointer-events: none;
+}
+
+.nui-seg button {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: font-weight 200ms var(--nui-ease);
+}
+
+.nui-seg button.on {
   font-weight: 600;
 }
 
-.nui-card-why {
-  font-size: 13px;
-  line-height: 18px;
-  color: var(--nui-text-2);
-}
-
-/* List rows */
+/* ---------- Lists: rows highlight on touch-down, chevron = it opens ---------- */
 .nui-list,
 .nui-stops {
   list-style: none;
   padding: 0;
 }
 
-.nui-list li + li {
+.nui-list {
+  margin-top: 8px;
+}
+
+.nui-list li + li,
+.nui-stop + .nui-stop {
   border-top: 1px solid var(--nui-line);
 }
 
-.nui-list-row,
-.nui-stop-row {
+.nui-row {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -369,15 +486,32 @@
   cursor: pointer;
 }
 
-.nui-thumb {
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  object-fit: cover;
-  flex-shrink: 0;
+/* The highlight bleeds to the screen edges like an iOS row, lands at once
+   and fades out on release. */
+.nui-row::before {
+  content: '';
+  position: absolute;
+  inset: 0 -16px;
+  background: var(--nui-press);
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+  pointer-events: none;
 }
 
-.nui-list-text {
+.nui-row:active::before {
+  opacity: 1;
+  transition-duration: 0ms;
+}
+
+.nui-row-static {
+  cursor: default;
+}
+
+.nui-row-static::before {
+  display: none;
+}
+
+.nui-row-text {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -386,22 +520,74 @@
 
 .nui-chev {
   color: var(--nui-text-3);
+  opacity: 0.4;
 }
 
-/* Hero: white text on a dark gradient, both themes */
+/* Inset group (Profile rows): one hairline card, rows inside it. */
+.nui-group {
+  margin-top: 28px;
+  padding: 0 16px;
+  border: 1px solid var(--nui-line);
+}
+
+.nui-group .nui-row::before {
+  inset: 0 -16px;
+}
+
+.nui-group li:first-child .nui-row::before {
+  border-radius: 13px 13px 0 0;
+}
+
+.nui-group li:last-child .nui-row::before {
+  border-radius: 0 0 13px 13px;
+}
+
+.nui-group {
+  overflow: hidden;
+}
+
+.nui-empty {
+  margin-top: 24px;
+  padding: 20px 16px;
+  background: var(--nui-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ---------- Photos ---------- */
+.nui-photo {
+  display: block;
+  overflow: hidden;
+  background: var(--nui-surface);
+}
+
+.nui-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nui-thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+/* ---------- Place hero: white text on a dark gradient, both themes ---------- */
 .nui-hero {
   position: relative;
-  aspect-ratio: 4 / 3.4;
+  aspect-ratio: 4 / 3.6;
   overflow: hidden;
   border-radius: 0 0 20px 20px;
   background: #111;
 }
 
-.nui-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.nui .nui-hero-photo {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
 }
 
 .nui-hero::after {
@@ -415,16 +601,18 @@
 .nui-hero-back {
   position: absolute;
   top: 12px;
-  left: 16px;
+  left: 12px;
   z-index: 1;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff ;
+  background: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  color: #fff;
   cursor: pointer;
 }
 
@@ -438,48 +626,66 @@
 }
 
 .nui-hero-area {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 500;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .nui-hero-title {
-  font-size: 28px;
-  line-height: 32px;
+  font-size: 1.75rem;
+  line-height: 1.14;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
 
-/* Facts */
+.nui-pad {
+  padding: 16px 16px 0;
+}
+
+/* ---------- Pushed screens: the way back ---------- */
+.nui-backbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  margin: -4px 0 4px -10px;
+  padding: 0 8px 0 4px;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------- Facts ---------- */
 .nui-fact {
   margin-top: 8px;
   padding: 14px 0;
-  border-top: 1px solid var(--nui-line);
   border-bottom: 1px solid var(--nui-line);
 }
 
 .nui-fact p {
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 0.9375rem;
+  line-height: 1.47;
 }
 
 .nui-source {
-  display: inline-block;
-  margin-top: 4px;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 0.8125rem;
   color: var(--nui-text-2);
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-color: var(--nui-line);
 }
 
-/* Trip: stops and progress */
+/* ---------- Progress ---------- */
 .nui-ring {
   position: relative;
-  width: 56px;
-  height: 56px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
 }
 
 .nui-ring svg {
@@ -500,30 +706,21 @@
 .nui-ring-fill {
   stroke: var(--nui-gold);
   stroke-linecap: round;
-  transition: stroke-dashoffset 600ms var(--nui-ease);
 }
 
 .nui-ring span {
-  font-size: 13px;
-  color: var(--nui-text-2);
+  font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
 }
 
-.nui-ring strong {
-  color: var(--nui-text);
-}
-
+/* ---------- Itinerary stops ---------- */
 .nui-stops {
-  margin-top: 20px ;
-}
-
-.nui-stop + .nui-stop {
-  border-top: 1px solid var(--nui-line);
+  margin-top: 16px;
 }
 
 .nui-walk {
   padding: 10px 0 0 40px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--nui-text-3);
 }
 
@@ -535,7 +732,7 @@
   border-radius: 999px;
   border: 1.5px solid var(--nui-gold);
   color: var(--nui-gold-text);
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -547,49 +744,104 @@
 
 .nui-stop-time {
   width: 44px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--nui-text-2);
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
 }
 
-/* Motion */
-@keyframes nui-rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+/* ---------- Trips ---------- */
+.nui-list-flush {
+  margin-top: 4px;
 }
 
-@keyframes nui-spark-arrive {
-  from {
-    transform: rotate(-90deg) scale(0.6);
-    opacity: 0;
-  }
+.nui-trip-photos {
+  display: flex;
+  flex-shrink: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .nui *,
-  .nui-scroll {
-    animation: none;
-  }
+.nui-trip-photo {
+  width: 44px;
+  height: 56px;
+  border: 2px solid var(--nui-bg);
 }
 
-/* ---------- Phone frame with the bottom tab bar ---------- */
+.nui-trip-photo + .nui-trip-photo {
+  margin-left: -18px;
+}
+
+/* ---------- Profile ---------- */
+.nui-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nui-avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  --nui-r: 20px;
+  background: var(--nui-gold-soft);
+  color: var(--nui-gold-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.nui-stats {
+  display: flex;
+  margin-top: 20px;
+  border: 1px solid var(--nui-line);
+}
+
+.nui-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 14px 4px;
+  text-align: center;
+}
+
+.nui-stat + .nui-stat {
+  border-left: 1px solid var(--nui-line);
+}
+
+.nui-stat strong {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.nui-stat span {
+  font-size: 0.75rem;
+}
+
+.nui-found {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+/* ---------- Phone frame ---------- */
 .nui-frame {
   --nui-tabbar-h: 68px;
   /* Room for the floating header: 12 above, 56 tall, 12 below. */
   --nui-head-h: 80px;
   position: relative;
   height: calc(100dvh - var(--header-h, 72px) - var(--nav-h, 92px) - 76px);
-  min-height: 600px;
+  min-height: 640px;
   max-height: 932px;
   max-width: 430px;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 28px;
   border: 1px solid var(--border-default, #e5e5e5);
+  background: var(--bg-primary, #fff);
   /* Fixed children of the live Mapr screen stay inside the frame. */
   transform: translateZ(0);
 }
@@ -605,14 +857,65 @@
   border-radius: 0;
 }
 
-.nui-scroll {
+.nui-live {
   position: absolute;
   inset: 0;
   overflow-y: auto;
   padding-top: calc(var(--nui-head-h) + env(safe-area-inset-top, 0px));
   padding-bottom: calc(var(--nui-tabbar-h) + 36px);
+  background: var(--bg-primary);
+}
+
+/* A tab: its own stack of screens. */
+.nui-tabview {
+  position: absolute;
+  inset: 0;
+}
+
+.nui-tabview[hidden] {
+  display: none;
+}
+
+.nui-stack {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.nui-layer {
+  position: absolute;
+  inset: 0;
+  background: var(--nui-bg);
+  will-change: transform;
+}
+
+/* A pushed screen floats over the one below while it moves. */
+.nui-layer-pushed {
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.nui[data-mode='dark'] .nui-layer-pushed {
+  box-shadow: -1px 0 0 var(--nui-line);
+}
+
+.nui-dim {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nui-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Vertical scroll stays native; a sideways drag is ours (edge swipe). */
+  touch-action: pan-y;
+  padding-top: calc(var(--nui-head-h) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(var(--nui-tabbar-h) + 40px);
   -webkit-overflow-scrolling: touch;
-  animation: nui-rise 240ms var(--nui-ease) both;
 }
 
 .nui-full .nui-scroll > * {
@@ -621,12 +924,28 @@
   margin-right: auto;
 }
 
-.nui-live {
-  background: var(--bg-primary);
-  animation: none;
+.nui-screen {
+  padding: 20px 16px 0;
 }
 
-/* The app's own emoji tabs, as a floating capsule (owner, 2026-11-14). */
+.nui-screen-flush {
+  padding: 0;
+}
+
+/* Scroll edge effect: content fades under the floating header instead of
+   a hard line. */
+.nui-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--nui-head-h) + env(safe-area-inset-top, 0px));
+  z-index: 1100;
+  background: linear-gradient(to bottom, var(--nui-bg) 55%, transparent);
+  pointer-events: none;
+}
+
+/* ---------- Tab bar: floating material, emoji tabs, a gold pill that springs ---------- */
 .nui-tabbar {
   position: absolute;
   left: 12px;
@@ -636,18 +955,30 @@
   display: flex;
   height: var(--nui-tabbar-h);
   padding: 6px;
-  border: 1px solid var(--nui-line);
+  border: 1px solid var(--nui-material-edge);
   border-radius: 999px;
-  background: var(--nui-bg);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  background: var(--nui-material);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
 }
 
 .nui-tabbar[data-mode='dark'] {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+}
+
+.nui-tab-pill {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  border-radius: 999px;
+  background: var(--nui-gold-soft);
+  pointer-events: none;
 }
 
 .nui-tabbar button {
-  flex: 1;
+  position: relative;
+  flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -658,25 +989,32 @@
   border: none;
   border-radius: 999px;
   background: none;
-  color: var(--nui-text-2);
-  font-size: 11px;
-  font-weight: 500;
   cursor: pointer;
-  transition: color 200ms var(--nui-ease), background 200ms var(--nui-ease);
 }
 
 .nui-tab-icon {
+  display: grid;
+  place-items: center;
+  height: 26px;
   font-size: 24px;
   line-height: 1;
 }
 
-.nui-tabbar button.on {
-  background: var(--nui-gold-soft);
-  color: var(--nui-gold-text);
-  font-weight: 600;
+.nui-tab-label {
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-/* The app's real header, floating over the top of every tab. */
+.nui-tabbar button.on {
+  color: var(--nui-gold-text);
+}
+
+/* Selection is the gold pill and gold text; the weight stays, so
+   "Landmarks" never truncates (HIG: single-word labels, no ellipsis). */
+
+/* ---------- The app's real header, floating over the top of every tab ---------- */
 .nui-apphead {
   position: absolute;
   top: env(safe-area-inset-top, 0px);
@@ -705,8 +1043,8 @@ body.ui-lab-full .nui-apphead .app-header {
   z-index: 1300;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.5);
@@ -714,169 +1052,157 @@ body.ui-lab-full .nui-apphead .app-header {
   cursor: pointer;
 }
 
-.nui-screen {
-  padding: 20px 16px 0;
+/* ---------- Sheet ---------- */
+.nui-sheet-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1400;
+  background: transparent;
 }
 
-.nui-gap-top {
-  margin-top: 12px;
+.nui-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+  opacity: 0;
 }
 
-.nui-title-sm {
-  font-size: 24px;
-  line-height: 30px;
-  margin-top: 0;
-}
-
-.nui-why {
-  font-size: 13px;
-  line-height: 18px;
-  color: var(--nui-gold-text);
-}
-
-.nui-row-static {
-  cursor: default;
-}
-
-/* Photos */
-.nui-photo {
-  display: block;
-  overflow: hidden;
-  background: var(--nui-surface);
-}
-
-.nui-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.nui-card-photo {
-  height: auto;
-}
-
-.nui-thumb {
-  display: block;
-}
-
-.nui-hero-photo {
-  width: 100%;
-  height: 100%;
-}
-
-/* Landmarks tab */
-.nui-seg-inline {
-  margin: 4px 0 8px;
-}
-
-.nui-seg-inline button {
-  min-height: 32px;
-  font-size: 13px;
-}
-
-/* Itinerary tab */
-.nui-trip {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  border: 1px solid var(--nui-line);
-  border-radius: 14px;
-  background: var(--nui-bg);
-  text-align: left;
-  cursor: pointer;
-}
-
-.nui-trip-photos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 2px;
-  width: 64px;
-  height: 64px;
-  flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.nui-trip-photo:first-child {
-  grid-row: span 2;
-}
-
-.nui-trip-text {
+.nui-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  /* Runs past the bottom so a flick's overshoot never shows a gap. */
+  bottom: -80px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-width: 0;
+  padding-bottom: 80px;
+  border-radius: 20px 20px 0 0;
+  background: var(--nui-bg);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12);
+  outline: none;
+  touch-action: none;
+  will-change: transform;
+  transform: translate3d(0, 100%, 0);
 }
 
-.nui-trip-text .nui-why {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--nui-text-2);
+.nui[data-mode='dark'] .nui-sheet {
+  background: #111;
+  box-shadow: 0 0 0 1px var(--nui-line);
 }
 
-/* Profile tab */
-.nui-profile-head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.nui-avatar {
+.nui-grabber {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 2px solid var(--nui-gold);
-  background: var(--nui-surface);
-  font-size: 26px;
-  font-weight: 800;
+  width: 100%;
+  height: 20px;
+  border: none;
+  background: none;
+  cursor: grab;
 }
 
-.nui-stats {
+.nui-grabber span {
+  width: 36px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--nui-text);
+  opacity: 0.2;
+}
+
+.nui-sheet-head {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 20px;
-  border: 1px solid var(--nui-line);
-  border-radius: 14px;
-}
-
-.nui-stat {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 14px 4px;
+  gap: 8px;
+  padding: 0 16px 8px;
 }
 
-.nui-stat + .nui-stat {
-  border-left: 1px solid var(--nui-line);
+.nui-sheet-head > :first-child {
+  justify-self: start;
 }
 
-.nui-stat strong {
-  font-size: 22px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
+.nui-sheet-head > :last-child {
+  justify-self: end;
 }
 
-.nui-stat span {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--nui-text-3);
+.nui-sheet-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.nui-found {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.nui-sheet-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 16px 24px;
+}
+
+/* At the medium detent a drag anywhere moves the sheet; at large the
+   content scrolls. */
+.nui-sheet[data-detent='large'] .nui-sheet-body {
+  touch-action: pan-y;
+}
+
+.nui-sheet[data-detent='mid'] .nui-sheet-body {
+  overflow: hidden;
+}
+
+.nui-sheet .nui-mapr {
+  margin-top: 4px;
+}
+
+.nui-sheet-note {
   margin-top: 20px;
+  text-align: center;
+}
+
+/* ---------- Accessibility settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+  /* Springs jump straight to the end (newUISpring.js); presses and
+     colors still respond, nothing slides or turns. */
+  .nui *,
+  .nui *::before,
+  .nui *::after {
+    animation: none !important;
+  }
+
+  .nui :is(.nui-btn-primary, .nui-btn, .nui-chip, .nui-mode, .nui-hero-back, .nui-search-clear, .nui-tabbar button):active {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .nui-tabbar,
+  .nui-hero-back {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .nui-tabbar {
+    background: var(--nui-bg);
+    border-color: var(--nui-line);
+  }
+
+  .nui-hero-back {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nui {
+    --nui-line: #8a8a8a;
+    --nui-material: var(--nui-bg);
+  }
+
+  .nui[data-mode='dark'] {
+    --nui-line: #8a8a8a;
+  }
+
+  .nui-chev {
+    opacity: 1;
+  }
 }
 
 /* The app's global heading font (a serif) never reaches the new screens. */
@@ -890,7 +1216,6 @@ body.ui-lab-full .nui-apphead .app-header {
   color: inherit;
 }
 
-/* Text on a photo is white in both themes, whatever the global heading color. */
 .nui .nui-hero-title,
 .nui .nui-hero-area {
   color: #fff;
