@@ -3,6 +3,24 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Itinerary stop cards: rating, description, "Why you need to go" (2026-11-15)
+
+Live app, Itinerary tab and group trips (`StopCard`). Beside the name:
+Google's rating ("★ 4.6" + the Google Maps credit), "New" only when Google
+says it has none, nothing while loading or signed out. Under the name: the
+place's own summary in smaller grey text (2 lines at most; dashes read as
+commas). In Show more, after free/costs and time: "Why you need to go",
+3 lines from Mapr (`api/why-go.js`, Haiku, one call per trip on the first
+Show more, cached on the device 30 days). The server writes them only from
+the catalog's own summary and sourced facts, looked up by id; the rules
+forbid invented hours, prices, history, crowds and opinion words, and a
+filter drops any line with banned words. Places Mapr found on the web,
+signed-out users and failed calls get honest category lines
+(`fallbackWhy`). Decisions to revisit: grey text and star ratings go
+against design-language.md (black text only, no ratings); both are the
+owner's explicit asks. The AI lines were spot-checked, not reviewed per
+place; a line can still be a little loose.
+
 ## Official Onboarding: Categories replaced the taste pick (2026-11-15)
 
 Test tab only. Step 3 "Taste pick" (pick 3 to 5 kinds of places) is gone;
