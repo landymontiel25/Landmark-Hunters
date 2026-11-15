@@ -3,20 +3,20 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Official Onboarding: five-star review ask after the first check-in (2026-11-15)
+## Official Onboarding: review ask after the first check-in, Apple's prompt (2026-11-15)
 
-Test tab only. Step 7, right after "First check-in! +100.": Mapr asks for a
-five-star review (the owner's words; the dash became a period). "Yes, I
-love it" opens a preview of the review screen ("5-star review, please",
-"comment optional", 5 stars, an optional comment, Submit works with the
-stars alone; nothing is submitted). "Not yet" skips it for the rest of the
-browser session (sessionStorage `oo-review-declined`); a Test-only "Show the
-ask again" link resets it. Before this goes live: Apple's App Store Review
-Guidelines require the system review prompt (SKStoreReviewController /
-the Capacitor in-app review plugin) and reject custom review prompts,
-especially ones asking for five stars; the HIG also says not to ask during
-onboarding. A live build should keep the "Yes, I love it" moment but hand
-off to Apple's own prompt.
+Test tab only. Step 7, right after "First check-in! +100.": Mapr asks "...
+would you leave us a review? It really helps other travelers find us." It
+never asks for five stars by name. "Yes, I love it" opens Apple's own system
+review prompt (`requestAppReview()` in `src/lib/appReview.js`, through
+`@capacitor-community/in-app-review`, which calls AppStore.requestReview /
+SKStoreReviewController). There's no custom review screen, stars, comment
+box or Submit. Apple decides whether the prompt appears and never reports
+if someone rated. In a browser there's no system prompt, so Test shows a
+note saying what would happen. "Not yet" skips it for the rest of the
+browser session (sessionStorage `oo-review-declined`); a Test-only "Show
+the ask again" link resets it. Not done: the live onboarding doesn't have
+this step yet.
 
 ## iPhone fixes: onboarding, hometown, stop cards, Landmarks photos (2026-11-14)
 

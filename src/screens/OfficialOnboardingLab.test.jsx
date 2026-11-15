@@ -14,9 +14,14 @@ afterEach(() => {
   container?.remove();
   vi.resetModules();
   sessionStorage.clear();
+  review.mockClear();
 });
 
+// Apple's review prompt: the web answer by default, set per test.
+const review = vi.fn(async () => ({ shown: false, reason: 'web' }));
+
 async function render() {
+  vi.doMock('../lib/appReview', () => ({ requestAppReview: (...a) => review(...a) }));
   vi.doMock('./tutorialTabScreens', () => ({ TAB_SCREENS: {} }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u', email: 'a@b.c' } }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
@@ -132,22 +137,17 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Change to Always Allow'));
     await click(button(el, 'Check in now'));
     expect(bubbles(el)).toContain('First check-in! +100.');
-    // The five-star ask at the peak (owner, 2026-11-15): yes opens the
-    // review screen; the stars alone are enough, no comment needed.
-    expect(bubbles(el)).toContain("You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a five-star review? It really helps other travelers find us.");
+    // The review ask at the peak (owner, 2026-11-15): never "five stars" by
+    // name, and yes opens Apple's own prompt, not a screen of ours.
+    expect(bubbles(el)).toContain("You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a review? It really helps other travelers find us.");
+    expect(el.textContent).not.toMatch(/five-star|5-star|comment optional/i);
     expect(next()).toBeFalsy();
     await click(button(el, 'Yes, I love it'));
-    expect(el.querySelector('.oo-review-title').textContent).toBe('5-star review, please');
-    expect(el.querySelector('.oo-review-sub').textContent).toBe('comment optional');
-    const submit = [...el.querySelectorAll('.oo-review button')].find((b) => b.textContent === 'Submit');
-    expect(submit.disabled).toBe(true);
-    await click(el.querySelector('[aria-label="5 stars"]'));
-    expect(el.querySelectorAll('.oo-review-stars button.on')).toHaveLength(5);
-    expect(el.querySelector('.oo-review-comment').value).toBe('');
-    expect(submit.disabled).toBe(false);
-    await click(submit);
-    expect(el.querySelector('.oo-review')).toBeNull();
+    expect(review).toHaveBeenCalledOnce();
+    expect(el.querySelector('.oo-review, .oo-stars, textarea')).toBeNull();
     expect(bubbles(el)).toContain('Thank you. That really helps.');
+    // In a browser there's no system prompt: Test says what would happen.
+    expect(el.querySelector('.oo-review-note').textContent).toBe("On iPhone, this opens Apple's own review prompt right here. A preview can't show it, and Apple decides when it appears.");
     await click(next());
 
     expect(bubbles(el)).toContain("That's a day planned in 2 minutes, instead of hours of searching.");
@@ -229,7 +229,18 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).toContain('What happened');
   });
 
-  it('"Not yet" skips the five-star ask and it isn\'t asked again this session', async () => {
+  it("in the iOS app, yes opens Apple's prompt with no preview note", async () => {
+    review.mockImplementationOnce(async () => ({ shown: true }));
+    const el = await render();
+    await click(el.querySelector('input[type="checkbox"]'));
+    await click([...el.querySelectorAll('.lab-step')][6]);
+    for (const t of ['Allow location', 'Allow While Using App', 'Change to Always Allow', 'Check in now', 'Yes, I love it']) await click(button(el, t));
+    expect(review).toHaveBeenCalledOnce();
+    expect(el.querySelector('.oo-review-note')).toBeNull();
+    expect(bubbles(el)).toContain('Thank you. That really helps.');
+  });
+
+  it('"Not yet" skips the review ask and it isn\'t asked again this session', async () => {
     const reach = async (el) => {
       await click([...el.querySelectorAll('.lab-step')][6]);
       await click(button(el, 'Allow location'));
@@ -241,9 +252,10 @@ describe('Official Onboarding (Test tab)', () => {
     const next = () => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next \u{2192}');
     await click(el.querySelector('input[type="checkbox"]'));
     await reach(el);
-    expect(bubbles(el)).toContain('five-star review');
+    expect(bubbles(el)).toContain('would you leave us a review?');
     await click(button(el, 'Not yet'));
-    expect(bubbles(el)).not.toContain('five-star review');
+    expect(review).not.toHaveBeenCalled();
+    expect(bubbles(el)).not.toContain('would you leave us a review?');
     expect(el.querySelector('.oo-review')).toBeNull();
     expect(next()).toBeTruthy();
     // A new run in the same session: no ask.
@@ -253,10 +265,10 @@ describe('Official Onboarding (Test tab)', () => {
     await click(el.querySelector('input[type="checkbox"]'));
     await reach(el);
     expect(bubbles(el)).toContain('First check-in! +100.');
-    expect(bubbles(el)).not.toContain('five-star review');
+    expect(bubbles(el)).not.toContain('would you leave us a review?');
     // The Test-only link brings it back for the owner.
     await click(button(el, 'Show the ask again (Test only)'));
-    expect(bubbles(el)).toContain('five-star review');
+    expect(bubbles(el)).toContain('would you leave us a review?');
     expect(el.textContent).not.toContain('\u2014');
   });
 
