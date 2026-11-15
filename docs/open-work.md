@@ -18,6 +18,15 @@ browser session (sessionStorage `oo-review-declined`); a Test-only "Show
 the ask again" link resets it. Not done: the live onboarding doesn't have
 this step yet.
 
+TRIAL (Test only, owner, 2026-11-15): a switch above the ask ("Apple's
+prompt" | "Trial: our screen") brings back our own review screen from
+PR #872 (the five-star ask, "5-star review, please", "comment optional",
+stars, an optional comment, Submit; nothing is submitted) to compare.
+Apple's prompt is the default. Remove the trial (TrialReviewAsk,
+ReviewTrialSwitch, SAY.reviewTrial, the TRIAL block in ux-3.css) when this
+step goes into the live onboarding: the live build keeps only Apple's
+prompt.
+
 ## iPhone fixes: onboarding, hometown, stop cards, Landmarks photos (2026-11-14)
 
 Official Onboarding (Test tab): the intro's route (Act 1, screen 3) is blue
