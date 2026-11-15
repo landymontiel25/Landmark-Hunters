@@ -13,6 +13,7 @@ let container;
 afterEach(() => {
   container?.remove();
   vi.resetModules();
+  sessionStorage.clear();
 });
 
 async function render() {
@@ -131,7 +132,22 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Change to Always Allow'));
     await click(button(el, 'Check in now'));
     expect(bubbles(el)).toContain('First check-in! +100.');
-    await click(button(el, 'Not Now'));
+    // The five-star ask at the peak (owner, 2026-11-15): yes opens the
+    // review screen; the stars alone are enough, no comment needed.
+    expect(bubbles(el)).toContain("You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a five-star review? It really helps other travelers find us.");
+    expect(next()).toBeFalsy();
+    await click(button(el, 'Yes, I love it'));
+    expect(el.querySelector('.oo-review-title').textContent).toBe('5-star review, please');
+    expect(el.querySelector('.oo-review-sub').textContent).toBe('comment optional');
+    const submit = [...el.querySelectorAll('.oo-review button')].find((b) => b.textContent === 'Submit');
+    expect(submit.disabled).toBe(true);
+    await click(el.querySelector('[aria-label="5 stars"]'));
+    expect(el.querySelectorAll('.oo-review-stars button.on')).toHaveLength(5);
+    expect(el.querySelector('.oo-review-comment').value).toBe('');
+    expect(submit.disabled).toBe(false);
+    await click(submit);
+    expect(el.querySelector('.oo-review')).toBeNull();
+    expect(bubbles(el)).toContain('Thank you. That really helps.');
     await click(next());
 
     expect(bubbles(el)).toContain("That's a day planned in 2 minutes, instead of hours of searching.");
@@ -211,6 +227,37 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).toContain('Location: Always');
     expect(el.textContent).toMatch(/Picks: .+, .+, .+ \(saved to Tomorrow in Miami\)/);
     expect(el.textContent).toContain('What happened');
+  });
+
+  it('"Not yet" skips the five-star ask and it isn\'t asked again this session', async () => {
+    const reach = async (el) => {
+      await click([...el.querySelectorAll('.lab-step')][6]);
+      await click(button(el, 'Allow location'));
+      await click(button(el, 'Allow While Using App'));
+      await click(button(el, 'Change to Always Allow'));
+      await click(button(el, 'Check in now'));
+    };
+    let el = await render();
+    const next = () => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next \u{2192}');
+    await click(el.querySelector('input[type="checkbox"]'));
+    await reach(el);
+    expect(bubbles(el)).toContain('five-star review');
+    await click(button(el, 'Not yet'));
+    expect(bubbles(el)).not.toContain('five-star review');
+    expect(el.querySelector('.oo-review')).toBeNull();
+    expect(next()).toBeTruthy();
+    // A new run in the same session: no ask.
+    container.remove();
+    vi.resetModules();
+    el = await render();
+    await click(el.querySelector('input[type="checkbox"]'));
+    await reach(el);
+    expect(bubbles(el)).toContain('First check-in! +100.');
+    expect(bubbles(el)).not.toContain('five-star review');
+    // The Test-only link brings it back for the owner.
+    await click(button(el, 'Show the ask again (Test only)'));
+    expect(bubbles(el)).toContain('five-star review');
+    expect(el.textContent).not.toContain('\u2014');
   });
 
   it("skipping the check-in doesn't block", async () => {
