@@ -91,10 +91,12 @@ export const SAY = {
   promptFirst: ["This is the iPhone's own question. Pick Allow While Using App. Always comes on the next screen."],
   promptAlways: ["Now pick Change to Always Allow, so I can find you even with the app closed."],
   checkinWin: [`First check-in! +${CHECKIN_POINTS}.`],
-  // The five-star ask at the peak, right after the first check-in (owner,
-  // 2026-11-15). The owner's words, with the dash made a period.
-  review: ["You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a five-star review? It really helps other travelers find us."],
+  // The review ask at the peak, right after the first check-in (owner,
+  // 2026-11-15). It never asks for five stars by name: App Store rules.
+  review: ["You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a review? It really helps other travelers find us."],
   reviewThanks: ['Thank you. That really helps.'],
+  // Test only: on the web there's no system prompt to show.
+  reviewPreviewNote: "On iPhone, this opens Apple's own review prompt right here. A preview can't show it, and Apple decides when it appears.",
   signup: ['Save your 100 points + your day. It takes 20 seconds.'],
   verifyLater: ['I sent you a link to verify your email. Tap it any time. Nothing waits on it.'],
   // Owner, 2026-11-14.

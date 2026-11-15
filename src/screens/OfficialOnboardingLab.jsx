@@ -12,6 +12,7 @@ import { LabSignUp, TutorialTabs } from './SignupTutorialLab';
 import { Plan, Prepared, RouteMap } from './ExplainerImagesLab';
 import LabSummary from './TutorialSummary';
 import { pitchFor } from './officialOnboardingPitches';
+import { requestAppReview } from '../lib/appReview';
 import {
   CHECKIN_POINTS,
   CITIES,
@@ -349,9 +350,14 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
         </div>
         <MaprSays lines={SAY.checkinWin} />
         {!data.review && !reviewDeclined() && <ReviewAsk set={set} note={note} />}
-        {data.review === 'rated' && <MaprSays lines={SAY.reviewThanks} />}
+        {(data.review === 'rated' || data.review === 'previewed') && <MaprSays lines={SAY.reviewThanks} />}
+        {data.review === 'previewed' && (
+          <p className="tut-small oo-review-note" role="note">
+            {SAY.reviewPreviewNote}
+          </p>
+        )}
         {(data.review || reviewDeclined()) && <NextButton onClick={() => onNext('After the first check-in')}>Next</NextButton>}
-        {data.review !== 'rated' && reviewDeclined() && (
+        {data.review !== 'rated' && data.review !== 'previewed' && reviewDeclined() && (
           <button
             type="button"
             className="oo-review-reset"
@@ -413,77 +419,41 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
 // The summary (owner, 2026-11-14): Mapr's two lines, then a traveler
 // question instead of a commitment one (there's no commitment in
 // traveling). All four questions show until the owner picks one.
-// The five-star ask (owner, 2026-11-15), at the peak: right after the first
-// check-in win, never at launch. "Yes, I love it" opens a preview of the
-// review screen (5 stars, the comment optional, nothing is submitted in
-// Test). "Not yet" skips it and it isn't asked again this session.
+// The review ask (owner, 2026-11-15), at the peak: right after the first
+// check-in win, never at launch. "Yes, I love it" opens Apple's own review
+// prompt (requestAppReview), nothing of ours: no stars, no comment box, no
+// Submit, and never "five stars" by name, so the App Store build passes
+// review. In a browser there's no system prompt, so Test says what would
+// happen. "Not yet" skips it and it isn't asked again this session.
 function ReviewAsk({ set, note }) {
-  const [screen, setScreen] = useState(false);
-  const [stars, setStars] = useState(0);
-  const [comment, setComment] = useState('');
-  if (!screen) {
-    return (
-      <>
-        <MaprSays lines={SAY.review} />
-        <div className="oo-options oo-review-ask" role="group" aria-label="Leave a review?">
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            onClick={() => {
-              setScreen(true);
-              note('Said yes to the review ask');
-            }}
-          >
-            Yes, I love it
-          </button>
-          <button
-            type="button"
-            className="fr-chip oo-option"
-            onClick={() => {
-              setReviewDeclined(true);
-              set({ review: 'skipped' });
-              note('Not yet on the review ask (not asked again this session)');
-            }}
-          >
-            Not yet
-          </button>
-        </div>
-      </>
-    );
-  }
   return (
-    <Phone>
-      <form
-        className="tut-dialog oo-review"
-        aria-labelledby="oo-review-title"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!stars) return;
-          set({ review: 'rated' });
-          note(`Left ${stars} star${stars > 1 ? 's' : ''}${comment.trim() ? ' and a comment' : ', no comment'} (preview, nothing submitted)`);
-        }}
-      >
-        <h3 id="oo-review-title" className="oo-review-title">
-          5-star review, please
-        </h3>
-        <p className="oo-review-sub">comment optional</p>
-        <div className="oo-stars oo-review-stars" role="radiogroup" aria-label="Your rating">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <button key={n} type="button" role="radio" aria-checked={stars === n} aria-label={`${n} star${n > 1 ? 's' : ''}`} className={n <= stars ? 'on' : ''} onClick={() => setStars(n)}>
-              {'\u{2605}'}
-            </button>
-          ))}
-        </div>
-        <label className="visually-hidden" htmlFor="oo-review-comment">
-          Comment (optional)
-        </label>
-        <textarea id="oo-review-comment" className="oo-review-comment" rows={3} maxLength={500} placeholder="Add a comment if you want" value={comment} onChange={(e) => setComment(e.target.value)} />
-        <button type="submit" className="btn btn-primary btn-block" disabled={!stars}>
-          Submit
+    <>
+      <MaprSays lines={SAY.review} />
+      <div className="oo-options oo-review-ask" role="group" aria-label="Leave a review?">
+        <button
+          type="button"
+          className="btn btn-primary btn-block"
+          onClick={async () => {
+            const { shown, reason } = await requestAppReview();
+            set({ review: shown ? 'rated' : 'previewed' });
+            note(shown ? "Asked Apple's review prompt (Apple decides if it shows)" : `Yes to the review ask: Apple's prompt would open here (${reason === 'web' ? 'not on the web' : 'not available'})`);
+          }}
+        >
+          Yes, I love it
         </button>
-        <p className="tut-small oo-review-test">Preview in Test: nothing is submitted.</p>
-      </form>
-    </Phone>
+        <button
+          type="button"
+          className="fr-chip oo-option"
+          onClick={() => {
+            setReviewDeclined(true);
+            set({ review: 'skipped' });
+            note('Not yet on the review ask (not asked again this session)');
+          }}
+        >
+          Not yet
+        </button>
+      </div>
+    </>
   );
 }
 
