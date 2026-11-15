@@ -3,6 +3,29 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Photos, Landmarks row order, onboarding map, Hyatt removed (2026-11-15)
+
+- Photos: `LandmarkThumb` timed every photo out after 8 s from the moment
+  its row rendered, but lazy photos aren't requested until they near the
+  screen, so photos further down a list or an itinerary were marked failed
+  unrequested and fell back to an icon (Bayfront Park, Zoo Miami, Hard Rock
+  Stadium all have photos). The timer now starts once a photo is on screen
+  (12 s), and a place whose stored photos all fail asks Google for one, like
+  a place with none. Not done: places with no stored photo (1,978 imported
+  ones, 224 hand-added) get Google's photo only when signed in (the photo
+  endpoint needs sign-in because it's billed); signed out they keep the
+  category tile. Options: open the endpoint to signed-out users with a
+  per-IP limit, or research free (Wikimedia) photos for them.
+- Landmarks list: under the name, where, Free / Needs a ticket, distance
+  ("7.1 mi away"), then a line with Rate and Google's rating.
+- Official Onboarding's route maps (intro screen 3 and the first Mapr pick):
+  `RouteMap untangle` bends each leg away from the stops it isn't going to,
+  puts names on the side away from the nearest pin, and nudges pins closer
+  than 140 m apart (`src/lib/untangleRoute.js`), so South Beach, News Café,
+  Colony Hotel read 1, 2, 3.
+- Hyatt Regency Coral Gables deleted from the catalog (a hotel, not a
+  landmark; owner).
+
 ## Itinerary stop cards: rating, description, "Why you need to go" (2026-11-15)
 
 Live app, Itinerary tab and group trips (`StopCard`). Beside the name:

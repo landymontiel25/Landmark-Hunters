@@ -1715,3 +1715,16 @@ html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallb
     border-radius: 24px !important;
   }
 }
+
+/* Landmarks list: the distance on the first meta line, then Rate and
+   Google's rating on the line below (owner, 2026-11-15). The second line
+   hides when it's empty (signed out). */
+html body[data-apple='landmarks'] .aps-live .lm-card .lr-meta .distance-tag {
+  font-weight: 600;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card .lr-rate-row {
+  margin-top: 4px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card .lr-rate-row:empty {
+  display: none;
+}

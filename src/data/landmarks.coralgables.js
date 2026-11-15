@@ -150,26 +150,6 @@ export const CORALGABLES_LANDMARKS = [
     typicalMinutes: 30
   },
   {
-    id: "hyatt-regency-coral-gables",
-    editorialRank: 4,
-    popularity: 6,
-    cost: "$$$",
-    neighborhood: "Alhambra Plaza",
-    firstTimerPriority: "Medium",
-    images: [],
-    name: "Hyatt Regency Coral Gables",
-    region: 'miami',
-    lat: 25.75187,
-    lng: -80.2555,
-    checkInRadiusMeters: 120,
-    categories: ["history-culture"],
-    summary: "A Moorish-style hotel within the landmark Alhambra Plaza complex.",
-    facts: ["A hotel within the Alhambra Plaza complex","Built in a Moorish Mediterranean-Revival style","Its design is inspired by the Alhambra palace in Spain","Opened in the late 1980s","Rises about 13 stories over downtown Coral Gables","Home to the La Palma restaurant and courtyard","Offers around 250 guest rooms and suites","A landmark along Alhambra Circle","A popular venue for weddings and business events","Fits the city's Spanish-inspired 'City Beautiful' character"],
-    free: false,
-    bookingUrl: null,
-    typicalMinutes: 30
-  },
-  {
     id: "pasion-del-cielo-coral-gables",
     editorialRank: 5,
     popularity: 6,

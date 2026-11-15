@@ -283,16 +283,20 @@ const LandmarkRow = memo(function LandmarkRow({
         <h4>
           <span className="lr-category-icons">{l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c]).join('')}</span>
           {l.name}
-          <QuickRateButton landmark={l} />
         </h4>
+        {/* Under the name, in this order (owner, 2026-11-15): where it is,
+            Free / Needs a ticket, then how far away (it matters most), and
+            below that Rate, then Google's stars and review count with its
+            Google Maps credit. */}
         <div className="lr-meta">
           <span className="lr-where">{l.neighborhood || CATEGORY_LABEL[l.categories?.[0]] || ''}</span>
           <AdmissionTag landmark={l} short />
-          {/* The Google rating (⭐ 4.6 (1,234) Google Maps); with no Google
-              rating the app's own average is the badge on the photo. Signed
-              out the endpoint answers nothing, so the card skips the call. */}
+          {distanceText && <span className="tag distance-tag">{distanceText} away</span>}
+        </div>
+        <div className="lr-meta lr-rate-row">
+          <QuickRateButton landmark={l} />
+          {/* Signed out the endpoint answers nothing, so the card skips the call. */}
           {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} fetchOwn={false} />}
-          {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
         </div>
       </div>
       {/* The "..." on the right of the row: save and share. */}
