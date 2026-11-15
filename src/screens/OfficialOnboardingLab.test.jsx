@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { answersFromCats, buildDay, cityById, cityCategories, CITIES, reflectLine, lighterDay } from './officialOnboardingSteps';
+import { answersFromCats, buildDay, cityById, cityCategories, CITIES, reflectLine } from './officialOnboardingSteps';
 import { PITCHES, pitchFor } from './officialOnboardingPitches';
 import { ALL_LANDMARKS } from '../data/regions';
 
@@ -140,23 +140,32 @@ describe('Official Onboarding (Test tab)', () => {
     expect(bubbles(el)).not.toMatch(/picked nothing|I guessed|your your/);
     // Mapr speaks in the first person with contractions (owner, 2026-11-14).
     expect(bubbles(el)).not.toMatch(/Mapr built|This is not|It is built/);
-    expect(bubbles(el)).toContain('How committed are you to exploring like this?');
-    await click(button(el, 'Not really'));
-    expect(bubbles(el)).toContain('No pressure.');
-    await click(button(el, 'Make my day lighter'));
-    expect(el.textContent).toContain('people built a day like this today');
+    // A traveler question, not a commitment one (owner, 2026-11-14): all
+    // four for now, the owner keeps one.
+    expect(el.textContent).not.toMatch(/committed/i);
+    for (const ask of ['What kind of traveler are you?', 'How do you like to spend a day in a new city?', "What's your ideal pace?", 'When are you traveling?']) expect(bubbles(el)).toContain(ask);
+    for (const option of ['Explorer', 'Foodie', 'Chill', 'Adventurer', 'Wander and see what happens', 'Plan every stop', 'Follow what locals do', 'Slow and relaxed', 'See as much as possible', 'This weekend', 'Next month', 'Just dreaming for now']) expect(button(el, option)).toBeTruthy();
+    expect([...el.querySelectorAll('button')].filter((b) => b.textContent === 'A bit of both')).toHaveLength(2);
+    await click(button(el, 'Foodie'));
+    expect(button(el, 'Foodie').getAttribute('aria-checked')).toBe('true');
+    expect(el.textContent).toContain('128 people built a day like this today.');
     await click(next());
 
     expect(bubbles(el)).toContain('Save your 100 points + your day. It takes 20 seconds.');
     const buttons = [...el.querySelectorAll('button')].map((b) => b.textContent);
     expect(buttons.findIndex((t) => t.includes('Sign up with Google'))).toBeLessThan(buttons.findIndex((t) => t.includes('Create Account')));
     await click(button(el, 'Sign up with Google'));
-    expect(el.textContent).toContain('Tab 1 of 2: Map');
+    // Every tab in the bar (owner, 2026-11-14), the Map's words as they were.
+    expect(el.textContent).toContain('Tab 1 of 5: Map');
+    expect([...el.querySelectorAll('.tut-nav-item')].map((b) => b.textContent)).toEqual(['\u{1F310}Map', '\u{1F4CD}Landmarks', 'Mapr', '\u{1F5FA}\u{FE0F}Itinerary', '\u{1F3C6}Profile']);
+    expect(el.querySelector('.tut-nav .mapr-tab-icon img')).toBeTruthy();
+    expect(el.textContent).toContain('Try it: tap a pin.');
     expect(bubbles(el)).toContain("Tap a pin to see the place and check in when you're there.");
-    await click(button(el, 'Next tab'));
-    expect(bubbles(el)).toContain("Your day lives here. I can fill a day with places you'll like.");
+    for (let i = 0; i < 4; i++) await click(button(el, 'Next tab') || button(el, 'Finish'));
+    expect(bubbles(el)).toContain("Your points, streaks and check-ins live here.");
     await click(button(el, 'Finish'));
-    expect(bubbles(el)).toContain("Come back tomorrow. I'll have 3 new places near you.");
+    expect(bubbles(el)).toContain("See you tomorrow, traveler. I'll have 3 new places near you.");
+    expect(el.querySelector('.oo-hook-photo img').getAttribute('src')).toBe('/onboarding/onboarding-see-you-tomorrow.jpg');
     await click(button(el, 'Finish'));
 
     // Step 10: onboarding only asks where home is (owner, 2026-11-14). No pitch.
@@ -174,11 +183,15 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).toContain('Official Onboarding: Hometown Transition');
     expect(el.querySelector('.oo-home-map')).toBeTruthy();
     expect(el.querySelector('.oo-home-stat').textContent).toMatch(/^You've been to 12 of [\d,]+ places in Miami\.$/);
-    expect(bubbles(el)).toMatch(/You already trust me with your trips \(and I know what you like from those trips\)\. You live in Miami and you've only been to 12 of [\d,]+ places here\. Based on what you picked, here are 3 places near you that you'll love\./);
+    expect(bubbles(el)).toMatch(/You already trust me with your trips \(and I know what you like from those trips\)\. You live in Miami and you've only been to 12 of [\d,]+ places here\. At home it's less about landmarks, so here's somewhere to eat, somewhere to drink, and one more from what you picked\./);
+    expect(el.querySelector('.oo-home-h3').textContent).toBe('3 amazing places for tomorrow');
     expect(bubbles(el)).not.toMatch(/guess/i);
     const picks = [...el.querySelectorAll('.oo-home-pick-row')];
     expect(picks).toHaveLength(3);
-    expect(picks.map((r) => r.textContent).join(' ')).toMatch(/Because you picked (food|parks & nature|art & culture)/);
+    // A restaurant and a bar first (owner, 2026-11-14), then one of their kinds.
+    expect(picks[0].textContent).toContain('A place to eat near you');
+    expect(picks[1].textContent).toContain('A bar near you');
+    expect(picks[2].textContent).toMatch(/Because you picked (parks & nature|art & culture)/);
     expect(el.textContent).toContain('Your streak is at 3 days, don\'t break it. I found a spot for tomorrow.');
     expect(el.textContent).not.toContain('\u2014');
     expect(el.textContent).toContain("I only message you when I've got a real pick.");
@@ -206,20 +219,30 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Not now'));
     expect(button(el, 'Check in now')).toBeFalsy();
     await click(button(el, 'Skip for now'));
-    expect(bubbles(el)).toContain('How committed are you');
+    expect(bubbles(el)).toContain('What kind of traveler are you?');
   });
 });
 
 describe('Hometown Transition pieces', () => {
-  it('picks 3 unvisited places, one per picked kind, closest first', async () => {
-    const { cityPlaces, visitedSample, hometownPicks, shockStat, homeAnchor } = await import('./officialOnboardingHometown');
+  it('picks a restaurant, a bar, then one of their kinds, all unvisited (owner, 2026-11-14)', async () => {
+    const { cityPlaces, visitedSample, hometownPicks, shockStat, homeAnchor, isBar } = await import('./officialOnboardingHometown');
     const miami = cityById('miami');
     const places = cityPlaces(miami);
     const visited = visitedSample(places);
     expect(visited).toHaveLength(12);
     const picks = hometownPicks(places, visited, ['food', 'parks-nature'], homeAnchor(places, visited, null));
     expect(picks).toHaveLength(3);
-    expect(picks.map((p) => p.kind)).toEqual(['food', 'parks-nature', 'food']);
+    expect(picks.map((p) => p.kind)).toEqual(['food', 'bar', 'parks-nature']);
+    expect(picks[0].place.categories).toContain('food');
+    // A real restaurant, never a chain like Starbucks.
+    const { isRestaurant, chainNames } = await import('./officialOnboardingHometown');
+    expect(isRestaurant(picks[0].place)).toBe(true);
+    expect(isRestaurant({ categories: ['food'], topic: 'café' })).toBe(false);
+    expect(chainNames([{ name: 'Starbucks' }, { name: 'Starbucks' }, { name: 'Starbucks' }, { name: "Joe's" }]).has('Starbucks')).toBe(true);
+    const chains = chainNames(places);
+    expect(picks.some((p) => chains.has(p.place.name))).toBe(false);
+    expect(isBar(picks[1].place)).toBe(true);
+    expect(picks[2].place.categories).toContain('parks-nature');
     const seen = new Set(visited.map((l) => l.id));
     expect(picks.some((p) => seen.has(p.place.id))).toBe(false);
     expect(shockStat(miami, 12, 1059)).toBe('12 of 1,059 places in Miami');
@@ -241,7 +264,6 @@ describe('Official Onboarding pieces', () => {
     expect(day).toHaveLength(3);
     expect(new Set(day.map((s) => s.id)).size).toBe(3);
     expect(day[1].categories).toContain('food');
-    expect(lighterDay(day)).toHaveLength(2);
   });
 
   it('writes the summary from the real picks, never "picked nothing" or "I guessed" (owner, 2026-11-14)', async () => {

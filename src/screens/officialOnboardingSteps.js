@@ -1,7 +1,9 @@
 // Test tab "Official Onboarding" (owner, 2026-11-11): the words and the pure
 // pieces of the Planner-first flow (OfficialOnboardingLab.jsx). Edit the
 // words here. Nothing in the test is saved.
+import { createElement } from 'react';
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, PICKABLE_REGIONS } from '../data/regions';
+import MaprTabIcon from '../components/MaprTabIcon';
 import { distanceMeters } from '../lib/geo';
 import { SWIPE_DELTAS } from '../lib/onboardingCards';
 
@@ -90,30 +92,32 @@ export const SAY = {
   promptAlways: ["Now pick Change to Always Allow, so I can find you even with the app closed."],
   checkinWin: [`First check-in! +${CHECKIN_POINTS}.`],
   review: ['Loving it so far? A quick rating helps other travelers find me.'],
-  commitAsk: ['How committed are you to exploring like this?'],
-  commitLow: [
-    'No pressure. Exploring at your own pace counts too.',
-    'Want a lighter day? I can rebuild it with 2 stops close together.',
-  ],
-  commitHigh: ["Love it. I'll keep lining up places like these."],
   signup: ['Save your 100 points + your day. It takes 20 seconds.'],
   verifyLater: ['I sent you a link to verify your email. Tap it any time. Nothing waits on it.'],
-  hook: ["Come back tomorrow. I'll have 3 new places near you."],
+  // Owner, 2026-11-14.
+  hook: ["See you tomorrow, traveler. I'll have 3 new places near you."],
   home: ["One last thing. Where's home? I'll remember it, so when you get back from a trip I can help you there too."],
   done: ["That's your first day. See you tomorrow."],
 };
 
-export const COMMIT = [
-  { id: 'extreme', label: 'Extremely committed', low: false },
-  { id: 'very', label: 'Very committed', low: false },
-  { id: 'somewhat', label: 'Somewhat', low: true },
-  { id: 'not', label: 'Not really', low: true },
+// The summary's traveler question (owner, 2026-11-14): there's no
+// commitment in traveling, so it asks about the trip instead. All four
+// are in for now; the owner keeps one.
+export const TRAVELER_QUESTIONS = [
+  { id: 'kind', ask: 'What kind of traveler are you?', options: ['Explorer', 'Foodie', 'Chill', 'Adventurer'] },
+  { id: 'day', ask: 'How do you like to spend a day in a new city?', options: ['Wander and see what happens', 'Plan every stop', 'Follow what locals do', 'A bit of both'] },
+  { id: 'pace', ask: "What's your ideal pace?", options: ['Slow and relaxed', 'See as much as possible', 'A bit of both'] },
+  { id: 'when', ask: 'When are you traveling?', options: ['This weekend', 'Next month', 'Just dreaming for now'] },
 ];
 
-// Session 1's short tour: Map and Itinerary only.
+// The tab tour after sign-up: every tab in the bar (owner, 2026-11-14), in
+// the app's order, with the app's emojis and Mapr's logo.
 export const OO_TABS = [
   { tab: 'Map', path: '/', live: true, tryIt: 'Try it: tap a pin.', icon: '\u{1F310}', say: "Tap a pin to see the place and check in when you're there." },
+  { tab: 'Landmarks', path: '/landmarks', icon: '\u{1F4CD}', say: "Every place in your city lives here. Add the ones you like to your day." },
+  { tab: 'Mapr', path: '/mapr', icon: createElement(MaprTabIcon), say: "That's me. Ask me where to eat, what to see this afternoon, or how the app works." },
   { tab: 'Itinerary', path: '/itinerary', icon: '\u{1F5FA}\u{FE0F}', say: "Your day lives here. I can fill a day with places you'll like." },
+  { tab: 'Profile', path: '/profile', icon: '\u{1F3C6}', say: "Your points, streaks and check-ins live here. You're at 100 already." },
 ];
 
 // A sample for the social-proof line: the app counts no "days built" yet.
@@ -199,15 +203,6 @@ export function nearestStop(stops, coords) {
   if (!stops.length) return null;
   if (!coords || !Number.isFinite(coords.lat)) return { place: stops[0], meters: null };
   return stops.map((place) => ({ place, meters: near(coords, place) })).sort((a, b) => a.meters - b.meters)[0];
-}
-
-// The lighter day for low commitment: the two stops closest together.
-export function lighterDay(stops) {
-  if (stops.length <= 2) return stops;
-  let best = [stops[0], stops[1]];
-  for (let i = 0; i < stops.length; i++)
-    for (let j = i + 1; j < stops.length; j++) if (near(stops[i], stops[j]) < near(best[0], best[1])) best = [stops[i], stops[j]];
-  return best;
 }
 
 // "Food, Parks & Nature, and Art & Culture".

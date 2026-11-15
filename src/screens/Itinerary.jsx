@@ -11,9 +11,7 @@ import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useFriends } from '../lib/FriendsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
-import CheckInButton from '../components/CheckInButton';
-import LandmarkThumb from '../components/LandmarkThumb';
-import QuickRateButton from '../components/QuickRateButton';
+import StopCard from '../components/StopCard';
 import TripRecapCard from '../components/TripRecapCard';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
@@ -21,7 +19,6 @@ import { itineraryPhase, groupKey } from '../lib/itineraryStatus';
 import { getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { geocodeLocation } from '../lib/geocode';
-import { useStopAddresses } from '../lib/useStopAddresses';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { distanceMeters } from '../lib/geo';
 import { matchesSearch } from '../lib/search';
@@ -35,7 +32,6 @@ import {
 } from '../lib/routing';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import DirectionsButton from '../components/DirectionsButton';
-import AdmissionTag from '../components/AdmissionTag';
 import { useRatings } from '../lib/RatingsContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { usePersistentState } from '../lib/usePersistentState';
@@ -572,9 +568,6 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 
-  // Street address under each catalog stop (Mapr-found places already have one).
-  const addresses = useStopAddresses(selectedLandmarks);
-
   // Deletes this city's itinerary (stops, Mapr places, name) with an Undo.
   const deleteItinerary = () => {
     const rid = region.id;
@@ -1086,129 +1079,30 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
               {sort === 'custom' ? (
                 <button
                   type="button"
-                  className="remove-dash"
-                  title="Remove from itinerary"
-                  aria-label={`Remove ${stop.name} from itinerary`}
-                  onClick={() => setPendingRemove(stop)}
+                  className="drag-handle"
+                  title="Hold and drag to reorder"
+                  aria-label={`Reorder ${stop.name}: hold and drag, or use the up and down arrow keys`}
+                  onPointerDown={startDrag(stop.id)}
+                  onKeyDown={keyReorder(stop.id)}
                 >
-                  {'−'}
+                  {'☰'}
                 </button>
               ) : (
                 <div className={`route-num ${claimedMap[stop.id] ? 'found' : ''}`}>{idx + 1}</div>
               )}
-              <div className={`card ${claimedMap[stop.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                    {stop.external && stop.landmarkId ? (
-                      <button
-                        type="button"
-                        className="route-stop-link"
-                        onClick={() => navigate(`/landmarks/${stop.fromRegion}/${stop.landmarkId}`)}
-                        title={`Open ${stop.name} — check in, rate, or see details`}
-                      >
-                        <span className="chatlab-stop-globe" aria-hidden="true">
-                          {'\u{1F4CD}'}
-                        </span>
-                        <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
-                      </button>
-                    ) : stop.external ? (
-                      <>
-                        <span className="chatlab-stop-globe" aria-hidden="true">
-                          {'\u{1F310}'}
-                        </span>
-                        <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
-                      </>
-                    ) : (
-                      <button
-                        type="button"
-                        className="route-stop-link"
-                        onClick={() => navigate(`/landmarks/${region.id}/${stop.id}`)}
-                        title={`Open ${stop.name} — check in, rate, or see details`}
-                      >
-                        <LandmarkThumb landmark={stop} size={44} myPhoto={myPhotos[stop.id]?.[0]} />
-                        <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
-                      </button>
-                    )}
-                    {!stop.external && <QuickRateButton landmark={stop} />}
-                  </div>
-                  {sort === 'custom' ? (
-                    <button
-                      type="button"
-                      className="drag-handle"
-                      title="Hold and drag to reorder"
-                      aria-label={`Reorder ${stop.name}: hold and drag, or use the up and down arrow keys`}
-                      onPointerDown={startDrag(stop.id)}
-                      onKeyDown={keyReorder(stop.id)}
-                    >
-                      {'☰'}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn-icon-trash"
-                      title="Remove from itinerary"
-                      aria-label="Remove from itinerary"
-                      onClick={() => setPendingRemove(stop)}
-                    >
-                      {'\u{1F5D1}\u{FE0F}'}
-                    </button>
-                  )}
-                </div>
-                {stop.external ? (
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                    {stop.landmarkId ? (
-                      <span className="tag place-tag">
-                        {'\u{1F4CD}'} From {getRegion(stop.fromRegion)?.name || 'another city'}
-                      </span>
-                    ) : (
-                      <span className="tag place-tag">{'\u{2728}'} Found by Mapr</span>
-                    )}
-                    {stop.address && <span className="tag place-tag">{stop.address}</span>}
-                  </div>
-                ) : (
-                  <>
-                  {addresses[stop.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[stop.id]}</p>}
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                    <AdmissionTag landmark={stop} />
-                    <span className="tag">{'\u{23F1}\u{FE0F}'} ~{stop.typicalMinutes} min there</span>
-                  </div>
-                  </>
-                )}
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <DirectionsButton
-                    name={stop.name}
-                    lat={stop.lat}
-                    lng={stop.lng}
-                    className="btn btn-ghost btn-sm"
-                    onInApp={() => startNav(stop)}
-                  >
-                    Get Directions
-                  </DirectionsButton>
-                  {stop.external ? (
-                    stop.url && (
-                      <a className="btn btn-ghost btn-sm" href={stop.url} target="_blank" rel="noreferrer">
-                        Source {'↗'}
-                      </a>
-                    )
-                  ) : stop.free == null && !stop.bookingUrl ? null : stop.free ? (
-                    <span className="tag itin-free">Free to Visit</span>
-                  ) : (
-                    <a className="btn btn-primary btn-sm" href={stop.bookingUrl || '#'} target="_blank" rel="noreferrer">
-                      Book Now
-                    </a>
-                  )}
-                  {!stop.external && (
-                  <CheckInButton
-                    landmark={stop}
-                    user={user}
-                    firebaseEnabled={firebaseEnabled}
-                    claimedMap={claimedMap}
-                    checkingIn={checkingIn}
-                    onCheckIn={checkIn}
-                  />
-                  )}
-                </div>
-              </div>
+              <StopCard
+                stop={stop}
+                visited={!!claimedMap[stop.id]}
+                photo={myPhotos[stop.id]?.[0]}
+                onOpen={
+                  stop.external && !stop.landmarkId
+                    ? undefined
+                    : () => navigate(stop.external ? `/landmarks/${stop.fromRegion}/${stop.landmarkId}` : `/landmarks/${region.id}/${stop.id}`)
+                }
+                onDirectionsInApp={() => startNav(stop)}
+                onRemove={() => setPendingRemove(stop)}
+                checkIn={{ user, firebaseEnabled, claimedMap, checkingIn, onCheckIn: checkIn }}
+              />
             </div>
           </div>
         ))}
