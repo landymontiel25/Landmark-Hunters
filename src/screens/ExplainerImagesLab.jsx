@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, CircleMarker } from 'react-leaflet';
+import { labelSides, pinNudges, untangledRoute } from '../lib/untangleRoute';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { distanceMeters } from '../lib/geo';
@@ -182,22 +183,41 @@ const escapeHtml = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', 
 // each landmark (owner, 2026-11-04); the name sits under it.
 const PIN_W = 96;
 const PIN_H = 86;
-const stopIcon = (n, name, photo) =>
+const stopIcon = (n, name, photo, side = '', dy = 0) =>
   L.divIcon({
-    className: 'intro-map-pin',
+    className: `intro-map-pin${side ? ` label-${side}` : ''}`,
     html: `<span class="intro-map-pin-photo"><img src="${photo}" alt="" /></span><span class="intro-map-pin-num">${n}</span><span class="intro-map-pin-name">${escapeHtml(name)}</span>`,
     iconSize: [PIN_W, PIN_H],
-    // The photo's center (46px photo, 3px border) on the stop.
-    iconAnchor: [PIN_W / 2, 26],
+    // The photo's center (46px photo, 3px border) on the stop; dy moves it
+    // up (negative) or down when two stops would overlap (untangle).
+    iconAnchor: [PIN_W / 2, 26 - dy],
   });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
-// color / others: Official Onboarding's intro screen 3 draws the route in
-// gold and shows the city's other places as small pins (owner, 2026-11-14).
-export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], className = 'intro-map' }) {
-  const line = stops.map((s) => [s.lat, s.lng]);
+// untangle (Official Onboarding, owner 2026-11-15): stops close together
+// can sit so a straight route from 1 to 2 runs right past pin 3, which then
+// reads as coming before 2 (South Beach, News Café and Colony Hotel: Colony
+// is 70 m from News Café, beside the line from South Beach). Each leg then
+// bends away from the stops it isn't going to, so the route plainly goes
+// 1, 2, 3, and each name sits on the side away from its nearest neighbor
+// so no label lands under another pin.
+// color / others: Official Onboarding's intro screen 3 colors the route and
+// shows the city's other places as small pins (owner, 2026-11-14).
+export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], className = 'intro-map', untangle = false }) {
+  const points = stops.map((s) => [s.lat, s.lng]);
+  const line = untangle ? untangledRoute(points) : points;
+  const sides = untangle ? labelSides(points) : [];
+  const nudges = untangle ? pinNudges(points) : [];
   return (
-    <MapContainer className={className} bounds={L.latLngBounds(line)} boundsOptions={{ paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }} zoomSnap={0.1} attributionControl={false} {...STILL}>
+    <MapContainer
+      className={className}
+      bounds={L.latLngBounds(line)}
+      // A nudged pin sits up to 24 px past its stop: more room top and bottom.
+      boundsOptions={untangle ? { paddingTopLeft: [56, 74], paddingBottomRight: [56, 80] } : { paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }}
+      zoomSnap={0.1}
+      attributionControl={false}
+      {...STILL}
+    >
       <TileLayer url={SATELLITE} maxZoom={19} />
       <TileLayer url={LABELS} maxZoom={19} zIndex={650} />
       {others.map((o) => (
@@ -208,7 +228,9 @@ export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], classN
         <Marker
           key={s.id}
           position={[s.lat, s.lng]}
-          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s))}
+          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s), sides[i], nudges[i] || 0)}
+          // Later stops above earlier ones, so stop 3 never hides 2's photo.
+          zIndexOffset={i * 100}
           title={s.name}
           eventHandlers={{ click: () => onOpen(s) }}
         />
@@ -219,7 +241,7 @@ export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], classN
 
 // keepOrder (Official Onboarding's first Mapr pick): the stops in the order
 // given instead of closest-first.
-export function Plan({ places, coords, keepOrder = false, title = 'Your route' }) {
+export function Plan({ places, coords, keepOrder = false, title = 'Your route', untangle = false }) {
   const { units } = useUnits();
   const navigate = useNavigate();
   const stops = keepOrder ? places : routeOrder(places, coords);
@@ -229,7 +251,7 @@ export function Plan({ places, coords, keepOrder = false, title = 'Your route' }
   for (let i = 1; i < stops.length; i++) total += distanceMeters(stops[i - 1].lat, stops[i - 1].lng, stops[i].lat, stops[i].lng);
   return (
     <div className="intro-plan">
-      <RouteMap stops={stops} onOpen={(st) => navigate(pagePath(st))} />
+      <RouteMap stops={stops} untangle={untangle} onOpen={(st) => navigate(pagePath(st))} />
       {credits.length > 0 && <p className="intro-map-credit">Photos: {credits.join(' · ')} (Wikimedia Commons)</p>}
       <div className="intro-panel">
         <div className="intro-panel-head">

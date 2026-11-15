@@ -142,7 +142,7 @@ function IntroMap() {
   if (stops.length < 2) return null;
   return (
     <div className="oo-intro-map" role="img" aria-label={`A real Mapr day in ${cityName(city)}: ${stops.map((st) => st.name).join(', then ')}`}>
-      <RouteMap stops={stops} others={others} color="#0a84ff" className="intro-map oo-intro-map-inner" onOpen={() => {}} />
+      <RouteMap stops={stops} others={others} color="#0a84ff" className="intro-map oo-intro-map-inner" untangle onOpen={() => {}} />
     </div>
   );
 }
@@ -954,7 +954,7 @@ export default function OfficialOnboardingLab() {
                 {dayLine(city || deckCity, data.stops)}. {data.stops.length} stops · {formatDistance(routeMeters(data.stops), units)}
               </MaprBubble>
               <div className="oo-intro">
-                <Plan places={data.stops} keepOrder title={`Your ${cityName(city || deckCity)} day`} />
+                <Plan places={data.stops} keepOrder untangle title={`Your ${cityName(city || deckCity)} day`} />
               </div>
               <MaprBubble>Arrive prepared at {data.stops[0].name}. {pitchFor(data.stops[0])}</MaprBubble>
               <div className="oo-intro">

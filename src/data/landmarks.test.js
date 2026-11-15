@@ -165,7 +165,10 @@ describe('catalog text and image hygiene', () => {
     expect(new Set(all.map((l) => l.id)).size).toBe(all.length);
     // 178: Miami Seaquarium deleted (closed for good; owner, 2026-11-08).
     // 177: 1 Alhambra Plaza deleted for good (an office building; owner, 2026-11-11).
-    expect(getRegion('miami').landmarks).toHaveLength(177);
+    // 176: Hyatt Regency Coral Gables deleted for good (just a hotel, not a
+    // landmark; owner, 2026-11-15).
+    expect(getRegion('miami').landmarks).toHaveLength(176);
+    expect(all.some((l) => l.id === 'hyatt-regency-coral-gables' || /hyatt/i.test(l.name))).toBe(false);
     expect(all.some((l) => l.id === 'one-alhambra-plaza' || /alhambra (tower )?plaza/i.test(l.name))).toBe(false);
     expect(all.some((l) => l.id === 'miami-seaquarium' || /seaquarium/i.test(l.name))).toBe(false);
     // 881: Alhambra Tower Plaza (an office plaza mapped as a park) dropped too (owner, 2026-11-12).

@@ -1614,6 +1614,23 @@ button.back-sticky,
   font-size: 12px;
   font-weight: 700;
 }
+.intro-map-pin {
+  position: relative;
+}
+/* untangle (Official Onboarding): the name beside the photo, on the side
+   away from the nearest other stop, so it never sits under another pin. */
+.intro-map-pin.label-left .intro-map-pin-name,
+.intro-map-pin.label-right .intro-map-pin-name {
+  position: absolute;
+  top: 15px;
+  margin-top: 0;
+}
+.intro-map-pin.label-left .intro-map-pin-name {
+  right: calc(50% + 27px);
+}
+.intro-map-pin.label-right .intro-map-pin-name {
+  left: calc(50% + 27px);
+}
 .intro-map-pin-name {
   margin-top: 3px;
   padding: 2px 7px;
