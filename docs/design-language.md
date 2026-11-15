@@ -226,20 +226,37 @@ dark mode (use the border instead).
 
 ## 8. Motion
 
-Quiet means still. Mapr is the only thing that moves on its own.
+Quiet means still. Mapr is the only thing that moves on its own. What does
+move follows Apple's motion rules (WWDC 2018 "Designing Fluid Interfaces",
+the apple-motion skill; owner, 2026-11-14): it answers on touch-down, it is
+a spring that starts from wherever things are on screen, and it can be
+grabbed and reversed mid-flight. Springs live in `src/screens/newUISpring.js`
+(damping ratio 1 = no overshoot, response in seconds).
 
-- **Press:** scale to 0.97 in 120 ms, back in 200 ms, `ease-out`.
-- **State change** (chip select, tab switch): 200 ms `cubic-bezier(0.2, 0, 0, 1)`
-  on color and background only.
-- **New content** (a screen, a list): fade in and rise 8 px over 240 ms;
-  stagger list items 30 ms, at most 6 items.
-- **Sheets:** spring, no overshoot you can see (Apple default).
+- **Press:** on touch-down, scale to 0.96 in 90 ms; back in 220 ms. A list
+  row highlights at once and fades out on release.
+- **State change** (chip select): 200 ms `cubic-bezier(0.2, 0, 0, 1)` on
+  color and background only.
+- **Selection pills** (tab bar, segmented control): the pill springs to the
+  choice (damping 1, response 0.32). A second tap mid-slide retargets it.
+- **Tab switch:** instant, as on iOS. Each tab keeps its own screen, scroll
+  and stack.
+- **Push and back:** the new screen springs in from the right (damping 1,
+  response 0.38); the one below slides a third as far and dims. Back, or a
+  swipe from the left edge that tracks the finger 1:1; on release the
+  flick's projected landing point decides, and its speed carries into the
+  spring. Tapping the current tab goes back to its top.
+- **Sheets:** a grabber, a medium and a large detent, Cancel and swipe down
+  to close. Drag 1:1, rubber-band past the top, land on the detent nearest
+  the projected point. No overshoot (damping 1, response 0.34) unless the
+  sheet was flicked (0.8 / 0.3).
 - **Mapr:** the spark turns a quarter and settles once when Mapr starts
   speaking (600 ms). It never loops forever. While Mapr is thinking, the spark
   pulses softly (opacity 0.5 to 1, 1.2 s) and stops the moment the answer
   lands.
-- `prefers-reduced-motion: reduce` turns off every movement; color changes
-  stay.
+- `prefers-reduced-motion: reduce`: springs land at once and nothing slides
+  or turns; color changes stay. Reduced transparency makes the floating tab
+  bar solid; increased contrast darkens the hairlines.
 
 ## 9. Mapr, the Character
 
@@ -296,9 +313,12 @@ Use these before making a new one. Each has a class in `NewUILab.css`.
 - **Progress ring** (`.nui-ring`): gold arc on a hairline circle, "2 of 5".
 - **Segmented control** (`.nui-seg`): surface pill, selected segment is the
   page color with a hairline.
-- **Tab bar** (`.nui-tabbar`): the app's own emoji tabs (🌐 📍 🧠 🗺️ 🏆) in a
-  floating pill, 12 pt off the edges, page color with a hairline and a soft
-  shadow. Labels are black; the current tab sits on gold-soft with gold text.
+- **Tab bar** (`.nui-tabbar`): the app's own emoji tabs (🌐 📍 🗺️ 🏆) with
+  Mapr's gold pin logo in a squircle with a sparkle (`MaprTabIcon`), in a
+  floating pill, 12 pt off the edges: a translucent material the content
+  scrolls under, with a hairline and a soft shadow. Labels are black; the
+  current tab sits on a gold-soft pill that springs between tabs, with gold
+  text.
 - **Header** (`.nui-apphead`): the app's real header, floating 12 pt from the
   top: logo, streak, points, @username with the notification count.
 - **Trip card** (`.nui-trip`): three photos, name, when · places · time.
