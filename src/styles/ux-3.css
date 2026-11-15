@@ -2760,3 +2760,106 @@ img {
   opacity: 0.7;
   cursor: pointer;
 }
+
+/* ---- TRIAL, Test tab only (owner, 2026-11-15): the switch between Apple's
+   review prompt and our own review screen (PR #872), and that screen.
+   Remove with TrialReviewAsk before the live onboarding ships. */
+.oo-trial-switch {
+  margin: 4px 0 12px;
+  padding: 10px 12px 12px;
+  border: 1px dashed var(--nl-line, #d0d0d0);
+  border-radius: 16px;
+}
+.oo-trial-switch .tut-small {
+  margin: 0 0 8px;
+}
+.oo-trial-seg {
+  display: flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--nl-line, #ebebeb);
+}
+.oo-trial-seg button {
+  flex: 1 1 0;
+  min-height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+.oo-trial-seg button.on {
+  background: var(--nl-bg, #fff);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.oo-review {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  text-align: center;
+}
+.oo-review-title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.oo-review-sub {
+  margin: -6px 0 0;
+  font-size: 13px;
+  line-height: 18px;
+}
+.oo-review-stars {
+  justify-content: center;
+}
+.oo-review .oo-review-stars button {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 32px;
+  line-height: 1;
+  opacity: 1;
+  color: #949494;
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1), color 120ms ease;
+}
+html[data-theme='dark'] .oo-review .oo-review-stars button:not(.on) {
+  color: #6b6b6b;
+}
+.oo-review .oo-review-stars button.on {
+  color: var(--gold, #c9971a);
+}
+.oo-review .oo-review-stars button:active {
+  transform: scale(0.9);
+  transition-duration: 80ms;
+}
+.oo-review-comment {
+  width: 100%;
+  min-height: 72px;
+  padding: 10px 12px;
+  border: 1px solid var(--nl-line, #d0d0d0);
+  border-radius: 14px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+  resize: vertical;
+}
+.oo-review-test {
+  margin: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .oo-review .oo-review-stars button,
+  .oo-trial-seg button {
+    transition: none;
+  }
+  .oo-review .oo-review-stars button:active {
+    transform: none;
+  }
+}
+/* ---- end TRIAL */
