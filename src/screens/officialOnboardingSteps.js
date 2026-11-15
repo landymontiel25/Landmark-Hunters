@@ -91,7 +91,10 @@ export const SAY = {
   promptFirst: ["This is the iPhone's own question. Pick Allow While Using App. Always comes on the next screen."],
   promptAlways: ["Now pick Change to Always Allow, so I can find you even with the app closed."],
   checkinWin: [`First check-in! +${CHECKIN_POINTS}.`],
-  review: ['Loving it so far? A quick rating helps other travelers find me.'],
+  // The five-star ask at the peak, right after the first check-in (owner,
+  // 2026-11-15). The owner's words, with the dash made a period.
+  review: ["You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a five-star review? It really helps other travelers find us."],
+  reviewThanks: ['Thank you. That really helps.'],
   signup: ['Save your 100 points + your day. It takes 20 seconds.'],
   verifyLater: ['I sent you a link to verify your email. Tap it any time. Nothing waits on it.'],
   // Owner, 2026-11-14.
@@ -122,6 +125,25 @@ export const OO_TABS = [
 
 // A sample for the social-proof line: the app counts no "days built" yet.
 export const SAMPLE_BUILT_TODAY = 128;
+
+// "Not yet" on the review ask holds for the whole browser session: no
+// nagging, even after Restart (owner, 2026-11-15). Test only.
+export const REVIEW_DECLINED_KEY = 'oo-review-declined';
+export function reviewDeclined() {
+  try {
+    return sessionStorage.getItem(REVIEW_DECLINED_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+export function setReviewDeclined(on) {
+  try {
+    if (on) sessionStorage.setItem(REVIEW_DECLINED_KEY, '1');
+    else sessionStorage.removeItem(REVIEW_DECLINED_KEY);
+  } catch {
+    // Private mode: the run's own state still stops the ask.
+  }
+}
 
 const regionOf = (l) => l.regionId || l.region;
 const inCity = (city) => (l) => city.regions.includes(regionOf(l));
