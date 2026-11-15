@@ -1092,6 +1092,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
               )}
               <StopCard
                 stop={stop}
+                batch={orderedRoute}
                 visited={!!claimedMap[stop.id]}
                 photo={myPhotos[stop.id]?.[0]}
                 onOpen={

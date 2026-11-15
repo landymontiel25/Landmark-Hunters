@@ -489,6 +489,7 @@ export default function GroupTrip() {
               )}
               <StopCard
                 stop={l}
+                batch={orderedRoute}
                 visited={!!claimedMap[l.id]}
                 onOpen={() => openLandmark(region.id, l.id)}
                 onRemove={() => setLandmark(l, false)}

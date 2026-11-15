@@ -22,6 +22,9 @@
     "api/pick-reasons.js": {
       "includeFiles": "public/places/**"
     },
+    "api/why-go.js": {
+      "includeFiles": "public/places/**"
+    },
     "api/mapr-nightly.js": {
       "maxDuration": 60,
       "includeFiles": "public/places/**"
