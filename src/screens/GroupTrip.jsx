@@ -26,9 +26,7 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import DirectionsButton from '../components/DirectionsButton';
-import AdmissionTag from '../components/AdmissionTag';
-import CheckInButton from '../components/CheckInButton';
-import LandmarkThumb from '../components/LandmarkThumb';
+import StopCard from '../components/StopCard';
 import { friendlyError } from '../lib/friendlyError';
 import { writePersisted, usePersistentState } from '../lib/usePersistentState';
 import { useStopAddresses } from '../lib/useStopAddresses';
@@ -478,78 +476,24 @@ export default function GroupTrip() {
               {sort === 'custom' ? (
                 <button
                   type="button"
-                  className="remove-dash"
-                  title="Remove from trip"
-                  aria-label={`Remove ${l.name} from trip`}
-                  onClick={() => setLandmark(l, false)}
+                  className="drag-handle"
+                  title="Hold and drag to reorder"
+                  aria-label={`Reorder ${l.name}: hold and drag, or use the up and down arrow keys`}
+                  onPointerDown={startDrag(l.id)}
+                  onKeyDown={keyReorder(l.id)}
                 >
-                  {'−'}
+                  {'☰'}
                 </button>
               ) : (
-                <div className="route-num">{idx + 1}</div>
+                <div className={`route-num ${claimedMap[l.id] ? 'found' : ''}`}>{idx + 1}</div>
               )}
-              <div className={`card ${claimedMap[l.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
-                  <button
-                    type="button"
-                    className="route-stop-link"
-                    onClick={() => openLandmark(region.id, l.id)}
-                    title={`Open ${l.name}`}
-                  >
-                    <LandmarkThumb landmark={l} size={44} />
-                    <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{l.name}</h4>
-                  </button>
-                  {sort === 'custom' ? (
-                    <button
-                      type="button"
-                      className="drag-handle"
-                      title="Hold and drag to reorder"
-                      aria-label={`Reorder ${l.name}: hold and drag, or use the up and down arrow keys`}
-                      onPointerDown={startDrag(l.id)}
-                      onKeyDown={keyReorder(l.id)}
-                    >
-                      {'☰'}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn-icon-trash"
-                      title="Remove from trip"
-                      aria-label="Remove from trip"
-                      onClick={() => setLandmark(l, false)}
-                    >
-                      {'\u{1F5D1}\u{FE0F}'}
-                    </button>
-                  )}
-                </div>
-                {addresses[l.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[l.id]}</p>}
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                  <AdmissionTag landmark={l} />
-                  {l.typicalMinutes && <span className="tag">{'\u{23F1}\u{FE0F}'} ~{l.typicalMinutes} min there</span>}
-                </div>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
-                    Get Directions
-                  </DirectionsButton>
-                  {l.free == null && !l.bookingUrl ? null : l.free ? (
-                    <button className="btn btn-sm" disabled style={{ borderColor: 'var(--color-green)', color: '#bfe0c8' }}>
-                      Free to Visit
-                    </button>
-                  ) : (
-                    <a className="btn btn-primary btn-sm" href={l.bookingUrl || '#'} target="_blank" rel="noreferrer">
-                      Book Now
-                    </a>
-                  )}
-                  <CheckInButton
-                    landmark={l}
-                    user={user}
-                    firebaseEnabled={firebaseEnabled}
-                    claimedMap={claimedMap}
-                    checkingIn={checkingIn}
-                    onCheckIn={checkIn}
-                  />
-                </div>
-              </div>
+              <StopCard
+                stop={l}
+                visited={!!claimedMap[l.id]}
+                onOpen={() => openLandmark(region.id, l.id)}
+                onRemove={() => setLandmark(l, false)}
+                checkIn={{ user, firebaseEnabled, claimedMap, checkingIn, onCheckIn: checkIn }}
+              />
             </div>
           </div>
         ))}

@@ -1371,3 +1371,239 @@ html body .pf-avatar.pf-avatar-btn {
 [data-theme='dark'] .avatar-error {
   color: #ff6b5e;
 }
+
+/* =====================================================================
+   7. Itinerary stop card (owner, 2026-11-14), on the Itinerary tab and on
+   group trips: a big photo, the name, Get directions / Check in / Book now,
+   then "Show more" (free or costs money, time there, Google reviews loaded
+   on open). src/components/StopCard.jsx. HIG: 44 pt targets, pills, one
+   gold action; Apple motion: press on touch-down, the panel opens on a
+   critically damped curve and can reverse mid-way.
+   ===================================================================== */
+html[data-theme] body .route-step .card.it-stop,
+html[data-theme] body .route-step .card.it-stop.visited {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 0 8px;
+  border: 0;
+  border-bottom: 1px solid var(--nl-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--nl-text);
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--nl-line);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+@supports (corner-shape: squircle) {
+  html[data-theme] body .route-step .card.it-stop .it-stop-photo {
+    corner-shape: squircle;
+    border-radius: 28px;
+  }
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-photo .landmark-thumb,
+html[data-theme] body .route-step .card.it-stop .it-stop-photo .landmark-thumb-wrap,
+html[data-theme] body .route-step .card.it-stop .it-stop-photo .landmark-thumb-fallback {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  border-radius: 0 !important;
+  object-fit: cover;
+  font-size: 56px;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-photo .landmark-thumb-fallback {
+  display: grid;
+  place-items: center;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-name {
+  margin: 0;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-name button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nl-text);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-actions .btn {
+  flex: 1 1 auto;
+  min-height: 44px;
+  height: auto;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--nl-line);
+  border-radius: 999px;
+  background: var(--nl-bg);
+  color: var(--nl-text);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: none;
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1), opacity 200ms ease;
+}
+/* Check in is the card's one gold action; done, it turns gold-soft. */
+html[data-theme] body .route-step .card.it-stop .it-stop-actions .btn-primary {
+  border-color: transparent;
+  background: var(--gold);
+  color: var(--gold-ink);
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-actions .btn-success {
+  border-color: transparent;
+  background: var(--nl-gold-soft);
+  color: var(--nl-gold-text);
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-actions .btn:disabled {
+  opacity: 0.55;
+}
+html[data-theme] body .route-step .card.it-stop :is(.it-stop-actions .btn, .it-stop-photo):active {
+  transform: scale(0.97);
+  transition-duration: 90ms;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nl-text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-more svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 320ms cubic-bezier(0.2, 0, 0, 1);
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-more[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+/* The panel grows to its content's height and can reverse mid-way. */
+html[data-theme] body .route-step .card.it-stop .it-stop-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: -12px;
+  transition: grid-template-rows 320ms cubic-bezier(0.2, 0, 0, 1);
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-panel[data-open] {
+  grid-template-rows: 1fr;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-facts li {
+  padding: 10px 0;
+  border-top: 1px solid var(--nl-line);
+  font-size: 15px;
+  line-height: 22px;
+}
+html[data-theme] body .route-step .card.it-stop .ratings-section {
+  margin: 0;
+  padding: 12px 0;
+  border: 0;
+  border-top: 1px solid var(--nl-line);
+  border-radius: 0;
+  background: transparent;
+}
+html[data-theme] body .route-step .card.it-stop .ratings-section h3 {
+  margin: 0 0 8px;
+  padding: 0;
+  border: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+html[data-theme] body .route-step .card.it-stop :is(.it-stop-remove, .it-stop-source) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nl-text);
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--nl-line);
+  cursor: pointer;
+}
+html[data-theme] body .route-step .card.it-stop .it-stop-source {
+  margin-right: 16px;
+}
+html[data-theme] body .route-step:has(.it-stop) .route-num,
+html[data-theme] body .route-step:has(.it-stop) .drag-handle {
+  margin-top: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] body .route-step .card.it-stop :is(.it-stop-panel, .it-stop-more svg, .it-stop-actions .btn) {
+    transition: none;
+  }
+  html[data-theme] body .route-step .card.it-stop :is(.it-stop-actions .btn, .it-stop-photo):active {
+    transform: none;
+  }
+}
+
+/* =====================================================================
+   8. Landmarks: bigger photos (owner, 2026-11-14), 88 pt instead of 56,
+   squircle corners where the browser draws them.
+   ===================================================================== */
+html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card,
+html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
+  grid-template-columns: 88px minmax(0, 1fr) 44px 36px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
+html body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child,
+html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,
+html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-wrap,
+html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  width: 88px !important;
+  height: 88px !important;
+  border-radius: 14px !important;
+  font-size: 34px;
+}
+@supports (corner-shape: squircle) {
+  html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
+  html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,
+  html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-wrap,
+  html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
+    corner-shape: squircle;
+    border-radius: 24px !important;
+  }
+}

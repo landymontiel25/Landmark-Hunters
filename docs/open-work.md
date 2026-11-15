@@ -3,6 +3,28 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## iPhone fixes: onboarding, hometown, stop cards, Landmarks photos (2026-11-14)
+
+Official Onboarding (Test tab): the intro's route (Act 1, screen 3) is blue
+(#0a84ff, the map's blue). The summary's commitment question is gone; in its
+place four traveler questions (kind of traveler, a day in a new city, pace,
+when) all show until the owner picks one (`TRAVELER_QUESTIONS`). The tour
+after sign-up shows all 5 tabs. The last screen is the owner's traveler
+picture full size (`public/onboarding/onboarding-see-you-tomorrow.jpg`) with
+"See you tomorrow, traveler. I'll have 3 new places near you." Hometown:
+"3 amazing places for tomorrow" leads with a restaurant and a bar, then one
+of their kinds; chains (named 3+ times in the city, or "chain" in the facts)
+are skipped and acclaimed places (a 2025/2026 fact) come first.
+
+Live app: every itinerary stop (Itinerary tab and group trips) is
+`StopCard`: big photo, name, Get directions / Check in / Book now, and
+"Show more" (free or costs money, time there, Google reviews loaded only on
+open, Remove from trip). Landmarks list photos are 88 pt (were 56).
+Decisions to revisit: "amazing" and Google star ratings go against
+design-language.md's no-opinion-words and no-ratings rules; both are the
+owner's explicit asks here. Book now without a booking link opens a Google
+search for tickets or a table.
+
 ## New UI rebuilt with Apple's guidelines and motion (2026-11-14)
 
 Test tab only. The "New UI" sub-tab (`NewUILab.jsx`, `NewUILab.css`) is

@@ -14,7 +14,8 @@ import { checkinBlockReason, radiusFor } from '../lib/checkinRules';
 // (off by default); rules live in checkinRules.js. CheckInContext enforces
 // the same rule again when Post is tapped.
 
-export default function CheckInButton({ landmark, user, firebaseEnabled, claimedMap, checkingIn, onCheckIn, className = '' }) {
+// plain (the itinerary stop card, owner 2026-11-14): sentence case, no emoji.
+export default function CheckInButton({ landmark, user, firebaseEnabled, claimedMap, checkingIn, onCheckIn, className = '', plain = false }) {
   const { coords } = useGeo();
   if (!firebaseEnabled) return null;
 
@@ -44,6 +45,10 @@ export default function CheckInButton({ landmark, user, firebaseEnabled, claimed
     ? 'Enable location to check in'
     : tooFar
     ? 'Get closer to check in'
+    : plain
+    ? alreadyVisited
+      ? 'Check in again'
+      : 'Check in'
     : alreadyVisited
     ? `\u{1F4CD} Check In Again`
     : "\u{1F4CD} Check In";

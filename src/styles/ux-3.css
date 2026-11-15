@@ -2217,6 +2217,31 @@ img {
   width: 100%;
   margin-bottom: 14px;
 }
+/* The summary's traveler questions (owner, 2026-11-14): each question,
+   then its answers, with room between the questions. */
+.oo-question + .oo-question {
+  margin-top: 12px;
+}
+/* The last screen's picture (owner, 2026-11-14): the whole picture, full
+   width, squircle corners, no empty card around it. */
+.oo-hook-photo {
+  width: 100%;
+  margin: 0 0 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1a1300;
+}
+.oo-hook-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@supports (corner-shape: squircle) {
+  .oo-hook-photo {
+    corner-shape: squircle;
+    border-radius: 34px;
+  }
+}
 .oo-phone .oo-options {
   margin-bottom: 0;
 }

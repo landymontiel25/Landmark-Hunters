@@ -15,7 +15,7 @@ import { pitchFor } from './officialOnboardingPitches';
 import {
   CHECKIN_POINTS,
   CITIES,
-  COMMIT,
+  TRAVELER_QUESTIONS,
   INTRO,
   MAX_TASTE,
   MIN_TASTE,
@@ -33,7 +33,6 @@ import {
   cityName,
   cityScopeKey,
   dayLine,
-  lighterDay,
   nearestStop,
   reflectLine,
   routeMeters,
@@ -49,6 +48,7 @@ import {
   dailyLoop,
   homeAnchor,
   hometownPicks,
+  HOMETOWN_TITLE,
   kindIcon,
   pickReason,
   saveLists,
@@ -60,8 +60,8 @@ import {
 // flow in 9 steps and three acts. Act 1 intro (problem + solution, city,
 // taste pick), Act 2 climax (pick the categories you'd like to visit, Mapr
 // repeats it back, the first Mapr day, the first check-in with the Always location ask and
-// review ask), Act 3 (summary + commitment, then sign-up for the first
-// time, with a Map + Itinerary tour). Same shell as the Planner and Game
+// review ask), Act 3 (summary + a traveler question, then sign-up for the
+// first time, with a tour of every tab). Same shell as the Planner and Game
 // tutorials, which stay as they are for comparison. Nothing is saved: no
 // account, no rating, no check-in, no city change. The summary shows what a
 // real run would have saved. Words and route building: officialOnboardingSteps.js.
@@ -82,8 +82,7 @@ const empty = () => ({
   location: null, // 'prompt' | 'upgrade' | 'always' | 'allowed' (While Using) | 'not-now'
   checkedIn: false,
   review: null, // 'rated' | 'skipped'
-  commitment: null,
-  lighter: false,
+  traveler: {}, // the summary's traveler question(s): { kind, day, pace, when }
   home: 'miami', // step 10's home city (Test: picked here, a real run knows it)
   homePicks: [],
   homeSaved: null, // the list the 3 hometown picks were saved to
@@ -123,7 +122,8 @@ function Intro({ onDone }) {
 }
 
 // Intro screen 3: the real map (satellite, the city's places as pins) with
-// a real 3-stop Mapr day drawn as a gold route. Miami until a city is picked.
+// a real 3-stop Mapr day drawn as a blue route, the map's own blue (owner,
+// 2026-11-14: was gold). Miami until a city is picked.
 function IntroMap() {
   const packs = usePlacePacksVersion();
   useEffect(() => {
@@ -141,7 +141,7 @@ function IntroMap() {
   if (stops.length < 2) return null;
   return (
     <div className="oo-intro-map" role="img" aria-label={`A real Mapr day in ${cityName(city)}: ${stops.map((st) => st.name).join(', then ')}`}>
-      <RouteMap stops={stops} others={others} color="#c9971a" className="intro-map oo-intro-map-inner" onOpen={() => {}} />
+      <RouteMap stops={stops} others={others} color="#0a84ff" className="intro-map oo-intro-map-inner" onOpen={() => {}} />
     </div>
   );
 }
@@ -429,48 +429,40 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
   );
 }
 
+// The summary (owner, 2026-11-14): Mapr's two lines, then a traveler
+// question instead of a commitment one (there's no commitment in
+// traveling). All four questions show until the owner picks one.
 function Commit({ data, set, note, onNext }) {
-  const pick = COMMIT.find((c) => c.id === data.commitment);
+  const answers = data.traveler || {};
   return (
     <div className="tut nav-clear">
       <MaprSays lines={summaryLines({ city: cityById(data.city) || CITIES[0], chips: catsOf(data), loved: data.loved || [], stops: data.stops })} />
-      <MaprSays lines={SAY.commitAsk} />
-      <div className="oo-options" role="radiogroup" aria-label="How committed are you?">
-        {COMMIT.map((c) => (
-          <button
-            key={c.id}
-            type="button"
-            role="radio"
-            aria-checked={data.commitment === c.id}
-            className={`fr-chip oo-option ${data.commitment === c.id ? 'on' : ''}`}
-            onClick={() => {
-              set({ commitment: c.id });
-              note(`Commitment: ${c.label}`);
-            }}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
-      {pick && <MaprSays lines={pick.low ? SAY.commitLow : SAY.commitHigh} />}
-      {pick?.low && !data.lighter && data.stops.length > 2 && (
-        <button
-          type="button"
-          className="btn btn-ghost btn-block"
-          onClick={() => {
-            const stops = lighterDay(data.stops);
-            set({ stops, lighter: true });
-            note(`Rebuilt a lighter day: ${stops.map((s) => s.name).join(' → ')}`);
-          }}
-        >
-          Make my day lighter
-        </button>
-      )}
-      {data.lighter && <p className="oo-proof">{dayLine(cityById(data.city), data.stops)}</p>}
+      {TRAVELER_QUESTIONS.map((q) => (
+        <div key={q.id} className="oo-question">
+          <MaprSays lines={[q.ask]} />
+          <div className="oo-options" role="radiogroup" aria-label={q.ask}>
+            {q.options.map((label) => (
+              <button
+                key={label}
+                type="button"
+                role="radio"
+                aria-checked={answers[q.id] === label}
+                className={`fr-chip oo-option ${answers[q.id] === label ? 'on' : ''}`}
+                onClick={() => {
+                  set({ traveler: { ...answers, [q.id]: label } });
+                  note(`${q.ask} ${label}`);
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
       <p className="oo-proof">
         {SAMPLE_BUILT_TODAY} people built a day like this today. <small>(sample number in Test)</small>
       </p>
-      <NextButton disabled={!pick} onClick={() => onNext('Answered commitment')} />
+      <NextButton onClick={() => onNext(Object.keys(answers).length ? 'Answered the traveler question' : 'Skipped the traveler question')} />
     </div>
   );
 }
@@ -505,7 +497,7 @@ function SignUp({ data, set, note, onDone }) {
         <TutorialTabs
           stops={OO_TABS}
           onDone={() => {
-            note('Finished the Map + Itinerary tour');
+            note('Finished the tab tour');
             setPhase('hook');
           }}
         />
@@ -514,11 +506,17 @@ function SignUp({ data, set, note, onDone }) {
   }
   return (
     <div className="tut nav-clear">
-      <Phone>
-        <div className="tut-hero" aria-hidden="true">
-          {'\u{1F305}'}
-        </div>
-      </Phone>
+      {/* The owner's picture (owner, 2026-11-14): a traveler with a backpack
+          and a map on the phone, gold pins down a sunset street. Full size. */}
+      <figure className="oo-hook-photo">
+        <img
+          src="/onboarding/onboarding-see-you-tomorrow.jpg"
+          alt="A traveler with a backpack looks at a map on their phone while gold pins float down a city street at sunset."
+          width="820"
+          height="1024"
+          decoding="async"
+        />
+      </figure>
       <MaprSays lines={SAY.hook} />
       <NextButton onClick={onDone}>Finish</NextButton>
     </div>
@@ -684,14 +682,15 @@ function Hometown({ data, set, coords, note, onDone }) {
 
       <MaprSays lines={hometownSay(city, Math.min(SAMPLE_VISITED, visited.length), places.length)} />
 
-      <div className="oo-home-picks" role="list" aria-label="Hometown picks">
+      <h3 className="oo-home-h3">{HOMETOWN_TITLE}</h3>
+      <div className="oo-home-picks" role="list" aria-label={HOMETOWN_TITLE}>
         {picks.map((p, i) => (
           <div key={p.place.id} className="oo-home-pick-row" role="listitem">
             <span className="oo-home-num">{i + 1}</span>
             <span className="oo-home-text">
               <strong>{p.place.name}</strong>
               <span>
-                {kindIcon(p.kind)} {pickReason(p.kind)}
+                {kindIcon(p.kind)} {pickReason(p.kind, catsOf(data))}
                 {p.meters != null && ` · ${formatDistance(p.meters, units)}${anchor?.here ? ' from you' : ''}`}
               </span>
             </span>
@@ -901,8 +900,8 @@ export default function OfficialOnboardingLab() {
               <strong>Review ask:</strong> {data.review || 'None'}
             </p>
             <p>
-              <strong>Commitment:</strong> {COMMIT.find((c) => c.id === data.commitment)?.label || 'None'}
-              {data.lighter ? ' (rebuilt a lighter day)' : ''}
+              <strong>Traveler:</strong>{' '}
+              {TRAVELER_QUESTIONS.filter((q) => data.traveler[q.id]).map((q) => `${q.ask} ${data.traveler[q.id]}`).join(' · ') || 'None'}
             </p>
             <p>
               <strong>Hometown:</strong> {cityById(data.home)?.label || 'None'}
