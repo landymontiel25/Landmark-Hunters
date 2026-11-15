@@ -45,21 +45,20 @@ const bubbles = (el) => [...el.querySelectorAll('.mapr-bubble')].map((b) => b.te
 const wait = (ms) => act(() => new Promise((r) => setTimeout(r, ms)));
 
 describe('Official Onboarding (Test tab)', () => {
-  it("lists the owner's 9 steps in order, then the Hometown Transition, with the shared controls", async () => {
+  it("lists the owner's 8 steps in order, then the Hometown Transition, with the shared controls", async () => {
     const el = await render();
     expect([...el.querySelectorAll('.lab-step')].map((b) => b.textContent)).toEqual([
       '1. Problem + solution',
       '2. City',
-      '3. Taste pick',
-      '4. Categories',
-      '5. Reflection',
-      '6. First Mapr pick',
-      '7. First check-in',
-      '8. Summary',
-      '9. Sign up',
-      '10. Hometown',
-      '11. Back-home notification',
-      '12. Hometown Transition',
+      '3. Categories',
+      '4. Reflection',
+      '5. First Mapr pick',
+      '6. First check-in',
+      '7. Summary',
+      '8. Sign up',
+      '9. Hometown',
+      '10. Back-home notification',
+      '11. Hometown Transition',
     ]);
     expect(el.textContent).toContain('Nothing here is saved');
     for (const b of ['Restart', 'Back', 'Next step']) expect(button(el, b)).toBeTruthy();
@@ -69,7 +68,7 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.textContent).not.toContain('\u{1F9E0}');
   });
 
-  it('walks the whole flow: no sign-up before step 9, 10 ratings jump on, check-in +100, summary', async () => {
+  it('walks the whole flow: no sign-up before step 8, 10 ratings jump on, check-in +100, summary', async () => {
     const el = await render();
     await click(el.querySelector('.fr-toggle input'));
     const next = () => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next \u{2192}');
@@ -85,25 +84,17 @@ describe('Official Onboarding (Test tab)', () => {
     await click(button(el, 'Miami'));
     await click(next());
 
-    expect(bubbles(el)).toContain('Pick 3 to 5 kinds of places');
-    expect(bubbles(el)).not.toContain("Skip and I'll guess");
-    expect(button(el, 'Skip for now')).toBeTruthy();
-    expect(next().disabled).toBe(true);
-    await click(button(el, 'Food'));
-    await click(button(el, 'Parks & Nature'));
-    expect(next().disabled).toBe(true);
-    await click(button(el, 'Art & Culture'));
-    expect(next().disabled).toBe(false);
-    await click(next());
-
-    // Categories instead of rating 10 places: every category with places in
-    // Miami, icons and all, starting from the three picked a step ago.
+    // Categories replaced the taste pick (owner, 2026-11-15): straight after
+    // the city, every category with places in Miami, icons and all.
+    expect(bubbles(el)).not.toContain('Pick 3 to 5 kinds of places');
     expect(bubbles(el)).toContain("Categories you'd like to visit.");
+    expect(el.textContent).toContain('0 picked');
+    const tile = (name) => [...el.querySelectorAll('.oo-cat')].find((b) => b.querySelector('.oo-cat-name').textContent === name);
+    for (const c of ['Food', 'Parks & Nature', 'Art & Culture']) await click(tile(c));
     expect(el.textContent).not.toContain('Rate 10');
     expect(el.querySelector('.lab-card')).toBeNull();
     expect(el.textContent).not.toContain('Sign up with Google');
     expect(el.textContent).toContain('3 picked');
-    const tile = (name) => [...el.querySelectorAll('.oo-cat')].find((b) => b.querySelector('.oo-cat-name').textContent === name);
     expect(tile('Food').getAttribute('aria-pressed')).toBe('true');
     expect(tile('Shopping').getAttribute('aria-pressed')).toBe('false');
     expect(tile('Food').querySelector('.oo-cat-icon').textContent).not.toBe('');
@@ -233,7 +224,7 @@ describe('Official Onboarding (Test tab)', () => {
     review.mockImplementationOnce(async () => ({ shown: true }));
     const el = await render();
     await click(el.querySelector('input[type="checkbox"]'));
-    await click([...el.querySelectorAll('.lab-step')][6]);
+    await click([...el.querySelectorAll('.lab-step')][5]);
     for (const t of ['Allow location', 'Allow While Using App', 'Change to Always Allow', 'Check in now', 'Yes, I love it']) await click(button(el, t));
     expect(review).toHaveBeenCalledOnce();
     expect(el.querySelector('.oo-review-note')).toBeNull();
@@ -243,7 +234,7 @@ describe('Official Onboarding (Test tab)', () => {
   it('TRIAL (Test only): switches to our own review screen to compare with Apple\'s prompt', async () => {
     const el = await render();
     await click(el.querySelector('input[type="checkbox"]'));
-    await click([...el.querySelectorAll('.lab-step')][6]);
+    await click([...el.querySelectorAll('.lab-step')][5]);
     for (const t of ['Allow location', 'Allow While Using App', 'Change to Always Allow', 'Check in now']) await click(button(el, t));
     // Apple's prompt is the default.
     const seg = el.querySelector('.oo-trial-seg');
@@ -262,11 +253,18 @@ describe('Official Onboarding (Test tab)', () => {
     expect(el.querySelector('.oo-review')).toBeNull();
     expect(bubbles(el)).toContain('Thank you. That really helps.');
     expect(el.textContent).not.toContain('\u2014');
+    // The switch stays after an answer, and picking a side asks again.
+    await click(button(el, "Apple's prompt"));
+    expect(bubbles(el)).toContain('would you leave us a review?');
+    await click(button(el, 'Not yet'));
+    expect(el.querySelector('.oo-trial-seg')).toBeTruthy();
+    await click(button(el, 'Trial: our screen'));
+    expect(bubbles(el)).toContain('would you leave us a five-star review?');
   });
 
   it('"Not yet" skips the review ask and it isn\'t asked again this session', async () => {
     const reach = async (el) => {
-      await click([...el.querySelectorAll('.lab-step')][6]);
+      await click([...el.querySelectorAll('.lab-step')][5]);
       await click(button(el, 'Allow location'));
       await click(button(el, 'Allow While Using App'));
       await click(button(el, 'Change to Always Allow'));
@@ -298,7 +296,7 @@ describe('Official Onboarding (Test tab)', () => {
 
   it("skipping the check-in doesn't block", async () => {
     const el = await render();
-    await click([...el.querySelectorAll('.lab-step')][6]);
+    await click([...el.querySelectorAll('.lab-step')][5]);
     await click(button(el, 'Not now'));
     expect(button(el, 'Check in now')).toBeFalsy();
     await click(button(el, 'Skip for now'));
