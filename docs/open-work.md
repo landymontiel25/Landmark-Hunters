@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Official Onboarding: Categories replaced the taste pick (2026-11-15)
+
+Test tab only. Step 3 "Taste pick" (pick 3 to 5 kinds of places) is gone;
+"Categories" (every category the city has places for, +10 each) is now
+step 3, straight after the city, and starts with nothing picked. The flow
+is 11 steps. The review ask's Test-only switch ("Apple's prompt" | "Trial:
+our screen") now always shows on the check-in step, and picking a side
+shows that ask again, even after "Not yet".
+
 ## Official Onboarding: review ask after the first check-in, Apple's prompt (2026-11-15)
 
 Test tab only. Step 7, right after "First check-in! +100.": Mapr asks "...

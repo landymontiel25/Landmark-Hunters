@@ -20,14 +20,11 @@ import {
   reviewDeclined,
   setReviewDeclined,
   INTRO,
-  MAX_TASTE,
-  MIN_TASTE,
   OO_STEPS,
   OO_TABS,
   OTHER_CITIES,
   SAMPLE_BUILT_TODAY,
   SAY,
-  TASTES,
   CATEGORY_DELTA,
   answersFromCats,
   buildDay,
@@ -181,35 +178,9 @@ function CityPick({ value, onPick }) {
   );
 }
 
-function TastePick({ onNext, onSkip }) {
-  const [chips, setChips] = useState([]);
-  const toggle = (id) => setChips((c) => (c.includes(id) ? c.filter((x) => x !== id) : c.length < MAX_TASTE ? [...c, id] : c));
-  return (
-    <div className="tut nav-clear">
-      <MaprSays lines={SAY.taste} />
-      <Phone>
-        <div className="fr-chips">
-          {TASTES.map((i) => (
-            <button key={i.id} type="button" className={`fr-chip ${chips.includes(i.id) ? 'on' : ''}`} aria-pressed={chips.includes(i.id)} onClick={() => toggle(i.id)}>
-              {i.icon} {i.label}
-            </button>
-          ))}
-        </div>
-        <p className="tut-small">
-          {chips.length} picked{chips.length < MIN_TASTE ? `, ${MIN_TASTE - chips.length} more to go` : ''}
-        </p>
-      </Phone>
-      <NextButton disabled={chips.length < MIN_TASTE} onClick={() => onNext(chips)} />
-      <div className="oo-gap" />
-      <button type="button" className="btn btn-ghost btn-block" onClick={onSkip}>
-        Skip for now
-      </button>
-    </div>
-  );
-}
-
-// Step 4: every category the app has places for in this city, with its icon.
-// Starts from the step 3 picks. A tap is a tiny win: +10 on that kind of place.
+// Step 3: every category the app has places for in this city, with its icon
+// (it replaced the taste pick, owner 2026-11-15). A tap is a tiny win: +10 on
+// that kind of place.
 function CategoryPick({ city, initial, onNext }) {
   const options = cityCategories(city);
   const [picked, setPicked] = useState(initial);
@@ -350,12 +321,10 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
           </span>
         </div>
         <MaprSays lines={SAY.checkinWin} />
-        {!data.review && !reviewDeclined() && (
-          <>
-            <ReviewTrialSwitch value={data.reviewMode} set={set} note={note} />
-            {data.reviewMode === 'trial' ? <TrialReviewAsk set={set} note={note} /> : <ReviewAsk set={set} note={note} />}
-          </>
-        )}
+        {/* TRIAL: the switch always shows here (owner, 2026-11-15: it hid
+            after "Not yet" or an answer, so the trial was hard to find). */}
+        <ReviewTrialSwitch value={data.reviewMode} set={set} note={note} />
+        {!data.review && !reviewDeclined() && (data.reviewMode === 'trial' ? <TrialReviewAsk key="trial" set={set} note={note} /> : <ReviewAsk set={set} note={note} />)}
         {(data.review === 'rated' || data.review === 'previewed') && <MaprSays lines={SAY.reviewThanks} />}
         {data.review === 'previewed' && (
           <p className="tut-small oo-review-note" role="note">
@@ -454,7 +423,9 @@ function ReviewTrialSwitch({ value = 'apple', set, note }) {
             aria-checked={value === m.id}
             className={value === m.id ? 'on' : ''}
             onClick={() => {
-              set({ reviewMode: m.id });
+              // Picking a version shows its ask again right away.
+              setReviewDeclined(false);
+              set({ reviewMode: m.id, review: null });
               note(`Review ask: ${m.label}`);
             }}
           >
@@ -878,7 +849,7 @@ export default function OfficialOnboardingLab() {
     setDone(next === OO_STEPS.length);
     setStep(Math.min(next, OO_STEPS.length - 1));
     // The first Mapr pick builds when you reach it, from what's picked so far.
-    if (next >= 5 && next < OO_STEPS.length) setData((d) => (d.stops.length ? d : { ...d, stops: buildDay(cityById(d.city) || CITIES[0], catsOf(d), []) }));
+    if (next >= OO_STEPS.findIndex((st) => st.id === 'route') && next < OO_STEPS.length) setData((d) => (d.stops.length ? d : { ...d, stops: buildDay(cityById(d.city) || CITIES[0], catsOf(d), []) }));
   };
   const restart = () => {
     setData(empty());
@@ -942,24 +913,12 @@ export default function OfficialOnboardingLab() {
               note(`Picked ${cityById(c).label}: Map, Landmarks, Mapr and Itinerary open on ${cityScopeKey(cityById(c))} (pretend)`);
             }}
           />
-          <NextButton disabled={!data.city} onClick={() => go('taste', `City: ${city?.label}`)} />
+          <NextButton disabled={!data.city} onClick={() => go('categories', `City: ${city?.label}`)} />
         </>
-      )}
-      {id === 'taste' && (
-        <TastePick
-          onNext={(chips) => {
-            set({ chips, cats: null, stops: [] });
-            go('categories', `Picked ${chips.map(tasteLabel).join(', ')}`);
-          }}
-          onSkip={() => {
-            set({ chips: [], cats: null, stops: [] });
-            go('categories', 'Skipped taste pick');
-          }}
-        />
       )}
       {id === 'categories' && (
         <CategoryPick
-          key={`${data.city}-${(data.chips || []).join(',')}`}
+          key={data.city || 'none'}
           city={city || deckCity}
           initial={catsOf(data)}
           onNext={(cats) => {

@@ -7,13 +7,13 @@ import MaprTabIcon from '../components/MaprTabIcon';
 import { distanceMeters } from '../lib/geo';
 import { SWIPE_DELTAS } from '../lib/onboardingCards';
 
-// The 9 steps in the owner's order, three acts, then the Hometown
+// The owner's steps in order, three acts, then the Hometown
 // Transition (owner, 2026-11-14; officialOnboardingHometown.js).
 export const OO_STEPS = [
   { id: 'intro', label: 'Problem + solution', act: 1 },
   { id: 'city', label: 'City', act: 1 },
-  { id: 'taste', label: 'Taste pick', act: 1 },
-  { id: 'categories', label: 'Categories', act: 2 },
+  // Categories replaced the taste pick (owner, 2026-11-15).
+  { id: 'categories', label: 'Categories', act: 1 },
   { id: 'reflect', label: 'Reflection', act: 2 },
   { id: 'route', label: 'First Mapr pick', act: 2 },
   { id: 'checkin', label: 'First check-in', act: 2 },
@@ -27,8 +27,6 @@ export const OO_STEPS = [
 ];
 
 export const CHECKIN_POINTS = 100;
-export const MIN_TASTE = 3;
-export const MAX_TASTE = 5;
 
 // The three intro screens, three taps.
 export const INTRO = [
@@ -70,14 +68,10 @@ export const cityById = (id) => CITIES.find((c) => c.id === id) || OTHER_CITIES.
 export const cityScopeKey = (city) => (city ? `r:${city.regions[0]}` : 'all');
 export const cityName = (city) => (city ? city.label.split(' / ').pop() : 'your city');
 
-// The 8 kinds of places, in the owner's order.
-export const TASTE_IDS = ['history-culture', 'food', 'local-life', 'parks-nature', 'sports', 'shopping', 'attractions', 'tech'];
-export const TASTES = TASTE_IDS.map((id) => INTERESTS.find((i) => i.id === id)).filter(Boolean);
 export const tasteLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || id;
 
 export const SAY = {
   city: ['Where are you exploring?'],
-  taste: ["Pick 3 to 5 kinds of places you're into. I'll look for these first."],
   // Owner, 2026-11-12: categories instead of rating 10 places, because a
   // traveler in a new city doesn't know the places yet.
   categories: ["Categories you'd like to visit.", "Tap every one that sounds good. You don't need to know the city, I'll find the places for each."],
