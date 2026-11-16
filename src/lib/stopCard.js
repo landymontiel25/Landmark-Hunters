@@ -1,34 +1,30 @@
-// The words on an itinerary stop card's "Show more" (owner, 2026-11-14):
-// free or costs money (never a price), and how long you'll spend there,
-// plus where "Book now" goes. Used by StopCard (Itinerary and group trips).
+// The words on an itinerary stop card (owner, 2026-11-14, 2026-11-16):
+// Show more's Free / Needs a ticket (never a price) and "Time Spent", the
+// short description, and the "Why you need to go" fallback lines. Used by
+// StopCard (Itinerary and group trips).
 import { isPermanentlyClosed } from './closedPlace';
-import { fmtVisitMinutes } from './itineraryCard';
 
 const isFood = (stop) => (stop.categories || []).includes('food');
 
-// (a) Free to visit, or costs money. Never a price.
+// (a) Free or Needs a ticket (owner, 2026-11-16: never "costs money").
+// Never a price. A place to eat needs no ticket; with no fee data it's
+// honest about not knowing.
 export function costLine(stop) {
   if (isPermanentlyClosed(stop)) return 'Closed for good';
-  if (stop.free === true) return 'Free to visit';
-  if (isFood(stop)) return 'Costs money (you pay for what you order)';
-  if (stop.free === false) return 'Costs money (needs a ticket)';
-  return 'Might cost money. Check before you go.';
+  if (stop.free === true) return 'Free';
+  if (isFood(stop)) return 'No ticket needed';
+  if (stop.free === false) return 'Needs a ticket';
+  return 'Might need a ticket';
 }
 
-// (b) How long you'll spend there.
+// (b) "Time Spent: ~2 hr", "Time Spent: ~45 min", "Time Spent: ~1 hr 30 min"
+// (owner, 2026-11-16).
 export function timeLine(stop) {
-  const t = fmtVisitMinutes(stop.typicalMinutes);
-  return t ? `About ${t} there` : null;
-}
-
-// Book now: the place's own booking link, else a search for tickets or a
-// table. Free places have nothing to book.
-export function bookingHref(stop) {
-  if (stop.bookingUrl) return stop.bookingUrl;
-  if (stop.free === true || isPermanentlyClosed(stop)) return null;
-  if (stop.free !== false && !isFood(stop)) return null;
-  const q = `${stop.name} ${isFood(stop) ? 'reservation' : 'tickets'}`;
-  return `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+  const m = Math.round(Number(stop?.typicalMinutes) || 0);
+  if (m <= 0) return null;
+  const h = Math.floor(m / 60);
+  const r = m % 60;
+  return `Time Spent: ~${h ? `${h} hr${r ? ` ${r} min` : ''}` : `${r} min`}`;
 }
 
 // The short description under the name (owner, 2026-11-15): the place's own
@@ -81,7 +77,7 @@ const WHY_DEFAULT = ["It's a real part of this place that's worth seeing in pers
 
 export function fallbackWhy(stop) {
   const lines = [...(WHY_BY_KIND[stop?.categories?.[0]] || WHY_DEFAULT)];
-  const t = fmtVisitMinutes(stop?.typicalMinutes);
-  if (t) lines[2] = `It only takes about ${t}, so it's easy to fit into your day.`;
+  const t = timeLine(stop);
+  if (t) lines[2] = `It only takes ${t.replace('Time Spent: ', '')}, so it's easy to fit into your day.`;
   return lines;
 }

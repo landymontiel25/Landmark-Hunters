@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { loadPlacePhoto, peekPlacePhoto, placePhotoKey } from './placePhoto';
+import { loadPlacePhoto, peekPlacePhoto, placePhotoKey, placePhotoRetryInMs } from './placePhoto';
 
 /**
  * Fallback photo for a landmark with no image of its own. Attach the
@@ -47,22 +47,31 @@ export function usePlacePhoto(landmark, { enabled = true, lookup = true } = {}) 
     return () => io.disconnect();
   }, [active, visible, node, key]);
 
+  // Bumped to ask again once paused lookups resume (owner, 2026-11-16).
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     if (!visible) return undefined;
-    if (peekPlacePhoto(landmark) !== undefined) {
-      setState({ key, photo: peekPlacePhoto(landmark) });
-      return undefined;
-    }
     let cancelled = false;
-    loadPlacePhoto(landmark).then((photo) => {
-      if (!cancelled) setState({ key, photo });
-    });
+    let retry = null;
+    const settle = (photo) => {
+      if (cancelled) return;
+      setState({ key, photo });
+      const wait = !photo && placePhotoRetryInMs();
+      if (wait) retry = setTimeout(() => setAttempt((n) => n + 1), wait + 600);
+    };
+    const known = peekPlacePhoto(landmark);
+    if (known !== undefined) {
+      Promise.resolve(known).then(settle);
+    } else {
+      loadPlacePhoto(landmark).then(settle);
+    }
     return () => {
       cancelled = true;
+      clearTimeout(retry);
     };
     // landmark identity is captured by `key` (name + coordinates)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, key]);
+  }, [visible, key, attempt]);
 
   // lookup: false shows a photo this session already fetched, never a new one.
   const known = enabled && !lookup && key ? peekPlacePhoto(landmark) : null;

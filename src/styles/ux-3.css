@@ -2886,3 +2886,21 @@ html[data-theme='dark'] .oo-review .oo-review-stars button:not(.on) {
   }
 }
 /* ---- end TRIAL */
+
+/* Itinerary Plan, Family Sharing (owner, 2026-11-16): the people added by
+   username, "Add a person", and the reminder that at least one is needed. */
+.family-people {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.family-people .btn-block {
+  min-height: 44px;
+}
+.family-need {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}

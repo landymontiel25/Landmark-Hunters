@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { bookingHref, costLine, timeLine } from '../lib/stopCard';
+import { costLine, timeLine } from '../lib/stopCard';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -40,7 +40,7 @@ async function render(stop = STOP, props = {}) {
 }
 
 describe('Itinerary stop card (owner, 2026-11-14)', () => {
-  it('shows only the photo, the name, the three buttons and Show more, in that order', async () => {
+  it('shows only the photo, the name, Get directions and Check in, and Show more, in that order', async () => {
     const { el } = await render();
     const card = el.querySelector('.it-stop');
     const kids = [...card.children].map((c) => c.className.split(' ')[0]);
@@ -50,13 +50,15 @@ describe('Itinerary stop card (owner, 2026-11-14)', () => {
     expect(card.querySelector('.it-stop-head .it-stop-name').textContent).toBe('Vizcaya Museum');
     expect(card.querySelector('.it-stop-rating').textContent).toMatch(/^\u2605 4\.6Google Maps$/);
     expect(card.querySelector('.it-stop-desc').textContent).toBe('A waterfront estate with formal gardens.');
-    expect([...card.querySelectorAll('.it-stop-actions > *')].map((b) => b.textContent)).toEqual(['Get directions', 'Check in', 'Book now']);
+    // No Book now (owner, 2026-11-16).
+    expect([...card.querySelectorAll('.it-stop-actions > *')].map((b) => b.textContent)).toEqual(['Get directions', 'Check in']);
+    expect(card.textContent).not.toContain('Book now');
     expect(card.querySelector('.it-stop-more').textContent).toBe('Show more');
     // Nothing else: no address, no rating tag, no time tag, no trash.
     expect(card.querySelector('.route-address, .tag, .btn-icon-trash')).toBeNull();
   });
 
-  it('loads Google reviews only when Show more opens, then lists free or cost, then the time', async () => {
+  it('loads Google reviews only when Show more opens, then lists Free / Needs a ticket, then Time Spent', async () => {
     const { el, onRemove } = await render(STOP, { batch: [STOP, { ...STOP, id: 'other' }] });
     expect(detailCalls()).toBe(0);
     expect(why).not.toHaveBeenCalled();
@@ -65,7 +67,7 @@ describe('Itinerary stop card (owner, 2026-11-14)', () => {
     await act(async () => more.click());
     expect(more.getAttribute('aria-expanded')).toBe('true');
     expect(detailCalls()).toBe(1);
-    expect([...el.querySelectorAll('.it-stop-facts li')].map((li) => li.textContent)).toEqual(['Costs money (needs a ticket)', 'About 1 h 30 min there']);
+    expect([...el.querySelectorAll('.it-stop-facts li')].map((li) => li.textContent)).toEqual(['Needs a ticket', 'Time Spent: ~1 hr 30 min']);
     // Then "Why you need to go": 3 lines, asked for the whole trip at once.
     const panel = el.querySelector('.it-stop-panel-inner');
     const order = [...panel.children].map((c) => c.className.split(' ')[0]);
@@ -97,19 +99,18 @@ describe('Itinerary stop card (owner, 2026-11-14)', () => {
     expect(el.querySelector('.it-stop-rating').textContent).toBe('');
   });
 
-  it('says free or costs money, never a price, and books only what can be booked', () => {
-    expect(costLine({ free: true })).toBe('Free to visit');
-    expect(costLine({ free: false })).toBe('Costs money (needs a ticket)');
-    expect(costLine({ categories: ['food'] })).toBe('Costs money (you pay for what you order)');
-    expect(costLine({})).toBe('Might cost money. Check before you go.');
-    expect(timeLine({ typicalMinutes: 45 })).toBe('About 45 min there');
+  it('says Free or Needs a ticket, never "costs money" or a price, and Time Spent: ~x', () => {
+    expect(costLine({ free: true })).toBe('Free');
+    expect(costLine({ free: false })).toBe('Needs a ticket');
+    expect(costLine({ categories: ['food'] })).toBe('No ticket needed');
+    expect(costLine({})).toBe('Might need a ticket');
+    for (const s of [costLine({}), costLine({ free: false }), costLine({ categories: ['food'] })]) expect(s).not.toMatch(/costs? money|\$/i);
+    expect(timeLine({ typicalMinutes: 45 })).toBe('Time Spent: ~45 min');
+    expect(timeLine({ typicalMinutes: 120 })).toBe('Time Spent: ~2 hr');
+    expect(timeLine({ typicalMinutes: 90 })).toBe('Time Spent: ~1 hr 30 min');
     expect(timeLine({})).toBeNull();
-    expect(bookingHref({ name: 'Park', free: true })).toBeNull();
-    expect(bookingHref({ name: 'Zoo', free: false })).toContain('Zoo%20tickets');
-    expect(bookingHref({ name: 'Joe', categories: ['food'] })).toContain('Joe%20reservation');
-    expect(bookingHref({ name: 'X', bookingUrl: 'https://x.test' })).toBe('https://x.test');
-    for (const s of [costLine({}), costLine({ categories: ['food'] })]) expect(s).not.toMatch(/\$|—/);
   });
+
 });
 
 describe('every landmark in the app (owner, 2026-11-15)', () => {

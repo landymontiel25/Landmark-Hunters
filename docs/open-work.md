@@ -3,6 +3,24 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Landmarks big cards, photo preload, Family Sharing, stop card wording (2026-11-16)
+
+- Landmarks list: each place is a card with its photo full width on top
+  (16:9, squircle), the same info under it; about 2 to 3 per iPhone screen
+  (owner picked this over a 30% bigger side photo, which would still show
+  about 4 to 5).
+- Photos: the list prefetches its page's photos and the next page's
+  (`prefetchPlacePhotos`, memory only per Google's terms). A rate-limit
+  pause no longer pins "no photo" on a place for 5 minutes: it's asked
+  again when the pause ends (`placePhotoRetryInMs`). The per-account photo
+  limit went from 90 to 300 per 10 minutes. Still not done: signed-out
+  users get Google photos for none of the places without a stored photo.
+- Plan: "Group" is "Family Sharing"; it needs at least one other person
+  (friends or "Add a person" by username) before it can start.
+- Stop cards: no Book now; Show more says "Free" / "Needs a ticket" (a place
+  to eat: "No ticket needed") and "Time Spent: ~x hr/min"; the description
+  is one line.
+
 ## Photos, Landmarks row order, onboarding map, Hyatt removed (2026-11-15)
 
 - Photos: `LandmarkThumb` timed every photo out after 8 s from the moment

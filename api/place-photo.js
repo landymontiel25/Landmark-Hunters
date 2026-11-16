@@ -54,7 +54,9 @@ async function handler(req, res) {
     res.status(401).json({ code: 'sign-in-required', error: 'Sign in to see photos.' });
     return;
   }
-  if (isRateLimited(req, 'place-photo', { limit: 90, windowMs: 10 * 60 * 1000, id: account.uid })) {
+  // 300 in 10 minutes (was 90): the Landmarks list now loads a page's photos
+  // and the next page's up front (owner, 2026-11-16), 50 places a page turn.
+  if (isRateLimited(req, 'place-photo', { limit: 300, windowMs: 10 * 60 * 1000, id: account.uid })) {
     res.status(429).json({ error: 'Too many requests in a row — slow down a bit.' });
     return;
   }
