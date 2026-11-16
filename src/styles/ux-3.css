@@ -1614,8 +1614,14 @@ button.back-sticky,
   font-size: 12px;
   font-weight: 700;
 }
-.intro-map-pin {
-  position: relative;
+/* Leaflet's own stylesheet loads after this one and resets every marker to
+   display: block, which put each photo at its box's left edge, 25 px off
+   the stop, so the route ended beside the photo instead of in it (owner,
+   2026-11-16). Leaflet keeps its position: absolute. */
+.leaflet-marker-icon.intro-map-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 /* untangle (Official Onboarding): the name beside the photo, on the side
    away from the nearest other stop, so it never sits under another pin. */
