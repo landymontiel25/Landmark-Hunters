@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useUnits, formatDistance } from '../../lib/UnitsContext';
 import { categoryLabel } from '../../lib/nearbyPicks';
 import { primaryCategory } from '../../lib/preferenceChains';
-import { landmarkIcon, paletteFor } from '../../lib/landmarkVisuals';
 import DirectionsButton from '../DirectionsButton';
 import { usePlacePhoto } from '../../lib/usePlacePhoto';
 import PlacePhotoCredit from '../PlacePhotoCredit';
@@ -46,8 +45,8 @@ export function ChainLabel({ chain }) {
   );
 }
 
-// The place's photo, or -- with none in its data, or a broken one -- the
-// same colored category tile LandmarkThumb falls back to.
+// The place's photo, or -- with none in its data, or a broken one -- Google's;
+// with neither, the same plain tile LandmarkThumb falls back to (no icon).
 export function PickPhoto({ pick, className }) {
   const [failed, setFailed] = useState(null);
   const place = usePlacePhoto(pick, { enabled: !pick.image || failed === pick.image });
@@ -62,11 +61,9 @@ export function PickPhoto({ pick, className }) {
       </span>
     );
   }
-  const [from, to] = paletteFor(pick.id);
   return (
-    <span ref={place.ref} className={`${className} mpp-img-tile`} style={{ background: `linear-gradient(135deg, ${from}, ${to})` }} aria-hidden="true">
-      {landmarkIcon(pick)}
-      {place.missing && className.includes('card') && <span className="no-image-label">No image available</span>}
+    <span ref={place.ref} className={`${className} mpp-img-tile photo-tile ${place.missing ? 'is-none' : 'is-pending'}`} aria-hidden="true">
+      {place.missing && className.includes('card') && <span className="no-image-label">No photo yet</span>}
     </span>
   );
 }

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { paletteFor, landmarkIcon } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
 import { IMAGE_CREDITS } from '../data/imageCredits';
@@ -21,8 +20,6 @@ import { IMAGE_CREDITS } from '../data/imageCredits';
 const creditFor = (landmark, src) => IMAGE_CREDITS[src] || landmark.imageCredits?.[src] || null;
 
 export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', swipeable = false, myPhotos, onImageClick }) {
-  const palette = paletteFor(landmark.id);
-  const icon = landmarkIcon(landmark);
   // The landmark page's photo (lg) fills the width up to 640px by 460px
   // (owner, 2026-10-18: "make the picture bigger"). A phone can't go wider,
   // so there it grows taller instead (0.9 of its width).
@@ -113,7 +110,7 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
     body = (
       <div
         ref={place.ref}
-        className="postcard-photo"
+        className={`postcard-photo photo-tile ${place.missing ? 'is-none' : 'is-pending'}`}
         style={{
           width: dims.width,
           height: dims.height,
@@ -121,11 +118,9 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})`,
         }}
       >
-        <span style={{ fontSize: size === 'lg' ? '2.6rem' : '1.8rem', filter: 'grayscale(0.15)' }}>{icon}</span>
-        {place.missing && <span className="no-image-label">No image available</span>}
+        {place.missing && <span className="no-image-label">No photo yet</span>}
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { paletteFor, landmarkIcon } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
 import { isPermanentlyClosed } from '../lib/closedPlace';
@@ -11,8 +10,8 @@ import { isPermanentlyClosed } from '../lib/closedPlace';
 // any -- shown instead of the landmark's default photo, just for them.
 //
 // A photo that fails to load (deleted upload, dead link, offline) falls
-// through to the next one, then to the colored category tile -- never the
-// browser's broken-image icon. It shimmers softly while loading.
+// through to the next one, then to Google's photo -- never the browser's
+// broken-image icon or a category icon. It shimmers softly while loading.
 //
 // A landmark with no photo left to show (none stored, or every one failed)
 // lazily asks for a Google Places photo once the tile scrolls into view (see
@@ -119,15 +118,12 @@ function Thumb({ landmark, size = 52, width, height, myPhoto }) {
     );
   }
 
-  const palette = paletteFor(landmark.id);
+  // No category icon, ever (owner, 2026-11-16): a quiet shimmer while the
+  // photo is on its way, and only if neither Wikimedia nor Google has one,
+  // a plain "No photo yet".
   return (
-    <div
-      ref={place.ref}
-      className="landmark-thumb landmark-thumb-fallback"
-      style={{ ...style, background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})` }}
-    >
-      <span style={{ fontSize: Math.min(w, h) * 0.4 }}>{landmarkIcon(landmark)}</span>
-      {place.missing && w >= 96 && <span className="no-image-label">No image available</span>}
+    <div ref={place.ref} className={`landmark-thumb landmark-thumb-fallback photo-tile ${place.missing ? 'is-none' : 'is-pending'}`} style={style}>
+      {place.missing && w >= 96 && <span className="no-image-label">No photo yet</span>}
     </div>
   );
 }

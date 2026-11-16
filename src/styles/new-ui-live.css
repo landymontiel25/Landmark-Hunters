@@ -1787,3 +1787,53 @@ html body[data-apple='landmarks'] .aps-live .lm-card .lr-rate-row {
 html body[data-apple='landmarks'] .aps-live .lm-card .lr-rate-row:empty {
   display: none;
 }
+
+/* =====================================================================
+   9. Photo tiles with no picture yet (owner, 2026-11-16): never a category
+   icon. While Google's photo is on its way, a quiet grey shimmer; only if
+   neither Wikimedia nor Google has one, a plain tile saying "No photo yet".
+   Wins over every older gradient tile (loaded last, doubled class).
+   ===================================================================== */
+html[data-theme] body .photo-tile.photo-tile {
+  background: #ececec !important;
+  color: #4a4a4a;
+}
+html[data-theme='dark'] body .photo-tile.photo-tile {
+  background: #1c1c1c !important;
+  color: #b8b8b8;
+}
+html[data-theme] body .photo-tile.photo-tile.is-pending {
+  background-image: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.55) 50%, transparent 80%) !important;
+  background-size: 200% 100% !important;
+  animation: photo-tile-shimmer 1.4s ease-in-out infinite;
+}
+html[data-theme='dark'] body .photo-tile.photo-tile.is-pending {
+  background-image: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.06) 50%, transparent 80%) !important;
+}
+@keyframes photo-tile-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+html[data-theme] body .photo-tile.photo-tile .no-image-label {
+  position: static;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: none;
+}
+html[data-theme] body .photo-tile.photo-tile.is-none {
+  display: grid;
+  place-items: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] body .photo-tile.photo-tile.is-pending {
+    animation: none;
+  }
+}

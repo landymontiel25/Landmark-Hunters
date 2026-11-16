@@ -1,6 +1,16 @@
 # Landmark photos
 
-About 463 of 1,244 catalog landmarks have `images: []`. Instead of storing photos for them, the app fetches one from Google Places at runtime and shows it with the credit Google requires. Landmarks that already have an image never trigger any of this.
+## Wikimedia first, Google as backup (owner, 2026-11-16)
+
+1. **Wikimedia Commons, stored.** Every place with no photo is looked up on Commons. A free-licensed (public domain, CC0, CC BY, CC BY-SA) photo of that exact place is stored with it, so it loads for everyone at no cost per view, credited under the photo. Catalog landmarks: `node scripts/find-commons-photos.mjs out/` then `node scripts/apply-commons-photos.mjs out/` (credits in `src/data/imageCredits.js`). Imported places (`public/places/`): `node scripts/find-pack-photos.mjs <miami|philly|villanova|san-francisco|silicon-valley> out/pack-<region>.found.json` then `node scripts/apply-pack-photos.mjs out/pack-*.found.json` (credits inline as `imageCredits`). A photo is only taken when the file names the place and is geotagged within 150 m or names the area (`src/lib/commonsMatch.js`); otherwise the place is left for Google. Re-run them after any import.
+2. **Google Places, runtime.** A place with no stored photo, or whose stored photos all fail to load, gets Google's photo (below), for everyone: signed in (300 lookups per account per 10 minutes) or signed out (120 per visitor IP per 10 minutes, `ANON_LIMIT` in `api/place-photo.js`).
+3. **Never an icon.** While a photo is on its way the tile is a quiet grey shimmer; if neither source has one it says "No photo yet" (`.photo-tile` in `src/styles/new-ui-live.css`). No category emoji is ever shown as a photo.
+
+Google's terms don't allow storing its photos, so a Google photo is fetched fresh per session (the place ID is stored, so the expensive lookup is paid once per place). Signed-out requests carry no sign-in header, so Vercel's edge can reuse each place's answer for 3 hours across visitors. The daily caps on the Places key (below) decide how many Google photos show each day.
+
+## Google Places photos (the backup)
+
+Places with `images: []` fetch one from Google Places at runtime and show it with the credit Google requires. Places that already have an image never trigger any of this.
 
 ## Community photo (the first shared photo becomes the public picture)
 
@@ -14,9 +24,9 @@ Owner, 2026-10-28: when a place has no stored image and Google finds none, the f
 
 ## How it works
 
-1. A landmark with no image (and no personal check-in photo) renders its colored category tile. Where it renders: `LandmarkThumb` (list rows, itinerary, map popups, trip/Mapr cards), `LandmarkPostcard` (the landmark page hero), `PickPhoto` (nearby picks), and `MaprPickImage` (Mapr picks and streak vote cards).
+1. A landmark with no image (and no personal check-in photo) renders a plain grey tile (a shimmer while it looks, "No photo yet" if nothing is found; never a category icon since 2026-11-16). Where it renders: `LandmarkThumb` (list rows, itinerary, map popups, trip/Mapr cards), `LandmarkPostcard` (the landmark page hero), `PickPhoto` (nearby picks), and `MaprPickImage` (Mapr picks and streak vote cards).
 2. `src/lib/usePlacePhoto.js` waits until the tile is within 400 px of the viewport (IntersectionObserver), then calls `src/lib/placePhoto.js`. Imported (OpenStreetMap) places look up a photo in lists too since 2026-11-08 (owner: photos must show before you tap); before that they waited until opened. Watch the daily caps below: Text Search (100/day) is spent once per place until its place ID is stored. That module dedupes per page session in memory, runs at most 6 requests at once, and backs off for 60 s after a 401/429/503. It never writes to localStorage, IndexedDB or Firestore.
-3. `GET /api/place-photo?name=&lat=&lng=` (`api/place-photo.js`) requires sign-in, is limited to 90 requests per account per 10 min, then:
+3. `GET /api/place-photo?name=&lat=&lng=` (`api/place-photo.js`) works signed in (300 requests per account per 10 min) or signed out (120 per IP per 10 min), then:
    - Looks up `place_ids/{region}__{landmarkId}` (see "Place-ID cache" below). If a verified place ID is stored, it skips Text Search and calls **Place Details** with field mask `photos` only to get a fresh photo reference.
    - Otherwise (no doc, obsolete ID, or an expired no-match) Places API (New) **Text Search** with a 250 m circular location bias, up to 5 results, field mask `places.id,places.displayName,places.location,places.photos`, and stores the resulting ID.
    - Accepts a result only if it has a photo, is within 250 m of the landmark, and its name matches strictly (`namesMatch`: same words, or one name wholly inside the other with enough overlap). A weak match returns `{url: null}` and the placeholder stays, so a wrong place's photo is never shown.
@@ -26,7 +36,7 @@ Owner, 2026-10-28: when a place has no stored image and Google finds none, the f
 
 Google Maps Platform compliance: the image bytes are never downloaded or re-hosted, and photo names/URLs are never persisted (no database, no landmark data, no localStorage). The one persisted Google value is the **place ID**, which Google's Place IDs page explicitly exempts from the caching restrictions ("You can therefore store place ID values for later"). Everything else is in-memory for the session (2 h cap) plus the 3 h CDN cache on the JSON. The attribution is displayed wherever the photo appears. Google's terms can change; re-read the Places "Policies" page if you extend this.
 
-Note: because the endpoint requires an `Authorization` header, the Vercel edge may not cache these responses at all; the cache header is harmless either way, and in-memory client dedupe plus the per-account limit are the real controls.
+Note: signed-in requests carry an `Authorization` header, so the Vercel edge may not cache those; signed-out requests have none and can be served from the edge for 3 hours. In-memory client dedupe plus the per-account and per-IP limits are the real controls.
 
 ## Place-ID cache
 
@@ -85,7 +95,7 @@ Admin dashboard, Tools page, "Landmark photos (one batch)", button **Run** (`POS
 
 - Google Cloud console, APIs & Services, Places API (New), Quotas: set a low **Requests per day** on Text Search (and on the Photos method). Once the cap is hit Google returns errors, the route answers 502, and the app keeps showing the placeholder tile.
 - Billing, Budgets & alerts: add a budget with alert thresholds on the project.
-- The per-account limit lives in `api/place-photo.js` (`limit: 90, windowMs: 10 min`). The client concurrency limit is `MAX_CONCURRENT` in `src/lib/placePhoto.js`.
+- The limits live in `api/place-photo.js` (300 per account, `ANON_LIMIT` 120 per signed-out IP, per 10 min). The client concurrency limit is `MAX_CONCURRENT` in `src/lib/placePhoto.js`.
 - Kill switch: remove `GOOGLE_PLACES_API_KEY`, or remove the Places API (New) from the key's API restrictions; the route then fails and every tile stays a placeholder.
 
 ## Owner setup
