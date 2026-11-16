@@ -191,11 +191,13 @@ describe('place-photo route', () => {
     expect((await call(Q)).status).toBe(502);
   });
 
+  // 300 in 10 minutes since the Landmarks list loads a page's photos and the
+  // next page's up front (owner, 2026-11-16).
   it('rate limits per account', async () => {
     mockGoogle([place()]);
     verify.mockResolvedValue({ uid: 'limited' });
     let last;
-    for (let i = 0; i < 92; i++) {
+    for (let i = 0; i < 302; i++) {
       await handler({ method: 'GET', query: Q, headers: {} }, { setHeader() {}, status: (s) => ({ json: () => (last = s) }) });
     }
     expect(last).toBe(429);

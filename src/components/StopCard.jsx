@@ -6,14 +6,14 @@ import RatingsSection from './ratings/RatingsSection';
 import GoogleAttribution from './ratings/GoogleAttribution';
 import { useLandmarkRatings } from '../lib/useLandmarkRatings';
 import { hasRating } from '../lib/ratingSources';
-import { bookingHref, costLine, descriptionLine, fallbackWhy, timeLine } from '../lib/stopCard';
+import { costLine, descriptionLine, fallbackWhy, timeLine } from '../lib/stopCard';
 import { loadWhyGo, whyKey } from '../lib/whyGoApi';
 
 // One stop on an itinerary (owner, 2026-11-14, 2026-11-15). In this order:
 // a big photo; the name with its Google rating beside it (or "New" when
-// Google has none); a one-line description; the buttons (Get directions,
-// Check in, Book now); then "Show more". Show more opens, top first:
-// whether it's free to visit or costs money, how long you'll spend there,
+// Google has none); a super short description; the buttons (Get directions,
+// Check in; Book now removed, owner 2026-11-16); then "Show more". Show more
+// opens, top first: Free or Needs a ticket, "Time Spent: ~x hr/min",
 // "Why you need to go" (three lines from Mapr, written from the place's
 // own data, api/why-go.js), the place's Google reviews (loaded only when
 // you open it; each lookup is billed), and Remove from trip.
@@ -79,7 +79,6 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
   // look anything up again.
   const [opened, setOpened] = useState(false);
   const panelId = useId();
-  const book = stop.external ? null : bookingHref(stop);
   const time = timeLine(stop);
   const toggle = () => {
     setOpen((o) => !o);
@@ -105,11 +104,6 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
           Get directions
         </DirectionsButton>
         {!stop.external && checkIn && <CheckInButton landmark={stop} plain {...checkIn} />}
-        {book && (
-          <a className="btn btn-ghost btn-sm" href={book} target="_blank" rel="noreferrer">
-            Book now
-          </a>
-        )}
       </div>
       <button type="button" className="it-stop-more" aria-expanded={open} aria-controls={panelId} onClick={toggle}>
         <span>{open ? 'Show less' : 'Show more'}</span>
@@ -122,7 +116,7 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
           {opened && (
             <>
               <ul className="it-stop-facts">
-                <li>{stop.external ? 'Might cost money. Check before you go.' : costLine(stop)}</li>
+                <li>{stop.external ? 'Might need a ticket' : costLine(stop)}</li>
                 {time && <li>{time}</li>}
               </ul>
               <WhyGo stop={stop} batch={batch} />

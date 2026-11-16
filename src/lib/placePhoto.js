@@ -70,8 +70,18 @@ function enqueue(task) {
   });
 }
 
+// While lookups are paused (a 401/429/503), a place's "no photo" is kept only
+// until the pause ends, then asked again: before, it stuck for 5 minutes and
+// the Landmarks list showed an icon until you opened the place (owner,
+// 2026-11-16).
+const untilResume = () => Math.max(1000, pausedUntil - Date.now() + 500);
+/** ms until paused lookups resume (0 when not paused). */
+export function placePhotoRetryInMs() {
+  return Math.max(0, pausedUntil - Date.now());
+}
+
 async function request(l) {
-  if (Date.now() < pausedUntil) return { value: null, ttl: FAILURE_TTL_MS };
+  if (Date.now() < pausedUntil) return { value: null, ttl: untilResume() };
   if (typeof navigator !== 'undefined' && navigator.onLine === false) return { value: null, ttl: 15_000 };
   const headers = await authHeaders();
   if (!headers.Authorization) return { value: null, ttl: 15_000 }; // signed out: endpoint needs an account
@@ -89,7 +99,10 @@ async function request(l) {
     return { value: { url: data.url, attributions }, ttl: SUCCESS_TTL_MS };
   } catch (e) {
     // Back off entirely on auth/rate-limit/unconfigured so a long list can't storm the API.
-    if ([401, 429, 503].includes(e?.status)) pausedUntil = Date.now() + 60_000;
+    if ([401, 429, 503].includes(e?.status)) {
+      pausedUntil = Date.now() + 60_000;
+      return { value: null, ttl: untilResume() };
+    }
     return { value: null, ttl: FAILURE_TTL_MS };
   }
 }
@@ -114,6 +127,26 @@ export function loadPlacePhoto(l) {
     });
   cache.set(key, { promise });
   return promise;
+}
+
+// The Landmarks list asks for its page's photos, and the next page's, as
+// soon as it shows them, instead of waiting for each tile to scroll near
+// the screen (owner, 2026-11-16: photos must be there on load). Results stay
+// in this module's memory (Google's terms), shared with every tile. Places
+// with their own stored photos are warmed in the browser's image cache.
+export function prefetchPlacePhotos(landmarks) {
+  for (const l of landmarks || []) {
+    if (!l || !l.name) continue;
+    if (l.images?.length) {
+      if (typeof Image !== 'undefined') {
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = l.images[0];
+      }
+    } else if (peekPlacePhoto(l) === undefined) {
+      loadPlacePhoto(l);
+    }
+  }
 }
 
 export function resetPlacePhotoCache() {

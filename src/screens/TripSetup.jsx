@@ -15,6 +15,7 @@ import { classifyInterest } from '../lib/interestClassifier';
 import { listFriends } from '../lib/friends';
 import { matchesSearch } from '../lib/search';
 import { createGroupTrip, MAX_GROUP_MEMBERS } from '../lib/groupTrips';
+import AddMemberSheet from '../components/AddMemberSheet';
 import { showTopLandmarks } from '../lib/landmarksSort';
 import LocationAutocomplete, { HomeStartPrefill } from '../components/LocationAutocomplete';
 import AddInterestChip from '../components/AddInterestChip';
@@ -32,7 +33,7 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
   return (
     <div className="card section" style={{ marginTop: 10 }}>
       <p className="screen-subtitle" style={{ marginTop: 0 }}>
-        Add friends to build this trip together — everyone added can see and edit the shared landmark list.
+        Add friends to build this trip together. Everyone added can see and edit the shared landmark list.
       </p>
       {/* A failed load isn't "no friends yet" -- say so and offer a retry. */}
       {loading ? (
@@ -57,7 +58,7 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
             style={{ marginBottom: 10 }}
           />
           {selected.size >= MAX_GROUP_MEMBERS - 1 && (
-            <p className="screen-subtitle">A group trip fits up to {MAX_GROUP_MEMBERS} people, including you, so that's everyone you can add.</p>
+            <p className="screen-subtitle">A Family Sharing trip fits up to {MAX_GROUP_MEMBERS} people, including you, so that's everyone you can add.</p>
           )}
           {filtered.length === 0 && <p className="screen-subtitle">No friends match "{query}".</p>}
           {filtered.map((f) => (
@@ -125,6 +126,10 @@ export default function TripSetup() {
   const selectedFriendUids = new Set(selectedFriendList);
   const [creatingGroup, setCreatingGroup] = useState(false);
   const [groupError, setGroupError] = useState(null);
+  // Family Sharing (owner, 2026-11-16): people added by username, on top of
+  // the friends ticked above. The trip needs at least one person besides you.
+  const [extraPeople, setExtraPeople] = useState([]);
+  const [addingPerson, setAddingPerson] = useState(false);
 
   const loadFriends = () => {
     if (!user) return;
@@ -176,9 +181,17 @@ export default function TripSetup() {
 
   const activeRegion = getRegion(trip.activeRegion) || { name: '' };
 
-  // A region and an explicit Solo/Group choice are both required; Group
-  // additionally requires being signed in, since the trip needs an owner.
-  const canContinue = !!trip.activeRegion && !!tripMode && (tripMode === 'solo' || !!user);
+  // Everyone the Family Sharing trip starts with besides you: ticked friends
+  // (once the list has loaded) and people added by username.
+  const sharedWith = [
+    ...friends.filter((f) => selectedFriendUids.has(f.friend)).map((f) => ({ uid: f.friend, name: f.friendName })),
+    ...extraPeople.filter((p) => !selectedFriendUids.has(p.uid)),
+  ];
+  const needsPerson = tripMode === 'group' && !!user && sharedWith.length === 0;
+  // A region and an explicit Solo / Family Sharing choice are both required;
+  // Family Sharing also needs you signed in (the trip needs an owner) and at
+  // least one other person (owner, 2026-11-16).
+  const canContinue = !!trip.activeRegion && !!tripMode && (tripMode === 'solo' || (!!user && !needsPerson));
 
   const startGroupTrip = async () => {
     if (!user || !trip.activeRegion) return;
@@ -190,13 +203,12 @@ export default function TripSetup() {
         ownerName: myUsername || user.displayName || 'Explorer',
         name: `${activeRegion.name} Trip`,
         regionId: trip.activeRegion,
-        initialMembers: friends
-          .filter((f) => selectedFriendUids.has(f.friend))
-          .map((f) => ({ uid: f.friend, name: f.friendName })),
+        initialMembers: sharedWith,
       });
       // Submitted: the saved Solo/Group pick and friend ticks are done with.
       setTripMode(null);
       setSelectedFriendList([]);
+      setExtraPeople([]);
       navigate(`/group/${id}`);
     } catch (e) {
       // Everything picked stays as it was, ready for Try again.
@@ -216,7 +228,7 @@ export default function TripSetup() {
       <h1 className="screen-title">
         <span>{'\u{1F9ED}'}</span> Plan Your Trip
       </h1>
-      <p className="screen-subtitle">Tell us where you're starting and what you're into — we'll build the route.</p>
+      <p className="screen-subtitle">Tell us where you're starting and what you're into, and we'll build the route.</p>
 
       <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate('/')}>
         {'\u{1F310}'} Just Browse the Map First
@@ -257,7 +269,7 @@ export default function TripSetup() {
         <HomeStartPrefill />
         {!trip.startingLocation && (
           <p style={{ fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginTop: 6 }}>
-            No starting point set — the itinerary will route from wherever you are.
+            No starting point set. The itinerary will route from wherever you are.
           </p>
         )}
       </div>
@@ -343,7 +355,7 @@ export default function TripSetup() {
             {'\u{1F464}'} Solo
           </button>
           <button type="button" className={`tab-btn ${tripMode === 'group' ? 'active' : ''}`} aria-pressed={!!(tripMode === 'group')} onClick={() => setTripMode('group')}>
-            {'\u{1F465}'} Group
+            {'\u{1F465}'} Family Sharing
           </button>
         </div>
         {tripMode === null && (
@@ -353,7 +365,7 @@ export default function TripSetup() {
         )}
         {tripMode === 'group' && !user && (
           <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
-            <Link to="/profile">Sign in</Link> to start a group trip.
+            <Link to="/profile">Sign in</Link> to start a Family Sharing trip.
           </p>
         )}
         {tripMode === 'group' && user && (
@@ -368,11 +380,43 @@ export default function TripSetup() {
             onToggle={toggleFriendSelected}
           />
         )}
+        {tripMode === 'group' && user && (
+          <div className="family-people">
+            {extraPeople.map((p) => (
+              <div key={p.uid} className="friend-row">
+                <span>{p.name || 'A traveler'}</span>
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setExtraPeople((cur) => cur.filter((x) => x.uid !== p.uid))} aria-label={`Remove ${p.name || 'this person'}`}>
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button type="button" className="btn btn-ghost btn-block" onClick={() => setAddingPerson(true)} disabled={sharedWith.length >= MAX_GROUP_MEMBERS - 1}>
+              {'\u{2795}'} Add a person
+            </button>
+            {needsPerson && (
+              <p className="family-need" role="status">
+                Add at least one person to share this trip with.
+              </p>
+            )}
+          </div>
+        )}
+        {addingPerson && (
+          <AddMemberSheet
+            title="Add someone to share this trip with"
+            excludeUids={[user?.uid, ...sharedWith.map((p) => p.uid)].filter(Boolean)}
+            alreadyText="They're already on this trip."
+            onPick={async ({ uid, name }) => {
+              setExtraPeople((cur) => (cur.some((p) => p.uid === uid) ? cur : [...cur, { uid, name }]));
+              setAddingPerson(false);
+            }}
+            onClose={() => setAddingPerson(false)}
+          />
+        )}
       </div>
 
       {groupError && !creatingGroup && (
         <ErrorNotice
-          message={friendlyError(groupError, "Couldn't start the group trip. Try again.")}
+          message={friendlyError(groupError, "Couldn't start the Family Sharing trip. Try again.")}
           onRetry={startGroupTrip}
           compact
         />
@@ -396,7 +440,7 @@ export default function TripSetup() {
         {tripMode === 'group'
           ? creatingGroup
             ? 'Starting…'
-            : `${'\u{1F465}'} Start Group Trip ${'\u{2192}'}`
+            : `${'\u{1F465}'} Start Family Sharing Trip ${'\u{2192}'}`
           : `Choose Landmarks ${'\u{2192}'}`}
       </button>
       </>

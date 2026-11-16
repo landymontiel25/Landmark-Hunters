@@ -1467,16 +1467,15 @@ html[data-theme] body .route-step .card.it-stop .it-stop-new {
   font-size: 12px;
   font-weight: 600;
 }
-/* The one-line description, smaller and grey (owner, 2026-11-15), at
-   5:1 or better in both themes. Two lines at most, so it never pushes the
-   buttons far down. */
+/* The super short description, smaller and grey (owner, 2026-11-15,
+   2026-11-16), at 5:1 or better in both themes. One line on an iPhone. */
 html[data-theme] body .route-step .card.it-stop .it-stop-desc {
   margin: 0;
   color: #616161;
   font-size: 14px;
   line-height: 20px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1689,30 +1688,90 @@ html[data-theme] body .route-step:has(.it-stop) .drag-handle {
 }
 
 /* =====================================================================
-   8. Landmarks: bigger photos (owner, 2026-11-14), 88 pt instead of 56,
-   squircle corners where the browser draws them.
+   8. Landmarks: big photo cards (owner, 2026-11-16). The photo runs the
+   full width of the card on top (16:9, about 358 x 201 pt on an iPhone),
+   squircle corners where the browser draws them, and the name, where it
+   is, Free / Needs a ticket, distance, Rate and Google's rating sit under
+   it with the + and "..." on the right. About 2 to 3 places per screen.
    ===================================================================== */
 html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card,
 html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited {
-  grid-template-columns: 88px minmax(0, 1fr) 44px 36px;
+  grid-template-columns: minmax(0, 1fr) 44px 36px;
+  align-items: start;
+  row-gap: 12px;
+  padding: 16px 0 20px;
 }
 html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
-html body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child,
+html body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 18px !important;
+  cursor: pointer;
+}
 html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,
 html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-wrap,
 html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
-  width: 88px !important;
-  height: 88px !important;
-  border-radius: 14px !important;
-  font-size: 34px;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  border-radius: 18px !important;
+  font-size: 56px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
+  display: grid;
+  place-items: center;
 }
 @supports (corner-shape: squircle) {
   html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn,
+  html body[data-apple='landmarks'] .aps-live .lm-card-photo > div:first-child,
   html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb,
   html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-wrap,
   html body[data-apple='landmarks'] .aps-live .lm-card-photo .landmark-thumb-fallback {
     corner-shape: squircle;
-    border-radius: 24px !important;
+    border-radius: 32px !important;
+  }
+}
+/* Under the photo: the text on the left, the + and "..." on the right. */
+html body[data-apple='landmarks'] .aps-live .lm-card .lr-main {
+  grid-column: 1;
+  grid-row: 2;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card .lr-main h4 {
+  font-size: 18px;
+  line-height: 24px;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-check {
+  grid-column: 2;
+  grid-row: 2;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-more {
+  grid-column: 3;
+  grid-row: 2;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card .lm-card-menu {
+  grid-row: 3;
+  margin-top: 0;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card .lr-actions {
+  grid-row: 4;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn:active {
+  transform: scale(0.985);
+  transition: transform 90ms ease-out;
+}
+html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn {
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  html body[data-apple='landmarks'] .aps-live .lm-card-photo > .lr-thumb-btn:active {
+    transform: none;
   }
 }
 

@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePageRatings, ratingKey } from '../lib/usePageRatings';
 import { useTopRatings, TOP_RANK_MAX } from '../lib/useTopRatings';
+import { prefetchPlacePhotos } from '../lib/placePhoto';
 import { reorderByReviews } from '../lib/topRated';
 import { RATINGS_FLAGS } from '../lib/ratingSources';
 import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
@@ -761,6 +762,12 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   // Popular waits for its order first, so it does not look up the places of a
   // page that is about to be reordered. A search looks nothing up.
   const pageRatings = usePageRatings(pageRows, nextPageRows, !!user && RATINGS_FLAGS.cardLine && !search.trim() && (!topWanted || top.ready) && (!reviewSortWanted || reviewTop.ready));
+  // Every photo on this page, and the next, starts loading as soon as the
+  // page shows: stored photos warm the browser cache, the rest ask Google
+  // (signed in), kept in memory for every tile (owner, 2026-11-16).
+  useEffect(() => {
+    prefetchPlacePhotos([...pageRows, ...nextPageRows].filter((l) => l && l.id && l.name));
+  }, [pageRows, nextPageRows]);
   const goToPage = (n) => {
     setPage(n);
     window.scrollTo({ top: 0 });
