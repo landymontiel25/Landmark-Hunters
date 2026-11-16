@@ -20,9 +20,11 @@ the PR that finishes it.
   ("7.1 mi away"), then a line with Rate and Google's rating.
 - Official Onboarding's route maps (intro screen 3 and the first Mapr pick):
   `RouteMap untangle` bends each leg away from the stops it isn't going to,
-  puts names on the side away from the nearest pin, and nudges pins closer
-  than 140 m apart (`src/lib/untangleRoute.js`), so South Beach, News Café,
-  Colony Hotel read 1, 2, 3.
+  puts names on the side away from the nearest pin, and spreads stops closer
+  than 140 m apart on the map itself (`spreadPoints`; the route is drawn
+  through the same points, so it reaches every pin), so South Beach, News
+  Café, Colony Hotel read 1, 2, 3. Leaflet's stylesheet had also been
+  putting every route-map photo 25 px left of its stop; fixed in ux-3.css.
 - Hyatt Regency Coral Gables deleted from the catalog (a hotel, not a
   landmark; owner).
 

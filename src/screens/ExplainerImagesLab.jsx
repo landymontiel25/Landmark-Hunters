@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, CircleMarker } from 'react-leaflet';
-import { labelSides, pinNudges, untangledRoute } from '../lib/untangleRoute';
+import { labelSides, spreadPoints, untangledRoute } from '../lib/untangleRoute';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { distanceMeters } from '../lib/geo';
@@ -183,14 +183,13 @@ const escapeHtml = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', 
 // each landmark (owner, 2026-11-04); the name sits under it.
 const PIN_W = 96;
 const PIN_H = 86;
-const stopIcon = (n, name, photo, side = '', dy = 0) =>
+const stopIcon = (n, name, photo, side = '') =>
   L.divIcon({
     className: `intro-map-pin${side ? ` label-${side}` : ''}`,
     html: `<span class="intro-map-pin-photo"><img src="${photo}" alt="" /></span><span class="intro-map-pin-num">${n}</span><span class="intro-map-pin-name">${escapeHtml(name)}</span>`,
     iconSize: [PIN_W, PIN_H],
-    // The photo's center (46px photo, 3px border) on the stop; dy moves it
-    // up (negative) or down when two stops would overlap (untangle).
-    iconAnchor: [PIN_W / 2, 26 - dy],
+    // The photo's center (46px photo, 3px border) on the stop.
+    iconAnchor: [PIN_W / 2, 26],
   });
 const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, zoomControl: false };
 
@@ -204,16 +203,17 @@ const STILL = { dragging: false, touchZoom: false, scrollWheelZoom: false, doubl
 // color / others: Official Onboarding's intro screen 3 colors the route and
 // shows the city's other places as small pins (owner, 2026-11-14).
 export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], className = 'intro-map', untangle = false }) {
-  const points = stops.map((s) => [s.lat, s.lng]);
+  // untangle: stops too close to show apart are spread a little, and the
+  // pins and the route both use those same points, so the line reaches
+  // every pin.
+  const points = untangle ? spreadPoints(stops.map((s) => [s.lat, s.lng])) : stops.map((s) => [s.lat, s.lng]);
   const line = untangle ? untangledRoute(points) : points;
   const sides = untangle ? labelSides(points) : [];
-  const nudges = untangle ? pinNudges(points) : [];
   return (
     <MapContainer
       className={className}
       bounds={L.latLngBounds(line)}
-      // A nudged pin sits up to 24 px past its stop: more room top and bottom.
-      boundsOptions={untangle ? { paddingTopLeft: [56, 74], paddingBottomRight: [56, 80] } : { paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }}
+      boundsOptions={{ paddingTopLeft: [56, 34], paddingBottomRight: [56, 56] }}
       zoomSnap={0.1}
       attributionControl={false}
       {...STILL}
@@ -227,8 +227,8 @@ export function RouteMap({ stops, onOpen, color = '#4d7fff', others = [], classN
       {stops.map((s, i) => (
         <Marker
           key={s.id}
-          position={[s.lat, s.lng]}
-          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s), sides[i], nudges[i] || 0)}
+          position={points[i]}
+          icon={stopIcon(i + 1, shortName(s.name), photoUrl(s), sides[i])}
           // Later stops above earlier ones, so stop 3 never hides 2's photo.
           zIndexOffset={i * 100}
           title={s.name}

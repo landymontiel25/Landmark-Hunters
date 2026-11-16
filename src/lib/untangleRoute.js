@@ -40,21 +40,27 @@ export function labelSides(points) {
   });
 }
 
-// Pins closer than this (meters) would sit on top of each other at the
-// map's zoom; the northern one is nudged up and the southern one down.
-const CLOSE_M = 140;
-export const PIN_NUDGE_PX = 24;
-export function pinNudges(points) {
-  const dy = points.map(() => 0);
-  for (let i = 0; i < points.length; i++)
-    for (let j = i + 1; j < points.length; j++) {
-      const [a, b] = [points[i], points[j]];
-      const m = Math.hypot((a[0] - b[0]) * 111000, (a[1] - b[1]) * 111000 * Math.cos((a[0] * Math.PI) / 180));
-      if (m >= CLOSE_M) continue;
-      const north = a[0] >= b[0] ? i : j;
-      const south = north === i ? j : i;
-      dy[north] = -PIN_NUDGE_PX;
-      dy[south] = PIN_NUDGE_PX;
+// Stops closer than this (meters) would put their pins on top of each other
+// at the map's zoom. spreadPoints moves each such pair apart along the line
+// between them, half the gap each, so both photos show in full. The route is
+// drawn through these same points, so the dotted line always reaches each pin
+// (owner, 2026-11-16: it stopped short of pin 2 when only the pin moved).
+export const CLOSE_M = 140;
+export function spreadPoints(points) {
+  const out = points.map((p) => [...p]);
+  const k = Math.cos(((points[0]?.[0] || 0) * Math.PI) / 180);
+  const M = 111000;
+  for (let i = 0; i < out.length; i++)
+    for (let j = i + 1; j < out.length; j++) {
+      const dy = (out[j][0] - out[i][0]) * M;
+      const dx = (out[j][1] - out[i][1]) * M * k;
+      const d = Math.hypot(dx, dy);
+      if (d >= CLOSE_M) continue;
+      // Same spot: push them apart north and south.
+      const [ux, uy] = d > 0.5 ? [dx / d, dy / d] : [0, 1];
+      const push = (CLOSE_M - d) / 2;
+      out[i] = [out[i][0] - (uy * push) / M, out[i][1] - (ux * push) / (M * k)];
+      out[j] = [out[j][0] + (uy * push) / M, out[j][1] + (ux * push) / (M * k)];
     }
-  return dy;
+  return out;
 }

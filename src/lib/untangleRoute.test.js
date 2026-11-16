@@ -44,9 +44,24 @@ describe('labelSides', () => {
   });
 });
 
-describe('pinNudges', () => {
-  it('moves two stops 70 m apart apart on screen, and leaves the far one alone', async () => {
-    const { pinNudges, PIN_NUDGE_PX } = await import('./untangleRoute');
-    expect(pinNudges([SOUTH_BEACH, NEWS_CAFE, COLONY])).toEqual([0, -PIN_NUDGE_PX, PIN_NUDGE_PX]);
+describe('spreadPoints', () => {
+  it('moves two stops 70 m apart until their pins clear, keeps the order, and leaves the far one alone', async () => {
+    const { spreadPoints, CLOSE_M } = await import('./untangleRoute');
+    const [one, two, three] = spreadPoints([SOUTH_BEACH, NEWS_CAFE, COLONY]);
+    expect(one).toEqual(SOUTH_BEACH);
+    expect(dist(two, three)).toBeGreaterThan(CLOSE_M - 1);
+    // Each moved only half the gap, along the line between them.
+    expect(dist(two, NEWS_CAFE)).toBeLessThan(45);
+    expect(dist(three, COLONY)).toBeLessThan(45);
+    expect(two[0]).toBeGreaterThan(three[0]);
+  });
+
+  it('the dotted route starts and ends exactly on the pins it joins (owner, 2026-11-16)', async () => {
+    const { spreadPoints } = await import('./untangleRoute');
+    const pins = spreadPoints([SOUTH_BEACH, NEWS_CAFE, COLONY]);
+    const line = untangledRoute(pins);
+    expect(line[0]).toEqual(pins[0]);
+    expect(line[16]).toEqual(pins[1]);
+    expect(line[32]).toEqual(pins[2]);
   });
 });
