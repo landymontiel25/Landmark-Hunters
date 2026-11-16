@@ -36,6 +36,9 @@ import {
 
 export { normalizeName, namesMatch };
 
+// Lookups per 10 minutes for one signed-out visitor (per IP).
+export const ANON_LIMIT = 120;
+
 // Edge only (s-maxage), never the browser's own cache: the CDN may reuse this
 // JSON for a few hours across users; max-age=0 keeps clients re-asking us.
 const EDGE_CACHE = 'public, max-age=0, s-maxage=10800, stale-while-revalidate=3600';
@@ -49,15 +52,17 @@ async function handler(req, res) {
     res.status(503).json({ error: 'Photos are not set up yet. Add GOOGLE_PLACES_API_KEY in Vercel.' });
     return;
   }
+  // Signed out works too (owner, 2026-11-16: every landmark has a photo for
+  // everyone). A signed-in account gets 300 lookups per 10 minutes (the
+  // Landmarks list loads a page's photos and the next page's up front, 50 a
+  // page turn); a signed-out visitor gets 120 per 10 minutes per IP, so one
+  // visitor can't run up the bill.
   const account = await verifyIdToken(req);
-  if (!account) {
-    res.status(401).json({ code: 'sign-in-required', error: 'Sign in to see photos.' });
-    return;
-  }
-  // 300 in 10 minutes (was 90): the Landmarks list now loads a page's photos
-  // and the next page's up front (owner, 2026-11-16), 50 places a page turn.
-  if (isRateLimited(req, 'place-photo', { limit: 300, windowMs: 10 * 60 * 1000, id: account.uid })) {
-    res.status(429).json({ error: 'Too many requests in a row — slow down a bit.' });
+  const limited = account
+    ? isRateLimited(req, 'place-photo', { limit: 300, windowMs: 10 * 60 * 1000, id: account.uid })
+    : isRateLimited(req, 'place-photo-anon', { limit: ANON_LIMIT, windowMs: 10 * 60 * 1000 });
+  if (limited) {
+    res.status(429).json({ error: "Too many photo requests in a row. Try again in a few minutes." });
     return;
   }
 

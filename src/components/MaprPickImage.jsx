@@ -3,7 +3,7 @@ import PlacePhotoCredit from './PlacePhotoCredit';
 
 // Hero image of a swipeable pick card (Mapr Travel Picks, streak vote cards):
 // the landmark's own photo, else a lazily fetched Google Places photo with its
-// credit, else the pin placeholder.
+// credit; with neither, a plain tile (no icon).
 export default function MaprPickImage({ landmark }) {
   const own = landmark.images?.[0];
   const place = usePlacePhoto(landmark, { enabled: !landmark.images?.length });
@@ -17,9 +17,8 @@ export default function MaprPickImage({ landmark }) {
     );
   }
   return (
-    <div ref={place.ref} className="mapr-pick-img mapr-pick-img-blank">
-      {'\u{1F4CD}'}
-      {place.missing && <span className="no-image-label">No image available</span>}
+    <div ref={place.ref} className={`mapr-pick-img mapr-pick-img-blank photo-tile ${place.missing ? 'is-none' : 'is-pending'}`}>
+      {place.missing && <span className="no-image-label">No photo yet</span>}
     </div>
   );
 }

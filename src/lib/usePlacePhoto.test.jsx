@@ -101,7 +101,7 @@ describe('LandmarkThumb Google photo fallback', () => {
     expect(container.querySelector('.landmark-thumb-fallback')).toBeTruthy();
   });
 
-  it('says "No image available" on a large tile once the lookup finds nothing, not before and not on tiny ones', async () => {
+  it('says "No photo yet" (never an icon) on a large tile once the lookup finds nothing, not before and not on tiny ones', async () => {
     fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => ({ url: null, attributions: [] }) });
     await render(
       <>
@@ -109,10 +109,10 @@ describe('LandmarkThumb Google photo fallback', () => {
         <LandmarkThumb landmark={lm({ id: 'tiny', name: 'Tiny', lat: 43 })} size={44} />
       </>
     );
-    expect(container.textContent).not.toContain('No image available');
+    expect(container.textContent).not.toContain('No photo yet');
     await reveal();
     expect(container.querySelectorAll('.no-image-label')).toHaveLength(1);
-    expect(container.textContent).toContain('No image available');
+    expect(container.textContent).toContain('No photo yet');
   });
 
   it('falls back to the placeholder when the photo URL fails to load', async () => {

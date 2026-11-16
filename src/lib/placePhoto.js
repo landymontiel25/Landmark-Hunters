@@ -84,7 +84,7 @@ async function request(l) {
   if (Date.now() < pausedUntil) return { value: null, ttl: untilResume() };
   if (typeof navigator !== 'undefined' && navigator.onLine === false) return { value: null, ttl: 15_000 };
   const headers = await authHeaders();
-  if (!headers.Authorization) return { value: null, ttl: 15_000 }; // signed out: endpoint needs an account
+  // Signed out asks too (owner, 2026-11-16); the server limits it per visitor.
   try {
     const q = new URLSearchParams({ name: l.name, lat: String(l.lat), lng: String(l.lng) });
     // Lets the server remember this landmark's Google place ID (never the photo).

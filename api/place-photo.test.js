@@ -28,7 +28,7 @@ vi.mock('./_lib/firebaseAdmin.js', () => ({
   },
 }));
 
-const { default: handler, namesMatch } = await import('./place-photo.js');
+const { default: handler, namesMatch, ANON_LIMIT } = await import('./place-photo.js');
 
 const realFetch = globalThis.fetch;
 let n = 0;
@@ -97,13 +97,21 @@ describe('place-photo route', () => {
     expect((await call(Q)).status).toBe(503);
   });
 
-  it('requires sign-in', async () => {
+  // Signed out gets photos too (owner, 2026-11-16), limited per visitor (IP).
+  it('answers signed-out visitors, limited per IP', async () => {
     mockGoogle([place()]);
-    let status;
     verify.mockResolvedValue(null);
-    await handler({ method: 'GET', query: Q, headers: {} }, { status: (s) => ({ json: () => (status = s) }) });
-    expect(status).toBe(401);
-    expect(globalThis.fetch).not.toHaveBeenCalled();
+    const statuses = [];
+    const req = { method: 'GET', query: Q, headers: { 'x-forwarded-for': '203.0.113.7' } };
+    const res = { setHeader() {}, status: (s) => ({ json: () => statuses.push(s) }) };
+    for (let i = 0; i < ANON_LIMIT + 2; i++) await handler(req, res);
+    expect(statuses[0]).toBe(200);
+    expect(statuses.slice(0, ANON_LIMIT).every((s) => s === 200)).toBe(true);
+    expect(statuses.at(-1)).toBe(429);
+    // Another visitor isn't held back by the first one's limit.
+    let other;
+    await handler({ ...req, headers: { 'x-forwarded-for': '198.51.100.9' } }, { setHeader() {}, status: (s) => ({ json: () => (other = s) }) });
+    expect(other).toBe(200);
   });
 
   it('validates input without calling Google', async () => {
