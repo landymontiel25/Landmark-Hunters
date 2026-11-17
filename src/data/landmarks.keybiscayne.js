@@ -272,7 +272,7 @@ export const KEYBISCAYNE_LANDMARKS = [
     firstTimerPriority: "Low",
     // The old photo was a Coast Guard ship, not the restaurant (owner,
     // 2026-10-18); with none of its own, the page shows Google's photo of it.
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/SUNSET_AT_BOATER%27S_GRILL_-_panoramio.jpg?width=1200'],
     name: "Boater's Grill",
     region: 'miami',
     lat: 25.6753395,

@@ -1667,7 +1667,7 @@ export const SILICONVALLEY_LANDMARKS = [
     cost: "Free",
     neighborhood: "Downtown Palo Alto",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Electronics_Research_Laboratory_plaque.jpg?width=1200'],
     name: "Emerson/Channing Plaque",
     region: 'silicon-valley',
     lat: 37.441431,

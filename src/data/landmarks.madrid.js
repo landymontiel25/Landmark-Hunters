@@ -1623,7 +1623,7 @@ export const MADRID_LANDMARKS = [
     firstTimerPriority: "Low",
     neighborhood: "Centro",
     cost: "$$",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Russian_Red_%40_Sala_El_Sol_(2425268576).jpg?width=1200'],
     name: "Sala El Sol",
     region: 'madrid',
     lat: 40.4189786,

@@ -3,6 +3,21 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Hybrid photos: Wikimedia stored first, Google for everyone (2026-11-16)
+
+PR #880 opened Google's photo backup to signed-out visitors (120 per IP per
+10 minutes) and replaced every category-icon tile with a grey shimmer /
+"No photo yet". Part 2 ran the Wikimedia Commons lookup over all 2,201
+places with no stored photo and stored 122 (23 catalog landmarks, 99
+imported places), each reviewed by eye; 19 matches were rejected as not a
+photo of the place (wrong city, an animal, a person, a sign, a logo). The
+catalog lookup now has the same area guard as imported places. 2,079
+places still have no stored photo and use Google (list:
+`docs/photos-missing.md`). Not done: which of those Google also has no
+photo for can only be seen from the `place_ids` no-match docs (Firestore,
+admin) as the backfill and live views reach them, under Google's daily
+caps (100 Text Searches, 1,000 photo requests).
+
 ## Landmarks big cards, photo preload, Family Sharing, stop card wording (2026-11-16)
 
 - Landmarks list: each place is a card with its photo full width on top

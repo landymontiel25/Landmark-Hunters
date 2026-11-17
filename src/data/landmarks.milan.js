@@ -1840,7 +1840,7 @@ export const MILAN_LANDMARKS = [
     firstTimerPriority: "Low",
     neighborhood: "Isola",
     cost: "$$$",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Muse_Live_at_Alcatraz%2C_Milan_(October_26%2C_2022).jpg?width=1200'],
     name: "Alcatraz",
     region: 'milan',
     lat: 45.4944955,
