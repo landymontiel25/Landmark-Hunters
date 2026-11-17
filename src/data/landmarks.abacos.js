@@ -516,6 +516,7 @@ const PLACES = [
     lat: 26.7822975,
     lng: -77.3366633,
     checkInRadiusMeters: 200,
+    googleMatch: { name: 'Green Turtle Club', withinMeters: 800 },
     categories: ['food'],
     whatItIs: 'A marina and dining destination.',
     ...sourced([
@@ -534,6 +535,7 @@ const PLACES = [
     lat: 26.7768775,
     lng: -77.3387661,
     checkInRadiusMeters: 300,
+    googleMatch: { name: 'Bluff House Beach Resort', withinMeters: 800 },
     categories: ['food'],
     whatItIs: 'A waterfront setting around White Sound and the Sea of Abaco.',
     ...sourced([
@@ -570,6 +572,7 @@ const PLACES = [
     lat: 26.6330232,
     lng: -77.0406891,
     checkInRadiusMeters: 1500,
+    googleMatch: { name: 'Fowl Cays National Park', withinMeters: 3000 },
     categories: ['parks-nature'],
     whatItIs: 'A marine setting with reefs, seagrass, and sand.',
     ...sourced([
@@ -588,6 +591,7 @@ const PLACES = [
     lat: 26.3991564,
     lng: -76.9926966,
     checkInRadiusMeters: 1500,
+    googleMatch: { name: 'Sandy Cay Reef', withinMeters: 3000 },
     categories: ['parks-nature'],
     whatItIs: 'A reef destination for guided snorkeling.',
     ...sourced([
@@ -606,6 +610,7 @@ const PLACES = [
     lat: 26.8312271,
     lng: -77.3700032,
     checkInRadiusMeters: 1500,
+    googleMatch: { name: 'Manjack Cay', withinMeters: 3000 },
     categories: ['parks-nature'],
     whatItIs: 'A nature outing with beaches and trails.',
     ...sourced([
@@ -624,6 +629,7 @@ const PLACES = [
     lat: 26.9033808,
     lng: -77.4784222,
     checkInRadiusMeters: 1500,
+    googleMatch: { name: 'Powell Cay', withinMeters: 3000 },
     categories: ['parks-nature'],
     whatItIs: 'The final northern-cay stop in the list.',
     ...sourced([
