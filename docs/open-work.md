@@ -35,6 +35,12 @@ Left to do:
   every mirror. Once they're in OSM, move them to their own points and
   shrink the radius. Their Google photo and rating come from a
   `googleMatch: { name, withinMeters }` hint (`api/_lib/googleMatchHint.js`).
+- Photos (2026-11-16, after #883 and #884): 8 stored Commons photos plus
+  Google photos for 19 more. Green Turtle Club, Sandy Cay reef and Manjack
+  Cay still get no Google photo even with a `googleMatch` hint (Google's
+  name or pin for them differs further), so they show the category tile.
+  Next: check their Google listing names with the Places key and fix the
+  hint, or find a Commons photo of each.
 - Photo missions are checked on the phone and kept on the device
   (`lh.missions.<uid>`), and they pay no points. A server check (the photo
   bonus pipeline) would be the next step.
