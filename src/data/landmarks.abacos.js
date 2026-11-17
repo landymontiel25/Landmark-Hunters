@@ -168,6 +168,7 @@ const PLACES = [
     lat: 26.5009193,
     lng: -76.9865984,
     checkInRadiusMeters: 400,
+    googleMatch: { name: 'Tahiti Beach', withinMeters: 800 },
     categories: ['parks-nature'],
     whatItIs: 'A beach and sandbar at the southern end of Elbow Cay.',
     ...sourced([

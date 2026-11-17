@@ -31,17 +31,18 @@ export async function catalogGooglePlaceId(
   if (!key) return null;
   const doc = await read(key);
   if (doc?.status === 'ok' && typeof doc.placeId === 'string' && doc.placeId) return doc.placeId;
-  if (doc?.status === 'no-match' && isFresh(doc, PLACE_ID_NO_MATCH_RETRY_MS)) return null;
+  const hint = googleMatchFor(region, id, typeof name === 'string' ? name.trim().slice(0, 200) : '');
+  // A "no match" from before the landmark had its Google name says nothing about that name.
+  if (doc?.status === 'no-match' && (!hint || doc.hinted) && isFresh(doc, PLACE_ID_NO_MATCH_RETRY_MS)) return null;
   if (typeof name !== 'string' || !name.trim() || !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
 
   const landmark = { name: name.trim().slice(0, 200), lat, lng, categories };
-  const hint = googleMatchFor(region, id, landmark.name);
   let found = null;
   if (hint) {
     // googleMatchHint.js: the landmark names its Google listing.
     const hits = await search({ ...landmark, name: hint.name });
     found = hits.find((c) => Number.isFinite(c.lat) && distanceMeters(lat, lng, c.lat, c.lng) <= hint.withinMeters && namesMatch(hint.name, c.name)) || null;
-    await write(key, found ? { status: 'ok', placeId: String(found.id), matchedName: landmark.name, lat, lng } : { status: 'no-match', placeId: null, matchedName: landmark.name, lat, lng });
+    await write(key, { status: found ? 'ok' : 'no-match', placeId: found ? String(found.id) : null, matchedName: landmark.name, lat, lng, hinted: true });
     return found ? String(found.id) : null;
   }
   const match = classifyMatch(landmark, await search(landmark));

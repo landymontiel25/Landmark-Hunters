@@ -88,11 +88,14 @@ async function handler(req, res) {
   };
   try {
     const cached = cacheKey ? await readPlaceId(cacheKey) : null;
+    const hint = googleMatchFor(req.query?.region, req.query?.id, name);
     const trusted = cached && sameLandmark(cached, name, lat, lng);
     let placeId = null;
     let photo = null;
 
-    if (trusted && cached.status === 'no-match' && isFresh(cached, PLACE_ID_NO_MATCH_RETRY_MS)) {
+    // A "no match" from before the landmark had its Google name
+    // (googleMatchHint.js) says nothing about that name: search again.
+    if (trusted && cached.status === 'no-match' && (!hint || cached.hinted) && isFresh(cached, PLACE_ID_NO_MATCH_RETRY_MS)) {
       noPhoto();
       return;
     }
@@ -117,7 +120,6 @@ async function handler(req, res) {
 
     if (!placeId) {
       step = 'search';
-      const hint = googleMatchFor(req.query?.region, req.query?.id, name);
       const found = await textSearchMatch(name, lat, lng, apiKey, hint);
       if (found.error) {
         logFailure('search', `Google status ${found.status}`, cacheKey);
@@ -125,7 +127,7 @@ async function handler(req, res) {
         return;
       }
       if (!found.match) {
-        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: name.slice(0, 200), lat, lng });
+        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: name.slice(0, 200), lat, lng, ...(hint ? { hinted: true } : {}) });
         noPhoto();
         return;
       }
@@ -135,7 +137,7 @@ async function handler(req, res) {
         // A hinted match is stored under the catalog name, so the next view
         // trusts it (sameLandmark compares names).
         const matchedName = hint ? name : String(found.match.displayName?.text || '');
-        await writePlaceId(cacheKey, { status: 'ok', placeId, matchedName: matchedName.slice(0, 200), lat, lng });
+        await writePlaceId(cacheKey, { status: 'ok', placeId, matchedName: matchedName.slice(0, 200), lat, lng, ...(hint ? { hinted: true } : {}) });
       }
     }
 
