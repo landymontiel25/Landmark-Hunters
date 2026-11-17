@@ -93,6 +93,9 @@ async function request(l) {
       q.set('region', String(region));
       q.set('id', String(l.id));
     }
+    // A landmark with its own Google name (googleMatch) asks on its own URL,
+    // so a CDN answer cached from before it had one isn't reused.
+    if (l.googleMatch) q.set('hint', '1');
     const data = await fetchJson(`${API_BASE}/api/place-photo?${q}`, { headers });
     if (!data?.url || !/^https:\/\//.test(data.url)) return { value: null, ttl: SUCCESS_TTL_MS };
     const attributions = (Array.isArray(data.attributions) ? data.attributions : []).filter((a) => a?.name);

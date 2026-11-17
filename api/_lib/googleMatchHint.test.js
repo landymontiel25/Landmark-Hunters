@@ -9,7 +9,7 @@ describe('googleMatchFor', () => {
     expect(googleMatchFor('abacos', 'nippers', 'Somewhere else')).toBeNull();
   });
   it('is null for a landmark without one', () => {
-    expect(googleMatchFor('abacos', 'tahiti-beach', 'Tahiti Beach')).toBeNull();
+    expect(googleMatchFor('abacos', 'gillam-bay', 'Gillam Bay')).toBeNull();
     expect(googleMatchFor('miami', 'nope', 'Nope')).toBeNull();
   });
 });

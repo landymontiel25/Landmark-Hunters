@@ -49,4 +49,32 @@ describe('catalogGooglePlaceId', () => {
     expect(await catalogGooglePlaceId({ ...art, lat: NaN }, deps())).toBeNull();
     await expect(catalogGooglePlaceId(art, deps({ search: vi.fn(async () => { throw new Error('google search 503'); }) }))).rejects.toThrow('503');
   });
+
+  describe('a landmark with its own Google name (googleMatch)', () => {
+    const nippers = { region: 'abacos', id: 'nippers', name: 'Nippers', lat: 26.6784722, lng: -77.1284836, categories: ['food'] };
+    const hit = { id: 'ChIJnip', name: "Nipper's Beach Bar & Grill", lat: 26.69, lng: -77.135 }; // ~1.4 km off the island point
+
+    it('searches that name and accepts a match within its distance', async () => {
+      const d = deps({ search: vi.fn(async () => [hit]) });
+      expect(await catalogGooglePlaceId(nippers, d)).toBe('ChIJnip');
+      expect(d.search.mock.calls[0][0].name).toBe("Nipper's Beach Bar & Grill");
+      expect(d.write).toHaveBeenCalledWith('abacos__nippers', expect.objectContaining({ status: 'ok', placeId: 'ChIJnip', hinted: true }));
+    });
+
+    it('searches again past a "no match" saved before it had that name', async () => {
+      const d = deps({ read: vi.fn(async () => ({ status: 'no-match', verifiedAt: { toMillis: () => Date.now() } })), search: vi.fn(async () => [hit]) });
+      expect(await catalogGooglePlaceId(nippers, d)).toBe('ChIJnip');
+    });
+
+    it('keeps a "no match" found with that name', async () => {
+      const d = deps({ read: vi.fn(async () => ({ status: 'no-match', hinted: true, verifiedAt: { toMillis: () => Date.now() } })) });
+      expect(await catalogGooglePlaceId(nippers, d)).toBeNull();
+      expect(d.search).not.toHaveBeenCalled();
+    });
+
+    it('turns down a same-name place too far away', async () => {
+      const d = deps({ search: vi.fn(async () => [{ ...hit, lat: 26.8 }]) });
+      expect(await catalogGooglePlaceId(nippers, d)).toBeNull();
+    });
+  });
 });

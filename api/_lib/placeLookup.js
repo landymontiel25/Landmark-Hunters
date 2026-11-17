@@ -105,12 +105,13 @@ export async function readPlaceId(key) {
   }
 }
 
-export async function writePlaceId(key, { status, placeId, matchedName, lat, lng }) {
+export async function writePlaceId(key, { status, placeId, matchedName, lat, lng, hinted = false }) {
   const ref = placeIdDoc(key);
   if (!ref) return;
   try {
-    // Exactly these fields; never photo names, URIs or bytes.
-    await withTimeout(ref.set({ placeId, matchedName, lat, lng, verifiedAt: FieldValue.serverTimestamp(), source: 'text-search', status }));
+    // Exactly these fields; never photo names, URIs or bytes. `hinted`: found
+    // with the landmark's own Google name (googleMatchHint.js).
+    await withTimeout(ref.set({ placeId, matchedName, lat, lng, verifiedAt: FieldValue.serverTimestamp(), source: 'text-search', status, ...(hinted ? { hinted: true } : {}) }));
   } catch (e) {
     console.warn(`place-photo: place-ID cache write failed for ${key}: ${e?.message || e}`);
   }
