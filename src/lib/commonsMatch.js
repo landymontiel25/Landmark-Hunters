@@ -88,7 +88,9 @@ export function resultFor(landmark, best) {
     ...base,
     status: 'found',
     fileTitle: c.title,
-    imageUrl: `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g, '_'))}?width=1200`,
+    // encodeURIComponent leaves ' alone; it would break the quoted image
+    // strings in the landmark files, so it's encoded too.
+    imageUrl: `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g, '_')).replace(/'/g, '%27')}?width=1200`,
     pageUrl: c.pageUrl,
     author: c.author,
     license: c.license,

@@ -2168,7 +2168,7 @@ export const SANFRANCISCO_LANDMARKS = [
     cost: "$",
     neighborhood: "Union Square",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Corgi_Cafe_at_Church_and_Market.jpg?width=1200'],
     name: "Corgi Cafe",
     region: 'san-francisco',
     lat: 37.789948,

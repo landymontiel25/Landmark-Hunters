@@ -7,7 +7,7 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "airports",
-    "file": "places/miami/airports.bd1d7184d4.json",
+    "file": "places/miami/airports.df23a75ee3.json",
     "count": 2
   },
   {
@@ -19,25 +19,25 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "entertainment",
-    "file": "places/miami/entertainment.d0f9e8ae36.json",
+    "file": "places/miami/entertainment.37ed419f97.json",
     "count": 22
   },
   {
     "region": "miami",
     "category": "history-culture",
-    "file": "places/miami/history-culture.b06dddfe85.json",
+    "file": "places/miami/history-culture.3274fed454.json",
     "count": 33
   },
   {
     "region": "miami",
     "category": "local-life",
-    "file": "places/miami/local-life.38e174757b.json",
+    "file": "places/miami/local-life.a360bb4768.json",
     "count": 99
   },
   {
     "region": "miami",
     "category": "parks-nature",
-    "file": "places/miami/parks-nature.d53c82acd0.json",
+    "file": "places/miami/parks-nature.2ef45077ad.json",
     "count": 142
   },
   {
@@ -55,19 +55,19 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "food",
-    "file": "places/miami/food.351b034c73.json",
+    "file": "places/miami/food.7178a40e46.json",
     "count": 554
   },
   {
     "region": "philly",
     "category": "art-museums",
-    "file": "places/philly/art-museums.2a1342114d.json",
+    "file": "places/philly/art-museums.10214b808e.json",
     "count": 108
   },
   {
     "region": "philly",
     "category": "entertainment",
-    "file": "places/philly/entertainment.a668f7b176.json",
+    "file": "places/philly/entertainment.bd03da3cfe.json",
     "count": 59
   },
   {
@@ -79,13 +79,13 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "history-culture",
-    "file": "places/philly/history-culture.d0c9758686.json",
+    "file": "places/philly/history-culture.f240986804.json",
     "count": 137
   },
   {
     "region": "philly",
     "category": "local-life",
-    "file": "places/philly/local-life.9464dbbf0c.json",
+    "file": "places/philly/local-life.559e6a1cb2.json",
     "count": 305
   },
   {
@@ -97,7 +97,7 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "parks-nature",
-    "file": "places/philly/parks-nature.61eb68fb32.json",
+    "file": "places/philly/parks-nature.0d22057e7d.json",
     "count": 123
   },
   {
@@ -127,7 +127,7 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "food",
-    "file": "places/philly/food.db65418cca.json",
+    "file": "places/philly/food.eaf5857f23.json",
     "count": 157
   },
   {
@@ -139,7 +139,7 @@ export const PLACE_PACKS = [
   {
     "region": "silicon-valley",
     "category": "art-museums",
-    "file": "places/silicon-valley/art-museums.453fed0a30.json",
+    "file": "places/silicon-valley/art-museums.6ad0371bf7.json",
     "count": 11
   },
   {
@@ -151,37 +151,37 @@ export const PLACE_PACKS = [
   {
     "region": "silicon-valley",
     "category": "food",
-    "file": "places/silicon-valley/food.15d648c976.json",
+    "file": "places/silicon-valley/food.de9d90cc60.json",
     "count": 63
   },
   {
     "region": "silicon-valley",
     "category": "local-life",
-    "file": "places/silicon-valley/local-life.fafffff048.json",
+    "file": "places/silicon-valley/local-life.be2d7de5b9.json",
     "count": 21
   },
   {
     "region": "silicon-valley",
     "category": "parks-nature",
-    "file": "places/silicon-valley/parks-nature.ca8685c5fd.json",
+    "file": "places/silicon-valley/parks-nature.5cd93d664c.json",
     "count": 16
   },
   {
     "region": "san-francisco",
     "category": "art-museums",
-    "file": "places/san-francisco/art-museums.124f4bb10b.json",
+    "file": "places/san-francisco/art-museums.908de7e814.json",
     "count": 17
   },
   {
     "region": "san-francisco",
     "category": "entertainment",
-    "file": "places/san-francisco/entertainment.cab6499ab0.json",
+    "file": "places/san-francisco/entertainment.d6d6e12fa0.json",
     "count": 13
   },
   {
     "region": "san-francisco",
     "category": "food",
-    "file": "places/san-francisco/food.d99a6d95e1.json",
+    "file": "places/san-francisco/food.ffe7d544c9.json",
     "count": 211
   },
   {
@@ -193,13 +193,13 @@ export const PLACE_PACKS = [
   {
     "region": "san-francisco",
     "category": "local-life",
-    "file": "places/san-francisco/local-life.97360f7645.json",
+    "file": "places/san-francisco/local-life.58ccd9c57a.json",
     "count": 77
   },
   {
     "region": "san-francisco",
     "category": "parks-nature",
-    "file": "places/san-francisco/parks-nature.97420f71be.json",
+    "file": "places/san-francisco/parks-nature.dcc5084acd.json",
     "count": 15
   }
 ];

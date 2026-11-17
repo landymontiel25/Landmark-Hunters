@@ -25,6 +25,32 @@ const AREA = regionFromArgs(args).area;
 const placesArg = args.indexOf('--places');
 const placesFile = placesArg >= 0 ? args.splice(placesArg, 2)[1] : null;
 const outDir = args[0] || 'out';
+// Catalog landmarks get the same location guard as imported places
+// (owner, 2026-11-16): a file matched by its title alone must also name the
+// landmark's area, or be geotagged within 150 m. Without it "Campus Corner"
+// (Villanova) took a photo of Campus Corner in Norman, Oklahoma, and
+// Villanova's halls took Harvard's and Seattle's. Text is normalized
+// (lowercase, no accents or punctuation) before it's tested.
+const PHILLY_AREA = /\b(philadelphia|philly|villanova|radnor|wayne|rosemont|bryn mawr|haverford|ardmore|narberth|wynnewood|merion|conshohocken|manayunk|roxborough|east falls|fishtown|kensington|northern liberties|old city|society hill|center city|rittenhouse|fairmount|university city|south philly|passyunk|delaware county|montgomery county|main line)\b/;
+const CATALOG_AREA = {
+  miami: /\b(miami|coral gables|key biscayne|coconut grove|little havana|wynwood|brickell|south beach|virginia key|pinecrest|doral|hialeah|westchester|kendall|sweetwater|dade|biscayne|surfside|bal harbour|aventura|north miami|homestead)\b/,
+  'san-francisco': /\b(san francisco|sf|mission district|north beach|chinatown|soma|hayes valley|castro|haight|richmond district|sunset district|marina|pacific heights|nob hill|russian hill|dogpatch|jackson square|presidio|golden gate park|embarcadero|fishermans wharf|noe valley|bernal heights|potrero hill|japantown|mission bay)\b/,
+  'silicon-valley': /\b(palo alto|menlo park|atherton|woodside|portola valley|los altos|mountain view|sunnyvale|cupertino|santa clara|san jose|stanford|silicon valley)\b/,
+  philly: PHILLY_AREA,
+  villanova: PHILLY_AREA,
+  nyc: /\b(new york|nyc|manhattan|brooklyn|queens|bronx|staten island|harlem)\b/,
+  'cape-town': /\b(cape town|western cape|table mountain|south africa)\b/,
+  madrid: /\b(madrid)\b/,
+  'el-escorial': /\b(escorial|san lorenzo)\b/,
+  aranjuez: /\b(aranjuez)\b/,
+  milan: /\b(milan|milano|monza|lombardy|lombardia)\b/,
+  'lake-como': /\b(como|lago di como|bellagio|varenna|menaggio|tremezzo|cernobbio|lecco)\b/,
+  frankfurt: /\b(frankfurt)\b/,
+  paris: /\b(paris)\b/,
+  switzerland: /\b(switzerland|schweiz|suisse|svizzera|kandersteg|bern|zurich|geneve|geneva|genf|basel|luzern|lucerne|interlaken|zermatt|lausanne)\b/,
+};
+// No area words (Formula 1 circuits are worldwide): only a nearby geotag counts.
+const NOWHERE = /(?!)/;
 fs.mkdirSync(outDir, { recursive: true });
 const outFile = path.join(outDir, 'commons.found.json');
 const API = 'https://commons.wikimedia.org/w/api.php';
@@ -98,7 +124,7 @@ async function findOne(l) {
   try {
     const cands = await candidatesFor(l);
     const scored = cands
-      .filter((c) => !placesFile || localEnough(l, c.candidate, c.near, AREA))
+      .filter((c) => localEnough(l, c.candidate, c.near, placesFile ? AREA : CATALOG_AREA[l.region] || NOWHERE))
       .map((c) => ({ candidate: c.candidate, near: c.near != null && c.near <= 150, score: scoreCandidate(l, c.candidate, c.near) }));
     result = resultFor(l, pickBest(l, scored));
     if (result.status === 'found') result.near = undefined;

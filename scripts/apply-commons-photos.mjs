@@ -56,7 +56,8 @@ let edited = 0;
 for (const [f, list] of byFile) {
   let src = fs.readFileSync(f, 'utf8');
   for (const a of list) {
-    const idLine = new RegExp(`^(\\s*)id: ['"]${a.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"],\\n`, 'm');
+    // An id line may end in a comment: id: 'wolfsonian-fiu', // rank 21
+    const idLine = new RegExp(`^(\\s*)id: ['"]${a.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"],[^\\n]*\\n`, 'm');
     const m = idLine.exec(src);
     if (!m) { rejected.push(`${a.regionId}/${a.id}: id line not found in ${path.basename(f)}`); continue; }
     const start = m.index + m[0].length;
