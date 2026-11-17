@@ -40,7 +40,7 @@ describe('the Test tab moods against the real catalog', () => {
     const pool = ALL_LANDMARKS.map((l) => ({ ...l, distanceMeters: 1 }));
     const eat = moodPlaces({ moodId: 'eat', pool, moods: TEST_MOODS, limit: 10000 });
     expect(eat.length).toBeGreaterThan(50);
-    const restaurants = new Set(['hotel-ristorante-la-darsena', 'derby-grill-monza', 'alpine-inn-zotts-rossottis']);
+    const restaurants = new Set(['hotel-ristorante-la-darsena', 'derby-grill-monza', 'alpine-inn-zotts-rossottis', 'hope-town-inn-marina', 'abaco-inn']);
     expect(eat.filter((p) => /hilton|hyatt|\bhotel\b|\binn\b/i.test(p.name) && !restaurants.has(p.id)).map((p) => p.name)).toEqual([]);
   });
 });

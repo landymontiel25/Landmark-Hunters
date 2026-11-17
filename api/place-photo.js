@@ -3,6 +3,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { withCors } from './_lib/cors.js';
 import { timeoutSignal, isTimeoutError } from './_lib/upstream.js';
 import { PLACE_ID_NO_MATCH_RETRY_MS, PLACE_ID_REFRESH_MS } from './_lib/placeIdConstants.js';
+import { googleMatchFor } from './_lib/googleMatchHint.js';
 import {
   normalizeName,
   namesMatch,
@@ -116,7 +117,8 @@ async function handler(req, res) {
 
     if (!placeId) {
       step = 'search';
-      const found = await textSearchMatch(name, lat, lng, apiKey);
+      const hint = googleMatchFor(req.query?.region, req.query?.id, name);
+      const found = await textSearchMatch(name, lat, lng, apiKey, hint);
       if (found.error) {
         logFailure('search', `Google status ${found.status}`, cacheKey);
         fail();
@@ -130,7 +132,10 @@ async function handler(req, res) {
       placeId = found.match.id || null;
       photo = found.match.photos[0];
       if (cacheKey && placeId) {
-        await writePlaceId(cacheKey, { status: 'ok', placeId, matchedName: String(found.match.displayName?.text || '').slice(0, 200), lat, lng });
+        // A hinted match is stored under the catalog name, so the next view
+        // trusts it (sameLandmark compares names).
+        const matchedName = hint ? name : String(found.match.displayName?.text || '');
+        await writePlaceId(cacheKey, { status: 'ok', placeId, matchedName: matchedName.slice(0, 200), lat, lng });
       }
     }
 

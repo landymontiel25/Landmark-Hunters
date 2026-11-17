@@ -5,6 +5,7 @@ import { EL_ESCORIAL_LANDMARKS } from './landmarks.elescorial.js';
 import { ARANJUEZ_LANDMARKS } from './landmarks.aranjuez.js';
 import { MILAN_LANDMARKS } from './landmarks.milan.js';
 import { LAKE_COMO_LANDMARKS } from './landmarks.lakecomo.js';
+import { ABACOS_LANDMARKS } from './landmarks.abacos.js';
 import { PHILLY_LANDMARKS } from './landmarks.philly.js';
 import { VILLANOVA_LANDMARKS } from './landmarks.villanova.js';
 import { FRANKFURT_LANDMARKS } from './landmarks.frankfurt.js';
@@ -142,6 +143,18 @@ export const REGIONS = [
     center: { lat: 45.93, lng: 9.15 },
     viewbox: { minLat: 45.78, minLng: 9.0, maxLat: 46.05, maxLng: 9.35 },
     landmarks: LAKE_COMO_LANDMARKS,
+  },
+  {
+    id: 'abacos',
+    name: 'Abacos',
+    tagline: 'Loyalist villages, lighthouses & island-hopping cays',
+    city: 'Abacos',
+    state: 'Abaco Islands',
+    country: 'Bahamas',
+    searchNames: ['Abaco', 'Hope Town', 'Elbow Cay', 'Man-O-War Cay', 'Great Guana Cay', 'Green Turtle Cay', 'New Plymouth'],
+    center: { lat: 26.65, lng: -77.2 },
+    viewbox: { minLat: 26.35, minLng: -77.55, maxLat: 26.95, maxLng: -76.9 },
+    landmarks: ABACOS_LANDMARKS,
   },
   {
     id: 'philly',

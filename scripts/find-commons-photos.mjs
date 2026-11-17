@@ -45,6 +45,7 @@ const CATALOG_AREA = {
   aranjuez: /\b(aranjuez)\b/,
   milan: /\b(milan|milano|monza|lombardy|lombardia)\b/,
   'lake-como': /\b(como|lago di como|bellagio|varenna|menaggio|tremezzo|cernobbio|lecco)\b/,
+  abacos: /\b(abaco|abacos|hope town|elbow cay|man o war|guana|green turtle|new plymouth|marsh harbour|bahamas)\b/,
   frankfurt: /\b(frankfurt)\b/,
   paris: /\b(paris)\b/,
   switzerland: /\b(switzerland|schweiz|suisse|svizzera|kandersteg|bern|zurich|geneve|geneva|genf|basel|luzern|lucerne|interlaken|zermatt|lausanne)\b/,

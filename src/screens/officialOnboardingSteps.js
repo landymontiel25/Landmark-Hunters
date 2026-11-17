@@ -59,6 +59,7 @@ export const CITIES = [
   { id: 'philly', label: 'Villanova / Philly', regions: ['villanova', 'philly'] },
   { id: 'milan', label: 'Milan / Monza', regions: ['milan'] },
   { id: 'lake-como', label: 'Lake Como', regions: ['lake-como'] },
+  { id: 'abacos', label: 'Abacos', regions: ['abacos'] },
 ];
 const LISTED = new Set(CITIES.flatMap((c) => c.regions));
 export const OTHER_CITIES = PICKABLE_REGIONS.filter((r) => !LISTED.has(r.id)).map((r) => ({ id: r.id, label: r.city || r.name, regions: [r.id] }));

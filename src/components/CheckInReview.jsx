@@ -22,6 +22,7 @@ import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
 import { presenceLabel } from '../lib/presence';
+import MissionPanel from './MissionPanel';
 
 // Pops up the moment "Check In" is tapped -- nothing is claimed yet. Tapping
 // Post is what actually registers the check-in (via commitCheckIn) and awards
@@ -63,6 +64,8 @@ export default function CheckInReview() {
   // you picked (rating, comment, photos) stays in the form.
   const [postError, setPostError] = useState(null);
   const [posted, setPosted] = useState(false);
+  // When this check-in posted: a photo mission must be taken after it.
+  const [postedAt, setPostedAt] = useState(null);
   // The full-screen blast shows the instant a check-in posts, then hands
   // off to the quieter "Checked in!" panel below (with "+N pts" only when
   // this check-in paid: the account's first one ever).
@@ -196,6 +199,7 @@ export default function CheckInReview() {
     // as a small note under the already-posted success panel, it never
     // delays or reads as "check-in failed" when it actually succeeded.
     setPosted(true);
+    setPostedAt(Date.now());
     setBlast(!ratingOnly);
     setSaving(false);
     const thisCheckIn = justCheckedIn;
@@ -305,6 +309,8 @@ export default function CheckInReview() {
                 {msg}
               </p>
             )}
+            {/* The place's mission (the Abacos), unlocked now that the check-in posted. */}
+            {!ratingOnly && <MissionPanel key={justCheckedIn.id} landmark={justCheckedIn.landmark || justCheckedIn} checkedInAt={postedAt} />}
             {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
             {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere !== true && tipState !== 'done' && (
               <div style={{ marginTop: 12 }}>
