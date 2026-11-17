@@ -294,6 +294,8 @@ const LandmarkRow = memo(function LandmarkRow({
           <AdmissionTag landmark={l} short />
           {distanceText && <span className="tag distance-tag">{distanceText} away</span>}
         </div>
+        {/* What it is, right above the ratings (the Abacos, owner 2026-11-16). */}
+        {l.whatItIs && <p className="lr-desc">{l.whatItIs}</p>}
         <div className="lr-meta lr-rate-row">
           <QuickRateButton landmark={l} />
           {/* Signed out the endpoint answers nothing, so the card skips the call. */}

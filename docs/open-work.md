@@ -3,6 +3,46 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## The Abacos, Bahamas, and landmark missions (2026-11-16)
+
+Done. A new city, `abacos` (`src/data/landmarks.abacos.js`), with the owner's
+30 places in the owner's order: "What it is" as the summary (and the
+Landmarks card's line above the ratings, `whatItIs`), 3 facts each with
+`factSources`, OSM coordinates (Nominatim, 2026-11-16), and a `mission` on
+every place. Wired into REGIONS, the time zones (America/Nassau), the map
+search areas, Official Onboarding's city picker and the Commons finder's
+area words. 8 places have stored Commons photos, picked and checked by
+eye (the photo of Joe's Studio is of Joe Albury's own dinghies); the rest use
+the Google photo, preloaded like every other place.
+
+Missions (`src/lib/missions.js`, `src/components/MissionPanel.jsx`):
+- Trivia (4 places): after the check-in posts, the owner's line, the
+  question and four answers. `api/mission-answer.js` checks the answer
+  against the catalog, needs a real check-in there, takes one answer per
+  account and place (`mission_answers`, server-only), and pays +10 for the
+  right one the same way the landmark bonus pays (`bonusPoints` plus the
+  leaderboards).
+- Photo (26 places): the camera only, then `lib/missionPhoto.js` checks
+  the photo's EXIF GPS and time (`lib/exif.js`); when the phone strips them
+  (iPhone does for web uploads) it uses the live GPS fix and the moment the
+  camera closed. Inside the check-in radius, after the check-in, same day.
+
+Left to do:
+- Six places OSM doesn't map (Nippers, Grabbers, Great Guana Cay's
+  Atlantic beach and settlement, Albert Lowe Museum, Coco Bay) sit on the
+  nearest OSM point (the Great Guana Cay island point, New Plymouth, the
+  Green Turtle Club) with a bigger check-in radius. Overpass was down on
+  every mirror. Once they're in OSM, move them to their own points and
+  shrink the radius. Their Google photo and rating come from a
+  `googleMatch: { name, withinMeters }` hint (`api/_lib/googleMatchHint.js`).
+- Photo missions are checked on the phone and kept on the device
+  (`lh.missions.<uid>`), and they pay no points. A server check (the photo
+  bonus pipeline) would be the next step.
+- The trivia answers ship in the app bundle (the server is the one that
+  pays, once per account).
+- The Wyannie Malone museum may still be closed after Hurricane Dorian;
+  nothing on the card says so.
+
 ## Hybrid photos: Wikimedia stored first, Google for everyone (2026-11-16)
 
 PR #880 opened Google's photo backup to signed-out visitors (120 per IP per

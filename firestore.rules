@@ -259,6 +259,12 @@ service cloud.firestore {
       allow read: if request.auth != null && resource.data.userId == request.auth.uid;
       allow write: if false;
     }
+    // Trivia mission answers (api/_lib/missionAnswer.js): one per account
+    // and place, written by the server with the +10 it paid.
+    match /mission_answers/{id} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
     // Photos already checked for a place (photoCheck.js), never re-checked.
     match /photo_bonus_checks/{id} {
       allow read, write: if false;

@@ -3,6 +3,8 @@ import { searchGoogleText } from './customRatingMatch.js';
 import { readPlaceId, writePlaceId, placeIdKey, isFresh } from './placeLookup.js';
 import { PLACE_ID_NO_MATCH_RETRY_MS } from './placeIdConstants.js';
 import { placeTypeFor } from '../../src/lib/presence.js';
+import { googleMatchFor } from './googleMatchHint.js';
+import { distanceMeters, namesMatch } from './placeLookup.js';
 
 // Google ratings for every catalog landmark (owner, 2026-10-29: every
 // landmark should have ratings). The hand-picked and imported places get
@@ -33,8 +35,16 @@ export async function catalogGooglePlaceId(
   if (typeof name !== 'string' || !name.trim() || !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
 
   const landmark = { name: name.trim().slice(0, 200), lat, lng, categories };
-  const match = classifyMatch(landmark, await search(landmark));
+  const hint = googleMatchFor(region, id, landmark.name);
   let found = null;
+  if (hint) {
+    // googleMatchHint.js: the landmark names its Google listing.
+    const hits = await search({ ...landmark, name: hint.name });
+    found = hits.find((c) => Number.isFinite(c.lat) && distanceMeters(lat, lng, c.lat, c.lng) <= hint.withinMeters && namesMatch(hint.name, c.name)) || null;
+    await write(key, found ? { status: 'ok', placeId: String(found.id), matchedName: landmark.name, lat, lng } : { status: 'no-match', placeId: null, matchedName: landmark.name, lat, lng });
+    return found ? String(found.id) : null;
+  }
+  const match = classifyMatch(landmark, await search(landmark));
   if (match.status === 'sure') found = match.candidate || { id: match.id, name: landmark.name };
   else if (match.status === 'review' && REVIEW_NAME_MATCH.test(match.reason || '') && placeTypeFor(landmark) === 'area') {
     found = (match.candidates || []).find((c) => c.nameMatch) || null;

@@ -168,7 +168,11 @@ export async function fetchPlaceDetailsPhotos(placeId, apiKey) {
   return { ok: true, photo: data?.photos?.[0] || null };
 }
 
-export async function textSearchMatch(name, lat, lng, apiKey) {
+// `hint` (googleMatchHint.js): search for the landmark's Google name and
+// accept a match up to `withinMeters` from its pin.
+export async function textSearchMatch(name, lat, lng, apiKey, hint = null) {
+  const query = hint?.name || name;
+  const maxDistance = hint?.withinMeters || MAX_DISTANCE_M;
   const search = await fetch('https://places.googleapis.com/v1/places:searchText', {
     signal: timeoutSignal(),
     method: 'POST',
@@ -179,9 +183,9 @@ export async function textSearchMatch(name, lat, lng, apiKey) {
       'X-Goog-FieldMask': 'places.id,places.displayName,places.location,places.photos',
     },
     body: JSON.stringify({
-      textQuery: name,
+      textQuery: query,
       maxResultCount: 5,
-      locationBias: { circle: { center: { latitude: lat, longitude: lng }, radius: SEARCH_RADIUS_M } },
+      locationBias: { circle: { center: { latitude: lat, longitude: lng }, radius: Math.max(SEARCH_RADIUS_M, maxDistance) } },
     }),
   });
   if (!search.ok) return { error: true, status: search.status };
@@ -190,8 +194,8 @@ export async function textSearchMatch(name, lat, lng, apiKey) {
     (p) =>
       p?.photos?.[0]?.name &&
       p.location &&
-      distanceMeters(lat, lng, p.location.latitude, p.location.longitude) <= MAX_DISTANCE_M &&
-      namesMatch(name, p.displayName?.text)
+      distanceMeters(lat, lng, p.location.latitude, p.location.longitude) <= maxDistance &&
+      namesMatch(query, p.displayName?.text)
   );
   return { match: match || null };
 }

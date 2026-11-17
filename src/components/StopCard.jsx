@@ -8,12 +8,14 @@ import { useLandmarkRatings } from '../lib/useLandmarkRatings';
 import { hasRating } from '../lib/ratingSources';
 import { costLine, descriptionLine, fallbackWhy, timeLine } from '../lib/stopCard';
 import { loadWhyGo, whyKey } from '../lib/whyGoApi';
+import { missionOf } from '../lib/missions';
 
 // One stop on an itinerary (owner, 2026-11-14, 2026-11-15). In this order:
 // a big photo; the name with its Google rating beside it (or "New" when
 // Google has none); a super short description; the buttons (Get directions,
 // Check in; Book now removed, owner 2026-11-16); then "Show more". Show more
 // opens, top first: Free or Needs a ticket, "Time Spent: ~x hr/min",
+// the place's "Mission:" when it has one (the Abacos, owner 2026-11-16),
 // "Why you need to go" (three lines from Mapr, written from the place's
 // own data, api/why-go.js), the place's Google reviews (loaded only when
 // you open it; each lookup is billed), and Remove from trip.
@@ -119,6 +121,12 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
                 <li>{stop.external ? 'Might need a ticket' : costLine(stop)}</li>
                 {time && <li>{time}</li>}
               </ul>
+              {missionOf(stop) && (
+                <section className="it-stop-mission" aria-label="Mission">
+                  <h5>Mission:</h5>
+                  <p>{missionOf(stop).text}</p>
+                </section>
+              )}
               <WhyGo stop={stop} batch={batch} />
               {stop.external
                 ? stop.url && (

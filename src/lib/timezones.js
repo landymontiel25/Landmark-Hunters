@@ -16,6 +16,7 @@ const REGION_TIMEZONES = {
   aranjuez: 'Europe/Madrid',
   milan: 'Europe/Rome',
   'lake-como': 'Europe/Rome',
+  abacos: 'America/Nassau',
   philly: 'America/New_York',
   villanova: 'America/New_York',
   frankfurt: 'Europe/Berlin',

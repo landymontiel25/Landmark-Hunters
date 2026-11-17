@@ -62,6 +62,8 @@ import { friendlyError } from '../lib/friendlyError';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { claimPhotoBonusAndTell, photoButtonLabel, usePhotoBonusOpen } from '../lib/photoBonus';
 import { claimLandmarkBonusAndTell } from '../lib/landmarkBonus';
+import MissionPanel from '../components/MissionPanel';
+import { isRealCheckin } from '../lib/realCheckin';
 import { clearPersisted } from '../lib/usePersistentState';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 
@@ -1103,6 +1105,21 @@ function LandmarkDetailBody() {
           </button>
         )}
       </div>
+      )}
+
+      {/* The place's mission (the Abacos, owner 2026-11-16). It unlocks
+          with today's check-in here: a photo mission is for this visit. */}
+      {landmark.mission && (
+        <div className="section">
+          <MissionPanel
+            key={landmark.id}
+            landmark={{ ...landmark, regionId }}
+            checkedInAt={(() => {
+              const ms = (myCheckin?.createdAt?.seconds ?? NaN) * 1000;
+              return myCheckin && isRealCheckin(myCheckin) && new Date(ms).toDateString() === new Date().toDateString() ? ms : null;
+            })()}
+          />
+        </div>
       )}
 
       {landmark.source === 'osm' && (
