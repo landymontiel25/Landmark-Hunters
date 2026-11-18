@@ -15,7 +15,7 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}), markRead: vi.fn(async () => {}) };
+const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}), markRead: vi.fn(async () => {}), heardFrom: vi.fn(async () => {}) };
 
 // user: { emailVerified }, profile: users/{uid} doc
 async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, isNew, native = false, checkinCount = null, firstCheckin = true } = {}) {
@@ -60,6 +60,7 @@ async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: t
     ),
   }));
   vi.doMock('../components/LocationAlwaysStep', () => ({ default: () => <p>LOCATION STEP</p> }));
+  vi.doMock('../lib/heardFrom', async () => ({ ...(await vi.importActual('../lib/heardFrom')), saveHeardFrom: saved.heardFrom }));
 
   const { default: Onboarding } = await import('./Onboarding.jsx');
   container = document.createElement('div');
@@ -200,6 +201,9 @@ describe('Onboarding: new user', () => {
     expect(el.textContent).not.toContain("You're in!");
     expect(saved.results).not.toHaveBeenCalled();
     await click(button(el, 'RATE LATER'));
+    // Last before the finish: how they heard about the app (Skip here).
+    expect(el.textContent).toContain('How did you hear about Landmark Hunters?');
+    await click(button(el, 'Skip'));
     // Ending the flow without the cards leaves the banner and the bell alert up.
     expect(el.textContent).toContain("You're set for now");
     expect(el.textContent).toContain('skipped the cards');
@@ -254,6 +258,7 @@ describe('Onboarding: optional first check-in', () => {
     await click(button(el, 'RATE DONE'));
     expect(el.textContent).toContain('CHECKIN STEP');
     await click(button(el, 'Skip for now'));
+    await click(button(el, 'Skip'));
     expect(el.textContent).toContain("You're set for now");
   });
 
@@ -270,6 +275,7 @@ describe('Onboarding: optional first check-in', () => {
     const el = await renderFlow({ profile, isNew: true, checkinCount: 3 });
     await click(button(el, 'RATE DONE'));
     expect(el.textContent).not.toContain('CHECKIN STEP');
+    await click(button(el, 'Skip'));
     expect(el.textContent).toContain("You're set for now");
   });
 
@@ -298,5 +304,44 @@ describe('Onboarding: optional first check-in', () => {
       checkinCount: 0,
     });
     expect(el.textContent).toContain('CHECKIN STEP');
+  });
+});
+
+describe('Onboarding: "How did you hear about Landmark Hunters?"', () => {
+  const profile = { onboardingSource: 'signup' };
+  const OPTIONS = ['T.V.', 'Airline', 'Hotel', 'Airport', 'Tour guide', 'Instagram', 'TikTok', 'Friend or family', 'Google search', 'App Store', 'YouTube', 'News article or blog', 'Other'];
+
+  it('comes last, after the other steps, with every answer in order and a Skip', async () => {
+    const el = await renderFlow({ profile, isNew: true, checkinCount: 3 });
+    expect(el.textContent).not.toContain('How did you hear');
+    await click(button(el, 'RATE DONE'));
+    const opts = [...el.querySelectorAll('.heard-from-option')].map((b) => b.textContent);
+    expect(opts).toEqual(OPTIONS);
+    expect(button(el, 'Skip')).toBeTruthy();
+    expect(saved.end).not.toHaveBeenCalled();
+  });
+
+  it('saves the one tap with the account and finishes', async () => {
+    const el = await renderFlow({ profile, isNew: true, checkinCount: 3 });
+    await click(button(el, 'RATE DONE'));
+    await click(button(el, 'Instagram'));
+    expect(saved.heardFrom).toHaveBeenCalledWith('u', 'instagram');
+    expect(el.textContent).toContain("You're set for now");
+  });
+
+  it('never holds up finishing when the save fails', async () => {
+    saved.heardFrom.mockImplementationOnce(async () => {
+      throw new Error('offline');
+    });
+    const el = await renderFlow({ profile, isNew: true, checkinCount: 3 });
+    await click(button(el, 'RATE DONE'));
+    await click(button(el, 'Hotel'));
+    expect(el.textContent).toContain("You're set for now");
+  });
+
+  it('is not asked of an account coming back for the swipe cards', async () => {
+    const el = await renderFlow({ profile: { onboardingVersion: ONBOARDING_VERSION, onboardingProgress: { version: ONBOARDING_VERSION, step: 'rate' } }, isNew: false });
+    await click(button(el, 'RATE DONE'));
+    expect(el.textContent).not.toContain('How did you hear');
   });
 });

@@ -157,6 +157,13 @@ body[data-apple] .map-fullscreen .map-pin.map-pin-checked-in {
   background: #30d158;
   border-color: #fff;
 }
+/* On an island: red until checked in, then green (owner, 2026-11-18). */
+body[data-apple] .map-fullscreen .map-pin.map-pin-island {
+  background: #ff3b30;
+}
+body[data-apple] .map-fullscreen .map-cluster.map-cluster-island {
+  background: #ff3b30;
+}
 body[data-apple] .map-fullscreen .map-pin-wrap {
   width: 30px;
   height: 30px;

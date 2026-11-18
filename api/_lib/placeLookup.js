@@ -44,6 +44,39 @@ export function namesMatch(wanted, found) {
   return shared / setA.size >= 0.8 && shared / setB.size >= 0.8;
 }
 
+// Words that say what kind of place it is, not which one: two places sharing
+// only these are not the same place.
+const GENERIC = new Set([
+  'restaurant', 'restaurants', 'bar', 'bars', 'cafe', 'caffe', 'coffee', 'grill', 'kitchen', 'pub', 'tavern', 'lounge', 'club',
+  'park', 'parks', 'beach', 'garden', 'gardens', 'museum', 'gallery', 'church', 'center', 'centre', 'house', 'hall', 'market',
+  'shop', 'store', 'hotel', 'inn', 'bakery', 'pizza', 'pizzeria', 'tacos', 'taqueria', 'sushi', 'burger', 'burgers', 'bistro',
+  'deli', 'diner', 'brewery', 'brewing', 'company', 'co', 'street', 'st', 'avenue', 'ave', 'road', 'place', 'square', 'plaza',
+  'north', 'south', 'east', 'west', 'new', 'old', 'miami', 'philadelphia', 'san', 'francisco', 'city', 'beach', 'monument',
+  'memorial', 'statue', 'field', 'theater', 'theatre', 'studio', 'bay', 'island', 'key', 'point', 'park',
+]);
+const distinctive = (s) => tokens(s).filter((t) => t.length >= 4 && !GENERIC.has(t));
+
+// The photo lookup's second try (place-photo.js), when the strict match
+// found nothing: the place's distinctive words (not "restaurant", "park"...)
+// are all in Google's name, or the two names share two of them. Only ever
+// used close to the pin (LOOSE_DISTANCE_M), so a same-named place across
+// town never lends its photo.
+export function namesMatchLoose(wanted, found) {
+  if (namesMatch(wanted, found)) return true;
+  const a = new Set(distinctive(wanted));
+  const b = new Set(distinctive(found));
+  if (!a.size || !b.size) return false;
+  const shared = [...a].filter((t) => b.has(t)).length;
+  const small = Math.min(a.size, b.size);
+  return shared >= 2 || (shared === small && shared >= 1 && (a.size === 1 ? [...a][0].length >= 5 : true));
+}
+export const LOOSE_DISTANCE_M = 600;
+
+// A photo "no match" saved before the loose second try existed says nothing
+// about it, so only no-match docs with this version (or a hinted one) are
+// trusted; older ones are searched again once (owner, 2026-11-18).
+export const NO_MATCH_VERSION = 2;
+
 export const distanceMeters = haversineMeters;
 
 export function safeUri(uri) {
@@ -105,13 +138,13 @@ export async function readPlaceId(key) {
   }
 }
 
-export async function writePlaceId(key, { status, placeId, matchedName, lat, lng, hinted = false }) {
+export async function writePlaceId(key, { status, placeId, matchedName, lat, lng, hinted = false, v = null }) {
   const ref = placeIdDoc(key);
   if (!ref) return;
   try {
     // Exactly these fields; never photo names, URIs or bytes. `hinted`: found
     // with the landmark's own Google name (googleMatchHint.js).
-    await withTimeout(ref.set({ placeId, matchedName, lat, lng, verifiedAt: FieldValue.serverTimestamp(), source: 'text-search', status, ...(hinted ? { hinted: true } : {}) }));
+    await withTimeout(ref.set({ placeId, matchedName, lat, lng, verifiedAt: FieldValue.serverTimestamp(), source: 'text-search', status, ...(hinted ? { hinted: true } : {}), ...(v ? { v } : {}) }));
   } catch (e) {
     console.warn(`place-photo: place-ID cache write failed for ${key}: ${e?.message || e}`);
   }
@@ -170,7 +203,8 @@ export async function fetchPlaceDetailsPhotos(placeId, apiKey) {
 }
 
 // `hint` (googleMatchHint.js): search for the landmark's Google name and
-// accept a match up to `withinMeters` from its pin.
+// accept a match up to `withinMeters` from its pin. `hint.loose`: the photo
+// lookup's second try, with namesMatchLoose.
 export async function textSearchMatch(name, lat, lng, apiKey, hint = null) {
   const query = hint?.name || name;
   const maxDistance = hint?.withinMeters || MAX_DISTANCE_M;
@@ -196,7 +230,7 @@ export async function textSearchMatch(name, lat, lng, apiKey, hint = null) {
       p?.photos?.[0]?.name &&
       p.location &&
       distanceMeters(lat, lng, p.location.latitude, p.location.longitude) <= maxDistance &&
-      namesMatch(query, p.displayName?.text)
+      (hint?.loose ? namesMatchLoose(query, p.displayName?.text) : namesMatch(query, p.displayName?.text))
   );
   return { match: match || null };
 }

@@ -28,6 +28,7 @@ import OnboardingRateStep from '../components/OnboardingRateStep';
 import OnboardingCheckinStep from '../components/OnboardingCheckinStep';
 import LocationAlwaysStep from '../components/LocationAlwaysStep';
 import ErrorNotice from '../components/ErrorNotice';
+import { HEARD_FROM, saveHeardFrom } from '../lib/heardFrom';
 import { SkeletonList } from '../components/Skeleton';
 
 // The real onboarding flow, run right after sign-up (Profile shows it once
@@ -56,6 +57,7 @@ import { SkeletonList } from '../components/Skeleton';
 const RATE_STEP = 'rate';
 const CHECKIN_STEP = 'checkin';
 const CARD_STEPS = ['prompt', 'howto', 'cards', 'notes'];
+const HEARD_STEP = 'heard';
 
 function buildSteps({ isNew, verified, withCards, needsCheckIn }) {
   return [
@@ -67,6 +69,8 @@ function buildSteps({ isNew, verified, withCards, needsCheckIn }) {
     // web fallback); in a browser the button could only ever fail with an error
     // about iOS Settings, a dead end right before the finish.
     ...(isNew && Capacitor.isNativePlatform() ? ['location'] : []),
+    // "How did you hear about us?": last, after sign-up, one tap or Skip.
+    ...(isNew ? [HEARD_STEP] : []),
     'done',
   ];
 }
@@ -138,7 +142,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate, reload }) {
   const steps = buildSteps({ isNew, verified, withCards, needsCheckIn });
   // A saved or in-flight step that no longer applies (email just verified)
   // falls forward to the next one that does.
-  const ORDER = ['verify', 'prompt', 'howto', 'cards', 'notes', RATE_STEP, CHECKIN_STEP, 'location', 'done'];
+  const ORDER = ['verify', 'prompt', 'howto', 'cards', 'notes', RATE_STEP, CHECKIN_STEP, 'location', HEARD_STEP, 'done'];
   // The email step is a gate: nothing else shows until the address is verified.
   const current =
     steps[0] === 'verify'
@@ -281,6 +285,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate, reload }) {
   }
   if (current === CHECKIN_STEP) return <OnboardingCheckinStep onDone={() => next()} />;
   if (current === 'location') return <LocationAlwaysStep onDone={() => next()} />;
+  if (current === HEARD_STEP) return <HeardFromStep uid={user.uid} onDone={() => next()} />;
 
   return (
     <div className="lab-center nav-clear">
@@ -361,6 +366,32 @@ function VerifyEmail({ email, resend, refresh }) {
         onClick={() => run(resend, 'Sent. Check your inbox.')}
       >
         Resend the email
+      </button>
+    </div>
+  );
+}
+
+// "How did you hear about Landmark Hunters?" One tap saves it and moves on;
+// Skip just moves on. The save never holds up the finish: it runs in the
+// background and a failed one is dropped.
+function HeardFromStep({ uid, onDone }) {
+  const pick = (id) => {
+    saveHeardFrom(uid, id).catch(() => {});
+    onDone();
+  };
+  return (
+    <div className="lab-center nav-clear heard-from">
+      <h1 className="screen-title">How did you hear about Landmark Hunters?</h1>
+      <p className="screen-subtitle">One tap. It's optional.</p>
+      <div className="chip-grid heard-from-options" role="group" aria-label="How did you hear about Landmark Hunters?">
+        {HEARD_FROM.map((o) => (
+          <button key={o.id} type="button" className="chip heard-from-option" onClick={() => pick(o.id)}>
+            <span>{o.label}</span>
+          </button>
+        ))}
+      </div>
+      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 14 }} onClick={onDone}>
+        Skip
       </button>
     </div>
   );

@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePageRatings, ratingKey } from '../lib/usePageRatings';
 import { useTopRatings, TOP_RANK_MAX } from '../lib/useTopRatings';
-import { prefetchPlacePhotos } from '../lib/placePhoto';
+import { peekPlacePhoto, prefetchPlacePhotos } from '../lib/placePhoto';
 import { reorderByReviews } from '../lib/topRated';
 import { RATINGS_FLAGS } from '../lib/ratingSources';
 import { topLandmarksOrder, isRestaurantOrMall } from '../lib/topRated';
@@ -250,15 +250,22 @@ const LandmarkRow = memo(function LandmarkRow({
   return (
     <div className={`landmark-row lm-card ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
       <div className="lm-card-photo">
-        {photo || l.images?.[0] ? (
-          <button type="button" className="lr-thumb-btn" onClick={() => onOpenPhoto({ src: photo || l.images[0], alt: l.name })} aria-label={`View photo of ${l.name}`}>
-            {thumb}
-          </button>
-        ) : (
-          // No photo to enlarge: the tile opens the place, like the rest of
-          // the row; only the gold circle adds it (owner, 2026-11-14).
-          <div onClick={() => onInfo(l)}>{thumb}</div>
-        )}
+        {/* Tap the photo for it full-screen, pinch to zoom (owner,
+            2026-11-18). A Google photo opens too, with its credit; only a
+            place with no photo at all opens its page instead. */}
+        <button
+          type="button"
+          className="lr-thumb-btn"
+          onClick={() => {
+            const google = !photo && !l.images?.[0] ? peekPlacePhoto(l) : null;
+            const src = photo || l.images?.[0] || google?.url;
+            if (src) onOpenPhoto({ src, alt: l.name, credit: google || null });
+            else onInfo(l);
+          }}
+          aria-label={`View photo of ${l.name}`}
+        >
+          {thumb}
+        </button>
         <div
           className="check-circle lm-card-check"
           role="checkbox"
@@ -298,6 +305,23 @@ const LandmarkRow = memo(function LandmarkRow({
         {l.whatItIs && <p className="lr-desc">{l.whatItIs}</p>}
         <div className="lr-meta lr-rate-row">
           <QuickRateButton landmark={l} />
+          {/* Info, in the space between Rate and the + (owner, 2026-11-18):
+              opens the place's full page. */}
+          <button
+            type="button"
+            className="lm-card-info"
+            aria-label={`Info for ${l.name}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onInfo(l);
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9.25" />
+              <path d="M12 11v5.5" />
+              <circle cx="12" cy="7.6" r="0.6" fill="currentColor" stroke="none" />
+            </svg>
+          </button>
           {/* Signed out the endpoint answers nothing, so the card skips the call. */}
           {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} fetchOwn={false} />}
         </div>
@@ -1134,7 +1158,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
           </div>
         </>
       )}
-      <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
+      <Lightbox src={lightbox?.src} alt={lightbox?.alt} credit={lightbox?.credit} onClose={() => setLightbox(null)} />
     </div>
   );
 }

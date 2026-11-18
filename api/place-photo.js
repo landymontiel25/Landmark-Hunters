@@ -17,6 +17,8 @@ import {
   logFailure,
   fetchPlaceDetailsPhotos,
   textSearchMatch,
+  LOOSE_DISTANCE_M,
+  NO_MATCH_VERSION,
 } from './_lib/placeLookup.js';
 
 // Runtime photo fallback for landmarks that have no image of their own.
@@ -95,7 +97,8 @@ async function handler(req, res) {
 
     // A "no match" from before the landmark had its Google name
     // (googleMatchHint.js) says nothing about that name: search again.
-    if (trusted && cached.status === 'no-match' && (!hint || cached.hinted) && isFresh(cached, PLACE_ID_NO_MATCH_RETRY_MS)) {
+    // Likewise one from before the loose second try (NO_MATCH_VERSION).
+    if (trusted && cached.status === 'no-match' && (hint ? cached.hinted : cached.hinted || cached.v >= NO_MATCH_VERSION) && isFresh(cached, PLACE_ID_NO_MATCH_RETRY_MS)) {
       noPhoto();
       return;
     }
@@ -120,14 +123,26 @@ async function handler(req, res) {
 
     if (!placeId) {
       step = 'search';
-      const found = await textSearchMatch(name, lat, lng, apiKey, hint);
+      let found = await textSearchMatch(name, lat, lng, apiKey, hint);
       if (found.error) {
         logFailure('search', `Google status ${found.status}`, cacheKey);
         fail();
         return;
       }
+      // Nothing strict: one looser try close to the pin, so a place whose
+      // Google name adds or drops a word ("Morgan's" / "Morgans Restaurant")
+      // still gets its photo (owner, 2026-11-18: every landmark has one).
+      let loose = false;
+      if (!found.match && !hint) {
+        step = 'loose search';
+        const second = await textSearchMatch(name, lat, lng, apiKey, { name, withinMeters: LOOSE_DISTANCE_M, loose: true });
+        if (!second.error && second.match) {
+          found = second;
+          loose = true;
+        }
+      }
       if (!found.match) {
-        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: name.slice(0, 200), lat, lng, ...(hint ? { hinted: true } : {}) });
+        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: name.slice(0, 200), lat, lng, ...(hint ? { hinted: true } : {}), v: NO_MATCH_VERSION });
         noPhoto();
         return;
       }
@@ -136,7 +151,8 @@ async function handler(req, res) {
       if (cacheKey && placeId) {
         // A hinted match is stored under the catalog name, so the next view
         // trusts it (sameLandmark compares names).
-        const matchedName = hint ? name : String(found.match.displayName?.text || '');
+        // A loose match too, since the strict name check would turn it down.
+        const matchedName = hint || loose ? name : String(found.match.displayName?.text || '');
         await writePlaceId(cacheKey, { status: 'ok', placeId, matchedName: matchedName.slice(0, 200), lat, lng, ...(hint ? { hinted: true } : {}) });
       }
     }

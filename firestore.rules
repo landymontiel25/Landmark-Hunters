@@ -428,7 +428,10 @@ service cloud.firestore {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
         && docId == 'main'
-        && request.resource.data.keys().hasOnly(['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'notificationPrefs', 'updatedAt'])
+        && request.resource.data.keys().hasOnly(['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'notificationPrefs', 'updatedAt', 'heardFrom', 'heardFromAt'])
+        // "How did you hear about Landmark Hunters?" (src/lib/heardFrom.js), one of the known answers.
+        && (!('heardFrom' in request.resource.data) || request.resource.data.heardFrom in ['tv', 'airline', 'hotel', 'airport', 'tour-guide', 'instagram', 'tiktok', 'friend-family', 'google', 'app-store', 'youtube', 'news-blog', 'other'])
+        && (!('heardFromAt' in request.resource.data) || request.resource.data.heardFromAt is int)
         && (!('email' in request.resource.data) || request.resource.data.email == request.auth.token.email.lower())
         // Discovery alert switches (Phase 5): known groups, true or false.
         && (!('notificationPrefs' in request.resource.data) || notificationPrefsOk(request.resource.data.notificationPrefs));

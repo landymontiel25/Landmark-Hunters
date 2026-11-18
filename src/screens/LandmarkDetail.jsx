@@ -44,6 +44,11 @@ import RatingsSection from '../components/ratings/RatingsSection';
 import HeaderRating from '../components/ratings/HeaderRating';
 import { useLandmarkRatings } from '../lib/useLandmarkRatings';
 import TipsSection from '../components/tips/TipsSection';
+
+// "From people who went" (tips from other visitors) is hidden on a landmark's
+// page (owner, 2026-11-18): there aren't enough tips yet. Nothing takes its
+// place. Tips are still written after a verified check-in.
+const SHOW_TIPS_SECTION = false;
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton, { ItinerarySheet } from '../components/SaveLandmarkButton';
@@ -1142,7 +1147,7 @@ function LandmarkDetailBody() {
         </p>
       )}
 
-      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={presenceResult?.landmarkId === landmark.id ? `${presenceResult.checkinId}:${presenceResult.verified}` : ''} visited={checkedInHere || legacyLandmarkIds(landmark.id, regionId).some((id) => claimedMap?.[id])} />}
+      {SHOW_TIPS_SECTION && firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={presenceResult?.landmarkId === landmark.id ? `${presenceResult.checkinId}:${presenceResult.verified}` : ''} visited={checkedInHere || legacyLandmarkIds(landmark.id, regionId).some((id) => claimedMap?.[id])} />}
 
       {firebaseEnabled && user && (
         <div className="card checkin-stats-card">

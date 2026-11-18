@@ -9,6 +9,8 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import { ALL_LANDMARKS, ALL_LANDMARKS_BOUNDS, INTERESTS, getRegion, normalizeCategories } from '../data/regions';
 import { SEARCHABLE_PLACES } from '../data/places';
+import { isIslandPlace } from '../lib/islands';
+import { descriptionLine } from '../lib/stopCard';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
 import { useZoomRadius, ZOOM_RADIUS_OPTIONS } from '../lib/useZoomRadius';
@@ -67,36 +69,38 @@ const PIN_ICON_CACHE = new Map();
 const BUILDING_GLYPH =
   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4.5A1.5 1.5 0 0 1 6.5 3h7A1.5 1.5 0 0 1 15 4.5V21M15 10h3.5A1.5 1.5 0 0 1 20 11.5V21M3 21h18M9 7.5h2M9 11h2M9 14.5h2"/></svg>';
 
-function pinIcon(checkedIn, addedToTrip) {
-  const key = `${checkedIn}-${addedToTrip}`;
+// island: a place on an island (lib/islands.js) is red until you check in.
+const CHECKED_IN_ICONS = new Set();
+const ISLAND_ICONS = new Set();
+function pinIcon(checkedIn, addedToTrip, island = false) {
+  const key = `${checkedIn}-${addedToTrip}-${island}`;
   if (!PIN_ICON_CACHE.has(key)) {
-    PIN_ICON_CACHE.set(
-      key,
-      L.divIcon({
-        className: '',
-        // A round building pin: blue until you check in, green after. No
-        // photo on a pin (owner, 2026-11-09). The circle is centered on its
-        // coordinate.
-        html: `
+    const icon = L.divIcon({
+      className: '',
+      // A round building pin: blue until you check in, green after (red
+      // instead of blue on an island, owner 2026-11-18). No photo on a pin
+      // (owner, 2026-11-09). The circle is centered on its coordinate.
+      html: `
           <div class="map-pin-wrap">
-            <div class="map-pin ${checkedIn ? 'map-pin-checked-in' : ''}">${BUILDING_GLYPH}</div>
+            <div class="map-pin ${checkedIn ? 'map-pin-checked-in' : island ? 'map-pin-island' : ''}">${BUILDING_GLYPH}</div>
             ${addedToTrip ? '<span class="map-pin-star">★</span>' : ''}
           </div>
         `,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-        popupAnchor: [0, -18],
-      })
-    );
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+      popupAnchor: [0, -18],
+    });
+    PIN_ICON_CACHE.set(key, icon);
+    if (checkedIn) CHECKED_IN_ICONS.add(icon);
+    else if (island) ISLAND_ICONS.add(icon);
   }
   return PIN_ICON_CACHE.get(key);
 }
 
-// A marker's icon is one of the (checkedIn, addedToTrip) instances cached by
-// pinIcon -- comparing identity against the two "checked in" cache entries is
-// enough to tell without needing a second source of truth per marker.
+// A marker's icon is one of the instances cached by pinIcon, so whether it is
+// a checked-in one is a lookup, with no second source of truth per marker.
 function isCheckedInIcon(icon) {
-  return icon === PIN_ICON_CACHE.get('true-false') || icon === PIN_ICON_CACHE.get('true-true');
+  return CHECKED_IN_ICONS.has(icon);
 }
 
 function clusterIcon(cluster) {
@@ -104,9 +108,11 @@ function clusterIcon(cluster) {
   const count = children.length;
   const size = count < 10 ? 34 : count < 30 ? 42 : 50;
   const allCheckedIn = count > 0 && children.every((m) => isCheckedInIcon(m.options.icon));
+  // A bubble of island places, some still to visit, is red like their pins.
+  const islands = !allCheckedIn && count > 0 && children.every((m) => isCheckedInIcon(m.options.icon) || ISLAND_ICONS.has(m.options.icon));
   return L.divIcon({
     className: '',
-    html: `<div class="map-cluster ${allCheckedIn ? 'map-cluster-done' : ''}" style="width:${size}px;height:${size}px;">${count}</div>`,
+    html: `<div class="map-cluster ${allCheckedIn ? 'map-cluster-done' : islands ? 'map-cluster-island' : ''}" style="width:${size}px;height:${size}px;">${count}</div>`,
     iconSize: [size, size],
   });
 }
@@ -976,7 +982,7 @@ export default function MapExplore({ experiments = false }) {
           <Marker
             key={`${l.regionId}/${l.id}`}
             position={position}
-            icon={pinIcon(isClaimed, isSelected)}
+            icon={pinIcon(isClaimed, isSelected, isIslandPlace(l))}
             draggable={adminMode}
             eventHandlers={{
               ...(adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : {}),
@@ -1005,6 +1011,8 @@ export default function MapExplore({ experiments = false }) {
                   <h4 style={{ margin: 0 }}>{landmark.name}</h4>
                   <QuickRateButton landmark={landmark} />
                 </div>
+                {/* The Itinerary's short description, shown only in the tapped pin's popup (owner, 2026-11-18). */}
+                <p className="map-popup-desc">{descriptionLine(landmark)}</p>
                 <p style={{ margin: '2px 0 8px', fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
                   {region?.name}
                 </p>
@@ -1099,7 +1107,7 @@ export default function MapExplore({ experiments = false }) {
           <Marker
             key={l.docId}
             position={stablePosition(`custom/${l.docId}`, l.lat, l.lng)}
-            icon={pinIcon(isClaimed, isSelected)}
+            icon={pinIcon(isClaimed, isSelected, isIslandPlace(l))}
             draggable={adminMode}
             eventHandlers={{
               ...(adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : {}),
@@ -1131,6 +1139,7 @@ export default function MapExplore({ experiments = false }) {
                   <h4 style={{ margin: 0 }}>{l.name}</h4>
                   <QuickRateButton landmark={landmark} />
                 </div>
+                <p className="map-popup-desc">{descriptionLine(l)}</p>
                 <p style={{ margin: '2px 0 8px', fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
                   {region?.name || 'Custom pin'}
                 </p>
