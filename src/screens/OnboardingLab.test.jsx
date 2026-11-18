@@ -150,7 +150,7 @@ describe('OnboardingLab', () => {
     expect(btn('Post').disabled).toBe(true); // each picked store needs its rating
     const tierIn = (block, text) => [...block.querySelectorAll('button')].find((b) => b.textContent.includes(text));
     await act(async () => tierIn(blocks[0], 'I loved it').click());
-    await act(async () => tierIn(blocks[1], "I didn't like it").click());
+    await act(async () => tierIn(blocks[1], 'Not for me').click());
     await act(async () => btn('Post').click());
     expect(document.body.textContent).toContain('Checked in!');
     expect(document.body.textContent).toContain('What Mapr learned');

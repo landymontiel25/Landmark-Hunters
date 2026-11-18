@@ -45,11 +45,29 @@ export function ratingCategory(landmark) {
 export const TIERS = [
   { id: 'highly-recommend', label: 'I loved it', emoji: '\u{2764}\u{FE0F}', stars: 5 },
   { id: 'worth-trying', label: 'Ok', emoji: '\u{1F610}', stars: 3 },
-  { id: 'probably-skip', label: "I didn't like it", emoji: '\u{1F44E}', stars: 1 },
+  { id: 'probably-skip', label: 'Not for me', emoji: '\u{1F44E}', stars: 1 },
 ];
 
 export function tierById(id) {
   return TIERS.find((t) => t.id === id) || null;
+}
+
+// "Would you come back?" -- asked right alongside the tier (owner,
+// 2026-11-17). This is Mapr's strongest signal for what to pick next, even
+// stronger than the tier itself (tagScores.js: ratingDelta): a clear "Yes!"
+// or "Never again" can turn a loved-it-but-one-time visit into exactly the
+// opposite recommendation, because whether someone would go back says more
+// about whether to send them somewhere similar than how the one visit felt.
+// "Probably not" is the mild middle option and leaves the tier's own effect
+// alone. Optional, like visit frequency -- a tier alone still saves.
+export const WOULD_RETURN = [
+  { id: 'yes', label: 'Yes!', emoji: '\u{1F60A}' },
+  { id: 'probably-not', label: 'Probably not', emoji: '\u{1F610}' },
+  { id: 'never-again', label: 'Never again', emoji: '\u{1F620}' },
+];
+
+export function wouldReturnById(id) {
+  return WOULD_RETURN.find((w) => w.id === id) || null;
 }
 
 // How often you come here -- optional, asked alongside the tier. Mapr moves

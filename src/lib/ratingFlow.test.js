@@ -134,7 +134,7 @@ describe('tier -> stars (feeds the landmark_ratings aggregate)', () => {
   it('labels the tiers as a plain personal verdict, not a star rating', () => {
     expect(tierById('highly-recommend').label).toBe('I loved it');
     expect(tierById('worth-trying').label).toBe('Ok');
-    expect(tierById('probably-skip').label).toBe("I didn't like it");
+    expect(tierById('probably-skip').label).toBe('Not for me');
   });
 });
 

@@ -95,6 +95,28 @@ const weightedVoteDelta = (v) => (VOTE_DELTAS[v.verdict] || 0) * voteWeight(v.ne
 // votes, or a skipped question) is 1x, unchanged from before this existed.
 export const FREQUENCY_MULTIPLIER = { 'not-often': 1, sometimes: 1.3, 'a-lot': 1.6 };
 
+// "Would you come back?" (WOULD_RETURN in ratingFlow.js), owner 2026-11-17:
+// the strongest signal Mapr has for what to pick next, stronger than the
+// tier ("Do you like this place?") itself. Added to the tier's own delta at
+// WOULD_RETURN_WEIGHT -- big enough that a clear "Yes!" or "Never again" can
+// turn the combined delta's sign around even against an opposite tier (loved
+// a bucket-list stop you'd never make again is still a "don't send me more
+// of these"). "Probably not", the mild middle option, is 0 and leaves the
+// tier's own effect alone.
+export const WOULD_RETURN_DELTAS = { yes: RATING_TAG_DELTA.positive, 'probably-not': 0, 'never-again': RATING_TAG_DELTA.negative };
+export const WOULD_RETURN_WEIGHT = 2;
+
+// The one tag delta a rating puts on the scale: the tier's own delta plus
+// the would-return answer's, weighted. Missing/unknown wouldReturn (older
+// reviews, or a skipped question) adds nothing, so this is identical to the
+// old TAG_DELTAS[tier] lookup before "would you come back?" existed.
+export function ratingDelta(tier, wouldReturn = null) {
+  const base = TAG_DELTAS[tier];
+  if (base == null) return null;
+  const wr = WOULD_RETURN_DELTAS[wouldReturn];
+  return wr == null ? base : base + WOULD_RETURN_WEIGHT * wr;
+}
+
 const DAY_MS = 86400000;
 const UNRATEABLE = new Set(['dorms', 'campus-life']);
 
@@ -110,9 +132,10 @@ export function decayFactor(fromMs, nowMs) {
 // touched, plus which of them landed on the cap, so callers can merge-write.
 // `frequency` (FREQUENCIES ids in ratingFlow.js) scales the delta -- how
 // often you visit is a stronger or weaker vote of confidence than a single
-// visit; unknown/missing frequency is 1x.
-export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null, factor = 1, deltaOverride = null) {
-  const delta = deltaOverride ?? TAG_DELTAS[tier];
+// visit; unknown/missing frequency is 1x. `wouldReturn` (WOULD_RETURN ids)
+// feeds into the delta itself (ratingDelta), not a multiplier -- see there.
+export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null, factor = 1, deltaOverride = null, wouldReturn = null) {
+  const delta = deltaOverride ?? ratingDelta(tier, wouldReturn);
   const next = { scores: {}, at: {}, counts: {}, capped: [] };
   if (delta == null) return next;
   const mult = (FREQUENCY_MULTIPLIER[frequency] || 1) * factor;
@@ -133,8 +156,8 @@ export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, n
 // includes the rating being removed, so its step is the one applyRating used
 // at prior = count - 1. Decay since then isn't recoverable, so this is
 // approximate for old ratings, but never drifts by a whole step per edit.
-export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null, factor = 1, deltaOverride = null) {
-  const delta = deltaOverride ?? TAG_DELTAS[tier];
+export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null, factor = 1, deltaOverride = null, wouldReturn = null) {
+  const delta = deltaOverride ?? ratingDelta(tier, wouldReturn);
   const next = { scores: {}, counts: {} };
   if (delta == null) return next;
   const mult = (FREQUENCY_MULTIPLIER[frequency] || 1) * factor;
@@ -208,7 +231,7 @@ export function rebuildTagScores(reviews, votes = []) {
       counts: out.tagCounts[region] || {},
     };
     const next = r
-      ? applyRating(cur, r.categories, r.ratingTier, ms || Date.now(), r.visitFrequency || null)
+      ? applyRating(cur, r.categories, r.ratingTier, ms || Date.now(), r.visitFrequency || null, 1, null, r.wouldReturn || null)
       : applyVote(cur, v.categories, v.verdict, ms || Date.now(), weightedVoteDelta(v));
     out.tagScores[region] = { ...cur.scores, ...next.scores };
     out.tagScoresAt[region] = { ...cur.at, ...next.at };
@@ -245,7 +268,7 @@ export function rebuildGlobalTaste({ reviews = [], votes = [], seedDeltas = {}, 
   for (const { r, v, ms } of events) {
     const at = ms || nowMs;
     if (r) {
-      merge(applyRating(m, r.categories || [], r.ratingTier, at, r.visitFrequency || null));
+      merge(applyRating(m, r.categories || [], r.ratingTier, at, r.visitFrequency || null, 1, null, r.wouldReturn || null));
       const c = r.comment ? commentDeltas(r.comment, r.categories || []) : {};
       if (Object.keys(c).length) merge(applyTagDeltas(m, c, at));
     } else {

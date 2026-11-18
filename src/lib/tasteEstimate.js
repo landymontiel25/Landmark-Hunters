@@ -35,7 +35,7 @@ const whenOf = (r) => {
 };
 
 // reviews: array or { landmarkId: review } of { landmarkId, region, categories,
-// ratingTier, visitFrequency, ratedAt, updatedAt }.
+// ratingTier, visitFrequency, wouldReturn, ratedAt, updatedAt }.
 // Returns the replayed guesses (oldest first) as
 // { landmarkId, predicted, answered, credit, halfMiss, at }.
 // isOnboarding(review): true for a rating given during sign-up onboarding.
@@ -60,7 +60,7 @@ export function replayGuesses(reviews, { minHistory = TASTE_ESTIMATE_MIN_HISTORY
       at: profile.tagScoresAt[GLOBAL_TASTE] || {},
       counts: profile.tagCounts[GLOBAL_TASTE] || {},
     };
-    const next = applyRating(cur, r.categories, r.ratingTier, at || Date.now(), r.visitFrequency || null);
+    const next = applyRating(cur, r.categories, r.ratingTier, at || Date.now(), r.visitFrequency || null, 1, null, r.wouldReturn || null);
     profile.tagScores[GLOBAL_TASTE] = { ...cur.scores, ...next.scores };
     profile.tagScoresAt[GLOBAL_TASTE] = { ...cur.at, ...next.at };
     profile.tagCounts[GLOBAL_TASTE] = { ...cur.counts, ...next.counts };

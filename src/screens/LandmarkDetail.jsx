@@ -377,6 +377,7 @@ function LandmarkDetailBody() {
             dislikedOrder: r.dislikedOrder || [],
             comment: r.comment || '',
             visitFrequency: r.visitFrequency || null,
+            wouldReturn: r.wouldReturn || null,
           }
         : r.stars
         ? { stars: r.stars, comment: r.comment || '' }

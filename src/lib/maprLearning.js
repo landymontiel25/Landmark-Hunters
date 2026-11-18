@@ -13,7 +13,18 @@ import {
   RATING_TAG_DELTA,
   TAP_TAG_DELTA,
 } from './maprConstants.js';
-import { applyRating, applyTagDeltas, applyVote, revertRating, revertTagDeltas, revertVote, GLOBAL_TASTE, hasGlobalTaste } from './tagScores.js';
+import {
+  applyRating,
+  applyTagDeltas,
+  applyVote,
+  revertRating,
+  revertTagDeltas,
+  revertVote,
+  GLOBAL_TASTE,
+  hasGlobalTaste,
+  WOULD_RETURN_DELTAS,
+  WOULD_RETURN_WEIGHT,
+} from './tagScores.js';
 import { commentTagDeltas } from './commentSignals.js';
 import { reasonKind } from './rerating.js';
 
@@ -61,11 +72,12 @@ export function placeScoreOf({ tap = null, tapOff = false, rating = null, rating
 
 // prev    the existing place_scores doc (or null).
 // legacy  what was applied before place_scores existed, so it can still be
-//         taken back out: { rating: {tier, frequency, region, categories},
-//         tap: {verdict, region, categories} } -- each only if it exists.
+//         taken back out: { rating: {tier, frequency, wouldReturn, region,
+//         categories}, tap: {verdict, region, categories} } -- each only if
+//         it exists.
 // next    the new answers; a key left out (undefined) means "keep as is":
 //         { tap: 'positive'|'neutral'|'negative'|null,
-//           rating: { tier, frequency } | null,
+//           rating: { tier, frequency, wouldReturn } | null,
 //           comment: string,
 //           tapWeight: 0..1 (a tap far from where you were counts less; voteWeight),
 //           resolution: { reason, oldLevel, oldKind } }
@@ -97,11 +109,12 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
   if (prev?.ratingTier) {
     const hasType = prev.typeTier !== undefined; // docs from before changed answers have no type* fields
     const typeTier = hasType ? prev.typeTier : prev.ratingTier;
-    old.answer = { tier: prev.ratingTier, frequency: prev.ratingFrequency || null, at: prev.ratingAt || null };
+    old.answer = { tier: prev.ratingTier, frequency: prev.ratingFrequency || null, wouldReturn: prev.ratingWouldReturn || null, at: prev.ratingAt || null };
     old.rating = typeTier
       ? {
           tier: typeTier,
           frequency: (hasType ? prev.typeFrequency : prev.ratingFrequency) || null,
+          wouldReturn: (hasType ? prev.typeWouldReturn : prev.ratingWouldReturn) || null,
           factor: hasType ? (prev.typeFactor ?? 1) : Number(prev.ratingFactor) || 1,
           delta: hasType ? prev.typeDelta ?? null : null,
           region: prev.region,
@@ -109,16 +122,16 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
         }
       : null;
   } else if (legacy.rating?.tier) {
-    old.answer = { tier: legacy.rating.tier, frequency: legacy.rating.frequency || null, at: null };
-    old.rating = { tier: legacy.rating.tier, frequency: legacy.rating.frequency || null, factor: 1, delta: null, region: legacy.rating.region, categories: legacy.rating.categories || [] };
+    old.answer = { tier: legacy.rating.tier, frequency: legacy.rating.frequency || null, wouldReturn: legacy.rating.wouldReturn || null, at: null };
+    old.rating = { tier: legacy.rating.tier, frequency: legacy.rating.frequency || null, wouldReturn: legacy.rating.wouldReturn || null, factor: 1, delta: null, region: legacy.rating.region, categories: legacy.rating.categories || [] };
   }
   old.comment = { deltas: prev?.commentTypeDeltas ?? prev?.commentDeltas ?? {}, region: prev?.region, categories: prev?.categories || [] };
 
   // --- what should be applied ---
   const tapLevel = next.tap !== undefined ? next.tap : old.tap?.level || null;
-  const answerNext = next.rating !== undefined ? next.rating : old.answer ? { tier: old.answer.tier, frequency: old.answer.frequency } : null;
+  const answerNext = next.rating !== undefined ? next.rating : old.answer ? { tier: old.answer.tier, frequency: old.answer.frequency, wouldReturn: old.answer.wouldReturn } : null;
   const ratingLevel = answerNext ? levelOfTier(answerNext.tier) : null;
-  const newAnswer = answerNext?.tier && ratingLevel ? { tier: answerNext.tier, frequency: answerNext.frequency || null } : null;
+  const newAnswer = answerNext?.tier && ratingLevel ? { tier: answerNext.tier, frequency: answerNext.frequency || null, wouldReturn: answerNext.wouldReturn || null } : null;
 
   // How the user said an answer that moved two levels should count. Given with
   // a new rating, or carried on the ledger while the rating is untouched.
@@ -144,21 +157,25 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
       // The type keeps whatever the earlier rating put there; the new answer adds nothing to it.
       typeSpec = old.rating && freshRes?.oldKind !== 'tap' ? old.rating : null;
     } else if (kind === 'one-off') {
-      typeSpec = { tier: 'worth-trying', frequency: newAnswer.frequency, factor: 1, delta: null, region, categories: cats };
+      typeSpec = { tier: 'worth-trying', frequency: newAnswer.frequency, wouldReturn: newAnswer.wouldReturn, factor: 1, delta: null, region, categories: cats };
       placeRatingDelta = PLACE_RATING_DELTA[DISAGREEMENT_ONE_OFF_LEVEL];
     } else if (kind === 'blend') {
+      // The new answer's own would-return weight blends in on its side only
+      // -- the old level has no would-return answer tied to it here.
+      const newLevelDelta = RATING_TAG_DELTA[ratingLevel] + WOULD_RETURN_WEIGHT * (WOULD_RETURN_DELTAS[newAnswer.wouldReturn] ?? 0);
       typeSpec = {
         tier: newAnswer.tier,
         frequency: newAnswer.frequency,
+        wouldReturn: newAnswer.wouldReturn,
         factor: 1,
-        delta: round2(DISAGREEMENT_NEW_WEIGHT * RATING_TAG_DELTA[ratingLevel] + DISAGREEMENT_OLD_WEIGHT * RATING_TAG_DELTA[oldLevelForBlend]),
+        delta: round2(DISAGREEMENT_NEW_WEIGHT * newLevelDelta + DISAGREEMENT_OLD_WEIGHT * RATING_TAG_DELTA[oldLevelForBlend]),
         region,
         categories: cats,
       };
       placeRatingDelta = round2(DISAGREEMENT_NEW_WEIGHT * PLACE_RATING_DELTA[ratingLevel] + DISAGREEMENT_OLD_WEIGHT * PLACE_RATING_DELTA[oldLevelForBlend]);
     } else {
       // No explanation needed, or "changed my mind" / "wrong about this type".
-      typeSpec = { tier: newAnswer.tier, frequency: newAnswer.frequency, factor: missScoring ? MISS_TYPE_FACTOR : 1, delta: null, region, categories: cats };
+      typeSpec = { tier: newAnswer.tier, frequency: newAnswer.frequency, wouldReturn: newAnswer.wouldReturn, factor: missScoring ? MISS_TYPE_FACTOR : 1, delta: null, region, categories: cats };
     }
   }
 
@@ -197,11 +214,13 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
   }
 
   // --- work out which parts changed ---
-  const specSig = (r) => r && [r.tier, r.frequency, r.factor, r.delta ?? null, r.region, [...(r.categories || [])].sort()];
+  const specSig = (r) => r && [r.tier, r.frequency, r.wouldReturn, r.factor, r.delta ?? null, r.region, [...(r.categories || [])].sort()];
   const tapSig = (t) => t && [t.level, t.delta, t.region, [...t.categories].sort()];
   const tapChanged = sig(tapSig(old.tap)) !== sig(tapSig(newTap));
   const typeChanged = sig(specSig(old.rating)) !== sig(specSig(typeSpec));
-  const answerChanged = sig(old.answer && [old.answer.tier, old.answer.frequency]) !== sig(newAnswer && [newAnswer.tier, newAnswer.frequency]);
+  const answerChanged =
+    sig(old.answer && [old.answer.tier, old.answer.frequency, old.answer.wouldReturn]) !==
+    sig(newAnswer && [newAnswer.tier, newAnswer.frequency, newAnswer.wouldReturn]);
   const commentChanged = sig(old.comment.deltas) !== sig(commentTypeDeltas) || (Object.keys(commentTypeDeltas).length > 0 && old.comment.region !== region);
 
   // --- move the type score: take old effects out, then put new ones in ---
@@ -232,13 +251,13 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
     apply(old.tap.region, (m) => revertVote(m, old.tap.categories, old.tap.delta));
   }
   if (typeChanged && old.rating?.region) {
-    apply(old.rating.region, (m) => revertRating(m, old.rating.categories, old.rating.tier, old.rating.frequency, old.rating.factor, old.rating.delta));
+    apply(old.rating.region, (m) => revertRating(m, old.rating.categories, old.rating.tier, old.rating.frequency, old.rating.factor, old.rating.delta, old.rating.wouldReturn));
   }
   if (commentChanged && old.comment.region && Object.keys(old.comment.deltas).length) {
     apply(old.comment.region, (m) => revertTagDeltas(m, old.comment.deltas));
   }
   if (typeChanged && typeSpec?.region) {
-    apply(region, (m) => applyRating(m, typeSpec.categories, typeSpec.tier, nowMs, typeSpec.frequency, typeSpec.factor, typeSpec.delta));
+    apply(region, (m) => applyRating(m, typeSpec.categories, typeSpec.tier, nowMs, typeSpec.frequency, typeSpec.factor, typeSpec.delta, typeSpec.wouldReturn));
   }
   if (tapChanged && newTap?.delta && region) {
     apply(region, (m) => applyVote(m, newTap.categories, VERDICT_OF_LEVEL[newTap.level], nowMs, newTap.delta));
@@ -274,11 +293,13 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
     rating: ratingLevel,
     ratingTier: newAnswer?.tier || null,
     ratingFrequency: newAnswer?.frequency || null,
+    ratingWouldReturn: newAnswer?.wouldReturn || null,
     ratingFactor: typeSpec?.factor ?? 1,
     ratingAt,
     // What the rating actually put on the type score (null = nothing).
     typeTier: typeSpec?.tier || null,
     typeFrequency: typeSpec?.frequency || null,
+    typeWouldReturn: typeSpec?.wouldReturn || null,
     typeFactor: typeSpec?.factor ?? 1,
     typeDelta: typeSpec?.delta ?? null,
     placeRatingDelta: newAnswer ? placeRatingDelta : null,
