@@ -109,7 +109,7 @@ describe('RatingFlow ranked aspects on the Ok tier', () => {
     expect(lists(loved.el)).toHaveLength(1);
     expect(lists(loved.el)[0].textContent).toContain('What made it great?');
     loved.el.remove();
-    const skip = await render('food', "I didn't like it");
+    const skip = await render('food', 'Not for me');
     expect(lists(skip.el)).toHaveLength(1);
     expect(lists(skip.el)[0].textContent).toContain('What let it down?');
   });

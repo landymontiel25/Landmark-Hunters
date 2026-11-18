@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   TIERS,
+  WOULD_RETURN,
   FREQUENCIES,
   MAX_ASPECTS,
   COMMENT_MAX,
@@ -22,6 +23,9 @@ function toDraft(initial) {
     dislikedOrder: initial?.dislikedOrder || [],
     comment: initial?.comment || '',
     visitFrequency: initial?.visitFrequency || null,
+    // "Would you come back?" -- optional, asked alongside the tier. Mapr's
+    // strongest signal for the next picks (tagScores.ratingDelta).
+    wouldReturn: initial?.wouldReturn || null,
     // Friends tagged in this rating: [{ uid, name }]. Not stored on the
     // review; reviews.js notifies them when it saves.
     tagged: [],
@@ -33,9 +37,11 @@ function toDraft(initial) {
 // entry points produce the identical review shape.
 //
 // Reports upward via onChange as { tier, highlights, lovedOrder,
-// dislikedOrder } (or null before a tier is picked). Everything past the
-// tier is optional -- a tier alone is a complete, saveable rating, so the
-// fastest path stays one tap.
+// dislikedOrder, visitFrequency, wouldReturn } (or null before a tier is
+// picked). Everything past the tier is optional -- a tier alone is a
+// complete, saveable rating, so the fastest path stays one tap.
+// wouldReturn ("Would you come back?") is Mapr's strongest signal for the
+// next picks, stronger than the tier itself (tagScores.ratingDelta).
 //
 // Ranking is tap-to-rank, not drag: the first aspect you tap is #1, the next
 // #2, and so on, with the number shown on the button; tapping a ranked one
@@ -56,12 +62,13 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
     return !!saved && !isEmpty(saved) && !isDraftSubmitting(draftKey);
   });
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
-  const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;
+  const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency, wouldReturn } = draft;
   const tagged = draft.tagged || NO_TAGS;
   const patch = (fields) => setDraft((cur) => ({ ...cur, ...fields }));
   const setLovedOrder = (list) => patch({ lovedOrder: list });
   const setDislikedOrder = (list) => patch({ dislikedOrder: list });
   const pickFrequency = (id) => patch({ visitFrequency: visitFrequency === id ? null : id });
+  const pickWouldReturn = (id) => patch({ wouldReturn: wouldReturn === id ? null : id });
   // Free text, optional: the one place to say what the chips can't. Mapr
   // reads it alongside the chips when learning what you like.
   const setComment = (text) => patch({ comment: text });
@@ -84,9 +91,9 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   const payload = useMemo(
     () =>
       tier
-        ? { tier, highlights, lovedOrder, dislikedOrder, comment: comment.trim(), visitFrequency, ...(tagged.length ? { tagged } : {}) }
+        ? { tier, highlights, lovedOrder, dislikedOrder, comment: comment.trim(), visitFrequency, wouldReturn, ...(tagged.length ? { tagged } : {}) }
         : null,
-    [tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency, tagged]
+    [tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency, wouldReturn, tagged]
   );
   useEffect(() => {
     onChange?.(payload);
@@ -164,6 +171,29 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
         ))}
       </div>
 
+      {/* Mapr's strongest signal for the next picks (owner, 2026-11-17):
+          stronger than the tier above it. A clear "Yes!" or "Never again"
+          can turn around what the tier alone would have said. */}
+      {tier && (
+        <div style={{ marginTop: 14 }}>
+          <p className="rating-flow-question">Would you come back?</p>
+          <div className="rating-tier-grid">
+            {WOULD_RETURN.map((w) => (
+              <button
+                key={w.id}
+                type="button"
+                className={`chip rating-tier ${wouldReturn === w.id ? 'selected' : ''}`}
+                aria-pressed={wouldReturn === w.id}
+                onClick={() => pickWouldReturn(w.id)}
+              >
+                <span className="chip-icon">{w.emoji}</span>
+                <span>{w.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {tier && (
         <div style={{ marginTop: 14 }}>
           <p className="rating-flow-label rating-flow-label-frequency">
@@ -220,6 +250,12 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
           <TagFriendsPicker uid={tagUid} tagged={tagged} onChange={setTagged} />
         </div>
       )}
+      {/* Under the rating questions (owner, 2026-11-17): why it's safe, and
+          why an honest no still helps. */}
+      <p className="rating-flow-privacy">Only Mapr sees this. The place never sees it, and your friends never see it.</p>
+      <p className="rating-flow-privacy">
+        An honest no helps Mapr more than a polite ok. It stops me sending you to places like this again.
+      </p>
     </div>
   );
 }

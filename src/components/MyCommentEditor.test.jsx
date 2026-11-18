@@ -81,9 +81,9 @@ describe('MyCommentEditor', () => {
     // Three tiers offered, Save blocked until one is picked.
     expect(container.textContent).toContain('I loved it');
     expect(container.textContent).toContain('Ok');
-    expect(container.textContent).toContain("I didn't like it");
+    expect(container.textContent).toContain('Not for me');
     expect(save().disabled).toBe(true);
-    await click("I didn't like it");
+    await click('Not for me');
     expect(save().disabled).toBe(false);
     await click('Save');
     expect(saveMyComment).toHaveBeenCalledWith({

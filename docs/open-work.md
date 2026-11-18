@@ -849,7 +849,9 @@ Not built, since they change the live app or need a decision:
   choice of where they go (e.g. a Firestore collection, Firebase Analytics).
 - "Continue with Apple" is in the guide; the app has no Apple sign-in.
 - Rating labels: the guide says "It was okay" / "Not for me"; the app says
-  "Ok" / "I didn't like it". Tutorial 2 uses the guide's words.
+  "Ok" / "Not for me" (the third tier was renamed from "I didn't like it" to
+  "Not for me", owner, 2026-11-17, matching the guide). Tutorial 2 uses the
+  guide's words for the first one ("It was okay" vs. the app's "Ok").
 - Empty states on the five tabs, pull hints (once per account, max 3 per
   session), Profile "Show me around" checklist and "Tips", Firestore sync of
   first-run state, T1/T11/T12-T14 (device, offline, contrast checks).

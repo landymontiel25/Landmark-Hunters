@@ -70,7 +70,7 @@ const placeScoresRef = (uid, landmarkId) => doc(db, 'users', uid, 'place_scores'
 
 function legacyRatingOf(pd) {
   return pd?.ratingTier
-    ? { tier: pd.ratingTier, frequency: pd.visitFrequency || null, region: pd.region, categories: pd.categories || [] }
+    ? { tier: pd.ratingTier, frequency: pd.visitFrequency || null, wouldReturn: pd.wouldReturn || null, region: pd.region, categories: pd.categories || [] }
     : null;
 }
 
@@ -91,7 +91,7 @@ function writeLearning(tx, { userRef, placeRef, userSnap, placeSnap, pd, landmar
 /**
  * Submit (or update) a user's rating for a landmark. `rating` is the
  * RatingFlow payload: { tier, highlights, lovedOrder, dislikedOrder }. The
- * tier (I loved it / Ok / I didn't like it) is mandatory: every review has
+ * tier (I loved it / Ok / Not for me) is mandatory: every review has
  * one, and a comment is only ever saved together with it (firestore.rules
  * enforces the same). No check-in is needed -- rating a place you haven't
  * been to helps Mapr learn; a later real check-in prompts a fresh rating
@@ -224,6 +224,9 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           // How often they visit (FREQUENCIES in ratingFlow.js) -- optional,
           // scales how hard this rating moves tagScores (applyRating).
           visitFrequency: rating.visitFrequency || null,
+          // Would they come back? (WOULD_RETURN in ratingFlow.js) -- optional,
+          // Mapr's strongest signal for the next picks (tagScores.ratingDelta).
+          wouldReturn: rating.wouldReturn || null,
           ratedAt,
           // Given during sign-up onboarding: the taste score learns from it
           // but never counts it as a guess (tasteEstimate.js). A later
@@ -266,7 +269,7 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
         pd,
         landmark: { ...landmark, region: landmark.region ?? landmark.regionId },
         next: {
-          rating: { tier: rating.tier, frequency: rating.visitFrequency || null },
+          rating: { tier: rating.tier, frequency: rating.visitFrequency || null, wouldReturn: rating.wouldReturn || null },
           // A caller that sent no comment (undefined) keeps what's on file.
           comment: rating.comment === undefined ? undefined : (rating.comment || '').slice(0, COMMENT_MAX),
           ...(resolution ? { resolution } : {}),
@@ -505,7 +508,7 @@ async function _saveMyComment({ userId, userName, landmark, comment, tier }) {
   const cur = await getDoc(ref).catch(() => null);
   const curData = cur?.exists() ? cur.data() : null;
   if (!curData?.ratingTier) {
-    if (!isValidTier(tier)) throw userError("Pick how it was (I loved it, Ok, or I didn't like it) to save a comment.");
+    if (!isValidTier(tier)) throw userError('Pick how it was (I loved it, Ok, or Not for me) to save a comment.');
     await _submitReviewSerial({
       userId,
       userName: userName || curData?.userName || 'Explorer',

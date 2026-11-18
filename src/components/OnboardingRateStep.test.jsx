@@ -53,7 +53,7 @@ describe('OnboardingRateStep', () => {
   it.each([
     ['I loved it', 'highly-recommend'],
     ['Ok', 'worth-trying'],
-    ["I didn't like it", 'probably-skip'],
+    ['Not for me', 'probably-skip'],
   ])('"%s" saves a tier-only rating marked as onboarding and moves to the next place', async (label, tier) => {
     const { el } = await renderStep();
     const first = cardName(el);

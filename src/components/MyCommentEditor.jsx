@@ -6,7 +6,7 @@ import { friendlyError } from '../lib/friendlyError';
 // Your own comment on a place: shows it, and lets you add one or edit it any
 // time later. Used on the landmark page's Comments section and on each row of
 // My Check-ins. A comment is only ever saved together with a rating tier
-// (I loved it / Ok / I didn't like it): with a tier on file `tier` is passed
+// (I loved it / Ok / Not for me): with a tier on file `tier` is passed
 // and only the text changes; without one (an old comment-only review, or
 // none yet) the editor asks you to pick one first.
 export default function MyCommentEditor({ userId, userName, landmark, comment, tier = null, onSaved, compact = false }) {
@@ -36,7 +36,7 @@ export default function MyCommentEditor({ userId, userName, landmark, comment, t
   const needsTier = !tier;
   const save = async () => {
     if (needsTier && !pickedTier) {
-      setError("Pick how it was first: I loved it, Ok, or I didn't like it.");
+      setError('Pick how it was first: I loved it, Ok, or Not for me.');
       return;
     }
     setSaving(true);

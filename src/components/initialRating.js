@@ -10,5 +10,5 @@ export function initialRating(existing, initialTier) {
     return comment ? { comment } : null;
   }
   if (!initialTier || initialTier === existing.ratingTier) return { ...existing, tier: existing.ratingTier };
-  return { tier: initialTier, comment: existing.comment, visitFrequency: existing.visitFrequency };
+  return { tier: initialTier, comment: existing.comment, visitFrequency: existing.visitFrequency, wouldReturn: existing.wouldReturn };
 }

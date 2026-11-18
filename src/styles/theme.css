@@ -1181,6 +1181,19 @@ textarea {
   cursor: not-allowed;
 }
 
+/* Under every rating question (owner, 2026-11-17): a privacy note and why an
+   honest no helps. Quiet, secondary text -- never the loudest thing here. */
+.rating-flow-privacy {
+  margin: 10px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-parchment-dim);
+}
+
+.rating-flow-privacy + .rating-flow-privacy {
+  margin-top: 4px;
+}
+
 /* Itinerary: List/Map tabs on the left, "Sort by" on the right; stacks on
    narrow phones so the select never gets squeezed. */
 .itin-toolbar {

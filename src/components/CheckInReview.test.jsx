@@ -90,7 +90,7 @@ describe('CheckInReview checking in at a place rated before visiting', () => {
     const c = await mount();
     expect(c.textContent).toMatch(/You rated this before you visited/);
     expect(c.textContent).toMatch(/replaces the earlier one/);
-    expect(c.querySelector('.rating-tier.selected').textContent).toContain("I didn't like it");
+    expect(c.querySelector('.rating-tier.selected').textContent).toContain('Not for me');
     const post = [...c.querySelectorAll('button')].find((b) => b.textContent === 'Post');
     expect(post.disabled).toBe(false);
     // Switching to a different tier is what a fresh rating looks like.
