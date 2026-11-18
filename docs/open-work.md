@@ -3,6 +3,50 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Seven app fixes: island pins, photo zoom, map description, info button, photos, heard-from (2026-11-18)
+
+Done:
+- Island pins (`src/lib/islands.js`): a place on an island you haven't
+  checked into is a red pin (and a bubble of them is red); green once checked
+  in; mainland stays blue. Islands = the Abacos region plus the Key Biscayne /
+  Virginia Key landmarks (not the Rickenbacker Causeway). A landmark can also
+  set `island: true`. Miami Beach and the other barrier islands are NOT
+  counted; add them here if the owner wants.
+- Landmarks photos open full-screen (`components/Lightbox.jsx`): pinch zoom
+  (1x to 5x, rubber band past the ends), drag while zoomed, double-tap, ✕.
+  Google photos open too, with their credit.
+- Map popup: the Itinerary's short description (`stopCard.descriptionLine`)
+  under the name, two lines at most.
+- "From people who went" is hidden on the landmark page
+  (`SHOW_TIPS_SECTION = false`, on the Planner launch list).
+- Landmarks card: an info button between Rate and the +.
+- Photos: when the strict Google match finds nothing, a loose second try
+  within 600 m (`namesMatchLoose` in `api/_lib/placeLookup.js`); every older
+  "no match" (no `v: 2`) is searched once more. A place with no photo
+  anywhere still says "No photo yet".
+- Onboarding: "How did you hear about Landmark Hunters?" as the last step for
+  new accounts, one tap or Skip, saved to `users/{uid}/private/main`
+  (`heardFrom`, `heardFromAt`). Not shown on the admin dashboard yet.
+
+## Mapr: weigh "Would you come back?" and the reasons most (asked 2026-11-18, not started)
+
+Asked: make "Would you come back?" the strongest signal (Yes! strongly
+favor, Probably not strongly avoid, Never again never pick a place like it),
+"What made it great?" / "What let it down?" the second strongest (favor
+places strong in the aspects someone loved, avoid places weak in the ones
+that let them down), and keep reading the comment. Not built yet. Notes from
+the first look:
+- The comment is already read: `commentSignals.commentTagDeltas` feeds tag
+  scores through `maprLearning.js`.
+- `wouldReturn` already moves tag scores (`tagScores.ratingDelta`, #886), but
+  "Probably not" is 0 there and needs to become a strong negative.
+- `lovedOrder` / `dislikedOrder` are saved on every review but no ranking
+  reads them. Plan: the nightly job (`api/_lib/maprNightly.js`) tallies each
+  place's loved / disliked aspects from all reviews into
+  `mapr_models/signals.aspects`; the user's own aspect taste comes from
+  `myReviews` at rank time (like `placeKinds.tasteKindAffinity`); both feed
+  `maprRank/surfaces.tasteScorer` and `nearbyPicks.rankNearbyCandidates`.
+
 ## The Abacos, Bahamas, and landmark missions (2026-11-16)
 
 Done. A new city, `abacos` (`src/data/landmarks.abacos.js`), with the owner's

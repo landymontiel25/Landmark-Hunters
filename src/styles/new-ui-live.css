@@ -1936,3 +1936,38 @@ html[data-theme] body .mission-panel .mission-note {
     transform: none;
   }
 }
+
+/* Landmarks card: the info button between Rate and the + (owner,
+   2026-11-18). Quiet, never gold (gold stays on the + and Rate). 44pt tap
+   target around a 20pt glyph. */
+html[data-theme] body .lm-card .lm-card-info {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -6px -4px -6px 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ap-text, #0a0a0a);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1), background-color 200ms ease;
+}
+html[data-theme] body .lm-card .lm-card-info:active {
+  transform: scale(0.96);
+  transition-duration: 90ms;
+  background-color: var(--nl-gold-soft, rgba(201, 151, 26, 0.12));
+}
+html[data-theme] body .lm-card .lm-card-info:focus-visible {
+  outline: 2px solid var(--color-brass, #c9971a);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] body .lm-card .lm-card-info,
+  html[data-theme] body .lm-card .lm-card-info:active {
+    transition: none;
+    transform: none;
+  }
+}

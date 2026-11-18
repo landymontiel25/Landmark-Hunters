@@ -6,6 +6,15 @@
 // off.
 export const TURNED_OFF = [
   {
+    name: '"From people who went" (landmark page)',
+    hides: 'The "From people who went" tips section on a landmark\'s page, opened from the Landmarks tab or the Map. Nothing shows in its place.',
+    keeps: 'Tips are still shared after a verified check-in and still saved; the Feed still shows them.',
+    since: '2026-11-18',
+    pr: 887,
+    file: 'src/screens/LandmarkDetail.jsx',
+    check: 'SHOW_TIPS_SECTION = false',
+  },
+  {
     name: 'For Me sort (Landmarks tab)',
     hides: 'The "✨ For Me" sort button on the Landmarks tab. The list now sorts by Popular Landmarks or Near Me there.',
     keeps: 'For Me still works under Planner launch on the Test tab: the same list, Mapr ranking for you, with check-in and rating.',

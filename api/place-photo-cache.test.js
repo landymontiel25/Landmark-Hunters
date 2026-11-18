@@ -161,12 +161,13 @@ describe('place-ID cache', () => {
     mockApi({ places: [place({ displayName: { text: 'Liberty Gift Shop' } })] });
     let r = await call(CQ);
     expect(r.json).toEqual({ url: null, attributions: [] });
-    expect(store.get(KEY)).toMatchObject({ status: 'no-match', placeId: null });
-    expect(calls('searchText')).toHaveLength(1);
+    expect(store.get(KEY)).toMatchObject({ status: 'no-match', placeId: null, v: 2 });
+    // The strict search, then the loose second try.
+    expect(calls('searchText')).toHaveLength(2);
 
     r = await call(CQ);
     expect(r.json).toEqual({ url: null, attributions: [] });
-    expect(globalThis.fetch).toHaveBeenCalledTimes(1); // the second request made no Google call
+    expect(globalThis.fetch).toHaveBeenCalledTimes(2); // the second request made no Google call
 
     store.set(KEY, { ...store.get(KEY), verifiedAt: { toMillis: () => Date.now() - 31 * DAY } });
     mockApi();
@@ -195,12 +196,21 @@ describe('place-ID cache', () => {
     expect(r.json.url).toBe(PHOTO_URI);
   });
 
+  it('searches again once past a no-match saved before the loose second try (no v)', async () => {
+    store.set(KEY, { status: 'no-match', placeId: null, matchedName: CQ.name, lat: Number(CQ.lat), lng: Number(CQ.lng), verifiedAt: { toMillis: () => Date.now() } });
+    mockApi();
+    const r = await call(CQ);
+    expect(calls('searchText')).toHaveLength(1);
+    expect(r.json.url).toBe(PHOTO_URI);
+  });
+
   it('ignores a stored ID when the request no longer describes the same place', async () => {
     store.set(KEY, seeded());
     mockApi();
     await call({ ...CQ, name: 'Totally Different Cafe' });
     expect(calls('/v1/places/')).toHaveLength(0);
-    expect(calls('searchText')).toHaveLength(1);
+    // Strict and loose: neither takes the other place.
+    expect(calls('searchText')).toHaveLength(2);
     await call({ ...CQ, lat: '40.5' });
     expect(calls('/v1/places/')).toHaveLength(0);
   });

@@ -149,7 +149,9 @@ describe('place-photo route', () => {
     mockGoogle([place({ displayName: { text: 'Liberty Gift Shop' } })]);
     let r = await call(Q);
     expect(r.json).toEqual({ url: null, attributions: [] });
-    expect(globalThis.fetch).toHaveBeenCalledTimes(1); // no paid photo call
+    // The strict search and the loose second try (both turn it down), and no paid photo call.
+    expect(globalThis.fetch).toHaveBeenCalledTimes(2);
+    expect(globalThis.fetch.mock.calls.every(([u]) => u.includes('places:searchText'))).toBe(true);
 
     mockGoogle([place({ location: { latitude: 40.5, longitude: -75.1503 } })]);
     r = await call(Q);
