@@ -69,7 +69,14 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
   const options = mission.options || [];
   return (
     <section className={`mission-panel${compact ? ' mission-panel-compact' : ''}`} aria-label="Mission">
-      <h5 className="mission-head">Mission:</h5>
+      <h5 className="mission-head">
+        <svg className="mission-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <circle cx="12" cy="12" r="5" />
+          <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
+        </svg>
+        Mission:
+      </h5>
       <p className="mission-text">{mission.text}</p>
 
       {mission.type === 'trivia' && done?.kind === 'trivia' && (

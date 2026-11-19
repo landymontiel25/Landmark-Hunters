@@ -447,7 +447,8 @@
   border: 0.5px solid var(--ap-line);
   color: var(--ap-text);
 }
-.aps .quick-rate-btn {
+.aps .quick-rate-btn,
+.aps .lm-card-info {
   margin-left: 6px;
   padding: 1px 9px;
   border-radius: 999px;

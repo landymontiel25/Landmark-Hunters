@@ -59,7 +59,12 @@ function WhyGo({ stop, batch }) {
   }, [key]); // eslint-disable-line react-hooks/exhaustive-deps -- the stop is captured by its key
   return (
     <section className="it-stop-why" aria-label="Why you need to go" aria-busy={!lines}>
-      <h5>Why you need to go</h5>
+      <h5>
+        <svg className="it-stop-why-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.2l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 16.6l-5.3 2.9 1.1-5.9-4.4-4.1 6-.8z" />
+        </svg>
+        Why you need to go
+      </h5>
       <ul>
         {(lines || [0, 1, 2]).map((l, i) =>
           lines ? (
@@ -106,6 +111,10 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
           Get directions
         </DirectionsButton>
         {!stop.external && checkIn && <CheckInButton landmark={stop} plain {...checkIn} />}
+        {/* Opens the place's full page (owner, 2026-11-19). */}
+        <button type="button" className="btn btn-ghost btn-sm it-stop-info" onClick={onOpen} aria-label={`Info for ${stop.name}`}>
+          Info
+        </button>
       </div>
       <button type="button" className="it-stop-more" aria-expanded={open} aria-controls={panelId} onClick={toggle}>
         <span>{open ? 'Show less' : 'Show more'}</span>

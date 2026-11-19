@@ -305,22 +305,19 @@ const LandmarkRow = memo(function LandmarkRow({
         {l.whatItIs && <p className="lr-desc">{l.whatItIs}</p>}
         <div className="lr-meta lr-rate-row">
           <QuickRateButton landmark={l} />
-          {/* Info, in the space between Rate and the + (owner, 2026-11-18):
-              opens the place's full page. */}
+          {/* Info, in the space between Rate and the + (owner, 2026-11-18;
+              the word, styled like Rate, 2026-11-19): opens the place's
+              full page. */}
           <button
             type="button"
-            className="lm-card-info"
+            className="btn btn-ghost btn-tight lm-card-info"
             aria-label={`Info for ${l.name}`}
             onClick={(e) => {
               e.stopPropagation();
               onInfo(l);
             }}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="9.25" />
-              <path d="M12 11v5.5" />
-              <circle cx="12" cy="7.6" r="0.6" fill="currentColor" stroke="none" />
-            </svg>
+            Info
           </button>
           {/* Signed out the endpoint answers nothing, so the card skips the call. */}
           {user && <RatingsCardLine landmark={l} fallback={null} preloaded={ratingSources} fetchOwn={false} />}
