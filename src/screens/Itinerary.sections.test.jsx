@@ -74,7 +74,7 @@ const tab = (el, label) => [...el.querySelectorAll('[role="tab"]')].find((b) => 
 describe('Itinerary sub-tabs', () => {
   it('one switch: Current, Past, Favorites (owner, 2026-11-14); Favorites shows every favorite and filters by city', async () => {
     const el = await render();
-    expect([...el.querySelectorAll('[role="tab"]')].map((b) => b.textContent)).toEqual(['Current', 'Past', 'Favorites (2)']);
+    expect([...el.querySelectorAll('[role="tab"]')].map((b) => b.textContent)).toEqual(['Current', 'Past', 'Favorites (2)', 'Travel Guides']);
     expect(tab(el, 'Current').getAttribute('aria-selected')).toBe('true');
     expect(tab(el, 'Favorites').textContent).toContain('(2)');
     expect(el.textContent).not.toContain('Vizcaya');
@@ -95,6 +95,33 @@ describe('Itinerary sub-tabs', () => {
     await act(async () => tab(el, 'Past').click());
     expect(tab(el, 'Past').getAttribute('aria-selected')).toBe('true');
     expect(el.textContent).not.toContain('Vizcaya');
+  });
+
+  it('Travel Guides lists the six Abacos PDFs and hides Favorites', async () => {
+    const el = await render();
+    await act(async () => tab(el, 'Travel Guides').click());
+    expect(tab(el, 'Travel Guides').getAttribute('aria-selected')).toBe('true');
+    expect(tab(el, 'Favorites').getAttribute('aria-selected')).toBe('false');
+    for (const title of [
+      '30 Places to Discover in the Abacos',
+      'The Abacos by Boat',
+      'Discover Hope Town',
+      'Beyond the Marina',
+      'The Abacos Photo Challenge',
+      'Your Abacos Adventure Checklist',
+    ]) {
+      expect(el.textContent).toContain(title);
+    }
+    expect(el.textContent).not.toContain('Vizcaya');
+    expect(el.querySelector('h1.screen-title').textContent).toBe('Travel Guides');
+    const open = el.querySelector('a[aria-label="Open Discover Hope Town"]');
+    expect(open.getAttribute('href')).toBe('/guides/abacos/discover-hope-town.pdf');
+    expect(open.getAttribute('target')).toBe('_blank');
+    expect(el.querySelectorAll('a[download]').length).toBe(6);
+
+    await act(async () => tab(el, 'Current').click());
+    expect(tab(el, 'Current').getAttribute('aria-selected')).toBe('true');
+    expect(el.textContent).not.toContain('Discover Hope Town');
   });
 
   it('arriving from the /favorites redirect opens Favorites', async () => {

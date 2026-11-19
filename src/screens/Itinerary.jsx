@@ -1179,8 +1179,43 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   );
 }
 
-// The Itinerary tab has two sub-tabs: Itineraries (your trips) and Favorites
-// (places you loved, with your notes). The tabs sit above the trips overview
+// The Abacos travel guides: PDFs in public/guides/abacos/, listed (not
+// embedded) on the Travel Guides sub-tab. Each opens in a new tab or downloads.
+const TRAVEL_GUIDES = [
+  { file: '30-places-to-discover.pdf', title: '30 Places to Discover in the Abacos', line: 'Your island adventure starts here' },
+  { file: 'abacos-by-boat.pdf', title: 'The Abacos by Boat', line: 'An island-hopping guide to beaches, reefs, and landmarks' },
+  { file: 'discover-hope-town.pdf', title: 'Discover Hope Town', line: 'A lighthouse, colorful streets, and island stories' },
+  { file: 'beyond-the-marina.pdf', title: 'Beyond the Marina', line: 'Hidden corners of the Abacos worth exploring' },
+  { file: 'abacos-photo-challenge.pdf', title: 'The Abacos Photo Challenge', line: '20 island moments to capture' },
+  { file: 'abacos-adventure-checklist.pdf', title: 'Your Abacos Adventure Checklist', line: 'Explore, check in, and make memories' },
+];
+
+function TravelGuidesList() {
+  return (
+    <div>
+      {TRAVEL_GUIDES.map((g) => {
+        const href = `/guides/abacos/${g.file}`;
+        return (
+          <div key={g.file} className="card favorite-row">
+            <span className="saved-row-name">{g.title}</span>
+            <p className="favorite-note-text">{g.line}</p>
+            <div className="saved-row-actions">
+              <a className="btn btn-ghost btn-sm" href={href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${g.title}`}>
+                Open
+              </a>
+              <a className="btn btn-ghost btn-sm" href={href} download aria-label={`Download ${g.title}`}>
+                Download
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// The Itinerary tab has sub-tabs: Itineraries (your trips), Favorites
+// (places you loved, with your notes) and Travel Guides (downloadable PDFs). The tabs sit above the trips overview
 // and its empty states; an open itinerary's route takes over the whole tab.
 // A bookmark's "Favorites" link and the old /favorites route open the second.
 export default function Itinerary() {
@@ -1197,13 +1232,14 @@ export default function Itinerary() {
   // Current, Past and Favorites on one switch (owner, 2026-11-14; was two
   // stacked switches: Itineraries | Favorites, then Current | Past).
   const [itinTab, setItinTab] = usePersistentState('itinerary.tab', 'current');
-  const shown = section === 'favorites' ? 'favorites' : itinTab;
+  const shown = section === 'favorites' || section === 'guides' ? section : itinTab;
   const tabs = (
     <div className="tabs itin-sections nl-seg" style={{ marginBottom: 14 }} role="tablist" aria-label="Itinerary sections">
       {[
         { id: 'current', label: 'Current' },
         { id: 'past', label: 'Past' },
         { id: 'favorites', label: `Favorites${favorites.length ? ` (${favorites.length})` : ''}` },
+        { id: 'guides', label: 'Travel Guides' },
       ].map((t) => (
         <button
           key={t.id}
@@ -1212,7 +1248,7 @@ export default function Itinerary() {
           aria-selected={shown === t.id}
           className={`tab-btn ${shown === t.id ? 'active' : ''}`}
           onClick={() => {
-            if (t.id === 'favorites') return setSection('favorites');
+            if (t.id === 'favorites' || t.id === 'guides') return setSection(t.id);
             setSection('itineraries');
             setItinTab(t.id);
           }}
@@ -1230,6 +1266,16 @@ export default function Itinerary() {
         <p className="nl-label">Places you loved</p>
         <h1 className="screen-title">Favorites</h1>
         <FavoritesList />
+      </div>
+    );
+  }
+  if (section === 'guides') {
+    return (
+      <div>
+        {tabs}
+        <p className="nl-label">The Abacos</p>
+        <h1 className="screen-title">Travel Guides</h1>
+        <TravelGuidesList />
       </div>
     );
   }

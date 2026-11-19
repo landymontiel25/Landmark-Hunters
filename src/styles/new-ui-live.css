@@ -561,6 +561,13 @@ html body[data-apple]:not([data-apple='map']) .aps .tabs.nl-seg .tab-btn[aria-se
   background: var(--ap-bg);
   color: var(--ap-text);
 }
+/* Itinerary's four-part switch (Current, Past, Favorites, Travel Guides):
+   each part sizes to its label so "Travel Guides" fits at 390px. */
+html body[data-apple]:not([data-apple='map']) .aps .tabs.nl-seg.itin-sections .tab-btn {
+  flex: 1 1 auto;
+  padding: 0 6px;
+  white-space: nowrap;
+}
 
 /* =====================================================================
    5. Itinerary in the New UI layout (NewUILab's ItineraryTab)
