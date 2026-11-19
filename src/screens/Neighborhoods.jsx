@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DATA from '../data/miamiNeighborhoods.json';
 import { useGeo } from '../lib/GeoContext';
 import {
@@ -22,18 +22,21 @@ import './Neighborhoods.css';
 // chip, and open one for its ratings. Neighborhoods have no check-ins and no
 // landmark data. Ratings are null until a separate pipeline fills them.
 
-// A photo, or a dark tile with the first letter when there is none (or it
-// fails to load). Photos are Wikimedia Commons files (credits in the data).
+// A photo (Wikimedia Commons, credits in the data). Never the old dark tile
+// with a letter (owner, 2026-11-18): a neighborhood with no photo (or one
+// that fails to load) gets the same quiet "No photo yet" tile as a landmark.
+// Loaded eagerly, and every photo is warmed when the screen opens
+// (preloadNeighborhoodPhotos), so nothing is blank while scrolling.
 function CardPhoto({ n, score }) {
   const [failed, setFailed] = useState(false);
   const showPhoto = n.photo && !failed;
   return (
     <div className="nb-photo">
       {showPhoto ? (
-        <img src={n.photo} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setFailed(true)} />
+        <img src={n.photo} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" onError={() => setFailed(true)} />
       ) : (
-        <div className="nb-photo-empty" data-testid="nb-placeholder" aria-hidden="true">
-          {n.name.charAt(0)}
+        <div className="nb-photo-empty" data-testid="nb-placeholder">
+          No photo yet
         </div>
       )}
       <span className={`nb-score-badge band-${scoreBand(score)}`} aria-label={`Overall score ${formatScore(score)}`}>
@@ -41,6 +44,19 @@ function CardPhoto({ n, score }) {
       </span>
     </div>
   );
+}
+
+let preloaded = false;
+export function preloadNeighborhoodPhotos(list = DATA.neighborhoods) {
+  if (preloaded || typeof Image === 'undefined') return;
+  preloaded = true;
+  for (const n of list) {
+    if (!n.photo) continue;
+    const img = new Image();
+    img.decoding = 'async';
+    img.referrerPolicy = 'no-referrer';
+    img.src = n.photo;
+  }
 }
 
 export function NeighborhoodCard({ n, onOpen }) {
@@ -255,5 +271,7 @@ export function NeighborhoodsView({ data = DATA, coords = null, onUseLocation, l
 // asks on its own.
 export default function Neighborhoods({ data = DATA }) {
   const { coords, refresh, refreshing } = useGeo();
+  // Every card's photo starts loading the moment the subtab opens.
+  useEffect(() => preloadNeighborhoodPhotos(data.neighborhoods), [data]);
   return <NeighborhoodsView data={data} coords={coords} onUseLocation={refresh} locating={refreshing} />;
 }

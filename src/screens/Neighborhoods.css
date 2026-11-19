@@ -175,10 +175,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #262a35, #12141b);
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 2.6rem;
-  font-weight: 700;
+  /* The landmarks' quiet "No photo yet" tile (owner, 2026-11-18): never a
+     big initial letter. */
+  background: #ececec;
+  color: #4a4a4a;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+[data-theme='dark'] .nb-photo-empty {
+  background: #1c1c1e;
+  color: #a8a8a8;
 }
 .nb-card-name {
   font-weight: 700;
