@@ -495,8 +495,12 @@
       "name": "Morningside",
       "cityGroup": "City of Miami",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Miami%2C_FL_Morningside_bay.jpg/960px-Miami%2C_FL_Morningside_bay.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Pietro",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Miami,_FL_Morningside_bay.jpg"
+      },
       "tags": [],
       "location": {
         "lat": 25.82446,
@@ -522,8 +526,12 @@
       "name": "Shenandoah",
       "cityGroup": "City of Miami",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/House_Apartment_Building_Shenandoah_Neighborhood_Miami_1925.jpg/960px-House_Apartment_Building_Shenandoah_Neighborhood_Miami_1925.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Phillip Pessar",
+        "license": "CC BY 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:House_Apartment_Building_Shenandoah_Neighborhood_Miami_1925.jpg"
+      },
       "tags": [],
       "location": {
         "lat": 25.75954,
@@ -778,8 +786,12 @@
       "name": "Sunset Harbour",
       "cityGroup": "Miami Beach",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Miami_Beach_-_panoramio_%288%29.jpg/960px-Miami_Beach_-_panoramio_%288%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "qwesy qwesy",
+        "license": "CC BY 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Miami_Beach_-_panoramio_(8).jpg"
+      },
       "tags": [
         "Food & Drinks"
       ],
@@ -876,8 +888,12 @@
       "name": "Pinecrest",
       "cityGroup": "Other Miami-Dade cities",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Swan_Lake_at_Pinecrest_Gardens.jpg/960px-Swan_Lake_at_Pinecrest_Gardens.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Rook48",
+        "license": "CC0",
+        "source": "https://commons.wikimedia.org/wiki/File:Swan_Lake_at_Pinecrest_Gardens.jpg"
+      },
       "tags": [
         "Art & Culture",
         "Family"
@@ -1241,8 +1257,12 @@
       "name": "Cutler Bay",
       "cityGroup": "Other Miami-Dade cities",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Black_Point_Marina_-_Night.jpg/960px-Black_Point_Marina_-_Night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Zoohouse",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Black_Point_Marina_-_Night.jpg"
+      },
       "tags": [],
       "location": {
         "lat": 25.5783,
@@ -1402,8 +1422,12 @@
       "name": "Miami Springs",
       "cityGroup": "Other Miami-Dade cities",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Glenn_H._Curtiss_Memorial_Circle.jpg/960px-Glenn_H._Curtiss_Memorial_Circle.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Eisenthesky Productions",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Glenn_H._Curtiss_Memorial_Circle.jpg"
+      },
       "tags": [],
       "location": {
         "lat": 25.82232,
@@ -1493,8 +1517,12 @@
       "name": "Sweetwater",
       "cityGroup": "Other Miami-Dade cities",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/US-miami-dolphinmall.jpg/960px-US-miami-dolphinmall.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Balou46",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:US-miami-dolphinmall.jpg"
+      },
       "tags": [],
       "location": {
         "lat": 25.76343,
@@ -1520,8 +1548,12 @@
       "name": "South Miami",
       "cityGroup": "Other Miami-Dade cities",
       "info": "",
-      "photo": "",
-      "photoCredit": null,
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Arden_Doc_Thomas_House_01.jpg/960px-Arden_Doc_Thomas_House_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "photoCredit": {
+        "author": "Pietro",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Arden_Doc_Thomas_House_01.jpg"
+      },
       "tags": [
         "Food & Drinks",
         "Family"

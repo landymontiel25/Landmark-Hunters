@@ -139,10 +139,10 @@ describe('Neighborhoods subtab', () => {
     expect(cardNames().length).toBe(47);
   });
 
-  it('a card with no photo shows its first letter on a dark tile', async () => {
+  it('a card with no photo shows the quiet "No photo yet" tile, never a letter', async () => {
     const data = { city: 'Miami', featured: ['Zed'], tiers: [], neighborhoods: [{ name: 'Zed', cityGroup: 'X', info: '', photo: '', tags: ['Beaches', 'Art Deco'], ratings: ratings({ safety: 4.5 }) }] };
     await mount(<NeighborhoodsView data={data} />);
-    expect(el.querySelector('[data-testid="nb-placeholder"]').textContent).toBe('Z');
+    expect(el.querySelector('[data-testid="nb-placeholder"]').textContent).toBe('No photo yet');
     expect(el.querySelector('.nb-card-sub').textContent).toBe('Beaches · Art Deco');
     expect(el.querySelector('.nb-score-badge').textContent).toBe('4.5');
     expect(el.querySelector('.nb-score-badge').classList.contains('band-green')).toBe(true);
@@ -202,5 +202,21 @@ describe('Neighborhood detail', () => {
     expect(el.querySelector('.nb-detail-title').textContent).toContain('South Beach');
     await click(byText('button', '‹ Back'));
     expect(el.querySelector('.nb-title').textContent).toBe('Explore Neighborhoods');
+  });
+});
+
+describe('Miami neighborhood photos (owner, 2026-11-18)', () => {
+  it('every neighborhood but Flagami has a stored Wikimedia photo with its credit, loaded eagerly', async () => {
+    const { default: DATA } = await import('../data/miamiNeighborhoods.json');
+    const missing = DATA.neighborhoods.filter((n) => !n.photo).map((n) => n.name);
+    expect(missing).toEqual(['Flagami']);
+    for (const n of DATA.neighborhoods.filter((x) => x.photo)) {
+      expect(n.photo).toMatch(/^https:\/\/upload\.wikimedia\.org\//);
+      expect(n.photoCredit?.author && n.photoCredit?.license && n.photoCredit?.source).toBeTruthy();
+    }
+    await mount(<NeighborhoodsView data={DATA} />);
+    const imgs = [...el.querySelectorAll('.nb-photo img')];
+    expect(imgs.length).toBeGreaterThan(0);
+    expect(imgs.every((i) => i.getAttribute('loading') === 'eager')).toBe(true);
   });
 });

@@ -3,6 +3,19 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Neighborhood photos (2026-11-18)
+
+8 of the 9 Miami neighborhoods that showed a letter tile now have a stored
+Wikimedia Commons photo with credit: Morningside (the bay at Morningside
+Park), Shenandoah (a 1925 building there), Pinecrest (Swan Lake, Pinecrest
+Gardens), Cutler Bay (Black Point Marina at night), Miami Springs (the Glenn
+Curtiss Memorial Circle gazebo), Sweetwater (Dolphin Mall), South Miami (the
+Arden "Doc" Thomas House) and Sunset Harbour (the marina, geotagged at
+Maurice Gibb Park). Left to do: Flagami has no good free photo (only chain
+storefronts and schools on Commons), and Google photo lookups were failing
+when this was done, so a Google photo couldn't be checked by eye. Its tile
+says "No photo yet". The letter tile is gone for good.
+
 ## Seven app fixes: island pins, photo zoom, map description, info button, photos, heard-from (2026-11-18)
 
 Done:
