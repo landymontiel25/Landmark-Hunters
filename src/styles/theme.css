@@ -1232,7 +1232,8 @@ textarea {
   gap: 8px;
 }
 
-.quick-rate-btn {
+.quick-rate-btn,
+.lm-card-info {
   flex-shrink: 0;
   margin-left: 8px;
   vertical-align: middle;

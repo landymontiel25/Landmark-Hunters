@@ -40,7 +40,7 @@ async function render(stop = STOP, props = {}) {
 }
 
 describe('Itinerary stop card (owner, 2026-11-14)', () => {
-  it('shows only the photo, the name, Get directions and Check in, and Show more, in that order', async () => {
+  it('shows only the photo, the name, Get directions, Check in and Info, and Show more, in that order', async () => {
     const { el } = await render();
     const card = el.querySelector('.it-stop');
     const kids = [...card.children].map((c) => c.className.split(' ')[0]);
@@ -51,7 +51,7 @@ describe('Itinerary stop card (owner, 2026-11-14)', () => {
     expect(card.querySelector('.it-stop-rating').textContent).toMatch(/^\u2605 4\.6Google Maps$/);
     expect(card.querySelector('.it-stop-desc').textContent).toBe('A waterfront estate with formal gardens.');
     // No Book now (owner, 2026-11-16).
-    expect([...card.querySelectorAll('.it-stop-actions > *')].map((b) => b.textContent)).toEqual(['Get directions', 'Check in']);
+    expect([...card.querySelectorAll('.it-stop-actions > *')].map((b) => b.textContent)).toEqual(['Get directions', 'Check in', 'Info']);
     expect(card.textContent).not.toContain('Book now');
     expect(card.querySelector('.it-stop-more').textContent).toBe('Show more');
     // Nothing else: no address, no rating tag, no time tag, no trash.
@@ -132,5 +132,19 @@ describe('every landmark in the app (owner, 2026-11-15)', () => {
         expect(line).not.toMatch(/\b(I am|You are|It is|I will|You will|do not|is not)\b/);
       }
     }
+  });
+});
+
+describe('StopCard Info button and Why you need to go star (owner, 2026-11-19)', () => {
+  it('opens the place from Info, and the heading has an icon, not an emoji', async () => {
+    const onOpen = vi.fn();
+    const { el } = await render(STOP, { onOpen });
+    const info = [...el.querySelectorAll('.it-stop-actions button')].find((b) => b.textContent === 'Info');
+    await act(async () => info.click());
+    expect(onOpen).toHaveBeenCalled();
+    await act(async () => el.querySelector('.it-stop-more').click());
+    const h5 = el.querySelector('.it-stop-why h5');
+    expect(h5.querySelector('svg')).toBeTruthy();
+    expect(h5.textContent.trim()).toBe('Why you need to go');
   });
 });
