@@ -27,9 +27,9 @@ import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import DirectionsButton from '../components/DirectionsButton';
 import StopCard from '../components/StopCard';
+import { DragHandle, RemoveStopButton } from '../components/EditListControls';
 import { friendlyError } from '../lib/friendlyError';
 import { writePersisted, usePersistentState } from '../lib/usePersistentState';
-import { useStopAddresses } from '../lib/useStopAddresses';
 import { useRatings } from '../lib/RatingsContext';
 import { runOptimistic, useToast } from '../lib/ToastContext';
 import ErrorNotice from '../components/ErrorNotice';
@@ -109,6 +109,8 @@ export default function GroupTrip() {
   // remember until someone's actually used Edit List once.
   const [sortPref, setSortPref] = usePersistentState(trip?.id ? `itin-sort-pref.group-${trip.id}` : null, null);
   const [editing, setEditing] = useState(false);
+  // Edit List's remove (a stop waiting on its confirm).
+  const [pendingRemove, setPendingRemove] = useState(null);
   const sort = editing ? 'custom' : sortPref || 'nearest';
 
   const uid = user?.uid;
@@ -134,14 +136,6 @@ export default function GroupTrip() {
     );
     return unsub;
   }, [tripId, uid, attempt]);
-
-  // Street address under each landmark -- the trip's own stops first.
-  const addressStops = useMemo(() => {
-    const ls = (trip?.regionId && getRegion(trip.regionId)?.landmarks) || [];
-    const ids = new Set(trip?.landmarkIds || []);
-    return [...ls.filter((l) => ids.has(l.id)), ...ls.filter((l) => !ids.has(l.id))];
-  }, [trip]);
-  const addresses = useStopAddresses(addressStops);
 
   // Tapping Map from here frames this trip's city, then every stop in it.
   useEffect(() => {
@@ -472,18 +466,12 @@ export default function GroupTrip() {
                 {formatDistance(l.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}
-            <div className={`route-step ${draggingId === l.id ? 'dragging' : ''}`}>
-              {sort === 'custom' ? (
-                <button
-                  type="button"
-                  className="drag-handle"
-                  title="Hold and drag to reorder"
-                  aria-label={`Reorder ${l.name}: hold and drag, or use the up and down arrow keys`}
-                  onPointerDown={startDrag(l.id)}
-                  onKeyDown={keyReorder(l.id)}
-                >
-                  {'☰'}
-                </button>
+            <div className={`route-step ${editing ? 'route-step-editing' : ''} ${draggingId === l.id ? 'dragging' : ''}`}>
+              {/* Edit List: remove on the left, drag handle on the right. */}
+              {editing ? (
+                <RemoveStopButton name={l.name} onClick={() => setPendingRemove(l)} />
+              ) : sort === 'custom' ? (
+                <DragHandle name={l.name} onPointerDown={startDrag(l.id)} onKeyDown={keyReorder(l.id)} />
               ) : (
                 <div className={`route-num ${claimedMap[l.id] ? 'found' : ''}`}>{idx + 1}</div>
               )}
@@ -495,6 +483,7 @@ export default function GroupTrip() {
                 onRemove={() => setLandmark(l, false)}
                 checkIn={{ user, firebaseEnabled, claimedMap, checkingIn, onCheckIn: checkIn }}
               />
+              {editing && <DragHandle className="drag-handle-end" name={l.name} onPointerDown={startDrag(l.id)} onKeyDown={keyReorder(l.id)} />}
             </div>
           </div>
         ))}
@@ -512,30 +501,21 @@ export default function GroupTrip() {
         {regionLandmarks.filter((l) => !isSelected(l.id)).length === 0 && (
           <p className="screen-subtitle" style={{ margin: 0 }}>Every catalog landmark in {region?.name} is already on your route.</p>
         )}
+        {/* The same card as a finished itinerary's stop (owner, 2026-11-19):
+            photo, name and rating, description, Get directions, Show more.
+            The photo or name opens the place's page; the checkbox adds it. */}
         {regionLandmarks
           .filter((l) => !isSelected(l.id))
           .map((l) => (
-            <div key={l.id} className="friend-row">
-              <button
-                type="button"
-                className="shared-landmark-link"
-                onClick={() => openLandmark(region.id, l.id)}
-                title={`Open ${l.name}`}
-              >
-                {l.name}
-                {addresses[l.id] && (
-                  <span style={{ display: 'block', fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginTop: 2 }}>
-                    {'\u{1F4CD}'} {addresses[l.id]}
-                  </span>
-                )}
-              </button>
+            <div key={l.id} className="route-step route-step-add">
               <input
                 type="checkbox"
+                className="stop-add-check"
                 checked={false}
                 onChange={() => setLandmark(l, true)}
-                style={{ width: 20, height: 20, flexShrink: 0 }}
                 aria-label={`Add ${l.name} to the trip`}
               />
+              <StopCard stop={{ ...l, regionId: region.id }} batch={[{ ...l, regionId: region.id }]} visited={!!claimedMap[l.id]} onOpen={() => openLandmark(region.id, l.id)} />
             </div>
           ))}
       </div>
@@ -601,6 +581,31 @@ export default function GroupTrip() {
         <button type="button" className="btn btn-danger btn-block" onClick={() => setConfirmDelete(true)}>
           {'\u{1F5D1}\u{FE0F}'} Delete This Group Trip
         </button>
+      )}
+
+      {pendingRemove && (
+        <div className="modal-backdrop" onClick={() => setPendingRemove(null)}>
+          <div className="modal-card" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ marginTop: 0 }}>Remove this stop?</h3>
+            <p className="screen-subtitle" style={{ marginTop: 0 }}>
+              Take <strong>{pendingRemove.name}</strong> off your {trip.name} itinerary? You can always add it back later.
+            </p>
+            <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+              <button className="btn btn-ghost btn-block" onClick={() => setPendingRemove(null)}>
+                Keep it
+              </button>
+              <button
+                className="btn btn-danger btn-block"
+                onClick={() => {
+                  setLandmark(pendingRemove, false);
+                  setPendingRemove(null);
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {confirmDelete && (

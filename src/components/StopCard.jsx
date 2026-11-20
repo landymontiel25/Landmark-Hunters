@@ -9,6 +9,7 @@ import { hasRating } from '../lib/ratingSources';
 import { costLine, descriptionLine, fallbackWhy, timeLine } from '../lib/stopCard';
 import { loadWhyGo, whyKey } from '../lib/whyGoApi';
 import { missionOf } from '../lib/missions';
+import { StarIcon, TargetIcon } from './HeadingIcons';
 
 // One stop on an itinerary (owner, 2026-11-14, 2026-11-15). In this order:
 // a big photo; the name with its Google rating beside it (or "New" when
@@ -60,9 +61,7 @@ function WhyGo({ stop, batch }) {
   return (
     <section className="it-stop-why" aria-label="Why you need to go" aria-busy={!lines}>
       <h5>
-        <svg className="it-stop-why-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 3.2l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 16.6l-5.3 2.9 1.1-5.9-4.4-4.1 6-.8z" />
-        </svg>
+        <StarIcon />
         Why you need to go
       </h5>
       <ul>
@@ -130,13 +129,17 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
                 <li>{stop.external ? 'Might need a ticket' : costLine(stop)}</li>
                 {time && <li>{time}</li>}
               </ul>
+              {/* "Why you need to go" before Mission (owner, 2026-11-19). */}
+              <WhyGo stop={stop} batch={batch} />
               {missionOf(stop) && (
                 <section className="it-stop-mission" aria-label="Mission">
-                  <h5>Mission:</h5>
+                  <h5>
+                    <TargetIcon />
+                    Mission:
+                  </h5>
                   <p>{missionOf(stop).text}</p>
                 </section>
               )}
-              <WhyGo stop={stop} batch={batch} />
               {stop.external
                 ? stop.url && (
                     <a className="it-stop-source" href={stop.url} target="_blank" rel="noreferrer">
@@ -144,9 +147,12 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
                     </a>
                   )
                 : <RatingsSection landmark={stop} />}
-              <button type="button" className="it-stop-remove" onClick={onRemove}>
-                Remove from trip
-              </button>
+              {/* A place not on the trip yet (Add Landmarks) has nothing to remove. */}
+              {onRemove && (
+                <button type="button" className="it-stop-remove" onClick={onRemove}>
+                  Remove from trip
+                </button>
+              )}
             </>
           )}
         </div>

@@ -12,6 +12,7 @@ import { useCheckIn } from '../lib/useCheckIn';
 import { useFriends } from '../lib/FriendsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import StopCard from '../components/StopCard';
+import { DragHandle, RemoveStopButton } from '../components/EditListControls';
 import TripRecapCard from '../components/TripRecapCard';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
@@ -1075,18 +1076,12 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
                 {formatDistance(stop.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}
-            <div className={`route-step ${draggingId === stop.id ? 'dragging' : ''}`}>
-              {sort === 'custom' ? (
-                <button
-                  type="button"
-                  className="drag-handle"
-                  title="Hold and drag to reorder"
-                  aria-label={`Reorder ${stop.name}: hold and drag, or use the up and down arrow keys`}
-                  onPointerDown={startDrag(stop.id)}
-                  onKeyDown={keyReorder(stop.id)}
-                >
-                  {'☰'}
-                </button>
+            <div className={`route-step ${editing ? 'route-step-editing' : ''} ${draggingId === stop.id ? 'dragging' : ''}`}>
+              {/* Edit List: remove on the left, drag handle on the right. */}
+              {editing ? (
+                <RemoveStopButton name={stop.name} onClick={() => setPendingRemove(stop)} />
+              ) : sort === 'custom' ? (
+                <DragHandle name={stop.name} onPointerDown={startDrag(stop.id)} onKeyDown={keyReorder(stop.id)} />
               ) : (
                 <div className={`route-num ${claimedMap[stop.id] ? 'found' : ''}`}>{idx + 1}</div>
               )}
@@ -1104,6 +1099,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
                 onRemove={() => setPendingRemove(stop)}
                 checkIn={{ user, firebaseEnabled, claimedMap, checkingIn, onCheckIn: checkIn }}
               />
+              {editing && <DragHandle className="drag-handle-end" name={stop.name} onPointerDown={startDrag(stop.id)} onKeyDown={keyReorder(stop.id)} />}
             </div>
           </div>
         ))}
@@ -1157,7 +1153,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3 style={{ marginTop: 0 }}>{'\u{1F5D1}\u{FE0F}'} Remove this stop?</h3>
             <p className="screen-subtitle" style={{ marginTop: 0 }}>
-              Take <strong>{pendingRemove.name}</strong> off your {region?.name} itinerary? You can always add it back later.
+              Take <strong>{pendingRemove.name}</strong> off your {itineraryName(region.id)} itinerary? You can always add it back later.
             </p>
             <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
               <button className="btn btn-ghost btn-block" onClick={() => setPendingRemove(null)}>

@@ -5,6 +5,7 @@ import { missionOf, missionDone, markMissionDone, submitMissionAnswer, TRIVIA_PR
 import { checkMissionPhoto, takeMissionPhoto } from '../lib/missionPhoto';
 import { attachCheckinPhoto } from '../lib/leaderboard';
 import { friendlyError } from '../lib/friendlyError';
+import { TargetIcon } from './HeadingIcons';
 
 // A landmark's mission (lib/missions.js), shown after a check-in is posted
 // (CheckInReview) and on the landmark page. `checkedInAt` (ms) is this
@@ -70,11 +71,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
   return (
     <section className={`mission-panel${compact ? ' mission-panel-compact' : ''}`} aria-label="Mission">
       <h5 className="mission-head">
-        <svg className="mission-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" />
-          <circle cx="12" cy="12" r="5" />
-          <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
-        </svg>
+        <TargetIcon />
         Mission:
       </h5>
       <p className="mission-text">{mission.text}</p>
