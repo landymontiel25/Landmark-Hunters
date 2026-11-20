@@ -148,3 +148,24 @@ describe('StopCard Info button and Why you need to go star (owner, 2026-11-19)',
     expect(h5.textContent.trim()).toBe('Why you need to go');
   });
 });
+
+describe('StopCard Show more order, icons and the add list (owner, 2026-11-19)', () => {
+  const MISSION_STOP = { ...STOP, mission: { type: 'photo', text: 'Photograph the gardens.' } };
+  it('puts "Why you need to go" before Mission, each with an icon', async () => {
+    const { el } = await render(MISSION_STOP);
+    await act(async () => el.querySelector('.it-stop-more').click());
+    const inner = el.querySelector('.it-stop-panel-inner');
+    const why = inner.querySelector('.it-stop-why');
+    const mission = inner.querySelector('.it-stop-mission');
+    expect(why.compareDocumentPosition(mission) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(mission.querySelector('h5 svg')).toBeTruthy();
+    expect(mission.querySelector('h5').textContent.trim()).toBe('Mission:');
+    expect(why.querySelector('h5 svg')).toBeTruthy();
+  });
+
+  it('shows no "Remove from trip" for a place that is not on the trip (no onRemove)', async () => {
+    const { el } = await render(STOP, { onRemove: undefined });
+    await act(async () => el.querySelector('.it-stop-more').click());
+    expect(el.querySelector('.it-stop-remove')).toBeNull();
+  });
+});

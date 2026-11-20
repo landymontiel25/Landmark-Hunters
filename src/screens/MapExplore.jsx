@@ -103,6 +103,37 @@ function isCheckedInIcon(icon) {
   return CHECKED_IN_ICONS.has(icon);
 }
 
+// A trip-stop or search pin's popup (owner, 2026-11-19): the name and, under
+// it in small text, the Itinerary's short description (two lines at most).
+// Tapping it opens the place's page.
+const LANDMARK_BY_ID = new Map(ALL_LANDMARKS.map((l) => [l.id, l]));
+const landmarkAtPath = (path) => {
+  const m = /^\/landmarks\/([^/]+)\/([^/]+)$/.exec(path || '');
+  return m ? ALL_LANDMARKS.find((l) => l.regionId === m[1] && l.id === m[2]) || null : null;
+};
+function PinPopup({ name, landmark, onOpen, onOpenChange }) {
+  return (
+    <Popup eventHandlers={onOpenChange ? { add: () => onOpenChange(true), remove: () => onOpenChange(false) } : undefined}>
+      <div
+        className="map-popup map-pin-popup"
+        role={onOpen ? 'button' : undefined}
+        tabIndex={onOpen ? 0 : undefined}
+        onClick={onOpen}
+        onKeyDown={(e) => {
+          if (onOpen && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            onOpen();
+          }
+        }}
+        style={onOpen ? { cursor: 'pointer' } : undefined}
+      >
+        <h4 style={{ margin: 0 }}>{name}</h4>
+        {landmark && <p className="map-popup-desc">{descriptionLine(landmark)}</p>}
+      </div>
+    </Popup>
+  );
+}
+
 function clusterIcon(cluster) {
   const children = cluster.getAllChildMarkers();
   const count = children.length;
@@ -399,6 +430,8 @@ export default function MapExplore({ experiments = false }) {
   }, [location.key]);
   // "View in Map" from a group trip: its stops, in the most efficient order
   // from where you are, with the route drawn and Start for live navigation.
+  // The search pin's popup is open (its name label hides meanwhile).
+  const [focusPopupOpen, setFocusPopupOpen] = useState(false);
   const [tripRoute, setTripRoute] = useState(null); // { name, stops: [{ id, name, lat, lng }] }
   useEffect(() => {
     const tr = location.state?.tripRoute;
@@ -1308,13 +1341,14 @@ export default function MapExplore({ experiments = false }) {
                   />
                 ) : null;
               })}
-              {orderedTrip.stops.map((st, i) => (
-                <Marker key={`trip-${st.id || i}`} position={[st.lat, st.lng]} icon={tripStopIcon(i + 1)} zIndexOffset={900}>
-                  <Tooltip direction="top" offset={[0, -14]} className="focus-tooltip">
-                    {i + 1}. {st.name}
-                  </Tooltip>
-                </Marker>
-              ))}
+              {orderedTrip.stops.map((st, i) => {
+                const lm = LANDMARK_BY_ID.get(st.id) || null;
+                return (
+                  <Marker key={`trip-${st.id || i}`} position={[st.lat, st.lng]} icon={tripStopIcon(i + 1)} zIndexOffset={900}>
+                    <PinPopup name={`${i + 1}. ${st.name}`} landmark={lm} onOpen={lm ? () => navigate(`/landmarks/${lm.regionId}/${lm.id}`) : undefined} />
+                  </Marker>
+                );
+              })}
             </>
           )}
           {navActive && <FollowUser pos={coords} following={following} onUserPan={() => setFollowing(false)} />}
@@ -1427,11 +1461,17 @@ export default function MapExplore({ experiments = false }) {
               // A searched place opens its page when tapped; a city, state or
               // country is just a label.
               interactive={!!searchFocus.path}
-              eventHandlers={searchFocus.path ? { click: () => navigate(searchFocus.path) } : undefined}
             >
-              <Tooltip permanent direction="top" offset={[0, -34]} className={`focus-tooltip ${searchFocus.kind ? `focus-tooltip--${searchFocus.kind}` : ''}`}>
-                {searchFocus.name}
-              </Tooltip>
+              {/* A tap opens the popup (name and short description); the
+                  popup opens the page. The name label steps aside meanwhile. */}
+              {!focusPopupOpen && (
+                <Tooltip permanent direction="top" offset={[0, -34]} className={`focus-tooltip ${searchFocus.kind ? `focus-tooltip--${searchFocus.kind}` : ''}`}>
+                  {searchFocus.name}
+                </Tooltip>
+              )}
+              {searchFocus.path && (
+                <PinPopup name={searchFocus.name} landmark={landmarkAtPath(searchFocus.path)} onOpen={() => navigate(searchFocus.path)} onOpenChange={setFocusPopupOpen} />
+              )}
             </Marker>
           )}
           {pinDrop && (

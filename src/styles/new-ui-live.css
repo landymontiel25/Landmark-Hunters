@@ -1940,6 +1940,7 @@ html[data-theme] body .mission-panel .mission-note {
 /* Small icons before two headings (owner, 2026-11-19): a star before "Why
    you need to go" (Mapr's lines, so gold) and a target before "Mission:". */
 html[data-theme] body .it-stop-why h5,
+html[data-theme] body .it-stop-mission h5,
 html[data-theme] body .mission-panel .mission-head {
   display: flex;
   align-items: center;
@@ -1949,7 +1950,52 @@ html[data-theme] body .it-stop-why .it-stop-why-icon {
   flex: none;
   fill: var(--gold, #c9971a);
 }
-html[data-theme] body .mission-panel .mission-icon {
+html[data-theme] body .mission-panel .mission-icon,
+html[data-theme] body .it-stop-mission .mission-icon {
   flex: none;
   color: var(--gold, #c9971a);
+}
+
+/* Edit List (owner, 2026-11-19), like Spotify: a red minus on the left, the
+   stop card in the middle, the drag handle on the right. Both sit at the
+   card's top, where the stop number sits. */
+html[data-theme] body .route-step .stop-remove {
+  margin-top: 12px;
+  width: 30px;
+  height: 30px;
+  background: #ff3b30;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+html[data-theme] body .route-step .stop-remove:active {
+  transform: scale(0.94);
+  transition-duration: 90ms;
+}
+html[data-theme] body .route-step .drag-handle {
+  margin-top: 12px;
+}
+html[data-theme] body .route-step > .card {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Add Landmarks: the add checkbox where a finished stop's number sits. */
+html[data-theme] body .route-step .stop-add-check {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 15px 4px 0 3px;
+  accent-color: var(--gold, #c9971a);
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] body .route-step .stop-remove,
+  html[data-theme] body .route-step .stop-remove:active {
+    transition: none;
+    transform: none;
+  }
+}
+/* The add list is not a route: no timeline line between its rows. */
+.route-step.route-step-add::before {
+  display: none;
 }
