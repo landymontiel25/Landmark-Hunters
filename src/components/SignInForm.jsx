@@ -14,9 +14,9 @@ const LAST_EMAIL_KEY = 'auth.lastEmail';
 // Google sign-in uses a popup, which the iOS web view can't open.
 const GOOGLE_SIGN_IN_AVAILABLE = !Capacitor.isNativePlatform();
 
-export default function SignInForm({ onSignedUp }) {
+export default function SignInForm({ onSignedUp, initialMode = 'signin' }) {
   const { signUpEmail, signInEmail, signInWithGoogle, resetPassword } = useAuth();
-  const [mode, setMode] = useState('signin');
+  const [mode, setMode] = useState(initialMode);
   const [name, setName] = useState('');
   const [email, setEmail] = useState(() => readPersisted(LAST_EMAIL_KEY) || '');
   const [password, setPassword] = useState('');

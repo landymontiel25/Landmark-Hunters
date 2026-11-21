@@ -362,6 +362,7 @@ export default function Profile() {
   if (!user) return (
       <div className="nav-clear">
         <SignInForm
+          initialMode={params.get('signup') ? 'signup' : 'signin'}
           onSignedUp={() => {
             setSignedUpNow(true);
             setFlowActive(true);

@@ -30,6 +30,23 @@ export function capturePendingReferralFromUrl() {
   }
 }
 
+/**
+ * Call once at app boot, after capturePendingReferralFromUrl. An invite link
+ * (?ref=name) that opens on the home route sends the visitor to Profile,
+ * where a signed-out visitor sees the sign-up form (?signup=1). A link that
+ * already names a screen in the # part is left alone.
+ */
+export function routeReferralLinkToSignup() {
+  try {
+    const ref = new URLSearchParams(window.location.search).get('ref');
+    const hash = window.location.hash;
+    if (!ref || (hash && hash !== '#' && hash !== '#/')) return;
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#/profile?signup=1`);
+  } catch {
+    /* URL unavailable -- they just land on the home screen */
+  }
+}
+
 function takePendingReferral() {
   try {
     const ref = localStorage.getItem(STORAGE_KEY);

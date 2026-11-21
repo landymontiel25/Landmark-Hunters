@@ -10,7 +10,7 @@ import './styles/apple-live.css';
 import './styles/new-ui-live.css';
 import App from './App.jsx';
 import ErrorBoundary from './components/ErrorBoundary';
-import { capturePendingReferralFromUrl } from './lib/referrals';
+import { capturePendingReferralFromUrl, routeReferralLinkToSignup } from './lib/referrals';
 import { registerOfflineServiceWorker } from './lib/offlineMap';
 import { watchForNewVersion } from './lib/versionCheck';
 import { applyStoredTheme } from './lib/useTheme';
@@ -20,6 +20,7 @@ import { ensurePlacePacks } from './lib/placePacks';
 // string, ahead of the # it routes on.
 applyStoredTheme();
 capturePendingReferralFromUrl();
+routeReferralLinkToSignup();
 registerOfflineServiceWorker();
 watchForNewVersion();
 
