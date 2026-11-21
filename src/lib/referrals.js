@@ -133,3 +133,26 @@ async function claimBonuses(uid, userName) {
     /* best-effort */
   }
 }
+
+/** The link a friend opens to sign up under this username. */
+export function referralLink(username) {
+  return username ? `https://landmarkhunters.com/?ref=${encodeURIComponent(username)}` : 'https://landmarkhunters.com';
+}
+
+/**
+ * How many friends signed up through this user's link, and how many of those
+ * have paid out (the friend verified their email). Zeros when offline.
+ */
+export async function countMyReferrals(uid) {
+  if (!db || !uid) return { joined: 0, paid: 0 };
+  try {
+    const snap = await getDocs(query(collection(db, 'referrals'), where('referrerUid', '==', uid)));
+    let paid = 0;
+    snap.docs.forEach((d) => {
+      if (d.data().referredClaimed) paid += 1;
+    });
+    return { joined: snap.docs.length, paid };
+  } catch {
+    return { joined: 0, paid: 0 };
+  }
+}
