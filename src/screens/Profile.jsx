@@ -27,6 +27,7 @@ import { useInStreakWarningWindow } from '../lib/useStreakWarning';
 import { claimMyReferralBonuses } from '../lib/referrals';
 import { hasCompletedOnboardingLocally } from '../lib/onboarding';
 import { ONBOARDING_VERSION, onboardingStatus } from '../lib/onboardingVersion';
+import ReferralCard from '../components/ReferralCard';
 import FriendsPanel from '../components/FriendsPanel';
 import FollowsPanel from '../components/FollowsPanel';
 import ReputationCard from '../components/ReputationCard';
@@ -813,6 +814,8 @@ export default function Profile() {
         </div>
       )}
       <MaprLine>{streakNote}</MaprLine>
+
+      <ReferralCard uid={user.uid} myUsername={myUsername} />
 
       {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => navigate('/onboarding')} />}
       <ProfileList

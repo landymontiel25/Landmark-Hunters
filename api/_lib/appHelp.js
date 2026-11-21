@@ -310,8 +310,8 @@ export const APP_HELP =
   `Notifications opens the Streaks page when tapped. Nothing about the streak turns red before then: earlier in the day the header's 🔥 stays plain (green once the day is secured) and Profile shows no "streak breaks" warning; both turn red only in the last 5 hours.\n` +
   `- Trip data (itineraries, My Preferences chips) is stored on the device. Signing out keeps it (it's yours when you sign back in); signing in as a different account clears it so the next ` +
   `person on the same phone doesn't see the previous account's itineraries.\n` +
-  `- Inviting friends: Profile has an "Invite Friends" button that shares your username/link; once someone signs up through it AND verifies their email, both of you get 50 ` +
-  `bonus points (credited quietly into your point total — there's no separate referral display anymore).\n` +
+  `- Inviting friends: Profile has an "Invite friends" card under the Mapr streak line (November 2026) with your invite link, a Share invite button (opens the phone's share sheet) and a Copy link button, plus a line saying how many friends have joined with your link. Friends has the same invite as an "Invite Friends" button. Once someone signs up through the link AND verifies their email, both of you get 50 ` +
+  `bonus points (credited quietly into your point total).\n` +
   `- Directions: every "Get Directions" button in the app (Map tab pins, Landmarks list, a landmark's page, itineraries) opens the same ` +
   `choice: "🗺️ Open in Map", "🌐 Open in Google Maps", or "🍎 Open in Apple Maps". "Open in Map" keeps you in the app: it draws the real road ` +
   `route from your live location with turn-by-turn steps, total distance and ETA (on the Map tab, or right on the itinerary's own map when ` +

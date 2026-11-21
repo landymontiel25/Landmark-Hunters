@@ -1999,3 +1999,67 @@ html[data-theme] body .route-step .stop-add-check {
 .route-step.route-step-add::before {
   display: none;
 }
+
+/* Profile: invite friends card (referral). Hairline card, gold only on the
+   one primary action; pills; works in light and dark through --ap tokens. */
+.rf-card {
+  margin: 20px 0 0;
+  padding: 16px;
+  border: 1px solid var(--ap-line);
+  border-radius: 14px;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+}
+.rf-title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 600;
+}
+.rf-sub,
+.rf-count {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ap-text);
+}
+.rf-count {
+  margin-top: 12px;
+  font-weight: 600;
+}
+.rf-link {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--ap-card-2);
+  font-size: 14px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rf-actions {
+  display: flex;
+  gap: 8px;
+}
+.rf-btn {
+  flex: 1;
+  min-height: 44px;
+  border: 1px solid var(--ap-line);
+  border-radius: 999px;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 90ms;
+}
+.rf-btn:active {
+  transform: scale(0.96);
+}
+.rf-btn-primary {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: #1a1400;
+}
