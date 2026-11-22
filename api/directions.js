@@ -127,6 +127,9 @@ async function handler(req, res) {
       }),
     });
     if (!r.ok) {
+      // Google's reason (status and message, never the request or key), so a
+      // failing route can be diagnosed from Vercel's Logs.
+      console.error('[directions] Routes API failed:', r.status, String(await r.text().catch(() => '')).slice(0, 300));
       res.status(502).json({ error: 'Could not get directions right now.' });
       return;
     }

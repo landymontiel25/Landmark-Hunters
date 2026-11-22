@@ -404,7 +404,7 @@ export default function GroupTrip() {
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
             {tripStops.length > 0 && (
               <button type="button" className="btn btn-primary btn-sm" onClick={viewInMap}>
-                {'\u{1F5FA}\u{FE0F}'} View in Map
+                {'\u{1F9ED}'} Get Directions for All Landmarks
               </button>
             )}
             {tripStops.length > 0 && (
