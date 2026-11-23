@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Photo checks failing on Opus 5.5 (fixed 2026-11-23)
+
+- **Done, verified live.** Two causes in turn: the Anthropic org behind
+  Vercel's ANTHROPIC_API_KEY had no credits (owner fixed), then Opus 5.5
+  refused the forced tool_choice (400). The verdict is now structured JSON
+  (photoCheck.js VERDICT_FORMAT), effort low, max_tokens 4096. Live: a gray
+  test photo on Abaco Beach Resort's mission was judged and refused with
+  the model's reason. Leftover: two gray test images under
+  checkin_photos/abaco-beach-resort/LXCM0GKeFPVPsIU6gEZ8Gy1NBKF3_*.
+
 ## Mission start after an earlier check-in (2026-11-23)
 
 - **Done, verified live.** Any real check-in at a place opens its mission
