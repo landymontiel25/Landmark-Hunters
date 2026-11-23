@@ -314,7 +314,13 @@ export async function bestOrder({ stops = [], start = 'my location', end = '', m
 export function routesFrom(results = []) {
   const out = [];
   for (const r of results) {
-    if (!r || r.error) continue;
+    if (!r) continue;
+    // A lookup that couldn't time the trip (water in between, no boat
+    // route) still knows how far it is on the card: that number may be said.
+    if (r.error) {
+      if (r.card_distance && Number.isFinite(r.miles)) out.push({ from: r.from, to: r.to, miles: r.miles, km: r.km, minutes: NaN, card_distance: r.card_distance });
+      continue;
+    }
     if (Number.isFinite(r.miles)) out.push(r);
     // The route's own length (by road, or by boat around the islands) is a
     // real number too.

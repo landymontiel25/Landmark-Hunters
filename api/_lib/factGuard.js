@@ -199,8 +199,13 @@ function cutClause(sentence, claimText) {
 }
 
 const fmtMin = (m) => (m >= 60 ? `${Math.floor(m / 60)} hr${m % 60 ? ` ${m % 60} min` : ''}` : `${m} min`);
-export const routeSentence = (r) =>
-  `${r.from?.name || 'Start'} to ${r.to?.name || 'there'}: ${r.miles} mi, about ${fmtMin(r.minutes)} ${r.mode === 'walking' ? 'walking' : r.mode === 'driving' || !r.mode ? 'driving with current traffic' : r.mode} (${r.source || 'Google Maps'}).`;
+// The card's distance (card_distance, in the traveler's units) when the
+// lookup gave one; a lookup with no time says only how far, as the card does.
+export const routeSentence = (r) => {
+  const far = r.card_distance || `${r.miles} mi`;
+  if (!Number.isFinite(r.minutes)) return `${r.to?.name || 'It'} is ${far} away, as its card shows.`;
+  return `${r.from?.name || 'Start'} to ${r.to?.name || 'there'}: ${far}, about ${fmtMin(r.minutes)} ${r.mode === 'walking' ? 'walking' : r.mode === 'driving' || !r.mode ? 'driving with current traffic' : r.mode} (${r.source || 'Google Maps'}).`;
+};
 
 export const NEED_LOCATION = "Turn on location and I'll check the real distance from where you are.";
 export const CANT_CHECK_DISTANCE = "I couldn't check the real distance right now, so I won't guess. Tap Directions on the card for the live route.";

@@ -143,3 +143,14 @@ describe('route_between follows the traveler\'s mode and the cards (owner, 2026-
     expect(r.minutes).toBeUndefined();
   });
 });
+
+describe('a lookup with no time still carries the card distance (2026-11-23)', () => {
+  it('routesFrom keeps how far from an errored lookup, never a time', async () => {
+    const { routesFrom } = await import('./routeLookup.js');
+    const { routeSentence } = await import('./factGuard.js');
+    const out = routesFrom([{ error: 'water is in between', card_distance: '4.8 km', miles: 3, km: 4.8, to: { name: 'Fowl Cays National Park' } }]);
+    expect(out).toHaveLength(1);
+    expect(Number.isFinite(out[0].minutes)).toBe(false);
+    expect(routeSentence(out[0])).toBe('Fowl Cays National Park is 4.8 km away, as its card shows.');
+  });
+});
