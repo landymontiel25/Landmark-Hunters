@@ -44,7 +44,9 @@ export async function payReferral(db, referredUid, { authUser, dayId = null, now
   const snap = await refRef.get();
   if (!snap.exists) return { paid: false, reason: 'no-referral' };
   const referral = snap.data();
-  const user = await authUser(referredUid).catch(() => null);
+  const user = await Promise.resolve()
+    .then(() => authUser(referredUid))
+    .catch(() => null);
   const phone = user?.phoneNumber || null;
   const visits = await db.collection('checkins').where('userId', '==', referredUid).get();
   const verifiedVisit = visits.docs.some((d) => isVerifiedCheckin(d.data()));

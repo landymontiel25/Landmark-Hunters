@@ -66,3 +66,15 @@ describe('paying a referral', () => {
     expect((await payReferral(db, 'new', { authUser: async () => ({ phoneNumber: '+13055550100' }) })).reason).toBe('phone-used');
   });
 });
+
+describe('a lookup that fails', () => {
+  it('reads as "no phone", never a crash', async () => {
+    const db = fakeDb({ 'referrals/new': { ...referral } });
+    const out = await payReferral(db, 'new', {
+      authUser: () => {
+        throw new TypeError('not a function');
+      },
+    });
+    expect(out.reason).toBe('needs-phone');
+  });
+});

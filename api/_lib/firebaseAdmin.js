@@ -63,8 +63,16 @@ export async function adminAuth() {
         users: (body.users || []).map((u) => ({
           uid: u.localId,
           metadata: { creationTime: u.createdAt ? new Date(Number(u.createdAt)).toISOString() : undefined },
+          // The verified phone number linked to the account, if any (the
+          // referral bonus needs one, api/_lib/referralBonus.js).
+          phoneNumber: u.phoneNumber || null,
         })),
       };
+    },
+    // One account: { uid, phoneNumber } or null.
+    async getUser(uid) {
+      const { users } = await this.getUsers([{ uid }]);
+      return users[0] || null;
     },
   };
 }
