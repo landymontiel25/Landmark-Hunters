@@ -448,8 +448,13 @@ service cloud.firestore {
              'rating', 'ratingTier', 'ratingFrequency', 'ratingFactor', 'ratingAt', 'commentDeltas', 'placeScore',
              'predicted', 'outcome', 'missWeight', 'updatedAt',
              'tapPlaceOff', 'typeTier', 'typeFrequency', 'typeFactor', 'typeDelta', 'placeRatingDelta', 'resolution',
-             'latestLevel', 'latestSource', 'latestAt', 'commentTypeDeltas'])
+             'latestLevel', 'latestSource', 'latestAt', 'commentTypeDeltas',
+             // "Would you come back?" (maprLearning.js). Missing from this
+             // list after it shipped, which refused every rating's save.
+             'ratingWouldReturn', 'typeWouldReturn'])
         && request.resource.data.landmarkId == landmarkId
+        && (request.resource.data.get('ratingWouldReturn', null) == null || request.resource.data.ratingWouldReturn in ['yes', 'probably-not', 'never-again'])
+        && (request.resource.data.get('typeWouldReturn', null) == null || request.resource.data.typeWouldReturn in ['yes', 'probably-not', 'never-again'])
         && request.resource.data.placeScore is number
         && request.resource.data.missWeight is number
         && (request.resource.data.get('tap', null) == null || request.resource.data.tap in ['positive', 'neutral', 'negative'])
@@ -1021,6 +1026,26 @@ service cloud.firestore {
         && (!('predicted' in request.resource.data) || request.resource.data.predicted == null || request.resource.data.predicted in ['positive', 'neutral', 'negative'])
         // Who the chat request behind this pick was for (optional).
         && (!('requestFor' in request.resource.data) || request.resource.data.requestFor in ['solo', 'group']);
+      allow update: if false;
+    }
+    // The real error behind a save that failed on someone's phone
+    // (src/lib/ratingQueue.js logSaveError), so the cause is visible to the
+    // owner instead of a generic message. Write-once by the person it
+    // happened to; only the admin reads them. No location, no rating content.
+    match /save_errors/{id} {
+      allow read, delete: if isAdmin();
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['uid', 'kind', 'source', 'landmarkId', 'region', 'code', 'message', 'attempt', 'online', 'createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.kind in ['rating']
+        && request.resource.data.source is string && request.resource.data.source.size() <= 40
+        && request.resource.data.landmarkId is string && request.resource.data.landmarkId.size() <= 200
+        && request.resource.data.region is string && request.resource.data.region.size() <= 60
+        && request.resource.data.code is string && request.resource.data.code.size() <= 100
+        && request.resource.data.message is string && request.resource.data.message.size() <= 500
+        && request.resource.data.attempt is int && request.resource.data.attempt >= 0 && request.resource.data.attempt <= 10
+        && (request.resource.data.online == null || request.resource.data.online is bool)
+        && request.resource.data.createdAt == request.time;
       allow update: if false;
     }
     // Running per-landmark check-in counts for one region (Mapr Picks' cold

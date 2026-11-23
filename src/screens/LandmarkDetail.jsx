@@ -35,6 +35,7 @@ import {
 } from '../lib/leaderboard';
 import { regionTimezone, tzAbbrev, toZonedInputValue, fromZonedInputValue } from '../lib/timezones';
 import RatingFlow from '../components/RatingFlow';
+import { RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE } from '../lib/ratingQueue';
 import MyCommentEditor from '../components/MyCommentEditor';
 import LandmarkPostcard from '../components/LandmarkPostcard';
 import Lightbox from '../components/Lightbox';
@@ -617,12 +618,19 @@ function LandmarkDetailBody() {
         rating: myRating,
         photoFiles,
         disagreement,
-      });
+      }, { source: 'landmark' });
     } catch (e) {
       // Your tier/chips/comment and photos all stay put -- Try again
       // resubmits exactly what's on screen.
       setSaveError(e);
       setSaving(false);
+      return;
+    }
+    if (res?.queued) {
+      // Kept on this phone and sent again on its own (ratingQueue.js). The
+      // form and draft stay as they are until it lands.
+      setSaving(false);
+      setSaveMsg(res.photosDropped ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
       return;
     }
     clearPersisted(draftKey);

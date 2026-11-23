@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { getAllRatings, getUserReviews } from './reviews';
+import { getAllRatings, getUserReviews, flushQueuedRatings } from './reviews';
 import { firebaseEnabled } from './firebase';
 import { useAuth } from './AuthContext';
 import { CheckInContext } from './CheckInContext';
@@ -92,6 +92,27 @@ export function RatingsProvider({ children }) {
   useEffect(() => {
     reload();
   }, [reload]);
+
+  // A rating that couldn't save is kept on this device (ratingQueue.js) and
+  // sent again here: at sign-in/app open, back online, and back in front.
+  const uid = user?.uid || null;
+  useEffect(() => {
+    if (!firebaseEnabled || !uid) return undefined;
+    const flush = () => {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) return;
+      flushQueuedRatings(uid)
+        .then((saved) => saved > 0 && reload())
+        .catch(() => {});
+    };
+    const onVisible = () => document.visibilityState === 'visible' && flush();
+    flush();
+    window.addEventListener('online', flush);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      window.removeEventListener('online', flush);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [uid, reload]);
 
   const myReviewsLoaded = !!user && loadedFor === user.uid && claimedLoaded;
   // Re-rendered whenever CheckInContext changes (checking-in spinner, friends

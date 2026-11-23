@@ -3,6 +3,31 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Ratings refused after "Would you come back?" shipped (fixed 2026-11-22)
+
+- **Cause.** PR #886 added `ratingWouldReturn` and `typeWouldReturn` to the
+  Mapr ledger (`users/{uid}/place_scores`, maprLearning.js) but not to that
+  rule's `hasOnly` list in firestore.rules. Every rating's transaction was
+  refused with PERMISSION_DENIED, on every place, from that deploy (2026-11-17, 10:43pm ET) until this
+  fix (the owner hit it at Abaco Beach Resort). Taps that write the ledger
+  failed the same way. Reproduced in the emulator with the real `submitReview`.
+- **Fix.** The two fields are allowed, with their values checked
+  ('yes' / 'probably-not' / 'never-again' / null). `placeScoresRules.test.js`
+  now fails in `npm test` whenever the ledger writes a key the rule doesn't
+  list, and scripts/rules-test.mjs covers it in CI.
+- **Hardening.** Every rating save (check-in, landmark page, Rate pill,
+  onboarding) goes through `saveRating` in reviews.js: 4 tries (waits of 1, 3
+  and 9 s), then kept on the phone (`src/lib/ratingQueue.js`) and sent again by
+  RatingsContext at app open, back online and back in front. Photos can't be
+  kept with a waiting rating; the note says to add them again.
+- **Logging.** Each failed try writes its real code and message to
+  `save_errors` (admin read only, no location, no rating text). Read it in the
+  Firebase console for now. Open: show it on the admin dashboard if it's ever
+  needed often.
+- **Ratings lost in the bug window.** Their drafts stayed on each phone (a
+  failed save keeps the draft), so the place's page reopens with the picks;
+  they still have to tap Save. Nothing re-sends them automatically.
+
 ## Abaco Beach Resort & Boat Harbour Marina (2026-11-22)
 
 Added as the 31st Abacos place (Marsh Harbour, Great Abaco; Food like the

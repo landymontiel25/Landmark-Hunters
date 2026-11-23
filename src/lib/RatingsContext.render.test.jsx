@@ -8,7 +8,7 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const user = { uid: 'A' };
 vi.mock('./AuthContext', () => ({ useAuth: () => ({ user }) }));
 vi.mock('./firebase', () => ({ firebaseEnabled: true }));
-vi.mock('./reviews', () => ({ getAllRatings: async () => ({}), getUserReviews: async () => [] }));
+vi.mock('./reviews', () => ({ getAllRatings: async () => ({}), getUserReviews: async () => [], flushQueuedRatings: async () => 0 }));
 
 const { RatingsProvider, useRatings } = await import('./RatingsContext.jsx');
 const { CheckInContext } = await import('./CheckInContext.jsx');

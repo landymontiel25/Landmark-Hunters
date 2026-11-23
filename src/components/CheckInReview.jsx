@@ -6,6 +6,7 @@ import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { submitReview, ratingDraftKey } from '../lib/reviews';
+import { enqueueRating, RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE } from '../lib/ratingQueue';
 import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../lib/usePersistentState';
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
@@ -214,15 +215,16 @@ export default function CheckInReview() {
       // it), but is flagged so the landmark page doesn't call it "restored"
       // while this is still uploading.
       markDraftSubmitting(draftKey);
-      const save = (files) =>
-        submitReview({
-          userId: user.uid,
-          userName: myUsername || user.displayName || 'Explorer',
-          landmark: justCheckedIn,
-          rating,
-          photoFiles: files,
-          disagreement,
-        });
+      const reviewArgs = {
+        userId: user.uid,
+        userName: myUsername || user.displayName || 'Explorer',
+        landmark: justCheckedIn,
+        rating,
+        disagreement,
+      };
+      // Retried, logged, and kept on this phone if it still can't save
+      // (ratingQueue.js), so this never ends on "couldn't save".
+      const save = (files) => submitReview({ ...reviewArgs, photoFiles: files }, { source: 'checkin' });
       save(photoFiles)
         // A rating holds 3 photos. On a repeat visit the old ones can fill it,
         // and the cap used to refuse the whole rating: save the rating, and
@@ -241,6 +243,13 @@ export default function CheckInReview() {
           return { ...res, photoFailed };
         })
         .then(async (res) => {
+          if (res?.queued) {
+            // Waiting on this phone; the draft stays so the landmark page
+            // shows it until the queue sends it.
+            unmarkDraftSubmitting(draftKey);
+            setBgMsg(res.photosDropped ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
+            return;
+          }
           // Saved -- the in-progress copy on this device isn't needed. (On
           // failure it's kept, so the landmark page reopens with it.)
           clearPersisted(draftKey);
@@ -249,9 +258,16 @@ export default function CheckInReview() {
           if (res?.photoFailed) setBgMsg("Your photo couldn't upload — you can try again from the landmark page.");
           else if (photoFiles.length && !ratingOnly) askPhotoBonus(justCheckedIn.id);
         })
-        .catch(() => {
+        .catch((e) => {
           unmarkDraftSubmitting(draftKey);
-          setBgMsg("Your rating couldn't save — you can try rating it again from the landmark page.");
+          // Only a mistake the person has to fix gets here; it says what to
+          // change. Anything else is kept on this phone like any failed save.
+          if (e?.userMessage) {
+            setBgMsg(`${e.userMessage} Your picks are kept on the landmark page.`);
+            return;
+          }
+          enqueueRating(reviewArgs);
+          setBgMsg(photoFiles.length ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
         });
     } else if (photoFiles.length) {
       // No rating here, so the photo lives on the check-in doc instead.

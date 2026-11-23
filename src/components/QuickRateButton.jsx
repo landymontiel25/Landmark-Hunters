@@ -11,6 +11,8 @@ import { isRateable } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
 import { initialRating } from './initialRating';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
+import { useToast } from '../lib/ToastContext';
+import { RATING_QUEUED_MESSAGE } from '../lib/ratingQueue';
 
 // A "Rate" pill next to a landmark's name (map popup, Landmarks list,
 // itinerary card). Shows for every rateable landmark, checked into or not:
@@ -27,6 +29,7 @@ export default function QuickRateButton({ landmark }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
+  const toast = useToast();
 
   if (!firebaseEnabled || !user || !isRateable(landmark)) return null;
   const draftKey = ratingDraftKey(user.uid, landmark.id);
@@ -57,13 +60,21 @@ export default function QuickRateButton({ landmark }) {
     try {
       // Two levels from your own earlier answer on this place: asks what happened first.
       const disagreement = await askDisagreement({ userId: user.uid, landmark, tier: rating.tier, comment: rating.comment });
-      await submitReview({
+      const res = await submitReview({
         userId: user.uid,
         userName: myUsername || user.displayName || 'Explorer',
         landmark,
         rating,
         disagreement,
-      });
+      }, { source: 'quick-rate' });
+      if (res?.queued) {
+        // Kept on this phone and sent again on its own (ratingQueue.js); the
+        // draft stays so reopening shows the picks.
+        toast.show(RATING_QUEUED_MESSAGE);
+        setSaving(false);
+        setOpen(false);
+        return;
+      }
     } catch (e) {
       // Modal stays open with every pick intact; Try again resends it.
       setError(e);

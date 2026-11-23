@@ -20,6 +20,7 @@ vi.mock('./reviews', () => ({
   getAllRatings: async () => ({}),
   getUserReviews: (uid) => deferred(`reviews-${uid}`),
   getUserReviewPhotos: (uid) => deferred(`photos-${uid}`),
+  flushQueuedRatings: async () => 0,
 }));
 vi.mock('./leaderboard', () => ({ getUserCheckins: async () => [] }));
 

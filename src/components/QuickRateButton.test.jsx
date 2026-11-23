@@ -33,7 +33,8 @@ describe('QuickRateButton', () => {
     expect(save().disabled).toBe(false);
     await act(async () => save().click());
     expect(submitReview).toHaveBeenCalledWith(
-      expect.objectContaining({ userId: 'me', landmark, rating: expect.objectContaining({ tier: 'worth-trying' }) })
+      expect.objectContaining({ userId: 'me', landmark, rating: expect.objectContaining({ tier: 'worth-trying' }) }),
+      { source: 'quick-rate' }
     );
   });
 });

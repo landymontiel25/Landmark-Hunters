@@ -25,6 +25,8 @@ import { pickMarkFields } from './pickMarks';
 import { scheduleTasteRecompute } from './tasteScoreStore';
 import { canonicalLandmarkId } from '../data/regions';
 import { notifyUser } from './notifications';
+import { withRetries, logSaveError, enqueueRating, dequeueRating, flushRatingQueue } from './ratingQueue';
+import { clearPersisted } from './usePersistentState';
 
 // An Error whose message was written for travelers, not developers --
 // friendlyError() shows `userMessage` as-is instead of a generic fallback.
@@ -643,7 +645,38 @@ function _submitReviewSerial(args) {
   run.then(clear, clear);
   return run;
 }
-export const submitReview = invalidating(_submitReviewSerial);
+// Every rating save, from every screen: retried, its real error logged, and
+// kept on this device if it still can't save (ratingQueue.js). Resolves with
+// { queued: true, photosDropped } in that last case instead of throwing, so
+// no screen ever ends on "couldn't save". `source` names the screen in the log.
+async function saveRating(args, { queue = true, source = 'app' } = {}) {
+  const { userId, landmark } = args;
+  try {
+    const res = await withRetries(
+      () => _submitReviewSerial(args),
+      { onError: (error, attempt) => logSaveError({ uid: userId, landmark, attempt, error, source }) }
+    );
+    // Saved: anything older waiting on this device for this place is replaced.
+    dequeueRating(userId, landmark?.id);
+    return res;
+  } catch (e) {
+    if (!queue || e?.userMessage) throw e;
+    enqueueRating(args);
+    const files = args.photoFiles?.length ? args.photoFiles : args.photoFile ? [args.photoFile] : [];
+    return { queued: true, photosDropped: files.length > 0, photoURLs: [], photoFailed: files.length > 0 };
+  }
+}
+export const submitReview = invalidating(saveRating);
+
+// Sends the ratings waiting on this device (RatingsContext calls it when the
+// app opens, comes back online, or comes back to the front). A rating that
+// lands clears its leftover draft too.
+export const flushQueuedRatings = invalidating((userId) =>
+  flushRatingQueue(userId, async (entry) => {
+    await saveRating(entry, { queue: false, source: 'queue' });
+    clearPersisted(ratingDraftKey(userId, entry.landmark.id));
+  })
+);
 
 export const syncMyReviewVisibility = invalidating(_syncMyReviewVisibility);
 

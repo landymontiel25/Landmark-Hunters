@@ -131,6 +131,35 @@ describe('CheckInReview background save errors', () => {
   });
 });
 
+describe('CheckInReview when the rating cannot save yet', () => {
+  const post = async (saveResult) => {
+    submitReview.mockImplementation(saveResult);
+    checkInState.justCheckedIn = { id: 'abaco-beach-resort', name: 'Abaco Beach Resort', region: 'abacos', categories: ['food'] };
+    checkInState.checkInOptions = { ratingOnly: true, requireComment: false, initialTier: 'highly-recommend' };
+    checkInState.commitCheckIn = async () => {};
+    ratingsState.myReviews = {};
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    await act(async () => createRoot(container).render(<CheckInReview />));
+    await act(async () => [...container.querySelectorAll('button')].find((b) => b.textContent === 'Post').click());
+    return container;
+  };
+
+  it('says it is kept on the phone, never "couldn\'t save"', async () => {
+    const c = await post(async () => ({ queued: true, photosDropped: false }));
+    expect(c.textContent).toContain("Your rating's saved on this phone");
+    expect(c.textContent).not.toMatch(/couldn.t save/);
+  });
+
+  it('keeps an unexpected failure on the phone too', async () => {
+    localStorage.clear();
+    const c = await post(() => Promise.reject(new Error('internal')));
+    expect(c.textContent).toContain("Your rating's saved on this phone");
+    expect(c.textContent).not.toMatch(/couldn.t save/);
+    expect(localStorage.getItem('lh.ratingQueue.me')).toContain('abaco-beach-resort');
+  });
+});
+
 describe('CheckInReview after a verified visit', () => {
   it('offers "Share a tip for others?" once posted, only when the server verified this visit', async () => {
     checkInState.justCheckedIn = { id: 'lm1', name: 'Test Cafe', region: 'r', categories: ['food'] };

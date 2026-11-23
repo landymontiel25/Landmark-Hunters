@@ -71,7 +71,7 @@ export default function OnboardingRateStep({ lovedTags = [], onDone, onLater }) 
         userName: myUsername || user.displayName || 'Explorer',
         landmark: place,
         rating: { tier, fromOnboarding: true },
-      });
+      }, { source: 'onboarding' });
       setAdded((a) => [...a, place.id]);
       reload().catch(() => {});
     } catch (e) {

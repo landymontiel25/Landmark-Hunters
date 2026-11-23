@@ -623,6 +623,16 @@ await t('place_scores: owner creates, updates, reads and deletes their own', asy
   await assertSucceeds(getDoc(doc(db, 'users/ann/place_scores/pl1')));
   await assertSucceeds(getDocs(collection(db, 'users/ann/place_scores')));
 });
+// The bug of 2026-11-22: "Would you come back?" (PR #886) put these two on
+// the ledger without adding them here, and every rating's save was refused.
+await t('place_scores: "Would you come back?" answers save; unknown answers are refused', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ ratingWouldReturn: 'yes', typeWouldReturn: 'yes' })));
+  await assertSucceeds(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ ratingWouldReturn: null, typeWouldReturn: null })));
+  await assertSucceeds(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ ratingWouldReturn: 'never-again', typeWouldReturn: 'probably-not' })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ ratingWouldReturn: 'maybe' })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ typeWouldReturn: 5 })));
+});
 await t('place_scores: nobody else can read, list, write or delete them', async () => {
   const db = as('bob');
   await assertFails(getDoc(doc(db, 'users/ann/place_scores/pl1')));
@@ -1213,6 +1223,23 @@ await t('reviews: a blocked friend cannot list your friends-only reviews', () =>
 await t('replies and reports: only on reviews you can see', async () => {
   await assertFails(addDoc(collection(as('zed'), 'reviews/rae_lmP/replies'), { uid: 'zed', userName: 'z', text: 'hi', createdAt: serverTimestamp() }));
   await assertFails(updateDoc(doc(as('zed'), 'reviews/rae_lmP'), { reportedBy: ['zed'] }));
+});
+
+console.log('save_errors (why a save failed, admin-only)');
+await reset();
+const saveErr = (o = {}) => ({ uid: 'ann', kind: 'rating', source: 'checkin', landmarkId: 'abaco-beach-resort', region: 'abacos',
+  code: 'permission-denied', message: 'Missing or insufficient permissions.', attempt: 0, online: true, createdAt: serverTimestamp(), ...o });
+await t('save_errors: you can log your own failed save', () => assertSucceeds(addDoc(collection(as('ann'), 'save_errors'), saveErr())));
+await t('save_errors: not as someone else, not with extra fields, not oversized', async () => {
+  await assertFails(addDoc(collection(as('bob'), 'save_errors'), saveErr()));
+  await assertFails(addDoc(collection(as('ann'), 'save_errors'), saveErr({ lat: 1 })));
+  await assertFails(addDoc(collection(as('ann'), 'save_errors'), saveErr({ message: 'x'.repeat(501) })));
+  await assertFails(addDoc(collection(as('ann'), 'save_errors'), saveErr({ kind: 'other' })));
+});
+await t('save_errors: only the admin reads them', async () => {
+  await seed((db) => setDoc(doc(db, 'save_errors/e1'), { ...saveErr(), createdAt: 1 }));
+  await assertFails(getDoc(doc(as('ann'), 'save_errors/e1')));
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('owner', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'save_errors/e1')));
 });
 
 await env.cleanup();
