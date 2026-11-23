@@ -47,8 +47,8 @@ describe('HOME_RADIUS_METERS', () => {
     expect(HOME_RADIUS_METERS).toBeCloseTo(804.672, 2);
   });
 
-  it('exclusion is currently toggled off', () => {
-    expect(HOME_RADIUS_EXCLUSION_ENABLED).toBe(false);
+  it('exclusion is on again (anti-farming item 6), decided by the server', () => {
+    expect(HOME_RADIUS_EXCLUSION_ENABLED).toBe(true);
   });
 });
 

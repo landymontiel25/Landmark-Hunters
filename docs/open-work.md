@@ -3,6 +3,23 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 6: landmarks (2026-11-23)
+
+- **Done.** User-added landmarks are moderated: src/lib/landmarkApproval.js
+  (approved, or submitted before MODERATION_CUTOFF_MS = 2026-11-23 07:00
+  UTC, grandfathered without touching data: the 50 existing ones). The
+  approval queue is on the admin dashboard's Content page (admin-jobs
+  landmarks-queue / landmark-moderate). A pending landmark can't be
+  verified (verify-checkin loadPlace), so it never pays. The home-radius
+  exclusion is on, decided by the server from users/{uid}/private/main
+  homeCoords (checkinPayout.js isNearHome). Trivia answers live only in
+  api/_lib/triviaAnswers.js; the client data has none, and a wrong guess
+  gets no `answer` back.
+- **Open.** The app has no "pending" badge yet beyond the `pendingReview`
+  flag on the submitter's own landmark (Add a Landmark is switched off in
+  the app anyway). A landmark the owner rejects later disappears from lists
+  in the app but its doc stays listable by date for grandfathered ones.
+
 ## Anti-farming 5: billing and App Check (2026-11-23)
 
 - **Done.** api/place-photo.js goes through guardBilledRequest (App Check,

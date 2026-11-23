@@ -7,6 +7,7 @@ import { validClientDayKey } from './streakDay.js';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
 import { userDayKey } from './streakClock.js';
+import { TRIVIA_ANSWERS } from './triviaAnswers.js';
 import { canonicalRegionId, getLandmark } from '../../src/data/regions.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 
@@ -18,14 +19,17 @@ import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 // points write, so points are only ever added here).
 export const MISSION_POINTS = 10;
 
-// Pure: what this answer earns.
-export function missionAnswerDecision({ mission, answer, checkins, previous }) {
-  if (mission?.type !== 'trivia' || !Array.isArray(mission.options)) return { awarded: 0, reason: 'no-trivia' };
+// Pure: what this answer earns. `right` is the server's own answer
+// (triviaAnswers.js). The right answer goes back only with a right guess
+// (anti-farming item 6): a wrong one never learns it, so it can't be passed
+// around.
+export function missionAnswerDecision({ mission, answer, checkins, previous, right }) {
+  if (mission?.type !== 'trivia' || !Array.isArray(mission.options) || !Number.isInteger(right)) return { awarded: 0, reason: 'no-trivia' };
   if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
-  if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, answer: mission.answer, picked: previous.answer };
+  if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, answer: previous.correct ? right : null, picked: previous.answer };
   if (!Number.isInteger(answer) || answer < 0 || answer >= mission.options.length) return { awarded: 0, reason: 'bad-answer' };
-  const correct = answer === mission.answer;
-  return { awarded: correct ? MISSION_POINTS : 0, correct, answer: mission.answer, picked: answer };
+  const correct = answer === right;
+  return { awarded: correct ? MISSION_POINTS : 0, correct, answer: correct ? right : null, picked: answer };
 }
 
 const validId = (id) => typeof id === 'string' && /^[A-Za-z0-9_.-]{1,100}$/.test(id);
@@ -40,7 +44,7 @@ export async function answerMission(db, uid, regionId, landmarkId, answer, dayId
   // In a transaction so two quick taps can't both count.
   return db.runTransaction(async (t) => {
     const prev = await t.get(ref);
-    const decision = missionAnswerDecision({ mission, answer, checkins, previous: prev.exists ? prev.data() : null });
+    const decision = missionAnswerDecision({ mission, answer, checkins, previous: prev.exists ? prev.data() : null, right: TRIVIA_ANSWERS[landmarkId] });
     if (decision.reason) return decision;
     t.create(ref, { userId: uid, regionId: region, landmarkId, answer, correct: decision.correct, points: decision.awarded, createdAt: FieldValue.serverTimestamp() });
     if (decision.awarded) {

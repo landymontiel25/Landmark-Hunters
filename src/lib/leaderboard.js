@@ -17,7 +17,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
-import { POINTS_PER_CHECKIN } from './checkinPoints';
+import { POINTS_PER_CHECKIN, HOME_RADIUS_METERS } from './checkinPoints';
 import { periodKeysAt } from './periods';
 import { isRealCheckin, oneVisitPerDay, visitDayOf } from './realCheckin';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
@@ -42,12 +42,9 @@ export const CHECKIN_RADIUS_METERS = CHECKIN_RULE_METERS; // see maprConstants.j
 // points on demand (and blocks the obvious exploit of self-submitting a
 // custom landmark, like a water tower, next door). The visit still logs in
 // full either way; only the payout is zeroed.
-export const HOME_RADIUS_METERS = 804.672; // 0.5 miles
-// Toggled off for now (turned out not worth it in practice) -- the radius
-// math and the `insideHomeRadius` field on every check-in stay in place
-// (still useful data for Mapr either way), this just stops it from zeroing
-// anyone's payout. Flip back to true to re-enable the exclusion.
-export const HOME_RADIUS_EXCLUSION_ENABLED = false;
+// On again since 2026-11-23 (anti-farming item 6), decided by the server
+// from the home it keeps (api/_lib/checkinPayout.js).
+export { HOME_RADIUS_METERS, HOME_RADIUS_EXCLUSION_ENABLED } from './checkinPoints';
 
 // Points only pay on a user's very first check-in, ever. Check-ins are for
 // Mapr (every one keeps logging in full, see claimCheckIn); claimCheckIn

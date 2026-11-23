@@ -7,6 +7,7 @@ import { loadStatsData } from './_lib/statsData.js';
 import { runDaily, runWeekly } from './_lib/maprNightly.js';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { moderateTip, tipsQueue } from './_lib/tipModeration.js';
+import { landmarksQueue, moderateLandmark } from './_lib/landmarkModeration.js';
 import { runPhotoBonusBackfill } from './_lib/photoBonusBackfill.js';
 
 // The owner's admin tools, now driven only by the separate admin dashboard
@@ -17,6 +18,8 @@ import { runPhotoBonusBackfill } from './_lib/photoBonusBackfill.js';
 //   POST { action: 'mapr-run' }        Mapr nightly job now, weekly models included
 //   POST { action: 'refresh' }         rebuild the dashboard numbers only: no model
 //                                      training, no Slack message (auto-refresh)
+//   POST { action: 'landmarks-queue' }  user-added landmarks waiting for approval
+//   POST { action: 'landmark-moderate', landmarkId, decision: 'approve' | 'reject' }
 //   POST { action: 'backfill' }        sign-up date backfill (users.createdAt)
 //   POST { action: 'photo-backfill' }  one batch of the Google place-ID backfill
 //   POST { action: 'photo-bonus-backfill' }  one batch of the photo bonus
@@ -98,6 +101,15 @@ export default async function handler(req, res) {
     if (body.action === 'tip-moderate') {
       // gen (string or null) is the post the owner reviewed; always sent.
       const out = await moderateTip(db, body.tipId, body.decision, typeof body.gen === 'string' || body.gen === null ? { gen: body.gen } : {});
+      res.status(out.status).json(out.body);
+      return;
+    }
+    if (body.action === 'landmarks-queue') {
+      res.status(200).json(await landmarksQueue(db));
+      return;
+    }
+    if (body.action === 'landmark-moderate') {
+      const out = await moderateLandmark(db, body.landmarkId, body.decision);
       res.status(out.status).json(out.body);
       return;
     }

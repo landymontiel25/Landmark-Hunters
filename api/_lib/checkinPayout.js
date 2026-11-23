@@ -1,5 +1,6 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { POINTS_PER_CHECKIN } from '../../src/lib/checkinPoints.js';
+import { POINTS_PER_CHECKIN, HOME_RADIUS_METERS, HOME_RADIUS_EXCLUSION_ENABLED } from '../../src/lib/checkinPoints.js';
+import { haversineMeters } from '../../src/lib/haversine.js';
 import { isRealCheckin } from '../../src/lib/realCheckin.js';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 
@@ -12,14 +13,39 @@ import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 // (it has that doc, or a check-in with points) is never paid again.
 
 // Pure: what this verified check-in earns.
-export function checkinPayoutDecision({ checkin, verified, paid, paidBefore }) {
+export function checkinPayoutDecision({ checkin, verified, paid, paidBefore, nearHome = false }) {
   if (!verified) return { awarded: 0, reason: 'not-verified' };
   if (!checkin || !isRealCheckin(checkin)) return { awarded: 0, reason: 'not-a-visit' };
+  if (nearHome) return { awarded: 0, reason: 'near-home' };
   if (paid || paidBefore) return { awarded: 0, reason: 'already' };
   return { awarded: POINTS_PER_CHECKIN };
 }
 
-export async function payVerifiedCheckin(db, uid, checkinId, dayId) {
+// The account's saved home (the private doc, else a pre-split profile).
+async function homeOf(db, uid) {
+  const read = async (get) => {
+    try {
+      const s = await get();
+      const h = s?.exists ? s.data()?.homeCoords : null;
+      return h && Number.isFinite(h.lat) && Number.isFinite(h.lng) ? h : null;
+    } catch {
+      return null;
+    }
+  };
+  return (
+    (await read(() => db.collection('users').doc(uid).collection('private').doc('main').get())) ||
+    read(() => db.collection('users').doc(uid).get())
+  );
+}
+
+export function isNearHome(home, place) {
+  if (!HOME_RADIUS_EXCLUSION_ENABLED || !home || !Number.isFinite(place?.lat) || !Number.isFinite(place?.lng)) return false;
+  return haversineMeters(home.lat, home.lng, place.lat, place.lng) <= HOME_RADIUS_METERS;
+}
+
+// place: the landmark as the server loaded it (its lat/lng).
+export async function payVerifiedCheckin(db, uid, checkinId, dayId, place = null) {
+  const nearHome = isNearHome(await homeOf(db, uid), place);
   const checkinRef = db.collection('checkins').doc(checkinId);
   const payoutRef = db.collection('checkin_payouts').doc(uid);
   // A check-in that already carries points (paid under the old rule).
@@ -35,6 +61,7 @@ export async function payVerifiedCheckin(db, uid, checkinId, dayId) {
       verified: checkin?.presence?.verified === true,
       paid: p.exists,
       paidBefore,
+      nearHome,
     });
     if (!decision.awarded) return decision;
     t.create(payoutRef, { checkinId, points: decision.awarded, createdAt: FieldValue.serverTimestamp() });

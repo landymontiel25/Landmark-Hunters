@@ -5,32 +5,39 @@ vi.mock('firebase-admin/firestore', () => ({ FieldValue: { increment: (n) => n, 
 
 const { missionAnswerDecision, MISSION_POINTS } = await import('./missionAnswer.js');
 const { getLandmark } = await import('../../src/data/regions.js');
+const { TRIVIA_ANSWERS } = await import('./triviaAnswers.js');
 
 const mission = getLandmark('abacos', 'albury-brothers-boatbuilding').mission;
+const right = TRIVIA_ANSWERS['albury-brothers-boatbuilding'];
 const visited = [{ landmarkId: 'albury-brothers-boatbuilding', visited: true, presence: { verified: true } }];
 
 describe('missionAnswerDecision', () => {
   it('pays +10 for the right answer', () => {
     expect(MISSION_POINTS).toBe(10);
-    expect(missionAnswerDecision({ mission, answer: mission.answer, checkins: visited, previous: null })).toMatchObject({ awarded: 10, correct: true });
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: null })).toMatchObject({ awarded: 10, correct: true });
   });
 
-  it('pays nothing for a wrong answer, and says which was right', () => {
-    const wrong = (mission.answer + 1) % 4;
-    expect(missionAnswerDecision({ mission, answer: wrong, checkins: visited, previous: null })).toMatchObject({ awarded: 0, correct: false, answer: mission.answer });
+  it('pays nothing for a wrong answer, and never says which was right', () => {
+    const wrong = (right + 1) % 4;
+    expect(missionAnswerDecision({ right, mission, answer: wrong, checkins: visited, previous: null })).toMatchObject({ awarded: 0, correct: false, answer: null });
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: false, answer: wrong } }).answer).toBe(null);
+  });
+
+  it('the app\'s own data carries no answers (anti-farming item 6)', () => {
+    for (const id of Object.keys(TRIVIA_ANSWERS)) expect(getLandmark('abacos', id).mission.answer).toBeUndefined();
   });
 
   it('needs a real check-in there', () => {
-    expect(missionAnswerDecision({ mission, answer: mission.answer, checkins: [], previous: null }).reason).toBe('no-checkin');
-    expect(missionAnswerDecision({ mission, answer: mission.answer, checkins: [{ ratingOnly: true }], previous: null }).reason).toBe('no-checkin');
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: [], previous: null }).reason).toBe('no-checkin');
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: [{ ratingOnly: true }], previous: null }).reason).toBe('no-checkin');
   });
 
   it('counts one answer per place', () => {
-    expect(missionAnswerDecision({ mission, answer: mission.answer, checkins: visited, previous: { correct: false, answer: 1 } })).toMatchObject({ awarded: 0, reason: 'already', correct: false });
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: false, answer: 1 } })).toMatchObject({ awarded: 0, reason: 'already', correct: false });
   });
 
   it('refuses an answer that is not one of the four', () => {
-    expect(missionAnswerDecision({ mission, answer: 7, checkins: visited, previous: null }).reason).toBe('bad-answer');
+    expect(missionAnswerDecision({ right, mission, answer: 7, checkins: visited, previous: null }).reason).toBe('bad-answer');
   });
 
   it('has no trivia for a photo mission', () => {
@@ -41,6 +48,6 @@ describe('missionAnswerDecision', () => {
 describe('trivia needs a verified visit', () => {
   it('pays nothing on an unverified check-in', () => {
     const mission = { type: 'trivia', options: ['a', 'b', 'c', 'd'], answer: 1 };
-    expect(missionAnswerDecision({ mission, answer: 1, checkins: [{ visited: true }], previous: null }).reason).toBe('no-checkin');
+    expect(missionAnswerDecision({ right, mission, answer: 1, checkins: [{ visited: true }], previous: null }).reason).toBe('no-checkin');
   });
 });

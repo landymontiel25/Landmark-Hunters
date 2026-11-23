@@ -43,7 +43,10 @@ const WWG_POWELL = 'https://www.waterwayguide.com/land-area/322/powell-cay-bah';
 // facts as [text, source url] pairs -> facts[] + factSources{}
 const sourced = (pairs) => ({ facts: pairs.map(([f]) => f), factSources: Object.fromEntries(pairs) });
 const photo = (text) => ({ type: 'photo', text });
-const trivia = (text, question, options, answer, source) => ({ type: 'trivia', text, question, options, answer, source });
+// The right answer is NOT here: it lives only on the server
+// (api/_lib/triviaAnswers.js, anti-farming item 6), so the app's own code
+// can't give it away.
+const trivia = (text, question, options, source) => ({ type: 'trivia', text, question, options, source });
 
 const PLACES = [
   {
@@ -72,7 +75,6 @@ const PLACES = [
         "A diesel generator in the keeper's house runs the lamp",
         'Wind turbines on the tower turn the lens',
       ],
-      1,
       'https://en.wikipedia.org/wiki/Elbow_Reef_Lighthouse',
     ),
   },
@@ -157,7 +159,6 @@ const PLACES = [
         'A descendant of Wyannie Malone who helped found the Wyannie Malone Historical Museum',
         'A British colonial governor of the Bahamas',
       ],
-      2,
       BYRLE_BAHAMAS,
     ),
   },
@@ -330,7 +331,6 @@ const PLACES = [
       'Identify one feature of an Abaco-built boat.',
       'Until 1985, what material were Albury Brothers boats built from?',
       ['Wood', 'Fiberglass', 'Aluminum', 'Steel'],
-      0,
       ALBURY_STORY,
     ),
   },
@@ -468,7 +468,6 @@ const PLACES = [
       'Read a name, discover its story, and examine the central sculptures.',
       'At the center of the garden, one bronze child holds a conch shell. What does the other child hold?',
       ["A ship's wheel", 'A Bible', 'A green turtle', 'The Union Jack'],
-      3,
       LOYALIST_BAHAMAS,
     ),
   },

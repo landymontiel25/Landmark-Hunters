@@ -10,6 +10,7 @@ import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
 import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin } from './_lib/checkinPayout.js';
+import { isApprovedLandmark } from '../src/lib/landmarkApproval.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the
@@ -35,8 +36,10 @@ async function loadPlace(db, region, landmarkId) {
   const id = canonicalLandmarkId(landmarkId, region);
   const known = (region && getLandmark(region, id)) || null;
   if (known) return known;
+  // A user-added place counts only once the owner approved it (or it was
+  // grandfathered): a pending one can't be verified, so it pays nothing.
   const snap = await db.collection('custom_landmarks').doc(landmarkId).get();
-  return snap.exists ? snap.data() : null;
+  return snap.exists && isApprovedLandmark(snap.data()) ? snap.data() : null;
 }
 
 async function handler(req, res) {
@@ -128,7 +131,7 @@ async function handler(req, res) {
     if (result.verified) {
       // The boards' day is the server's (the user's pinned streak zone).
       const day = await userDayKey(db, account.uid);
-      const paid = await payVerifiedCheckin(db, account.uid, checkinId, day).catch((e) => {
+      const paid = await payVerifiedCheckin(db, account.uid, checkinId, day, place).catch((e) => {
         console.error('verify-checkin payout failed', e);
         return { awarded: 0 };
       });

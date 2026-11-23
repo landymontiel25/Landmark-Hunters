@@ -20,6 +20,9 @@ vi.mock('firebase/firestore', () => ({
   collection: vi.fn((...args) => args.join('/')),
   arrayUnion: vi.fn(),
   serverTimestamp: vi.fn(),
+  query: vi.fn((...args) => args.join('|')),
+  where: vi.fn((...args) => args.join(' ')),
+  Timestamp: { fromMillis: (ms) => ms },
 }));
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('../data/regions', () => ({ normalizeCategories: (c) => c, canonicalRegionId: (r) => r }));
@@ -28,7 +31,7 @@ const { getCustomLandmark } = await import('./customLandmarks');
 
 describe('getCustomLandmark', () => {
   it('finds a record directly when its document id matches its id field', async () => {
-    getDocMock.mockResolvedValueOnce({ exists: () => true, id: 'custom-1', data: () => ({ id: 'custom-1', name: 'A' }) });
+    getDocMock.mockResolvedValueOnce({ exists: () => true, id: 'custom-1', data: () => ({ status: 'approved', id: 'custom-1', name: 'A' }) });
     const result = await getCustomLandmark('custom-1');
     expect(result).toMatchObject({ docId: 'custom-1', id: 'custom-1', name: 'A' });
     expect(getDocsMock).not.toHaveBeenCalled();
@@ -39,8 +42,8 @@ describe('getCustomLandmark', () => {
     getDocMock.mockResolvedValueOnce({ exists: () => false });
     getDocsMock.mockResolvedValueOnce({
       docs: [
-        { id: 'legacy-doc-key', data: () => ({ id: 'custom-mismatched', name: 'The Refectory Restaurant' }) },
-        { id: 'custom-2', data: () => ({ id: 'custom-2', name: 'Other Place' }) },
+        { id: 'legacy-doc-key', data: () => ({ status: 'approved', id: 'custom-mismatched', name: 'The Refectory Restaurant' }) },
+        { id: 'custom-2', data: () => ({ status: 'approved', id: 'custom-2', name: 'Other Place' }) },
       ],
     });
     const result = await getCustomLandmark('custom-mismatched');
@@ -75,9 +78,9 @@ describe('region-less custom landmarks', () => {
     expect(setDoc.mock.calls.at(-1)[1].region).toBe('custom');
     getDocsMock.mockResolvedValueOnce({
       docs: [
-        { id: 'a', data: () => ({ id: 'a', name: 'A', region: null }) },
-        { id: 'b', data: () => ({ id: 'b', name: 'B', region: 'null' }) },
-        { id: 'c', data: () => ({ id: 'c', name: 'C', region: 'nyc' }) },
+        { id: 'a', data: () => ({ status: 'approved', id: 'a', name: 'A', region: null }) },
+        { id: 'b', data: () => ({ status: 'approved', id: 'b', name: 'B', region: 'null' }) },
+        { id: 'c', data: () => ({ status: 'approved', id: 'c', name: 'C', region: 'nyc' }) },
       ],
     });
     const all = await getCustomLandmarks();
@@ -88,8 +91,8 @@ describe('region-less custom landmarks', () => {
     const { getCustomLandmarks } = await import('./customLandmarks');
     getDocsMock.mockResolvedValueOnce({
       docs: [
-        { id: 'a', data: () => ({ id: 'a', name: 'A', reportedBy: ['x', 'y'] }) },
-        { id: 'b', data: () => ({ id: 'b', name: 'B', reportedBy: ['x'] }) },
+        { id: 'a', data: () => ({ status: 'approved', id: 'a', name: 'A', reportedBy: ['x', 'y'] }) },
+        { id: 'b', data: () => ({ status: 'approved', id: 'b', name: 'B', reportedBy: ['x'] }) },
       ],
     });
     expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['b']);
@@ -99,8 +102,8 @@ describe('region-less custom landmarks', () => {
     const { getCustomLandmarks } = await import('./customLandmarks');
     getDocsMock.mockResolvedValueOnce({
       docs: [
-        { id: 'a', data: () => ({ id: 'a', name: 'Sushi Maki', region: 'miami' }) },
-        { id: 'b', data: () => ({ id: 'b', name: 'Artisans', region: 'villanova' }) },
+        { id: 'a', data: () => ({ status: 'approved', id: 'a', name: 'Sushi Maki', region: 'miami' }) },
+        { id: 'b', data: () => ({ status: 'approved', id: 'b', name: 'Artisans', region: 'villanova' }) },
       ],
     });
     expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['a', 'b']);
@@ -115,5 +118,15 @@ describe('addCustomLandmark topic', () => {
     expect(setDoc.mock.calls.at(-1)[1].topic).toBe('Peruvian restaurant');
     await addCustomLandmark({ region: 'r', name: 'Somewhere', lat: 1, lng: 2, userId: 'u' });
     expect('topic' in setDoc.mock.calls.at(-1)[1]).toBe(false);
+  });
+});
+
+describe('moderation (anti-farming item 6)', () => {
+  it('lists approved and grandfathered landmarks; a pending one from after the cutoff only to its submitter', async () => {
+    const { isApprovedLandmark, MODERATION_CUTOFF_MS } = await import('./landmarkApproval');
+    expect(isApprovedLandmark({ status: 'approved' })).toBe(true);
+    expect(isApprovedLandmark({ status: 'pending', createdAt: { seconds: (MODERATION_CUTOFF_MS - 1000) / 1000 } })).toBe(true);
+    expect(isApprovedLandmark({ status: 'pending', createdAt: { seconds: (MODERATION_CUTOFF_MS + 1000) / 1000 } })).toBe(false);
+    expect(isApprovedLandmark({ status: 'rejected', createdAt: { seconds: 1 } })).toBe(false);
   });
 });

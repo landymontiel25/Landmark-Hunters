@@ -297,3 +297,17 @@ export interface PresenceMetric {
   verified_rate: number | null;
   fail_reasons: Record<string, number>;
 }
+
+// A user-added landmark waiting for approval (api/_lib/landmarkModeration.js).
+export interface LandmarkQueueRow {
+  id: string;
+  name: string;
+  region: string;
+  lat: number | null;
+  lng: number | null;
+  categories: string[];
+  summary: string;
+  image: string | null;
+  createdBy: string | null;
+  createdAt: number | null;
+}

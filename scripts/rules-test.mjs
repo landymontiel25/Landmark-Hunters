@@ -840,8 +840,10 @@ await seed(async (db) => {
   await setDoc(doc(db, 'custom_landmarks/ok'), { name: 'Ok pin', createdBy: 'alice', reportedBy: [] });
   await setDoc(doc(db, 'custom_landmarks/bad'), { name: 'Reported pin', createdBy: 'alice', reportedBy: ['x', 'y'] });
 });
-await t('a normal user can list custom landmarks (the app filters reported ones)', () => assertSucceeds(getDocs(collection(as('bob'), 'custom_landmarks'))));
-await t('signed out can list custom landmarks', () => assertSucceeds(getDocs(collection(env.unauthenticatedContext().firestore(), 'custom_landmarks'))));
+// Lists are filtered by approval now (anti-farming item 7): the app asks for
+// approved ones; an unfiltered list is refused.
+await t('a normal user can list approved custom landmarks (the app filters reported ones)', () => assertSucceeds(getDocs(query(collection(as('bob'), 'custom_landmarks'), where('status', '==', 'approved')))));
+await t('signed out can list approved custom landmarks', () => assertSucceeds(getDocs(query(collection(env.unauthenticatedContext().firestore(), 'custom_landmarks'), where('status', '==', 'approved')))));
 await t('a reported pin cannot be fetched by someone else', () => assertFails(getDoc(doc(as('bob'), 'custom_landmarks/bad'))));
 await t('its creator can still fetch it', () => assertSucceeds(getDoc(doc(as('alice'), 'custom_landmarks/bad'))));
 
@@ -1308,6 +1310,33 @@ await t('a check-in takes at most 9 photos; an older list over 9 may stay, never
 await t('photo fingerprints are server-only', async () => {
   await assertFails(setDoc(doc(as('pam'), 'photo_hashes/abc'), { uid: 'pam' }));
   await assertFails(getDoc(doc(as('pam'), 'photo_hashes/abc')));
+});
+
+console.log('custom landmarks: moderation (anti-farming item 6/7)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'custom_landmarks/ok1'), { id: 'ok1', name: 'Approved', status: 'approved', createdBy: 'sam', createdAt: new Date(1795417200000 + 60000) });
+  await setDoc(doc(db, 'custom_landmarks/old1'), { id: 'old1', name: 'Grandfathered', status: 'pending', createdBy: 'sam', createdAt: new Date(1790000000000) });
+  await setDoc(doc(db, 'custom_landmarks/new1'), { id: 'new1', name: 'Waiting', status: 'pending', createdBy: 'sam', createdAt: new Date(1795417200000 + 60000) });
+});
+await t('everyone lists approved and grandfathered landmarks', async () => {
+  const db = as('tom');
+  await assertSucceeds(getDocs(query(collection(db, 'custom_landmarks'), where('status', '==', 'approved'))));
+  await assertSucceeds(getDocs(query(collection(db, 'custom_landmarks'), where('createdAt', '<', new Date(1795417200000)))));
+  await assertSucceeds(getDoc(doc(db, 'custom_landmarks/ok1')));
+  await assertSucceeds(getDoc(doc(db, 'custom_landmarks/old1')));
+});
+await t('exploit: a pending landmark is no longer listed or readable by everyone', async () => {
+  const db = as('tom');
+  await assertFails(getDocs(collection(db, 'custom_landmarks')));
+  await assertFails(getDoc(doc(db, 'custom_landmarks/new1')));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'custom_landmarks/new1')));
+});
+await t('its submitter (and the admin) still see it; a submitter cannot approve their own', async () => {
+  await assertSucceeds(getDoc(doc(as('sam'), 'custom_landmarks/new1')));
+  await assertSucceeds(getDocs(query(collection(as('sam'), 'custom_landmarks'), where('createdBy', '==', 'sam'))));
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'custom_landmarks/new1')));
+  await assertFails(updateDoc(doc(as('sam'), 'custom_landmarks/new1'), { status: 'approved' }));
 });
 
 await env.cleanup();

@@ -1142,16 +1142,30 @@ service cloud.firestore {
       allow update: if false;
       allow delete: if request.auth != null && (resource.data.photoUid == request.auth.uid || isAdmin());
     }
+    function landmarkListed(d) {
+      // By date alone for the grandfathered ones, so the app's single-field
+      // query (createdAt < cutoff) can be proven without a composite index;
+      // the app drops any of those the owner later rejected.
+      return d.get('status', '') == 'approved'
+        || d.get('createdAt', timestamp.value(1795417200000)) < timestamp.value(1795417200000);
+    }
     match /custom_landmarks/{id} {
       // Same reportedBy hide-past-threshold rule as reviews, unless you're
       // the submitter or an admin. That check can only apply to a single-doc
       // get: Firestore refuses a whole list query whose filters can't prove
       // it, so the app's unfiltered list (customLandmarks.js, which applies
       // the same hide rule itself) failed for everyone but the admin.
-      allow get: if resource.data.get('reportedBy', []).size() < 2
-        || (request.auth != null
-            && (resource.data.createdBy == request.auth.uid || isAdmin()));
-      allow list: if true;
+      // Moderated again (anti-farming item 6/7, 2026-11-23): only approved
+      // ones -- or ones from before moderation came back (grandfathered,
+      // src/lib/landmarkApproval.js) -- are readable by everyone; a pending
+      // one only by its submitter and the admin.
+      allow get: if (landmarkListed(resource.data)
+          || (request.auth != null && (resource.data.createdBy == request.auth.uid || isAdmin())))
+        && (resource.data.get('reportedBy', []).size() < 2
+          || (request.auth != null
+              && (resource.data.createdBy == request.auth.uid || isAdmin())));
+      allow list: if landmarkListed(resource.data)
+        || (request.auth != null && (resource.data.createdBy == request.auth.uid || isAdmin()));
       // A brand-new submission always starts "pending" -- enforced here, not
       // just in the app's own code, so calling the database directly can't
       // skip the approval queue and self-publish as "approved".

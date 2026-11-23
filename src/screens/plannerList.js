@@ -86,15 +86,6 @@ export const TURNED_OFF = [
     file: 'src/screens/TasteProfileLab.jsx',
     check: 'SHOW_CHANGE_BOX = false',
   },
-  {
-    name: 'No points near home',
-    hides: 'Zeroing the points for check-ins within half a mile of your home.',
-    keeps: 'Every check-in still records whether it was near home.',
-    since: '2026-09-24',
-    pr: 283,
-    file: 'src/lib/leaderboard.js',
-    check: 'HOME_RADIUS_EXCLUSION_ENABLED = false',
-  },
 ];
 
 // Taken out of the app, not behind a switch: bringing these back means

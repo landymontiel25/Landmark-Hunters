@@ -4,7 +4,7 @@ import { Page } from '@/components/Page';
 import { TrendChart } from '@/components/Chart';
 import { ListenerError } from '@/components/AlertBanner';
 import { useTipMetrics } from '@/lib/listeners';
-import type { TipQueueRow } from '@/lib/types';
+import type { LandmarkQueueRow, TipQueueRow } from '@/lib/types';
 
 // Tips waiting for the owner (docs/discovery-network-plan.md, Phase 1):
 // held by the word filter, reported, or withdrawn by their author after
@@ -23,6 +23,87 @@ async function job(action: string, extra: Record<string, string | null> = {}) {
   const body = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(body.error || `Failed (${r.status}).`);
   return body;
+}
+
+// User-added landmarks waiting for approval (anti-farming item 6). Until one
+// is approved only its submitter sees it, and a check-in there can't be
+// verified or paid.
+function LandmarkQueue() {
+  const [rows, setRows] = useState<LandmarkQueueRow[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const load = useCallback(async () => {
+    try {
+      const out = await job('landmarks-queue');
+      setRows(out.rows || []);
+      setError(null);
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }, []);
+  useEffect(() => {
+    load();
+  }, [load]);
+  const decide = async (row: LandmarkQueueRow, decision: 'approve' | 'reject') => {
+    if (decision === 'reject' && !window.confirm(`Reject ${row.name}? It stays hidden from everyone but its submitter.`)) return;
+    setBusy(`${row.id}:${decision}`);
+    try {
+      await job('landmark-moderate', { landmarkId: row.id, decision });
+      setRows((list) => (list || []).filter((x) => x.id !== row.id));
+      setError(null);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+  return (
+    <section className="space-y-3" aria-label="Added landmarks waiting">
+      <h2 className="font-medium">Added landmarks waiting</h2>
+      {error && (
+        <p role="alert" className="text-sm" style={{ color: 'var(--danger, #b00020)' }}>
+          {error}
+        </p>
+      )}
+      {rows == null && !error && <p className="text-sm muted">Loading…</p>}
+      {rows?.length === 0 && <p className="text-sm muted">No landmarks waiting.</p>}
+      {(rows || []).map((row) => (
+        <section key={row.id} className="card p-4 space-y-2" aria-label={row.name}>
+          <div className="flex flex-wrap gap-2 items-baseline justify-between">
+            <p className="font-medium">{row.name}</p>
+            <p className="text-xs muted">
+              {row.region} · {row.categories.join(', ') || 'no category'} · by {row.createdBy}
+              {row.createdAt ? ` · ${new Date(row.createdAt).toLocaleString()}` : ''}
+            </p>
+          </div>
+          {row.summary && <p className="text-sm">{row.summary}</p>}
+          <p className="text-xs muted">
+            {row.lat != null && row.lng != null && (
+              <a className="underline" href={`https://www.google.com/maps/search/?api=1&query=${row.lat},${row.lng}`} target="_blank" rel="noreferrer">
+                {row.lat.toFixed(5)}, {row.lng.toFixed(5)}
+              </a>
+            )}
+            {row.image && (
+              <>
+                {' · '}
+                <a className="underline" href={row.image} target="_blank" rel="noreferrer">
+                  View photo
+                </a>
+              </>
+            )}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="btn btn-primary" disabled={!!busy} onClick={() => decide(row, 'approve')}>
+              {busy === `${row.id}:approve` ? 'Saving…' : 'Approve'}
+            </button>
+            <button type="button" className="btn" disabled={!!busy} onClick={() => decide(row, 'reject')}>
+              {busy === `${row.id}:reject` ? 'Saving…' : 'Reject'}
+            </button>
+          </div>
+        </section>
+      ))}
+    </section>
+  );
 }
 
 export default function Content() {
@@ -93,6 +174,7 @@ export default function Content() {
       )}
       {rows == null && !error && <p className="text-sm muted">Loading…</p>}
       {rows?.length === 0 && <p className="text-sm muted">Nothing waiting. </p>}
+      <LandmarkQueue />
       <div className="space-y-3">
         {(rows || []).map((row) => (
           <section key={row.id} className="card p-4 space-y-2" aria-label={`Tip by ${row.authorName || row.authorUid}`}>

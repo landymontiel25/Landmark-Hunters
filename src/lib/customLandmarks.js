@@ -11,10 +11,14 @@ import {
   collection,
   arrayUnion,
   serverTimestamp,
+  query,
+  where,
+  Timestamp,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, auth } from './firebase';
 import { isAdmin } from './admins';
+import { isApprovedLandmark, MODERATION_CUTOFF_MS } from './landmarkApproval';
 import { shrinkPhoto } from './shrinkPhoto';
 import { settleWrite } from './offlineWrite';
 
@@ -28,12 +32,10 @@ export const normalizeRegion = (r) => (r && r !== 'null' && r !== 'undefined' ? 
 // User-created landmarks (e.g. a dorm hall not yet in the built-in catalog)
 // live in their own Firestore collection and get merged onto the map
 // alongside the static ones. Check-ins on them reuse the same claimCheckIn
-// flow as any other landmark -- it only ever needs id/name/region. No
-// approval queue -- by request, every submission is live immediately, for
-// everyone. (The Firestore rules still require a fresh submission's write
-// to include status: "pending" and nothing here ever changes it -- that's
-// just the rules' own internal enforcement token, not a real approval
-// gate. Nothing in the app reads or shows that value anymore.)
+// flow as any other landmark -- it only ever needs id/name/region. Since
+// 2026-11-23 a new one waits for the owner's approval (landmarkApproval.js):
+// everyone sees approved ones (and the grandfathered ones from before), its
+// submitter also sees their own pending ones, marked `pendingReview`.
 // Also normalizes a missing/legacy "null" region so old docs stay readable.
 const withCategories = (l) => {
   const out = { ...l, region: canonicalRegionId(normalizeRegion(l.region)) };
@@ -62,18 +64,34 @@ export function getCustomLandmarks({ includeClosed = false } = {}) {
 
 async function loadCustomLandmarks(includeClosed = false) {
   if (!db) return [];
-  const snap = await getDocs(collection(db, 'custom_landmarks'));
-  // firestore.rules can't enforce the hide-once-reported rule on a list
-  // query, so it's applied here: hidden from everyone but the submitter
-  // and the admin once two people have reported it.
   let me = null;
   try {
     me = auth?.currentUser || null;
   } catch {
     me = null;
   }
-  return snap.docs
+  const admin = !!(me && isAdmin(me.email));
+  const coll = collection(db, 'custom_landmarks');
+  // What firestore.rules let each of us list: approved ones, the ones from
+  // before moderation came back, and your own (the admin lists all).
+  const queries = admin
+    ? [coll]
+    : [
+        query(coll, where('status', '==', 'approved')),
+        query(coll, where('createdAt', '<', Timestamp.fromMillis(MODERATION_CUTOFF_MS))),
+        ...(me ? [query(coll, where('createdBy', '==', me.uid))] : []),
+      ];
+  const snaps = await Promise.all(queries.map((q) => Promise.resolve().then(() => getDocs(q)).catch(() => null)));
+  const byId = new Map();
+  for (const snap of snaps) for (const d of snap?.docs || []) byId.set(d.id, d);
+  // firestore.rules can't enforce the hide-once-reported rule on a list
+  // query, so it's applied here: hidden from everyone but the submitter
+  // and the admin once two people have reported it.
+  return [...byId.values()]
     .map((d) => withCategories({ docId: d.id, ...d.data() }))
+    .map((l) => (isApprovedLandmark(l) ? l : { ...l, pendingReview: true }))
+    // Not approved: only its submitter (and the admin) see it.
+    .filter((l) => !l.pendingReview || (me && (l.createdBy === me.uid || admin)))
     .filter((l) => includeClosed || !CLOSED_TO_CUSTOM.has(l.region))
     .filter((l) => (l.reportedBy?.length || 0) < 2 || (me && (l.createdBy === me.uid || isAdmin(me.email))));
 }

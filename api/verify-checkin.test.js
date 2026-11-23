@@ -108,8 +108,17 @@ describe('api/verify-checkin', () => {
 
   it('loads a user-added landmark from custom_landmarks', async () => {
     docs['checkins/me_c1'] = checkin({ landmarkId: 'c1', region: 'custom' });
-    docs['custom_landmarks/c1'] = { name: 'Corner mural', lat: 40, lng: -75 };
+    docs['custom_landmarks/c1'] = { name: 'Corner mural', lat: 40, lng: -75, status: 'approved' };
     const { body } = await call({ checkinId: 'me_c1', fix: fix({ lat: 40, lng: -75 }) });
     expect(body.verified).toBe(true);
+  });
+});
+
+describe('a user-added landmark waiting for approval (anti-farming item 6)', () => {
+  it('cannot be verified, so it pays nothing', async () => {
+    docs['checkins/me_c2'] = checkin({ landmarkId: 'c2', region: 'custom' });
+    docs['custom_landmarks/c2'] = { name: 'My back yard', lat: 40, lng: -75, status: 'pending', createdAt: { toMillis: () => Date.now() } };
+    const { body } = await call({ checkinId: 'me_c2', fix: fix({ lat: 40, lng: -75 }) });
+    expect(body).toMatchObject({ verified: false, reason: 'no-place', awarded: 0 });
   });
 });

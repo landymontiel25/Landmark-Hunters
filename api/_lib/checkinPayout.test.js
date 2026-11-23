@@ -59,3 +59,14 @@ describe('check-in points, paid by the server', () => {
     expect((await payVerifiedCheckin(old, 'u', 'u_x', '2026-10-23')).reason).toBe('already');
   });
 });
+
+describe('no check-in points near home (anti-farming item 6)', () => {
+  it('a verified check-in within half a mile of the saved home pays nothing', async () => {
+    const { isNearHome } = await import('./checkinPayout.js');
+    const home = { lat: 25.7617, lng: -80.1918 };
+    expect(isNearHome(home, { lat: 25.7617 + 500 / 111195, lng: -80.1918 })).toBe(true);
+    expect(isNearHome(home, { lat: 25.7617 + 2000 / 111195, lng: -80.1918 })).toBe(false);
+    expect(isNearHome(null, { lat: 1, lng: 1 })).toBe(false);
+    expect(checkinPayoutDecision({ checkin: visit, verified: true, paid: false, paidBefore: false, nearHome: true }).reason).toBe('near-home');
+  });
+});

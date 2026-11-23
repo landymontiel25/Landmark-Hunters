@@ -2,15 +2,23 @@
 // by app/api/jobs/route.ts to the main app's api/admin-jobs.js with
 // ADMIN_JOBS_SECRET (server to server; the secret never reaches the
 // browser). Only these actions, and their checked fields, pass through.
-export const JOB_ACTIONS = ['mapr-run', 'refresh', 'photo-bonus-backfill', 'tips-queue', 'tip-moderate'] as const;
+export const JOB_ACTIONS = ['mapr-run', 'refresh', 'photo-bonus-backfill', 'tips-queue', 'tip-moderate', 'landmarks-queue', 'landmark-moderate'] as const;
 export type JobAction = (typeof JOB_ACTIONS)[number];
 export const TIP_DECISIONS = ['approve', 'remove', 'clear'] as const;
+export const LANDMARK_DECISIONS = ['approve', 'reject'] as const;
+const LANDMARK_ID = /^[A-Za-z0-9_.-]{1,200}$/;
 const TIP_ID = /^[A-Za-z0-9_.-]{1,300}$/;
 const GEN = /^[A-Za-z0-9-]{1,64}$/;
 const tipIdOk = (v: string) => TIP_ID.test(v) && v !== '.' && v !== '..' && !/^__.*__$/.test(v);
 
 // Only the fields each action takes pass through, checked here too.
 export function jobParams(action: JobAction, input: unknown): Record<string, string | null> | null {
+  if (action === 'landmark-moderate') {
+    const y = (input || {}) as Record<string, unknown>;
+    if (typeof y.landmarkId !== 'string' || !LANDMARK_ID.test(y.landmarkId) || y.landmarkId === '.' || y.landmarkId === '..') return null;
+    if (!LANDMARK_DECISIONS.includes(y.decision as (typeof LANDMARK_DECISIONS)[number])) return null;
+    return { landmarkId: y.landmarkId, decision: y.decision as string };
+  }
   if (action !== 'tip-moderate') return {};
   const x = (input || {}) as Record<string, unknown>;
   if (typeof x.tipId !== 'string' || !tipIdOk(x.tipId)) return null;

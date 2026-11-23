@@ -4,6 +4,7 @@ import { getRegion, getLandmark, PICKABLE_REGIONS } from './regions';
 import { regionTimezone } from '../lib/timezones';
 import { REGION_AREAS } from './cityAreas';
 import { CITIES } from '../screens/officialOnboardingSteps';
+import { TRIVIA_ANSWERS } from '../../api/_lib/triviaAnswers.js';
 import { IMAGE_CREDITS } from './imageCredits';
 
 // The owner's 30 Abacos places (2026-11-16), in the owner's order.
@@ -61,7 +62,9 @@ describe('the Abacos', () => {
         expect(l.mission.type).toBe('trivia');
         expect(l.mission.options).toHaveLength(4);
         expect(new Set(l.mission.options).size).toBe(4);
-        expect(Number.isInteger(l.mission.answer) && l.mission.answer >= 0 && l.mission.answer < 4).toBe(true);
+        // The answer lives only on the server (api/_lib/triviaAnswers.js).
+        expect(l.mission.answer).toBeUndefined();
+        expect(Number.isInteger(TRIVIA_ANSWERS[l.id]) && TRIVIA_ANSWERS[l.id] >= 0 && TRIVIA_ANSWERS[l.id] < 4).toBe(true);
         expect(l.mission.source).toMatch(/^https:\/\//);
       } else {
         expect(l.mission.type).toBe('photo');
