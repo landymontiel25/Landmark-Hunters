@@ -1122,8 +1122,9 @@ function LandmarkDetailBody() {
       </div>
       )}
 
-      {/* The place's mission (the Abacos, owner 2026-11-16). It unlocks
-          with today's check-in here: a photo mission is for this visit. */}
+      {/* The place's mission (the Abacos, owner 2026-11-16). Any check-in
+          here unlocks it, straight to its step (owner, 2026-11-23); a photo
+          mission's photo is still checked for this visit. */}
       {landmark.mission && (
         <div className="section">
           <MissionPanel
@@ -1133,6 +1134,7 @@ function LandmarkDetailBody() {
               const ms = (myCheckin?.createdAt?.seconds ?? NaN) * 1000;
               return myCheckin && isRealCheckin(myCheckin) && new Date(ms).toDateString() === new Date().toDateString() ? ms : null;
             })()}
+            checkedIn={!!myCheckin && isRealCheckin(myCheckin)}
           />
         </div>
       )}

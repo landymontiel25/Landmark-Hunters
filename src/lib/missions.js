@@ -91,7 +91,9 @@ export async function submitMissionPhoto(landmark, photoURL) {
     throw err;
   }
   if (data.reason === 'no-checkin') {
-    const err = new Error('Check in here first, then take the mission photo.');
+    // Any real check-in opens the mission, but only a location-verified one
+    // counts (anti-farming item 1): an older, unverified visit needs a new one.
+    const err = new Error("Your check-in here isn't confirmed by location yet. Tap Check In Again at the top while you're here, then take the mission photo.");
     err.userMessage = err.message;
     throw err;
   }

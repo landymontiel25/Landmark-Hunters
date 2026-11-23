@@ -9,14 +9,17 @@ import { TargetIcon } from './HeadingIcons';
 
 // A landmark's mission (lib/missions.js), shown after a check-in is posted
 // (CheckInReview) and on the landmark page. `checkedInAt` (ms) is this
-// visit's check-in; without one the mission only says what to do.
+// visit's check-in. `checkedIn` says you've checked in here before (any
+// day): the mission then goes straight to its step, with no check-in prompt
+// (owner, 2026-11-23). A photo mission then needs a photo taken here, now
+// (after you tap the button), since that visit was another day.
 //   Trivia: the owner's line, the question and four answers. One tap
 //   answers; the server pays +10 for the right one, 0 for a wrong one.
 //   Photo: the camera opens; the photo has to be taken here, after the
 //   check-in, during this visit (lib/missionPhoto.js), and then show what
 //   the mission asks: the server checks it (api/_lib/missionPhoto.js) and
 //   pays +10 only for one that does. Nothing counts before that.
-export default function MissionPanel({ landmark, checkedInAt = null, compact = false }) {
+export default function MissionPanel({ landmark, checkedInAt = null, checkedIn = false, compact = false }) {
   const mission = missionOf(landmark);
   const { user } = useAuth();
   const toast = useToast();
@@ -39,7 +42,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
     };
   }, [uid, landmarkId, mission]);
   if (!mission) return null;
-  const ready = Number.isFinite(checkedInAt) && !!uid;
+  const ready = (Number.isFinite(checkedInAt) || checkedIn) && !!uid;
 
   const answer = async (i) => {
     if (busy) return;
@@ -62,10 +65,13 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
     if (busy) return;
     setBusy(true);
     setNote(null);
+    // Today's check-in starts the visit; after an earlier day's check-in,
+    // the visit starts with this tap, so the photo must be taken from here on.
+    const visitStart = Number.isFinite(checkedInAt) ? checkedInAt : Date.now();
     try {
       const shot = await takeMissionPhoto();
       if (!shot) return;
-      const verdict = checkMissionPhoto({ landmark, checkedInAt, photo: shot.photo, fileTime: shot.fileTime, device: shot.device });
+      const verdict = checkMissionPhoto({ landmark, checkedInAt: visitStart, photo: shot.photo, fileTime: shot.fileTime, device: shot.device });
       if (!verdict.ok) {
         setNote(verdict.message);
         return;
