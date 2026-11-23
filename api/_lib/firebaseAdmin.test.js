@@ -17,7 +17,7 @@ describe('adminAuth', () => {
     vi.stubGlobal('fetch', fetchMock);
     const { adminAuth } = await import('./firebaseAdmin.js');
     const out = await (await adminAuth()).getUsers([{ uid: 'u1' }]);
-    expect(out.users[0]).toEqual({ uid: 'u1', metadata: { creationTime: new Date(1700000000000).toISOString() } });
+    expect(out.users[0]).toEqual({ uid: 'u1', metadata: { creationTime: new Date(1700000000000).toISOString() }, phoneNumber: null });
     const [url, init] = fetchMock.mock.calls[0];
     expect(url).toContain('/projects/p1/accounts:lookup');
     expect(init.headers.Authorization).toBe('Bearer tok');
