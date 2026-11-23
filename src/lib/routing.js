@@ -247,14 +247,20 @@ export async function fetchDirections(origin, destination, mode = null) {
   return data;
 }
 
-export function appleMapsLink(destination, destLat, destLng) {
+// Apple Maps' dirflg per travel mode (travelModes.js ids): drive, walk,
+// transit. Apple's web links have no bike, boat or flight.
+const APPLE_DIRFLG = { car: 'd', walk: 'w', bus: 'r' };
+
+export function appleMapsLink(destination, destLat, destLng, mode = null) {
   const dest = destLat != null && destLng != null ? `${destLat},${destLng}` : encodeURIComponent(destination);
-  return `https://maps.apple.com/?daddr=${dest}&q=${encodeURIComponent(destination)}`;
+  const flg = APPLE_DIRFLG[mode];
+  return `https://maps.apple.com/?daddr=${dest}&q=${encodeURIComponent(destination)}${flg ? `&dirflg=${flg}` : ''}`;
 }
 
-export function googleMapsLink(destination, destLat, destLng) {
+// googleMode: Google's travelmode (travelModes.js `google`), or none.
+export function googleMapsLink(destination, destLat, destLng, googleMode = null) {
   const dest = destLat != null && destLng != null ? `${destLat},${destLng}` : encodeURIComponent(destination);
-  return `https://www.google.com/maps/dir/?api=1&destination=${dest}`;
+  return `https://www.google.com/maps/dir/?api=1&destination=${dest}${googleMode ? `&travelmode=${googleMode}` : ''}`;
 }
 
 export function mapsDeepLink(destination, destLat, destLng) {

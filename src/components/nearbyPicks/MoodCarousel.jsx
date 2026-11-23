@@ -146,7 +146,7 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
                     key={`${p.region}/${p.id}`}
                     pick={p}
                     action={
-                      <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
+                      <DirectionsButton place={p} name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
                         Directions
                       </DirectionsButton>
                     }

@@ -553,7 +553,7 @@ export default function GroupTrip() {
                 )}
               </span>
               <span style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-tight">
+                <DirectionsButton place={p} name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-tight">
                   {'\u{1F9ED}'}
                 </DirectionsButton>
                 <button type="button" className="btn btn-ghost btn-tight" aria-label={`Remove ${p.name}`} onClick={() => removePlace(p)}>

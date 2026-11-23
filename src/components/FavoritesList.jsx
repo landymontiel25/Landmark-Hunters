@@ -148,7 +148,7 @@ export default function FavoritesList() {
                             {f.note ? 'Edit note' : 'Add note'}
                           </button>
                           {Number.isFinite(f.lat) && Number.isFinite(f.lng) && (
-                            <DirectionsButton name={f.name} lat={f.lat} lng={f.lng} className="btn btn-ghost btn-sm">
+                            <DirectionsButton place={f} name={f.name} lat={f.lat} lng={f.lng} className="btn btn-ghost btn-sm">
                               {'\u{1F9ED}'} Directions
                             </DirectionsButton>
                           )}

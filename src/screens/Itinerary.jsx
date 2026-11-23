@@ -207,6 +207,7 @@ function ItineraryMap({ origin, stops, onDetails, onInApp, navPoints, navStopId,
                 </h4>
                 <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
                   <DirectionsButton
+                    place={s}
                     name={s.name}
                     lat={s.lat}
                     lng={s.lng}

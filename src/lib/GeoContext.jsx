@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { Geolocation } from '@capacitor/geolocation';
 import { friendlyGeoError, isLocationDenied } from './geoError';
 import { distanceMeters } from './geo';
+import { LAST_FIX_KEY, readLastFix } from './lastFix';
 
 // One shared live location for the whole app, so a single "Refresh" control can
 // update every distance on screen at once (instead of each screen watching alone).
@@ -26,16 +27,7 @@ const validPos = (pos) =>
 // The last fix, saved on this device so the Map can open where you are
 // instantly -- a fresh GPS fix can take 10-15 s (longer on a laptop), and
 // the map used to sit blank waiting for it.
-const LAST_FIX_KEY = 'lh-last-fix';
-const LAST_FIX_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
-function readLastFix() {
-  try {
-    const v = JSON.parse(localStorage.getItem(LAST_FIX_KEY) || 'null');
-    return v && Number.isFinite(v.lat) && Number.isFinite(v.lng) && Date.now() - (v.t || 0) < LAST_FIX_MAX_AGE_MS ? v : null;
-  } catch {
-    return null;
-  }
-}
+// (lastFix.js: shared with screens that only need it once, like Get directions.)
 let lastSavedAt = 0;
 // Exported so a background location fix (see useBackgroundLocationSync.js,
 // which runs even when this provider's own watch isn't active) can warm the

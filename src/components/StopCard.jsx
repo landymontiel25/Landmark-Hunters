@@ -106,7 +106,7 @@ export default function StopCard({ stop, visited, photo, onOpen, onDirectionsInA
       </div>
       <p className="it-stop-desc">{descriptionLine(stop)}</p>
       <div className="it-stop-actions">
-        <DirectionsButton name={stop.name} lat={stop.lat} lng={stop.lng} className="btn btn-ghost btn-sm" onInApp={onDirectionsInApp}>
+        <DirectionsButton place={stop} name={stop.name} lat={stop.lat} lng={stop.lng} className="btn btn-ghost btn-sm" onInApp={onDirectionsInApp}>
           Get directions
         </DirectionsButton>
         {!stop.external && checkIn && <CheckInButton landmark={stop} plain {...checkIn} />}

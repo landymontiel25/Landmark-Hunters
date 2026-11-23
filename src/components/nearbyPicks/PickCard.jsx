@@ -83,6 +83,7 @@ export function PickActionsSheet({ pick, onClose }) {
         {/* "Open in Map" navigates to the Map tab, which is where this sheet
             already is -- without closing it here it stayed up over the route. */}
         <DirectionsButton
+          place={pick}
           name={pick.name}
           lat={pick.lat}
           lng={pick.lng}
@@ -147,7 +148,7 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
         </span>
       </button>
       <div className="mpp-card-foot">
-        <DirectionsButton name={pick.name} lat={pick.lat} lng={pick.lng} className="btn btn-ghost btn-sm mpp-card-dir">
+        <DirectionsButton place={pick} name={pick.name} lat={pick.lat} lng={pick.lng} className="btn btn-ghost btn-sm mpp-card-dir">
           {'\u{1F9ED}'} Directions
         </DirectionsButton>
       </div>

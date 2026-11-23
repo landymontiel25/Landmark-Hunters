@@ -305,7 +305,7 @@ export default function PicksBottomSheet({
             voteSlot={voteSlot(p)}
             action={
               moodFirst ? (
-                <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
+                <DirectionsButton place={p} name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
                   Directions
                 </DirectionsButton>
               ) : null

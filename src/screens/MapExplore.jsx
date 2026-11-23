@@ -547,7 +547,7 @@ export default function MapExplore({ experiments = false }) {
     }
     let cancelled = false;
     const dest = nav.dest;
-    fetchDirections(from, dest)
+    fetchDirections(from, dest, dest.mode || null)
       .then((data) => !cancelled && setNav((cur) => (cur?.dest === dest ? { ...cur, loading: false, data } : cur)))
       .catch(
         (e) =>
@@ -1247,7 +1247,7 @@ export default function MapExplore({ experiments = false }) {
                   >
                     {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
                   </button>
-                  <DirectionsButton name={landmark.name} lat={position[0]} lng={position[1]} className="btn btn-ghost btn-sm">
+                  <DirectionsButton place={landmark} name={landmark.name} lat={position[0]} lng={position[1]} className="btn btn-ghost btn-sm">
                     {'\u{1F9ED}'} Directions
                   </DirectionsButton>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={goToDetails}>
@@ -1379,7 +1379,7 @@ export default function MapExplore({ experiments = false }) {
                       {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
                     </button>
                   )}
-                  <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
+                  <DirectionsButton place={l} name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
                     {'\u{1F9ED}'} Directions
                   </DirectionsButton>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={goToDetails}>

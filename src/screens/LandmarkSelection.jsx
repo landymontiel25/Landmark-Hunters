@@ -349,7 +349,7 @@ const LandmarkRow = memo(function LandmarkRow({
         <button type="button" className="btn btn-ghost btn-tight" onClick={() => onInfo(l)}>
           Info
         </button>
-        <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-tight" />
+        <DirectionsButton place={l} name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-tight" />
         <CheckInButton
           landmark={l}
           user={user}

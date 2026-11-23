@@ -19,7 +19,7 @@ export default function MealCard({ places, limit = MEAL_LIMIT, onShown = null })
             key={`${p.region}/${p.id}`}
             pick={p}
             action={
-              <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
+              <DirectionsButton place={p} name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
                 Directions
               </DirectionsButton>
             }

@@ -1243,6 +1243,7 @@ function LandmarkDetailBody() {
       )}
 
       <DirectionsButton
+        place={{ ...landmark, regionId }}
         name={landmark.name}
         lat={landmark.lat}
         lng={landmark.lng}

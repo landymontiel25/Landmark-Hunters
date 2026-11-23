@@ -2591,3 +2591,12 @@ html[data-theme] body .trip-route-edit.trip-route-edit-folded.turn-panel {
     transition: none;
   }
 }
+
+/* Get directions asks how you're getting around (owner, 2026-11-23). */
+html[data-theme] body .directions-sheet .itin-mode {
+  margin: 0 0 14px;
+}
+html[data-theme] body .directions-sheet .directions-mode-note {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
