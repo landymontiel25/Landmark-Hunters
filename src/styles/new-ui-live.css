@@ -2508,3 +2508,67 @@ html[data-theme] body .mc-overlay .mc-title {
     background: #000000;
   }
 }
+
+/* The route editor folds (owner, 2026-11-23; TripRouteEditPanel.jsx): a
+   grabber on top, and a one-line bar with the stop count when folded, so
+   the map shows through. The body's height follows the finger and springs. */
+html[data-theme] body .trip-route-edit .trip-route-grabber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 22px;
+  margin: -8px 0 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+html[data-theme] body .trip-route-edit .trip-route-grabber-bar {
+  width: 36px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--nl-line, #ebebeb);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-body {
+  overflow: hidden;
+}
+html[data-theme] body .trip-route-edit.trip-route-edit-folded .turn-panel-head h3 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  touch-action: none;
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-folded-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--nl-text);
+}
+html[data-theme] body .trip-route-edit .trip-route-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -6px -10px -6px 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--nl-gold-soft);
+  color: var(--nl-text);
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+html[data-theme] body .trip-route-edit .trip-route-chevron:active {
+  transform: scale(0.96);
+  transition-duration: 90ms;
+}
+html[data-theme] body .trip-route-edit.trip-route-edit-folded.turn-panel {
+  padding-bottom: 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] body .trip-route-edit .trip-route-chevron {
+    transition: none;
+  }
+}
