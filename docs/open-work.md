@@ -3,6 +3,17 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## "Mission completed" moment (2026-11-23)
+
+- **Done, verified live.** MissionComplete.jsx (styles .mc-* in
+  new-ui-live.css): a gold seal draws, fills and checks, one shockwave, a
+  short gold spark burst, then "Mission completed", the place and "+10
+  points". Plays once, tap/Escape/3 s to close, fade under reduced motion.
+  Shown on a passed photo or a right trivia answer; the panel then reads
+  "Mission completed". Checked live in light and dark.
+- **Leftover:** test account CwvLrosFm7dVDDcZoMHDOwwLVKn2 (auth only, its
+  data deleted) and its one Storage photo; delete in the Firebase console.
+
 ## Mission photo check: Haiku, looser, two-bullet refusals (2026-11-23)
 
 - **Done, verified live.** photoMatchesMission runs on claude-haiku-4-5
