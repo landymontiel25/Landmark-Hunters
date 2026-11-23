@@ -37,6 +37,7 @@ export default function DirectionsButton({
   query,
   near,
   place,
+  mode: startMode = null,
 }) {
   const [open, setOpen] = useState(false);
   const [found, setFound] = useState(null); // { lat, lng } looked up from `query`
@@ -48,13 +49,18 @@ export default function DirectionsButton({
 
   // Where you are: the device's last fix, read when the sheet opens.
   const [here, setHere] = useState(null);
-  const [pickedMode, setPickedMode] = useState(null);
+  // startMode: the mode already picked for this trip (the route panel's
+  // "Open in Maps App"), so the sheet opens on it.
+  const [pickedMode, setPickedMode] = useState(startMode);
   const modeChoice = useMemo(
     () => (destLat != null && destLng != null ? travelModesFor({ origin: here, stops: [{ ...(place || {}), name, lat: destLat, lng: destLng }] }) : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [destLat, destLng, place?.id, place?.region, place?.regionId, here]
   );
-  const mode = modeChoice ? effectiveMode(pickedMode, modeChoice) : null;
+  // A mode already picked for this trip always stays on offer: it's never
+  // swapped for another (owner, 2026-11-23).
+  const offered = modeChoice && startMode && !modeChoice.modes.includes(startMode) ? { ...modeChoice, modes: [...modeChoice.modes, startMode] } : modeChoice;
+  const mode = offered ? effectiveMode(pickedMode, offered) : null;
   const googleMode = mode ? travelMode(mode).google : null;
   // Google and Apple Maps have no boat or flight directions.
   const mapsApps = !mode || !!googleMode;
@@ -100,7 +106,7 @@ export default function DirectionsButton({
           <div className="modal-backdrop" onClick={close}>
             <div className="modal-card directions-sheet" onClick={(e) => e.stopPropagation()}>
               <h3 style={{ marginTop: 0 }}>{'\u{1F9ED}'} Directions to {name}</h3>
-              {modeChoice && <TravelModePicker modes={modeChoice.modes} value={mode} picked={!!pickedMode} onChange={setPickedMode} />}
+              {offered && <TravelModePicker modes={offered.modes} value={mode} picked={!!pickedMode} onChange={setPickedMode} />}
               {!external && (hasCoords || query) && (
                 <>
                   <button

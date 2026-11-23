@@ -40,7 +40,9 @@ import ActiveNavOverlay from '../components/ActiveNavOverlay';
 import { prepareRoute, navProgress } from '../lib/navProgress';
 import { useSmartSearch, landmarkSearchText } from '../lib/smartSearch';
 import SmartSearchLabel from '../components/SmartSearchLabel';
-import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLegs, routeInOrder } from '../lib/routing';
+import { routeFor, buildNearestNeighborRoute, googleMapsMultiStopLegs, routeInOrder } from '../lib/routing';
+import { useBoatLegs } from '../lib/useBoatLegs';
+import { travelMode } from '../lib/travelModes';
 import TripRouteEditPanel from '../components/TripRouteEditPanel';
 import { attachMapCardGestures } from '../lib/mapCardGestures';
 import LandmarkThumb from '../components/LandmarkThumb';
@@ -547,7 +549,9 @@ export default function MapExplore({ experiments = false }) {
     }
     let cancelled = false;
     const dest = nav.dest;
-    fetchDirections(from, dest, dest.mode || null)
+    // The mode the traveler picked, never dropped: Boat goes around the
+    // islands, everything else is the road route in that mode.
+    routeFor(from, dest, dest.mode || null)
       .then((data) => !cancelled && setNav((cur) => (cur?.dest === dest ? { ...cur, loading: false, data } : cur)))
       .catch(
         (e) =>
@@ -598,6 +602,12 @@ export default function MapExplore({ experiments = false }) {
     return { origin: tripOrigin, stops: routeInOrder(tripOrigin, stops) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripRoute, routeIds, tripStopById, hasTripOrigin]);
+  // A trip by boat: each leg's route around the islands (useBoatLegs), for
+  // the lines on the map and the leg lengths in the panel.
+  const tripMode = tripRoute?.mode || null;
+  const tripBoatLegs = useBoatLegs(
+    tripMode === 'boat' && orderedTrip ? orderedTrip.stops.map((st, i) => [i === 0 ? orderedTrip.origin : orderedTrip.stops[i - 1], st]) : []
+  );
   const editRoute = (fn) => {
     setRouteTouched(true);
     setRouteIds(fn);
@@ -662,7 +672,9 @@ export default function MapExplore({ experiments = false }) {
   const selectAllRouteStops = () => editRoute((ids) => [...ids, ...(tripRoute?.stops || []).map((st) => st.id).filter((id) => !ids.includes(id))]);
   const startTripRoute = () => {
     if (!orderedTrip?.stops.length) return;
-    const [first, ...rest] = orderedTrip.stops.map((st) => ({ name: st.name, lat: st.lat, lng: st.lng }));
+    // Each stop carries the trip's travel mode, so every leg is routed that way.
+    const mode = tripRoute?.mode || undefined;
+    const [first, ...rest] = orderedTrip.stops.map((st) => ({ name: st.name, lat: st.lat, lng: st.lng, mode }));
     setFollowing(true);
     setNav({ dest: { ...first, n: 1 }, queue: rest.map((st, i) => ({ ...st, n: i + 2 })), loading: true, error: null, data: null, req: 0, active: true });
     setTripRoute(null);
@@ -681,6 +693,10 @@ export default function MapExplore({ experiments = false }) {
   // a trip (more stops queued, or a numbered stop) to draw around it.
   const navStopNo = nav?.dest?.n ?? 1;
   const navTrip = !!nav && (nav.queue?.length > 0 || nav.dest?.n > 1);
+  // The later legs of a trip by boat, around the islands like the current one.
+  const navBoatLegs = useBoatLegs(
+    nav?.dest?.mode === 'boat' && nav.queue?.length ? nav.queue.map((st, i) => [i === 0 ? nav.dest : nav.queue[i - 1], st]) : []
+  );
   const progress = useMemo(
     () => (navActive && navRoute && coords ? navProgress(navRoute, coords, alongRef.current) : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1527,11 +1543,12 @@ export default function MapExplore({ experiments = false }) {
               )}
               {orderedTrip.stops.map((st, i) => {
                 const from = i === 0 ? orderedTrip.origin : orderedTrip.stops[i - 1];
+                const boat = tripBoatLegs[i];
                 return from ? (
                   <Polyline
-                    key={`trip-leg-${st.id || i}`}
-                    positions={[[from.lat, from.lng], [st.lat, st.lng]]}
-                    pathOptions={{ color: legColor(i + 1), weight: 4, opacity: 0.95, dashArray: '8 8' }}
+                    key={`trip-leg-${st.id || i}${boat ? '-boat' : ''}`}
+                    positions={boat ? boat.points : [[from.lat, from.lng], [st.lat, st.lng]]}
+                    pathOptions={{ color: legColor(i + 1), weight: 4, opacity: 0.95, ...(boat ? {} : { dashArray: '8 8' }) }}
                   />
                 ) : null;
               })}
@@ -1610,8 +1627,12 @@ export default function MapExplore({ experiments = false }) {
                   {navStopNo}. {nav.dest.name}
                 </Tooltip>
               </Marker>
-              {laterLegs(nav.dest, nav.queue, navStopNo).map((leg) => (
-                <Polyline key={`leg-${leg.n}`} positions={leg.positions} pathOptions={{ color: leg.color, weight: 4, opacity: 0.9, dashArray: '8 8' }} />
+              {laterLegs(nav.dest, nav.queue, navStopNo).map((leg, i) => (
+                <Polyline
+                  key={`leg-${leg.n}${navBoatLegs[i] ? '-boat' : ''}`}
+                  positions={navBoatLegs[i]?.points || leg.positions}
+                  pathOptions={{ color: leg.color, weight: 4, opacity: 0.9, ...(navBoatLegs[i] ? {} : { dashArray: '8 8' }) }}
+                />
               ))}
               {nav.queue.map((st, i) => {
                 const n = st.n ?? navStopNo + i + 1;
@@ -1768,7 +1789,11 @@ export default function MapExplore({ experiments = false }) {
                     <strong style={{ color: legColor(i + 1) }}>{i + 1}.</strong> {st.name}
                   </span>
                   {(i > 0 || orderedTrip.origin) && (
-                    <span className="turn-step-dist">{formatDistance(st.distanceFromPrevMeters, units)}</span>
+                    <span className="turn-step-dist">
+                      {tripBoatLegs[i]
+                        ? `${formatDistance(tripBoatLegs[i].distanceMeters, units)} · ${tripBoatLegs[i].minutes} min by boat`
+                        : formatDistance(st.distanceFromPrevMeters, units)}
+                    </span>
                   )}
                 </li>
               ))}
@@ -1780,7 +1805,13 @@ export default function MapExplore({ experiments = false }) {
               <button type="button" className="btn btn-ghost btn-sm" onClick={editRouteAgain}>
                 Edit route
               </button>
-              {googleMapsMultiStopLegs(orderedTrip.stops, orderedTrip.origin).map((href, i, all) => (
+              {tripMode && !travelMode(tripMode).google && (
+                <p className="screen-subtitle" style={{ margin: '4px 0 0', width: '100%' }}>
+                  Google Maps and Apple Maps don't give {tripMode === 'plane' ? 'flight' : 'boat'} directions.
+                </p>
+              )}
+              {(tripMode ? travelMode(tripMode).google : 'driving') &&
+                googleMapsMultiStopLegs(orderedTrip.stops, orderedTrip.origin, tripMode ? travelMode(tripMode).google : 'driving').map((href, i, all) => (
                 <a key={href} className="btn btn-ghost btn-sm" href={href} target="_blank" rel="noreferrer">
                   {all.length > 1 ? `Google Maps, part ${i + 1} of ${all.length}` : 'All stops in Google Maps'}
                 </a>

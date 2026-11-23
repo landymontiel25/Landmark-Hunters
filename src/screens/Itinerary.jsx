@@ -15,6 +15,7 @@ import StopCard from '../components/StopCard';
 import { DragHandle, RemoveStopButton } from '../components/EditListControls';
 import ItinerarySort, { itinerarySortLabel, normalizeItinerarySort } from '../components/ItinerarySort';
 import TravelModePicker from '../components/TravelModePicker';
+import { useBoatLegs } from '../lib/useBoatLegs';
 import { travelModesFor, effectiveMode, legMinutes, legLabel, travelMode } from '../lib/travelModes';
 import TripRecapCard from '../components/TripRecapCard';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
@@ -31,7 +32,7 @@ import {
   orderBySaved,
   annotateRoute,
   enhanceRouteWithDrivingTimes,
-  fetchDirections,
+  routeFor,
   googleMapsMultiStopLegs,
 } from '../lib/routing';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
@@ -597,12 +598,19 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   // The current stops, with each leg's time for the travel mode; driving
   // gets the road legs laid over them when they were computed for this same
   // stop order.
+  // By boat, each leg is measured along its route around the islands
+  // (useBoatLegs), the same route and minutes the Map draws.
+  const boatLegs = useBoatLegs(mode === 'boat' && routeOrigin ? route.map((s, i) => [i === 0 ? routeOrigin : route[i - 1], s]) : []);
   const displayRoute = useMemo(() => {
-    const paced = route.map((stop) => ({ ...stop, travelMinutesFromPrev: legMinutes(stop.distanceFromPrevMeters || 0, mode) }));
+    const paced = route.map((stop, i) =>
+      boatLegs[i]
+        ? { ...stop, distanceFromPrevMeters: boatLegs[i].distanceMeters, travelMinutesFromPrev: boatLegs[i].minutes }
+        : { ...stop, travelMinutesFromPrev: legMinutes(stop.distanceFromPrevMeters || 0, mode) }
+    );
     const { forRoute, legs } = drivingRoute;
     if (mode !== 'car' || forRoute !== routeOrderKey(route) || legs.length !== route.length || !legs.some(Boolean)) return paced;
     return paced.map((stop, i) => (legs[i] ? { ...stop, ...legs[i] } : stop));
-  }, [drivingRoute, route, mode]);
+  }, [drivingRoute, route, mode, boatLegs]);
 
   // Hold-and-drag reorder (the grip on each stop card), only offered while
   // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
@@ -640,7 +648,8 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   // Live navigation on the full-screen Map through the stops still to go,
   // in list order; each arrival offers the next one.
   // n: the stop's number on the itinerary, shown on its pin on the Map.
-  const toNavStop = (s) => ({ name: s.name, lat: s.lat, lng: s.lng, n: displayRoute.findIndex((x) => x.id === s.id) + 1 || undefined });
+  // mode: the way you picked to get around, routed that way on the Map.
+  const toNavStop = (s) => ({ name: s.name, lat: s.lat, lng: s.lng, mode, n: displayRoute.findIndex((x) => x.id === s.id) + 1 || undefined });
   const startTrip = (fromStop) => {
     const pending = displayRoute.filter((s) => !claimedMap[s.id]);
     const list = fromStop
@@ -661,7 +670,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
       .filter((s) => Number.isFinite(s.lat) && Number.isFinite(s.lng))
       .map((s) => ({ id: s.id, name: s.name, lat: s.lat, lng: s.lng }));
     if (!stops.length) return;
-    navigate('/', { state: { tripRoute: { name: itineraryName(region.id), stops, edit: true, ordered: true, source: { kind: 'solo', regionId: region.id } } } });
+    navigate('/', { state: { tripRoute: { name: itineraryName(region.id), stops, mode, edit: true, ordered: true, source: { kind: 'solo', regionId: region.id } } } });
   };
   // Share with anyone, app or not: the stops and a Google Maps route, by the
   // phone's share sheet (texts, WhatsApp, email...) or copied to paste.
@@ -695,7 +704,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
     }
     setNav({ stop, loading: true, error: null, data: null });
     try {
-      const data = await fetchDirections(from, stop, mode);
+      const data = await routeFor(from, stop, mode);
       setNav((cur) => (cur?.stop.id === stop.id ? { ...cur, loading: false, data } : cur));
     } catch (e) {
       const error = friendlyError(e, "Couldn't get directions right now. Try again, or open your maps app.");

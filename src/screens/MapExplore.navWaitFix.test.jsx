@@ -41,8 +41,8 @@ const subscribe = (l) => {
 describe('MapExplore directions before the first GPS fix', () => {
   it('routes once a fix arrives after the GPS timed out', async () => {
     vi.resetModules();
-    const fetchDirections = vi.fn(async () => ({ mode: 'WALK', points: [[40, -75], [40.001, -75]], steps: [], durationSeconds: 60, distanceMeters: 100 }));
-    vi.doMock('../lib/routing', async (orig) => ({ ...(await orig()), fetchDirections }));
+    const routeFor = vi.fn(async () => ({ mode: 'WALK', points: [[40, -75], [40.001, -75]], steps: [], durationSeconds: 60, distanceMeters: 100 }));
+    vi.doMock('../lib/routing', async (orig) => ({ ...(await orig()), routeFor }));
     vi.doMock('../lib/GeoContext', () => ({ useGeo: () => useSyncExternalStore(subscribe, () => geo) }));
     vi.doMock('../lib/TripContext', () => ({
       useTrip: () => ({
@@ -81,12 +81,12 @@ describe('MapExplore directions before the first GPS fix', () => {
       );
     });
     expect(container.textContent).toContain('Turn on location to get directions on the map.');
-    expect(fetchDirections).not.toHaveBeenCalled();
+    expect(routeFor).not.toHaveBeenCalled();
 
     await act(async () => {
       setGeo({ coords: { lat: 40, lng: -75, accuracy: 10 }, error: null, loading: false, lastKnown: null });
     });
-    expect(fetchDirections).toHaveBeenCalledTimes(1);
+    expect(routeFor).toHaveBeenCalledTimes(1);
     expect(container.textContent).not.toContain('Turn on location to get directions on the map.');
     expect(container.textContent).toContain('To Old Main');
     root.unmount();

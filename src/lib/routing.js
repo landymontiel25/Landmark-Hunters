@@ -232,8 +232,12 @@ export async function enhanceRouteWithDrivingTimes(origin, route) {
  */
 // mode: the itinerary's travel mode (travelModes.js); walk and drive are
 // passed on, anything else lets the server pick by distance.
+// The road route service's travel mode for each of ours (travelModes.js).
+// Boat and Fly never go to it.
+const API_MODES = { walk: 'WALK', car: 'DRIVE', bike: 'BICYCLE', bus: 'TRANSIT' };
+
 export async function fetchDirections(origin, destination, mode = null) {
-  const apiMode = mode === 'walk' ? 'WALK' : mode === 'car' ? 'DRIVE' : undefined;
+  const apiMode = API_MODES[mode];
   const data = await fetchJson(`${API_BASE}/api/directions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
@@ -250,6 +254,30 @@ export async function fetchDirections(origin, destination, mode = null) {
 // Apple Maps' dirflg per travel mode (travelModes.js ids): drive, walk,
 // transit. Apple's web links have no bike, boat or flight.
 const APPLE_DIRFLG = { car: 'd', walk: 'w', bus: 'r' };
+
+/**
+ * The route for a trip in the mode you picked (owner, 2026-11-23: a picked
+ * mode is never dropped). Boat goes through the water, around the islands
+ * (boatRoute.js), never to the road route service, which can't cross
+ * water; Fly has no route to draw. Everything else is the road route in
+ * that mode. Throws a plain-language error when there's no route.
+ */
+export async function routeFor(origin, destination, mode = null) {
+  if (mode === 'boat') {
+    const { findBoatRoute, boatRouteData } = await import('./boatRoute');
+    const route = await findBoatRoute(origin, destination);
+    if (!route) {
+      const msg = "There's no boat route from here: boat routes cover the Abacos and Biscayne Bay, from the water nearest you to the water nearest the place.";
+      throw Object.assign(new Error(msg), { userMessage: msg, noBoatRoute: true });
+    }
+    return boatRouteData(route);
+  }
+  if (mode === 'plane') {
+    const msg = 'Flights have no route to draw. Pick another way of getting there for directions.';
+    throw Object.assign(new Error(msg), { userMessage: msg });
+  }
+  return fetchDirections(origin, destination, mode);
+}
 
 export function appleMapsLink(destination, destLat, destLng, mode = null) {
   const dest = destLat != null && destLng != null ? `${destLat},${destLng}` : encodeURIComponent(destination);

@@ -5,6 +5,15 @@ import { Skeleton } from './Skeleton';
 
 const minutes = (sec) => Math.max(1, Math.round(sec / 60));
 
+// How the route was planned (api/directions.js mode, or BOAT from boatRoute.js).
+const MODE_LABEL = {
+  WALK: '\u{1F6B6} Walking',
+  DRIVE: '\u{1F697} Driving',
+  BICYCLE: '\u{1F6B2} Biking',
+  TRANSIT: '\u{1F68C} By bus',
+  BOAT: '\u{26F5} By boat',
+};
+
 function formatDuration(sec) {
   const m = minutes(sec);
   if (m < 60) return `${m} min`;
@@ -55,7 +64,7 @@ export default function TurnByTurnPanel({ stop, loading, error, data, onRefresh,
           {/* error is already a plain-language sentence (see Itinerary's startNav). */}
           <ErrorNotice message={error} onRetry={onRefresh} compact />
           <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
-            <DirectionsButton name={stop.name} lat={stop.lat} lng={stop.lng} className="btn btn-ghost btn-sm" external>
+            <DirectionsButton name={stop.name} lat={stop.lat} lng={stop.lng} mode={stop.mode} className="btn btn-ghost btn-sm" external>
               Open in Maps App
             </DirectionsButton>
           </div>
@@ -67,7 +76,7 @@ export default function TurnByTurnPanel({ stop, loading, error, data, onRefresh,
           <div className="turn-panel-summary">
             <span className="turn-panel-eta">{formatDuration(data.durationSeconds)}</span>
             <span>
-              {formatDistance(data.distanceMeters, units)} · {data.mode === 'WALK' ? '\u{1F6B6} Walking' : '\u{1F697} Driving'}
+              {formatDistance(data.distanceMeters, units)} · {MODE_LABEL[data.mode] || MODE_LABEL.DRIVE}
             </span>
             {data.mode === 'DRIVE' && (
               <span className={`tag ${trafficMin >= 5 ? 'tag-error' : ''}`}>
@@ -101,7 +110,7 @@ export default function TurnByTurnPanel({ stop, loading, error, data, onRefresh,
             <button type="button" className="btn btn-ghost btn-sm" onClick={onRefresh}>
               {'\u{1F504}'} Refresh from Here
             </button>
-            <DirectionsButton name={stop.name} lat={stop.lat} lng={stop.lng} className="btn btn-ghost btn-sm" external>
+            <DirectionsButton name={stop.name} lat={stop.lat} lng={stop.lng} mode={stop.mode} className="btn btn-ghost btn-sm" external>
               Open in Maps App
             </DirectionsButton>
           </div>

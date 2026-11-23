@@ -103,7 +103,9 @@ async function handler(req, res) {
         )
       )
   );
-  const travelMode = body.mode === 'WALK' || body.mode === 'DRIVE' ? body.mode : straightLineMeters <= 1200 ? 'WALK' : 'DRIVE';
+  // The mode the traveler picked (owner, 2026-11-23: never dropped); with
+  // none, walk for a short trip, else drive.
+  const travelMode = ['WALK', 'DRIVE', 'BICYCLE', 'TRANSIT'].includes(body.mode) ? body.mode : straightLineMeters <= 1200 ? 'WALK' : 'DRIVE';
 
   try {
     const r = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
