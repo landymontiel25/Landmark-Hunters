@@ -14,11 +14,13 @@ const NAMES = [
   'Great Guana Cay Atlantic beach', 'Great Guana Cay settlement', 'Nippers', 'Grabbers', 'New Plymouth', 'Albert Lowe Museum',
   'Loyalist Memorial Sculpture Garden', 'Gillam Bay', 'Coco Bay', 'Green Turtle Club', 'Bluff House',
   'Tranquil Turtle Beach Bar & Restaurant', 'Fowl Cays National Park', 'Sandy Cay reef', 'Manjack Cay', 'Powell Cay',
+  // Added by the owner, 2026-11-22.
+  'Abaco Beach Resort & Boat Harbour Marina',
 ];
 const TRIVIA = new Set(['elbow-reef-lighthouse', 'byrle-patterson-memorial-garden', 'albury-brothers-boatbuilding', 'loyalist-memorial-sculpture-garden']);
 
 describe('the Abacos', () => {
-  it('lists all 30 places, in order', () => {
+  it('lists the owner\'s 30 places in order, then the resort they added', () => {
     expect(ABACOS_LANDMARKS.map((l) => l.name)).toEqual(NAMES);
   });
 

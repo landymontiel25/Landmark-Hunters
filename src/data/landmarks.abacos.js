@@ -641,11 +641,36 @@ const PLACES = [
     typicalMinutes: 180,
     mission: photo('Photograph the northern shoreline and capture one detail that shows you made it to the final northern-cay stop.'),
   },
+  // Added 2026-11-22 (owner is staying there). Coordinates are owner-provided
+  // (from the resort's own site, abacobahamasmarina.com): OpenStreetMap doesn't
+  // map the resort yet. The 400 m check-in area covers the whole property,
+  // beach and marina. The description is the owner's own words.
+  {
+    id: 'abaco-beach-resort',
+    name: 'Abaco Beach Resort & Boat Harbour Marina',
+    neighborhood: 'Marsh Harbour, Great Abaco',
+    lat: 26.5462522,
+    lng: -77.046387,
+    checkInRadiusMeters: 400,
+    categories: ['food'],
+    whatItIs:
+      "40 beachfront acres with a private white-sand beach, the largest marina in the Bahamas (200 slips), two pools, tennis and pickleball courts, and restaurants including Angler's.",
+    ...sourced([
+      ['The resort sits on 40 beachfront acres in Marsh Harbour.', 'https://southernboating.com/destinations/discover-abaco-beach-resort-have-a-luxurious-bahamas-getaway/'],
+      ['Its private marina has 200 slips and takes boats up to 200 feet long.', 'https://www.abacobahamasmarina.com/'],
+      ["Angler's restaurant sits on the water's edge, and its deck overlooks the marina.", 'https://www.majesticholidays.com/islands/marsh-harbour-abaco/'],
+    ]),
+    free: false,
+    typicalMinutes: 120,
+    mission: photo('Photograph the marina from the water\'s edge, with the boats and the beach in one shot.'),
+  },
 ];
 
 export const ABACOS_LANDMARKS = PLACES.map((p, i) => ({
   editorialRank: i + 1,
-  popularity: 10 - Math.floor((i * 10) / PLACES.length), // rank i+1 of 30
+  // Out of the first 30 (the owner's list), so a later addition doesn't move
+  // any of theirs; anything past them counts 1.
+  popularity: Math.max(1, 10 - Math.floor((i * 10) / 30)),
   cost: p.free ? 'Free' : p.categories[0] === 'food' ? '$$' : '$',
   firstTimerPriority: i < 10 ? 'High' : 'Medium',
   images: [],

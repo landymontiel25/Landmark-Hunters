@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Abaco Beach Resort & Boat Harbour Marina (2026-11-22)
+
+Added as the 31st Abacos place (Marsh Harbour, Great Abaco; Food like the
+other stays; 400 m check-in area for the whole property; photo mission).
+Its coordinates (26.5462522, -77.046387) are owner-provided from the
+resort's own site: OpenStreetMap doesn't have it, and Google's coordinates
+can't be stored. Next: once it's in OSM, check its pin against Nominatim.
+No free Wikimedia photo exists; it shows Google's photo at runtime, with
+credit, like the other places without a stored one.
+
 ## Neighborhood photos (2026-11-18)
 
 8 of the 9 Miami neighborhoods that showed a letter tile now have a stored

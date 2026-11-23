@@ -23,7 +23,7 @@ describe('landmark catalog', () => {
   // These are real restaurants (a hotel's restaurant, a roadside burger inn).
   it('never files lodging under Food (except restaurants with a hotel/inn in the name)', () => {
     const LODGING = /\b(hotel|inn|motel|hostel|resort|lodge|suites)\b/i;
-    const RESTAURANTS_IN_HOTELS = new Set(['hotel-ristorante-la-darsena', 'derby-grill-monza', 'alpine-inn-zotts-rossottis', 'hope-town-inn-marina', 'abaco-inn', 'firefly-sunset-resort']);
+    const RESTAURANTS_IN_HOTELS = new Set(['hotel-ristorante-la-darsena', 'derby-grill-monza', 'alpine-inn-zotts-rossottis', 'hope-town-inn-marina', 'abaco-inn', 'abaco-beach-resort', 'firefly-sunset-resort']);
     const bad = ALL_LANDMARKS.filter(
       (l) => l.categories[0] === 'food' && LODGING.test(l.name) && !RESTAURANTS_IN_HOTELS.has(l.id)
     );
