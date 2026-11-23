@@ -2323,7 +2323,8 @@ html[data-theme] body .map-cat-urgent.in-sheet {
   padding: 0 16px;
   text-align: center;
   cursor: pointer;
-  background: radial-gradient(circle at 50% 42%, rgba(201, 151, 26, 0.22), rgba(0, 0, 0, 0.86) 62%);
+  /* Dark enough for white text over any page, light or dark. */
+  background: radial-gradient(circle at 50% 40%, rgba(201, 151, 26, 0.2), rgba(201, 151, 26, 0) 42%), rgba(0, 0, 0, 0.84);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   font-family: Inter, system-ui, sans-serif;
@@ -2435,7 +2436,10 @@ html[data-theme] body .map-cat-urgent.in-sheet {
     opacity: 0;
   }
 }
-.mc-title {
+.mc-overlay .mc-title,
+html[data-theme] body .mc-overlay .mc-title {
+  font-family: Inter, system-ui, sans-serif;
+  text-shadow: none;
   margin: 24px 0 0;
   color: #ffffff;
   font-size: 32px;
