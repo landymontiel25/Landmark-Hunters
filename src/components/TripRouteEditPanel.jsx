@@ -6,11 +6,12 @@ import { DragHandle } from './EditListControls';
 // itinerary opens the Map with the route in edit mode: every stop's name
 // shows by its pin, tapping a pin takes it off the route (tap again to put
 // it back), "Select all" puts every stop back, and the grip on each row
-// drags it to a new place in the order. Save ends edit mode; the pins then
-// open their usual card. Only this route changes, never the itinerary.
+// drags it to a new place in the order. Save ends edit mode, writes the new
+// order back to the itinerary (with Undo), and the pins open their usual
+// card again. Cancel leaves without saving.
 //   stops: every stop the route started with ({ id, name }), in order
 //   ids: the stops on the route now, in route order
-export default function TripRouteEditPanel({ name, stops, ids, onReorder, onSelectAll, onSave, onClose }) {
+export default function TripRouteEditPanel({ name, stops, ids, onReorder, onSelectAll, onSave, onCancel }) {
   const byId = Object.fromEntries(stops.map((s) => [s.id, s]));
   const { order, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(ids, onReorder);
   const shown = order.filter((id) => byId[id]);
@@ -20,8 +21,8 @@ export default function TripRouteEditPanel({ name, stops, ids, onReorder, onSele
       <div className="card turn-panel trip-route-panel trip-route-edit">
         <div className="turn-panel-head">
           <h3 style={{ margin: 0 }}>Edit route: {name}</h3>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={onClose}>
-            Close
+          <button type="button" className="btn btn-ghost btn-sm" onClick={onCancel}>
+            Cancel
           </button>
         </div>
         <p className="screen-subtitle trip-route-edit-hint">Tap a pin to drop it. Drag ☰ to reorder.</p>

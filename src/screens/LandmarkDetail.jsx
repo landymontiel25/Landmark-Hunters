@@ -936,8 +936,9 @@ function LandmarkDetailBody() {
       {confirmNode}
       <div className="detail-topbar back-sticky">
         {/* Opened from a shared link, there is no page to go back to. */}
-        <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location, '/landmarks')}>
-          {'← Back'}
+        {/* Opened by tapping its pin on the Map: back to that same map view. */}
+        <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location, location.state?.fromMap ? '/' : '/landmarks')}>
+          {location.state?.fromMap ? '← Back to map' : '← Back'}
         </button>
         {checkinNav && (
           <div className="checkin-stepper">

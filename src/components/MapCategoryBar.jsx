@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { PICKABLE_INTERESTS } from '../data/regions';
 import { SHORT_CATEGORY } from '../data/categoryLabels';
 import { springEasing, supportsLinearEasing } from '../lib/spring';
@@ -42,11 +42,18 @@ export function zoomTarget(r, vw, vh) {
   return { scale, dx: clamp(cx, w / 2, vw) - cx, dy: clamp(cy, h / 2, vh) - cy };
 }
 
-function useSelectAllZoom(btnRef, needsPick) {
-  // Only when the Map opens with nothing showing, never on a later change.
+// force: play even after Select All has been used (a landmark is showing
+// but can't be tapped yet). nudge: a number that replays it when it goes up
+// (a tap on the map while nothing is picked).
+function useSelectAllZoom(btnRef, needsPick, { force = false, nudge = 0 } = {}) {
+  // Only when the Map opens with nothing showing (or a nudge), never on a
+  // later change.
   const openedEmpty = useRef(needsPick);
+  const lastNudge = useRef(nudge);
   useEffect(() => {
-    if (!openedEmpty.current || !needsPick || selectAllUsed()) return undefined;
+    const nudged = nudge !== lastNudge.current;
+    lastNudge.current = nudge;
+    if (!needsPick || (!openedEmpty.current && !nudged) || (!force && selectAllUsed())) return undefined;
     if (typeof window === 'undefined' || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
     let clone = null;
     let anim = null;
@@ -62,11 +69,13 @@ function useSelectAllZoom(btnRef, needsPick) {
       const r = btn.getBoundingClientRect();
       if (!r.width || r.bottom < 0 || r.top > window.innerHeight) return;
       openedEmpty.current = false; // once per Map open
+      document.querySelectorAll('.map-cat-all-zoom').forEach((n) => n.remove());
       clone = btn.cloneNode(true);
       clone.removeAttribute('aria-pressed');
       clone.setAttribute('aria-hidden', 'true');
       clone.tabIndex = -1;
       clone.classList.add('map-cat-all-zoom');
+      if (force) clone.classList.add('map-cat-all-zoom-loud');
       Object.assign(clone.style, {
         position: 'fixed',
         left: `${r.left}px`,
@@ -97,22 +106,19 @@ function useSelectAllZoom(btnRef, needsPick) {
       }
       clone?.remove();
       clone = null;
-    }, ZOOM_DELAY_MS);
+    }, nudged ? 0 : ZOOM_DELAY_MS);
     return () => {
       clearTimeout(timer);
       stop();
     };
-  }, [btnRef, needsPick]);
+  }, [btnRef, needsPick, force, nudge]);
 }
 
-// The Map's category bar (owner, 2026-11-07): the Map opens with nothing
-// chosen and no pins; you pick "Select All" or one or more category emojis
-// at the top. Signed in, it sits in the picks sheet above "Discover popular
-// landmarks" (className map-cat-bar-sheet; owner, 2026-11-08), else over
-// the map. `value` is null (nothing yet), 'all', or a list of category
-// ids. MapExplore keeps it in session state, so it holds while you switch
-// tabs and resets when the app is closed.
-export default function MapCategoryBar({ value, onChange, className = '' }) {
+// urgent: the name of a landmark that's showing on the map but can't be
+// tapped until something is picked (opened from the Landmarks tab; owner,
+// 2026-11-23). Then the zoom plays even after Select All was used before,
+// replays on `nudge`, and a callout says exactly what to do.
+export default function MapCategoryBar({ value, onChange, className = '', urgent = null, nudge = 0 }) {
   const all = value === 'all';
   const picked = Array.isArray(value) ? value : [];
   const toggle = (id) => {
@@ -123,8 +129,19 @@ export default function MapCategoryBar({ value, onChange, className = '' }) {
   };
   const needsPick = value == null;
   const allRef = useRef(null);
-  useSelectAllZoom(allRef, needsPick);
+  useSelectAllZoom(allRef, needsPick, { force: !!urgent, nudge });
   const inSheet = className.includes('map-cat-bar-sheet');
+  const loud = needsPick && !!urgent;
+  // Over the map, the callout sits just under the bar, wherever the bar is.
+  const barRef = useRef(null);
+  const [calloutTop, setCalloutTop] = useState(null);
+  useLayoutEffect(() => {
+    if (!loud || inSheet || !barRef.current) return undefined;
+    const place = () => setCalloutTop(Math.round(barRef.current.getBoundingClientRect().bottom + 12));
+    place();
+    window.addEventListener('resize', place);
+    return () => window.removeEventListener('resize', place);
+  }, [loud, inSheet]);
   return (
     <>
     {inSheet && (
@@ -132,7 +149,7 @@ export default function MapCategoryBar({ value, onChange, className = '' }) {
         {needsPick ? 'Choose Select All or a category to see places on the map' : 'Swipe up for picks near you'}
       </p>
     )}
-    <div className={`map-cat-bar ${className} ${needsPick ? 'needs-pick' : ''}`.trim()} role="group" aria-label="Show on the map">
+    <div ref={barRef} className={`map-cat-bar ${className} ${needsPick ? 'needs-pick' : ''} ${loud ? 'needs-pick-loud' : ''}`.trim()} role="group" aria-label="Show on the map">
       <button
         ref={allRef}
         type="button"
@@ -166,6 +183,11 @@ export default function MapCategoryBar({ value, onChange, className = '' }) {
         );
       })}
     </div>
+    {loud && (
+      <div className={`map-cat-urgent ${inSheet ? 'in-sheet' : ''}`.trim()} role="alert" style={!inSheet && calloutTop != null ? { top: calloutTop } : undefined}>
+        <strong>Tap Select All or a category</strong> to open {urgent} and the places around it.
+      </div>
+    )}
     </>
   );
 }

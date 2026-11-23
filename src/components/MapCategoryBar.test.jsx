@@ -132,3 +132,20 @@ describe('Select All zoom', () => {
     expect(selectAllUsed()).toBe(true);
   });
 });
+
+describe('Select All, loud', () => {
+  it('a landmark showing but not tappable: gold callout naming it, cleared by Select All', async () => {
+    el = document.createElement('div');
+    document.body.appendChild(el);
+    root = createRoot(el);
+    function Loud() {
+      const [v, setV] = useState(null);
+      return <MapCategoryBar value={v} onChange={setV} urgent="Abaco Beach Resort" />;
+    }
+    await act(async () => root.render(<Loud />));
+    expect(el.querySelector('.map-cat-bar').classList.contains('needs-pick-loud')).toBe(true);
+    expect(el.querySelector('.map-cat-urgent').textContent).toBe('Tap Select All or a category to open Abaco Beach Resort and the places around it.');
+    await click(selectAll());
+    expect(el.querySelector('.map-cat-urgent')).toBeNull();
+  });
+});

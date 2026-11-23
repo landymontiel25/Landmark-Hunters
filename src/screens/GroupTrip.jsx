@@ -37,6 +37,7 @@ import AddSquareIcon from '../components/AddSquareIcon';
 import LiveLocationCard from '../components/LiveLocationCard';
 import { itineraryShareText, routeMode, shareItinerary } from '../lib/itineraryShare';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
+import ItinerarySort, { normalizeItinerarySort } from '../components/ItinerarySort';
 
 // Same outline as the loaded screen: back button, title, members card,
 // landmarks card.
@@ -107,11 +108,12 @@ export default function GroupTrip() {
   // route -- a group trip is the same kind of itinerary, just with more
   // people on it, so it shouldn't behave differently. No sort preference to
   // remember until someone's actually used Edit List once.
-  const [sortPref, setSortPref] = usePersistentState(trip?.id ? `itin-sort-pref.group-${trip.id}` : null, null);
+  const [sortPrefRaw, setSortPref] = usePersistentState(trip?.id ? `itin-sort.v2.group-${trip.id}` : null, null);
+  const sortPref = normalizeItinerarySort(sortPrefRaw);
   const [editing, setEditing] = useState(false);
   // Edit List's remove (a stop waiting on its confirm).
   const [pendingRemove, setPendingRemove] = useState(null);
-  const sort = editing ? 'custom' : sortPref || 'nearest';
+  const sort = editing ? 'custom' : sortPref;
 
   const uid = user?.uid;
   useEffect(() => {
@@ -322,8 +324,13 @@ export default function GroupTrip() {
     ...(trip.places || []),
   ]
     .filter((p) => Number.isFinite(p?.lat) && Number.isFinite(p?.lng))
-    .map((p) => ({ id: p.id, name: p.name, lat: p.lat, lng: p.lng }));
-  const viewInMap = () => navigate('/', { state: { tripRoute: { name: trip.name, stops: tripStops, edit: true } } });
+    .map((p) => ({ id: p.id, name: p.name, lat: p.lat, lng: p.lng }))
+    // In the trip's own order (the route editor opens on it).
+    .map((p, i) => ({ p, i, at: (trip.landmarkIds || []).indexOf(p.id) }))
+    .sort((a, b) => (a.at < 0 ? Infinity : a.at) - (b.at < 0 ? Infinity : b.at) || a.i - b.i)
+    .map((x) => x.p);
+  const viewInMap = () =>
+    navigate('/', { state: { tripRoute: { name: trip.name, stops: tripStops, edit: true, ordered: true, source: { kind: 'group', tripId: trip.id, order: [...(trip.landmarkIds || [])] } } } });
   // Share with anyone, app or not: the route's stops in order and a Google
   // Maps link, by the phone's share sheet or copied.
   const shareTrip = () => {
@@ -412,15 +419,6 @@ export default function GroupTrip() {
                 {'\u{1F4E4}'} Share
               </button>
             )}
-            {!editing && sortPref && (
-              <label className="itin-sort">
-                <span>Sort by</span>
-                <select className="radius-select" value={sortPref} onChange={(e) => setSortPref(e.target.value)}>
-                  <option value="nearest">Nearest to me</option>
-                  <option value="custom">My order</option>
-                </select>
-              </label>
-            )}
             {selectedCount > 0 && (
               <button
                 type="button"
@@ -444,6 +442,7 @@ export default function GroupTrip() {
             )}
           </div>
         </div>
+        {!editing && selectedCount > 1 && <ItinerarySort value={sortPref} onChange={setSortPref} />}
         {orderedRoute.length === 0 && (
           <p className="screen-subtitle" style={{ margin: 0 }}>
             Nothing added yet -- tick landmarks below to build this trip's route.

@@ -124,10 +124,16 @@ export function orderStops(sortId, origin, landmarks, ratings = {}, customOrder 
   const nearest = (a, b) => dist(a) - dist(b);
   const list = [...landmarks];
   switch (sortId) {
-    // "Nearest to me" is a walkable chain (closest first, then closest to
-    // *that*, untangled with 2-opt) -- not a plain sort by distance from
-    // you, which zig-zags past places you'll have to come back for.
+    // The itinerary's three sorts (owner, 2026-11-23):
+    //   'nearest'   Nearest to Me: straight distance from you, nearest
+    //               first, even when that zig-zags.
+    //   'optimized' Optimized Route: the chain with the least backtracking
+    //               (closest first, then closest to *that*, untangled with
+    //               2-opt). 'route' is the old name for it.
+    //   'custom'    My Order (below).
     case 'nearest':
+      return list.sort(nearest);
+    case 'optimized':
     case 'route':
       return buildNearestNeighborRoute(origin, landmarks);
     case 'custom': {
@@ -224,13 +230,17 @@ export async function enhanceRouteWithDrivingTimes(origin, route) {
  *   points: [[lat, lng], ...], steps: [{ instruction, distanceMeters, durationSeconds }] }.
  * Throws with the server's message on failure.
  */
-export async function fetchDirections(origin, destination) {
+// mode: the itinerary's travel mode (travelModes.js); walk and drive are
+// passed on, anything else lets the server pick by distance.
+export async function fetchDirections(origin, destination, mode = null) {
+  const apiMode = mode === 'walk' ? 'WALK' : mode === 'car' ? 'DRIVE' : undefined;
   const data = await fetchJson(`${API_BASE}/api/directions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({
       origin: { lat: origin.lat, lng: origin.lng },
       destination: { lat: destination.lat, lng: destination.lng },
+      ...(apiMode ? { mode: apiMode } : {}),
     }),
   });
   if (!data?.points?.length) throw Object.assign(new Error('No route'), { userMessage: 'Could not get directions right now.' });

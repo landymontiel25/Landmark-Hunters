@@ -45,7 +45,10 @@ import TripRouteEditPanel from '../components/TripRouteEditPanel';
 import { attachMapCardGestures } from '../lib/mapCardGestures';
 import LandmarkThumb from '../components/LandmarkThumb';
 import QuickRateButton from '../components/QuickRateButton';
-import { useSessionState } from '../lib/usePersistentState';
+import { useSessionState, readPersisted, writePersisted } from '../lib/usePersistentState';
+import { mergeRouteOrder, sameOrder } from '../lib/routeSave';
+import { reorderGroupLandmarks } from '../lib/groupTrips';
+import { goBack } from '../lib/goBack';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import OnboardingBanner from '../components/OnboardingBanner';
@@ -235,7 +238,9 @@ function zoomForRadiusMiles(map, lat, miles) {
   return Math.log2((EARTH_MPP_ZOOM0 * Math.cos((lat * Math.PI) / 180)) / metersPerPixel);
 }
 
-function InitialView({ coords, lastKnown, bounds, homeBounds, regionBounds, stopBounds, focusPoint, radiusMiles }) {
+const MAP_RETURN_KEY = 'lh.mapReturnView';
+
+function InitialView({ coords, lastKnown, bounds, homeBounds, regionBounds, stopBounds, focusPoint, radiusMiles, restoreView = null }) {
   const map = useMap();
   const framed = useRef(null); // 'fixed' (a landmark, itinerary or city) | 'provisional' | 'gps'
   const userMoved = useRef(false);
@@ -266,7 +271,11 @@ function InitialView({ coords, lastKnown, bounds, homeBounds, regionBounds, stop
     // the itinerary you came from → the city you're browsing → your GPS
     // location. Never waits on GPS: until a fix comes in, the map opens on
     // your last known location (or every landmark), then moves to you.
-    if (focusPoint) {
+    if (restoreView) {
+      // Back from a landmark page opened from a pin: the same view as before.
+      framed.current = 'fixed';
+      map.setView([restoreView.lat, restoreView.lng], restoreView.zoom, { animate: false });
+    } else if (focusPoint) {
       framed.current = 'fixed';
       map.setView([focusPoint.lat, focusPoint.lng], 17);
     } else if (stopBounds) {
@@ -370,6 +379,12 @@ function FitTripRoute({ points, panel = null }) {
   return null;
 }
 
+// Any tap on the map (the "Select All first" nudge).
+function MapTapNudge({ onTap }) {
+  useMapEvents({ click: onTap });
+  return null;
+}
+
 // Taps vs drags for the landmark card (lib/mapCardGestures.js): only a tap
 // on empty map space closes it; any drag, on the card too, pans the map.
 function MapCardGestures() {
@@ -412,7 +427,7 @@ const areaFlashStyle = (kind) => {
 };
 
 export default function MapExplore({ experiments = false }) {
-  const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
+  const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops, reorderLandmarks } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const packsVersion = usePlacePacksVersion();
@@ -425,6 +440,29 @@ export default function MapExplore({ experiments = false }) {
   const { units } = useUnits();
   const mapRef = useRef(null);
   const location = useLocation();
+  // Tapping a landmark pin opens its page; its "Back to map" comes back to
+  // exactly this view (InitialView restoreView).
+  const openFromMap = (path) => {
+    const m = mapRef.current;
+    try {
+      if (m) {
+        const c = m.getCenter();
+        sessionStorage.setItem(MAP_RETURN_KEY, JSON.stringify({ lat: c.lat, lng: c.lng, zoom: m.getZoom() }));
+      }
+    } catch {
+      /* private mode: it just opens where the map normally does */
+    }
+    navigate(path, { state: { fromMap: true } });
+  };
+  const [restoreView] = useState(() => {
+    try {
+      const v = JSON.parse(sessionStorage.getItem(MAP_RETURN_KEY) || 'null');
+      sessionStorage.removeItem(MAP_RETURN_KEY);
+      return v && Number.isFinite(v.lat) && Number.isFinite(v.lng) && Number.isFinite(v.zoom) ? v : null;
+    } catch {
+      return null;
+    }
+  });
   const [satellite] = useState(true);
   // Google's map while online (lib/googleTiles.js); null keeps the Esri/Carto
   // layers (offline, or no key set). Google ratings in popups only with it.
@@ -473,6 +511,12 @@ export default function MapExplore({ experiments = false }) {
   const [routeIds, setRouteIds] = useState([]);
   const [routeEditing, setRouteEditing] = useState(false);
   const [routeTouched, setRouteTouched] = useState(false);
+  // The route as it was when this round of editing began (Cancel goes back
+  // to it), and whether it has been saved yet (before that, Cancel leaves
+  // the Map). groupOrder: a group trip's whole order after our last save.
+  const routeSnapshot = useRef(null);
+  const routeSavedOnce = useRef(false);
+  const groupOrder = useRef(null);
   useEffect(() => {
     const tr = location.state?.tripRoute;
     if (!tr?.stops?.length) return;
@@ -480,6 +524,9 @@ export default function MapExplore({ experiments = false }) {
     setTripRoute(tr);
     setRouteTouched(false);
     setRouteEditing(!!tr.edit);
+    routeSnapshot.current = null;
+    routeSavedOnce.current = false;
+    groupOrder.current = tr.source?.kind === 'group' ? tr.source.order || null : null;
     navigate(location.pathname, { replace: true, state: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key]);
@@ -540,6 +587,8 @@ export default function MapExplore({ experiments = false }) {
     if (!tripRoute || routeTouched) return;
     const ids = tripRoute.ordered ? tripRoute.stops.map((st) => st.id) : buildNearestNeighborRoute(tripOrigin || tripRoute.stops[0], tripRoute.stops).map((st) => st.id);
     setRouteIds(ids);
+    // What Undo and Cancel go back to for this first round of editing.
+    routeSnapshot.current = ids;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripRoute, hasTripOrigin]);
   const tripStopById = useMemo(() => new Map((tripRoute?.stops || []).map((st) => [st.id, st])), [tripRoute]);
@@ -556,6 +605,60 @@ export default function MapExplore({ experiments = false }) {
   // In edit mode a pin tap takes the stop off the route, or puts it back
   // at the end.
   const toggleRouteStop = (id) => editRoute((ids) => (ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]));
+  // Save: ends edit mode and writes the new order back to the itinerary
+  // (routeSave.js), which then shows My Order. Undo puts the old order (and
+  // the old sort) back.
+  const saveRoute = () => {
+    mapRef.current?.closePopup();
+    setRouteEditing(false);
+    const src = tripRoute?.source;
+    const wasSaved = routeSavedOnce.current;
+    routeSavedOnce.current = true;
+    if (!src || !routeTouched) return;
+    const solo = src.kind === 'solo';
+    const before = solo ? [...(trip.byRegion[src.regionId] || [])] : [...(groupOrder.current || [])];
+    const next = mergeRouteOrder(before, tripRoute.stops.map((st) => st.id), routeIds);
+    if (sameOrder(before, next)) return;
+    const sortKey = solo ? `itin-sort.v2.${src.regionId}` : `itin-sort.v2.group-${src.tripId}`;
+    const prevSort = readPersisted(sortKey) ?? null;
+    const prevIds = routeSnapshot.current || routeIds;
+    const write = (ids, sort) => {
+      writePersisted(sortKey, sort);
+      if (solo) {
+        reorderLandmarks(src.regionId, ids);
+        return;
+      }
+      groupOrder.current = ids;
+      reorderGroupLandmarks({ id: src.tripId }, ids).catch((e) => toast.show(friendlyError(e, "Couldn't save the new order. Try again.")));
+    };
+    write(next, 'custom');
+    toast.show(`Saved this order to ${tripRoute.name}.`, {
+      tone: 'success',
+      durationMs: 10000,
+      actionLabel: 'Undo',
+      onAction: () => {
+        write(before, prevSort);
+        setRouteIds(prevIds);
+        routeSavedOnce.current = wasSaved;
+        toast.show(`Back to the order ${tripRoute.name} had before.`, { tone: 'info' });
+      },
+    });
+  };
+  const editRouteAgain = () => {
+    routeSnapshot.current = routeIds;
+    setRouteEditing(true);
+  };
+  // Cancel: leave edit mode without saving anything. Before the first save
+  // that goes back to the itinerary it came from.
+  const cancelRouteEdit = () => {
+    if (!routeSavedOnce.current) {
+      setTripRoute(null);
+      goBack(navigate, location, '/itinerary');
+      return;
+    }
+    if (routeSnapshot.current) setRouteIds(routeSnapshot.current);
+    setRouteEditing(false);
+  };
   const selectAllRouteStops = () => editRoute((ids) => [...ids, ...(tripRoute?.stops || []).map((st) => st.id).filter((id) => !ids.includes(id))]);
   const startTripRoute = () => {
     if (!orderedTrip?.stops.length) return;
@@ -834,6 +937,11 @@ export default function MapExplore({ experiments = false }) {
       focusLandmark.regionId && focusLandmark.id ? savedOverrides[`${focusLandmark.regionId}/${focusLandmark.id}`] : null;
     return { ...focusLandmark, lat: savedPos?.lat ?? focusLandmark.lat, lng: savedPos?.lng ?? focusLandmark.lng };
   }, [focusLandmark, savedOverrides]);
+  // A landmark you just viewed is pinned on the map, but with nothing
+  // picked it can't be tapped: say so loudly, and nudge again on every tap
+  // on the map until Select All or a category is picked.
+  const catUrgent = mapCats == null && focusLandmarkPos ? focusLandmarkPos.name || 'this place' : null;
+  const [catNudge, setCatNudge] = useState(0);
 
   // The city you actively opened this session (list / detail / itinerary). The
   // map frames it when present; on a cold launch it's null, so we fall back to
@@ -1072,6 +1180,9 @@ export default function MapExplore({ experiments = false }) {
         const region = getRegion(l.regionId);
         const isClaimed = !!claimedMap[l.id];
         const goToDetails = () => navigate(`/landmarks/${l.regionId}/${l.id}`);
+        // A tap opens the full landmark page at once (owner, 2026-11-23);
+        // Admin Mode keeps the card (moving pins, editing).
+        const openPage = () => openFromMap(`/landmarks/${l.regionId}/${l.id}`);
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
         const position = savedPos
           ? stablePosition(`${l.regionId}/${l.id}`, savedPos.lat, savedPos.lng)
@@ -1083,11 +1194,12 @@ export default function MapExplore({ experiments = false }) {
             icon={pinIcon(isClaimed, isSelected, isIslandPlace(l))}
             draggable={adminMode}
             eventHandlers={{
-              ...(adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : {}),
+              ...(adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : { click: openPage }),
               popupopen: () => setBubble({ key: `${l.regionId}/${l.id}`, lat: position[0], lng: position[1], radius: bubbleRadius(landmark) }),
               popupclose: () => setBubble((b) => (b?.key === `${l.regionId}/${l.id}` ? null : b)),
             }}
           >
+            {adminMode && (
             <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
                 <div
@@ -1152,6 +1264,7 @@ export default function MapExplore({ experiments = false }) {
                 </div>
               </div>
             </Popup>
+            )}
           </Marker>
         );
       }),
@@ -1348,6 +1461,7 @@ export default function MapExplore({ experiments = false }) {
           style={{ height: '100%', width: '100%' }}
         >
           <MapCardGestures />
+          {catUrgent && <MapTapNudge onTap={() => setCatNudge((n) => n + 1)} />}
           <InitialView
             coords={coords}
             lastKnown={lastKnown}
@@ -1357,6 +1471,7 @@ export default function MapExplore({ experiments = false }) {
             stopBounds={stopBounds}
             focusPoint={focusLandmarkPos}
             radiusMiles={radiusMiles}
+            restoreView={restoreView}
           />
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} locationOff={!!geoError} onRetry={refreshGeo} />}
           <AttributionControl position="bottomright" prefix={false} />
@@ -1624,11 +1739,8 @@ export default function MapExplore({ experiments = false }) {
           ids={routeIds}
           onReorder={(ids) => editRoute(() => ids)}
           onSelectAll={selectAllRouteStops}
-          onSave={() => {
-            mapRef.current?.closePopup();
-            setRouteEditing(false);
-          }}
-          onClose={() => setTripRoute(null)}
+          onSave={saveRoute}
+          onCancel={cancelRouteEdit}
         />
       )}
       {orderedTrip && !nav && !routeEditing && (
@@ -1662,7 +1774,7 @@ export default function MapExplore({ experiments = false }) {
               <button type="button" className="btn btn-primary btn-sm" onClick={startTripRoute} disabled={!coords}>
                 {'\u{25B6}\u{FE0F}'} {coords ? 'Start' : 'Start (waiting for location)'}
               </button>
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setRouteEditing(true)}>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={editRouteAgain}>
                 Edit route
               </button>
               {googleMapsMultiStopLegs(orderedTrip.stops, orderedTrip.origin).map((href, i, all) => (
@@ -1757,7 +1869,7 @@ export default function MapExplore({ experiments = false }) {
           )}
           {/* Signed in, the bar sits in the picks sheet instead (owner,
               2026-11-08), and the "Pick what to see" hint is gone. */}
-          {!picksReady && !searchOpen && !drawMode && <MapCategoryBar value={mapCats} onChange={setMapCats} />}
+          {!picksReady && !searchOpen && !drawMode && <MapCategoryBar value={mapCats} onChange={setMapCats} urgent={catUrgent} nudge={catNudge} />}
           {drawnArea && !drawMode && (
             <button
               type="button"
@@ -1895,7 +2007,7 @@ export default function MapExplore({ experiments = false }) {
       {picksReady && (
         <MapPicksOverlay
           showRefresh
-          topSlot={<MapCategoryBar value={mapCats} onChange={setMapCats} className="map-cat-bar-sheet" />}
+          topSlot={<MapCategoryBar value={mapCats} onChange={setMapCats} className="map-cat-bar-sheet" urgent={catUrgent} nudge={catNudge} />}
           mapDistance={radiusOption}
           onMapDistance={chooseRadius}
           distanceOptions={ZOOM_RADIUS_OPTIONS}

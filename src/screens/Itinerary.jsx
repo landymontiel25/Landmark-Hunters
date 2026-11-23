@@ -13,6 +13,9 @@ import { useFriends } from '../lib/FriendsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import StopCard from '../components/StopCard';
 import { DragHandle, RemoveStopButton } from '../components/EditListControls';
+import ItinerarySort, { itinerarySortLabel, normalizeItinerarySort } from '../components/ItinerarySort';
+import TravelModePicker from '../components/TravelModePicker';
+import { travelModesFor, effectiveMode, legMinutes, legLabel, travelMode } from '../lib/travelModes';
 import TripRecapCard from '../components/TripRecapCard';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
@@ -309,10 +312,13 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   // automatically, with nothing to pick. Once they've edited it, this
   // remembers whether they want to see that custom order or fall back to
   // nearest, per city.
-  const [sortPref, setSortPref] = usePersistentState(region ? `itin-sort-pref.${region.id}` : null, null);
+  // The three sorts (ItinerarySort.jsx). A new key: the old one's 'nearest'
+  // meant the optimized chain, which is now its own choice.
+  const [sortPrefRaw, setSortPref] = usePersistentState(region ? `itin-sort.v2.${region.id}` : null, null);
+  const sortPref = normalizeItinerarySort(sortPrefRaw);
   // Local, not persisted -- always starts closed when you open an itinerary.
   const [editing, setEditing] = useState(false);
-  const sort = editing ? 'custom' : sortPref || 'nearest';
+  const sort = editing ? 'custom' : sortPref;
   const [pendingRemove, setPendingRemove] = useState(null); // stop awaiting delete confirmation
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showRecap, setShowRecap] = useState(false);
@@ -523,12 +529,19 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeOrigin, selectedLandmarks, sort, ratings, customOrder.join(',')]);
 
+  // How you're getting around (travelModes.js): only the ways that fit
+  // these stops are offered; the pick sets every leg's time and the links.
+  const [pickedMode, setPickedMode] = usePersistentState(region ? `itin-mode.${region.id}` : null, null);
+  const modeChoice = useMemo(() => travelModesFor({ origin: routeOrigin, stops: route }), [routeOrigin, route]);
+  const mode = effectiveMode(pickedMode, modeChoice);
+
   // Driving-time results are tagged with the route they were computed for,
   // so after a re-sort the list never shows the old order while OSRM answers.
   const [drivingRoute, setDrivingRoute] = useState({ forRoute: null, legs: [] });
 
   useEffect(() => {
-    if (!routeOrigin || !route.length) {
+    // Road times only for driving; every other mode uses its own pace.
+    if (!routeOrigin || !route.length || mode !== 'car') {
       setDrivingRoute({ forRoute: null, legs: [] });
       return;
     }
@@ -549,15 +562,17 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
     return () => {
       cancelled = true;
     };
-  }, [routeOrigin, route]);
+  }, [routeOrigin, route, mode]);
 
-  // The current stops, with the driving legs laid over them when they were
-  // computed for this same stop order.
+  // The current stops, with each leg's time for the travel mode; driving
+  // gets the road legs laid over them when they were computed for this same
+  // stop order.
   const displayRoute = useMemo(() => {
+    const paced = route.map((stop) => ({ ...stop, travelMinutesFromPrev: legMinutes(stop.distanceFromPrevMeters || 0, mode) }));
     const { forRoute, legs } = drivingRoute;
-    if (forRoute !== routeOrderKey(route) || legs.length !== route.length || !legs.some(Boolean)) return route;
-    return route.map((stop, i) => (legs[i] ? { ...stop, ...legs[i] } : stop));
-  }, [drivingRoute, route]);
+    if (mode !== 'car' || forRoute !== routeOrderKey(route) || legs.length !== route.length || !legs.some(Boolean)) return paced;
+    return paced.map((stop, i) => (legs[i] ? { ...stop, ...legs[i] } : stop));
+  }, [drivingRoute, route, mode]);
 
   // Hold-and-drag reorder (the grip on each stop card), only offered while
   // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
@@ -616,7 +631,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
       .filter((s) => Number.isFinite(s.lat) && Number.isFinite(s.lng))
       .map((s) => ({ id: s.id, name: s.name, lat: s.lat, lng: s.lng }));
     if (!stops.length) return;
-    navigate('/', { state: { tripRoute: { name: itineraryName(region.id), stops, edit: true, ordered: true } } });
+    navigate('/', { state: { tripRoute: { name: itineraryName(region.id), stops, edit: true, ordered: true, source: { kind: 'solo', regionId: region.id } } } });
   };
   // Share with anyone, app or not: the stops and a Google Maps route, by the
   // phone's share sheet (texts, WhatsApp, email...) or copied to paste.
@@ -629,8 +644,9 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
   const linkStops = displayRoute.filter((s) => !claimedMap[s.id]).length
     ? displayRoute.filter((s) => !claimedMap[s.id])
     : displayRoute;
-  const allWalkable = linkStops.every((s, i) => i === 0 || s.distanceFromPrevMeters <= 1200);
-  const allStopsLinks = googleMapsMultiStopLegs(linkStops, coords, allWalkable ? 'walking' : 'driving');
+  // Google Maps has no boat or flight directions: no links for those.
+  const googleMode = travelMode(mode).google;
+  const allStopsLinks = googleMode ? googleMapsMultiStopLegs(linkStops, coords, googleMode) : [];
 
   // In-app turn-by-turn (api/directions.js). Starts from your live GPS when
   // you're actually in the city; if you're planning from far away, from the
@@ -649,7 +665,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
     }
     setNav({ stop, loading: true, error: null, data: null });
     try {
-      const data = await fetchDirections(from, stop);
+      const data = await fetchDirections(from, stop, mode);
       setNav((cur) => (cur?.stop.id === stop.id ? { ...cur, loading: false, data } : cur));
     } catch (e) {
       const error = friendlyError(e, "Couldn't get directions right now. Try again, or open your maps app.");
@@ -919,8 +935,8 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
       </div>
       <p className="screen-subtitle">
         {itineraryName(region.id) !== region.name ? `${region.name} · ` : ''}
-        {sort === 'custom' ? 'My order' : 'Nearest to me'}
-        {sort === 'nearest'
+        {itinerarySortLabel(sort)}
+        {sort !== 'custom'
           ? ` from ${coords ? 'your current location' : trip.startingLocation || 'your starting point'}`
           : ''}{' '}
         · {displayRoute.length} stop{displayRoute.length === 1 ? '' : 's'}
@@ -992,15 +1008,6 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
             Map
           </button>
         </div>
-        {!editing && sortPref && (
-          <label className="itin-sort">
-            <span>Sort by</span>
-            <select className="radius-select" value={sortPref} onChange={(e) => setSortPref(e.target.value)}>
-              <option value="nearest">Nearest to me</option>
-              <option value="custom">My order</option>
-            </select>
-          </label>
-        )}
         {selectedLandmarks.length > 0 && (
           <button
             type="button"
@@ -1019,6 +1026,9 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
           </button>
         )}
       </div>
+
+      {!editing && selectedLandmarks.length > 0 && <TravelModePicker modes={modeChoice.modes} value={mode} picked={!!pickedMode} onChange={setPickedMode} />}
+      {!editing && selectedLandmarks.length > 1 && <ItinerarySort value={sortPref} onChange={setSortPref} />}
 
       {view === 'map' && (
         <div ref={mapRef}>
@@ -1082,7 +1092,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
           >
             {(idx > 0 || stop.distanceFromPrevMeters <= 80000) && (
               <div className="route-travel">
-                {stop.travelMinutesFromPrev || 1} min {stop.distanceFromPrevMeters <= 1200 ? 'walk' : 'drive'} ·{' '}
+                {legLabel(stop.travelMinutesFromPrev || 1, mode)} ·{' '}
                 {formatDistance(stop.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}

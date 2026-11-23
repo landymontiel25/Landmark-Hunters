@@ -3,6 +3,26 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Itinerary sort, travel modes, route Save, loud Select All, pin to page (2026-11-23)
+
+- **Sort** (ItinerarySort.jsx, routing.js orderStops): Nearest to Me is now a
+  plain distance sort; Optimized Route is the nearest-neighbour + 2-opt chain
+  (the old "nearest"); My Order is byRegion order. New storage key
+  `itin-sort.v2.*` so old saved picks don't keep the old meaning.
+- **Travel modes** (travelModes.js, TravelModePicker.jsx): which modes show
+  is a rule of thumb (leg lengths, island stops), not real transit data. Bus
+  is offered anywhere but island-only trips without checking a bus exists.
+  Times are straight-line x detour / pace + a wait, except Drive, which still
+  uses OSRM road legs. In-app turn-by-turn only knows WALK and DRIVE.
+  Solo itineraries only; group trips don't ask yet.
+- **Route Save** writes back via routeSave.js mergeRouteOrder (route stops
+  keep their slots; dropped stops stay on the itinerary). Group trips write
+  `landmarkIds` with the order captured when "Get directions" was tapped.
+- **Pin tap** opens the landmark page (Admin Mode keeps the card); the view is
+  restored from sessionStorage `lh.mapReturnView`.
+- **Loud Select All**: only when a "See it on the Map" focus pin is showing
+  and nothing is picked.
+
 ## Five fixes: Select All zoom, map card gestures, mission photos, route editor, photo bonus (2026-11-22)
 
 - **Select All zoom** (MapCategoryBar.jsx, lib/spring.js): a copy of the button

@@ -31,7 +31,22 @@ describe('orderStops', () => {
       { id: 'c', lat: 0.02, lng: 0 },
       { id: 'd', lat: -0.021, lng: 0 },
     ];
-    expect(ids(orderStops('nearest', o, pts))).toEqual(['a', 'c', 'b', 'd']);
+    expect(ids(orderStops('optimized', o, pts))).toEqual(['a', 'c', 'b', 'd']);
+    // Nearest to Me is the plain distance order, zig-zag and all.
+    expect(ids(orderStops('nearest', o, pts))).toEqual(['a', 'b', 'c', 'd']);
+  });
+
+  it('the three itinerary sorts each give their own order', () => {
+    const o = { lat: 0, lng: 0 };
+    const pts = [
+      { id: 'a', lat: 0.01, lng: 0 },
+      { id: 'b', lat: -0.011, lng: 0 },
+      { id: 'c', lat: 0.02, lng: 0 },
+      { id: 'd', lat: -0.021, lng: 0 },
+    ];
+    expect(ids(orderStops('nearest', o, pts))).toEqual(['a', 'b', 'c', 'd']);
+    expect(ids(orderStops('optimized', o, pts))).toEqual(['a', 'c', 'b', 'd']);
+    expect(ids(orderStops('custom', o, pts, {}, ['d', 'a', 'c', 'b']))).toEqual(['d', 'a', 'c', 'b']);
   });
 
   it('nearest: closest to you first, regardless of input order', () => {

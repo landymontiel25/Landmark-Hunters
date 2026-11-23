@@ -15,7 +15,7 @@ const stops = [
 async function mount(props) {
   el = document.createElement('div');
   document.body.appendChild(el);
-  await act(async () => createRoot(el).render(<TripRouteEditPanel name="Abacos" stops={stops} onReorder={() => {}} onSelectAll={() => {}} onSave={() => {}} onClose={() => {}} {...props} />));
+  await act(async () => createRoot(el).render(<TripRouteEditPanel name="Abacos" stops={stops} onReorder={() => {}} onSelectAll={() => {}} onSave={() => {}} onCancel={() => {}} {...props} />));
 }
 const button = (t) => [...el.querySelectorAll('button')].find((b) => b.textContent.trim() === t);
 
@@ -45,5 +45,16 @@ describe('TripRouteEditPanel', () => {
     el.remove();
     await mount({ ids: [] });
     expect(button('Save').disabled).toBe(true);
+  });
+});
+
+describe('TripRouteEditPanel Cancel', () => {
+  it('leaves without saving', async () => {
+    const onCancel = vi.fn();
+    const onSave = vi.fn();
+    await mount({ ids: ['a'], onCancel, onSave });
+    await act(async () => button('Cancel').click());
+    expect(onCancel).toHaveBeenCalled();
+    expect(onSave).not.toHaveBeenCalled();
   });
 });
