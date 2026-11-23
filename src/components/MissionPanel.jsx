@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { useToast } from '../lib/ToastContext';
 import { missionOf, missionDone, markMissionDone, submitMissionAnswer, submitMissionPhoto, loadServerMission, syncMissionDone, TRIVIA_PROMPT } from '../lib/missions';
 import { checkMissionPhoto, takeMissionPhoto } from '../lib/missionPhoto';
 import { addCheckinPhoto } from '../lib/leaderboard';
 import { friendlyError } from '../lib/friendlyError';
 import { TargetIcon } from './HeadingIcons';
+import MissionComplete from './MissionComplete';
 
 // A landmark's mission (lib/missions.js), shown after a check-in is posted
 // (CheckInReview) and on the landmark page. `checkedInAt` (ms) is this
@@ -22,11 +22,13 @@ import { TargetIcon } from './HeadingIcons';
 export default function MissionPanel({ landmark, checkedInAt = null, checkedIn = false, compact = false }) {
   const mission = missionOf(landmark);
   const { user } = useAuth();
-  const toast = useToast();
   const uid = user?.uid || null;
   const [done, setDone] = useState(() => (landmark?.id ? missionDone(uid, landmark.id) : null));
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState(null);
+  // The "Mission completed" moment, shown once when a mission is finished here.
+  const [celebrate, setCelebrate] = useState(null);
+  const endCelebrate = useCallback(() => setCelebrate(null), []);
   // The server's record decides whether it's done (anti-farming item 4).
   const landmarkId = landmark?.id;
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       const result = { kind: 'trivia', correct: !!out.correct, picked: out.picked ?? i, answer: out.answer };
       markMissionDone(uid, landmark.id, result);
       setDone(result);
-      if (out.awarded > 0) toast.show(`+${out.awarded} pts: you got it right.`, { tone: 'success' });
+      if (result.correct) setCelebrate({ points: out.awarded || 0 });
     } catch (e) {
       setNote(friendlyError(e, "Couldn't check your answer. Try again."));
     } finally {
@@ -90,7 +92,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       const result = { kind: 'photo', awarded: out.awarded || 0 };
       markMissionDone(uid, landmark.id, result);
       setDone(result);
-      if (out.awarded > 0) toast.show(`+${out.awarded} pts: mission photo done.`, { tone: 'success' });
+      setCelebrate({ points: out.awarded || 0 });
     } catch (e) {
       setNote(friendlyError(e, "Couldn't use that photo. Try again."));
     } finally {
@@ -110,12 +112,12 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       {mission.type === 'trivia' && done?.kind === 'trivia' && (
         <p className="mission-result" role="status">
           {/* A wrong guess never shows the right answer (anti-farming item 6). */}
-          {done.correct ? `${'✓'} Right: ${options[done.picked ?? done.answer] ?? ''}. +10 points.` : 'Not this time. One answer per place.'}
+          {done.correct ? `${'✓'} Mission completed. Right: ${options[done.picked ?? done.answer] ?? ''}. +10 points.` : 'Not this time. One answer per place.'}
         </p>
       )}
       {mission.type === 'photo' && done?.kind === 'photo' && (
         <p className="mission-result" role="status">
-          {'✓'} Photo checked. Mission done.{done.awarded > 0 ? ` +${done.awarded} points.` : ''}
+          {'✓'} Mission completed.{done.awarded > 0 ? ` +${done.awarded} points.` : ''}
         </p>
       )}
 
@@ -154,6 +156,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
           </p>
         )
       )}
+      {celebrate && <MissionComplete landmarkName={landmark.name} points={celebrate.points} onDone={endCelebrate} />}
     </section>
   );
 }

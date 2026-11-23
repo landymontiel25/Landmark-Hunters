@@ -7,7 +7,6 @@ import { act } from 'react';
 
 const checkMissionPhoto = vi.fn(() => ({ ok: false, message: 'nope' }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1' } }) }));
-vi.mock('../lib/ToastContext', () => ({ useToast: () => ({ show: vi.fn() }) }));
 vi.mock('../lib/leaderboard', () => ({ addCheckinPhoto: vi.fn(async () => 'https://photo') }));
 vi.mock('../lib/missionPhoto', () => ({
   checkMissionPhoto: (a) => checkMissionPhoto(a),
@@ -57,5 +56,20 @@ describe('MissionPanel start (owner, 2026-11-23)', () => {
     const items = [...el.querySelectorAll('ul.mission-note li')].map((li) => li.textContent);
     expect(items).toEqual(['Missing: beach', 'You took: marina with boats']);
     expect(el.textContent).not.toMatch(/Retake it:/);
+  });
+  it('a finished photo mission plays "Mission completed" with its points, then reads Mission completed', async () => {
+    checkMissionPhoto.mockImplementation(() => ({ ok: true }));
+    submitMissionPhoto.mockImplementationOnce(async () => ({ passed: true, awarded: 10 }));
+    const el = await render({ checkedInAt: null, checkedIn: true });
+    const btn = [...el.querySelectorAll('button')].find((b) => /Take mission photo/.test(b.textContent));
+    await act(async () => btn.click());
+    const overlay = document.body.querySelector('.mc-overlay');
+    expect(overlay).toBeTruthy();
+    expect(overlay.textContent).toContain('Mission completed');
+    expect(overlay.textContent).toContain('+10 points');
+    expect(overlay.textContent).toContain('Resort');
+    expect(el.textContent).toContain('Mission completed. +10 points.');
+    await act(async () => overlay.click());
+    expect(document.body.querySelector('.mc-overlay')).toBeNull();
   });
 });
