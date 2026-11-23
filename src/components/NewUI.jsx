@@ -40,8 +40,21 @@ export function ProgressRing({ found, total, size = 56, count = true }) {
 // Each is the place's photo (or its Google photo, looked up like any list
 // thumbnail), else the gold category tile; a trip with no places shows the
 // logo (owner, 2026-11-14: never a blank box).
+//
+// Stops with their own stored photo come first (owner, 2026-11-23: the
+// Abacos trip's card showed a blank tile for Sandy Cay reef, which has no
+// photo anywhere, Google's included). Otherwise trip order.
+export function tripPhotoPicks(places = []) {
+  const own = (p) => (Array.isArray(p?.images) && p.images.some(Boolean) ? 0 : 1);
+  return places
+    .map((p, i) => [p, i])
+    .sort((a, b) => own(a[0]) - own(b[0]) || a[1] - b[1])
+    .slice(0, 3)
+    .map(([p]) => p);
+}
+
 export function TripPhotos({ places = [] }) {
-  const shown = places.slice(0, 3);
+  const shown = tripPhotoPicks(places);
   return (
     <span className="nl-trip-photos" aria-hidden="true">
       {shown.length === 0 && <span className="nl-trip-photo nl-trip-photo-logo" />}
