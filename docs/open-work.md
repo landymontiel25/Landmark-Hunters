@@ -3,6 +3,20 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 3: referrals paid by the server (2026-11-23)
+
+- **Done.** api/referral-claim (api/_lib/referralBonus.js) pays both sides
+  only when the referred account has a verified phone number (Firebase Auth
+  phone, linked to the account) that never paid a referral before
+  (referral_phones/{sha256}), and a server-verified check-in; each referrer
+  is capped at 5 a month and 20 in all (referral_stats). The rules no longer
+  let a phone raise bonusPoints for a referral or flip the claimed flags.
+  Profile's invite card asks a referred account for its phone (PhoneVerify).
+- **Owner step.** Phone sign-in must be switched on in the Firebase console
+  (Authentication > Sign-in method > Phone) for anyone to verify a number;
+  until then no referral can pay. The web reCAPTCHA flow is untested inside
+  the iOS app (WKWebView); a native phone-auth plugin may be needed there.
+
 ## Anti-farming 2: streaks on the server's clock (2026-11-23)
 
 - **Done.** api/_lib/streakClock.js: each streak doc has a server-written

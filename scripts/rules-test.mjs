@@ -149,30 +149,35 @@ await t('referred claim needs a verified email', async () => {
   b.update(doc(db, 'referrals/new1'), { referredClaimed: true });
   await assertFails(b.commit());
 });
-await t('referred claim: +50 batched with the flag works, but not twice and not without the flag', async () => {
+await t('exploit: the old phone-paid referral claim (+50 with the flag, verified email) is refused', async () => {
   const db = as('new1');
   await assertFails(updateDoc(doc(db, 'users/new1'), { bonusPoints: increment(50) }));
   const b = writeBatch(db);
   b.set(doc(db, 'users/new1'), { bonusPoints: increment(50) }, { merge: true });
   b.set(doc(db, 'leaderboard_entries/weekly_2026-W40_new1'), { userId: 'new1', userName: 'n', period: 'weekly', periodKey: '2026-W40', points: increment(50), updatedAt: serverTimestamp() }, { merge: true });
   b.update(doc(db, 'referrals/new1'), { referredClaimed: true });
-  await assertSucceeds(b.commit());
+  await assertFails(b.commit());
+  await assertFails(updateDoc(doc(db, 'referrals/new1'), { referredClaimed: true }));
   await assertFails(updateDoc(doc(db, 'users/new1'), { bonusPoints: increment(50) }));
   const b2 = writeBatch(db);
   b2.set(doc(db, 'users/new1'), { bonusPoints: increment(50) }, { merge: true });
   b2.update(doc(db, 'referrals/new1'), { referredClaimed: true });
   await assertFails(b2.commit());
 });
-await t('referrer claim: +50 batched with flag + bonusSource works once', async () => {
+await t('exploit: the referrer paying itself is refused, even after the referred side is marked claimed', async () => {
+  await seed((sdb) => updateDoc(doc(sdb, 'referrals/new1'), { referredClaimed: true }));
   const db = as('ref');
-  const mk = () => {
-    const b = writeBatch(db);
-    b.set(doc(db, 'users/ref'), { bonusPoints: increment(50), bonusSource: 'new1' }, { merge: true });
-    b.update(doc(db, 'referrals/new1'), { referrerClaimed: true });
-    return b;
-  };
-  await assertSucceeds(mk().commit());
-  await assertFails(mk().commit());
+  const b = writeBatch(db);
+  b.set(doc(db, 'users/ref'), { bonusPoints: increment(50), bonusSource: 'new1' }, { merge: true });
+  b.update(doc(db, 'referrals/new1'), { referrerClaimed: true });
+  await assertFails(b.commit());
+});
+await t('referral bookkeeping is server-only; a referrer reads only its own counts', async () => {
+  await seed((sdb) => setDoc(doc(sdb, 'referral_stats/ref'), { total: 1 }));
+  await assertSucceeds(getDoc(doc(as('ref'), 'referral_stats/ref')));
+  await assertFails(getDoc(doc(as('new1'), 'referral_stats/ref')));
+  await assertFails(setDoc(doc(as('ref'), 'referral_stats/ref'), { total: 0 }));
+  await assertFails(setDoc(doc(as('new1'), 'referral_phones/x'), { referredUid: 'new1' }));
 });
 await t('a stranger cannot claim someone else\'s referral', async () => {
   const db = as('new2');

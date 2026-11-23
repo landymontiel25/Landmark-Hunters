@@ -248,6 +248,15 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow write: if false;
     }
+    // Referral bookkeeping (api/_lib/referralBonus.js): which phone numbers
+    // have paid a referral (hashed) and each referrer's counts. Server only.
+    match /referral_phones/{id} {
+      allow read, write: if false;
+    }
+    match /referral_stats/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
     // Photo missions (api/_lib/missionPhoto.js): whether this account's
     // photo did the mission here. Server-written only; the owner reads it.
     match /mission_photos/{id} {
@@ -365,24 +374,9 @@ service cloud.firestore {
             && (resource == null || resource.data.get('onboardingCompleted', false) != true)
             && d.get('onboardingCompleted', false) == true
             && onboardingPaidNow())
-        || (delta == 50 && referredClaimNow(request.auth.uid))
-        || (delta == 50 && d.get('bonusSource', null) is string && referrerClaimNow(d.bonusSource));
-    }
-    // referrals/{referredUid}: referredClaimed flips false -> true in this write.
-    function referredClaimNow(referredUid) {
-      let path = /databases/$(database)/documents/referrals/$(referredUid);
-      return exists(path) && existsAfter(path)
-        && get(path).data.referredClaimed == false
-        && getAfter(path).data.referredClaimed == true;
-    }
-    // referrals/{referredUid} names me as the referrer and its referrerClaimed
-    // flips false -> true in this write.
-    function referrerClaimNow(referredUid) {
-      let path = /databases/$(database)/documents/referrals/$(referredUid);
-      return exists(path) && existsAfter(path)
-        && get(path).data.referrerUid == request.auth.uid
-        && get(path).data.referrerClaimed == false
-        && getAfter(path).data.referrerClaimed == true;
+        // Referral bonuses are paid by the server now (api/referral-claim,
+        // anti-farming item 3): a phone can't raise bonusPoints for them.
+        ;
     }
     // users/{uid} is the PUBLIC profile: any signed-in user can read it
     // (friends, search, leaderboards, review privacy checks), so it must not
@@ -705,21 +699,10 @@ service cloud.firestore {
         && request.resource.data.referredClaimed == false
         && request.resource.data.referrerClaimed == false
         && request.resource.data.createdAt == request.time;
-      // Claiming costs a little effort so a throwaway account can't farm it:
-      // the referred side needs a VERIFIED email, and the referrer can only
-      // claim after the referred side has. (Both flips happen in the same
-      // batch as the matching bonusPoints write -- see bonusPointsOk.)
-      allow update: if request.auth != null
-        && (
-          (id == request.auth.uid
-            && request.auth.token.email_verified == true
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['referredClaimed'])
-            && request.resource.data.referredClaimed == true)
-          || (resource.data.referrerUid == request.auth.uid
-              && resource.data.referredClaimed == true
-              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['referrerClaimed'])
-              && request.resource.data.referrerClaimed == true)
-        );
+      // Paying (and the two claimed flags) is the server's
+      // (api/_lib/referralBonus.js): a verified phone, a verified check-in
+      // by the new account, and the referrer's caps.
+      allow update: if false;
       allow delete: if false;
     }
 

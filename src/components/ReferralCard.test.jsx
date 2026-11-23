@@ -4,7 +4,10 @@ import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+vi.mock('./PhoneVerify', () => ({ default: () => null }));
 vi.mock('../lib/referrals', () => ({
+  claimMyReferralBonuses: async () => [],
+  referralNeed: () => null,
   REFERRAL_BONUS_POINTS: 50,
   referralLink: (u) => `https://landmarkhunters.com/?ref=${u}`,
   countMyReferrals: vi.fn(() => Promise.resolve({ joined: 2, paid: 1 })),

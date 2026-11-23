@@ -1,16 +1,12 @@
-import { doc, getDoc, setDoc, writeBatch, increment, serverTimestamp, getDocs, collection, query, where } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, getDocs, collection, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { findUserByUsername } from './friends';
-// Dynamic, not static: this file is reachable from AuthContext (eager,
-// app-wide) via recordReferralIfPending, while addLeaderboardPointsToBatch is
-// only ever needed by claimMyReferralBonuses (called from Profile, already
-// lazy). A static import here would drag leaderboard.js -- and, through it,
-// geo.js's REGIONS catalog -- into the eager bundle for every page load.
+// The claim's helpers are imported on demand: this file is reachable from
+// AuthContext (eager, app-wide) via recordReferralIfPending.
 
-// A flat bonus for both sides once a referred friend signs up. Stored on
-// the user's own bonusPoints field (folded into their all-time total by
-// getUserStats) and also added to the current week/month/year leaderboard
-// entries, so it counts toward rank the same way check-in points do.
+// A flat bonus for both sides once a referred friend has verified a phone
+// number and made a verified check-in, paid by the server
+// (api/_lib/referralBonus.js) onto bonusPoints and the boards.
 export const REFERRAL_BONUS_POINTS = 50;
 
 const STORAGE_KEY = 'landmarkhunters.pendingReferral';
@@ -86,69 +82,44 @@ export async function recordReferralIfPending(newUser) {
 }
 
 /**
- * Claims whatever referral bonuses this signed-in user is owed: as the
- * person who was referred (immediate, one-time), and/or as someone whose
- * own invite link brought in a new signup (checked periodically -- see
- * call site). Each side can only ever write its own uid's fields, per
- * firestore.rules, so this never touches another account's points.
+ * Asks the server to pay whatever referral bonuses can pay now
+ * (api/referral-claim, anti-farming item 3): the new account needs a
+ * verified phone number and a verified check-in, and each referrer is
+ * capped. Resolves to the server's per-referral results ([{ side, paid,
+ * reason }]) or [] when it can't be reached. Best effort, never throws.
  */
-// One run per uid at a time. Profile re-runs its claim effect whenever the
-// `user` object changes (and twice on mount in StrictMode), and each run
-// reads "not claimed yet" before the first one has written the flag, so two
-// overlapping runs both paid out the same +50.
 const claimsInFlight = new Map();
-export function claimMyReferralBonuses(uid, userName) {
-  if (!db || !uid) return Promise.resolve();
+export function claimMyReferralBonuses(uid) {
+  if (!uid) return Promise.resolve([]);
   if (claimsInFlight.has(uid)) return claimsInFlight.get(uid);
-  const run = claimBonuses(uid, userName).finally(() => claimsInFlight.delete(uid));
+  const run = (async () => {
+    try {
+      const { authHeaders } = await import('./apiAuth');
+      const { API_BASE } = await import('./apiBase');
+      const { dayKey } = await import('./streaks');
+      const r = await fetch(`${API_BASE}/api/referral-claim`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+        body: JSON.stringify({ dayId: dayKey(new Date()) }),
+      });
+      const data = await r.json().catch(() => null);
+      return Array.isArray(data?.results) ? data.results : [];
+    } catch {
+      return [];
+    }
+  })().finally(() => claimsInFlight.delete(uid));
   claimsInFlight.set(uid, run);
   return run;
 }
 
-async function claimBonuses(uid, userName) {
-  if (!db || !uid) return;
-  const { addLeaderboardPointsToBatch } = await import('./leaderboard');
-
-  // One atomic batch per payout: the bonusPoints bump, the leaderboard
-  // entries and the claimed flag land together or not at all. firestore.rules
-  // only accepts a bonusPoints rise of exactly +50 in the same write that
-  // flips the matching referral's flag -- which also means a half-finished
-  // claim can no longer pay twice.
-  try {
-    const mine = await getDoc(doc(db, 'referrals', uid));
-    if (mine.exists() && !mine.data().referredClaimed) {
-      const batch = writeBatch(db);
-      batch.set(doc(db, 'users', uid), { bonusPoints: increment(REFERRAL_BONUS_POINTS) }, { merge: true });
-      addLeaderboardPointsToBatch(batch, uid, userName, REFERRAL_BONUS_POINTS);
-      batch.update(mine.ref, { referredClaimed: true });
-      await batch.commit();
-    }
-  } catch {
-    /* best-effort */
-  }
-
-  try {
-    // Single-field query (no composite index needed) -- filter the
-    // already-claimed ones client-side instead.
-    const snap = await getDocs(query(collection(db, 'referrals'), where('referrerUid', '==', uid)));
-    for (const d of snap.docs) {
-      if (d.data().referrerClaimed) continue;
-      // The referrer can only claim once the referred person has claimed
-      // theirs (they need a verified email to), so this skips until then.
-      if (!d.data().referredClaimed) continue;
-      const batch = writeBatch(db);
-      batch.set(
-        doc(db, 'users', uid),
-        { bonusPoints: increment(REFERRAL_BONUS_POINTS), bonusSource: d.id },
-        { merge: true }
-      );
-      addLeaderboardPointsToBatch(batch, uid, userName, REFERRAL_BONUS_POINTS);
-      batch.update(d.ref, { referrerClaimed: true });
-      await batch.commit();
-    }
-  } catch {
-    /* best-effort */
-  }
+// What the referred side still needs, from the server's answer, in words.
+export function referralNeed(results = []) {
+  const mine = results.find((r) => r.side === 'referred' && !r.paid);
+  if (!mine) return null;
+  if (mine.reason === 'needs-phone') return 'phone';
+  if (mine.reason === 'needs-verified-checkin') return 'checkin';
+  if (mine.reason === 'phone-used') return 'phone-used';
+  return null;
 }
 
 /** The link a friend opens to sign up under this username. */
@@ -166,7 +137,7 @@ export async function countMyReferrals(uid) {
     const snap = await getDocs(query(collection(db, 'referrals'), where('referrerUid', '==', uid)));
     let paid = 0;
     snap.docs.forEach((d) => {
-      if (d.data().referredClaimed) paid += 1;
+      if (d.data().referrerClaimed) paid += 1;
     });
     return { joined: snap.docs.length, paid };
   } catch {

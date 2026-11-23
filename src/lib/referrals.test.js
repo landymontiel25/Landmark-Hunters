@@ -31,36 +31,40 @@ vi.mock('./firebase', () => ({ db: {} }));
 vi.mock('./friends', () => ({ findUserByUsername: vi.fn() }));
 vi.mock('./leaderboard', () => ({ addLeaderboardPointsToBatch: vi.fn() }));
 
-const { claimMyReferralBonuses } = await import('./referrals');
+const { claimMyReferralBonuses, referralNeed } = await import('./referrals');
+vi.mock('./apiAuth', () => ({ authHeaders: async () => ({}) }));
+vi.mock('./apiBase', () => ({ API_BASE: '' }));
+vi.mock('./streaks', () => ({ dayKey: () => '2026-10-23' }));
 const { addLeaderboardPointsToBatch } = await import('./leaderboard');
 
-describe('claimMyReferralBonuses', () => {
+describe('claimMyReferralBonuses (paid by the server since 2026-11-23)', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('pays a referral once even when called twice before the first run finishes', async () => {
-    const a = claimMyReferralBonuses('u1', 'Ann');
-    const b = claimMyReferralBonuses('u1', 'Ann');
+  it('asks the server, once at a time, and never writes points or claimed flags from the phone', async () => {
+    let release;
+    const fetchMock = vi.fn(
+      () =>
+        new Promise((res) => {
+          release = () => res({ json: async () => ({ ok: true, results: [{ side: 'referred', paid: false, reason: 'needs-phone' }] }) });
+        })
+    );
+    vi.stubGlobal('fetch', fetchMock);
+    const a = claimMyReferralBonuses('u1');
+    const b = claimMyReferralBonuses('u1');
     expect(a).toBe(b);
-    await vi.waitFor(() => expect(getDocsMock).toHaveBeenCalled());
-    releaseQuery();
-    await a;
-    expect(addLeaderboardPointsToBatch).toHaveBeenCalledTimes(1);
-    // One atomic batch: bonus + leaderboard + flag together (firestore.rules checks them as a unit).
-    expect(batchCommit).toHaveBeenCalledTimes(1);
-    expect(batch.set).toHaveBeenCalledWith(expect.stringContaining('users/u1'), expect.objectContaining({ bonusSource: 'new1' }), { merge: true });
-    expect(batch.update).toHaveBeenCalledWith('refDoc', { referrerClaimed: true });
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    expect(fetchMock.mock.calls[0][0]).toMatch(/\/api\/referral-claim$/);
+    release();
+    expect(referralNeed(await a)).toBe('phone');
+    expect(batchCommit).not.toHaveBeenCalled();
+    expect(addLeaderboardPointsToBatch).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
   });
 
-  it('allows a fresh claim once the previous one has settled', async () => {
-    const first = claimMyReferralBonuses('u2', 'Bo');
-    await vi.waitFor(() => expect(getDocsMock).toHaveBeenCalled());
-    releaseQuery();
-    await first;
-    getDocsMock.mockClear();
-    const second = claimMyReferralBonuses('u2', 'Bo');
-    await vi.waitFor(() => expect(getDocsMock).toHaveBeenCalled());
-    releaseQuery();
-    await second;
-    expect(getDocsMock).toHaveBeenCalledTimes(1);
+  it('says what the referred side still needs', () => {
+    expect(referralNeed([{ side: 'referred', paid: false, reason: 'needs-verified-checkin' }])).toBe('checkin');
+    expect(referralNeed([{ side: 'referred', paid: true }])).toBe(null);
+    expect(referralNeed([])).toBe(null);
   });
 });
+

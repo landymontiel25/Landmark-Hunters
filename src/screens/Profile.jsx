@@ -210,7 +210,7 @@ export default function Profile() {
   // via the normal leaderboard read, no separate display to keep in sync.
   useEffect(() => {
     if (!firebaseEnabled || !user) return;
-    claimMyReferralBonuses(user.uid, myUsername || user.displayName || 'Explorer').catch(() => {});
+    claimMyReferralBonuses(user.uid).catch(() => {});
     // myUsername only labels the leaderboard-entry write below, not
     // something that should re-run the whole claim flow when it changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps

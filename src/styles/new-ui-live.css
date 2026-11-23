@@ -2268,3 +2268,33 @@ html[data-theme] body .map-cat-urgent.in-sheet {
     box-shadow: 0 0 0 4px var(--nl-gold-soft);
   }
 }
+
+/* Referral phone step (ReferralCard + PhoneVerify, anti-farming item 3). */
+.rf-need {
+  margin-top: 14px;
+}
+.rf-phone {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.rf-phone-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ap-text);
+}
+.rf-phone-input {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--ap-line);
+  border-radius: 999px;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+  font: inherit;
+  font-size: 17px;
+}
+.rf-phone-error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ap-text);
+}
