@@ -10,6 +10,7 @@ import {
 } from './leaderboard';
 import { checkinBlockReason, checkinLocationFields, BLOCK_MESSAGES } from './checkinRules';
 import { verifyCheckinPresence } from './verifyPresence';
+import { checksInAnywhere } from './admins';
 
 // Shared check-in state so there's ONE source of truth and a single place to
 // trigger the "rate + post" prompt, no matter which screen you checked in
@@ -143,7 +144,7 @@ export function CheckInProvider({ children }) {
   const commitCheckIn = async (fix = null) => {
     const landmark = justCheckedIn;
     if (!user || !landmark) return null;
-    const blocked = checkinBlockReason(fix, landmark, { ratingOnly: !!checkInOptions?.ratingOnly });
+    const blocked = checkinBlockReason(fix, landmark, { ratingOnly: !!checkInOptions?.ratingOnly, anywhere: checksInAnywhere(user) });
     if (blocked) {
       throw Object.assign(new Error(BLOCK_MESSAGES[blocked]), { userMessage: BLOCK_MESSAGES[blocked], code: `checkin/${blocked}` });
     }
@@ -186,7 +187,7 @@ export function CheckInProvider({ children }) {
         setPresenceResult(null);
         const checkinId = result.checkinId;
         latestCheckinId.current = { ...latestCheckinId.current, [landmark.id]: checkinId };
-        const v = await verifyCheckinPresence(checkinId);
+        const v = await verifyCheckinPresence(checkinId, { anywhere: checksInAnywhere(user) });
         // A late answer for an earlier check-in at the same place never
         // lands on a newer one there.
         if (v && latestCheckinId.current[landmark.id] === checkinId) {

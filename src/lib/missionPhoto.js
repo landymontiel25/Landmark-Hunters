@@ -24,7 +24,10 @@ const sameDay = (a, b) => new Date(a).toDateString() === new Date(b).toDateStrin
 // Pure. photo: { lat, lng, takenAt } from EXIF (any may be null),
 // fileTime: the file's lastModified, device: { lat, lng, accuracy, at } (the
 // live fix taken right after the camera closed, or null).
-export function checkMissionPhoto({ landmark, checkedInAt, photo = {}, fileTime = null, device = null, now = Date.now() }) {
+// anywhere: the admin's check-in-from-anywhere switch (admins.js) skips
+// the where and when; the server still judges what's in the photo.
+export function checkMissionPhoto({ landmark, checkedInAt, photo = {}, fileTime = null, device = null, now = Date.now(), anywhere = false }) {
+  if (anywhere) return { ok: true };
   const name = landmark?.name || 'the landmark';
   const retake = `Retake it at ${name}.`;
   if (!Number.isFinite(checkedInAt)) return { ok: false, reason: 'no-checkin', message: `Check in at ${name} first, then take the mission photo there.` };

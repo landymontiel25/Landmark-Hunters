@@ -5,12 +5,13 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getLandmark, canonicalLandmarkId } from '../src/data/regions.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
-import { checkPresence, validFix } from '../src/lib/presence.js';
+import { checkPresence, validFix, placeTypeFor } from '../src/lib/presence.js';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
 import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin } from './_lib/checkinPayout.js';
 import { isApprovedLandmark } from '../src/lib/landmarkApproval.js';
+import { ADMIN_CHECKIN_ANYWHERE, isAdmin } from '../src/lib/admins.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the
@@ -59,7 +60,10 @@ async function handler(req, res) {
     return;
   }
   const { checkinId, fix } = req.body || {};
-  if (typeof checkinId !== 'string' || !/^[\w.-]{1,300}$/.test(checkinId) || !validFix(fix)) {
+  // The admin's check-in-from-anywhere switch (src/lib/admins.js): their
+  // own check-ins verify without being there. Signed-in, verified email only.
+  const anywhere = ADMIN_CHECKIN_ANYWHERE && account.emailVerified && isAdmin(account.email);
+  if (typeof checkinId !== 'string' || !/^[\w.-]{1,300}$/.test(checkinId) || (!anywhere && !validFix(fix))) {
     res.status(400).json({ error: 'checkinId and a GPS fix are required.' });
     return;
   }
@@ -92,7 +96,10 @@ async function handler(req, res) {
     const stateSnap = await stateRef.get();
     const last = stateSnap.exists ? stateSnap.data() : null;
     const nowMs = Date.now();
-    const result = checkPresence({
+    const real = validFix(fix);
+    const result = anywhere
+      ? { verified: !!place, reason: place ? null : 'no-place', placeType: place ? placeTypeFor(place) : null, distanceMeters: null, adminAnywhere: true }
+      : checkPresence({
       place,
       fix,
       nowMs,
@@ -103,24 +110,25 @@ async function handler(req, res) {
     // No distance or GPS accuracy on the check-in (Phase 2): anyone who may
     // read it would see them. They stay in the server-only proof below.
     const presence = result.verified
-      ? { verified: true, placeType: result.placeType, verifiedAt: FieldValue.serverTimestamp(), version: 2 }
+      ? { verified: true, placeType: result.placeType, verifiedAt: FieldValue.serverTimestamp(), version: 2, ...(result.adminAnywhere ? { adminAnywhere: true } : {}) }
       : { verified: false, reason: result.reason, placeType: result.placeType, checkedAt: FieldValue.serverTimestamp(), version: 2 };
 
     const batch = db.batch();
     batch.update(checkinRef, { presence });
     batch.set(checkinRef.collection('proof').doc('main'), {
       uid: account.uid,
-      lat: fix.lat,
-      lng: fix.lng,
-      accuracy: fix.accuracy,
-      fixAtMs: fix.timestamp,
-      mocked: fix.mocked ?? null,
+      lat: real ? fix.lat : null,
+      lng: real ? fix.lng : null,
+      accuracy: real ? fix.accuracy : null,
+      fixAtMs: real ? fix.timestamp : null,
+      mocked: real ? fix.mocked ?? null : null,
+      ...(result.adminAnywhere ? { adminAnywhere: true } : {}),
       distanceMeters: result.distanceMeters,
       verified: result.verified,
       reason: result.reason,
       checkedAt: FieldValue.serverTimestamp(),
     });
-    if (result.verified) {
+    if (result.verified && real) {
       batch.set(stateRef, { lat: fix.lat, lng: fix.lng, atMs: fix.timestamp, checkinId, updatedAt: FieldValue.serverTimestamp() });
     }
     await batch.commit();

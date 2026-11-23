@@ -82,7 +82,7 @@ describe('commitCheckIn location evidence', () => {
 
   it('asks the server to verify the new check-in and exposes its answer', async () => {
     const { verify, api } = await post({ rule: false, fix: near });
-    expect(verify).toHaveBeenCalledWith('u_lm');
+    expect(verify).toHaveBeenCalledWith('u_lm', { anywhere: false });
     await act(async () => {});
     expect(api().presenceResult).toMatchObject({ checkinId: 'u_lm', landmarkId: 'lm', verified: true });
   });

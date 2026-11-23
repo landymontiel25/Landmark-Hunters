@@ -42,8 +42,9 @@ export function isNearEnough(coords, landmark) {
 
 // Why a check-in is refused when the rule is on, or null when it may go
 // ahead. Rating-only claims are never refused (they are not visits).
-export function checkinBlockReason(coords, landmark, { ratingOnly = false, required = REQUIRE_GPS_CHECKIN } = {}) {
-  if (!required || ratingOnly) return null;
+// anywhere: the admin's check-in-from-anywhere switch (admins.js).
+export function checkinBlockReason(coords, landmark, { ratingOnly = false, required = REQUIRE_GPS_CHECKIN, anywhere = false } = {}) {
+  if (!required || ratingOnly || anywhere) return null;
   const { distanceMeters: d, gpsAccuracyMeters: a } = measureCheckin(coords, landmark);
   if (d == null || a == null) return 'no-location';
   if (a > maxAccuracyFor(landmark)) return 'weak-signal';

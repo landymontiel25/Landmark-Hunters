@@ -6,6 +6,7 @@ import { addCheckinPhoto } from '../lib/leaderboard';
 import { friendlyError } from '../lib/friendlyError';
 import { TargetIcon } from './HeadingIcons';
 import MissionComplete from './MissionComplete';
+import { checksInAnywhere } from '../lib/admins';
 
 // A landmark's mission (lib/missions.js), shown after a check-in is posted
 // (CheckInReview) and on the landmark page. `checkedInAt` (ms) is this
@@ -95,7 +96,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
     try {
       const shot = await takeMissionPhoto();
       if (!shot) return;
-      const verdict = checkMissionPhoto({ landmark, checkedInAt: visitStart, photo: shot.photo, fileTime: shot.fileTime, device: shot.device });
+      const verdict = checkMissionPhoto({ landmark, checkedInAt: visitStart, photo: shot.photo, fileTime: shot.fileTime, device: shot.device, anywhere: checksInAnywhere(user) });
       if (!verdict.ok) {
         setNote(verdict.message);
         return;

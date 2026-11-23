@@ -1,5 +1,6 @@
 import { useGeo } from '../lib/GeoContext';
 import { checkinBlockReason, radiusFor } from '../lib/checkinRules';
+import { checksInAnywhere } from '../lib/admins';
 
 // Opens the rate + post prompt (CheckInReview) — the check-in itself isn't
 // registered until Post is tapped there. Gated on GPS: you must be within
@@ -26,7 +27,7 @@ export default function CheckInButton({ landmark, user, firebaseEnabled, claimed
   const busy = checkingIn === landmark.id;
   const radius = radiusFor(landmark);
   const hasPosition = landmark.lat != null && landmark.lng != null;
-  const reason = hasPosition ? checkinBlockReason(coords, landmark) : null;
+  const reason = hasPosition ? checkinBlockReason(coords, landmark, { anywhere: checksInAnywhere(user) }) : null;
   const noLocation = reason === 'no-location' || reason === 'weak-signal';
   const tooFar = reason === 'too-far';
 

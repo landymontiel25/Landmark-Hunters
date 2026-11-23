@@ -30,6 +30,15 @@ the PR that finishes it.
   2026-11-23. Older wrong answers fetch the right one once from
   /api/mission-answer (reason `already`).
 
+## Owner checks in from anywhere, for now (2026-11-23)
+
+- **On:** src/lib/admins.js ADMIN_CHECKIN_ANYWHERE. The admin email's own
+  check-ins skip the radius on the phone (CheckInButton, CheckInContext)
+  and verify on the server without a GPS match (api/verify-checkin.js,
+  verified email only; presence.adminAnywhere marks them); their mission
+  photos skip the location check (the AI still judges the photo).
+  Everyone else unchanged. **Turn off** by setting it to false.
+
 ## Boat routes, picked modes, Mapr distances (2026-11-23)
 
 - **Done.** Water maps for the Abacos and Biscayne Bay from OSM coastline

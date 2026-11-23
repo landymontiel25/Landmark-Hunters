@@ -25,7 +25,7 @@ const fakeDb = {
   },
 };
 
-vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => (caller ? { uid: caller } : null) }));
+vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => (caller ? (typeof caller === 'string' ? { uid: caller } : caller) : null) }));
 vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 vi.mock('./_lib/firebaseAdmin.js', () => ({ adminDb: () => fakeDb }));
 vi.mock('./_lib/placePacks.js', () => ({ ensureServerPlacePacks: async () => {} }));
@@ -120,5 +120,23 @@ describe('a user-added landmark waiting for approval (anti-farming item 6)', () 
     docs['custom_landmarks/c2'] = { name: 'My back yard', lat: 40, lng: -75, status: 'pending', createdAt: { toMillis: () => Date.now() } };
     const { body } = await call({ checkinId: 'me_c2', fix: fix({ lat: 40, lng: -75 }) });
     expect(body).toMatchObject({ verified: false, reason: 'no-place', awarded: 0 });
+  });
+
+  it("the admin's check-in-from-anywhere switch: verifies far away, marked; nobody else", async () => {
+    const far = fix({ lat: 25.77, lng: -80.19 });
+    caller = { uid: 'me', email: 'landymontiel25@gmail.com', emailVerified: true };
+    const { body } = await call({ checkinId: 'me_bell', fix: far });
+    expect(body).toMatchObject({ verified: true, reason: null });
+    expect(docs['checkins/me_bell'].presence).toMatchObject({ verified: true, adminAnywhere: true });
+    expect(docs['checkins/me_bell/proof/main']).toMatchObject({ adminAnywhere: true });
+    // No GPS at all works for the admin too.
+    docs = { 'checkins/me_bell': checkin() };
+    expect((await call({ checkinId: 'me_bell' })).body).toMatchObject({ verified: true });
+    // Anyone else from far away is still too far; an unverified email gets nothing extra.
+    for (const who of [{ uid: 'me', email: 'someone@example.com', emailVerified: true }, { uid: 'me', email: 'landymontiel25@gmail.com', emailVerified: false }]) {
+      docs = { 'checkins/me_bell': checkin() };
+      caller = who;
+      expect((await call({ checkinId: 'me_bell', fix: far })).body).toMatchObject({ verified: false, reason: 'too-far' });
+    }
   });
 });

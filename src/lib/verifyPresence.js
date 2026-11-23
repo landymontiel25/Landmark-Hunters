@@ -25,14 +25,16 @@ async function freshFix(getPosition) {
 
 export async function verifyCheckinPresence(
   checkinId,
-  { fetchImpl = fetch, getPosition = (o) => Geolocation.getCurrentPosition(o), timeoutMs = VERIFY_TIMEOUT_MS } = {}
+  { fetchImpl = fetch, getPosition = (o) => Geolocation.getCurrentPosition(o), timeoutMs = VERIFY_TIMEOUT_MS, anywhere = false } = {}
 ) {
   if (!checkinId) return null;
   const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
   const timer = setTimeout(() => controller?.abort(), timeoutMs);
   try {
-    const fix = await freshFix(getPosition);
-    if (!fix) return null;
+    // The admin checking in from anywhere: no GPS needed (the server checks
+    // the account itself).
+    const fix = await freshFix(getPosition).catch(() => null);
+    if (!fix && !anywhere) return null;
     const r = await fetchImpl(`${API_BASE}/api/verify-checkin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
