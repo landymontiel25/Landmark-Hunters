@@ -130,6 +130,9 @@ the PR that finishes it.
   pins it on its first close). Guess scores are stored but not yet shown in
   the app. The client's own "N/3 today" counter still uses phone time
   (display only; the server decides).
+- **Verified live 2026-11-23.** Two friend accounts with a dual streak
+  answered all 3 server cards; the close was refused with
+  needs-verified-checkin, in either zone.
 
 ## Anti-farming 1: check-in payouts on the server (2026-11-23)
 
