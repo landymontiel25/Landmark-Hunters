@@ -6,6 +6,7 @@ import { landmarkForRating } from '../lib/placeLandmarks';
 import { getLandmark } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
+import { recentTravelMode } from '../lib/travelModes';
 import { useFriends } from '../lib/FriendsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useRatings } from '../lib/RatingsContext';
@@ -706,6 +707,11 @@ export default function Mapr() {
           project: activeProject ? { name: activeProject.name, instructions: activeProject.instructions } : null,
           location,
           locationStatus: coords ? 'ok' : geoError ? 'unavailable' : 'pending',
+          // How they're getting around right now and their units, so Mapr's
+          // distances match the cards and its times match the mode (owner,
+          // 2026-11-23).
+          travelMode: recentTravelMode(),
+          units,
           localNow: {
             day: now.getDay(),
             hour: now.getHours(),

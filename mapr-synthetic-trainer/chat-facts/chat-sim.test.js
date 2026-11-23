@@ -9,6 +9,7 @@
 // The default run (300 travelers) is part of the normal test suite and must
 // let no wrong fact through. The full run:
 //   MAPR_CHAT_SIM_USERS=30000 MAPR_CHAT_SIM_OUT=mapr-synthetic-trainer/output-chat npx vitest run mapr-synthetic-trainer/chat-facts
+import { haversineMeters } from '../../src/lib/haversine.js';
 import { describe, it, expect, vi } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -121,6 +122,14 @@ describe('Mapr chat fact simulation', () => {
           if (locOn) pts.push({ name: 'your location', lat: here.lat, lng: here.lng });
           const routes = [];
           for (const a of pts) for (const b of pts) if (a !== b) routes.push(world.asRoute(a, b, 'drive'), world.asRoute(a, b, 'walk'));
+          // How far, the card's way (owner, 2026-11-23: Mapr quotes the
+          // distance the place's card shows, the straight line).
+          for (const a of pts)
+            for (const b of pts)
+              if (a !== b) {
+                const m = haversineMeters(a.lat, a.lng, b.lat, b.lng);
+                routes.push({ miles: Math.round((m / 1609.34) * 10) / 10, km: Math.round((m / 1000) * 10) / 10, minutes: NaN });
+              }
           if (q.intent === 'plan') {
             const best = await bestOrder({ stops: q.places, start: locOn ? 'my location' : '' }, { catalog: ALL_LANDMARKS, near: locOn ? here : null, fetchImpl: world.fakeFetch });
             if (!best.error) routes.push({ miles: best.totalMiles, km: best.totalKm, minutes: best.totalMinutes }, ...best.legs);

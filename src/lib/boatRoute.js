@@ -1,4 +1,4 @@
-import { distanceMeters } from './geo';
+import { haversineMeters as distanceMeters } from './haversine.js';
 
 // Boat routes through the water, around the islands (owner, 2026-11-23:
 // the road route service can't cross water, so Boat failed with "Our

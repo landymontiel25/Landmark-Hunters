@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { appleMapsLink, googleMapsLink } from '../lib/routing';
 import { lookupPlace } from '../lib/placeLookup';
 import { readLastFix } from '../lib/lastFix';
-import { travelModesFor, effectiveMode, travelMode } from '../lib/travelModes';
+import { travelModesFor, effectiveMode, travelMode, rememberTravelMode } from '../lib/travelModes';
 import TravelModePicker from './TravelModePicker';
 
 // Every "Get Directions" in the app opens this sheet: use the app's own map
@@ -106,7 +106,10 @@ export default function DirectionsButton({
           <div className="modal-backdrop" onClick={close}>
             <div className="modal-card directions-sheet" onClick={(e) => e.stopPropagation()}>
               <h3 style={{ marginTop: 0 }}>{'\u{1F9ED}'} Directions to {name}</h3>
-              {offered && <TravelModePicker modes={offered.modes} value={mode} picked={!!pickedMode} onChange={setPickedMode} />}
+              {offered && <TravelModePicker modes={offered.modes} value={mode} picked={!!pickedMode} onChange={(m) => {
+                rememberTravelMode(m);
+                setPickedMode(m);
+              }} />}
               {!external && (hasCoords || query) && (
                 <>
                   <button

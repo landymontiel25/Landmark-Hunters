@@ -16,6 +16,10 @@ import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 import { asksDistanceOrTime, asksHours, bestOrder, placeHours, routeBetween, routesFrom } from './_lib/routeLookup.js';
 import { guardReply } from './_lib/factGuard.js';
+import { onWater, serverBoatRoute } from './_lib/waterGrids.js';
+import { formatDistance } from '../src/lib/formatDistance.js';
+
+const TRAVEL_MODE_IDS = ['walk', 'car', 'bus', 'bike', 'boat', 'plane'];
 import { noDashes } from './_lib/maprVoice.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
@@ -71,7 +75,7 @@ const INSTRUCTIONS =
   `those over a static profile match -- their taste tells you the MENU of things they enjoy, their actual message ` +
   `tells you which item off that menu fits right now. Don't default to their single most-loved category regardless ` +
   `of context.\n` +
-  `- DISTANCES AND TRAVEL TIMES: never state how far apart two places are, how many miles or minutes away something is, or how long it takes to get somewhere unless you got that number from the route_between tool in THIS reply (or it is printed in the app's own data below). Never estimate, round from memory, or guess. To answer "how far / how long / how many minutes", call route_between with the two places (use "my location" for where the traveler is now) and report its miles and minutes as given, saying it's driving (or walking) and that times are with current traffic. If route_between returns an error, say plainly that you couldn't check the distance right now and suggest the Directions button; do not give a number. Travelers rely on these numbers.\n` +
+  `- DISTANCES AND TRAVEL TIMES: never state how far apart two places are, how many miles or minutes away something is, or how long it takes to get somewhere unless you got that number from the route_between tool in THIS reply (or it is printed in the app's own data below). Never estimate, round from memory, or guess. To answer "how far / how long / how many minutes", call route_between with the two places (use "my location" for where the traveler is now). How far: say its card_distance exactly as given (it's the number on the place's card in the app, so the two always match). How long: its minutes, in its mode, said that way ("about 18 min by boat", "12 min driving with current traffic", "25 min walking"). When TRAVEL MODE says they're going by boat, talk about boat time only, never driving. If route_between returns an error, say plainly what it says (for example that water is in between and a boat is the way) or that you couldn't check it, and suggest the Directions button; do not give a number. Travelers rely on these numbers.\n` +
   `- PLANNING A DAY: when they give you 2 or more places to fit into a day ("plan my afternoon: A, B and C", "what order should I do these in", "I have 3 hours, can I do X and Y"), or you recommend 3+ stops for one outing, call best_order with the stops (start "my location" when you have CURRENT LOCATION) and give them in that order, with the total travel time it returns. Before sending someone somewhere tonight or right now, check place_hours for any stop you're not sure is open, and skip or flag one that's closed when they'd get there. If they have a time budget, say plainly whether it fits (total travel time from best_order plus a sensible visit length per stop) and what to cut if not.\n` +
   `- Never state a price, an entry fee or a star rating you didn't see in a web_search result in THIS reply.\n` +
   `- Prefer the catalog when it has a genuinely good fit -- those stops open inside the app with full details and check-ins.\n` +
@@ -503,6 +507,8 @@ async function handler(req, res) {
     // Live GPS from the traveler's device (Mapr.jsx), with the town it
     // resolves to. Also lists the closest catalog landmarks, so "near me"
     // can land on real in-app stops before reaching for web search.
+    // Distances in the traveler's own units, the way their cards show them.
+    const units = body.units === 'imperial' ? 'imperial' : 'metric';
     let hereLandmark = null;
     const loc = body.location && typeof body.location === 'object' ? body.location : null;
     // null or "" would become 0 and plan "near me" at (0, 0).
@@ -524,13 +530,18 @@ async function handler(req, res) {
           ').' +
           (nearest.length
             ? '\nNEAREST CATALOG LANDMARKS: ' +
-              nearest.map((x) => `${x.l.regionId}/${x.l.id} ${x.l.name} (${x.km < 1 ? '<1' : Math.round(x.km)} km)`).join('; ')
+              nearest.map((x) => `${x.l.regionId}/${x.l.id} ${x.l.name} (${formatDistance(x.km * 1000, units)}, as its card shows)`).join('; ')
             : '')
       );
       for (const x of nearest) validIds.add(`${x.l.regionId}/${x.l.id}`);
     } else if (body.locationStatus === 'unavailable') {
       profileParts.push('CURRENT LOCATION: unavailable (location sharing is off on their device).');
     }
+    // How they're getting around (owner, 2026-11-23): the mode they last
+    // picked in the app, else by boat when they're out on the water.
+    const nearPt = Number.isFinite(locLat) && Number.isFinite(locLng) ? { lat: locLat, lng: locLng } : null;
+    const travelerMode = TRAVEL_MODE_IDS.includes(body.travelMode) ? body.travelMode : nearPt && (await onWater(nearPt).catch(() => false)) ? 'boat' : null;
+    if (travelerMode) profileParts.push(`TRAVEL MODE: ${{ car: 'driving', walk: 'walking', bike: 'biking', bus: 'by bus', boat: 'by boat', plane: 'flying' }[travelerMode]}${body.travelMode ? ' (their pick in the app)' : ' (they are out on the water)'}.`);
     const itineraries = (Array.isArray(body.itineraries) ? body.itineraries : []).slice(0, 20).map((it) => ({
       kind: it?.kind === 'group' ? 'group' : 'solo',
       ref: str(it?.ref, 60),
@@ -605,7 +616,8 @@ async function handler(req, res) {
     const ROUTE_TOOL = {
       name: 'route_between',
       description:
-        'Real distance and travel time between two places, from Google Maps (driving with live traffic, or walking). ' +
+        "Real distance and travel time between two places: card_distance is the distance the app's card shows; minutes are in the traveler's own mode " +
+        "(TRAVEL MODE, or the mode you pass): by boat from the app's own boat route around the islands, otherwise from Google Maps. " +
         'ALWAYS call this before saying how far apart two places are or how long it takes to get somewhere. ' +
         'Use "my location" for where the traveler is right now. Places can be names ("House of Blues Orlando") or addresses.',
       input_schema: {
@@ -613,7 +625,7 @@ async function handler(req, res) {
         properties: {
           from: { type: 'string', description: 'Starting place name or address, or "my location".' },
           to: { type: 'string', description: 'Destination place name or address, or "my location".' },
-          mode: { type: 'string', enum: ['drive', 'walk'], description: 'drive (default) or walk.' },
+          mode: { type: 'string', enum: ['drive', 'walk', 'bike', 'bus', 'boat'], description: "Leave out to use the traveler's own TRAVEL MODE (default drive)." },
         },
         required: ['from', 'to'],
       },
@@ -646,7 +658,7 @@ async function handler(req, res) {
       },
     };
     const TOOL_RUNNERS = {
-      route_between: (input) => routeBetween(input || {}, { catalog: ALL_LANDMARKS, near }),
+      route_between: (input) => routeBetween(input || {}, { catalog: ALL_LANDMARKS, near, travelerMode: travelerMode === 'plane' ? null : travelerMode, units, boatRoute: serverBoatRoute }),
       place_hours: (input) => placeHours(input || {}, { near }),
       best_order: (input) => bestOrder({ start: near ? 'my location' : '', ...(input || {}) }, { catalog: ALL_LANDMARKS, near }),
     };

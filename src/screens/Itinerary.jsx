@@ -16,7 +16,7 @@ import { DragHandle, RemoveStopButton } from '../components/EditListControls';
 import ItinerarySort, { itinerarySortLabel, normalizeItinerarySort } from '../components/ItinerarySort';
 import TravelModePicker from '../components/TravelModePicker';
 import { useBoatLegs } from '../lib/useBoatLegs';
-import { travelModesFor, effectiveMode, legMinutes, legLabel, travelMode } from '../lib/travelModes';
+import { travelModesFor, effectiveMode, legMinutes, legLabel, travelMode, rememberTravelMode } from '../lib/travelModes';
 import TripRecapCard from '../components/TripRecapCard';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips, listMyGroupInvites, acceptGroupInvite, declineGroupInvite } from '../lib/groupTrips';
@@ -1090,7 +1090,7 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
         )}
       </div>
 
-      {!editing && selectedLandmarks.length > 0 && <TravelModePicker modes={modeChoice.modes} value={mode} picked={!!pickedMode} onChange={setPickedMode} />}
+      {!editing && selectedLandmarks.length > 0 && <TravelModePicker modes={modeChoice.modes} value={mode} picked={!!pickedMode} onChange={(m) => { rememberTravelMode(m); setPickedMode(m); }} />}
       {!editing && selectedLandmarks.length > 1 && <ItinerarySort value={sortPref} onChange={setSortPref} />}
 
       {view === 'map' && (

@@ -81,3 +81,25 @@ export function legLabel(minutes, mode) {
   const t = minutes >= 60 ? `${Math.floor(minutes / 60)} h${minutes % 60 ? ` ${minutes % 60} min` : ''}` : `${minutes} min`;
   return `${t} ${m.verb}`;
 }
+
+// The way you last picked to get around (Get directions, an itinerary),
+// so Mapr talks about the trip the way you're actually making it (owner,
+// 2026-11-23: on a boat, boat times, never driving). Kept 12 hours.
+const LAST_MODE_KEY = 'lh-travel-mode';
+const LAST_MODE_MS = 12 * 60 * 60 * 1000;
+export function rememberTravelMode(mode) {
+  if (!TRAVEL_MODES.some((m) => m.id === mode)) return;
+  try {
+    localStorage.setItem(LAST_MODE_KEY, JSON.stringify({ mode, t: Date.now() }));
+  } catch {
+    /* private mode */
+  }
+}
+export function recentTravelMode(now = Date.now()) {
+  try {
+    const v = JSON.parse(localStorage.getItem(LAST_MODE_KEY) || 'null');
+    return v && TRAVEL_MODES.some((m) => m.id === v.mode) && now - (v.t || 0) < LAST_MODE_MS ? v.mode : null;
+  } catch {
+    return null;
+  }
+}

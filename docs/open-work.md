@@ -30,6 +30,23 @@ the PR that finishes it.
   2026-11-23. Older wrong answers fetch the right one once from
   /api/mission-answer (reason `already`).
 
+## Boat routes, picked modes, Mapr distances (2026-11-23)
+
+- **Done.** Water maps for the Abacos and Biscayne Bay from OSM coastline
+  (scripts/water-grid/build-water-grid.mjs -> public/water/, rerun to
+  refresh). boatRoute.js: 75 m grid, A*, no corner cut across land,
+  straightened over water; 9 m/s (17.5 kn) + 5 min. routing.js routeFor():
+  Boat never calls the road service; walk/car/bike/bus go in that mode.
+  The itinerary passes its mode to the Map; boat legs are water routes.
+  Mapr: route_between returns the card's distance (card_distance, miles/km
+  = straight line) and minutes in the traveler's mode (app sends its last
+  pick; on the water = boat); refuses a road route shorter than half the
+  straight line (snapped across water).
+- **Not done:** best_order (Mapr's day planner) still times legs by road
+  or walking, even in the islands. Cards keep the straight-line distance;
+  a route's own length (by road or water) is shown separately and is
+  longer.
+
 ## Mission photo check: Haiku, looser, two-bullet refusals (2026-11-23)
 
 - **Done, verified live.** photoMatchesMission runs on claude-haiku-4-5

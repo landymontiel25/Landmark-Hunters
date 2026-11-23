@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { asksDistanceOrTime, asksHours, bestOrder, findInCatalog, placeHours, routeBetween } from './routeLookup.js';
 
 const catalog = [
@@ -31,7 +31,9 @@ describe('route lookup for Mapr chat', () => {
       return { ok: true, json: async () => ({ routes: [{ distanceMeters: 23500, duration: '1380s', staticDuration: '1200s' }] }) };
     };
     const r = await routeBetween({ from: 'Kres Chophouse', to: 'House of Blues Orlando' }, { catalog, fetchImpl });
-    expect(r).toMatchObject({ from: { name: 'Kres Chophouse' }, to: { name: 'House of Blues Orlando' }, mode: 'driving', miles: 14.6, minutes: 23, minutesWithoutTraffic: 20, source: 'Google Maps' });
+    expect(r).toMatchObject({ from: { name: 'Kres Chophouse' }, to: { name: 'House of Blues Orlando' }, mode: 'driving', route_miles: 14.6, minutes: 23, minutesWithoutTraffic: 20, source: 'Google Maps' });
+    // How far is the card's number: the straight line, the card's way.
+    expect(r.card_distance).toMatch(/ km$/);
     expect(calls.find((c) => c.url.includes('computeRoutes')).body.destination.location.latLng.latitude).toBe(28.3711);
   });
 
@@ -115,5 +117,29 @@ describe('best_order', () => {
     expect(await bestOrder({ stops: ['Hillstone'] }, { catalog })).toHaveProperty('error');
     const fetchImpl = async () => ({ ok: true, json: async () => ({ places: [] }) });
     expect((await bestOrder({ stops: ['Hillstone', 'Nowhere Cafe'], start: '' }, { catalog, fetchImpl })).error).toMatch(/Nowhere Cafe/);
+  });
+});
+
+describe('route_between follows the traveler\'s mode and the cards (owner, 2026-11-23)', () => {
+  const fowl = { name: 'Fowl Cays National Park', lat: 26.6, lng: -77.0 };
+  const boatSpot = { lat: 26.55, lng: -77.02 };
+  it('on a boat: the card distance and a boat time from the app\'s boat route, never Google', async () => {
+    const fetchImpl = vi.fn(async () => ({ ok: true, json: async () => ({ routes: [{ distanceMeters: 150, duration: '60s' }] }) }));
+    process.env.GOOGLE_ROUTES_API_KEY = 'k';
+    const boatRoute = vi.fn(async () => ({ points: [], distanceMeters: 7400, minutes: 19 }));
+    const r = await routeBetween({ from: 'my location', to: 'Fowl Cays National Park' }, { catalog: [fowl], near: boatSpot, fetchImpl, travelerMode: 'boat', boatRoute });
+    expect(fetchImpl).not.toHaveBeenCalled();
+    expect(r.mode).toBe('by boat');
+    expect(r.minutes).toBe(19);
+    expect(r.card_distance).toBe('5.9 km');
+    expect(r.km).toBe(5.9);
+    expect(r.route_km).toBe(7.4);
+  });
+  it('a road route snapped across water (much shorter than the straight line) is refused, not reported', async () => {
+    process.env.GOOGLE_ROUTES_API_KEY = 'k';
+    const fetchImpl = async () => ({ ok: true, json: async () => ({ routes: [{ distanceMeters: 160, duration: '60s' }] }) });
+    const r = await routeBetween({ from: 'my location', to: 'Fowl Cays National Park', mode: 'drive' }, { catalog: [fowl], near: boatSpot, fetchImpl });
+    expect(r.error).toMatch(/water is in between/);
+    expect(r.minutes).toBeUndefined();
   });
 });

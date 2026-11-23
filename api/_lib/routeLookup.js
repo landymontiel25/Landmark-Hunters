@@ -1,4 +1,6 @@
 import { timeoutSignal } from './upstream.js';
+import { haversineMeters } from '../../src/lib/haversine.js';
+import { formatDistance } from '../../src/lib/formatDistance.js';
 
 // Mapr chat's route_between tool (api/plan-ai.js): the REAL distance and
 // travel time between two places, so Mapr never guesses one. Each place is
@@ -67,12 +69,49 @@ export async function resolvePlace(query, { catalog = [], near = null, fetchImpl
   return findInCatalog(q, catalog, near) || (await googlePlace(q, near, fetchImpl));
 }
 
-export async function routeBetween({ from, to, mode = 'drive' } = {}, { catalog = [], near = null, fetchImpl = fetch } = {}) {
+// The modes route_between knows (travelModes.js ids, plus the old names).
+const MODE_ALIASES = { drive: 'car', car: 'car', driving: 'car', walk: 'walk', walking: 'walk', bike: 'bike', bicycle: 'bike', bus: 'bus', transit: 'bus', boat: 'boat' };
+const GOOGLE_MODES = { car: 'DRIVE', walk: 'WALK', bike: 'BICYCLE', bus: 'TRANSIT' };
+const MODE_WORDS = { car: 'driving', walk: 'walking', bike: 'biking', bus: 'by bus', boat: 'by boat' };
+
+// Mapr's route_between. Owner, 2026-11-23: Mapr told a traveler on a boat
+// that Fowl Cays was "0.1 miles, 1 minute driving" while its card said 5.4
+// km: Google had snapped two points in the water to one road. Now:
+//   - the distance is the card's: the straight-line distance from the
+//     traveler to the place, formatted the card's way (card_distance);
+//   - the time is in the traveler's own mode (travelerMode, or the mode
+//     asked for): by boat it's the app's own route around the islands
+//     (boatRoute.js, the one the Map draws), never Google;
+//   - a "road route" much shorter than the straight line (points in the
+//     water snapped to a road) is refused, never reported.
+export async function routeBetween(
+  { from, to, mode } = {},
+  { catalog = [], near = null, fetchImpl = fetch, travelerMode = null, units = 'metric', boatRoute = null } = {}
+) {
   const [a, b] = await Promise.all([resolvePlace(from, { catalog, near, fetchImpl }), resolvePlace(to, { catalog, near, fetchImpl })]);
   if (!a) return { error: ME.test(String(from || '').trim()) ? "The traveler's location isn't available." : `Couldn't find "${from}".` };
   if (!b) return { error: ME.test(String(to || '').trim()) ? "The traveler's location isn't available." : `Couldn't find "${to}".` };
-  if (!process.env.GOOGLE_ROUTES_API_KEY) return { error: 'Route lookup is not set up.' };
-  const travelMode = mode === 'walk' ? 'WALK' : 'DRIVE';
+  const useMode = MODE_ALIASES[String(mode || '').toLowerCase()] || travelerMode || 'car';
+  const straight = haversineMeters(a.lat, a.lng, b.lat, b.lng);
+  const base = {
+    from: { name: a.name, address: a.address },
+    to: { name: b.name, address: b.address },
+    // The same number the place's card shows (straight line, the card's units).
+    card_distance: formatDistance(straight, units),
+    // The card's number in both units (what the fact guard checks claims
+    // against); the route's own length rides in route_miles / route_km.
+    miles: Math.round((straight / 1609.34) * 10) / 10,
+    km: Math.round((straight / 1000) * 10) / 10,
+    mode: MODE_WORDS[useMode] || 'driving',
+  };
+  const routeLen = (m) => ({ route_miles: Math.round((m / 1609.34) * 10) / 10, route_km: Math.round((m / 1000) * 10) / 10 });
+  if (useMode === 'boat') {
+    const r = boatRoute ? await boatRoute(a, b) : null;
+    if (!r) return { ...base, error: 'No boat route between those places: boat routes cover the Abacos and Biscayne Bay.' };
+    return { ...base, minutes: r.minutes, boat_route_distance: formatDistance(r.distanceMeters, units), ...routeLen(r.distanceMeters), source: "the app's boat route around the islands" };
+  }
+  if (!process.env.GOOGLE_ROUTES_API_KEY) return { ...base, error: 'Route lookup is not set up.' };
+  const travelMode = GOOGLE_MODES[useMode] || 'DRIVE';
   const r = await fetchImpl('https://routes.googleapis.com/directions/v2:computeRoutes', {
     signal: timeoutSignal(),
     method: 'POST',
@@ -84,18 +123,19 @@ export async function routeBetween({ from, to, mode = 'drive' } = {}, { catalog 
       ...(travelMode === 'DRIVE' ? { routingPreference: 'TRAFFIC_AWARE' } : {}),
     }),
   });
-  if (!r.ok) return { error: 'The route lookup failed.' };
+  if (!r.ok) return { ...base, error: 'The route lookup failed.' };
   const route = (await r.json())?.routes?.[0];
   const meters = Number(route?.distanceMeters);
   const seconds = parseInt(route?.duration, 10);
-  if (!Number.isFinite(meters) || !Number.isFinite(seconds)) return { error: 'No route found between those places.' };
+  if (!Number.isFinite(meters) || !Number.isFinite(seconds)) return { ...base, error: 'No route found between those places.' };
+  // A road route can't be shorter than the straight line; half of it means
+  // the points were snapped to a road (water in between).
+  if (straight > 800 && meters < straight * 0.5) return { ...base, error: `There's no ${base.mode} route there: water is in between. By boat is the way to go.` };
   const noTraffic = parseInt(route?.staticDuration, 10);
   return {
-    from: { name: a.name, address: a.address },
-    to: { name: b.name, address: b.address },
-    mode: travelMode === 'WALK' ? 'walking' : 'driving',
-    miles: Math.round((meters / 1609.34) * 10) / 10,
-    km: Math.round((meters / 1000) * 10) / 10,
+    ...base,
+    route_distance: formatDistance(meters, units),
+    ...routeLen(meters),
     minutes: Math.max(1, Math.round(seconds / 60)),
     ...(travelMode === 'DRIVE' && Number.isFinite(noTraffic) ? { minutesWithoutTraffic: Math.max(1, Math.round(noTraffic / 60)) } : {}),
     source: 'Google Maps',
@@ -276,6 +316,9 @@ export function routesFrom(results = []) {
   for (const r of results) {
     if (!r || r.error) continue;
     if (Number.isFinite(r.miles)) out.push(r);
+    // The route's own length (by road, or by boat around the islands) is a
+    // real number too.
+    if (Number.isFinite(r.route_miles)) out.push({ ...r, miles: r.route_miles, km: r.route_km });
     if (Array.isArray(r.legs)) {
       out.push(...r.legs);
       out.push({ from: { name: 'Start' }, to: { name: 'last stop' }, mode: r.mode, miles: r.totalMiles, km: r.totalKm, minutes: r.totalMinutes });
