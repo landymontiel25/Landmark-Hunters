@@ -1179,10 +1179,15 @@ export default function MapExplore({ experiments = false }) {
         const isSelected = getRegionSelection(l.regionId).includes(l.id);
         const region = getRegion(l.regionId);
         const isClaimed = !!claimedMap[l.id];
-        const goToDetails = () => navigate(`/landmarks/${l.regionId}/${l.id}`);
-        // A tap opens the full landmark page at once (owner, 2026-11-23);
-        // Admin Mode keeps the card (moving pins, editing).
-        const openPage = () => openFromMap(`/landmarks/${l.regionId}/${l.id}`);
+        // A pin tap opens the square popup card (owner, 2026-11-23: back
+        // again); the card or its photo opens the full page, and that page's
+        // "Back to map" returns to this same spot and zoom (openFromMap).
+        const goToDetails = () => openFromMap(`/landmarks/${l.regionId}/${l.id}`);
+        // A tap on the card itself (not on one of its buttons or links).
+        const cardTap = (e) => {
+          if (e.target.closest('button, a, input, select, textarea, [role="button"]')) return;
+          goToDetails();
+        };
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
         const position = savedPos
           ? stablePosition(`${l.regionId}/${l.id}`, savedPos.lat, savedPos.lng)
@@ -1194,14 +1199,13 @@ export default function MapExplore({ experiments = false }) {
             icon={pinIcon(isClaimed, isSelected, isIslandPlace(l))}
             draggable={adminMode}
             eventHandlers={{
-              ...(adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : { click: openPage }),
+              ...(adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : {}),
               popupopen: () => setBubble({ key: `${l.regionId}/${l.id}`, lat: position[0], lng: position[1], radius: bubbleRadius(landmark) }),
               popupclose: () => setBubble((b) => (b?.key === `${l.regionId}/${l.id}` ? null : b)),
             }}
           >
-            {adminMode && (
             <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
-              <div className="map-popup">
+              <div className="map-popup" onClick={cardTap} style={{ cursor: 'pointer' }}>
                 <div
                   role="button"
                   tabIndex={0}
@@ -1264,7 +1268,6 @@ export default function MapExplore({ experiments = false }) {
                 </div>
               </div>
             </Popup>
-            )}
           </Marker>
         );
       }),
