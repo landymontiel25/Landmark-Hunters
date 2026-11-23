@@ -184,7 +184,9 @@ export const REQUEST_FOR_VALUES = ['solo', 'group'];
 // server-proven: api/verify-checkin.js checks a fresh fix against the place
 // (src/lib/presence.js, radius by place type) and writes `presence`, which
 // the rules forbid any client to write.
-export const REQUIRE_GPS_CHECKIN = false;
+// Back ON 2026-11-23 (owner): with points paid only by the server for a
+// verified visit, the phone also refuses a check-in it can't place there.
+export const REQUIRE_GPS_CHECKIN = true;
 // How close you must be (meters) to a place that has no radius of its own.
 // Big venues (parks, malls, beaches, national parks) keep their own larger
 // `checkInRadiusMeters` in src/data/landmarks.*.js, which replaces this number

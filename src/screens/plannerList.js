@@ -95,15 +95,6 @@ export const TURNED_OFF = [
     file: 'src/lib/leaderboard.js',
     check: 'HOME_RADIUS_EXCLUSION_ENABLED = false',
   },
-  {
-    name: 'GPS required to check in',
-    hides: 'The rule that a check-in needs your phone to be within the place’s radius.',
-    keeps: 'Check-ins go through anywhere and are saved as unverified; the server still verifies presence when it can.',
-    since: '2026-10-01',
-    pr: 494,
-    file: 'src/lib/maprConstants.js',
-    check: 'REQUIRE_GPS_CHECKIN = false',
-  },
 ];
 
 // Taken out of the app, not behind a switch: bringing these back means

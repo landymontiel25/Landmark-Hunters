@@ -17,6 +17,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
+import { POINTS_PER_CHECKIN } from './checkinPoints';
 import { periodKeysAt } from './periods';
 import { isRealCheckin, oneVisitPerDay, visitDayOf } from './realCheckin';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
@@ -30,7 +31,7 @@ import { CHECKIN_RULE_METERS } from './maprConstants';
 
 export { distanceMeters };
 
-export const POINTS_PER_CHECKIN = 100;
+export { POINTS_PER_CHECKIN };
 // Default "you're here" radius -- tightened down from an initial 150m
 // during build/testing to balance real-world GPS accuracy against making
 // the claim meaningful. Individual landmarks can widen this via
@@ -79,25 +80,12 @@ export const PERIODS = ['weekly', 'monthly', 'yearly'];
  * check-in that predates this change stays valid untouched; visit #2
  * onward is uid_landmarkId_<visitNumber>), so re-checking in somewhere is
  * always allowed and always logged with its own timestamp. What pays out
- * is a separate question from what gets logged: only the account's first
- * real check-in ever pays (checkin_payouts/{uid}), and it would also be 0 inside the user's home
- * radius if HOME_RADIUS_EXCLUSION_ENABLED were on (it's currently off) --
- * but the visit itself is always recorded in full regardless, since Mapr
- * should learn from every visit whether or not it paid out.
+ * is a separate question from what gets logged: the phone saves every
+ * check-in at 0 points, and only the server pays (the account's first
+ * verified check-in, api/_lib/checkinPayout.js) -- but the visit itself is
+ * always recorded in full, since Mapr learns from every visit.
  * Returns { claimed, alreadyClaimed, visitNumber?, payout?, checkinId? }.
  */
-// Whether this account already has a real (physical) check-in anywhere. The
-// cheap path is an indexed equality query on the explicit `visited` flag;
-// older docs (before that flag existed) fall back to a full read, which is
-// empty for a brand-new account.
-async function hasAnyRealCheckin(userId) {
-  const flagged = await getDocs(
-    query(collection(db, 'checkins'), where('userId', '==', userId), where('visited', '==', true), limit(1))
-  );
-  if (flagged.docs.some((d) => isRealCheckin(d.data()))) return true;
-  const all = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
-  return all.docs.some((d) => isRealCheckin(d.data()));
-}
 
 async function _claimCheckIn({
   userId,
@@ -153,72 +141,38 @@ async function _claimCheckIn({
   const visitNumber = realPrior + 1;
   const checkinId = docNumber === 1 ? `${userId}_${landmarkId}` : `${userId}_${landmarkId}_${docNumber}`;
   const checkinRef = doc(db, 'checkins', checkinId);
-  const keys = periodKeys();
 
   const insideHomeRadius =
     !!homeCoords &&
     !!landmarkCoords &&
     distanceMeters(homeCoords.lat, homeCoords.lng, landmarkCoords.lat, landmarkCoords.lng) <= HOME_RADIUS_METERS;
-  // Only the account's first real check-in pays. Any earlier real check-in,
-  // at this place or any other, means this one is just for Mapr.
-  const hadEarlierCheckin = ratingOnly ? false : await hasAnyRealCheckin(userId);
-  const payout =
-    ratingOnly || hadEarlierCheckin || (HOME_RADIUS_EXCLUSION_ENABLED && insideHomeRadius)
-      ? 0
-      : taperedPoints(points, visitNumber);
 
-  // checkin_payouts/{uid} marks the account's one paying check-in; the rules
-  // only accept points > 0 alongside creating it. If it already exists the
-  // account was paid before, so this check-in pays 0.
-  const payoutRef = doc(db, 'checkin_payouts', userId);
-
+  // Saved at 0 points, always (owner, 2026-11-23). Points are the server's
+  // to pay, after it verifies the visit (api/verify-checkin.js,
+  // api/_lib/checkinPayout.js); the rules refuse points from a phone.
   const result = await runTransaction(db, async (tx) => {
     const existing = await tx.get(checkinRef);
     if (existing.exists()) {
       return { claimed: false, alreadyClaimed: true };
     }
-    const paidPoints = payout > 0 && !(await tx.get(payoutRef)).exists() ? payout : 0;
-
     tx.set(checkinRef, {
       userId,
       userName,
       landmarkId,
       landmarkName,
       region,
-      points: paidPoints,
+      points: 0,
       basePoints: points,
       visitNumber,
       ratingOnly,
       // Explicit, so isRealCheckin never has to infer "was this a real
-      // visit" from the points value alone -- a home-radius or
-      // fully-tapered repeat visit is still real, at 0 points.
+      // visit" from the points value alone.
       visited: !ratingOnly,
       insideHomeRadius,
       ...(!ratingOnly && location ? location : {}),
       createdAt: serverTimestamp(),
     });
-
-    if (paidPoints > 0) {
-      tx.set(payoutRef, { checkinId, createdAt: serverTimestamp() });
-      for (const period of PERIODS) {
-        const entryRef = doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`);
-        tx.set(
-          entryRef,
-          {
-            userId,
-            userName,
-            period,
-            periodKey: keys[period],
-            // The rules check the rise against the payout doc above.
-            points: increment(paidPoints),
-            updatedAt: serverTimestamp(),
-          },
-          { merge: true }
-        );
-      }
-    }
-
-    return { claimed: true, alreadyClaimed: false, visitNumber, payout: paidPoints, checkinId };
+    return { claimed: true, alreadyClaimed: false, visitNumber, payout: 0, checkinId };
   });
 
   return result;

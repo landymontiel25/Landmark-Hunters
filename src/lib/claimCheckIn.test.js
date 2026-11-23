@@ -49,11 +49,12 @@ describe('claimCheckIn visit numbering', () => {
     state.other = null;
   });
 
-  it('pays full points for the first real visit after a rating-only claim', async () => {
+  it('numbers the first real visit after a rating-only claim as visit 1, saved at 0 points (the server pays)', async () => {
     state.prior = [{ ratingOnly: true, visited: false, points: 0 }];
     const res = await claimCheckIn(args);
     expect(res.visitNumber).toBe(1);
-    expect(res.payout).toBe(100);
+    expect(res.payout).toBe(0);
+    expect(state.written.points).toBe(0);
     // doc id must still be unique: the rating claim already holds the first id.
     expect(state.written.id).toBe('u1_lm_2');
   });
@@ -75,11 +76,13 @@ describe('claimCheckIn visit numbering', () => {
     expect(state.written.visited).toBe(true);
   });
 
-  it('a rating-only claim elsewhere does not use up the one paid check-in', async () => {
+  it('never writes points, a payout marker or leaderboard points from the phone', async () => {
     state.prior = [];
-    state.other = [{ ratingOnly: true, visited: false, points: 0, __id: 'u1_x' }];
+    state.other = [];
     const res = await claimCheckIn(args);
-    expect(res.payout).toBe(100);
+    expect(res.payout).toBe(0);
+    expect(state.written.points).toBe(0);
+    expect(state.written.basePoints).toBe(100);
   });
 
   it('saves the verification tag on a real check-in; leaves a rating-only claim untagged', async () => {

@@ -7,7 +7,7 @@ import { awardLeaderboardPointsServer, cleanUserName } from './leaderboardPoints
 import { photoShowsPlace } from './photoCheck.js';
 import { withCors } from './cors.js';
 import { INTERESTS, getLandmark, getRegion } from '../../src/data/regions.js';
-import { isRealCheckin } from '../../src/lib/realCheckin.js';
+import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 import { CHECKIN_RULE_METERS } from '../../src/lib/maprConstants.js';
 
 // Bonus points for a photo (owner, 2026-10-21): +10 the first time you add
@@ -31,9 +31,9 @@ export const CHECKED_FIELD = 'urlsV2';
 const photosOf = (d) => [...(Array.isArray(d?.photoURLs) ? d.photoURLs : []), ...(d?.photoURL ? [d.photoURL] : [])].filter((u) => typeof u === 'string');
 const hasPhoto = (d) => photosOf(d).length > 0;
 
-// A real visit, the same test the rest of the app uses (realCheckin.js):
-// not a rating-only "Rate a Landmark" entry.
-const realVisit = (c) => !!c && isRealCheckin(c);
+// A real visit the server verified (realCheckin.js isVerifiedCheckin): not
+// a rating-only entry, and not a check-in the GPS check didn't confirm.
+const realVisit = (c) => !!c && isVerifiedCheckin(c);
 
 // Pure: whether this place can earn the bonus (before the photo check), and
 // why not when it can't. checkin: checkins/{uid}_{landmarkId}; review:
@@ -114,7 +114,7 @@ export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, daily
   let visited;
   if (first.checkin && !realVisit(first.checkin)) {
     const all = await db.collection('checkins').where('userId', '==', uid).where('landmarkId', '==', landmarkId).get();
-    visited = all.docs.some((d) => isRealCheckin(d.data()));
+    visited = all.docs.some((d) => isVerifiedCheckin(d.data()));
   }
   const pre = photoBonusDecision({ uid, ...first, visited });
   if (!pre.awarded) return pre;

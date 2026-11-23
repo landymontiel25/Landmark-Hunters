@@ -6,7 +6,7 @@ import { validClientDayKey } from './streakDay.js';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
 import { canonicalRegionId, getLandmark } from '../../src/data/regions.js';
-import { isRealCheckin } from '../../src/lib/realCheckin.js';
+import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 
 // Trivia missions (owner, 2026-11-16): a landmark's `mission` of type
 // 'trivia' asks a four-option question after you check in there. One answer
@@ -19,7 +19,7 @@ export const MISSION_POINTS = 10;
 // Pure: what this answer earns.
 export function missionAnswerDecision({ mission, answer, checkins, previous }) {
   if (mission?.type !== 'trivia' || !Array.isArray(mission.options)) return { awarded: 0, reason: 'no-trivia' };
-  if (!checkins.some((c) => isRealCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
+  if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
   if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, answer: mission.answer, picked: previous.answer };
   if (!Number.isInteger(answer) || answer < 0 || answer >= mission.options.length) return { awarded: 0, reason: 'bad-answer' };
   const correct = answer === mission.answer;

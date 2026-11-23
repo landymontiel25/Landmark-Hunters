@@ -235,8 +235,9 @@ await t('Phase 2 read limits: your own list and a get on your own missing id sti
   await assertFails(getDoc(doc(as('bob'), 'checkins/erin_nothere')));
   await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'checkins/erin_lm')));
 });
-// The paying check-in: the check-in, the payout marker and the three
-// leaderboard entries in one write, as claimCheckIn does it.
+// The old phone payout: the check-in, the payout marker and the three
+// leaderboard entries in one write, as claimCheckIn did until 2026-11-23.
+// Only the server pays now (api/_lib/checkinPayout.js): this must fail.
 const paidCheckin = (db, uid, id, over = {}, entryPoints = null, legacyId = false) => {
   const b = writeBatch(db);
   const pts = over.points ?? 100;
@@ -256,14 +257,15 @@ await t('check-in payout: 0 always works, points need the one-time payout marker
   await assertFails(setDoc(doc(db, 'checkins/erin_b'), ck({ landmarkId: 'b', ratingOnly: true, points: 50 })));
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_c'), ck({ landmarkId: 'c', ratingOnly: true, visited: false, points: 0 })));
 });
-await t('the first paying check-in works once, with its leaderboard entries', async () => {
+await t('exploit: a phone paying its own check-in (the old first payout) is refused, even for a brand-new account', async () => {
   const db = as('erin');
-  await assertSucceeds(paidCheckin(db, 'erin', 'erin_p1', { landmarkId: 'p1' }));
-  // A second payout, at another place, is denied: the marker already exists.
-  await assertFails(paidCheckin(db, 'erin', 'erin_p2', { landmarkId: 'p2' }));
+  await assertFails(paidCheckin(db, 'erin', 'erin_p1', { landmarkId: 'p1' }));
   await assertFails(setDoc(doc(db, 'checkins/erin_p3'), ck({ landmarkId: 'p3', points: 100 })));
-  // The marker can't be changed, removed, or read by others.
+  // A made-up place id, 100 points: refused.
+  await assertFails(setDoc(doc(db, 'checkins/erin_not-a-real-place'), ck({ landmarkId: 'not-a-real-place', points: 100 })));
+  // The marker is server-only: no create, change or delete; the owner reads it.
   await assertFails(setDoc(doc(db, 'checkin_payouts/erin'), { checkinId: 'erin_p4', createdAt: serverTimestamp() }));
+  await seed((sdb) => setDoc(doc(sdb, 'checkin_payouts/erin'), { checkinId: 'erin_p1', points: 100, createdAt: 1 }));
   await assertFails(deleteDoc(doc(db, 'checkin_payouts/erin')));
   await assertSucceeds(getDoc(doc(db, 'checkin_payouts/erin')));
   await assertFails(getDoc(doc(as('bob'), 'checkin_payouts/erin')));
@@ -274,9 +276,10 @@ await t('payout marker: only alongside a new paying check-in of your own', async
   await assertFails(setDoc(doc(as('fay'), 'checkin_payouts/fay'), { checkinId: 'fay_old', createdAt: serverTimestamp() }));
   await assertFails(paidCheckin(as('fay'), 'fay', 'fay_z', { landmarkId: 'z', points: 100 }, 200));
   await assertFails(paidCheckin(as('bob'), 'fay', 'fay_y', { landmarkId: 'y' }));
-  // Visit taper still holds for the paying check-in.
   await assertFails(paidCheckin(as('fay'), 'fay', 'fay_w_3', { landmarkId: 'w', visitNumber: 3, points: 100 }));
-  await assertSucceeds(paidCheckin(as('fay'), 'fay', 'fay_w', { landmarkId: 'w' }));
+  await assertFails(paidCheckin(as('fay'), 'fay', 'fay_w', { landmarkId: 'w' }));
+  // A check-in the server will verify and pay: 0 points from the phone.
+  await assertSucceeds(setDoc(doc(as('fay'), 'checkins/fay_w'), ck({ userId: 'fay', landmarkId: 'w' })));
 });
 await t('Phase 2: no location numbers on a new check-in; old ones can only be removed by the owner', async () => {
   const db = as('erin');
@@ -371,9 +374,9 @@ await t('naming an old check-in, or someone else\'s, does not pay', async () => 
   await seed((sdb) => setDoc(doc(sdb, 'checkins/hal_x'), { userId: 'hal', landmarkId: 'x', points: 100 }));
   await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ lastCheckinId: 'hal_x' }), { merge: true }));
 });
-await t('Phase 2: the payout doc proves a rise, no public lastCheckinId needed; a build that still sends it works; it never pays twice', async () => {
-  await assertSucceeds(paidCheckin(as('lia'), 'lia', 'lia_lm'));
-  await assertSucceeds(paidCheckin(as('max'), 'max', 'max_lm', {}, null, true));
+await t('exploit: a phone raising its own boards with a check-in payout (with or without lastCheckinId) is refused', async () => {
+  await assertFails(paidCheckin(as('lia'), 'lia', 'lia_lm'));
+  await assertFails(paidCheckin(as('max'), 'max', 'max_lm', {}, null, true));
   // The payout doc exists now: no new rise, with or without naming a check-in.
   await assertFails(setDoc(doc(as('lia'), 'leaderboard_entries/weekly_2026-W41_lia'), { userId: 'lia', userName: 'l', period: 'weekly', periodKey: '2026-W41', points: increment(100), lastCheckinId: 'lia_lm', updatedAt: serverTimestamp() }, { merge: true }));
 });

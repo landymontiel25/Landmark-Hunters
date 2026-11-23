@@ -56,7 +56,7 @@ function fakeDb(initial = {}) {
 }
 
 const PHOTO = 'https://firebasestorage.googleapis.com/v0/b/app/o/checkin_photos%2Fx.jpg?alt=media';
-const visit = { userId: 'u', userName: 'Alex', landmarkId: 'x', region: 'miami', landmarkName: 'X Place', points: 100, visited: true, ratingOnly: false, photoURLs: [PHOTO] };
+const visit = { userId: 'u', userName: 'Alex', landmarkId: 'x', region: 'miami', landmarkName: 'X Place', points: 100, visited: true, ratingOnly: false, presence: { verified: true }, photoURLs: [PHOTO] };
 const decide = (over) => photoBonusDecision({ uid: 'u', checkin: visit, review: null, paid: false, today: 0, ...over });
 
 describe('photoBonusDecision', () => {
@@ -148,7 +148,7 @@ describe('awardPhotoBonus', () => {
   it('a real visit counts even when the first entry at the place was a rating-only one', async () => {
     const db = fakeDb({
       'checkins/u_x': { ...visit, ratingOnly: true, visited: false, points: 0 },
-      'checkins/u_x_2': { userId: 'u', landmarkId: 'x', ratingOnly: false, visited: true, points: 0 },
+      'checkins/u_x_2': { userId: 'u', landmarkId: 'x', ratingOnly: false, visited: true, points: 0, presence: { verified: true } },
     });
     const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
     expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
@@ -167,13 +167,14 @@ describe('awardPhotoBonus', () => {
 });
 
 describe('the one-time back-pay', () => {
-  it('finds every place with a photo on a real check-in, or on a rating of a place visited, minus places paid', () => {
+  it('finds every place with a photo on a verified check-in, or on a rating of a place visited, minus places paid (an unverified one, e_p6, is left out)', () => {
     const out = backfillCandidates({
       checkins: [
-        { userId: 'a', landmarkId: 'p1', photoURLs: ['x'] },
+        { userId: 'a', landmarkId: 'p1', photoURLs: ['x'], presence: { verified: true } },
+        { userId: 'e', landmarkId: 'p6', photoURLs: ['x'] },
         { userId: 'a', landmarkId: 'p2', photoURLs: ['x'], ratingOnly: true },
-        { userId: 'b', landmarkId: 'p3' },
-        { userId: 'c', landmarkId: 'p4', photoURLs: ['x'] },
+        { userId: 'b', landmarkId: 'p3', presence: { verified: true } },
+        { userId: 'c', landmarkId: 'p4', photoURLs: ['x'], presence: { verified: true } },
       ],
       reviews: [
         { userId: 'b', landmarkId: 'p3', photoURLs: ['r'] },
@@ -190,7 +191,7 @@ describe('the one-time back-pay', () => {
   it('pays a batch with no daily limit and no board points, and says how many are left', async () => {
     const snap = (rows) => ({ docs: rows.map(([id, data]) => ({ id, data: () => data })) });
     const sets = {
-      checkins: snap([...Array(5)].map((_, i) => [`u_p${i}`, { userId: 'u', landmarkId: `p${i}`, photoURLs: [`f${i}`] }])),
+      checkins: snap([...Array(5)].map((_, i) => [`u_p${i}`, { userId: 'u', landmarkId: `p${i}`, photoURLs: [`f${i}`], presence: { verified: true } }])),
       reviews: snap([]),
       photo_bonuses: snap([['u_p0', {}]]),
       photo_bonus_checks: snap([['u_p1', { [CHECKED_FIELD]: ['f1'] }]]),

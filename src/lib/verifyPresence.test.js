@@ -16,7 +16,8 @@ describe('verifyCheckinPresence', () => {
     expect(out).toMatchObject({ verified: true });
     const [url, init] = fetchImpl.mock.calls[0];
     expect(url).toBe('/api/verify-checkin');
-    expect(JSON.parse(init.body)).toEqual({ checkinId: 'me_lm', fix: { lat: 39.95, lng: -75.15, accuracy: 12, timestamp: 1234 } });
+    expect(JSON.parse(init.body)).toMatchObject({ checkinId: 'me_lm', fix: { lat: 39.95, lng: -75.15, accuracy: 12, timestamp: 1234 } });
+    expect(JSON.parse(init.body).dayId).toMatch(/^\d{4}-\d{1,2}-\d{1,2}$/);
     expect(init.headers.Authorization).toBe('Bearer t');
   });
   it('resolves null (never throws) when location or the server fails', async () => {

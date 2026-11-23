@@ -7,7 +7,7 @@ const { missionAnswerDecision, MISSION_POINTS } = await import('./missionAnswer.
 const { getLandmark } = await import('../../src/data/regions.js');
 
 const mission = getLandmark('abacos', 'albury-brothers-boatbuilding').mission;
-const visited = [{ landmarkId: 'albury-brothers-boatbuilding', visited: true }];
+const visited = [{ landmarkId: 'albury-brothers-boatbuilding', visited: true, presence: { verified: true } }];
 
 describe('missionAnswerDecision', () => {
   it('pays +10 for the right answer', () => {
@@ -35,5 +35,12 @@ describe('missionAnswerDecision', () => {
 
   it('has no trivia for a photo mission', () => {
     expect(missionAnswerDecision({ mission: getLandmark('abacos', 'tahiti-beach').mission, answer: 0, checkins: visited, previous: null }).reason).toBe('no-trivia');
+  });
+});
+
+describe('trivia needs a verified visit', () => {
+  it('pays nothing on an unverified check-in', () => {
+    const mission = { type: 'trivia', options: ['a', 'b', 'c', 'd'], answer: 1 };
+    expect(missionAnswerDecision({ mission, answer: 1, checkins: [{ visited: true }], previous: null }).reason).toBe('no-checkin');
   });
 });

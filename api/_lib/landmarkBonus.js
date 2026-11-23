@@ -6,18 +6,20 @@ import { validClientDayKey } from './streakDay.js';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
 import { specialPlace } from '../../src/data/specialPlaces.js';
-import { isRealCheckin } from '../../src/lib/realCheckin.js';
+import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 
 // A place's own bonus (src/data/specialPlaces.js), e.g. 1,000 points at the
 // Alhambra Water Tower, the first landmark ever in the app (owner,
 // 2026-10-21). Paid once per account, for a real check-in there, on top of
 // the usual check-in points. Decided here: the rules cap a client's points
-// write at 100 (firestore.rules maxPointsPerWrite), on purpose.
+// write at 100 (firestore.rules maxPointsPerWrite), on purpose. Only a
+// server-verified visit counts (realCheckin.js isVerifiedCheckin): before
+// 2026-11-23 any check-in did, so a fake one could collect the 1,000.
 
 // Pure: whether this account gets the place's bonus now.
 export function landmarkBonusDecision({ special, checkins, paid }) {
   if (!special) return { awarded: 0, reason: 'not-special' };
-  if (!checkins.some((c) => isRealCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
+  if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
   if (paid) return { awarded: 0, reason: 'already' };
   return { awarded: special.bonusPoints };
 }

@@ -1,12 +1,19 @@
 import { distanceMeters } from './geo';
 import { REQUIRE_GPS_CHECKIN, CHECKIN_RULE_METERS, CHECKIN_MAX_ACCURACY_METERS } from './maprConstants';
+import { presenceLimitsFor, PRESENCE_MAX_RADIUS_METERS } from './presence';
 
 // How close you must be to this place: its own radius (big venues like parks
 // and malls set checkInRadiusMeters) or the default CHECKIN_RULE_METERS.
+// Never less than the server's own limit for this kind of place
+// (presence.js: 150 m for a park or campus), so the phone never refuses a
+// visit the server would verify.
 export const radiusFor = (landmark) =>
-  Number.isFinite(landmark?.checkInRadiusMeters) && landmark.checkInRadiusMeters > 0
-    ? landmark.checkInRadiusMeters
-    : CHECKIN_RULE_METERS;
+  Math.max(
+    Number.isFinite(landmark?.checkInRadiusMeters) && landmark.checkInRadiusMeters > 0
+      ? Math.min(landmark.checkInRadiusMeters, PRESENCE_MAX_RADIUS_METERS)
+      : CHECKIN_RULE_METERS,
+    presenceLimitsFor(landmark).radiusMeters
+  );
 
 // Distance and accuracy for a check-in, from the user's GPS fix to the place.
 // Each is null when it cannot be computed (no fix, or a place without
@@ -22,11 +29,15 @@ export function measureCheckin(coords, landmark) {
   };
 }
 
+// How rough a GPS fix may be: the server's own limit for this kind of place
+// (presence.js), never stricter than CHECKIN_MAX_ACCURACY_METERS.
+export const maxAccuracyFor = (landmark) => Math.max(CHECKIN_MAX_ACCURACY_METERS, presenceLimitsFor(landmark).maxAccuracyMeters);
+
 // Is this fix good enough, and close enough, to count as being at the place?
 export function isNearEnough(coords, landmark) {
   const { distanceMeters: d, gpsAccuracyMeters: a } = measureCheckin(coords, landmark);
   if (d == null || a == null) return false;
-  return a <= CHECKIN_MAX_ACCURACY_METERS && d <= radiusFor(landmark);
+  return a <= maxAccuracyFor(landmark) && d <= radiusFor(landmark);
 }
 
 // Why a check-in is refused when the rule is on, or null when it may go
@@ -35,7 +46,7 @@ export function checkinBlockReason(coords, landmark, { ratingOnly = false, requi
   if (!required || ratingOnly) return null;
   const { distanceMeters: d, gpsAccuracyMeters: a } = measureCheckin(coords, landmark);
   if (d == null || a == null) return 'no-location';
-  if (a > CHECKIN_MAX_ACCURACY_METERS) return 'weak-signal';
+  if (a > maxAccuracyFor(landmark)) return 'weak-signal';
   if (d > radiusFor(landmark)) return 'too-far';
   return null;
 }

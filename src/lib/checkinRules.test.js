@@ -8,8 +8,8 @@ const place = { id: 'p', lat: 25.0, lng: -80.0 };
 const at = (metersNorth, accuracy = 10) => ({ lat: 25.0 + metersNorth / 111195, lng: -80.0, accuracy });
 
 describe('check-in rule constants', () => {
-  it('ships with the rule OFF, a 30 m default and the first check-in on', () => {
-    expect(REQUIRE_GPS_CHECKIN).toBe(false);
+  it('ships with the rule ON (owner, 2026-11-23), a 30 m default and the first check-in on', () => {
+    expect(REQUIRE_GPS_CHECKIN).toBe(true);
     expect(CHECKIN_RULE_METERS).toBe(30);
     expect(ONBOARDING_FIRST_CHECKIN).toBe(true);
   });
@@ -58,8 +58,8 @@ describe('checkinBlockReason (rule OFF)', () => {
   it('never refuses, wherever you are', () => {
     expect(checkinBlockReason(at(5000), place, { required: false })).toBeNull();
     expect(checkinBlockReason(null, place, { required: false })).toBeNull();
-    // and the shipped default is off
-    expect(checkinBlockReason(at(5000), place)).toBeNull();
+    // and the shipped default is on: far away is refused
+    expect(checkinBlockReason(at(5000), place)).toBe('too-far');
   });
 });
 
@@ -83,5 +83,12 @@ describe('placesNearby (first check-in offers)', () => {
     expect(placesNearby(null, [place])).toEqual([]);
     expect(placesNearby(at(5, 500), [place])).toEqual([]);
     expect(isNearEnough(at(5, 500), place)).toBe(false);
+  });
+});
+
+describe('the phone and the server agree on the check-in area', () => {
+  it('never refuses a visit the server would verify: a park gets the 150 m area, a resort its own 400 m', () => {
+    expect(radiusFor({ lat: 0, lng: 0, categories: ['parks-nature'] })).toBeGreaterThanOrEqual(150);
+    expect(radiusFor({ lat: 0, lng: 0, checkInRadiusMeters: 400, categories: ['food'] })).toBe(400);
   });
 });

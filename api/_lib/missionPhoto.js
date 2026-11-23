@@ -2,7 +2,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 import { photoMatchesMission, isStoragePhotoUrl } from './photoCheck.js';
 import { canonicalRegionId, getLandmark, getRegion } from '../../src/data/regions.js';
-import { isRealCheckin } from '../../src/lib/realCheckin.js';
+import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 import { MISSION_POINTS } from './missionAnswer.js';
 
 // Photo missions (owner, 2026-11-22). Until now the phone only checked where
@@ -20,7 +20,7 @@ const photosOf = (d) => [...(Array.isArray(d?.photoURLs) ? d.photoURLs : []), ..
 // Pure: whether this photo can be checked at all, before asking Claude.
 export function missionPhotoPrecheck({ mission, checkins, photoURL, previous }) {
   if (mission?.type !== 'photo') return { awarded: 0, reason: 'no-photo-mission' };
-  if (!checkins.some((c) => isRealCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
+  if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
   if (previous?.passed) return { awarded: 0, reason: 'already', passed: true };
   if (!isStoragePhotoUrl(photoURL) || !checkins.some((c) => photosOf(c).includes(photoURL))) return { awarded: 0, reason: 'not-your-photo' };
   return null;

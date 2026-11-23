@@ -13,6 +13,8 @@ vi.mock('../lib/landmarkRatings', () => ({ loadLandmarkRatings: (...a) => load(.
 const why = vi.fn(async (stops) => Object.fromEntries(stops.map((s) => [`${s.regionId}/${s.id}`, ["I'd start here.", "You'll love the view.", "It's worth the walk."]])));
 vi.mock('../lib/whyGoApi', () => ({ loadWhyGo: (...a) => why(...a), whyKey: (s) => `${s?.regionId ?? s?.region}/${s?.id}` }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null }) }));
+// Layout only: the GPS gate (on since 2026-11-23) is tested in checkinRules.test.js.
+vi.mock('../lib/checkinRules', async (orig) => ({ ...(await orig()), checkinBlockReason: () => null }));
 
 let container;
 afterEach(() => {

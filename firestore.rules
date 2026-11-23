@@ -112,12 +112,6 @@ service cloud.firestore {
     function locationOnlyRemoved(k) {
       return !(k in request.resource.data) || request.resource.data[k] == resource.data.get(k, null);
     }
-    // checkin_payouts/{uid} does not exist before this write and names this
-    // check-in after it.
-    function checkinPayoutClaimedNow(checkinId) {
-      let path = /databases/$(database)/documents/checkin_payouts/$(request.auth.uid);
-      return !exists(path) && existsAfter(path) && getAfter(path).data.checkinId == checkinId;
-    }
     // Who may read someone's check-ins (discovery network plan v2, Phase 2):
     // the owner, a friend, or anyone signed in when the owner's profile is
     // public, and never across a block either way (a block leaves the
@@ -167,24 +161,15 @@ service cloud.firestore {
         // 'unverified' and never `presence` (keys list above), which
         // api/verify-checkin.js writes with the Admin SDK.
         && request.resource.data.get('verification', 'unverified') == 'unverified'
-        && request.resource.data.points is number
-        && request.resource.data.points >= 0
-        && request.resource.data.points <= maxPointsPerWrite()
-        // Points pay once per account (claimCheckIn pays only the first real
-        // check-in): a paying check-in must create checkin_payouts/{uid},
-        // naming itself, in the same write. Before, every new landmark id
-        // could mint another 100.
-        && (request.resource.data.points == 0 || checkinPayoutClaimedNow(checkinId))
+        // A phone saves every check-in at 0 points (owner, 2026-11-23). The
+        // server pays, only for a visit it verified (api/verify-checkin.js,
+        // api/_lib/checkinPayout.js, Admin SDK). Before, a phone could
+        // write its own 100 with any place id, from anywhere.
+        && request.resource.data.points == 0
         && request.resource.data.get('basePoints', 0) is number
         && request.resource.data.get('basePoints', 0) <= maxPointsPerWrite()
-        // Payout follows the same taper claimCheckIn applies (full on visit
-        // 1, 20% on visits 2-5, 0 after), and a rating-only claim pays 0.
         && request.resource.data.get('visitNumber', 1) is number
         && request.resource.data.get('visitNumber', 1) >= 1
-        && request.resource.data.points <= (request.resource.data.get('visitNumber', 1) <= 1
-             ? maxPointsPerWrite()
-             : (request.resource.data.get('visitNumber', 1) <= 5 ? 20 : 0))
-        && (request.resource.data.get('ratingOnly', false) != true || request.resource.data.points == 0)
         && request.resource.data.get('userName', '') is string
         && request.resource.data.get('userName', '').size() <= 200
         && request.resource.data.createdAt == request.time;
@@ -222,9 +207,6 @@ service cloud.firestore {
     match /presence_state/{uid} {
       allow read, write: if false;
     }
-    // The one check-in payout an account ever gets. Created by the owner in
-    // the same write as the paying check-in it names (claimCheckIn), never
-    // changed or removed, so a second paying check-in is impossible.
     match /onboarding_payouts/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == uid
@@ -232,16 +214,11 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update, delete: if false;
     }
+    // The one check-in payout an account ever gets, written only by the
+    // server when it pays a verified visit (api/_lib/checkinPayout.js).
     match /checkin_payouts/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
-      allow create: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['checkinId', 'createdAt'])
-        && request.resource.data.checkinId is string
-        && request.resource.data.checkinId.split('_')[0] == uid
-        && !exists(/databases/$(database)/documents/checkins/$(request.resource.data.checkinId))
-        && getAfter(/databases/$(database)/documents/checkins/$(request.resource.data.checkinId)).data.points > 0
-        && request.resource.data.createdAt == request.time;
-      allow update, delete: if false;
+      allow write: if false;
     }
     // Photo bonus ledgers (api/_lib/photoBonus.js): one doc per place paid,
     // a per-day count, and the photos already checked. Written only by that server function (Admin SDK);
@@ -281,23 +258,17 @@ service cloud.firestore {
     match /photo_bonus_checks/{id} {
       allow read, write: if false;
     }
-    // A leaderboard entry rises only by a payout made in the same write:
-    // the account's one paying check-in (checkin_payouts/{uid}, created now,
-    // owner-read, naming a check-in of yours for exactly that many points),
-    // or a bonusPoints rise on your profile of exactly that many points
+    // A leaderboard entry rises from a phone only by a bonusPoints rise on
+    // your profile of exactly that many points made in the same write
     // (onboarding or referral bonus; the users rule decides when those are
     // allowed). The proof used to be `lastCheckinId` on the entry itself,
     // which is public: anyone could watch where and when each account
     // checked in (Phase 2). Builds from before still send it; it's allowed
     // but proves nothing, and the nightly job removes it.
+    // Check-in points reach the boards only from the server now
+    // (api/_lib/checkinPayout.js), so a phone's rise must be a bonus.
     function leaderboardRiseOk(delta) {
-      return delta == 0 || payoutPaidNow(delta) || bonusPaidNow(delta);
-    }
-    function payoutPaidNow(delta) {
-      let payout = /databases/$(database)/documents/checkin_payouts/$(request.auth.uid);
-      return !exists(payout) && existsAfter(payout)
-        && getAfter(/databases/$(database)/documents/checkins/$(getAfter(payout).data.checkinId)).data.userId == request.auth.uid
-        && getAfter(/databases/$(database)/documents/checkins/$(getAfter(payout).data.checkinId)).data.points == delta;
+      return delta == 0 || bonusPaidNow(delta);
     }
     function bonusPaidNow(delta) {
       let path = /databases/$(database)/documents/users/$(request.auth.uid);

@@ -35,6 +35,8 @@ async function renderIt({ props = {}, ratings = {} } = {}) {
     }),
   }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, refresh: vi.fn(), refreshing: false }) }));
+  // Layout only: the GPS gate is tested in checkinRules.test.js.
+  vi.doMock('../lib/checkinRules', async (orig) => ({ ...(await orig()), checkinBlockReason: () => null }));
   vi.doMock('../lib/useCheckIn', () => ({
     useCheckIn: () => ({ user: { uid: 'me', email: 'me@x.com' }, firebaseEnabled: true, claimedMap: {}, checkingIn: null, checkIn }),
   }));

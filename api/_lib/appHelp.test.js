@@ -40,7 +40,7 @@ describe('APP_HELP stays in sync with code constants', () => {
   });
   it('quotes the check-in radius and first-visit points', () => {
     expect(APP_HELP).toContain(`radius is ${CHECKIN_RADIUS_METERS} m`);
-    expect(APP_HELP).toContain(`${POINTS_PER_CHECKIN} points on the 1st visit`);
+    expect(APP_HELP).toContain(`${POINTS_PER_CHECKIN} points on the 1st verified visit`);
   });
   it('quotes the taste score window, minimum, cap and perfect run', () => {
     expect(APP_HELP).toContain(`last ${TASTE_WINDOW} such guesses`);

@@ -1,6 +1,7 @@
 import { Geolocation } from '@capacitor/geolocation';
 import { API_BASE } from './apiBase';
 import { authHeaders } from './apiAuth';
+import { dayKey } from './streaks';
 
 // Asks the server to verify a check-in that was just saved
 // (api/verify-checkin.js, docs/discovery-network-plan.md Phase 0). Takes a
@@ -35,7 +36,8 @@ export async function verifyCheckinPresence(
     const r = await fetchImpl(`${API_BASE}/api/verify-checkin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-      body: JSON.stringify({ checkinId, fix }),
+      // dayId: the boards a paid check-in counts on (the caller's own day).
+      body: JSON.stringify({ checkinId, fix, dayId: dayKey(new Date()) }),
       signal: controller?.signal,
     });
     if (!r.ok) return null;

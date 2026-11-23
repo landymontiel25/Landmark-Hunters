@@ -38,12 +38,12 @@ describe('the Alhambra Water Tower bonus', () => {
     const special = { bonusPoints: 1000 };
     expect(landmarkBonusDecision({ special: null, checkins: [], paid: false }).reason).toBe('not-special');
     expect(landmarkBonusDecision({ special, checkins: [{ ratingOnly: true }], paid: false }).reason).toBe('no-checkin');
-    expect(landmarkBonusDecision({ special, checkins: [{ visited: true }], paid: true }).reason).toBe('already');
-    expect(landmarkBonusDecision({ special, checkins: [{ visited: true }], paid: false })).toEqual({ awarded: 1000 });
+    expect(landmarkBonusDecision({ special, checkins: [{ visited: true, presence: { verified: true } }], paid: true }).reason).toBe('already');
+    expect(landmarkBonusDecision({ special, checkins: [{ visited: true, presence: { verified: true } }], paid: false })).toEqual({ awarded: 1000 });
   });
 
   it('pays 1,000 once for a real check-in: lifetime points and the boards', async () => {
-    const db = fakeDb({ [`checkins/u_${TOWER}`]: { userId: 'u', userName: 'Alex', landmarkId: TOWER, region: 'miami', visited: true, points: 0 } });
+    const db = fakeDb({ [`checkins/u_${TOWER}`]: { userId: 'u', userName: 'Alex', landmarkId: TOWER, region: 'miami', visited: true, points: 0, presence: { verified: true } } });
     expect((await awardLandmarkBonus(db, 'u', 'miami', TOWER, '2026-9-21')).awarded).toBe(1000);
     expect(db.docs.get('users/u').bonusPoints).toBe(1000);
     expect([...db.docs.keys()].filter((k) => k.startsWith('leaderboard_entries/'))).toHaveLength(3);
@@ -56,5 +56,13 @@ describe('the Alhambra Water Tower bonus', () => {
     expect((await awardLandmarkBonus(db, 'u', 'miami', TOWER, '2026-9-21')).reason).toBe('no-checkin');
     expect((await awardLandmarkBonus(db, 'u', 'miami', 'some-place', '2026-9-21')).reason).toBe('not-special');
     expect(db.docs.has('users/u')).toBe(false);
+  });
+});
+
+describe('the Alhambra Water Tower bonus needs a verified visit', () => {
+  it('an unverified check-in (a fake one, or GPS that never confirmed it) gets nothing', () => {
+    const special = { bonusPoints: 1000 };
+    expect(landmarkBonusDecision({ special, checkins: [{ visited: true }], paid: false }).reason).toBe('no-checkin');
+    expect(landmarkBonusDecision({ special, checkins: [{ visited: true, presence: { verified: false, reason: 'too-far' } }], paid: false }).reason).toBe('no-checkin');
   });
 });

@@ -3,6 +3,24 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 1: check-in payouts on the server (2026-11-23)
+
+- **Done.** The phone saves every check-in at 0 points (rules: points == 0;
+  checkin_payouts and check-in leaderboard rises are server-only). The
+  server pays the account's one-time 100 in api/verify-checkin.js
+  (api/_lib/checkinPayout.js) only after it verifies the visit against the
+  place it loads itself (catalog, packs, custom; an unknown id is 'no-place').
+  Landmark bonus, trivia, photo missions and the photo bonus (and its
+  back-pay) require `presence.verified` (realCheckin.js isVerifiedCheckin).
+  REQUIRE_GPS_CHECKIN is on again; the phone's radius and accuracy now match
+  the server's (checkinRules.js radiusFor/maxAccuracyFor), and the server
+  honours a place's own checkInRadiusMeters (capped at 1 km).
+- **Still open.** A GPS fix is only as honest as the phone: a spoofed
+  location that looks plausible (fresh, accurate, no impossible travel) still
+  verifies. App Check and device attestation are audit item 5. Custom
+  landmarks still verify (moderation is item 6). Accounts paid under the old
+  client rule are never paid again (a check-in with points, or the marker).
+
 ## Itinerary sort, travel modes, route Save, loud Select All, pin to page (2026-11-23)
 
 - **Sort** (ItinerarySort.jsx, routing.js orderStops): Nearest to Me is now a

@@ -7,6 +7,8 @@ import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { checkPresence, validFix } from '../src/lib/presence.js';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
+import { validClientDayKey } from './_lib/streakDay.js';
+import { payVerifiedCheckin } from './_lib/checkinPayout.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the
@@ -17,8 +19,10 @@ import { toMs } from './_lib/time.js';
 // verified fix to presence_state/{uid} (impossible-travel check); both are
 // server-only.
 //
-// The check-in never waits for this: a failed or skipped call leaves an
-// unverified check-in, which still counts for streaks and badges.
+// It is also the only place check-in points are paid (checkinPayout.js):
+// a verified visit, at a place the server itself loaded from the catalog
+// (an unknown place id can't be verified: 'no-place'), pays the account's
+// one-time check-in points. An unverified check-in pays nothing, anywhere.
 
 export const VERIFY_RATE_LIMIT = { limit: 30, windowMs: 60 * 60 * 1000 };
 
@@ -34,6 +38,8 @@ async function loadPlace(db, region, landmarkId) {
   return snap.exists ? snap.data() : null;
 }
 
+const serverDayKey = (d = new Date()) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -48,7 +54,7 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { checkinId, fix } = req.body || {};
+  const { checkinId, fix, dayId } = req.body || {};
   if (typeof checkinId !== 'string' || !/^[\w.-]{1,300}$/.test(checkinId) || !validFix(fix)) {
     res.status(400).json({ error: 'checkinId and a GPS fix are required.' });
     return;
@@ -73,7 +79,7 @@ async function handler(req, res) {
     }
     // Once verified, it stays verified; a retry can't change it.
     if (checkin.presence?.verified === true) {
-      res.status(200).json({ ok: true, verified: true, reason: null, already: true });
+      res.status(200).json({ ok: true, verified: true, reason: null, already: true, awarded: 0 });
       return;
     }
 
@@ -115,7 +121,19 @@ async function handler(req, res) {
     }
     await batch.commit();
 
-    res.status(200).json({ ok: true, verified: result.verified, reason: result.reason });
+    // Paid only now, after the verified presence is saved. The board day is
+    // the caller's own day, checked; anything else falls back to today.
+    let awarded = 0;
+    if (result.verified) {
+      const day = validClientDayKey(dayId) || validClientDayKey(serverDayKey());
+      const paid = await payVerifiedCheckin(db, account.uid, checkinId, day).catch((e) => {
+        console.error('verify-checkin payout failed', e);
+        return { awarded: 0 };
+      });
+      awarded = paid.awarded || 0;
+    }
+
+    res.status(200).json({ ok: true, verified: result.verified, reason: result.reason, awarded });
   } catch (err) {
     console.error('verify-checkin failed', err);
     res.status(500).json({ error: 'Could not verify this check-in.' });

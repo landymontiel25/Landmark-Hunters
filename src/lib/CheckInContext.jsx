@@ -176,25 +176,28 @@ export function CheckInProvider({ children }) {
         setClaimedMap((m) => ({ ...m, [landmark.id]: true }));
         setCheckinTick((t) => t + 1);
       }
+      // The server verifies the visit and is the only one that pays
+      // (api/verify-checkin.js): the check-in waits for its answer (at most
+      // VERIFY_TIMEOUT_MS) so the points shown are the points paid.
+      let paid = 0;
       if (!ratingOnly && result.claimed && result.checkinId) {
         // A verified result belongs to one check-in: a new one clears it, and
         // only the newest check-in's answer may land.
         setPresenceResult(null);
         const checkinId = result.checkinId;
         latestCheckinId.current = { ...latestCheckinId.current, [landmark.id]: checkinId };
-        verifyCheckinPresence(checkinId).then((v) => {
-          // A late answer for an earlier check-in at the same place never
-          // lands on a newer one there.
-          if (v && latestCheckinId.current[landmark.id] === checkinId) {
-            setPresenceResult({ checkinId, landmarkId: landmark.id, ...v });
-            setCheckinTick((t) => t + 1);
-          }
-        });
+        const v = await verifyCheckinPresence(checkinId);
+        // A late answer for an earlier check-in at the same place never
+        // lands on a newer one there.
+        if (v && latestCheckinId.current[landmark.id] === checkinId) {
+          setPresenceResult({ checkinId, landmarkId: landmark.id, ...v });
+          setCheckinTick((t) => t + 1);
+          paid = Number(v.awarded) || 0;
+        }
       }
-      // Celebrate off the actual payout, not the base point value -- a
-      // home-radius or 6th+ repeat visit pays 0 and has nothing to celebrate.
-      if (result.claimed && result.payout > 0) {
-        setCelebration(buildCelebration(result.payout));
+      // Celebrate off what the server paid, never the base point value.
+      if (result.claimed && paid > 0) {
+        setCelebration(buildCelebration(paid));
       } else if (!ratingOnly) {
         // Paid nothing (6th+ repeat visit, or a duplicate claim): record that
         // explicitly so the success panel doesn't fall back to showing the
@@ -207,7 +210,7 @@ export function CheckInProvider({ children }) {
       if (!ratingOnly && result.claimed && shouldPromptLoveReason(result.visitNumber)) {
         setLoveReasonPrompt({ landmark, visitNumber: result.visitNumber });
       }
-      return result;
+      return { ...result, payout: paid };
     } finally {
       setCheckingIn(null);
     }

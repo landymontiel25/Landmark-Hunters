@@ -16,6 +16,9 @@ afterEach(() => {
 
 async function setup() {
   vi.doMock('./AuthContext', () => ({ useAuth: () => authState }));
+  // Account switching only: the GPS gate is tested in checkinRules.test.js.
+  vi.doMock('./checkinRules', async (orig) => ({ ...(await orig()), checkinBlockReason: () => null }));
+  vi.doMock('./verifyPresence', () => ({ verifyCheckinPresence: async () => null }));
   vi.doMock('./FriendsContext', () => ({ useFriends: () => ({ myUsername: 'me', myProfile: {} }) }));
   vi.doMock('./leaderboard', () => ({
     claimCheckIn: vi.fn(async () => ({ claimed: true, alreadyClaimed: false, payout: 100, visitNumber: 1 })),

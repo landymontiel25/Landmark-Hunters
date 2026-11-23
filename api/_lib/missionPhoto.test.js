@@ -34,7 +34,7 @@ function fakeDb(initial = {}) {
 
 const FLOOR = 'https://firebasestorage.googleapis.com/v0/b/app/o/floor.jpg?alt=media';
 const MARINA = 'https://firebasestorage.googleapis.com/v0/b/app/o/marina.jpg?alt=media';
-const visit = { userId: 'u', userName: 'u', landmarkId: 'abaco-beach-resort', region: 'abacos', ratingOnly: false, visited: true, photoURLs: [FLOOR, MARINA] };
+const visit = { userId: 'u', userName: 'u', landmarkId: 'abaco-beach-resort', region: 'abacos', ratingOnly: false, visited: true, presence: { verified: true }, photoURLs: [FLOOR, MARINA] };
 const setup = () => fakeDb({ 'checkins/u_abaco-beach-resort': visit });
 // Stands in for Claude: a floor isn't the mission, the marina shot is.
 const check = vi.fn(async ({ url, mission }) => (url === MARINA && /marina/.test(mission) ? { ok: true, reason: 'The marina, boats and beach.' } : { ok: false, reason: 'A tiled floor.' }));

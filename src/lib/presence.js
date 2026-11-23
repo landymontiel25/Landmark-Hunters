@@ -8,6 +8,9 @@
 // tune them on real phones in the week after Phase 0 ships.
 import { haversineMeters } from './haversine.js';
 
+// The most any place's own check-in area can stretch verification.
+export const PRESENCE_MAX_RADIUS_METERS = 1000;
+
 export const PRESENCE_LIMITS = {
   landmark: { radiusMeters: 30, maxAccuracyMeters: 50 }, // statue, building, single landmark
   indoor: { radiusMeters: 60, maxAccuracyMeters: 100 }, // museum or indoor site
@@ -79,7 +82,12 @@ export function validFix(fix) {
 // null on a pass. Order matters: the first failing check is the reason shown.
 export function checkPresence({ place, fix, nowMs, checkinAtMs, last = null }) {
   const placeType = placeTypeFor(place);
-  const { radiusMeters, maxAccuracyMeters } = PRESENCE_LIMITS[placeType];
+  const limits = PRESENCE_LIMITS[placeType];
+  // A place with its own check-in area (a 400 m resort, a big park) is
+  // verified across all of it, never less than its type allows; capped.
+  const own = Number.isFinite(place?.checkInRadiusMeters) && place.checkInRadiusMeters > 0 ? Math.min(place.checkInRadiusMeters, PRESENCE_MAX_RADIUS_METERS) : 0;
+  const radiusMeters = Math.max(limits.radiusMeters, own);
+  const maxAccuracyMeters = limits.maxAccuracyMeters;
   const out = (reason, extra = {}) => ({ verified: reason == null, reason, placeType, distanceMeters: null, accuracyMeters: null, ...extra });
   if (!finite(place?.lat) || !finite(place?.lng)) return out('no-place');
   if (!validFix(fix)) return out('no-location');

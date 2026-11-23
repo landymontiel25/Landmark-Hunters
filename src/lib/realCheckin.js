@@ -9,6 +9,14 @@ export function isRealCheckin(x) {
   return x.points !== 0;
 }
 
+// A real visit the server verified (api/verify-checkin.js wrote
+// presence.verified from the GPS fix). The only kind of check-in that pays
+// anything, anywhere (owner, 2026-11-23): the one-time check-in points, a
+// place's bonus, trivia, photo missions, the photo bonus.
+export function isVerifiedCheckin(x) {
+  return !!x && isRealCheckin(x) && x.presence?.verified === true;
+}
+
 // Local calendar day of a check-in ("2026-9-14"), or null while its
 // createdAt is still pending.
 const secondsOf = (x) => (Number.isFinite(x?.createdAt?.seconds) ? x.createdAt.seconds : Number.isFinite(x?.createdAt) ? x.createdAt : null);

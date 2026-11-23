@@ -1,5 +1,5 @@
 import { awardPhotoBonus, CHECKED_FIELD } from './photoBonus.js';
-import { isRealCheckin } from '../../src/lib/realCheckin.js';
+import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 
 // The one-time back-pay (owner, 2026-10-21): +10 per place for everyone who
 // added a photo before the photo bonus existed, with the same rules and the
@@ -14,11 +14,11 @@ const CONCURRENCY = 4;
 
 const photosOf = (d) => [...(Array.isArray(d?.photoURLs) ? d.photoURLs : []), ...(d?.photoURL ? [d.photoURL] : [])];
 
-// Pure: every (user, place) with a photo on a real check-in, or on a rating
-// of a place the user really checked in to, minus places already paid, in a
+// Pure: every (user, place) with a photo on a verified check-in, or on a
+// rating of a place the user had a verified visit to, minus places already paid, in a
 // stable order.
 export function backfillCandidates({ checkins, reviews, paidIds }) {
-  const real = (c) => isRealCheckin(c);
+  const real = (c) => isVerifiedCheckin(c);
   const visited = new Set(checkins.filter(real).map((c) => `${c.userId}_${c.landmarkId}`));
   const keys = new Map();
   const add = (userId, landmarkId) => {
@@ -33,7 +33,7 @@ export function backfillCandidates({ checkins, reviews, paidIds }) {
 
 export async function runPhotoBonusBackfill(db, { limit = BACKFILL_PLACES_PER_RUN, award = awardPhotoBonus } = {}) {
   const [checkinSnap, reviewSnap, paidSnap, checkSnap] = await Promise.all([
-    db.collection('checkins').select('userId', 'landmarkId', 'photoURLs', 'photoURL', 'ratingOnly', 'visited').get(),
+    db.collection('checkins').select('userId', 'landmarkId', 'photoURLs', 'photoURL', 'ratingOnly', 'visited', 'presence').get(),
     db.collection('reviews').select('userId', 'landmarkId', 'photoURLs', 'photoURL').get(),
     db.collection('photo_bonuses').select().get(),
     db.collection('photo_bonus_checks').get(),

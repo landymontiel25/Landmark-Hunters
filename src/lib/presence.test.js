@@ -105,3 +105,16 @@ describe('presenceLabel', () => {
     expect(presenceLabel(null)).toBe(null);
   });
 });
+
+describe('a place with its own check-in area', () => {
+  it('verifies across all of it (the resort is 400 m), capped at 1 km', () => {
+    const now = Date.now();
+    const resort = { lat: 26.5462522, lng: -77.046387, categories: ['food'], checkInRadiusMeters: 400 };
+    const fix = { lat: 26.5462522 + 300 / 111195, lng: -77.046387, accuracy: 10, timestamp: now };
+    expect(checkPresence({ place: resort, fix, nowMs: now, checkinAtMs: now }).verified).toBe(true);
+    const far = { ...fix, lat: 26.5462522 + 450 / 111195 };
+    expect(checkPresence({ place: resort, fix: far, nowMs: now, checkinAtMs: now }).reason).toBe('too-far');
+    const huge = { ...resort, checkInRadiusMeters: 50000 };
+    expect(checkPresence({ place: huge, fix: { ...fix, lat: 26.5462522 + 2000 / 111195 }, nowMs: now, checkinAtMs: now }).reason).toBe('too-far');
+  });
+});
