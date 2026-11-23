@@ -3,6 +3,17 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Mission photo check: Haiku, looser, two-bullet refusals (2026-11-23)
+
+- **Done, verified live.** photoMatchesMission runs on claude-haiku-4-5
+  (aiModels.js MISSION_PHOTO_CHECK_MODEL; no effort param on Haiku). The
+  photo bonus check stays on PHOTO_CHECK_MODEL. A photo passes when it
+  shows the mission's main subject (the marina and boats) even if another
+  named thing (the beach) is missing. A refusal is two bullets, "Missing:"
+  and "You took:" (MISSION_VERDICT_FORMAT, MissionPanel). Live: the
+  owner's real marina photo passed (+10); a gray test photo got the two
+  bullets, in light and dark.
+
 ## Photo checks failing on Opus 5.5 (fixed 2026-11-23)
 
 - **Done, verified live.** Two causes in turn: the Anthropic org behind
