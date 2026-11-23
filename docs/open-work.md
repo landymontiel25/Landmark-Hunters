@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Mission start after an earlier check-in (2026-11-23)
+
+- **Done, verified live.** Any real check-in at a place opens its mission
+  (MissionPanel `checkedIn`): straight to "Take mission photo" or the trivia
+  question, no check-in prompt. After an earlier day's check-in the photo
+  must be taken there after the tap. Live: a test account checked in
+  yesterday at Abaco Beach Resort saw the button, the camera opened, and the
+  photo reached the server, whose AI check failed only on Anthropic credits.
+
 ## Anti-farming 9: validation tightening (2026-11-23)
 
 - **Done.** Field allowlists and sizes on the collections that had none:
