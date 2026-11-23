@@ -3,6 +3,25 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 7: privacy (2026-11-23)
+
+- **Done.** storage.rules: check-in and rating photos are readable only by
+  their owner, the admin, a friend, or anyone when the owner's profile is
+  public, never across a block (canSeePhotosOf, cross-service Firestore
+  reads). The nightly job moves private fields still on old public profiles
+  (email, home, last location, push tokens, notification prefs) into
+  users/{uid}/private/main (api/_lib/privateProfileBackfill.js); one account
+  had one (a demo account's email). Pending landmarks are no longer listed
+  to everyone (item 6 rules).
+- **Note.** A saved download URL carries its own token and bypasses
+  Storage rules; those URLs are only handed out through check-ins and
+  ratings, whose own read rules are gated.
+- **Owner step if friends can't see photos.** Storage rules that read
+  Firestore need the Storage service agent to have Firestore access (the
+  Firebase console offers it on the Storage Rules page). Without it, a
+  friend's or public profile's photo reads are refused (fails closed);
+  owners still read their own.
+
 ## Anti-farming 6: landmarks (2026-11-23)
 
 - **Done.** User-added landmarks are moderated: src/lib/landmarkApproval.js

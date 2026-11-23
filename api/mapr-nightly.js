@@ -3,6 +3,7 @@ import { adminDb, SERVICE_ACCOUNT_MISSING } from './_lib/firebaseAdmin.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { loadStatsData } from './_lib/statsData.js';
 import { runDaily, runWeekly } from './_lib/maprNightly.js';
+import { backfillPrivateProfiles } from './_lib/privateProfileBackfill.js';
 import { RETRAIN_WEEKDAY } from '../src/lib/maprRank/config.js';
 
 // Mapr Phase 1 nightly job (vercel.json "crons", 00:23 UTC). Same guard as
@@ -46,11 +47,15 @@ export default async function handler(req, res) {
       }
     }
     const daily = await runDaily(db, { now, ds });
+    // Private fields still on old public profiles move to the private doc
+    // (anti-farming item 7). Never fails the night's report.
+    const privacy = await backfillPrivateProfiles(db).catch((e) => ({ error: String(e?.message || e) }));
+    if (privacy?.moved) console.log(JSON.stringify({ type: 'private_profile_backfill', ...privacy }));
     if (weeklyError) {
       res.status(500).json({ error: 'The Mapr weekly models failed; the daily report ran.', daily, truncated: ds.truncated });
       return;
     }
-    res.status(200).json({ ok: true, daily, models, truncated: ds.truncated });
+    res.status(200).json({ ok: true, daily, models, privacy, truncated: ds.truncated });
   } catch (e) {
     const msg = String(e?.message || e);
     if (msg.includes(SERVICE_ACCOUNT_MISSING)) {

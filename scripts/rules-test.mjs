@@ -932,11 +932,22 @@ await t('only the photo\'s owner or the admin can take it down', async () => {
 
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
-await t('storage: signed-in can get a known file but cannot list a folder', async () => {
+await t('storage: exploit: a stranger can no longer read your check-in and rating photos; you, friends and (public profile) anyone can', async () => {
   await env.withSecurityRulesDisabled(async (c) => {
     await uploadBytes(ref(c.storage(), 'review_photos/lm/ann.jpg'), new Uint8Array([1, 2, 3]), { contentType: 'image/jpeg' });
+    await uploadBytes(ref(c.storage(), 'checkin_photos/lm/ann_123.jpg'), new Uint8Array([1, 2, 3]), { contentType: 'image/jpeg' });
+    await setDoc(doc(c.firestore(), 'users/ann'), { uid: 'ann', public: false });
+    await setDoc(doc(c.firestore(), 'friend_edges/fran_ann'), { from: 'fran', to: 'ann' });
   });
+  await assertFails(getBytes(ref(stor('bob'), 'review_photos/lm/ann.jpg')));
+  await assertFails(getBytes(ref(stor('bob'), 'checkin_photos/lm/ann_123.jpg')));
+  await assertSucceeds(getBytes(ref(stor('ann'), 'checkin_photos/lm/ann_123.jpg')));
+  await assertSucceeds(getBytes(ref(stor('fran'), 'checkin_photos/lm/ann_123.jpg')));
+  await env.withSecurityRulesDisabled((c) => setDoc(doc(c.firestore(), 'users/ann'), { uid: 'ann', public: true }));
   await assertSucceeds(getBytes(ref(stor('bob'), 'review_photos/lm/ann.jpg')));
+  await env.withSecurityRulesDisabled((c) => setDoc(doc(c.firestore(), 'blocks/ann_bob'), { from: 'ann', to: 'bob' }));
+  await assertFails(getBytes(ref(stor('bob'), 'review_photos/lm/ann.jpg')));
+  await env.withSecurityRulesDisabled((c) => deleteDoc(doc(c.firestore(), 'blocks/ann_bob')));
   await assertFails(listAll(ref(stor('bob'), 'review_photos/lm')));
   await assertFails(getBytes(ref(env.unauthenticatedContext().storage(), 'review_photos/lm/ann.jpg')));
   await assertSucceeds(uploadBytes(ref(stor('bob'), 'review_photos/lm/bob.jpg'), new Uint8Array([1]), { contentType: 'image/jpeg' }));

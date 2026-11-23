@@ -38,7 +38,7 @@ function userError(message) {
 // push tokens. Everything here that reads or writes one of those goes
 // through privateRef; the app's own profile reads (FriendsContext) merge it
 // back in so screens still see myProfile.homeCoords and friends.
-export const PRIVATE_PROFILE_FIELDS = ['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens'];
+export const PRIVATE_PROFILE_FIELDS = ['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'notificationPrefs'];
 const privateRef = (uid) => doc(db, 'users', uid, 'private', 'main');
 
 // Live subscription to your own private doc (never call it for anyone else's
