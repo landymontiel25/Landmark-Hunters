@@ -101,9 +101,12 @@ export const FREQUENCY_MULTIPLIER = { 'not-often': 1, sometimes: 1.3, 'a-lot': 1
 // WOULD_RETURN_WEIGHT -- big enough that a clear "Yes!" or "Never again" can
 // turn the combined delta's sign around even against an opposite tier (loved
 // a bucket-list stop you'd never make again is still a "don't send me more
-// of these"). "Probably not", the mild middle option, is 0 and leaves the
-// tier's own effect alone.
-export const WOULD_RETURN_DELTAS = { yes: RATING_TAG_DELTA.positive, 'probably-not': 0, 'never-again': RATING_TAG_DELTA.negative };
+// of these"). "Probably not" counts too (owner, 2026-11-23: prioritize
+// "Would you come back?"; asked 2026-11-18): a real step away from places
+// like it, half of "Never again". A rating already applied keeps the
+// delta it was applied with (maprLearning stores it), so this only moves
+// new answers.
+export const WOULD_RETURN_DELTAS = { yes: RATING_TAG_DELTA.positive, 'probably-not': RATING_TAG_DELTA.negative / 2, 'never-again': RATING_TAG_DELTA.negative };
 export const WOULD_RETURN_WEIGHT = 2;
 
 // The one tag delta a rating puts on the scale: the tier's own delta plus

@@ -354,7 +354,12 @@ Done:
   new accounts, one tap or Skip, saved to `users/{uid}/private/main`
   (`heardFrom`, `heardFromAt`). Not shown on the admin dashboard yet.
 
-## Mapr: weigh "Would you come back?" and the reasons most (asked 2026-11-18, not started)
+## Mapr: weigh "Would you come back?" and the reasons most (asked 2026-11-18, part done)
+
+- **Done 2026-11-23:** "Probably not" is now a step away (half of "Never
+  again", tagScores.WOULD_RETURN_DELTAS); "How often do you come here?" was
+  removed from the rating (older answers still count as before). Still to
+  do: the loved / let-down aspects below.
 
 Asked: make "Would you come back?" the strongest signal (Yes! strongly
 favor, Probably not strongly avoid, Never again never pick a place like it),

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   TIERS,
   WOULD_RETURN,
-  FREQUENCIES,
   MAX_ASPECTS,
   COMMENT_MAX,
   aspectsFor,
@@ -67,7 +66,6 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   const patch = (fields) => setDraft((cur) => ({ ...cur, ...fields }));
   const setLovedOrder = (list) => patch({ lovedOrder: list });
   const setDislikedOrder = (list) => patch({ dislikedOrder: list });
-  const pickFrequency = (id) => patch({ visitFrequency: visitFrequency === id ? null : id });
   const pickWouldReturn = (id) => patch({ wouldReturn: wouldReturn === id ? null : id });
   // Free text, optional: the one place to say what the chips can't. Mapr
   // reads it alongside the chips when learning what you like.
@@ -171,9 +169,11 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
         ))}
       </div>
 
-      {/* Mapr's strongest signal for the next picks (owner, 2026-11-17):
-          stronger than the tier above it. A clear "Yes!" or "Never again"
-          can turn around what the tier alone would have said. */}
+      {/* Mapr's strongest signal for the next picks (owner, 2026-11-17),
+          right under the tier question ("Do you like the outdoors here?"
+          and the like), its second (owner, 2026-11-23: these two first).
+          A clear "Yes!" or "Never again" can turn around what the tier
+          alone would have said. */}
       {tier && (
         <div style={{ marginTop: 14 }}>
           <p className="rating-flow-question">Would you come back?</p>
@@ -194,26 +194,9 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
         </div>
       )}
 
-      {tier && (
-        <div style={{ marginTop: 14 }}>
-          <p className="rating-flow-label rating-flow-label-frequency">
-            {'\u{1F551}'} How often do you come here? <span>optional, tap again to clear</span>
-          </p>
-          <div className="rating-chip-row">
-            {FREQUENCIES.map((f) => (
-              <button
-                key={f.id}
-                type="button"
-                className={`tag rating-chip ${visitFrequency === f.id ? 'selected' : ''}`}
-                aria-pressed={visitFrequency === f.id}
-                onClick={() => pickFrequency(f.id)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* "How often do you come here?" is gone (owner, 2026-11-23): the two
+          questions above it are the ones that count. An older rating keeps
+          the answer it has. */}
 
       {showLoved &&
         rankList({

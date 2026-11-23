@@ -114,3 +114,12 @@ describe('RatingFlow ranked aspects on the Ok tier', () => {
     expect(lists(skip.el)[0].textContent).toContain('What let it down?');
   });
 });
+
+describe('RatingFlow questions (owner, 2026-11-23)', () => {
+  it('a park asks "Do you like the outdoors here?" then "Would you come back?"; never "How often"', async () => {
+    const { el } = await render('parks-nature');
+    const questions = [...el.querySelectorAll('.rating-flow-question')].map((p) => p.textContent);
+    expect(questions.slice(0, 2)).toEqual(['Do you like the outdoors here?', 'Would you come back?']);
+    expect(el.textContent).not.toMatch(/How often/);
+  });
+});
