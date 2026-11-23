@@ -3,6 +3,24 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 8: rate limits, Mapr chats, group trip invites (2026-11-23)
+
+- **Done: notice rate limit.** A notice to someone else must come from you
+  (fromUid), carry only notifyUser's fields, be unread and stamped now, and
+  bump notify_gates/{uid} in the same write: 30 an hour, the window can't be
+  reset early or deleted (firestore.rules crossUserNoticeOk, notify_gates).
+- **Done: invite and accept.** A new group trip has only its owner as a
+  member; friends go in invitedUids and join only by accepting (Itinerary
+  "Trip invitations" card). Members invite one person at a time, never
+  across a block; the owner can remove members but not add them. Old trips
+  keep their members.
+- **Not done, owner decision: append-only Mapr chats.** A chat is one
+  messagesJson string; rules can't slice strings, so "only appended" can't be
+  checked, and edit-and-resend, undo marks and trimming all rewrite history.
+  Doing it needs a per-turn subcollection (mapr_chats/{id}/turns/{n}, create
+  only) and a migration. The chat doc is already members-only and capped in
+  size, so the risk is a member rewriting their own shared chat.
+
 ## Anti-farming 7: privacy (2026-11-23)
 
 - **Done.** storage.rules: check-in and rating photos are readable only by

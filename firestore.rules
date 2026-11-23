@@ -1240,6 +1240,37 @@ service cloud.firestore {
     // can see or touch it at all; only the owner can change who's a member
     // (add/remove), while any member can edit the shared landmark list --
     // two separate permissions enforced by which fields a write touches.
+    // One new invite at a time, to someone not already in the trip and not
+    // blocked either way, within the trip's size. Nobody joins until they
+    // accept, so an invite only shows them the trip's name.
+    function groupInviteOneFriend() {
+      let before = resource.data.get('invitedUids', []);
+      let after = request.resource.data.get('invitedUids', []);
+      let added = after.removeAll(before);
+      return after.hasAll(before)
+        && added.size() == 1
+        && !(added[0] in resource.data.memberUids)
+        && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + added[0]))
+        && !exists(/databases/$(database)/documents/blocks/$(added[0] + '_' + request.auth.uid))
+        && resource.data.memberUids.size() + after.size() <= 25
+        && request.resource.data.get('invitedNames', {}).diff(resource.data.get('invitedNames', {})).affectedKeys().hasOnly([added[0]]);
+    }
+    // The invited person takes themselves off the invite list, and either
+    // joins (accept) or doesn't (decline); nothing else changes.
+    function groupInviteAnswered() {
+      let me = request.auth.uid;
+      let d = request.resource.data;
+      let invited = resource.data.get('invitedUids', []);
+      return d.get('invitedUids', []) == invited.removeAll([me])
+        && (
+          (d.diff(resource.data).affectedKeys().hasOnly(['invitedUids', 'invitedNames', 'memberUids', 'memberNames'])
+            && d.memberUids == resource.data.memberUids.concat([me])
+            && d.memberUids.size() <= 25
+            && d.memberNames.diff(resource.data.memberNames).affectedKeys().hasOnly([me]))
+          || (d.diff(resource.data).affectedKeys().hasOnly(['invitedUids', 'invitedNames'])
+            && d.memberUids == resource.data.memberUids)
+        );
+    }
     function groupTripFieldsOk() {
       let d = request.resource.data;
       return d.name is string && d.name.size() > 0 && d.name.size() <= 80
@@ -1247,28 +1278,43 @@ service cloud.firestore {
         && d.get('places', []).size() <= 60;
     }
     match /group_trips/{tripId} {
-      allow get: if request.auth != null && request.auth.uid in resource.data.memberUids;
-      allow list: if request.auth != null && request.auth.uid in resource.data.memberUids;
+      // Members, and people invited and not yet answered (so they can see
+      // the trip's name before accepting).
+      allow get: if request.auth != null
+        && (request.auth.uid in resource.data.memberUids || request.auth.uid in resource.data.get('invitedUids', []));
+      allow list: if request.auth != null
+        && (request.auth.uid in resource.data.memberUids || request.auth.uid in resource.data.get('invitedUids', []));
+      // Invite and accept (anti-farming item 8, 2026-11-23): a new trip
+      // starts with only its owner as a member; everyone else is invited
+      // and joins only by accepting. Before, any member could put anyone
+      // straight into a trip.
       allow create: if request.auth != null
         && request.resource.data.ownerUid == request.auth.uid
-        && request.auth.uid in request.resource.data.memberUids
+        && request.resource.data.memberUids == [request.auth.uid]
+        && request.resource.data.get('invitedUids', []).size() <= 24
+        && !(request.auth.uid in request.resource.data.get('invitedUids', []))
         && groupTripFieldsOk();
-      // Any member: edit the shared lists (catalog landmarks and places Mapr
-      // found on the web), rename the trip, and invite people (only ever
-      // adding -- the member list can grow, never shrink). Only the owner
-      // can remove members.
       allow update: if request.auth != null
-        && request.auth.uid in resource.data.memberUids
         && groupTripFieldsOk()
         && (
-          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['landmarkIds', 'places', 'name'])
-          || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberUids', 'memberNames', 'name'])
-              && request.resource.data.memberUids.hasAll(resource.data.memberUids))
+          // Any member: edit the shared lists or rename the trip.
+          (request.auth.uid in resource.data.memberUids
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['landmarkIds', 'places', 'name']))
+          // Any member: invite one friend at a time.
+          || (request.auth.uid in resource.data.memberUids
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['invitedUids', 'invitedNames'])
+            && groupInviteOneFriend())
+          // The invited person: accept (join) or decline, only for themselves.
+          || (request.auth.uid in resource.data.get('invitedUids', [])
+            && groupInviteAnswered())
+          // The owner: remove members (never add), keeping themselves.
           || (request.auth.uid == resource.data.ownerUid
               && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberUids', 'memberNames', 'name'])
+              && resource.data.memberUids.hasAll(request.resource.data.memberUids)
               && request.resource.data.ownerUid in request.resource.data.memberUids)
-          // A non-owner member may remove ONLY themselves (account deletion).
-          || (request.auth.uid != resource.data.ownerUid
+          // A non-owner member may remove ONLY themselves (leaving, or account deletion).
+          || (request.auth.uid in resource.data.memberUids
+              && request.auth.uid != resource.data.ownerUid
               && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberUids', 'memberNames'])
               && !(request.auth.uid in request.resource.data.memberUids)
               && request.resource.data.memberUids.size() == resource.data.memberUids.size() - 1
@@ -1436,18 +1482,67 @@ service cloud.firestore {
         && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + d.uid))
         && !exists(/databases/$(database)/documents/blocks/$(d.uid + '_' + request.auth.uid));
     }
+    // A notice to someone else (anti-farming items 8 and 9, 2026-11-23):
+    // from yourself (fromUid), only the fields notifyUser writes, unread,
+    // stamped now, never across a block, and counted against your hourly
+    // allowance (notify_gates) in the same write.
+    function crossUserNoticeOk() {
+      let d = request.resource.data;
+      return d.get('fromUid', null) == request.auth.uid
+        && d.uid != request.auth.uid
+        && d.keys().hasOnly(['uid', 'type', 'message', 'landmarkId', 'groupTripId', 'featureRequestId', 'bugReportId', 'maprProjectId', 'regionId', 'fromUid', 'read', 'createdAt'])
+        && d.read == false
+        && d.createdAt == request.time
+        && d.message is string && d.message.size() <= 500
+        && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + d.uid))
+        && !exists(/databases/$(database)/documents/blocks/$(d.uid + '_' + request.auth.uid))
+        && existsAfter(/databases/$(database)/documents/notify_gates/$(request.auth.uid))
+        && getAfter(/databases/$(database)/documents/notify_gates/$(request.auth.uid)).data.lastAt == request.time;
+    }
+    // Each account's allowance of notices to other people: 30 an hour.
+    // Bumped by the same write that sends one (notifications.js); nobody
+    // can reset it early or skip it.
+    match /notify_gates/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['windowStart', 'count', 'lastAt'])
+        && request.resource.data.windowStart == request.time
+        && request.resource.data.lastAt == request.time
+        && request.resource.data.count == 1;
+      allow update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['windowStart', 'count', 'lastAt'])
+        && request.resource.data.lastAt == request.time
+        && (
+          (request.time < resource.data.windowStart + duration.value(1, 'h')
+            && request.resource.data.windowStart == resource.data.windowStart
+            && request.resource.data.count == resource.data.count + 1
+            && request.resource.data.count <= 30)
+          || (request.time >= resource.data.windowStart + duration.value(1, 'h')
+            && request.resource.data.windowStart == request.time
+            && request.resource.data.count == 1)
+        );
+      allow delete: if false;
+    }
     match /notifications/{id} {
       allow get, list: if request.auth != null && resource.data.uid == request.auth.uid;
       allow create: if request.auth != null
         && (request.resource.data.uid == request.auth.uid
             || isAdmin()
-            || (request.resource.data.type == 'group_invite'
+            || (crossUserNoticeOk() && crossUserNoticeTypeOk()));
+      allow update: if request.auth != null
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+    // Which notices may go to someone else, and when.
+    function crossUserNoticeTypeOk() {
+      return (request.resource.data.type == 'group_invite'
                 && inviteNoticeOk()
                 && exists(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId))
                 && request.auth.uid in
                    get(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId)).data.memberUids
                 && request.resource.data.uid in
-                   get(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId)).data.memberUids)
+                   get(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId)).data.get('invitedUids', []))
             || (request.resource.data.type == 'mapr_project_invite'
                 && inviteNoticeOk()
                 && exists(/databases/$(database)/documents/mapr_projects/$(request.resource.data.maprProjectId))
@@ -1473,11 +1568,7 @@ service cloud.firestore {
                 && adminNoticeOk('feature_requests', 'featureRequestId', ' New feature request from '))
             || (request.resource.data.type == 'bug_report'
                 && isAdminUid(request.resource.data.uid)
-                && adminNoticeOk('bug_reports', 'bugReportId', ' New bug report from ')));
-      allow update: if request.auth != null
-        && resource.data.uid == request.auth.uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
-      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+                && adminNoticeOk('bug_reports', 'bugReportId', ' New bug report from '));
     }
 
     // Tips (docs/discovery-network-plan.md, Phase 1): a public note from a

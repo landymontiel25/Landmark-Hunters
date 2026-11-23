@@ -16,7 +16,7 @@ import {
 } from '@firebase/rules-unit-testing';
 import {
   doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, collection, query, where,
-  writeBatch, increment, serverTimestamp, deleteField, addDoc,
+  writeBatch, increment, serverTimestamp, deleteField, addDoc, arrayUnion, arrayRemove,
 } from 'firebase/firestore';
 import { ref, getBytes, listAll, uploadBytes, deleteObject } from 'firebase/storage';
 
@@ -43,6 +43,18 @@ const seed = (fn) => env.withSecurityRulesDisabled((c) => fn(c.firestore()));
 async function reset() {
   await env.clearFirestore();
 }
+
+// A notice to someone else, the way notifications.js sends it now: with the
+// sender's hourly allowance bumped in the same write (anti-farming item 8).
+const sendNotice = async (db, me, ref, data) => {
+  const gate = doc(db, `notify_gates/${me}`);
+  const g = await getDoc(gate).catch(() => null);
+  const b = writeBatch(db);
+  if (!g?.exists()) b.set(gate, { windowStart: serverTimestamp(), count: 1, lastAt: serverTimestamp() });
+  else b.update(gate, { count: increment(1), lastAt: serverTimestamp() });
+  b.set(doc(db, ref.path), { ...data, fromUid: data.fromUid === undefined ? me : data.fromUid });
+  return b.commit();
+};
 
 console.log('users: public profile vs private doc');
 await reset();
@@ -481,14 +493,14 @@ await seed(async (db) => {
   await setDoc(doc(db, 'feature_requests/fr2'), { userId: 'other', userName: 'Other', title: 'x', status: 'pending' });
 });
 const note = (over) => ({ uid: 'adm', type: 'feature_request', message: '\u{1F4A1} New feature request from Hal: "Dark mode"', landmarkId: null, groupTripId: null, featureRequestId: 'fr1', bugReportId: null, read: false, createdAt: serverTimestamp(), ...over });
-await t('the real notice for your own request works', () => assertSucceeds(setDoc(doc(as('hal'), 'notifications/n1'), note())));
+await t('the real notice for your own request works', () => assertSucceeds(sendNotice(as('hal'), 'hal', doc(as('hal'), 'notifications/n1'), note())));
 await t('forged text, someone else\'s request, a missing request, or a non-admin target are all denied', async () => {
   const db = as('hal');
-  await assertFails(setDoc(doc(db, 'notifications/n2'), note({ message: 'Your account is locked, click here' })));
-  await assertFails(setDoc(doc(db, 'notifications/n3'), note({ featureRequestId: 'fr2' })));
-  await assertFails(setDoc(doc(db, 'notifications/n4'), note({ featureRequestId: 'nope' })));
-  await assertFails(setDoc(doc(db, 'notifications/n5'), note({ uid: 'hal2' })));
-  await assertFails(setDoc(doc(db, 'notifications/n6'), note({ type: 'whatever' })));
+  await assertFails(sendNotice(db, 'hal', doc(db, 'notifications/n2'), note({ message: 'Your account is locked, click here' })));
+  await assertFails(sendNotice(db, 'hal', doc(db, 'notifications/n3'), note({ featureRequestId: 'fr2' })));
+  await assertFails(sendNotice(db, 'hal', doc(db, 'notifications/n4'), note({ featureRequestId: 'nope' })));
+  await assertFails(sendNotice(db, 'hal', doc(db, 'notifications/n5'), note({ uid: 'hal2' })));
+  await assertFails(sendNotice(db, 'hal', doc(db, 'notifications/n6'), note({ type: 'whatever' })));
 });
 await t('admin pointer: only the admin can set it, to their own uid; then it identifies the admin', async () => {
   await assertFails(setDoc(doc(as('hal'), 'admin_pointer/current'), { uid: 'hal', updatedAt: serverTimestamp() }));
@@ -498,7 +510,7 @@ await t('admin pointer: only the admin can set it, to their own uid; then it ide
   const unverified = env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).firestore();
   await assertFails(setDoc(doc(unverified, 'admin_pointer/current'), { uid: 'adm', updatedAt: serverTimestamp() }));
   await assertSucceeds(getDoc(doc(as('hal'), 'admin_pointer/current')));
-  await assertSucceeds(setDoc(doc(as('hal'), 'notifications/n7'), note()));
+  await assertSucceeds(sendNotice(as('hal'), 'hal', doc(as('hal'), 'notifications/n7'), note()));
 });
 
 console.log('rating tags (a friend tagged you in a rating)');
@@ -508,13 +520,13 @@ await seed(async (db) => {
   await setDoc(doc(db, 'friend_edges/uma_tia'), { owner: 'uma', friend: 'tia', friendName: 'tia' });
 });
 const tagNote = (over) => ({ uid: 'uma', type: 'rating_tag', message: '@tia tagged you in their rating of Vizcaya.', landmarkId: 'vizcaya', groupTripId: null, featureRequestId: null, bugReportId: null, regionId: 'miami', fromUid: 'tia', read: false, createdAt: serverTimestamp(), ...over });
-await t('you can tag a friend', () => assertSucceeds(setDoc(doc(as('tia'), 'notifications/t1'), tagNote())));
+await t('you can tag a friend', () => assertSucceeds(sendNotice(as('tia'), 'tia', doc(as('tia'), 'notifications/t1'), tagNote())));
 await t('no tag to a non-friend, as someone else, or with a long message', async () => {
   const db = as('tia');
-  await assertFails(setDoc(doc(db, 'notifications/t2'), tagNote({ uid: 'vic' })));
-  await assertFails(setDoc(doc(db, 'notifications/t3'), tagNote({ fromUid: 'uma' })));
+  await assertFails(sendNotice(db, 'tia', doc(db, 'notifications/t2'), tagNote({ uid: 'vic' })));
+  await assertFails(sendNotice(db, 'tia', doc(db, 'notifications/t3'), tagNote({ fromUid: 'uma' })));
   await assertFails(setDoc(doc(db, 'notifications/t4'), tagNote({ message: 'x'.repeat(201) })));
-  await assertFails(setDoc(doc(as('vic'), 'notifications/t5'), tagNote({ fromUid: 'vic' })));
+  await assertFails(sendNotice(as('vic'), 'vic', doc(as('vic'), 'notifications/t5'), tagNote({ fromUid: 'vic' })));
 });
 
 console.log('reply reads');
@@ -1220,7 +1232,7 @@ console.log('security audit 2026-10-30');
 await reset();
 await seed(async (db) => {
   await setDoc(doc(db, 'landmark_ratings/lmA'), { landmarkId: 'lmA', sum: 8, count: 2, avg: 4 });
-  await setDoc(doc(db, 'group_trips/gt1'), { ownerUid: 'amy', memberUids: ['amy', 'ben', 'cal'], memberNames: {}, name: 'Trip', regionId: 'miami', landmarkIds: [] });
+  await setDoc(doc(db, 'group_trips/gt1'), { ownerUid: 'amy', memberUids: ['amy'], invitedUids: ['ben', 'cal'], memberNames: {}, name: 'Trip', regionId: 'miami', landmarkIds: [] });
   await setDoc(doc(db, 'blocks/cal_amy'), { blockerUid: 'cal', blockedUid: 'amy' });
   await setDoc(doc(db, 'users/rae'), { uid: 'rae', username: 'rae', public: false });
   await setDoc(doc(db, 'reviews/rae_lmP'), { userId: 'rae', landmarkId: 'lmP', stars: 4, comment: 'c', hidden: false, reportedBy: [], visibility: 'friends' });
@@ -1232,12 +1244,29 @@ await t('landmark_ratings: nobody can set a fake average', async () => {
   await assertFails(updateDoc(doc(as('eve'), 'landmark_ratings/lmA'), { avg: 'x' }));
 });
 const invite = (uid) => ({ uid, type: 'group_invite', message: 'You were added to a group trip: Trip', landmarkId: null, groupTripId: 'gt1', featureRequestId: null, bugReportId: null, read: false, createdAt: serverTimestamp() });
-await t('group invite: a member can notify another member', () =>
-  assertSucceeds(addDoc(collection(as('amy'), 'notifications'), invite('ben'))));
+await t('group invite: a member can notify someone they invited', () =>
+  assertSucceeds(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), invite('ben'))));
+await t('exploit: a notice to someone else without the allowance, as someone else, or backdated is refused', async () => {
+  await assertFails(addDoc(collection(as('amy'), 'notifications'), { ...invite('ben'), fromUid: 'amy' }));
+  await assertFails(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), { ...invite('ben'), fromUid: 'ben' }));
+  await assertFails(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), { ...invite('ben'), createdAt: new Date(2020, 0, 1) }));
+});
+await t('exploit: at most 30 notices to other people an hour; the allowance cannot be reset early', async () => {
+  await seed((db) => setDoc(doc(db, 'notify_gates/amy'), { windowStart: new Date(), count: 30, lastAt: new Date() }));
+  await assertFails(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), invite('ben')));
+  await assertFails(setDoc(doc(as('amy'), 'notify_gates/amy'), { windowStart: serverTimestamp(), count: 1, lastAt: serverTimestamp() }));
+  await assertFails(deleteDoc(doc(as('amy'), 'notify_gates/amy')));
+  await seed((db) => setDoc(doc(db, 'notify_gates/amy'), { windowStart: new Date(Date.now() - 2 * 3600 * 1000), count: 30, lastAt: new Date() }));
+  const amy = as('amy');
+  const b = writeBatch(amy);
+  b.set(doc(amy, 'notify_gates/amy'), { windowStart: serverTimestamp(), count: 1, lastAt: serverTimestamp() });
+  b.set(doc(collection(amy, 'notifications')), { ...invite('ben'), fromUid: 'amy' });
+  await assertSucceeds(b.commit());
+});
 await t('group invite: not to someone who blocked you, not with a huge message, not with extra fields', async () => {
-  await assertFails(addDoc(collection(as('amy'), 'notifications'), invite('cal')));
-  await assertFails(addDoc(collection(as('amy'), 'notifications'), { ...invite('ben'), message: 'x'.repeat(501) }));
-  await assertFails(addDoc(collection(as('amy'), 'notifications'), { ...invite('ben'), link: 'https://evil' }));
+  await assertFails(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), invite('cal')));
+  await assertFails(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), { ...invite('ben'), message: 'x'.repeat(501) }));
+  await assertFails(sendNotice(as('amy'), 'amy', doc(collection(as('amy'), 'notifications')), { ...invite('ben'), link: 'https://evil' }));
 });
 await t('reviews: a blocked friend cannot list your friends-only reviews', () =>
   assertFails(getDocs(query(collection(as('dov'), 'reviews'), where('userId', '==', 'rae'), where('hidden', '==', false)))));
@@ -1349,6 +1378,42 @@ await t('its submitter (and the admin) still see it; a submitter cannot approve 
   await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'custom_landmarks/new1')));
   await assertFails(updateDoc(doc(as('sam'), 'custom_landmarks/new1'), { status: 'approved' }));
 });
+
+console.log('group trips: invite and accept (anti-farming item 8)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'group_trips/g1'), { ownerUid: 'own', memberUids: ['own', 'mem'], memberNames: { own: 'Own', mem: 'Mem' }, invitedUids: ['inv'], invitedNames: { inv: 'Inv' }, name: 'Trip', regionId: 'miami', landmarkIds: [] });
+  await setDoc(doc(db, 'blocks/blk_own'), { blockerUid: 'blk', blockedUid: 'own' });
+});
+const trip = (o = {}) => ({ ownerUid: 'own', name: 'New', regionId: 'miami', landmarkIds: [], memberUids: ['own'], memberNames: { own: 'Own' }, invitedUids: ['inv'], invitedNames: { inv: 'Inv' }, ...o });
+await t('a new trip starts with only its owner; friends are invited', () => assertSucceeds(setDoc(doc(as('own'), 'group_trips/n1'), trip())));
+await t('exploit: creating a trip with someone else already a member is refused', () =>
+  assertFails(setDoc(doc(as('own'), 'group_trips/n2'), trip({ memberUids: ['own', 'vic'], memberNames: { own: 'Own', vic: 'Vic' } }))));
+await t('exploit: a member can no longer put someone straight into a trip', async () => {
+  await assertFails(updateDoc(doc(as('mem'), 'group_trips/g1'), { memberUids: arrayUnion('vic'), 'memberNames.vic': 'Vic' }));
+  await assertFails(updateDoc(doc(as('own'), 'group_trips/g1'), { memberUids: arrayUnion('vic'), 'memberNames.vic': 'Vic' }));
+});
+await t('a member invites one person at a time; not someone blocking the inviter', async () => {
+  await assertSucceeds(updateDoc(doc(as('mem'), 'group_trips/g1'), { invitedUids: arrayUnion('pal'), 'invitedNames.pal': 'Pal' }));
+  await assertFails(updateDoc(doc(as('mem'), 'group_trips/g1'), { invitedUids: arrayUnion('x1', 'x2') }));
+  await assertFails(updateDoc(doc(as('own'), 'group_trips/g1'), { invitedUids: arrayUnion('blk') }));
+  await assertFails(updateDoc(doc(as('out'), 'group_trips/g1'), { invitedUids: arrayUnion('out') }));
+});
+await t('the invited person sees the trip, and accepts only for themselves', async () => {
+  await assertSucceeds(getDoc(doc(as('inv'), 'group_trips/g1')));
+  await assertSucceeds(getDocs(query(collection(as('inv'), 'group_trips'), where('invitedUids', 'array-contains', 'inv'))));
+  await assertFails(updateDoc(doc(as('inv'), 'group_trips/g1'), { invitedUids: arrayRemove('inv'), memberUids: arrayUnion('inv', 'vic') }));
+  await assertFails(updateDoc(doc(as('inv'), 'group_trips/g1'), { invitedUids: arrayRemove('inv'), landmarkIds: ['x'] }));
+  await assertFails(updateDoc(doc(as('inv'), 'group_trips/g1'), { landmarkIds: ['x'] }));
+  await assertSucceeds(updateDoc(doc(as('inv'), 'group_trips/g1'), { invitedUids: arrayRemove('inv'), 'invitedNames.inv': deleteField(), memberUids: arrayUnion('inv'), 'memberNames.inv': 'Inv' }));
+  await assertSucceeds(updateDoc(doc(as('inv'), 'group_trips/g1'), { landmarkIds: ['x'] }));
+});
+await t('declining takes you off the list without joining', async () => {
+  await assertSucceeds(updateDoc(doc(as('pal'), 'group_trips/g1'), { invitedUids: arrayRemove('pal'), 'invitedNames.pal': deleteField() }));
+  await assertFails(getDoc(doc(as('pal'), 'group_trips/g1')));
+});
+await t('the owner can still remove a member', () =>
+  assertSucceeds(updateDoc(doc(as('own'), 'group_trips/g1'), { memberUids: arrayRemove('mem'), 'memberNames.mem': deleteField() })));
 
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');

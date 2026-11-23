@@ -310,9 +310,10 @@ async function addMember(action, ctx) {
   const member = { uid: found.uid, name: found.username || found.displayName || username };
   if (target.kind === 'group') {
     if ((target.trip.memberUids || []).includes(member.uid)) return { ok: true, text: `${member.name} is already on ${target.name}.`, link: groupLink(target.trip.id) };
+    if ((target.trip.invitedUids || []).includes(member.uid)) return { ok: true, text: `${member.name} is already invited to ${target.name}.`, link: groupLink(target.trip.id) };
     await addGroupMember(target.trip, member.uid, member.name);
     ctx.onGroupsChanged?.();
-    return { ok: true, text: `Added ${member.name} to ${target.name}.`, link: groupLink(target.trip.id) };
+    return { ok: true, text: `Invited ${member.name} to ${target.name}. They join when they accept.`, link: groupLink(target.trip.id) };
   }
   // Solo -> group trip with the same name, stops and places.
   const regionId = target.regionId;
@@ -330,7 +331,7 @@ async function addMember(action, ctx) {
   });
   ctx.tripApi.removeItinerary(regionId);
   ctx.onGroupsChanged?.();
-  return { ok: true, text: `Added ${member.name}. ${target.name} is now a group trip you both can edit.`, link: groupLink(id) };
+  return { ok: true, text: `Invited ${member.name}. ${target.name} is now a group trip you can both edit once they accept.`, link: groupLink(id) };
 }
 
 // "Make a landmark for where I am" -- identifies the real place at the

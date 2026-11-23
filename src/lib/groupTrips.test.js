@@ -64,7 +64,11 @@ describe('no undefined in group trip writes (Firestore refuses the whole write)'
     });
     const data = addDoc.mock.calls[0][1];
     expect(hasUndefined(data)).toBe(false);
-    expect(data.memberNames).toEqual({ o: null, f: null });
+    expect(data.memberNames).toEqual({ o: null });
+    // Invited, not added (anti-farming item 8): they join by accepting.
+    expect(data.memberUids).toEqual(['o']);
+    expect(data.invitedUids).toEqual(['f']);
+    expect(data.invitedNames).toEqual({ f: null });
     expect(data.places).toEqual([{ id: 'p1', name: 'P', lat: 1, lng: 2 }]);
   });
   it('add member with no name', async () => {

@@ -297,17 +297,17 @@ export async function notifyTaggedFriends({ userId, userName, landmark, tagged }
   const list = (Array.isArray(tagged) ? tagged : []).filter((t) => t?.uid && t.uid !== userId && !seen.has(t.uid) && seen.add(t.uid)).slice(0, 10);
   const who = String(userName || 'A friend').replace(/^@/, '').slice(0, 40);
   const place = String(landmark?.name || 'a place').slice(0, 80);
-  await Promise.allSettled(
-    list.map((t) =>
-      notifyUser(t.uid, {
-        type: 'rating_tag',
-        message: `@${who} tagged you in their rating of ${place}.`,
-        landmarkId: landmark?.id || null,
-        regionId: landmark?.regionId || landmark?.region || null,
-        fromUid: userId,
-      })
-    )
-  );
+  // One at a time: each notice bumps the same per-sender allowance doc
+  // (notifications.js), and parallel transactions on it would fight.
+  for (const t of list) {
+    await notifyUser(t.uid, {
+      type: 'rating_tag',
+      message: `@${who} tagged you in their rating of ${place}.`,
+      landmarkId: landmark?.id || null,
+      regionId: landmark?.regionId || landmark?.region || null,
+      fromUid: userId,
+    }).catch(() => {});
+  }
 }
 
 /**

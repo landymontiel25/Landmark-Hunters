@@ -244,6 +244,7 @@ export default function GroupTrip() {
   // one edited outside the app, shouldn't crash this screen.
   const landmarkIds = trip.landmarkIds || [];
   const memberUids = trip.memberUids || [];
+  const invitedUids = Array.isArray(trip.invitedUids) ? trip.invitedUids : [];
   const isSelected = (id) => (id in pendingLandmarks ? pendingLandmarks[id] : landmarkIds.includes(id));
   const selectedCount = (region?.landmarks || []).filter((l) => isSelected(l.id)).length;
 
@@ -291,9 +292,9 @@ export default function GroupTrip() {
   // refusal is said out loud, with a way to try again.
   const addMember = (m) =>
     runOptimistic({
-      commit: () => addGroupMember(trip, m.uid, m.name).then(() => toast.show(`Added ${m.name} to ${trip.name}.`, { tone: 'success', durationMs: 3000 })),
+      commit: () => addGroupMember(trip, m.uid, m.name).then(() => toast.show(`Invited ${m.name}. They join ${trip.name} when they accept.`, { tone: 'success', durationMs: 3000 })),
       toast,
-      errorMessage: `Couldn't add ${m.name || 'them'}. Try again.`,
+      errorMessage: `Couldn't invite ${m.name || 'them'}. Try again.`,
       retry: () => addMember(m),
     });
   const rename = (name) =>
@@ -374,21 +375,29 @@ export default function GroupTrip() {
             )}
           </div>
         ))}
+        {invitedUids.map((invitedUid) => (
+          <div key={invitedUid} className="friend-row">
+            <span>
+              {trip.invitedNames?.[invitedUid] || 'A traveler'}
+              <span className="screen-subtitle"> · Invited</span>
+            </span>
+          </div>
+        ))}
         {/* Always the last row, under whoever joined most recently. */}
-        {memberUids.length >= MAX_GROUP_MEMBERS ? (
+        {memberUids.length + invitedUids.length >= MAX_GROUP_MEMBERS ? (
           <p className="screen-subtitle" style={{ marginBottom: 0 }}>
             This trip is full: a group trip fits up to {MAX_GROUP_MEMBERS} people.
           </p>
         ) : (
           <button type="button" className="member-add-row" onClick={() => setShowAdd(true)}>
             <AddSquareIcon />
-            Add a user
+            Invite a friend
           </button>
         )}
         {showAdd && (
           <AddMemberSheet
-            title={`Add someone to ${trip.name}`}
-            excludeUids={memberUids}
+            title={`Invite a friend to ${trip.name}`}
+            excludeUids={[...memberUids, ...invitedUids]}
             onPick={(m) => addMember(m)}
             onClose={() => setShowAdd(false)}
           />

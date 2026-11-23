@@ -196,15 +196,14 @@ export async function shareProject(owner, project, people) {
   const batch = writeBatch(db);
   chats.forEach((c) => batch.update(doc(db, 'mapr_chats', c.id), { memberUids }));
   await batch.commit();
-  await Promise.all(
-    add.map((p) =>
-      notifyUser(p.uid, {
-        type: 'mapr_project_invite',
-        message: `\u{1F4C1} @${owner.name} shared the Mapr project "${project.name}" with you.`,
-        maprProjectId: project.id,
-      }).catch(() => {})
-    )
-  );
+  // One at a time: they share the sender's notice allowance (notifications.js).
+  for (const p of add) {
+    await notifyUser(p.uid, {
+      type: 'mapr_project_invite',
+      message: `\u{1F4C1} @${owner.name} shared the Mapr project "${project.name}" with you.`,
+      maprProjectId: project.id,
+    }).catch(() => {});
+  }
   return { ...project, memberUids, memberNames };
 }
 

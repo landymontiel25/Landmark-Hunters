@@ -18,7 +18,7 @@ import TravelModePicker from '../components/TravelModePicker';
 import { travelModesFor, effectiveMode, legMinutes, legLabel, travelMode } from '../lib/travelModes';
 import TripRecapCard from '../components/TripRecapCard';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
-import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
+import { createGroupTrip, listMyGroupTrips, listMyGroupInvites, acceptGroupInvite, declineGroupInvite } from '../lib/groupTrips';
 import { itineraryPhase, groupKey } from '../lib/itineraryStatus';
 import { getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
@@ -346,6 +346,35 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
       .then((list) => current() && setGroupTrips(list))
       .catch((e) => current() && setGroupsError(e))
       .finally(() => current() && setGroupsLoading(false));
+    // Invitations load on their own: one failing never hides your trips.
+    listMyGroupInvites(user.uid)
+      .then((list) => current() && setGroupInvites(list))
+      .catch(() => current() && setGroupInvites([]));
+  };
+  // Trips you're invited to (anti-farming item 8): you join only by
+  // accepting here; until then you're not a member.
+  const [groupInvites, setGroupInvites] = useState([]);
+  const [answeringInvite, setAnsweringInvite] = useState(null);
+  const answerInvite = async (t, accept) => {
+    if (!user || answeringInvite) return;
+    setAnsweringInvite(t.id);
+    try {
+      if (accept) await acceptGroupInvite(t, user.uid, myUsername || user.displayName || 'Explorer');
+      else await declineGroupInvite(t, user.uid);
+      setGroupInvites((list) => list.filter((x) => x.id !== t.id));
+      if (accept) {
+        toast.show(`You joined ${t.name}.`, { tone: 'success', durationMs: 3000 });
+        loadGroupTrips();
+        navigate(`/group/${t.id}`);
+      }
+    } catch (e) {
+      toast.show(friendlyError(e, accept ? `Couldn't join ${t.name}. Try again.` : `Couldn't decline. Try again.`), {
+        actionLabel: 'Retry',
+        onAction: () => answerInvite(t, accept),
+      });
+    } finally {
+      setAnsweringInvite(null);
+    }
   };
   useEffect(() => {
     loadGroupTrips();
@@ -441,10 +470,10 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
       removeItinerary(region.id);
       setShowAddMember(false);
       setOpenRegion(null);
-      toast.show(`${member.name} is on it now. It's a group trip you both can edit.`, { tone: 'success', durationMs: 4000 });
+      toast.show(`Invited ${member.name}. It's a group trip now; they join when they accept.`, { tone: 'success', durationMs: 4000 });
       navigate(`/group/${id}`);
     } catch (e) {
-      toast.show(friendlyError(e, `Couldn't add ${member.name}. Try again.`), {
+      toast.show(friendlyError(e, `Couldn't invite ${member.name}. Try again.`), {
         actionLabel: 'Retry',
         onAction: () => convertToGroup(member),
       });
@@ -808,6 +837,30 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
             </div>
             <span className="itin-city-arrow">{'→'}</span>
           </button>
+        )}
+        {groupInvites.length > 0 && itinTab === 'current' && !searching && (
+          <div className="card itin-invites" style={{ marginBottom: 18 }}>
+            <h3 style={{ margin: '0 0 8px' }}>Trip invitations</h3>
+            {groupInvites.map((t) => (
+              <div key={t.id} className="friend-row itin-invite-row">
+                <span>
+                  <strong>{t.name}</strong>
+                  <span className="screen-subtitle" style={{ display: 'block', margin: 0 }}>
+                    From {t.memberNames?.[t.ownerUid] || 'a friend'}
+                    {getRegion(t.regionId)?.name ? ` · ${getRegion(t.regionId).name}` : ''}
+                  </span>
+                </span>
+                <span style={{ display: 'flex', gap: 8 }}>
+                  <button type="button" className="btn btn-ghost btn-tight" disabled={answeringInvite === t.id} onClick={() => answerInvite(t, false)}>
+                    Decline
+                  </button>
+                  <button type="button" className="btn btn-primary btn-tight" disabled={answeringInvite === t.id} onClick={() => answerInvite(t, true)}>
+                    Accept
+                  </button>
+                </span>
+              </div>
+            ))}
+          </div>
         )}
         {tabGroups.length > 0 && (
           <div style={{ marginBottom: 18 }}>

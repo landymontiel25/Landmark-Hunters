@@ -40,7 +40,7 @@ vi.mock('../lib/FriendsContext', () => ({ useFriends: () => h.friends }));
 vi.mock('../lib/MyPhotosContext', () => ({ useMyPhotos: () => h.photos }));
 vi.mock('../lib/RatingsContext', () => ({ useRatings: () => h.ratings }));
 vi.mock('../lib/UnitsContext', () => ({ useUnits: () => h.units, formatDistance: () => '' }));
-vi.mock('../lib/groupTrips', () => ({ listMyGroupTrips: async () => [], createGroupTrip: vi.fn(), MAX_GROUP_MEMBERS: 25 }));
+vi.mock('../lib/groupTrips', () => ({ listMyGroupTrips: async () => [], listMyGroupInvites: async () => [], acceptGroupInvite: vi.fn(), declineGroupInvite: vi.fn(), createGroupTrip: vi.fn(), MAX_GROUP_MEMBERS: 25 }));
 vi.mock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => [] }));
 vi.mock('react-leaflet', () => {
   const Stub = ({ children }) => <div>{children}</div>;

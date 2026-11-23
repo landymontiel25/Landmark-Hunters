@@ -26,8 +26,13 @@ function fullError() {
 
 // A trip a few friends build together (item i6): one shared landmark list,
 // visible and editable by every member. Any member can rename it, edit the
-// shared lists and invite people; only the owner can remove members (see
+// shared lists and invite friends; only the owner can remove members (see
 // firestore.rules).
+//
+// Invite and accept (anti-farming item 8, owner 2026-11-23): nobody is put
+// in a trip by someone else any more. An invited friend is listed in
+// invitedUids, sees the trip under "Trip invitations", and joins only by
+// accepting (acceptGroupInvite).
 //
 // initialMembers ({ uid, name }[]) lets the owner invite friends in the same
 // write that creates the trip -- e.g. from Trip Setup's friend picker --
@@ -46,26 +51,24 @@ export async function createGroupTrip({ ownerUid, ownerName, name, regionId, lan
     ownerUid,
     name,
     regionId,
-    memberUids: [ownerUid, ...initialMembers.map((m) => m.uid)],
-    memberNames: {
-      [ownerUid]: nameOrNull(ownerName),
-      ...Object.fromEntries(initialMembers.map((m) => [m.uid, nameOrNull(m.name)])),
-    },
+    memberUids: [ownerUid],
+    memberNames: { [ownerUid]: nameOrNull(ownerName) },
+    invitedUids: initialMembers.map((m) => m.uid),
+    invitedNames: Object.fromEntries(initialMembers.map((m) => [m.uid, nameOrNull(m.name)])),
     landmarkIds,
     places: places.map(cleanPlace),
     createdAt: serverTimestamp(),
   });
   // Let each invited friend know right away -- best-effort, since a
   // notification failing to write should never undo a successful invite.
-  await Promise.all(
-    initialMembers.map((m) =>
-      notifyUser(m.uid, {
-        type: 'group_invite',
-        message: `\u{1F465} ${ownerName || 'A friend'} added you to a group trip: ${name}`,
-        groupTripId: ref.id,
-      }).catch(() => {})
-    )
-  );
+  // One at a time: they share the sender's notice allowance (notifications.js).
+  for (const m of initialMembers) {
+    await notifyUser(m.uid, {
+      type: 'group_invite',
+      message: `\u{1F465} ${ownerName || 'A friend'} invited you to a group trip: ${name}`,
+      groupTripId: ref.id,
+    }).catch(() => {});
+  }
   return ref.id;
 }
 
@@ -88,6 +91,32 @@ export async function listMyGroupTrips(uid) {
   if (!db || !uid) return [];
   const snap = await getDocs(query(collection(db, 'group_trips'), where('memberUids', 'array-contains', uid)));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+// Trips you've been invited to and haven't answered yet.
+export async function listMyGroupInvites(uid) {
+  if (!db || !uid) return [];
+  const snap = await getDocs(query(collection(db, 'group_trips'), where('invitedUids', 'array-contains', uid)));
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+// Joins a trip you were invited to: off the invite list, onto the members,
+// in one write (the rules check both halves together).
+export async function acceptGroupInvite(trip, uid, name) {
+  if ((trip.memberUids || []).length >= MAX_GROUP_MEMBERS) throw fullError();
+  await updateDoc(doc(db, 'group_trips', trip.id), {
+    invitedUids: arrayRemove(uid),
+    [`invitedNames.${uid}`]: deleteField(),
+    memberUids: arrayUnion(uid),
+    [`memberNames.${uid}`]: nameOrNull(name),
+  });
+}
+
+export async function declineGroupInvite(trip, uid) {
+  await updateDoc(doc(db, 'group_trips', trip.id), {
+    invitedUids: arrayRemove(uid),
+    [`invitedNames.${uid}`]: deleteField(),
+  });
 }
 
 // `add` says which way to flip it (defaults to the opposite of what `trip`
@@ -128,16 +157,18 @@ export async function reorderGroupLandmarks(trip, orderedIds) {
   await updateDoc(doc(db, 'group_trips', trip.id), { landmarkIds: orderedIds });
 }
 
+// Invites a friend (they join when they accept). Named for what it did
+// before invites existed; callers say "Invited".
 export async function addGroupMember(trip, memberUid, memberName) {
-  if ((trip.memberUids || []).includes(memberUid)) return;
-  if ((trip.memberUids || []).length >= MAX_GROUP_MEMBERS) throw fullError();
+  if ((trip.memberUids || []).includes(memberUid) || (trip.invitedUids || []).includes(memberUid)) return;
+  if ((trip.memberUids || []).length + (trip.invitedUids || []).length >= MAX_GROUP_MEMBERS) throw fullError();
   await updateDoc(doc(db, 'group_trips', trip.id), {
-    memberUids: arrayUnion(memberUid),
-    [`memberNames.${memberUid}`]: nameOrNull(memberName),
+    invitedUids: arrayUnion(memberUid),
+    [`invitedNames.${memberUid}`]: nameOrNull(memberName),
   });
   notifyUser(memberUid, {
     type: 'group_invite',
-    message: `\u{1F465} You were added to a group trip: ${trip.name}`,
+    message: `\u{1F465} You were invited to a group trip: ${trip.name}`,
     groupTripId: trip.id,
   }).catch(() => {});
 }
