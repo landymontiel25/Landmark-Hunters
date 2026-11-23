@@ -83,7 +83,7 @@ async function handler(req, res) {
       const { checkMissionPhoto } = await import('./missionPhoto.js');
       const db = adminDb();
       const out = await checkMissionPhoto(db, account.uid, regionId, landmarkId, photoURL, await userDayKey(db, account.uid));
-      res.status(200).json({ ok: true, awarded: out.awarded, passed: out.passed ?? false, reason: out.reason || null, why: out.why || null, mission: out.mission || null });
+      res.status(200).json({ ok: true, awarded: out.awarded, passed: out.passed ?? false, reason: out.reason || null, why: out.why || null, missing: out.missing || null, shows: out.shows || null, mission: out.mission || null });
     } catch (e) {
       console.error('[mission-photo] failed', e);
       res.status(500).json({ error: "Couldn't check your photo." });

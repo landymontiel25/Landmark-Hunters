@@ -40,13 +40,13 @@ const okGuard = async () => ({ ok: true });
 const visit = { userId: 'u', userName: 'u', landmarkId: 'abaco-beach-resort', region: 'abacos', ratingOnly: false, visited: true, presence: { verified: true }, photoURLs: [FLOOR, MARINA] };
 const setup = () => fakeDb({ 'checkins/u_abaco-beach-resort': visit });
 // Stands in for Claude: a floor isn't the mission, the marina shot is.
-const check = vi.fn(async ({ url, mission }) => (url === MARINA && /marina/.test(mission) ? { ok: true, reason: 'The marina, boats and beach.' } : { ok: false, reason: 'A tiled floor.' }));
+const check = vi.fn(async ({ url, mission }) => (url === MARINA && /marina/.test(mission) ? { ok: true, reason: 'The marina, boats and beach.' } : { ok: false, reason: 'Missing: marina · You took: a tiled floor', missing: 'marina', shows: 'a tiled floor' }));
 
 describe('photo missions', () => {
   it('a wrong photo earns nothing and says why; the right one then pays once', async () => {
     const db = setup();
     const no = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', FLOOR, '2026-11-22', { check, guard: okGuard });
-    expect(no).toMatchObject({ awarded: 0, passed: false, reason: 'photo-not-mission', why: 'A tiled floor.' });
+    expect(no).toMatchObject({ awarded: 0, passed: false, reason: 'photo-not-mission', missing: 'marina', shows: 'a tiled floor' });
     expect(no.mission).toMatch(/marina/);
     expect(db.docs.get('users/u')).toBeUndefined();
 
