@@ -688,6 +688,11 @@ service cloud.firestore {
       allow create: if request.auth != null && request.resource.data.from == request.auth.uid
         && id == request.resource.data.from + '_' + request.resource.data.to
         && request.resource.data.to != request.auth.uid
+        // Field allowlist (anti-farming item 9, 2026-11-23).
+        && request.resource.data.keys().hasOnly(['from', 'fromName', 'to', 'toName', 'status', 'createdAt'])
+        && request.resource.data.status == 'pending'
+        && request.resource.data.fromName is string && request.resource.data.fromName.size() <= 80
+        && request.resource.data.toName is string && request.resource.data.toName.size() <= 80
         && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to + '_' + request.resource.data.from))
         && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.from + '_' + request.resource.data.to));
     }
@@ -728,7 +733,10 @@ service cloud.firestore {
       allow list: if request.auth != null && resource.data.blockerUid == request.auth.uid;
       allow create: if request.auth != null
         && id == request.auth.uid + '_' + request.resource.data.blockedUid
-        && request.resource.data.blockerUid == request.auth.uid;
+        && request.resource.data.blockerUid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['blockerUid', 'blockedUid', 'blockedName', 'createdAt'])
+        && (request.resource.data.get('blockedName', null) == null
+          || (request.resource.data.blockedName is string && request.resource.data.blockedName.size() <= 80));
       allow delete: if request.auth != null && id.split('_')[0] == request.auth.uid;
     }
     match /friend_edges/{id} {
@@ -751,6 +759,9 @@ service cloud.firestore {
       // that person's friends-only reviews and photos.
       allow create: if request.auth != null
         && id == request.resource.data.owner + '_' + request.resource.data.friend
+        && request.resource.data.keys().hasOnly(['owner', 'friend', 'friendName', 'createdAt'])
+        && (request.resource.data.get('friendName', null) == null
+          || (request.resource.data.friendName is string && request.resource.data.friendName.size() <= 80))
         && (
           (request.resource.data.owner == request.auth.uid && pendingRequest(request.resource.data.friend, request.auth.uid))
           || (request.resource.data.friend == request.auth.uid && pendingRequest(request.resource.data.owner, request.auth.uid))
@@ -896,6 +907,15 @@ service cloud.firestore {
         // Firestore (caught by the client's own try/catch) and only ever
         // lived in that one device's localStorage.
         && request.resource.data.verdict in ['yes', 'no', 'unsure']
+        // Field allowlist and sizes (anti-farming item 9, 2026-11-23). The
+        // streak counts only Firestore's own write time, never `at`.
+        && request.resource.data.keys().hasOnly(['userId', 'landmarkId', 'region', 'name', 'categories', 'verdict', 'at', 'near', 'pickSetId', 'pickSurface', 'pickShownAt', 'requestFor', 'updatedAt'])
+        && request.resource.data.landmarkId is string && request.resource.data.landmarkId.size() <= 100
+        && (request.resource.data.get('name', null) == null || (request.resource.data.name is string && request.resource.data.name.size() <= 200))
+        && (request.resource.data.get('region', null) == null || (request.resource.data.region is string && request.resource.data.region.size() <= 100))
+        && (!('categories' in request.resource.data) || (request.resource.data.categories is list && request.resource.data.categories.size() <= 20))
+        && (request.resource.data.get('near', null) == null || (request.resource.data.near is map && request.resource.data.near.keys().hasOnly(['lat', 'lng'])))
+        && (request.resource.data.get('requestFor', null) == null || request.resource.data.requestFor in ['solo', 'group'])
         && pickMarkOk(request.resource.data);
       allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
@@ -1003,8 +1023,14 @@ service cloud.firestore {
       allow read: if request.auth != null && resource.data.userId == request.auth.uid;
       allow create: if request.auth != null
         && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['userId', 'stopsCount', 'generationMs', 'minutesSaved', 'createdAt'])
         && request.resource.data.minutesSaved is number
-        && request.resource.data.minutesSaved >= 0;
+        && request.resource.data.minutesSaved >= 0
+        // One plan can't claim more than its stops could (stops x 12 min,
+        // MANUAL_MINUTES_PER_STOP in timeSaved.js), at most 100 stops.
+        && request.resource.data.stopsCount is int
+        && request.resource.data.stopsCount >= 1 && request.resource.data.stopsCount <= 100
+        && request.resource.data.minutesSaved <= request.resource.data.stopsCount * 12;
       allow update: if false;
       // Owner only, so account deletion can wipe the users own events.
       allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
@@ -1217,7 +1243,12 @@ service cloud.firestore {
         && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if request.auth != null
         && request.resource.data.userId == request.auth.uid
-        && request.resource.data.status == 'pending';
+        && request.resource.data.status == 'pending'
+        && request.resource.data.keys().hasOnly(['userId', 'userName', 'title', 'description', 'reason', 'status', 'createdAt'])
+        && request.resource.data.title is string && request.resource.data.title.size() <= 80
+        && request.resource.data.get('description', '') is string && request.resource.data.get('description', '').size() <= 1000
+        && request.resource.data.get('reason', '') is string && request.resource.data.get('reason', '').size() <= 1000
+        && request.resource.data.get('userName', '') is string && request.resource.data.get('userName', '').size() <= 80;
       allow update: if request.auth != null && isAdmin();
       allow delete: if request.auth != null && isAdmin();
     }

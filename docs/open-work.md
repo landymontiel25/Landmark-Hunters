@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 9: validation tightening (2026-11-23)
+
+- **Done.** Field allowlists and sizes on the collections that had none:
+  friend_requests (pending only, names <= 80), blocks, friend_edges,
+  pick_feedback (its own 13 fields, categories <= 20, names <= 200),
+  planning_events (minutesSaved <= stops x 12, stops 1-100) and
+  feature_requests (the form's own limits). Admin dashboard sessions last
+  12 hours (were 30 days). Notification sender checks are item 8's.
+
 ## Anti-farming 8: rate limits, Mapr chats, group trip invites (2026-11-23)
 
 - **Done: notice rate limit.** A notice to someone else must come from you

@@ -1415,6 +1415,41 @@ await t('declining takes you off the list without joining', async () => {
 await t('the owner can still remove a member', () =>
   assertSucceeds(updateDoc(doc(as('own'), 'group_trips/g1'), { memberUids: arrayRemove('mem'), 'memberNames.mem': deleteField() })));
 
+console.log('field allowlists (anti-farming item 9)');
+await reset();
+await t('friend requests, blocks: the app\'s own shapes work', async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'friend_requests/ann_bob'), { from: 'ann', fromName: 'Ann', to: 'bob', toName: 'Bob', status: 'pending', createdAt: serverTimestamp() }));
+  await assertSucceeds(setDoc(doc(as('ann'), 'blocks/ann_zed'), { blockerUid: 'ann', blockedUid: 'zed', blockedName: null, createdAt: serverTimestamp() }));
+});
+await t('exploit: extra or oversized fields on friend requests and blocks are refused', async () => {
+  await assertFails(setDoc(doc(as('ann'), 'friend_requests/ann_cal'), { from: 'ann', fromName: 'Ann', to: 'cal', toName: 'Cal', status: 'accepted', createdAt: serverTimestamp() }));
+  await assertFails(setDoc(doc(as('ann'), 'friend_requests/ann_cal'), { from: 'ann', fromName: 'x'.repeat(81), to: 'cal', toName: 'Cal', status: 'pending', createdAt: serverTimestamp() }));
+  await assertFails(setDoc(doc(as('ann'), 'friend_requests/ann_cal'), { from: 'ann', fromName: 'Ann', to: 'cal', toName: 'Cal', status: 'pending', createdAt: serverTimestamp(), points: 99 }));
+  await assertFails(setDoc(doc(as('ann'), 'blocks/ann_cal'), { blockerUid: 'ann', blockedUid: 'cal', blockedName: 'x'.repeat(5000), createdAt: serverTimestamp() }));
+});
+await t('exploit: pick answers carry only their own fields', async () => {
+  const pf = (o = {}) => ({ userId: 'ann', landmarkId: 'pmX', region: 'miami', name: 'X', categories: ['a'], verdict: 'yes', at: Date.now(), near: null, updatedAt: serverTimestamp(), ...o });
+  await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pmX'), pf()));
+  await assertFails(setDoc(doc(as('ann'), 'pick_feedback/ann_pmX'), pf({ streakCount: 99 })));
+  await assertFails(setDoc(doc(as('ann'), 'pick_feedback/ann_pmX'), pf({ categories: Array(21).fill('a') })));
+  await assertFails(setDoc(doc(as('ann'), 'pick_feedback/ann_pmX'), pf({ name: 'x'.repeat(201) })));
+  await assertFails(setDoc(doc(as('ann'), 'pick_feedback/ann_pmX'), pf({ near: { lat: 1, lng: 2, home: true } })));
+});
+await t('exploit: a planning event cannot claim more minutes than its stops', async () => {
+  const pe = (o = {}) => ({ userId: 'ann', stopsCount: 3, generationMs: 4000, minutesSaved: 35, createdAt: serverTimestamp(), ...o });
+  await assertSucceeds(addDoc(collection(as('ann'), 'planning_events'), pe()));
+  await assertFails(addDoc(collection(as('ann'), 'planning_events'), pe({ minutesSaved: 100000 })));
+  await assertFails(addDoc(collection(as('ann'), 'planning_events'), pe({ stopsCount: 5000, minutesSaved: 1000 })));
+  await assertFails(addDoc(collection(as('ann'), 'planning_events'), pe({ extra: 1 })));
+});
+await t('exploit: feature requests are capped like the form', async () => {
+  const fr = (o = {}) => ({ userId: 'ann', userName: 'Ann', title: 'T', description: 'D', reason: 'R', status: 'pending', createdAt: serverTimestamp(), ...o });
+  await assertSucceeds(addDoc(collection(as('ann'), 'feature_requests'), fr()));
+  await assertFails(addDoc(collection(as('ann'), 'feature_requests'), fr({ description: 'x'.repeat(1001) })));
+  await assertFails(addDoc(collection(as('ann'), 'feature_requests'), fr({ status: 'approved' })));
+  await assertFails(addDoc(collection(as('ann'), 'feature_requests'), fr({ html: '<b>' })));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

@@ -6,7 +6,9 @@ import { SignJWT, jwtVerify } from 'jose';
 // every dashboard page and API call.
 
 export const SESSION_COOKIE = 'lh_admin_session';
-export const SESSION_DAYS = 30;
+// 12 hours (anti-farming item 9, owner 2026-11-23; was 30 days): a stolen
+// or forgotten-open session stops working by the next day.
+export const SESSION_HOURS = 12;
 const ISSUER = 'landmark-hunters-admin';
 
 export const MIN_PASSWORD_CHARS = 16;
@@ -33,7 +35,7 @@ export async function signSession(secret?: string): Promise<string> {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuer(ISSUER)
     .setIssuedAt()
-    .setExpirationTime(`${SESSION_DAYS}d`)
+    .setExpirationTime(`${SESSION_HOURS}h`)
     .sign(key(secret));
 }
 
@@ -71,7 +73,7 @@ export function loginLimited(ip: string, now = Date.now()): boolean {
 }
 export const _resetLoginLimits = () => attempts.clear();
 
-export const cookieOptions = (maxAgeSeconds = SESSION_DAYS * 86400) => ({
+export const cookieOptions = (maxAgeSeconds = SESSION_HOURS * 3600) => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'strict' as const,

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { _resetLoginLimits, LOGIN_LIMIT, loginLimited, passwordMatches, signSession, verifySession } from '@/lib/auth';
+import { _resetLoginLimits, cookieOptions, LOGIN_LIMIT, loginLimited, passwordMatches, SESSION_HOURS, signSession, verifySession } from '@/lib/auth';
 
 const SECRET = 'x'.repeat(40);
 
@@ -14,6 +14,13 @@ describe('session tokens', () => {
     expect(await verifySession(t.slice(0, -2) + 'aa', SECRET)).toBe(false);
     expect(await verifySession(undefined, SECRET)).toBe(false);
     expect(await verifySession('not.a.jwt', SECRET)).toBe(false);
+  });
+  it('a session lasts 12 hours, cookie and token alike (anti-farming item 9)', async () => {
+    expect(SESSION_HOURS).toBe(12);
+    expect(cookieOptions().maxAge).toBe(12 * 3600);
+    const t = await signSession(SECRET);
+    const p = JSON.parse(Buffer.from(t.split('.')[1], 'base64url').toString());
+    expect(p.exp - p.iat).toBe(12 * 3600);
   });
   it('refuses to sign with a short or missing secret', async () => {
     await expect(signSession('short')).rejects.toThrow(/JWT_SECRET/);
