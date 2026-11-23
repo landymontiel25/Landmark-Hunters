@@ -32,8 +32,9 @@ function fakeDb(initial = {}) {
   };
 }
 
-const FLOOR = 'https://firebasestorage.googleapis.com/v0/b/app/o/floor.jpg?alt=media';
-const MARINA = 'https://firebasestorage.googleapis.com/v0/b/app/o/marina.jpg?alt=media';
+const FLOOR = 'https://firebasestorage.googleapis.com/v0/b/landmark-hunters-284ab.firebasestorage.app/o/checkin_photos%2Fabaco-beach-resort%2Fu_floor.jpg?alt=media';
+const MARINA = 'https://firebasestorage.googleapis.com/v0/b/landmark-hunters-284ab.firebasestorage.app/o/checkin_photos%2Fabaco-beach-resort%2Fu_marina.jpg?alt=media';
+const okGuard = async () => ({ ok: true });
 const visit = { userId: 'u', userName: 'u', landmarkId: 'abaco-beach-resort', region: 'abacos', ratingOnly: false, visited: true, presence: { verified: true }, photoURLs: [FLOOR, MARINA] };
 const setup = () => fakeDb({ 'checkins/u_abaco-beach-resort': visit });
 // Stands in for Claude: a floor isn't the mission, the marina shot is.
@@ -42,38 +43,38 @@ const check = vi.fn(async ({ url, mission }) => (url === MARINA && /marina/.test
 describe('photo missions', () => {
   it('a wrong photo earns nothing and says why; the right one then pays once', async () => {
     const db = setup();
-    const no = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', FLOOR, '2026-11-22', { check });
+    const no = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', FLOOR, '2026-11-22', { check, guard: okGuard });
     expect(no).toMatchObject({ awarded: 0, passed: false, reason: 'photo-not-mission', why: 'A tiled floor.' });
     expect(no.mission).toMatch(/marina/);
     expect(db.docs.get('users/u')).toBeUndefined();
 
-    const yes = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', MARINA, '2026-11-22', { check });
+    const yes = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', MARINA, '2026-11-22', { check, guard: okGuard });
     expect(yes).toMatchObject({ awarded: MISSION_POINTS, passed: true });
     expect(db.docs.get('users/u').bonusPoints).toBe(MISSION_POINTS);
 
-    const again = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', MARINA, '2026-11-22', { check });
+    const again = await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', MARINA, '2026-11-22', { check, guard: okGuard });
     expect(again).toMatchObject({ awarded: 0, reason: 'already' });
     expect(db.docs.get('users/u').bonusPoints).toBe(MISSION_POINTS);
   });
 
   it('the check gets the mission text and the place', async () => {
     const seen = vi.fn(async () => ({ ok: false, reason: 'x' }));
-    await checkMissionPhoto(setup(), 'u', 'abacos', 'abaco-beach-resort', FLOOR, '2026-11-22', { check: seen });
+    await checkMissionPhoto(setup(), 'u', 'abacos', 'abaco-beach-resort', FLOOR, '2026-11-22', { check: seen, guard: okGuard });
     expect(seen.mock.calls[0][0]).toMatchObject({ url: FLOOR, mission: "Photograph the marina from the water's edge, with the boats and the beach in one shot.", place: { name: 'Abaco Beach Resort & Boat Harbour Marina' } });
   });
 
   it("a check that couldn't run pays nothing and isn't a verdict", async () => {
     const db = setup();
-    expect(await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', MARINA, '2026-11-22', { check: async () => ({ ok: false, failed: true }) })).toMatchObject({ awarded: 0, reason: 'check-failed' });
+    expect(await checkMissionPhoto(db, 'u', 'abacos', 'abaco-beach-resort', MARINA, '2026-11-22', { check: async () => ({ ok: false, failed: true }), guard: okGuard })).toMatchObject({ awarded: 0, reason: 'check-failed' });
     expect(db.docs.has('mission_photos/u_abaco-beach-resort')).toBe(false);
   });
 
   it('only your own check-in photo, at a place with a photo mission, after a real visit', () => {
     const mission = { type: 'photo', text: 'x' };
-    expect(missionPhotoPrecheck({ mission, checkins: [visit], photoURL: 'https://firebasestorage.googleapis.com/v0/b/app/o/someone-else.jpg' })).toMatchObject({ reason: 'not-your-photo' });
-    expect(missionPhotoPrecheck({ mission, checkins: [visit], photoURL: 'https://evil.example/x.jpg' })).toMatchObject({ reason: 'not-your-photo' });
-    expect(missionPhotoPrecheck({ mission, checkins: [{ ...visit, ratingOnly: true, visited: false }], photoURL: FLOOR })).toMatchObject({ reason: 'no-checkin' });
-    expect(missionPhotoPrecheck({ mission: { type: 'trivia' }, checkins: [visit], photoURL: FLOOR })).toMatchObject({ reason: 'no-photo-mission' });
-    expect(missionPhotoPrecheck({ mission, checkins: [visit], photoURL: FLOOR })).toBeNull();
+    expect(missionPhotoPrecheck({ mission, checkins: [{ ...visit, photoURLs: [...visit.photoURLs, 'https://firebasestorage.googleapis.com/v0/b/landmark-hunters-284ab.firebasestorage.app/o/checkin_photos%2Fabaco-beach-resort%2Fsomeone_1.jpg'] }], photoURL: 'https://firebasestorage.googleapis.com/v0/b/landmark-hunters-284ab.firebasestorage.app/o/checkin_photos%2Fabaco-beach-resort%2Fsomeone_1.jpg', uid: 'u', landmarkId: 'abaco-beach-resort' })).toMatchObject({ reason: 'not-your-photo' });
+    expect(missionPhotoPrecheck({ mission, checkins: [visit], photoURL: 'https://evil.example/x.jpg', uid: 'u', landmarkId: 'abaco-beach-resort' })).toMatchObject({ reason: 'not-your-photo' });
+    expect(missionPhotoPrecheck({ mission, checkins: [{ ...visit, ratingOnly: true, visited: false }], photoURL: FLOOR, uid: 'u', landmarkId: 'abaco-beach-resort' })).toMatchObject({ reason: 'no-checkin' });
+    expect(missionPhotoPrecheck({ mission: { type: 'trivia' }, checkins: [visit], photoURL: FLOOR, uid: 'u', landmarkId: 'abaco-beach-resort' })).toMatchObject({ reason: 'no-photo-mission' });
+    expect(missionPhotoPrecheck({ mission, checkins: [visit], photoURL: FLOOR, uid: 'u', landmarkId: 'abaco-beach-resort' })).toBeNull();
   });
 });

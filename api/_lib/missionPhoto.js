@@ -1,6 +1,7 @@
 import { FieldValue } from 'firebase-admin/firestore';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
-import { photoMatchesMission, isStoragePhotoUrl } from './photoCheck.js';
+import { photoMatchesMission } from './photoCheck.js';
+import { guardPhoto, isOwnPlacePhoto } from './photoGuard.js';
 import { canonicalRegionId, getLandmark, getRegion } from '../../src/data/regions.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 import { MISSION_POINTS } from './missionAnswer.js';
@@ -18,15 +19,15 @@ import { MISSION_POINTS } from './missionAnswer.js';
 const photosOf = (d) => [...(Array.isArray(d?.photoURLs) ? d.photoURLs : []), ...(d?.photoURL ? [d.photoURL] : [])];
 
 // Pure: whether this photo can be checked at all, before asking Claude.
-export function missionPhotoPrecheck({ mission, checkins, photoURL, previous }) {
+export function missionPhotoPrecheck({ mission, checkins, photoURL, previous, uid, landmarkId }) {
   if (mission?.type !== 'photo') return { awarded: 0, reason: 'no-photo-mission' };
   if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
   if (previous?.passed) return { awarded: 0, reason: 'already', passed: true };
-  if (!isStoragePhotoUrl(photoURL) || !checkins.some((c) => photosOf(c).includes(photoURL))) return { awarded: 0, reason: 'not-your-photo' };
+  if (!isOwnPlacePhoto(photoURL, uid, landmarkId) || !checkins.some((c) => photosOf(c).includes(photoURL))) return { awarded: 0, reason: 'not-your-photo' };
   return null;
 }
 
-export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL, dayId, { check = photoMatchesMission } = {}) {
+export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL, dayId, { check = photoMatchesMission, guard = guardPhoto } = {}) {
   const region = canonicalRegionId(regionId);
   const lm = getLandmark(region, landmarkId);
   const mission = lm?.mission;
@@ -34,12 +35,15 @@ export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL,
   const checkins = visits.docs.map((d) => d.data());
   const ref = db.collection('mission_photos').doc(`${uid}_${landmarkId}`);
   const prevSnap = await ref.get();
-  const pre = missionPhotoPrecheck({ mission, checkins, photoURL, previous: prevSnap.exists ? prevSnap.data() : null });
+  const pre = missionPhotoPrecheck({ mission, checkins, photoURL, previous: prevSnap.exists ? prevSnap.data() : null, uid, landmarkId });
   if (pre) return pre;
+  // A photo already used by someone else, or at another place, never counts.
+  const g = await guard(db, photoURL, { uid, landmarkId });
+  if (!g.ok) return { awarded: 0, reason: 'photo-not-mission', passed: false, why: g.reason === 'duplicate-photo' ? 'This photo was already used, by someone else or for another place.' : "This photo couldn't be read.", mission: mission.text };
 
   const verdict = await check({
     url: photoURL,
-    place: { name: lm.name, city: getRegion(region)?.name || '', description: lm.whatItIs || lm.summary || '' },
+    place: { name: lm.name, city: getRegion(region)?.name || '', description: lm.whatItIs || lm.summary || '', images: Array.isArray(lm.images) ? lm.images : [] },
     mission: mission.text,
   });
   if (verdict.failed) return { awarded: 0, reason: 'check-failed' };

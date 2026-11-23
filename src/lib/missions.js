@@ -1,3 +1,5 @@
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebase';
 import { authHeaders } from './apiAuth';
 import { API_BASE } from './apiBase';
 import { dayKey } from './streaks';
@@ -5,9 +7,10 @@ import { dayKey } from './streaks';
 // Landmark missions (owner, 2026-11-16; the Abacos first). A landmark's
 // `mission` is { type: 'trivia' | 'photo', text, ... }. Trivia is answered
 // once per account and checked by the server (api/_lib/missionAnswer.js,
-// +10 for the right answer). Photo missions are checked on the phone
-// (lib/missionPhoto.js). What you've done is also kept on this device, so
-// the card shows it straight away.
+// +10 for the right answer); photo missions too (api/_lib/missionPhoto.js).
+// Whether a mission is done is the server's record (mission_answers,
+// mission_photos; loadServerMission). This device keeps a copy only so the
+// card shows straight away; the server's answer replaces it.
 
 export const TRIVIA_PROMPT = "Multiple-choice question: Let's give 10 extra points right now for any multiple-choice question answer.";
 
@@ -88,4 +91,34 @@ export async function submitMissionPhoto(landmark, photoURL) {
     throw err;
   }
   return data;
+}
+
+// This account's mission result here, from the server's record: a trivia
+// answer ({ kind: 'trivia', correct, picked }) or a passed photo ({ kind:
+// 'photo', awarded }), or null when there is none.
+export async function loadServerMission(uid, landmarkId) {
+  if (!db || !uid || !landmarkId) return null;
+  const id = `${uid}_${landmarkId}`;
+  const [a, p] = await Promise.all([
+    getDoc(doc(db, 'mission_answers', id)).catch(() => null),
+    getDoc(doc(db, 'mission_photos', id)).catch(() => null),
+  ]);
+  if (a?.exists()) {
+    const d = a.data();
+    return { kind: 'trivia', correct: !!d.correct, picked: d.answer, answer: d.correct ? d.answer : null };
+  }
+  if (p?.exists() && p.data().passed) return { kind: 'photo', awarded: Number(p.data().points) || 0 };
+  return null;
+}
+
+// Replaces this device's copy with the server's record (null clears it).
+export function syncMissionDone(uid, landmarkId, result) {
+  try {
+    const all = readAll(uid);
+    if (result) all[landmarkId] = { ...result, at: Date.now() };
+    else delete all[landmarkId];
+    localStorage.setItem(storeKey(uid), JSON.stringify(all));
+  } catch {
+    /* private mode */
+  }
 }

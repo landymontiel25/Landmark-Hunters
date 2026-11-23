@@ -7,7 +7,7 @@ import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { checkPresence, validFix } from '../src/lib/presence.js';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
-import { validClientDayKey } from './_lib/streakDay.js';
+import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin } from './_lib/checkinPayout.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
@@ -38,8 +38,6 @@ async function loadPlace(db, region, landmarkId) {
   return snap.exists ? snap.data() : null;
 }
 
-const serverDayKey = (d = new Date()) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -54,7 +52,7 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { checkinId, fix, dayId } = req.body || {};
+  const { checkinId, fix } = req.body || {};
   if (typeof checkinId !== 'string' || !/^[\w.-]{1,300}$/.test(checkinId) || !validFix(fix)) {
     res.status(400).json({ error: 'checkinId and a GPS fix are required.' });
     return;
@@ -125,7 +123,8 @@ async function handler(req, res) {
     // the caller's own day, checked; anything else falls back to today.
     let awarded = 0;
     if (result.verified) {
-      const day = validClientDayKey(dayId) || validClientDayKey(serverDayKey());
+      // The boards' day is the server's (the user's pinned streak zone).
+      const day = await userDayKey(db, account.uid);
       const paid = await payVerifiedCheckin(db, account.uid, checkinId, day).catch((e) => {
         console.error('verify-checkin payout failed', e);
         return { awarded: 0 };

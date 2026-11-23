@@ -1291,6 +1291,25 @@ await t('an entry holds your answers, nothing else, and never the server\'s noti
   await assertFails(setDoc(doc(as('bob'), 'streaks/ann_bob/days/2026-10-23/entries/ann'), e()));
 });
 
+console.log('photo caps (anti-farming item 4)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'users/pam'), { uid: 'pam', username: 'pam', public: true });
+  await setDoc(doc(db, 'checkins/pam_lm'), { userId: 'pam', landmarkId: 'lm', points: 0, photoURLs: ['a'] });
+  await setDoc(doc(db, 'checkins/pam_old'), { userId: 'pam', landmarkId: 'old', points: 0, photoURLs: [...Array(12)].map((_, i) => `p${i}`) });
+});
+await t('a check-in takes at most 9 photos; an older list over 9 may stay, never grow', async () => {
+  const db = as('pam');
+  await assertSucceeds(updateDoc(doc(db, 'checkins/pam_lm'), { photoURLs: [...Array(9)].map((_, i) => `p${i}`) }));
+  await assertFails(updateDoc(doc(db, 'checkins/pam_lm'), { photoURLs: [...Array(10)].map((_, i) => `p${i}`) }));
+  await assertSucceeds(updateDoc(doc(db, 'checkins/pam_old'), { userName: 'Pam' }));
+  await assertFails(updateDoc(doc(db, 'checkins/pam_old'), { photoURLs: [...Array(13)].map((_, i) => `p${i}`) }));
+});
+await t('photo fingerprints are server-only', async () => {
+  await assertFails(setDoc(doc(as('pam'), 'photo_hashes/abc'), { uid: 'pam' }));
+  await assertFails(getDoc(doc(as('pam'), 'photo_hashes/abc')));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

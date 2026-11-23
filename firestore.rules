@@ -187,6 +187,13 @@ service cloud.firestore {
           (checkinId.split('_')[0] == request.auth.uid
             && request.resource.data.diff(resource.data).affectedKeys()
                  .hasOnly(['photoURL', 'photoURLs', 'userName', 'distanceMeters', 'gpsAccuracyMeters', 'presence'])
+            // A check-in holds at most 9 photos (MAX_CHECKIN_PHOTOS), as
+            // strings (anti-farming item 4: the cap was only in the app).
+            && (!('photoURLs' in request.resource.data)
+                || (request.resource.data.photoURLs is list && request.resource.data.photoURLs.size() <= 9)
+                // an older list over the cap may stay as it is, never grow
+                || request.resource.data.photoURLs == resource.data.get('photoURLs', null))
+            && (!('photoURL' in request.resource.data) || request.resource.data.photoURL == null || request.resource.data.photoURL is string)
             && locationOnlyRemoved('distanceMeters')
             && locationOnlyRemoved('gpsAccuracyMeters')
             // `presence` is server-written: the owner may only remove it
@@ -247,6 +254,11 @@ service cloud.firestore {
     match /ai_errors/{id} {
       allow read: if isAdmin();
       allow write: if false;
+    }
+    // Photo fingerprints (api/_lib/photoGuard.js): which account used a
+    // photo, at which place. Server only.
+    match /photo_hashes/{hash} {
+      allow read, write: if false;
     }
     // Referral bookkeeping (api/_lib/referralBonus.js): which phone numbers
     // have paid a referral (hashed) and each referrer's counts. Server only.
@@ -746,6 +758,12 @@ service cloud.firestore {
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
     }
 
+    // A rating holds at most 3 photos (MAX_REVIEW_PHOTOS), as a list.
+    function reviewPhotosOk(d) {
+      return !('photoURLs' in d) || (d.photoURLs is list && d.photoURLs.size() <= 3)
+        // an older list over the cap may stay as it is, never grow
+        || (resource != null && d.photoURLs == resource.data.get('photoURLs', null));
+    }
     match /reviews/{reviewId} {
       // A review (comment, stars, photos) is visible to: its own author, a
       // friend of the author, or anyone at all if the author's account is
@@ -803,6 +821,7 @@ service cloud.firestore {
       allow create: if request.auth != null
         && reviewId == request.auth.uid + '_' + request.resource.data.landmarkId
         && request.resource.data.userId == request.auth.uid
+        && reviewPhotosOk(request.resource.data)
         && !request.resource.data.keys().hasAny(['reportedBy'])
         && request.resource.data.get('comment', '').size() <= 500
         && reviewHiddenOk(request.resource.data)
@@ -820,6 +839,7 @@ service cloud.firestore {
           // The author can't clear reportedBy to un-hide a reported review.
           (reviewId == request.auth.uid + '_' + request.resource.data.landmarkId
             && request.resource.data.userId == request.auth.uid
+            && reviewPhotosOk(request.resource.data)
             && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['reportedBy', 'userId'])
             && request.resource.data.get('comment', '').size() <= 500
             && reviewHiddenOk(request.resource.data)

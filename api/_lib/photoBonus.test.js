@@ -55,7 +55,9 @@ function fakeDb(initial = {}) {
   return db;
 }
 
-const PHOTO = 'https://firebasestorage.googleapis.com/v0/b/app/o/checkin_photos%2Fx.jpg?alt=media';
+const PHOTO = 'https://firebasestorage.googleapis.com/v0/b/landmark-hunters-284ab.firebasestorage.app/o/checkin_photos%2Fx%2Fu_1.jpg?alt=media';
+// The duplicate check (photoGuard.js) has its own tests; here every photo is new.
+const okGuard = async () => ({ ok: true });
 const visit = { userId: 'u', userName: 'Alex', landmarkId: 'x', region: 'miami', landmarkName: 'X Place', points: 100, visited: true, ratingOnly: false, presence: { verified: true }, photoURLs: [PHOTO] };
 const decide = (over) => photoBonusDecision({ uid: 'u', checkin: visit, review: null, paid: false, today: 0, ...over });
 
@@ -98,14 +100,14 @@ describe('awardPhotoBonus', () => {
   it('pays +10 once when the photo shows the place: ledger, day count, lifetime points', async () => {
     const db = setup();
     const check = vi.fn(async () => ({ ok: true, reason: 'the stadium from the stands' }));
-    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check });
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check });
     expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
     expect(check).toHaveBeenCalledWith({ url: PHOTO, place: expect.objectContaining({ name: 'X Place', city: 'Miami' }) });
     expect(db.docs.get('users/u').bonusPoints).toBe(PHOTO_BONUS_POINTS);
     expect(db.docs.get('photo_bonus_days/u_2026-9-21').count).toBe(1);
     expect(db.docs.has('photo_bonuses/u_x')).toBe(true);
     // Again: already paid, and no second photo check.
-    expect((await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check })).reason).toBe('already');
+    expect((await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check })).reason).toBe('already');
     expect(check).toHaveBeenCalledTimes(1);
     expect(db.docs.get('users/u').bonusPoints).toBe(PHOTO_BONUS_POINTS);
   });
@@ -113,35 +115,35 @@ describe('awardPhotoBonus', () => {
   it('pays nothing for a black screen or a random photo, says why and what it needed, and only re-checks it on Try again', async () => {
     const db = setup();
     const check = vi.fn(async () => ({ ok: false, reason: 'A black image.' }));
-    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check });
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check });
     expect(out).toMatchObject({ awarded: 0, reason: 'photo-not-of-place', why: 'A black image.' });
     expect(out.expected).toMatch(/^a photo of /);
     expect(db.docs.has('users/u')).toBe(false);
     expect(db.docs.get('photo_bonus_checks/u_x')[CHECKED_FIELD]).toEqual([PHOTO]);
-    expect((await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check })).reason).toBe('photo-not-of-place');
+    expect((await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check })).reason).toBe('photo-not-of-place');
     expect(check).toHaveBeenCalledTimes(1);
-    await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check, retry: true });
+    await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check, retry: true });
     expect(check).toHaveBeenCalledTimes(2);
   });
 
   it('checks again a photo the old check turned down', async () => {
     const db = setup();
     db.docs.set('photo_bonus_checks/u_x', { userId: 'u', urls: [PHOTO] });
-    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'Tennis courts at the resort.' }) });
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'Tennis courts at the resort.' }) });
     expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
   });
 
   it('a check that could not run says so instead of a silent no', async () => {
     const db = setup();
-    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check: async () => ({ ok: false, reason: 'check failed', failed: true }) });
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check: async () => ({ ok: false, reason: 'check failed', failed: true }) });
     expect(out.reason).toBe('check-failed');
   });
 
   it('a failed check is not a verdict: the photo is checked again next time', async () => {
     const db = setup();
-    await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check: async () => ({ ok: false, reason: 'check failed' }) });
+    await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check: async () => ({ ok: false, reason: 'check failed' }) });
     expect(db.docs.has('photo_bonus_checks/u_x')).toBe(false);
-    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
     expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
   });
 
@@ -150,19 +152,19 @@ describe('awardPhotoBonus', () => {
       'checkins/u_x': { ...visit, ratingOnly: true, visited: false, points: 0 },
       'checkins/u_x_2': { userId: 'u', landmarkId: 'x', ratingOnly: false, visited: true, points: 0, presence: { verified: true } },
     });
-    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
     expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
     // With no real visit anywhere, still nothing.
     const none = fakeDb({ 'checkins/u_x': { ...visit, ratingOnly: true, visited: false, points: 0 } });
-    expect((await awardPhotoBonus(none, 'u', 'x', { dayId: '2026-9-21', check: async () => ({ ok: true }) })).reason).toBe('no-checkin');
+    expect((await awardPhotoBonus(none, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check: async () => ({ ok: true }) })).reason).toBe('no-checkin');
   });
 
   it('respects the daily limit, except for the back-pay', async () => {
     const db = fakeDb({ 'checkins/u_x': visit, 'photo_bonus_days/u_2026-9-21': { count: PHOTO_BONUSES_PER_DAY } });
     const check = vi.fn(async () => ({ ok: true, reason: 'ok' }));
-    expect((await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check })).reason).toBe('daily-limit');
+    expect((await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', check })).reason).toBe('daily-limit');
     expect(check).not.toHaveBeenCalled();
-    expect((await awardPhotoBonus(db, 'u', 'x', { dailyLimit: false, boards: false, check })).awarded).toBe(PHOTO_BONUS_POINTS);
+    expect((await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dailyLimit: false, boards: false, check })).awarded).toBe(PHOTO_BONUS_POINTS);
   });
 });
 
@@ -219,5 +221,24 @@ describe('what the check knows about a place', () => {
     expect(place.scenes.join(' ')).toMatch(/restaurants/);
     expect(place.radiusMeters).toBe(400);
     expect(expectedPhoto(place)).toMatch(/^a photo of Abaco Beach Resort & Boat Harbour Marina or anywhere on it: /);
+  });
+});
+
+describe('photo bonus: whose photo it is', () => {
+  it('exploit: someone else\'s photo URL on your own check-in is never checked or paid', async () => {
+    const theirs = 'https://firebasestorage.googleapis.com/v0/b/landmark-hunters-284ab.firebasestorage.app/o/checkin_photos%2Fx%2Fsomeone_1.jpg?alt=media';
+    const db = fakeDb({ 'checkins/u_x': { ...visit, photoURLs: [theirs] } });
+    const check = vi.fn(async () => ({ ok: true, reason: 'ok' }));
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check });
+    expect(out.awarded).toBe(0);
+    expect(check).not.toHaveBeenCalled();
+  });
+  it('exploit: a photo already used elsewhere is turned down before the AI is asked, with the reason', async () => {
+    const db = fakeDb({ 'checkins/u_x': visit });
+    const check = vi.fn(async () => ({ ok: true, reason: 'ok' }));
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: async () => ({ ok: false, reason: 'duplicate-photo' }), dayId: '2026-9-21', boards: false, check });
+    expect(out).toMatchObject({ awarded: 0, reason: 'photo-not-of-place' });
+    expect(out.why).toMatch(/already used/);
+    expect(check).not.toHaveBeenCalled();
   });
 });

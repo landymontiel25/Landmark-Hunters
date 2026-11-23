@@ -25,8 +25,8 @@ describe('photoCheck', () => {
     expect(req.model).toBe(PHOTO_CHECK_MODEL);
     expect(req.tool_choice).toEqual({ type: 'tool', name: 'photo_verdict' });
     expect(req.betas).toBeUndefined();
-    expect(req.messages[0].content[0]).toEqual({ type: 'image', source: { type: 'url', url: URL_OK } });
-    expect(req.messages[0].content[1].text).toContain('Hard Rock Stadium (Sports), Miami');
+    expect(req.messages[0].content.filter((b) => b.type === 'image')).toEqual([{ type: 'image', source: { type: 'url', url: URL_OK } }]);
+    expect(req.messages[0].content.at(-1).text).toContain('Hard Rock Stadium (Sports), Miami');
   });
 
   it('a no, a refusal or an error never pays', async () => {
@@ -42,7 +42,7 @@ describe('photoCheck', () => {
     const req = client.messages.create.mock.calls[0][0];
     expect(req.system).toMatch(/only when the photo clearly is not this place/);
     expect(req.system).toMatch(/GPS/);
-    const text = req.messages[0].content[1].text;
+    const text = req.messages[0].content.at(-1).text;
     expect(text).toContain('About it: Beach resort.');
     expect(text).toContain('On the property: the tennis courts; the marina.');
     expect(text).toContain('400 meters');
@@ -54,6 +54,16 @@ describe('photoCheck', () => {
     expect(out).toEqual({ ok: false, reason: 'A tiled floor.' });
     const req = client.messages.create.mock.calls[0][0];
     expect(req.system).toMatch(/photo mission/);
-    expect(req.messages[0].content[1].text).toContain('The mission: Photograph the marina with the boats and the beach.');
+    expect(req.messages[0].content.at(-1).text).toContain('The mission: Photograph the marina with the boats and the beach.');
+  });
+
+  it('sends the place\'s own catalog photos first, as labelled references (Wikimedia only, two at most)', async () => {
+    const client = clientWith(reply({ matches: true, reason: 'ok' }));
+    const images = ['https://upload.wikimedia.org/a.jpg', 'https://upload.wikimedia.org/b.jpg', 'https://upload.wikimedia.org/c.jpg', 'https://lh3.googleusercontent.com/x'];
+    await photoShowsPlace({ url: URL_OK, place: { ...place, images }, client, log: async () => {} });
+    const content = client.messages.create.mock.calls[0][0].messages[0].content;
+    const imgs = content.filter((b) => b.type === 'image').map((b) => b.source.url);
+    expect(imgs).toEqual(['https://upload.wikimedia.org/a.jpg', 'https://upload.wikimedia.org/b.jpg', URL_OK]);
+    expect(content[0].text).toMatch(/Reference photos of the place/);
   });
 });

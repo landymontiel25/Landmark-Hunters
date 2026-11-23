@@ -110,3 +110,17 @@ export async function assignDeck(streakRef, dayId, draw, cityId = null) {
   await ref.set({ cards, cityId, assignedAtMs: Date.now() }, { merge: true });
   return { cards, cityId };
 }
+
+// A user's "today" for anything the server counts per day (the photo bonus
+// cap, the boards a payout lands on): the day in their streak's pinned zone,
+// else UTC. Never the day a phone names.
+export async function userDayKey(db, uid, nowMs = Date.now()) {
+  let zone = null;
+  try {
+    const snap = await db.collection('streaks').doc(uid).get();
+    zone = snap.exists ? validZone(snap.data()?.tz?.zone) : null;
+  } catch {
+    zone = null;
+  }
+  return serverDay(zone || 'UTC', nowMs);
+}

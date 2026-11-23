@@ -88,7 +88,7 @@ async function recordFailure(feature, e) {
   }
 }
 
-async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure }) {
+async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure, references = [] }) {
   if (!isStoragePhotoUrl(url)) return { ok: false, reason: 'not an app photo' };
   const anthropic = client || new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 2 });
   try {
@@ -102,6 +102,12 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
         {
           role: 'user',
           content: [
+            // The place's own catalog photos first, labelled, so the
+            // check can compare (anti-farming item 4).
+            ...(references.length
+              ? [{ type: 'text', text: "Reference photos of the place (from the app's catalog, not the traveler's):" }, ...references.map((r) => ({ type: 'image', source: { type: 'url', url: r } }))]
+              : []),
+            { type: 'text', text: references.length ? "The traveler's photo:" : 'Photo:' },
             { type: 'image', source: { type: 'url', url } },
             { type: 'text', text: about },
           ],
@@ -131,12 +137,18 @@ export function placeAbout(place) {
 }
 
 // place: { name, kinds, city, description, scenes, radiusMeters }.
+// Catalog photos worth sending as references: public Wikimedia files only,
+// two at most.
+export function referencePhotos(images) {
+  return (Array.isArray(images) ? images : []).filter((u) => typeof u === 'string' && /^https:\/\/(upload|commons)\.wikimedia\.org\//.test(u)).slice(0, 2);
+}
+
 export function photoShowsPlace({ url, place, client = null, log = logAiCall }) {
-  return askAboutPhoto({ url, system: PLACE_INSTRUCTIONS, about: placeAbout(place), feature: 'photo-check', client, log });
+  return askAboutPhoto({ url, system: PLACE_INSTRUCTIONS, about: placeAbout(place), feature: 'photo-check', client, log, references: referencePhotos(place.images) });
 }
 
 // mission: the landmark's mission text.
 export function photoMatchesMission({ url, place, mission, client = null, log = logAiCall }) {
   const about = `${placeAbout({ name: place.name, city: place.city, description: place.description })}\nThe mission: ${mission}`;
-  return askAboutPhoto({ url, system: MISSION_INSTRUCTIONS, about, feature: 'mission-photo-check', client, log });
+  return askAboutPhoto({ url, system: MISSION_INSTRUCTIONS, about, feature: 'mission-photo-check', client, log, references: referencePhotos(place.images) });
 }

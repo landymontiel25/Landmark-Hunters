@@ -3,6 +3,23 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 4: photos (2026-11-23)
+
+- **Done.** api/_lib/photoGuard.js: a photo counts only if it is this
+  project's Storage file in the caller's own folder for that place
+  (checkin_photos|review_photos/{landmarkId}/{uid}_...), and its sha256 isn't
+  already claimed by another account or place (photo_hashes, server-only);
+  both run before any AI call, for the photo bonus and photo missions. The
+  photo bonus cap day and every payout's board day are the server's
+  (streakClock.js userDayKey: the user's pinned zone, else UTC), never the
+  phone's dayId. Rules cap check-in photos at 9 and rating photos at 3
+  (an older list over the cap may stay, never grow). The checks send up to
+  2 Wikimedia catalog photos as references. Mission completion is read from
+  mission_answers / mission_photos (MissionPanel; localStorage is a cache);
+  a wrong trivia guess no longer shows the right answer in the app.
+- **Open.** Places with no free catalog photo (Abaco Beach Resort) send no
+  reference photo; Google's can't be stored or reused for this.
+
 ## Anti-farming 3: referrals paid by the server (2026-11-23)
 
 - **Done.** api/referral-claim (api/_lib/referralBonus.js) pays both sides

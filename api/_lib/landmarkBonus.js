@@ -5,6 +5,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { validClientDayKey } from './streakDay.js';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
+import { userDayKey } from './streakClock.js';
 import { specialPlace } from '../../src/data/specialPlaces.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 
@@ -67,7 +68,8 @@ async function handler(req, res) {
     return;
   }
   try {
-    const out = await awardLandmarkBonus(adminDb(), account.uid, regionId, landmarkId, dayId);
+    const db = adminDb();
+    const out = await awardLandmarkBonus(db, account.uid, regionId, landmarkId, await userDayKey(db, account.uid));
     res.status(200).json({ ok: true, awarded: out.awarded, reason: out.reason || null });
   } catch (e) {
     console.error('[landmark-bonus] failed', e);

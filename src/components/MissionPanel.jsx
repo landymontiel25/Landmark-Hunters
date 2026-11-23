@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useToast } from '../lib/ToastContext';
-import { missionOf, missionDone, markMissionDone, submitMissionAnswer, submitMissionPhoto, TRIVIA_PROMPT } from '../lib/missions';
+import { missionOf, missionDone, markMissionDone, submitMissionAnswer, submitMissionPhoto, loadServerMission, syncMissionDone, TRIVIA_PROMPT } from '../lib/missions';
 import { checkMissionPhoto, takeMissionPhoto } from '../lib/missionPhoto';
 import { addCheckinPhoto } from '../lib/leaderboard';
 import { friendlyError } from '../lib/friendlyError';
@@ -24,6 +24,20 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
   const [done, setDone] = useState(() => (landmark?.id ? missionDone(uid, landmark.id) : null));
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState(null);
+  // The server's record decides whether it's done (anti-farming item 4).
+  const landmarkId = landmark?.id;
+  useEffect(() => {
+    if (!uid || !landmarkId || !mission) return undefined;
+    let live = true;
+    loadServerMission(uid, landmarkId).then((r) => {
+      if (!live) return;
+      syncMissionDone(uid, landmarkId, r);
+      setDone(r);
+    });
+    return () => {
+      live = false;
+    };
+  }, [uid, landmarkId, mission]);
   if (!mission) return null;
   const ready = Number.isFinite(checkedInAt) && !!uid;
 
@@ -87,9 +101,8 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
 
       {mission.type === 'trivia' && done?.kind === 'trivia' && (
         <p className="mission-result" role="status">
-          {done.correct
-            ? `${'✓'} Right: ${options[done.answer] ?? ''}. +10 points.`
-            : `Not this time. The answer is ${options[done.answer] ?? 'shown on the landmark page'}.`}
+          {/* A wrong guess never shows the right answer (anti-farming item 6). */}
+          {done.correct ? `${'✓'} Right: ${options[done.picked ?? done.answer] ?? ''}. +10 points.` : 'Not this time. One answer per place.'}
         </p>
       )}
       {mission.type === 'photo' && done?.kind === 'photo' && (

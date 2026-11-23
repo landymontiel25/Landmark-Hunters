@@ -2,9 +2,10 @@ import { verifyIdToken } from './verifyAuth.js';
 import { isRateLimited } from './rateLimit.js';
 import { adminDb } from './firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { validClientDayKey } from './streakDay.js';
 import { awardLeaderboardPointsServer, cleanUserName } from './leaderboardPoints.js';
 import { photoShowsPlace } from './photoCheck.js';
+import { guardPhoto, isOwnPlacePhoto } from './photoGuard.js';
+import { userDayKey } from './streakClock.js';
 import { withCors } from './cors.js';
 import { INTERESTS, getLandmark, getRegion } from '../../src/data/regions.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
@@ -77,6 +78,8 @@ export function placeInfo(landmarkId, checkin) {
     // What's on the property (a landmark's photoScenes), for big places.
     scenes: Array.isArray(lm?.photoScenes) ? lm.photoScenes : [],
     radiusMeters: lm ? radiusFor(lm) : null,
+    // The place's own catalog photos, sent as references (photoCheck.js).
+    images: Array.isArray(lm?.images) ? lm.images : [],
   };
 }
 
@@ -88,7 +91,7 @@ export function expectedPhoto(place) {
 // One place, start to end: the checks, the photo check, then the payout in
 // a transaction. Used by the endpoint (daily limit and the weekly/monthly/
 // yearly boards on) and by the one-time back-pay (both off).
-export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, dailyLimit = true, boards = true, check = photoShowsPlace, retry = false } = {}) {
+export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, dailyLimit = true, boards = true, check = photoShowsPlace, retry = false, guard = guardPhoto } = {}) {
   const docId = `${uid}_${landmarkId}`;
   const checkinRef = db.collection('checkins').doc(docId);
   const reviewRef = db.collection('reviews').doc(docId);
@@ -122,7 +125,8 @@ export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, daily
   // Does a photo show the place? Newest first; the first yes is enough.
   const checksSnap = await checksRef.get();
   const checked = checksSnap.exists ? checksSnap.data()[CHECKED_FIELD] || [] : [];
-  const urls = photosToCheck({ uid, checkin: first.checkin, review: first.review, checked, retry });
+  // Only the caller's own photos of this place (photoGuard.js).
+  const urls = photosToCheck({ uid, checkin: first.checkin, review: first.review, checked, retry }).filter((u) => isOwnPlacePhoto(u, uid, landmarkId));
   const place = placeInfo(landmarkId, first.checkin);
   const expected = expectedPhoto(place);
   if (!urls.length) return { awarded: 0, reason: 'photo-not-of-place', expected, why: null };
@@ -130,6 +134,14 @@ export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, daily
   let lastNo = null;
   const tried = [];
   for (const url of urls) {
+    // A photo someone else already used, or that this account used at
+    // another place, is turned down before any AI is asked.
+    const g = await guard(db, url, { uid, landmarkId });
+    if (!g.ok) {
+      tried.push(url);
+      lastNo = { reason: g.reason === 'duplicate-photo' ? 'This photo was already used, by someone else or for another place.' : "This photo couldn't be read." };
+      continue;
+    }
     const v = await check({ url, place });
     // A failed call isn't a verdict: that photo can be checked again later.
     if (!v.failed && v.reason !== 'check failed') {
@@ -183,13 +195,16 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { landmarkId, dayId, retry } = req.body || {};
-  if (!validLandmarkId(landmarkId) || !validClientDayKey(dayId)) {
-    res.status(400).json({ error: 'landmarkId and dayId are required.' });
+  // The day (the daily cap, the boards) is the server's, never the phone's.
+  const { landmarkId, retry } = req.body || {};
+  if (!validLandmarkId(landmarkId)) {
+    res.status(400).json({ error: 'landmarkId is required.' });
     return;
   }
   try {
-    const out = await awardPhotoBonus(adminDb(), account.uid, landmarkId, { dayId, retry: retry === true });
+    const db = adminDb();
+    const dayId = await userDayKey(db, account.uid);
+    const out = await awardPhotoBonus(db, account.uid, landmarkId, { dayId, retry: retry === true });
     res.status(200).json({ ok: true, awarded: out.awarded, reason: out.reason || null, expected: out.expected || null, why: out.why || null });
   } catch (e) {
     console.error('[photo-bonus] failed', e);

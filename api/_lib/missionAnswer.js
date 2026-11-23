@@ -5,6 +5,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { validClientDayKey } from './streakDay.js';
 import { cleanUserName, leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
+import { userDayKey } from './streakClock.js';
 import { canonicalRegionId, getLandmark } from '../../src/data/regions.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 
@@ -73,7 +74,8 @@ async function handler(req, res) {
     }
     try {
       const { checkMissionPhoto } = await import('./missionPhoto.js');
-      const out = await checkMissionPhoto(adminDb(), account.uid, regionId, landmarkId, photoURL, dayId);
+      const db = adminDb();
+      const out = await checkMissionPhoto(db, account.uid, regionId, landmarkId, photoURL, await userDayKey(db, account.uid));
       res.status(200).json({ ok: true, awarded: out.awarded, passed: out.passed ?? false, reason: out.reason || null, why: out.why || null, mission: out.mission || null });
     } catch (e) {
       console.error('[mission-photo] failed', e);
@@ -86,7 +88,8 @@ async function handler(req, res) {
     return;
   }
   try {
-    const out = await answerMission(adminDb(), account.uid, regionId, landmarkId, answer, dayId);
+    const db = adminDb();
+    const out = await answerMission(db, account.uid, regionId, landmarkId, answer, await userDayKey(db, account.uid));
     res.status(200).json({ ok: true, awarded: out.awarded, correct: out.correct ?? null, answer: out.answer ?? null, picked: out.picked ?? null, reason: out.reason || null });
   } catch (e) {
     console.error('[mission-answer] failed', e);
