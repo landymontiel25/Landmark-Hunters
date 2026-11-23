@@ -1254,6 +1254,13 @@ await t('mission_photos: no app can mark a mission passed or pay itself', async 
   await assertFails(updateDoc(doc(as('ann'), 'mission_photos/ann_abaco-beach-resort'), { points: 1000 }));
 });
 
+await t('ai_errors: only the admin reads them, no app writes them', async () => {
+  await seed((db) => setDoc(doc(db, 'ai_errors/e1'), { feature: 'photo-check', message: 'x' }));
+  await assertFails(getDoc(doc(as('ann'), 'ai_errors/e1')));
+  await assertFails(setDoc(doc(as('ann'), 'ai_errors/e2'), { feature: 'x' }));
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('owner', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'ai_errors/e1')));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

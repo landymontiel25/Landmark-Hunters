@@ -265,6 +265,12 @@ service cloud.firestore {
       allow read: if request.auth != null && resource.data.userId == request.auth.uid;
       allow write: if false;
     }
+    // Why an AI call failed (api/_lib/photoCheck.js), server-written; only
+    // the admin reads it. No user content: model, status and the API's message.
+    match /ai_errors/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
     // Photo missions (api/_lib/missionPhoto.js): whether this account's
     // photo did the mission here. Server-written only; the owner reads it.
     match /mission_photos/{id} {

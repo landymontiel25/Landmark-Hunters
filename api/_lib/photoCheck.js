@@ -35,14 +35,23 @@ const MISSION_INSTRUCTIONS =
   'or the image is black, blank, very dark or unrecognizably blurry, a screenshot, a meme or a picture from the internet. ' +
   'Give a short reason in plain words, saying what the photo shows.';
 
-const SCHEMA = {
-  type: 'object',
-  properties: {
-    matches: { type: 'boolean' },
-    reason: { type: 'string' },
+// The answer comes back through a forced tool call (the same way Mapr chat
+// gets structured answers), on the standard Messages API. The beta endpoint
+// with server-side fallbacks and an output schema, used until 2026-11-22,
+// logged one answer ever (2026-10-23); every later call failed (the error
+// wasn't recorded) and read to the traveler as "doesn't look like it was
+// taken here". Failures are recorded now (recordFailure).
+const VERDICT_TOOL = {
+  name: 'photo_verdict',
+  description: 'Report whether the photo matches, with a short plain reason.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      matches: { type: 'boolean' },
+      reason: { type: 'string' },
+    },
+    required: ['matches', 'reason'],
   },
-  required: ['matches', 'reason'],
-  additionalProperties: false,
 };
 
 // Only the app's own Firebase Storage photos are checked (the URL a client
@@ -56,17 +65,39 @@ export function isStoragePhotoUrl(url) {
   }
 }
 
-async function askAboutPhoto({ url, system, about, feature, client, log }) {
-  if (!isStoragePhotoUrl(url)) return { ok: false, reason: 'not an app photo' };
-  const anthropic = client || new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 1 });
+// A call that didn't answer is recorded with its real error (ai_errors,
+// server-only), so the cause is visible instead of a generic message.
+async function recordFailure(feature, e) {
   try {
-    const msg = await anthropic.beta.messages.create({
+    const { adminDb } = await import('./firebaseAdmin.js');
+    await Promise.race([
+      adminDb()
+        .collection('ai_errors')
+        .add({
+          feature,
+          model: PHOTO_CHECK_MODEL,
+          status: Number(e?.status) || null,
+          type: String(e?.error?.error?.type || e?.name || 'error').slice(0, 100),
+          message: String(e?.error?.error?.message || e?.message || e).slice(0, 500),
+          at: new Date().toISOString(),
+        }),
+      new Promise((resolve) => setTimeout(resolve, 1500)),
+    ]);
+  } catch {
+    /* logging never breaks the check */
+  }
+}
+
+async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure }) {
+  if (!isStoragePhotoUrl(url)) return { ok: false, reason: 'not an app photo' };
+  const anthropic = client || new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 2 });
+  try {
+    const msg = await anthropic.messages.create({
       model: PHOTO_CHECK_MODEL,
-      max_tokens: 1024,
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      output_config: { effort: 'low', format: { type: 'json_schema', schema: SCHEMA } },
+      max_tokens: 512,
       system,
+      tools: [VERDICT_TOOL],
+      tool_choice: { type: 'tool', name: VERDICT_TOOL.name },
       messages: [
         {
           role: 'user',
@@ -79,14 +110,12 @@ async function askAboutPhoto({ url, system, about, feature, client, log }) {
     });
     await log({ feature, model: PHOTO_CHECK_MODEL, usage: msg.usage }).catch(() => {});
     if (msg.stop_reason === 'refusal') return { ok: false, reason: 'check declined', failed: true };
-    const text = msg.content
-      .filter((b) => b.type === 'text')
-      .map((b) => b.text)
-      .join('');
-    const out = JSON.parse(text);
+    const out = msg.content.find((b) => b.type === 'tool_use' && b.name === VERDICT_TOOL.name)?.input;
+    if (!out || typeof out.matches !== 'boolean') return { ok: false, reason: 'check failed', failed: true };
     return { ok: out.matches === true, reason: String(out.reason || '').slice(0, 200) };
   } catch (e) {
     console.error(`[${feature}] failed`, String(e?.message || e));
+    await onError(feature, e);
     return { ok: false, reason: 'check failed', failed: true };
   }
 }
