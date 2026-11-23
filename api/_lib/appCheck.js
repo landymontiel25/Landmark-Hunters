@@ -70,7 +70,7 @@ export async function verifyAppCheckToken(token, { env = process.env, fetchImpl 
  * itself and returns false only in enforce mode; true means carry on.
  */
 export async function appCheckGate(req, res, key, opts = {}) {
-  const mode = appCheckMode(opts.env);
+  const mode = opts.mode || appCheckMode(opts.env);
   if (mode === 'off') return true;
   const token = req.headers?.['x-firebase-appcheck'];
   const claims = await verifyAppCheckToken(token, opts);
@@ -83,6 +83,19 @@ export async function appCheckGate(req, res, key, opts = {}) {
   if (mode !== 'enforce') return true;
   res.status(401).json({ code: 'app-check-failed', error: 'This request could not be verified. Update the app or reload the page and try again.' });
   return false;
+}
+
+// The endpoints that pay points (anti-farming item 5): their own switch,
+// APP_CHECK_POINTS_MODE (off / monitor / enforce), so they can be enforced
+// before the whole API is. Defaults to monitor (log, never block): enforce
+// only once the web app has its reCAPTCHA key and the iOS app sends App
+// Attest tokens (docs/rate-limits.md), or every check-in is refused.
+export function pointsAppCheckMode(env = process.env) {
+  const m = String(env.APP_CHECK_POINTS_MODE || '').trim().toLowerCase();
+  return m === 'off' || m === 'enforce' ? m : 'monitor';
+}
+export function pointsAppCheckGate(req, res, key, opts = {}) {
+  return appCheckGate(req, res, key, { ...opts, mode: pointsAppCheckMode(opts.env) });
 }
 
 export function resetAppCheckCacheForTests() {

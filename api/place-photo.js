@@ -1,5 +1,4 @@
-import { isRateLimited } from './_lib/rateLimit.js';
-import { verifyIdToken } from './_lib/verifyAuth.js';
+import { guardBilledRequest } from './_lib/billedGuard.js';
 import { withCors } from './_lib/cors.js';
 import { timeoutSignal, isTimeoutError } from './_lib/upstream.js';
 import { PLACE_ID_NO_MATCH_RETRY_MS, PLACE_ID_REFRESH_MS } from './_lib/placeIdConstants.js';
@@ -60,14 +59,10 @@ async function handler(req, res) {
   // Landmarks list loads a page's photos and the next page's up front, 50 a
   // page turn); a signed-out visitor gets 120 per 10 minutes per IP, so one
   // visitor can't run up the bill.
-  const account = await verifyIdToken(req);
-  const limited = account
-    ? isRateLimited(req, 'place-photo', { limit: 300, windowMs: 10 * 60 * 1000, id: account.uid })
-    : isRateLimited(req, 'place-photo-anon', { limit: ANON_LIMIT, windowMs: 10 * 60 * 1000 });
-  if (limited) {
-    res.status(429).json({ error: "Too many photo requests in a row. Try again in a few minutes." });
-    return;
-  }
+  // Through the billed-request guard (anti-farming item 5): App Check, the
+  // burst limit, and a daily cap per account / IP and across everyone
+  // (usageQuota.js 'google-photos'), failing closed.
+  if (!(await guardBilledRequest(req, res, { key: 'place-photo', scope: 'google-photos', what: 'Photo', limit: 300, anonLimit: ANON_LIMIT, windowMs: 10 * 60 * 1000 }))) return;
 
   const name = String(req.query?.name ?? '').trim();
   const rawLat = req.query?.lat;

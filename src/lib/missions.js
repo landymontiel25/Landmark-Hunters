@@ -80,6 +80,11 @@ export async function submitMissionPhoto(landmark, photoURL) {
   } catch {
     r = null;
   }
+  if (data?.reason === 'check-limit') {
+    const err = new Error("That's all the photo checks for today. Try the mission again tomorrow.");
+    err.userMessage = err.message;
+    throw err;
+  }
   if (!r?.ok || !data?.ok || data.reason === 'check-failed') {
     const err = new Error("Couldn't check your photo just now. Try again.");
     err.userMessage = err.message;

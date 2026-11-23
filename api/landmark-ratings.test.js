@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 let signedIn = true;
+// Quotas fail closed with no Firestore; these tests are about other things.
+vi.mock('./_lib/usageQuota.js', async (orig) => ({ ...(await orig()), takeDailyQuota: async () => ({ ok: true }) }));
 vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => (signedIn ? { uid: 'me' } : null) }));
 vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 

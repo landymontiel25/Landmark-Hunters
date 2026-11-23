@@ -3,6 +3,21 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 5: billing and App Check (2026-11-23)
+
+- **Done.** api/place-photo.js goes through guardBilledRequest (App Check,
+  burst limit, daily cap `google-photos`). usageQuota.js fails closed
+  ('unavailable') instead of open. The AI photo checks are capped
+  (`ai-photo`, 30 per account, 3,000 overall a day) before any call. Every
+  endpoint that pays points runs pointsAppCheckGate (APP_CHECK_POINTS_MODE).
+- **Not done: enforcing App Check.** It would refuse every request today:
+  the web app has no reCAPTCHA Enterprise key (VITE_RECAPTCHA_ENTERPRISE_SITE_KEY)
+  and the iOS app sends no token (needs App Attest via
+  @capacitor-firebase/app-check, a native plugin and an Xcode build). Owner
+  steps in docs/rate-limits.md; then set APP_CHECK_POINTS_MODE=enforce.
+- **Found 2026-11-23:** every AI photo check fails with "Your credit balance
+  is too low to access the Anthropic API" (ai_errors). Owner: add credits.
+
 ## Anti-farming 4: photos (2026-11-23)
 
 - **Done.** api/_lib/photoGuard.js: a photo counts only if it is this

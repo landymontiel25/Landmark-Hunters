@@ -42,10 +42,10 @@ describe('daily usage quota', () => {
     expect(db.docs[`${QUOTA_COLLECTION}/2026-10-30_ai-plan_all`].count).toBe(4);
   });
 
-  it('fails open when Firestore is unavailable', async () => {
+  it('fails closed when Firestore is unavailable (anti-farming item 5)', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     const db = { collection: () => { throw new Error('down'); } };
-    expect(await takeDailyQuota('ai-plan', { uid: 'u', db, now: NOW, env })).toEqual({ ok: true });
+    expect(await takeDailyQuota('ai-plan', { uid: 'u', db, now: NOW, env })).toEqual({ ok: false, reason: 'unavailable' });
   });
 
   it('reads global caps from env, ignoring junk', () => {

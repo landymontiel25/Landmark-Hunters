@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Place-ID cache behaviour of api/place-photo.js (Admin SDK + fetch mocked).
 const verify = vi.fn();
+// Quotas fail closed with no Firestore; these tests are about other things.
+vi.mock('./_lib/usageQuota.js', async (orig) => ({ ...(await orig()), takeDailyQuota: async () => ({ ok: true }) }));
 vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: (...a) => verify(...a) }));
 vi.mock('./_lib/cors.js', () => ({ withCors: (h) => h }));
 

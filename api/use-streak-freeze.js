@@ -1,4 +1,5 @@
 import { verifyIdToken } from './_lib/verifyAuth.js';
+import { pointsAppCheckGate } from './_lib/appCheck.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
@@ -23,6 +24,8 @@ async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
+  // App Check on every endpoint that pays points (item 5; APP_CHECK_POINTS_MODE).
+  if (!(await pointsAppCheckGate(req, res, 'use-streak-freeze'))) return;
   const account = await verifyIdToken(req);
   if (!account) {
     res.status(401).json({ error: 'Sign in first.' });

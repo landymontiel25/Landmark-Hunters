@@ -20,9 +20,10 @@ import { quotaDay } from './photoBackfill.js';
 // can't read or write it. Each doc carries expireAt for a Firestore TTL
 // policy (owner step in docs/rate-limits.md).
 //
-// Fails open: with no FIREBASE_SERVICE_ACCOUNT, or Firestore slow or down,
-// the request goes through (the burst limiter still applies) and a
-// `usage_quota_error` line goes to the function log.
+// Fails closed (anti-farming item 5, owner 2026-11-23): with no
+// FIREBASE_SERVICE_ACCOUNT, or Firestore slow or down, the billed call is
+// refused ('unavailable') and a `usage_quota_error` line goes to the
+// function log. Before, it went through, so an outage meant no cap at all.
 
 export const QUOTA_COLLECTION = 'usage_quota';
 const FIRESTORE_TIMEOUT_MS = 1500;
@@ -48,6 +49,11 @@ export const DAILY_QUOTAS = {
   'google-details': { user: 300, anon: 60, global: 10000, env: 'GOOGLE_DETAILS_DAILY_GLOBAL_CAP' },
   'google-nearby': { user: 150, anon: 30, global: 5000, env: 'GOOGLE_NEARBY_DAILY_GLOBAL_CAP' },
   'google-directions': { user: 200, anon: 40, global: 8000, env: 'GOOGLE_DIRECTIONS_DAILY_GLOBAL_CAP' },
+  // Runtime place photos (api/place-photo.js): every landmark card asks.
+  'google-photos': { user: 1500, anon: 400, global: 60000, env: 'GOOGLE_PHOTOS_DAILY_GLOBAL_CAP' },
+  // The AI photo checks behind the photo bonus and photo missions
+  // (photoCheck.js): one Opus call with up to 3 images each.
+  'ai-photo': { user: 30, global: 3000, env: 'AI_PHOTO_DAILY_GLOBAL_CAP' },
 };
 
 export function globalCap(scope, env = process.env) {
@@ -121,11 +127,12 @@ export async function takeDailyQuota(scope, { uid, ip, db = null, now = Date.now
     } catch {
       /* logging must never break a reply */
     }
-    return { ok: true };
+    return { ok: false, reason: 'unavailable' };
   }
 }
 
 export function quotaMessage(reason, what) {
+  if (reason === 'unavailable') return `${what} isn't available right now. Try again in a few minutes.`;
   return reason === 'global'
     ? `${what} is paused for everyone for the rest of today. Try again tomorrow.`
     : `You've hit today's limit for ${what.toLowerCase()}. It resets at midnight Pacific time.`;

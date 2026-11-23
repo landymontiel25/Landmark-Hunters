@@ -1,4 +1,5 @@
 import { verifyIdToken } from './verifyAuth.js';
+import { pointsAppCheckGate } from './appCheck.js';
 import { isRateLimited } from './rateLimit.js';
 import { adminDb } from './firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
@@ -6,6 +7,7 @@ import { awardLeaderboardPointsServer, cleanUserName } from './leaderboardPoints
 import { photoShowsPlace } from './photoCheck.js';
 import { guardPhoto, isOwnPlacePhoto } from './photoGuard.js';
 import { userDayKey } from './streakClock.js';
+import { takeDailyQuota } from './usageQuota.js';
 import { withCors } from './cors.js';
 import { INTERESTS, getLandmark, getRegion } from '../../src/data/regions.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
@@ -91,7 +93,7 @@ export function expectedPhoto(place) {
 // One place, start to end: the checks, the photo check, then the payout in
 // a transaction. Used by the endpoint (daily limit and the weekly/monthly/
 // yearly boards on) and by the one-time back-pay (both off).
-export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, dailyLimit = true, boards = true, check = photoShowsPlace, retry = false, guard = guardPhoto } = {}) {
+export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, dailyLimit = true, boards = true, check = photoShowsPlace, retry = false, guard = guardPhoto, quota = takeDailyQuota } = {}) {
   const docId = `${uid}_${landmarkId}`;
   const checkinRef = db.collection('checkins').doc(docId);
   const reviewRef = db.collection('reviews').doc(docId);
@@ -142,6 +144,9 @@ export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, daily
       lastNo = { reason: g.reason === 'duplicate-photo' ? 'This photo was already used, by someone else or for another place.' : "This photo couldn't be read." };
       continue;
     }
+    // A daily cap on AI photo checks per account and overall (item 5).
+    const q = await quota('ai-photo', { uid });
+    if (!q.ok) return { awarded: 0, reason: 'check-limit' };
     const v = await check({ url, place });
     // A failed call isn't a verdict: that photo can be checked again later.
     if (!v.failed && v.reason !== 'check failed') {
@@ -186,6 +191,8 @@ async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
+  // App Check on every endpoint that pays points (item 5; APP_CHECK_POINTS_MODE).
+  if (!(await pointsAppCheckGate(req, res, 'photo-bonus'))) return;
   const account = await verifyIdToken(req);
   if (!account) {
     res.status(401).json({ error: 'Sign in first.' });

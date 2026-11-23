@@ -42,6 +42,7 @@ export function photoBonusToast({ awarded, reason, expected, why }) {
     const need = expected ? ` It needs ${sentence(expected)}` : ' It needs a photo of the place.';
     return { message: `No photo bonus yet.${why ? ` ${sentence(why)}` : ''}${need} Try again, or add another photo.`, tone: 'info', retry: true };
   }
+  if (reason === 'check-limit') return { message: "That's all the photo checks for today. Add your photo again tomorrow for the bonus.", tone: 'info' };
   if (reason === 'check-failed') return { message: "Couldn't check your photo for the bonus just now. Try again.", tone: 'info', retry: true };
   if (reason === 'no-checkin') return { message: 'Check in here first to earn the photo bonus.', tone: 'info' };
   if (reason === 'daily-limit') return { message: "That's today's 5 photo bonuses. Photos tomorrow can earn more.", tone: 'info' };

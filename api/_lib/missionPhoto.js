@@ -5,6 +5,7 @@ import { guardPhoto, isOwnPlacePhoto } from './photoGuard.js';
 import { canonicalRegionId, getLandmark, getRegion } from '../../src/data/regions.js';
 import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 import { MISSION_POINTS } from './missionAnswer.js';
+import { takeDailyQuota } from './usageQuota.js';
 
 // Photo missions (owner, 2026-11-22). Until now the phone only checked where
 // and when a mission photo was taken, so any photo passed (a picture of the
@@ -27,7 +28,7 @@ export function missionPhotoPrecheck({ mission, checkins, photoURL, previous, ui
   return null;
 }
 
-export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL, dayId, { check = photoMatchesMission, guard = guardPhoto } = {}) {
+export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL, dayId, { check = photoMatchesMission, guard = guardPhoto, quota = takeDailyQuota } = {}) {
   const region = canonicalRegionId(regionId);
   const lm = getLandmark(region, landmarkId);
   const mission = lm?.mission;
@@ -41,6 +42,9 @@ export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL,
   const g = await guard(db, photoURL, { uid, landmarkId });
   if (!g.ok) return { awarded: 0, reason: 'photo-not-mission', passed: false, why: g.reason === 'duplicate-photo' ? 'This photo was already used, by someone else or for another place.' : "This photo couldn't be read.", mission: mission.text };
 
+  // A daily cap on AI photo checks per account and overall (item 5).
+  const q = await quota('ai-photo', { uid });
+  if (!q.ok) return { awarded: 0, reason: 'check-limit' };
   const verdict = await check({
     url: photoURL,
     place: { name: lm.name, city: getRegion(region)?.name || '', description: lm.whatItIs || lm.summary || '', images: Array.isArray(lm.images) ? lm.images : [] },

@@ -1,5 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 
+// Quotas fail closed with no Firestore; these tests are about other things.
+vi.mock('./usageQuota.js', async (orig) => ({ ...(await orig()), takeDailyQuota: async () => ({ ok: true }) }));
 vi.mock('firebase-admin/firestore', () => ({
   FieldValue: { increment: (n) => ({ __inc: n }), serverTimestamp: () => 'now' },
 }));

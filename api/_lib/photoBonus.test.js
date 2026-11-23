@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { CHECKED_FIELD, PHOTO_BONUS_POINTS, PHOTO_BONUSES_PER_DAY, PHOTOS_CHECKED_PER_TRY, awardPhotoBonus, placeInfo, expectedPhoto, photoBonusDecision, photosToCheck } from './photoBonus.js';
 import { backfillCandidates, runPhotoBonusBackfill } from './photoBonusBackfill.js';
 
+// Quotas fail closed with no Firestore; these tests are about other things.
+vi.mock('./usageQuota.js', async (orig) => ({ ...(await orig()), takeDailyQuota: async () => ({ ok: true }) }));
 vi.mock('firebase-admin/firestore', () => ({
   FieldValue: {
     increment: (n) => ({ __inc: n }),
@@ -239,6 +241,16 @@ describe('photo bonus: whose photo it is', () => {
     const out = await awardPhotoBonus(db, 'u', 'x', { guard: async () => ({ ok: false, reason: 'duplicate-photo' }), dayId: '2026-9-21', boards: false, check });
     expect(out).toMatchObject({ awarded: 0, reason: 'photo-not-of-place' });
     expect(out.why).toMatch(/already used/);
+    expect(check).not.toHaveBeenCalled();
+  });
+});
+
+describe('a daily cap on AI photo checks (anti-farming item 5)', () => {
+  it('stops before the AI is asked once the cap is reached', async () => {
+    const db = fakeDb({ 'checkins/u_x': visit });
+    const check = vi.fn(async () => ({ ok: true, reason: 'ok' }));
+    const out = await awardPhotoBonus(db, 'u', 'x', { guard: okGuard, dayId: '2026-9-21', boards: false, check, quota: async () => ({ ok: false, reason: 'user' }) });
+    expect(out).toEqual({ awarded: 0, reason: 'check-limit' });
     expect(check).not.toHaveBeenCalled();
   });
 });

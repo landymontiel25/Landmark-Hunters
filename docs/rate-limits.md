@@ -38,7 +38,11 @@ midnight Pacific (when Google's quotas reset).
 | google-directions | directions | 200 | 40 | 8,000 |
 
 If Firestore is down or `FIREBASE_SERVICE_ACCOUNT` is missing, quotas fail
-open (the burst limit still applies) and log `usage_quota_error`.
+closed since 2026-11-23 (the billed call is refused with "isn't available
+right now") and log `usage_quota_error`. Scopes added then: `google-photos`
+(api/place-photo.js, now behind guardBilledRequest) and `ai-photo` (the AI
+photo checks behind the photo bonus and photo missions, 30 per account and
+3,000 overall a day).
 
 ## 3. App Check (`api/_lib/appCheck.js`, `src/lib/appCheck.js`)
 
@@ -62,7 +66,12 @@ scored per request, no puzzles. The web app attaches its token as
    - Vercel: `VITE_RECAPTCHA_ENTERPRISE_SITE_KEY=<key>`, `APP_CHECK_MODE=monitor`, redeploy.
    - Watch Vercel Logs for `app_check` lines for a few days. Web traffic
      should show none.
-4. **Enforce**: only after the iOS app sends tokens (needs App Attest
+4. **The points endpoints first** (anti-farming item 5): every endpoint that
+   pays points (verify-checkin, landmark-bonus, mission-answer, photo-bonus,
+   referral-claim, both day-closes, both freezes, recovery mission) checks
+   App Check under its own switch `APP_CHECK_POINTS_MODE` (default monitor).
+   Set it to `enforce` once steps 3 and the iOS plugin below are done.
+5. **Enforce**: only after the iOS app sends tokens (needs App Attest
    through `@capacitor-firebase/app-check`, not built yet). Until then
    `enforce` would block every iOS request. Then set `APP_CHECK_MODE=enforce`,
    and in Firebase App Check turn on enforcement for Firestore and Storage.

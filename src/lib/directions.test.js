@@ -1,6 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import handler from '../../api/directions.js';
 
+// Quotas fail closed with no Firestore; these tests are about directions.
+vi.mock('../../api/_lib/usageQuota.js', async (orig) => ({ ...(await orig()), takeDailyQuota: async () => ({ ok: true }) }));
+
 const run = (body) =>
   new Promise((resolve) => {
     const res = {

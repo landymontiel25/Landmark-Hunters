@@ -1,4 +1,5 @@
 import { verifyIdToken } from './verifyAuth.js';
+import { pointsAppCheckGate } from './appCheck.js';
 import { isRateLimited } from './rateLimit.js';
 import { adminDb, adminAuth } from './firebaseAdmin.js';
 import { validClientDayKey } from './streakDay.js';
@@ -14,6 +15,8 @@ async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
+  // App Check on every endpoint that pays points (item 5; APP_CHECK_POINTS_MODE).
+  if (!(await pointsAppCheckGate(req, res, 'referral-claim'))) return;
   const account = await verifyIdToken(req);
   if (!account) {
     res.status(401).json({ error: 'Sign in first.' });
