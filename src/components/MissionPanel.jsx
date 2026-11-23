@@ -25,6 +25,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
   const uid = user?.uid || null;
   const [done, setDone] = useState(() => (landmark?.id ? missionDone(uid, landmark.id) : null));
   const [busy, setBusy] = useState(false);
+  const [pendingTap, setPendingTap] = useState(null);
   const [note, setNote] = useState(null);
   // The "Mission completed" moment, shown once when a mission is finished here.
   const [celebrate, setCelebrate] = useState(null);
@@ -43,12 +44,32 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       live = false;
     };
   }, [uid, landmarkId, mission]);
+  // A wrong answer given before the right one was shown: ask the server
+  // for it once (it only answers an account that has already answered).
+  const needsRight = mission?.type === 'trivia' && done?.kind === 'trivia' && !done.correct && !Number.isInteger(done.answer) && Number.isInteger(done.picked);
+  useEffect(() => {
+    if (!needsRight || !uid) return undefined;
+    let live = true;
+    submitMissionAnswer(landmark, done.picked)
+      .then((out) => {
+        if (!live || !Number.isInteger(out.answer)) return;
+        const next = { ...done, answer: out.answer };
+        markMissionDone(uid, landmark.id, next);
+        setDone(next);
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needsRight, uid, landmarkId]);
   if (!mission) return null;
   const ready = (Number.isFinite(checkedInAt) || checkedIn) && !!uid;
 
   const answer = async (i) => {
     if (busy) return;
     setBusy(true);
+    setPendingTap(i);
     setNote(null);
     try {
       const out = await submitMissionAnswer(landmark, i);
@@ -59,6 +80,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
     } catch (e) {
       setNote(friendlyError(e, "Couldn't check your answer. Try again."));
     } finally {
+      setPendingTap(null);
       setBusy(false);
     }
   };
@@ -111,8 +133,11 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
 
       {mission.type === 'trivia' && done?.kind === 'trivia' && (
         <p className="mission-result" role="status">
-          {/* A wrong guess never shows the right answer (anti-farming item 6). */}
-          {done.correct ? `${'✓'} Mission completed. Right: ${options[done.picked ?? done.answer] ?? ''}. +10 points.` : 'Not this time. One answer per place.'}
+          {done.correct
+            ? `${'✓'} Mission completed. Right: ${options[done.picked ?? done.answer] ?? ''}. +10 points.`
+            : Number.isInteger(done.answer)
+              ? `Not this time. The right answer: ${options[done.answer] ?? ''}. One answer per place.`
+              : 'Not this time. One answer per place.'}
         </p>
       )}
       {mission.type === 'photo' && done?.kind === 'photo' && (
@@ -123,16 +148,34 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
 
       {!done && !ready && <p className="mission-hint">{uid ? 'Check in here to start it.' : 'Sign in and check in here to start it.'}</p>}
 
-      {!done && ready && mission.type === 'trivia' && (
+      {mission.type === 'trivia' && ((!done && ready) || done?.kind === 'trivia') && (
         <div className="mission-trivia">
-          <p className="mission-prompt">{TRIVIA_PROMPT}</p>
+          {!done && <p className="mission-prompt">{TRIVIA_PROMPT}</p>}
           <p className="mission-question">{mission.question}</p>
           <div className="mission-options" role="group" aria-label={mission.question} aria-busy={busy}>
-            {options.map((o, i) => (
-              <button key={i} type="button" className="mission-option" disabled={busy} onClick={() => answer(i)}>
-                {o}
-              </button>
-            ))}
+            {options.map((o, i) => {
+              // Green: the right answer. Red: the wrong one you picked. The
+              // right answer shows only once you have answered.
+              const answered = done?.kind === 'trivia';
+              const state = !answered
+                ? pendingTap === i
+                  ? ' is-picked'
+                  : ''
+                : i === done.picked
+                  ? done.correct
+                    ? ' is-right'
+                    : ' is-wrong'
+                  : !done.correct && i === done.answer
+                    ? ' is-right'
+                    : '';
+              return (
+                <button key={i} type="button" className={`mission-option${state}`} disabled={busy || answered} aria-pressed={answered ? i === done.picked : undefined} onClick={() => answer(i)}>
+                  {o}
+                  {state === ' is-right' && <span className="visually-hidden"> (right answer)</span>}
+                  {state === ' is-wrong' && <span className="visually-hidden"> (your answer, wrong)</span>}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

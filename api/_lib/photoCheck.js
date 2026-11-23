@@ -88,7 +88,7 @@ export function isStoragePhotoUrl(url) {
 
 // A call that didn't answer is recorded with its real error (ai_errors,
 // server-only), so the cause is visible instead of a generic message.
-async function recordFailure(feature, e) {
+async function recordFailure(feature, e, model = PHOTO_CHECK_MODEL) {
   try {
     const { adminDb } = await import('./firebaseAdmin.js');
     await Promise.race([
@@ -96,7 +96,7 @@ async function recordFailure(feature, e) {
         .collection('ai_errors')
         .add({
           feature,
-          model: PHOTO_CHECK_MODEL,
+          model,
           status: Number(e?.status) || null,
           type: String(e?.error?.error?.type || e?.name || 'error').slice(0, 100),
           message: String(e?.error?.error?.message || e?.message || e).slice(0, 500),
@@ -157,7 +157,7 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
     return { ok: out.matches === true, reason: String(out.reason || '').slice(0, 200) };
   } catch (e) {
     console.error(`[${feature}] failed`, String(e?.message || e));
-    await onError(feature, e);
+    await onError(feature, e, model);
     return { ok: false, reason: 'check failed', failed: true };
   }
 }

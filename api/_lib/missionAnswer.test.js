@@ -17,10 +17,10 @@ describe('missionAnswerDecision', () => {
     expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: null })).toMatchObject({ awarded: 10, correct: true });
   });
 
-  it('pays nothing for a wrong answer, and never says which was right', () => {
+  it('pays nothing for a wrong answer, and then says which was right', () => {
     const wrong = (right + 1) % 4;
-    expect(missionAnswerDecision({ right, mission, answer: wrong, checkins: visited, previous: null })).toMatchObject({ awarded: 0, correct: false, answer: null });
-    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: false, answer: wrong } }).answer).toBe(null);
+    expect(missionAnswerDecision({ right, mission, answer: wrong, checkins: visited, previous: null })).toMatchObject({ awarded: 0, correct: false, answer: right });
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: false, answer: wrong } }).answer).toBe(right);
   });
 
   it('the app\'s own data carries no answers (anti-farming item 6)', () => {

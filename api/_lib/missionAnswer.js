@@ -20,16 +20,16 @@ import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 export const MISSION_POINTS = 10;
 
 // Pure: what this answer earns. `right` is the server's own answer
-// (triviaAnswers.js). The right answer goes back only with a right guess
-// (anti-farming item 6): a wrong one never learns it, so it can't be passed
-// around.
+// (triviaAnswers.js). The right answer goes back only once this account has
+// answered (owner, 2026-11-23: a wrong answer now shows the right one), never
+// before: one answer per place, so nothing is revealed to a first-time tap.
 export function missionAnswerDecision({ mission, answer, checkins, previous, right }) {
   if (mission?.type !== 'trivia' || !Array.isArray(mission.options) || !Number.isInteger(right)) return { awarded: 0, reason: 'no-trivia' };
   if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
-  if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, answer: previous.correct ? right : null, picked: previous.answer };
+  if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, answer: right, picked: previous.answer };
   if (!Number.isInteger(answer) || answer < 0 || answer >= mission.options.length) return { awarded: 0, reason: 'bad-answer' };
   const correct = answer === right;
-  return { awarded: correct ? MISSION_POINTS : 0, correct, answer: correct ? right : null, picked: answer };
+  return { awarded: correct ? MISSION_POINTS : 0, correct, answer: right, picked: answer };
 }
 
 const validId = (id) => typeof id === 'string' && /^[A-Za-z0-9_.-]{1,100}$/.test(id);

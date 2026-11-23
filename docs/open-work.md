@@ -14,6 +14,22 @@ the PR that finishes it.
 - **Leftover:** test account CwvLrosFm7dVDDcZoMHDOwwLVKn2 (auth only, its
   data deleted) and its one Storage photo; delete in the Firebase console.
 
+## Photo bonus check on Haiku; trivia answer feedback (2026-11-23, NOT verified live)
+
+- Photo bonus: "Couldn't check your photo for the bonus just now" on Abaco
+  Beach Resort. The real error was not read (no ai_errors or live access in
+  the session that made this). The bonus was the only check still on Opus 5.5
+  (`PHOTO_CHECK_MODEL`); it now runs on Haiku like the mission check, which
+  is live. ai_errors rows also now name the model actually used (they always
+  said the bonus model before). **To do:** add a photo on the live resort
+  page; confirm +10 or a reason, and read ai_errors if it still fails.
+- Trivia: the tapped answer turns green (right) or red (wrong); a wrong tap
+  also turns the right answer green, only after answering. This reverses
+  anti-farming item 6's "a wrong guess never learns the answer": with one
+  answer per place, someone can now pass the answer on. Owner's call,
+  2026-11-23. Older wrong answers fetch the right one once from
+  /api/mission-answer (reason `already`).
+
 ## Mission photo check: Haiku, looser, two-bullet refusals (2026-11-23)
 
 - **Done, verified live.** photoMatchesMission runs on claude-haiku-4-5

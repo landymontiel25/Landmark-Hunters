@@ -1921,6 +1921,25 @@ html[data-theme] body .mission-panel .mission-option:active {
 html[data-theme] body .mission-panel .mission-option:disabled {
   opacity: 0.6;
 }
+/* Answer feedback (owner, 2026-11-23): the right answer turns green, a wrong
+   pick turns red. Text stays the page's own black or white. */
+html[data-theme] body .mission-panel .mission-option.is-picked {
+  border-color: var(--nl-text);
+}
+html[data-theme] body .mission-panel .mission-option.is-right,
+html[data-theme] body .mission-panel .mission-option.is-wrong {
+  opacity: 1;
+  border-width: 2px;
+  font-weight: 600;
+}
+html[data-theme] body .mission-panel .mission-option.is-right {
+  border-color: #1f9d55;
+  background: rgba(31, 157, 85, 0.16);
+}
+html[data-theme] body .mission-panel .mission-option.is-wrong {
+  border-color: #d93025;
+  background: rgba(217, 48, 37, 0.14);
+}
 html[data-theme] body .mission-panel .mission-result {
   color: var(--nl-gold-text);
   font-weight: 600;

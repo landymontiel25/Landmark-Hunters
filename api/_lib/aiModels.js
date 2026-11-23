@@ -16,8 +16,11 @@ export const PICK_REASONS_MODEL = 'claude-haiku-4-5';
 
 // The photo bonus's check that a photo really shows the place (or a visit
 // there), not a black screen, a screenshot or something unrelated
-// (api/_lib/photoCheck.js). One image and a yes/no per call, at low effort.
-export const PHOTO_CHECK_MODEL = 'claude-opus-5-5';
+// (api/_lib/photoCheck.js). One image and a yes/no per call. On Haiku like
+// the mission check (owner, 2026-11-23): on Opus 5.5 it kept answering "Couldn't
+// check your photo for the bonus" while the mission check, already on Haiku,
+// ran live. Haiku 4.5 takes no effort setting.
+export const PHOTO_CHECK_MODEL = 'claude-haiku-4-5';
 
 // A photo mission's check (api/_lib/photoCheck.js photoMatchesMission):
 // a simple yes/no on one photo, so the small, fast model (owner,
