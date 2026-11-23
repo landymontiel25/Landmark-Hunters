@@ -964,13 +964,31 @@ service cloud.firestore {
       // Guardrail (item b2/11): anyone in the pair can leave, no penalty.
       allow delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
 
+      // The day's cards and guess scores, drawn and scored only by the
+      // server (api/_lib/streakClock.js assignDeck, close-streak-day.js).
+      match /days/{dayId} {
+        allow read: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/streaks/$(pairId)).data.memberIds;
+        allow write: if false;
+      }
+      // A member's own answers for the day: only the fields the app writes,
+      // and no more than a day's worth of them. Whether they count is the
+      // server's call (only its stored cards, only real answers).
       match /days/{dayId}/entries/{uid} {
         allow read: if request.auth != null
           && request.auth.uid in get(/databases/$(database)/documents/streaks/$(pairId)).data.memberIds;
         allow create, update: if request.auth != null
           && request.auth.uid == uid
           && request.resource.data.uid == request.auth.uid
-          && request.auth.uid in get(/databases/$(database)/documents/streaks/$(pairId)).data.memberIds;
+          && request.auth.uid in get(/databases/$(database)/documents/streaks/$(pairId)).data.memberIds
+          && request.resource.data.keys().hasOnly(['uid', 'ratings', 'guesses', 'done', 'updatedAt', 'notifiedPartner'])
+          && (!('ratings' in request.resource.data) || (request.resource.data.ratings is map && request.resource.data.ratings.size() <= 10))
+          && (!('guesses' in request.resource.data) || (request.resource.data.guesses is map && request.resource.data.guesses.size() <= 10))
+          && (!('done' in request.resource.data) || request.resource.data.done is bool)
+          // notifiedPartner is the server's: a phone can't set or change it.
+          && (resource == null
+              ? request.resource.data.get('notifiedPartner', false) == false
+              : request.resource.data.get('notifiedPartner', false) == resource.data.get('notifiedPartner', false));
         allow delete: if false;
       }
     }

@@ -2,7 +2,8 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { dayKey, monthKey, validClientDayKey, monthKeyOfDay } from './_lib/streakDay.js';
+import { dayKey, monthKey, monthKeyOfDay } from './_lib/streakDay.js';
+import { pinZone, serverDay } from './_lib/streakClock.js';
 import { withCors } from './_lib/cors.js';
 
 // 1 personal freeze per month for a solo streak -- half the dual streak's
@@ -41,12 +42,13 @@ async function handler(req, res) {
       return;
     }
 
-    // The caller's own local day (see validClientDayKey) -- falls back to the
-    // server's clock only for an old client that doesn't send one.
+    // The day is the server's, in the streak's pinned time zone
+    // (streakClock.js): the phone's dayId is ignored (anti-farming item 2).
     const now = new Date();
-    const clientDay = validClientDayKey(req.body?.dayId, now);
-    const today = clientDay || dayKey(now);
-    const thisMonth = clientDay ? monthKeyOfDay(clientDay) : monthKey(now);
+    const { zone, update: tzUpdate } = pinZone(streak.tz, req.body?.timeZone, now.getTime());
+    if (tzUpdate) await streakRef.update({ tz: tzUpdate });
+    const today = zone ? serverDay(zone, now.getTime()) : dayKey(now);
+    const thisMonth = zone ? monthKeyOfDay(today) : monthKey(now);
     const carryingOver = streak.freezeMonth !== thisMonth;
     const freezesLeft = carryingOver ? SOLO_FREEZES_PER_MONTH : streak.freezesLeft ?? SOLO_FREEZES_PER_MONTH;
     const frozenDays = carryingOver ? [] : streak.frozenDays || [];

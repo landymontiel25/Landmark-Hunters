@@ -1,4 +1,5 @@
 import { collection, doc, onSnapshot, query, setDoc, updateDoc, serverTimestamp, where } from 'firebase/firestore';
+import { deviceTimeZone } from './deviceZone';
 import { db } from './firebase';
 import { dayKey } from './streaks';
 import { pickDailyCardIds } from './sharedDeck';
@@ -143,8 +144,11 @@ export async function closeSoloToday(dayId = dayKey(new Date())) {
   const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+    // The server keeps the day (in the streak's pinned zone); dayId and the
+    // offsets only matter to older servers.
     body: JSON.stringify({
       dayId: today,
+      timeZone: deviceTimeZone(),
       tzOffsetMin: new Date(y, m, d).getTimezoneOffset(),
       tzOffsetEndMin: new Date(y, m, d + 1).getTimezoneOffset(),
     }),
@@ -158,11 +162,27 @@ export async function closeSoloToday(dayId = dayKey(new Date())) {
 // Spends the month's one personal freeze to hold today -- server-
 // authoritative (api/use-solo-streak-freeze.js), same pattern as
 // pairStreaks.js's spendFreeze.
+// Today's personal cards as the server drew them (deckOnly): { dayId,
+// cityId, cards } or null. Only these count toward the day.
+export async function fetchSoloDeck() {
+  try {
+    const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ deckOnly: true, timeZone: deviceTimeZone() }),
+    });
+    const data = await r.json().catch(() => null);
+    return data?.ok && Array.isArray(data.cards) ? data : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function spendSoloFreeze() {
   const r = await fetch(`${API_BASE}/api/use-solo-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ dayId: dayKey(new Date()) }),
+    body: JSON.stringify({ dayId: dayKey(new Date()), timeZone: deviceTimeZone() }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });

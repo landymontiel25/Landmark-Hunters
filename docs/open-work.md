@@ -3,6 +3,25 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Anti-farming 2: streaks on the server's clock (2026-11-23)
+
+- **Done.** api/_lib/streakClock.js: each streak doc has a server-written
+  `tz` (IANA zone, may move once per 20 h); "today" is the server's clock in
+  it; the phone's dayId / tzOffsetMin are ignored by close-solo,
+  close-dual and both freezes. Pick answers are timed by the snapshot's
+  `updateTime`, never `pick_feedback.at`. ensure-solo-streak no longer
+  re-seeds an existing streak (the "upward only" repair); a new streak is
+  seeded once from server-timed history. Decks are drawn once per day and
+  stored on `streaks/{id}/days/{dayId}` (server-only write); the solo "any 3
+  ids rated" fallback is gone. Dual days need a verified check-in by either
+  member and store server-scored guesses (`scores`). Entry docs only take
+  uid/ratings/guesses/done/updatedAt (<= 10 each).
+- **Open.** A streak with no `tz` yet answers `no-timezone` until the app
+  sends one (every build sends it from ensure-solo-streak; the dual pair
+  pins it on its first close). Guess scores are stored but not yet shown in
+  the app. The client's own "N/3 today" counter still uses phone time
+  (display only; the server decides).
+
 ## Anti-farming 1: check-in payouts on the server (2026-11-23)
 
 - **Done.** The phone saves every check-in at 0 points (rules: points == 0;

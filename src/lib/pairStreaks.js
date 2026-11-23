@@ -1,3 +1,4 @@
+import { deviceTimeZone } from './deviceZone';
 import {
   collection,
   doc,
@@ -188,8 +189,24 @@ export async function closeToday(pairId, dayId = dayKey(new Date())) {
   await fetch(`${API_BASE}/api/close-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ pairId, dayId: today }),
+    body: JSON.stringify({ pairId, dayId: today, timeZone: deviceTimeZone() }),
   }).catch(() => {});
+}
+
+// Today's cards as the server drew them (api/close-streak-day.js deckOnly):
+// { dayId, cityId, cards } or null. Only these count toward the day.
+export async function fetchPairDeck(pairId) {
+  try {
+    const r = await fetch(`${API_BASE}/api/close-streak-day`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ pairId, deckOnly: true, timeZone: deviceTimeZone() }),
+    });
+    const data = await r.json().catch(() => null);
+    return data?.ok && Array.isArray(data.cards) ? data : null;
+  } catch {
+    return null;
+  }
 }
 
 export function subscribeDayEntries(pairId, dayId, onEntries, onError) {
@@ -209,7 +226,7 @@ export async function spendFreeze(pairId) {
   const r = await fetch(`${API_BASE}/api/use-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ pairId, dayId: dayKey(new Date()) }),
+    body: JSON.stringify({ pairId, dayId: dayKey(new Date()), timeZone: deviceTimeZone() }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });

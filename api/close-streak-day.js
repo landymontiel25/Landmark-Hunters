@@ -2,7 +2,8 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey, validClientDayKey, isDayBefore, monthKeyOfDay, monthKey } from './_lib/streakDay.js';
+import { previousDayKey, isDayBefore, monthKeyOfDay, monthKey } from './_lib/streakDay.js';
+import { pinZone, serverDay, hasVerifiedCheckinOnDay, assignDeck } from './_lib/streakClock.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { canonicalLandmarkId } from '../src/data/regions.js';
 import { sendPushToUser } from './_lib/push.js';
@@ -44,6 +45,20 @@ function isRealCheckin(x) {
 // not the guaranteed one. A scheduled cron is a clean follow-up once this
 // is proven out -- the data model doesn't change either way.
 
+const VERDICTS = new Set(['yes', 'no', 'unsure']);
+
+// How many of a member's guesses match what the partner really rated that
+// day (each partner's own entry), scored here, never by a phone.
+export function scoreGuesses(cardIds, guesser, partner) {
+  let right = 0;
+  for (const id of cardIds) {
+    const g = guesser?.guesses?.[id];
+    const r = partner?.ratings?.[id];
+    if (VERDICTS.has(g) && VERDICTS.has(r) && g === r) right += 1;
+  }
+  return right;
+}
+
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -58,9 +73,11 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { pairId, dayId } = req.body || {};
-  if (!pairId || typeof pairId !== 'string' || !/^[\w-]{1,128}$/.test(pairId) || !validClientDayKey(dayId)) {
-    res.status(400).json({ error: 'pairId and dayId are required.' });
+  // The phone's dayId is ignored (anti-farming item 2): the day is the
+  // server's, in the pair's pinned time zone (streakClock.js).
+  const { pairId, timeZone, deckOnly } = req.body || {};
+  if (!pairId || typeof pairId !== 'string' || !/^[\w-]{1,128}$/.test(pairId)) {
+    res.status(400).json({ error: 'pairId is required.' });
     return;
   }
 
@@ -79,14 +96,22 @@ async function handler(req, res) {
       res.status(403).json({ error: "That's not your streak." });
       return;
     }
+    const nowMs = Date.now();
+    const { zone, update: tzUpdate } = pinZone(streak.tz, timeZone, nowMs);
+    if (!zone) {
+      res.status(200).json({ ok: true, closed: false, reason: 'no-timezone' });
+      return;
+    }
+    if (tzUpdate) await streakRef.update({ tz: tzUpdate });
+    const dayId = serverDay(zone, nowMs);
     // Already closed for this day -- report the current state, no-op.
-    if (streak.lastCompletedDay === dayId) {
-      res.status(200).json({ ok: true, closed: true, count: streak.count, best: streak.best, already: true });
+    if (streak.lastCompletedDay === dayId && !deckOnly) {
+      res.status(200).json({ ok: true, closed: true, dayId, count: streak.count, best: streak.best, already: true });
       return;
     }
 
     if (!streak.cityId) {
-      res.status(200).json({ ok: true, closed: false, reason: 'no-city' });
+      res.status(200).json({ ok: true, closed: false, dayId, reason: 'no-city', cards: [] });
       return;
     }
     // Never trust a bare `done` flag -- re-derive today's real 3 cards the
@@ -106,7 +131,13 @@ async function handler(req, res) {
           .map((c) => canonicalLandmarkId(c.landmarkId, c.region))
       )
     );
-    const cardIds = pickDailyCardIds(pairId, dayId, streak.cityId, visitedIds);
+    // Drawn once by the server and stored for the day (the phone shows these).
+    const deck = await assignDeck(streakRef, dayId, () => pickDailyCardIds(pairId, dayId, streak.cityId, visitedIds), streak.cityId);
+    const cardIds = deck.cards;
+    if (deckOnly) {
+      res.status(200).json({ ok: true, dayId, cityId: deck.cityId, cards: cardIds });
+      return;
+    }
     const entriesSnap = await streakRef.collection('days').doc(dayId).collection('entries').get();
     const entries = Object.fromEntries(entriesSnap.docs.map((d) => [d.id, d.data()]));
 
@@ -117,7 +148,8 @@ async function handler(req, res) {
     // caller's own entry doc so a repeat call (page reload, a second close
     // attempt after the day's already closed) never double-sends.
     const myEntry = entries[account.uid];
-    const myDone = myEntry && cardIds.length > 0 && cardIds.every((id) => myEntry.ratings?.[id] && myEntry.guesses?.[id]);
+    const answered = (e) => !!e && cardIds.length > 0 && cardIds.every((id) => VERDICTS.has(e.ratings?.[id]) && VERDICTS.has(e.guesses?.[id]));
+    const myDone = answered(myEntry);
     const partnerUid = (streak.memberIds || []).find((uid) => uid !== account.uid);
     if (myDone && !myEntry.notifiedPartner && partnerUid) {
       const myName = streak.memberNames?.[account.uid] || 'Your streak partner';
@@ -140,16 +172,22 @@ async function handler(req, res) {
         .catch(() => {});
     }
 
-    const bothDone =
-      cardIds.length > 0 &&
-      (streak.memberIds || []).every((uid) => {
-        const e = entries[uid];
-        return e && cardIds.every((id) => e.ratings?.[id] && e.guesses?.[id]);
-      });
+    const bothDone = cardIds.length > 0 && (streak.memberIds || []).every((uid) => answered(entries[uid]));
     if (!bothDone) {
-      res.status(200).json({ ok: true, closed: false });
+      res.status(200).json({ ok: true, closed: false, dayId });
       return;
     }
+    // A pair's day needs at least one real, server-verified visit that day,
+    // by either member: two accounts can't keep a streak (and its points)
+    // going from a couch.
+    const visitedToday = checkinsByMember.some((snap) => hasVerifiedCheckinOnDay(snap.docs, zone, dayId));
+    if (!visitedToday) {
+      res.status(200).json({ ok: true, closed: false, dayId, reason: 'needs-verified-checkin' });
+      return;
+    }
+    // Each member's guesses scored against what the other really rated.
+    const [a, b] = streak.memberIds || [];
+    const scores = { [a]: scoreGuesses(cardIds, entries[a], entries[b]), [b]: scoreGuesses(cardIds, entries[b], entries[a]) };
 
     // Re-read and write inside a transaction: both partners' clients call this
     // the moment they finish, and when they finish together both used to read
@@ -191,6 +229,7 @@ async function handler(req, res) {
         update.recoveryPriorCount = fresh.count || 0;
       }
       t.update(streakRef, update);
+      t.set(streakRef.collection('days').doc(dayId), { scores, scoredAtMs: Date.now() }, { merge: true });
       // Both members are paid in the same transaction as the close, so a
       // failed payout can't leave the day closed with no points.
       for (const uid of fresh.memberIds || []) {
@@ -198,7 +237,7 @@ async function handler(req, res) {
           t.set(ref, data, { merge: true });
         }
       }
-      return { closed: true, count, best };
+      return { closed: true, count, best, scores };
     });
     if (outcome.already) {
       res.status(200).json({ ok: true, closed: true, count: outcome.count, best: outcome.best, already: true });
@@ -210,7 +249,7 @@ async function handler(req, res) {
     }
     const nextCount = outcome.count;
     const nextBest = outcome.best;
-    res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });
+    res.status(200).json({ ok: true, closed: true, dayId, count: nextCount, best: nextBest, scores: outcome.scores });
   } catch (e) {
     console.error('[close-streak-day]', e);
     res.status(500).json({ error: 'Could not close that day.' });

@@ -108,3 +108,12 @@ export function dailyDeck(pairId, dayId, cityId, excludeIds = [], avoidIds = nul
   const ids = new Set(pickDailyCardIds(pairId, dayId, cityId, excludeIds, DAILY_DECK_SIZE, avoidIds));
   return region.landmarks.filter((l) => ids.has(l.id)).map((l) => ({ ...l, regionId: cityId }));
 }
+
+// Landmarks for a deck the server drew (api/_lib/streakClock.js assignDeck),
+// in catalog order like dailyDeck.
+export function deckFromIds(cityId, ids = []) {
+  const region = getRegion(cityId);
+  if (!region || !ids.length) return [];
+  const want = new Set(ids);
+  return region.landmarks.filter((l) => want.has(l.id)).map((l) => ({ ...l, regionId: cityId }));
+}

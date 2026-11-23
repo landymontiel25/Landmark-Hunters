@@ -25,6 +25,7 @@ vi.mock('../lib/PairStreakContext', () => ({
   usePairStreaks: () => ({ streaks: [], leaveStreak: vi.fn(), startStreakWith: vi.fn(), closeToday: vi.fn() }),
 }));
 vi.mock('../lib/soloStreaks', () => ({
+  fetchSoloDeck: async () => null,
   ensureSoloStreak: (...a) => ensure(...a),
   subscribeMySoloStreak: (...a) => subscribe(...a),
   setSoloStreakCity: vi.fn(),
@@ -38,6 +39,7 @@ vi.mock('../lib/soloStreaks', () => ({
   SOLO_FREEZES_PER_MONTH: 1,
 }));
 vi.mock('../lib/pairStreaks', () => ({
+  fetchPairDeck: async () => null,
   subscribeDayEntries: (p, d, on) => {
     on({});
     return () => {};

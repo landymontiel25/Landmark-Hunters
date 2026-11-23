@@ -36,6 +36,7 @@ vi.mock('../lib/PairStreakContext', () => ({
 // ensureSoloStreak resolved but no doc has synced back yet) -- exercised
 // separately in its own test.
 vi.mock('../lib/soloStreaks', () => ({
+  fetchSoloDeck: async () => null,
   ensureSoloStreak: vi.fn(async () => ({})),
   subscribeMySoloStreak: (uid, onStreak) => {
     onStreak(null);
@@ -66,6 +67,7 @@ let rateShouldFail = false;
 let entriesShouldError = false;
 const notifyEntries = () => entriesListener?.({ ...fakeEntries });
 vi.mock('../lib/pairStreaks', () => ({
+  fetchPairDeck: async () => null,
   subscribeDayEntries: (pairId, dayId, onEntries, onError) => {
     if (entriesShouldError) {
       onError(new Error('listener failed'));

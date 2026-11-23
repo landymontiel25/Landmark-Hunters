@@ -1264,6 +1264,28 @@ await t('ai_errors: only the admin reads them, no app writes them', async () => 
   await assertSucceeds(getDoc(doc(env.authenticatedContext('owner', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'ai_errors/e1')));
 });
 
+console.log('streak days (anti-farming item 2): cards and scores are the server\'s; entries hold only answers');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'streaks/ann_bob'), { memberIds: ['ann', 'bob'], count: 0, best: 0 });
+  await setDoc(doc(db, 'streaks/ann_bob/days/2026-10-23'), { cards: ['a', 'b', 'c'], cityId: 'miami' });
+});
+await t('members read the day\'s cards; nobody writes them', async () => {
+  await assertSucceeds(getDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-23')));
+  await assertFails(getDoc(doc(as('zed'), 'streaks/ann_bob/days/2026-10-23')));
+  await assertFails(setDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-23'), { cards: ['x', 'y', 'z'] }));
+  await assertFails(setDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-24'), { scores: { ann: 3 } }));
+});
+await t('an entry holds your answers, nothing else, and never the server\'s notifiedPartner', async () => {
+  const e = (o = {}) => ({ uid: 'ann', ratings: { a: 'yes' }, guesses: { a: 'no' }, updatedAt: serverTimestamp(), ...o });
+  await assertSucceeds(setDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-23/entries/ann'), e()));
+  await assertFails(setDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-23/entries/ann'), e({ score: 3 })));
+  await assertFails(setDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-23/entries/ann'), e({ notifiedPartner: true })));
+  const many = Object.fromEntries([...Array(11)].map((_, i) => [`id${i}`, 'yes']));
+  await assertFails(setDoc(doc(as('ann'), 'streaks/ann_bob/days/2026-10-23/entries/ann'), e({ ratings: many })));
+  await assertFails(setDoc(doc(as('bob'), 'streaks/ann_bob/days/2026-10-23/entries/ann'), e()));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

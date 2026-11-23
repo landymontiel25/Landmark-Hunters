@@ -15,6 +15,7 @@ import {
   resetDualStreak,
   completeRecoveryMission,
   computeCompatibility,
+  fetchPairDeck,
   MAX_ACTIVE_STREAKS,
   FREEZES_PER_MONTH,
 } from '../lib/pairStreaks';
@@ -26,9 +27,10 @@ import {
   subscribeSoloDayEntry,
   closeSoloToday,
   spendSoloFreeze,
+  fetchSoloDeck,
   SOLO_FREEZES_PER_MONTH,
 } from '../lib/soloStreaks';
-import { dailyDeck, deckPool } from '../lib/sharedDeck';
+import { dailyDeck, deckPool, deckFromIds } from '../lib/sharedDeck';
 import { nearestPickableCity } from '../lib/nearestCity';
 import { usePickVotes } from '../lib/usePickVotes';
 import { pickRegion } from '../lib/tagScores';
@@ -186,7 +188,19 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // here instead, above the deck.
   const [voteError, setVoteError] = useState(null);
 
-  const today = useTodayKey();
+  // Today's cards and today itself are the server's (anti-farming item 2):
+  // its day in the pair's pinned zone, and the 3 it drew and stored. Until
+  // it answers, the phone's own day and draw show.
+  const phoneToday = useTodayKey();
+  const [serverDeck, setServerDeck] = useState(null);
+  useEffect(() => {
+    let live = true;
+    fetchPairDeck(streak.id).then((d) => live && setServerDeck(d));
+    return () => {
+      live = false;
+    };
+  }, [streak.id, streak.cityId, phoneToday]);
+  const today = serverDeck?.dayId || phoneToday;
   useEffect(() => {
     // Reset here, in the same effect that (re)subscribes, rather than a
     // separate effect with the same deps -- a separate one would run right
@@ -248,7 +262,11 @@ function StreakDetail({ streak, onBack, onLeave }) {
 
   const myEntry = entries[user.uid] || { uid: user.uid, ratings: {}, guesses: {} };
   const partnerEntry = entries[partnerUid];
-  const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
+  const deck = serverDeck?.cards?.length
+    ? deckFromIds(serverDeck.cityId, serverDeck.cards)
+    : streak.cityId && visitedIds
+      ? dailyDeck(streak.id, today, streak.cityId, visitedIds)
+      : [];
   const cardIds = deck.map((l) => l.id);
   // Whether a card's already been voted on -- the optimistic tap if
   // there's one still in flight, else whatever's actually synced. Used to
@@ -617,7 +635,17 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       .catch(() => {});
   };
 
-  const today = useTodayKey();
+  // The server's day and its 3 stored cards (anti-farming item 2).
+  const phoneToday = useTodayKey();
+  const [serverDeck, setServerDeck] = useState(null);
+  useEffect(() => {
+    let live = true;
+    fetchSoloDeck().then((d) => live && setServerDeck(d));
+    return () => {
+      live = false;
+    };
+  }, [streak.id, streak.cityId, phoneToday]);
+  const today = serverDeck?.dayId || phoneToday;
   useEffect(() => {
     setOptimisticRatings({});
     setEntriesError(null);
@@ -721,7 +749,11 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
     }
   };
 
-  const deck = streak.cityId && visitedIds && answered ? dailyDeck(streak.id, today, streak.cityId, visitedIds, answered) : [];
+  const deck = serverDeck?.cards?.length
+    ? deckFromIds(serverDeck.cityId, serverDeck.cards)
+    : streak.cityId && visitedIds && answered
+      ? dailyDeck(streak.id, today, streak.cityId, visitedIds, answered)
+      : [];
   const cardIds = deck.map((l) => l.id);
   const shownRating = (id) => optimisticRatings[id] ?? entry.ratings?.[id];
   const remainingToRate = deck.filter((l) => !shownRating(l.id));

@@ -2,12 +2,15 @@ import { verifyIdToken } from './verifyAuth.js';
 import { isRateLimited } from './rateLimit.js';
 import { adminDb } from './firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey, validClientDayKey, isDayBefore } from './streakDay.js';
+import { previousDayKey, isDayBefore } from './streakDay.js';
 import { pickDailyCardIds } from '../../src/lib/sharedDeck.js';
 import { canonicalLandmarkId } from '../../src/data/regions.js';
 import { leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
-import { SOLO_PICK_VOTES_REQUIRED, distinctActionsOn, hasRealCheckinOn, localDayWindow } from './soloPicks.js';
+import { SOLO_PICK_VOTES_REQUIRED } from './soloPicks.js';
+import { pinZone, serverDay, distinctActionsOnDay, hasVerifiedCheckinOnDay, answeredBeforeDay, assignDeck } from './streakClock.js';
+
+const VERDICTS = new Set(['yes', 'no', 'unsure']);
 
 // Points for a secured solo day, and one-time bonuses the first time a
 // streak reaches a milestone length (paid only when the count passes the
@@ -37,11 +40,9 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { dayId, tzOffsetMin, tzOffsetEndMin } = req.body || {};
-  if (!validClientDayKey(dayId)) {
-    res.status(400).json({ error: 'dayId is required.' });
-    return;
-  }
+  // dayId and the timezone offsets an older app sends are ignored: the day
+  // is the server's, in the streak's pinned zone (streakClock.js).
+  const { timeZone, deckOnly } = req.body || {};
 
   try {
     const db = adminDb();
@@ -56,60 +57,71 @@ async function handler(req, res) {
       res.status(403).json({ error: "That's not your streak." });
       return;
     }
+    const nowMs = Date.now();
+    const { zone, update: tzUpdate } = pinZone(streak.tz, timeZone, nowMs);
+    if (!zone) {
+      res.status(200).json({ ok: true, closed: false, reason: 'no-timezone' });
+      return;
+    }
+    if (tzUpdate) await streakRef.update({ tz: tzUpdate });
+    const dayId = serverDay(zone, nowMs);
+
+    const [checkinsSnap, fbSnap] = await Promise.all([
+      db.collection('checkins').where('userId', '==', account.uid).get(),
+      db.collection('pick_feedback').where('userId', '==', account.uid).get(),
+    ]);
+    // Today's 3 cards, drawn by the server once and stored (assignDeck), so
+    // the phone shows them and only they count.
+    const visitedIds = new Set(
+      checkinsSnap.docs
+        .map((d) => d.data())
+        .filter((c) => (c.ratingOnly ? false : typeof c.visited === 'boolean' ? c.visited : c.points !== 0))
+        .map((c) => canonicalLandmarkId(c.landmarkId, c.region))
+    );
+    const deck = () =>
+      streak.cityId
+        ? assignDeck(
+            streakRef,
+            dayId,
+            () => pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds, undefined, answeredBeforeDay(fbSnap.docs, checkinsSnap.docs, zone, dayId)),
+            streak.cityId
+          )
+        : Promise.resolve({ cards: [], cityId: null });
+    if (deckOnly) {
+      const d = await deck();
+      res.status(200).json({ ok: true, dayId, cityId: d.cityId, cards: d.cards });
+      return;
+    }
     // Already closed for this day -- report the current state, no-op, no
     // points (a repeat call, e.g. a reload, must never double-award).
     if (streak.lastCompletedDay === dayId) {
-      res.status(200).json({ ok: true, closed: true, already: true, count: streak.count, best: streak.best });
+      res.status(200).json({ ok: true, closed: true, already: true, dayId, count: streak.count, best: streak.best });
       return;
     }
-    // One real check-in today secures the day by itself, the same rule
-    // ensure-solo-streak.js applies on every app load. Without it here, a
-    // check-in left the header red until a reload ran that repair.
-    // Otherwise the "rate 3 landmarks today" quota, counted exactly like the
-    // Travel Picks "N/3 today" counter: answers in Mapr Travel Picks
-    // (pick_feedback) plus check-ins and 0-point "Rate a Landmark" ratings, on
-    // the caller's local day. 3 different landmarks secures the day with no
-    // daily-card deck, so no city is needed.
-    const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
-    let counted = 0;
-    const window = localDayWindow(dayId, tzOffsetMin, tzOffsetEndMin);
-    const checkedIn = hasRealCheckinOn(checkinsSnap.docs, window);
-    if (window && !checkedIn) {
-      const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
-      counted = distinctActionsOn(fbSnap.docs, checkinsSnap.docs, window);
-    }
+    // A verified check-in today secures the day by itself; otherwise 3
+    // different landmarks answered today (Travel Picks answers, ratings,
+    // check-ins), all timed by the server.
+    const checkedIn = hasVerifiedCheckinOnDay(checkinsSnap.docs, zone, dayId);
+    const counted = checkedIn ? 0 : distinctActionsOnDay(fbSnap.docs, checkinsSnap.docs, zone, dayId);
     const picksDone = checkedIn || counted >= SOLO_PICK_VOTES_REQUIRED;
 
-    // Otherwise the 3 daily cards on the Streaks page, which are drawn from
-    // the streak's city.
+    // Otherwise the 3 daily cards: exactly the server's 3, each with a real
+    // answer. (The old "any 3 ids rated in today's entry" fallback let a
+    // phone close the day with made-up ids.)
     let cardsDone = false;
     if (!picksDone) {
       if (!streak.cityId) {
-        res.status(200).json({ ok: true, closed: false, reason: 'no-city', counted, needed: SOLO_PICK_VOTES_REQUIRED });
+        res.status(200).json({ ok: true, closed: false, reason: 'no-city', dayId, counted, needed: SOLO_PICK_VOTES_REQUIRED });
         return;
       }
-      const visitedIds = new Set(
-        checkinsSnap.docs
-          .map((d) => d.data())
-          .filter((c) => c.ratingOnly ? false : typeof c.visited === 'boolean' ? c.visited : c.points !== 0)
-          // Same ids the phone excludes (getUserCheckedInLandmarkIds).
-          .map((c) => canonicalLandmarkId(c.landmarkId, c.region))
-      );
-      const cardIds = pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds);
+      const cardIds = (await deck()).cards;
       const entrySnap = await streakRef.collection('days').doc(dayId).collection('entries').doc(account.uid).get();
       const entry = entrySnap.exists ? entrySnap.data() : null;
-      // Today's 3 as the server draws them, or any 3 different landmarks rated
-      // in today's entry: if the app ever draws a different 3 (it once did,
-      // when imported places joined the deck only on the phone), rating the
-      // cards it showed still has to count.
-      const ratedIds = Object.keys(entry?.ratings || {}).filter((id) => entry.ratings[id]);
-      cardsDone =
-        !!entry &&
-        ((cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id])) || ratedIds.length >= SOLO_PICK_VOTES_REQUIRED);
+      cardsDone = !!entry && cardIds.length > 0 && cardIds.every((id) => VERDICTS.has(entry.ratings?.[id]));
     }
     const done = cardsDone || picksDone;
     if (!done) {
-      res.status(200).json({ ok: true, closed: false, counted, needed: SOLO_PICK_VOTES_REQUIRED, window: window ? 'ok' : 'no-timezone' });
+      res.status(200).json({ ok: true, closed: false, dayId, counted, needed: SOLO_PICK_VOTES_REQUIRED });
       return;
     }
 
@@ -159,6 +171,7 @@ async function handler(req, res) {
     res.status(200).json({
       ok: true,
       closed: true,
+      dayId,
       count: nextCount,
       best: nextBest,
       pointsAwarded: SOLO_DAY_POINTS,

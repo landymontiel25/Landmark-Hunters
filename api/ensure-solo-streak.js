@@ -5,6 +5,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { monthKey, previousDayKey, localDayKey } from './_lib/streakDay.js';
 import { withCors } from './_lib/cors.js';
 import { cleanUserName } from './_lib/leaderboardPoints.js';
+import { pinZone, writtenAtMs } from './_lib/streakClock.js';
 
 const PICKS_STREAK_THRESHOLD = 3;
 export const SOLO_FREEZES_PER_MONTH = 1;
@@ -38,9 +39,13 @@ function dailyActionDayKeys(checkins, pickFeedback, timeZone, minActions = PICKS
     if (!idsByDay.has(key)) idsByDay.set(key, new Set());
     idsByDay.get(key).add(id);
   };
-  for (const f of pickFeedback || []) {
-    if (!f.at || !f.landmarkId) continue;
-    add(localDayKey(f.at, timeZone), f.landmarkId);
+  // A pick answer's day is when Firestore wrote it, never the `at` the
+  // phone put in it (anti-farming item 2): backdated answers count for today.
+  for (const snap of pickFeedback || []) {
+    const f = typeof snap?.data === 'function' ? snap.data() : snap;
+    const at = writtenAtMs(snap);
+    if (!Number.isFinite(at) || !f?.landmarkId) continue;
+    add(localDayKey(at, timeZone), f.landmarkId);
   }
   for (const c of checkins || []) {
     if (isRealCheckin(c) || !c.createdAt?.seconds || !c.landmarkId) continue;
@@ -125,7 +130,7 @@ async function handler(req, res) {
         db.collection('pick_feedback').where('userId', '==', account.uid).get(),
       ]);
       const checkins = checkinsSnap.docs.map((d) => d.data());
-      const pickFeedback = feedbackSnap.docs.map((d) => d.data());
+      const pickFeedback = feedbackSnap.docs;
       const now = new Date();
       const count = computeStreakDays(checkins, now, pickFeedback, timeZone);
       const today = localDayKey(now.getTime(), timeZone);
@@ -139,63 +144,19 @@ async function handler(req, res) {
       return { count, lastCompletedDay };
     };
 
+    // An existing streak is returned as it is: only a day-close moves it.
+    // (Until 2026-11-23 every call re-seeded it from history "upward only",
+    // and that history trusted the phone's own answer times, so backdated
+    // answers could raise a stored streak. Removed, anti-farming item 2.)
+    // The only thing a call may change is the pinned time zone (travel),
+    // and at most once a day (streakClock.js pinZone).
     if (snap.exists) {
       const existing = snap.data();
-      // Self-heal a doc seeded (or previously "repaired") by an earlier,
-      // buggy build of this endpoint -- either the original version, which
-      // bucketed historical days using THIS SERVER's own timezone (Vercel
-      // is UTC) instead of the caller's, or a version whose best-effort
-      // pick_feedback sync hadn't run yet, either of which could
-      // under-count (even to 0) a real streak the moment it was first
-      // turned into a stored doc.
-      //
-      // Re-checked on EVERY call, not just once right after creation: a
-      // real close-solo-streak-day call in between (someone using the app
-      // while their count was wrongly showing 0/low) would otherwise
-      // permanently lock out any later correction. This costs two extra
-      // reads per call instead of zero once a doc exists, which is a
-      // deliberate trade -- provable convergence to the real number beats
-      // saving a couple of reads, given how badly a silent under-count
-      // erodes trust in "we said this would never reset you."
-      //
-      // Always upward-only, so this can never itself become a new way to
-      // reset someone, and a legitimately-empty streak (a real 0, or a
-      // real gap that broke it) is left alone:
-      //  - if the recomputed historical count is no higher than what's
-      //    stored, nothing changes.
-      //  - if it IS higher, and the stored streak was already secured
-      //    TODAY (real new-system activity checkins/pick_feedback can't
-      //    see) with a chain that connects straight into the historical
-      //    one (history's own last day is exactly yesterday), credit that
-      //    real today on top of the corrected history instead of
-      //    discarding it.
-      //  - otherwise, the corrected historical numbers replace the stored
-      //    ones outright.
-      if (timeZone) {
-        const { count: histCount, lastCompletedDay: histLast } = await seedFromHistory();
-        const existingCount = existing.count || 0;
-        if (histCount > existingCount) {
-          const now = new Date();
-          const today = localDayKey(now.getTime(), timeZone);
-          const bridgesToToday = existing.lastCompletedDay === today && histLast === previousDayKey(today);
-          const count = bridgesToToday ? histCount + 1 : histCount;
-          const lastCompletedDay = bridgesToToday ? today : histLast;
-          const repaired = {
-            ...existing,
-            count,
-            best: Math.max(existing.best || 0, count),
-            lastCompletedDay,
-            updatedAt: FieldValue.serverTimestamp(),
-          };
-          await ref.set(repaired, { merge: true });
-          res.status(200).json({ id: account.uid, ...repaired });
-          return;
-        }
-      }
-      res.status(200).json({ id: account.uid, ...existing });
+      const { update: tzUpdate } = pinZone(existing.tz, timeZone);
+      if (tzUpdate) await ref.update({ tz: tzUpdate });
+      res.status(200).json({ id: account.uid, ...existing, ...(tzUpdate ? { tz: tzUpdate } : {}) });
       return;
     }
-
     const { count: seededCount, lastCompletedDay } = await seedFromHistory();
     const data = {
       mode: 'solo',
@@ -211,6 +172,7 @@ async function handler(req, res) {
       freezesLeft: SOLO_FREEZES_PER_MONTH,
       freezeMonth: monthKey(new Date()),
       frozenDays: [],
+      ...(pinZone(null, timeZone).update ? { tz: pinZone(null, timeZone).update } : {}),
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     };
