@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { PHOTO_BONUS_POINTS, PHOTO_BONUSES_PER_DAY, PHOTOS_CHECKED_PER_TRY, awardPhotoBonus, photoBonusDecision, photosToCheck } from './photoBonus.js';
+import { CHECKED_FIELD, PHOTO_BONUS_POINTS, PHOTO_BONUSES_PER_DAY, PHOTOS_CHECKED_PER_TRY, awardPhotoBonus, placeInfo, expectedPhoto, photoBonusDecision, photosToCheck } from './photoBonus.js';
 import { backfillCandidates, runPhotoBonusBackfill } from './photoBonusBackfill.js';
 
 vi.mock('firebase-admin/firestore', () => ({
@@ -110,14 +110,31 @@ describe('awardPhotoBonus', () => {
     expect(db.docs.get('users/u').bonusPoints).toBe(PHOTO_BONUS_POINTS);
   });
 
-  it('pays nothing for a black screen or a random photo, and never checks that photo again', async () => {
+  it('pays nothing for a black screen or a random photo, says why and what it needed, and only re-checks it on Try again', async () => {
     const db = setup();
-    const check = vi.fn(async () => ({ ok: false, reason: 'a black image' }));
-    expect((await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check })).reason).toBe('photo-not-of-place');
+    const check = vi.fn(async () => ({ ok: false, reason: 'A black image.' }));
+    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check });
+    expect(out).toMatchObject({ awarded: 0, reason: 'photo-not-of-place', why: 'A black image.' });
+    expect(out.expected).toMatch(/^a photo of /);
     expect(db.docs.has('users/u')).toBe(false);
-    expect(db.docs.get('photo_bonus_checks/u_x').urls).toEqual([PHOTO]);
+    expect(db.docs.get('photo_bonus_checks/u_x')[CHECKED_FIELD]).toEqual([PHOTO]);
     expect((await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check })).reason).toBe('photo-not-of-place');
     expect(check).toHaveBeenCalledTimes(1);
+    await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check, retry: true });
+    expect(check).toHaveBeenCalledTimes(2);
+  });
+
+  it('checks again a photo the old check turned down', async () => {
+    const db = setup();
+    db.docs.set('photo_bonus_checks/u_x', { userId: 'u', urls: [PHOTO] });
+    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'Tennis courts at the resort.' }) });
+    expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
+  });
+
+  it('a check that could not run says so instead of a silent no', async () => {
+    const db = setup();
+    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', check: async () => ({ ok: false, reason: 'check failed', failed: true }) });
+    expect(out.reason).toBe('check-failed');
   });
 
   it('a failed check is not a verdict: the photo is checked again next time', async () => {
@@ -176,7 +193,7 @@ describe('the one-time back-pay', () => {
       checkins: snap([...Array(5)].map((_, i) => [`u_p${i}`, { userId: 'u', landmarkId: `p${i}`, photoURLs: [`f${i}`] }])),
       reviews: snap([]),
       photo_bonuses: snap([['u_p0', {}]]),
-      photo_bonus_checks: snap([['u_p1', { urls: ['f1'] }]]),
+      photo_bonus_checks: snap([['u_p1', { [CHECKED_FIELD]: ['f1'] }]]),
     };
     const db = { collection: (n) => ({ select: () => ({ get: async () => sets[n] }), get: async () => sets[n] }) };
     const award = vi.fn(async (_db, uid, lm) => (lm === 'p3' ? { awarded: 0, reason: 'photo-not-of-place' } : { awarded: 10 }));
@@ -187,5 +204,19 @@ describe('the one-time back-pay', () => {
       ['p3', { dailyLimit: false, boards: false }],
     ]);
     expect(out).toMatchObject({ paid: 1, points: 10, turnedDown: 1, leftAfterThisRun: 1, done: false });
+  });
+});
+
+describe('what the check knows about a place', () => {
+  it('sends the resort its description, what is on the property and its 400 m area', () => {
+    const place = placeInfo('abaco-beach-resort', { region: 'abacos' });
+    expect(place.description).toMatch(/40 beachfront acres/);
+    expect(place.scenes.join(' ')).toMatch(/tennis and pickleball courts/);
+    expect(place.scenes.join(' ')).toMatch(/marina/);
+    expect(place.scenes.join(' ')).toMatch(/pools/);
+    expect(place.scenes.join(' ')).toMatch(/beach/);
+    expect(place.scenes.join(' ')).toMatch(/restaurants/);
+    expect(place.radiusMeters).toBe(400);
+    expect(expectedPhoto(place)).toMatch(/^a photo of Abaco Beach Resort & Boat Harbour Marina or anywhere on it: /);
   });
 });

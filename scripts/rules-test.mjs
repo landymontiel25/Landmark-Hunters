@@ -1242,6 +1242,18 @@ await t('save_errors: only the admin reads them', async () => {
   await assertSucceeds(getDoc(doc(env.authenticatedContext('owner', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'save_errors/e1')));
 });
 
+console.log('mission_photos (photo missions, server-written)');
+await reset();
+await seed((db) => setDoc(doc(db, 'mission_photos/ann_abaco-beach-resort'), { userId: 'ann', landmarkId: 'abaco-beach-resort', passed: true, points: 10 }));
+await t('mission_photos: the owner reads theirs, nobody else does', async () => {
+  await assertSucceeds(getDoc(doc(as('ann'), 'mission_photos/ann_abaco-beach-resort')));
+  await assertFails(getDoc(doc(as('bob'), 'mission_photos/ann_abaco-beach-resort')));
+});
+await t('mission_photos: no app can mark a mission passed or pay itself', async () => {
+  await assertFails(setDoc(doc(as('ann'), 'mission_photos/ann_x'), { userId: 'ann', landmarkId: 'x', passed: true, points: 10 }));
+  await assertFails(updateDoc(doc(as('ann'), 'mission_photos/ann_abaco-beach-resort'), { points: 1000 }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

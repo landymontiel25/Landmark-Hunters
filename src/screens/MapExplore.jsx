@@ -40,7 +40,9 @@ import ActiveNavOverlay from '../components/ActiveNavOverlay';
 import { prepareRoute, navProgress } from '../lib/navProgress';
 import { useSmartSearch, landmarkSearchText } from '../lib/smartSearch';
 import SmartSearchLabel from '../components/SmartSearchLabel';
-import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLegs } from '../lib/routing';
+import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLegs, routeInOrder } from '../lib/routing';
+import TripRouteEditPanel from '../components/TripRouteEditPanel';
+import { attachMapCardGestures } from '../lib/mapCardGestures';
 import LandmarkThumb from '../components/LandmarkThumb';
 import QuickRateButton from '../components/QuickRateButton';
 import { useSessionState } from '../lib/usePersistentState';
@@ -183,6 +185,14 @@ function tripStopIcon(n, color = legColor(n)) {
   }
   return tripStopIconCache.get(key);
 }
+// A stop taken off the route while editing it: grey, no number, still
+// tappable to put it back.
+const tripStopOffIcon = L.divIcon({
+  className: '',
+  html: '<div class="trip-stop-pin trip-stop-pin-off" aria-hidden="true"></div>',
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+});
 
 // Six tile errors before any tile loads means Google's map isn't working
 // (key, quota): fall back to the Esri layers for this page load.
@@ -332,15 +342,39 @@ function FitNavRoute({ points }) {
 }
 
 // Frames a trip's whole route once, when it's first shown.
-function FitTripRoute({ points }) {
+// `panel`: a selector for the sheet over the bottom of the map; the route
+// is framed in the space above it (measured, so a tall sheet never hides it).
+function FitTripRoute({ points, panel = null }) {
   const map = useMap();
   const done = useRef(false);
   useEffect(() => {
-    if (done.current || points.length < 1) return;
+    if (done.current || points.length < 1) return undefined;
     done.current = true;
-    if (points.length === 1) map.setView(points[0], 16);
-    else map.fitBounds(points, { paddingTopLeft: [40, 110], paddingBottomRight: [40, 360], maxZoom: 16 });
+    // A frame later, so the sheet has its final size.
+    const id = requestAnimationFrame(() => {
+      const sheet = panel ? document.querySelector(panel) : null;
+      const below = sheet ? Math.max(120, window.innerHeight - sheet.getBoundingClientRect().top + 24) : 360;
+      // Below the header and whatever floats under it (the "At ..." line,
+      // the search bar, the category chips), whichever are showing.
+      const floating = [...document.querySelectorAll('.app-header, .where-am-i, .map-search-btn, .map-cat-bar')]
+        .map((el) => el.getBoundingClientRect())
+        .filter((r) => r.height > 0)
+        .map((r) => r.bottom);
+      const top = Math.max(120, ...floating.map((b) => b + 24));
+      if (points.length === 1) map.setView(points[0], 16);
+      else map.fitBounds(points, { paddingTopLeft: [48, top], paddingBottomRight: [48, below], maxZoom: 16 });
+    });
+    return () => cancelAnimationFrame(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, points]);
+  return null;
+}
+
+// Taps vs drags for the landmark card (lib/mapCardGestures.js): only a tap
+// on empty map space closes it; any drag, on the card too, pans the map.
+function MapCardGestures() {
+  const map = useMap();
+  useEffect(() => attachMapCardGestures(map), [map]);
   return null;
 }
 
@@ -432,12 +466,20 @@ export default function MapExplore({ experiments = false }) {
   // from where you are, with the route drawn and Start for live navigation.
   // The search pin's popup is open (its name label hides meanwhile).
   const [focusPopupOpen, setFocusPopupOpen] = useState(false);
-  const [tripRoute, setTripRoute] = useState(null); // { name, stops: [{ id, name, lat, lng }] }
+  const [tripRoute, setTripRoute] = useState(null); // { name, stops: [{ id, name, lat, lng }], edit, ordered }
+  // The route editor (TripRouteEditPanel): the stops on the route now, in
+  // route order, and whether edit mode is on. `routeTouched`: the traveler
+  // changed the order or the stops, so a late GPS fix doesn't reorder it.
+  const [routeIds, setRouteIds] = useState([]);
+  const [routeEditing, setRouteEditing] = useState(false);
+  const [routeTouched, setRouteTouched] = useState(false);
   useEffect(() => {
     const tr = location.state?.tripRoute;
     if (!tr?.stops?.length) return;
     mapRef.current?.closePopup();
     setTripRoute(tr);
+    setRouteTouched(false);
+    setRouteEditing(!!tr.edit);
     navigate(location.pathname, { replace: true, state: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key]);
@@ -492,12 +534,29 @@ export default function MapExplore({ experiments = false }) {
   // order doesn't reshuffle as you move.
   const tripOrigin = coords || lastKnown || null;
   const hasTripOrigin = !!tripOrigin;
-  const orderedTrip = useMemo(() => {
-    if (!tripRoute) return null;
-    const origin = tripOrigin || tripRoute.stops[0];
-    return { origin: tripOrigin, stops: buildNearestNeighborRoute(origin, tripRoute.stops) };
+  // The starting order: the itinerary's own (`ordered`), else the best order
+  // from where you are, until the traveler edits it.
+  useEffect(() => {
+    if (!tripRoute || routeTouched) return;
+    const ids = tripRoute.ordered ? tripRoute.stops.map((st) => st.id) : buildNearestNeighborRoute(tripOrigin || tripRoute.stops[0], tripRoute.stops).map((st) => st.id);
+    setRouteIds(ids);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripRoute, hasTripOrigin]);
+  const tripStopById = useMemo(() => new Map((tripRoute?.stops || []).map((st) => [st.id, st])), [tripRoute]);
+  const orderedTrip = useMemo(() => {
+    if (!tripRoute) return null;
+    const stops = routeIds.map((id) => tripStopById.get(id)).filter(Boolean);
+    return { origin: tripOrigin, stops: routeInOrder(tripOrigin, stops) };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tripRoute, routeIds, tripStopById, hasTripOrigin]);
+  const editRoute = (fn) => {
+    setRouteTouched(true);
+    setRouteIds(fn);
+  };
+  // In edit mode a pin tap takes the stop off the route, or puts it back
+  // at the end.
+  const toggleRouteStop = (id) => editRoute((ids) => (ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]));
+  const selectAllRouteStops = () => editRoute((ids) => [...ids, ...(tripRoute?.stops || []).map((st) => st.id).filter((id) => !ids.includes(id))]);
   const startTripRoute = () => {
     if (!orderedTrip?.stops.length) return;
     const [first, ...rest] = orderedTrip.stops.map((st) => ({ name: st.name, lat: st.lat, lng: st.lng }));
@@ -568,6 +627,12 @@ export default function MapExplore({ experiments = false }) {
     document.body.classList.toggle('map-nav-active', navActive);
     return () => document.body.classList.remove('map-nav-active');
   }, [navActive]);
+  // The route editor hides the category bar so the map shows the stops.
+  const routeEditOpen = !!tripRoute && routeEditing && !nav;
+  useEffect(() => {
+    document.body.classList.toggle('map-route-editing', routeEditOpen);
+    return () => document.body.classList.remove('map-route-editing');
+  }, [routeEditOpen]);
   // The menu number (5 = 5 mi or 5 km, per the units setting).
   const [radiusOption, setRadiusMiles] = useZoomRadius(experiments ? 'test' : null);
   const radiusMiles = optionToMiles(radiusOption, units);
@@ -1279,8 +1344,10 @@ export default function MapExplore({ experiments = false }) {
           zoomControl={false}
           attributionControl={false}
           scrollWheelZoom
+          closePopupOnClick={false}
           style={{ height: '100%', width: '100%' }}
         >
+          <MapCardGestures />
           <InitialView
             coords={coords}
             lastKnown={lastKnown}
@@ -1328,9 +1395,18 @@ export default function MapExplore({ experiments = false }) {
           )}
           {orderedTrip && !nav && (
             <>
-              <FitTripRoute
-                points={[...(orderedTrip.origin ? [[orderedTrip.origin.lat, orderedTrip.origin.lng]] : []), ...orderedTrip.stops.map((st) => [st.lat, st.lng])]}
-              />
+              {/* Framed once the stops are known, again on entering or
+                  leaving edit mode (every stop, kept or not, while editing). */}
+              {routeIds.length > 0 && (
+                <FitTripRoute
+                  key={routeEditing ? 'edit' : 'saved'}
+                  panel={routeEditing ? '.trip-route-edit' : '.trip-route-panel'}
+                  points={[
+                    ...(orderedTrip.origin && !routeEditing ? [[orderedTrip.origin.lat, orderedTrip.origin.lng]] : []),
+                    ...(routeEditing ? tripRoute.stops : orderedTrip.stops).map((st) => [st.lat, st.lng]),
+                  ]}
+                />
+              )}
               {orderedTrip.stops.map((st, i) => {
                 const from = i === 0 ? orderedTrip.origin : orderedTrip.stops[i - 1];
                 return from ? (
@@ -1341,14 +1417,36 @@ export default function MapExplore({ experiments = false }) {
                   />
                 ) : null;
               })}
-              {orderedTrip.stops.map((st, i) => {
-                const lm = LANDMARK_BY_ID.get(st.id) || null;
-                return (
-                  <Marker key={`trip-${st.id || i}`} position={[st.lat, st.lng]} icon={tripStopIcon(i + 1)} zIndexOffset={900}>
-                    <PinPopup name={`${i + 1}. ${st.name}`} landmark={lm} onOpen={lm ? () => navigate(`/landmarks/${lm.regionId}/${lm.id}`) : undefined} />
-                  </Marker>
-                );
-              })}
+              {routeEditing
+                ? // Edit mode: every stop, named by its pin; a tap takes it
+                  // off the route (grey) or puts it back. No cards.
+                  tripRoute.stops.map((st) => {
+                    const at = routeIds.indexOf(st.id);
+                    return (
+                      <Marker
+                        // Remounted when it's toggled, so its label restyles
+                        // (a Tooltip's className is only read when it's made).
+                        key={`trip-edit-${st.id}-${at >= 0 ? 'on' : 'off'}`}
+                        position={[st.lat, st.lng]}
+                        icon={at >= 0 ? tripStopIcon(at + 1) : tripStopOffIcon}
+                        zIndexOffset={at >= 0 ? 900 : 800}
+                        title={at >= 0 ? `Take ${st.name} off the route` : `Put ${st.name} back on the route`}
+                        eventHandlers={{ click: () => toggleRouteStop(st.id) }}
+                      >
+                        <Tooltip permanent direction="right" offset={[14, 0]} className={`trip-edit-label ${at >= 0 ? '' : 'off'}`.trim()}>
+                          {st.name}
+                        </Tooltip>
+                      </Marker>
+                    );
+                  })
+                : orderedTrip.stops.map((st, i) => {
+                    const lm = LANDMARK_BY_ID.get(st.id) || null;
+                    return (
+                      <Marker key={`trip-${st.id || i}`} position={[st.lat, st.lng]} icon={tripStopIcon(i + 1)} zIndexOffset={900}>
+                        <PinPopup name={`${i + 1}. ${st.name}`} landmark={lm} onOpen={lm ? () => navigate(`/landmarks/${lm.regionId}/${lm.id}`) : undefined} />
+                      </Marker>
+                    );
+                  })}
             </>
           )}
           {navActive && <FollowUser pos={coords} following={following} onUserPan={() => setFollowing(false)} />}
@@ -1519,7 +1617,21 @@ export default function MapExplore({ experiments = false }) {
           )}
         </MapContainer>
 
-      {orderedTrip && !nav && (
+      {orderedTrip && !nav && routeEditing && (
+        <TripRouteEditPanel
+          name={tripRoute.name}
+          stops={tripRoute.stops}
+          ids={routeIds}
+          onReorder={(ids) => editRoute(() => ids)}
+          onSelectAll={selectAllRouteStops}
+          onSave={() => {
+            mapRef.current?.closePopup();
+            setRouteEditing(false);
+          }}
+          onClose={() => setTripRoute(null)}
+        />
+      )}
+      {orderedTrip && !nav && !routeEditing && (
         <div className="map-nav-sheet">
           <div className="card turn-panel trip-route-panel">
             <div className="turn-panel-head">
@@ -1531,7 +1643,7 @@ export default function MapExplore({ experiments = false }) {
               </button>
             </div>
             <p className="screen-subtitle" style={{ margin: '4px 0 8px' }}>
-              {orderedTrip.origin ? 'Best order from where you are' : 'Best order between the stops'} · {orderedTrip.stops.length}{' '}
+              {routeTouched || tripRoute.ordered ? 'Your order' : orderedTrip.origin ? 'Best order from where you are' : 'Best order between the stops'} · {orderedTrip.stops.length}{' '}
               stop{orderedTrip.stops.length === 1 ? '' : 's'}
             </p>
             <ol className="turn-steps trip-route-steps">
@@ -1549,6 +1661,9 @@ export default function MapExplore({ experiments = false }) {
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
               <button type="button" className="btn btn-primary btn-sm" onClick={startTripRoute} disabled={!coords}>
                 {'\u{25B6}\u{FE0F}'} {coords ? 'Start' : 'Start (waiting for location)'}
+              </button>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setRouteEditing(true)}>
+                Edit route
               </button>
               {googleMapsMultiStopLegs(orderedTrip.stops, orderedTrip.origin).map((href, i, all) => (
                 <a key={href} className="btn btn-ghost btn-sm" href={href} target="_blank" rel="noreferrer">

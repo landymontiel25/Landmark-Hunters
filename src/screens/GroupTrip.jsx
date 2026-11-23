@@ -323,7 +323,7 @@ export default function GroupTrip() {
   ]
     .filter((p) => Number.isFinite(p?.lat) && Number.isFinite(p?.lng))
     .map((p) => ({ id: p.id, name: p.name, lat: p.lat, lng: p.lng }));
-  const viewInMap = () => navigate('/', { state: { tripRoute: { name: trip.name, stops: tripStops } } });
+  const viewInMap = () => navigate('/', { state: { tripRoute: { name: trip.name, stops: tripStops, edit: true } } });
   // Share with anyone, app or not: the route's stops in order and a Google
   // Maps link, by the phone's share sheet or copied.
   const shareTrip = () => {
@@ -404,7 +404,7 @@ export default function GroupTrip() {
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
             {tripStops.length > 0 && (
               <button type="button" className="btn btn-primary btn-sm" onClick={viewInMap}>
-                {'\u{1F9ED}'} Get Directions for All Landmarks
+                Get directions
               </button>
             )}
             {tripStops.length > 0 && (

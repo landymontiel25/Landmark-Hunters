@@ -1,4 +1,4 @@
-import { awardPhotoBonus } from './photoBonus.js';
+import { awardPhotoBonus, CHECKED_FIELD } from './photoBonus.js';
 import { isRealCheckin } from '../../src/lib/realCheckin.js';
 
 // The one-time back-pay (owner, 2026-10-21): +10 per place for everyone who
@@ -41,7 +41,7 @@ export async function runPhotoBonusBackfill(db, { limit = BACKFILL_PLACES_PER_RU
   const paidIds = new Set(paidSnap.docs.map((d) => d.id));
   // Places whose every photo was already checked and turned down: nothing
   // new to check until someone adds another photo.
-  const checked = new Map(checkSnap.docs.map((d) => [d.id, new Set(d.data().urls || [])]));
+  const checked = new Map(checkSnap.docs.map((d) => [d.id, new Set(d.data()[CHECKED_FIELD] || [])]));
   const all = backfillCandidates({
     checkins: checkinSnap.docs.map((d) => d.data()),
     reviews: reviewSnap.docs.map((d) => d.data()),

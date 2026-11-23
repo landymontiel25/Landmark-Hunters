@@ -653,6 +653,18 @@ const PLACES = [
     lng: -77.046387,
     checkInRadiusMeters: 400,
     categories: ['food'],
+    // What's on the property, so the photo bonus check (api/_lib/photoCheck.js)
+    // takes a photo from anywhere on it (owner, 2026-11-22: a tennis court
+    // photo was turned down).
+    photoScenes: [
+      'the marina, its docks and the boats',
+      'the private white-sand beach',
+      'the two pools',
+      'the tennis and pickleball courts',
+      "the restaurants and bars, including Angler's",
+      'the hotel buildings, rooms, lobby and grounds',
+      'the views of the water and the harbour from the property',
+    ],
     whatItIs:
       "40 beachfront acres with a private white-sand beach, the largest marina in the Bahamas (200 slips), two pools, tennis and pickleball courts, and restaurants including Angler's.",
     ...sourced([

@@ -608,6 +608,16 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
       state: { directionsTo: toNavStop(list[0]), directionsQueue: list.slice(1).map(toNavStop), startNav: true },
     });
   };
+  // "Get directions" (owner, 2026-11-22): the Map's route editor with the
+  // stops still to go, in this itinerary's order. Start from there.
+  const editRouteOnMap = () => {
+    const pending = displayRoute.filter((s) => !claimedMap[s.id]);
+    const stops = (pending.length ? pending : displayRoute)
+      .filter((s) => Number.isFinite(s.lat) && Number.isFinite(s.lng))
+      .map((s) => ({ id: s.id, name: s.name, lat: s.lat, lng: s.lng }));
+    if (!stops.length) return;
+    navigate('/', { state: { tripRoute: { name: itineraryName(region.id), stops, edit: true, ordered: true } } });
+  };
   // Share with anyone, app or not: the stops and a Google Maps route, by the
   // phone's share sheet (texts, WhatsApp, email...) or copied to paste.
   const shareItinerary = () =>
@@ -1046,8 +1056,8 @@ function ItineraryBody({ sectionTabs, itinTab, setItinTab }) {
         )}
         {displayRoute.length > 0 && (
           <div className="itin-trip-actions">
-            <button type="button" className="btn btn-primary" onClick={() => startTrip()}>
-              Start Trip
+            <button type="button" className="btn btn-primary" onClick={editRouteOnMap}>
+              Get directions
             </button>
             <button type="button" className="btn btn-ghost" onClick={shareItinerary}>
               Share

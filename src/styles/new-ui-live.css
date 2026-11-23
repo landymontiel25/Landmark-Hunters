@@ -2063,3 +2063,104 @@ html[data-theme] body .route-step .stop-add-check {
   background: var(--gold);
   color: #1a1400;
 }
+
+/* ---------- Route editor on the Map (owner, 2026-11-22) ----------
+   Edit mode: every stop is named beside its pin; a stop taken off the
+   route turns grey. Labels follow the New UI type (Inter, 13 pt, black on
+   white, white on black). */
+html[data-theme] body .leaflet-tooltip.trip-edit-label {
+  padding: 3px 8px;
+  border: 1px solid var(--nl-line);
+  border-radius: 999px;
+  background: var(--nl-bg);
+  color: var(--nl-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: var(--nl-shadow);
+}
+html[data-theme] body .leaflet-tooltip.trip-edit-label::before {
+  display: none;
+}
+html[data-theme] body .leaflet-tooltip.trip-edit-label.off {
+  color: var(--nl-text);
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+.trip-stop-pin.trip-stop-pin-off {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #9a9a9a;
+  background: #d9d9d9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-hint {
+  margin: 4px 0 8px;
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--nl-text);
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-list {
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 0;
+}
+/* Compact: the map above it has to show the stops. */
+html[data-theme] body .trip-route-edit.turn-panel {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+html[data-theme] body .trip-route-edit h3 {
+  font-size: 17px;
+}
+/* Like live navigation: only the route, its stops and the panel. */
+body.map-route-editing .map-cat-bar,
+body.map-route-editing .map-cat-prompt,
+body.map-route-editing .map-search-btn,
+body.map-route-editing .map-search-panel,
+body.map-route-editing .map-fab-bar,
+body.map-route-editing .map-edit-hint,
+body.map-route-editing .leaflet-control-container {
+  display: none !important;
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
+  background: transparent;
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-list li.dragging {
+  background: var(--nl-bg);
+  box-shadow: var(--nl-shadow);
+}
+html[data-theme] body .trip-route-edit .trip-route-edit-list .drag-handle {
+  width: 44px;
+  height: 44px;
+  touch-action: none;
+}
+html[data-theme] body .trip-route-edit .trip-route-save {
+  margin-top: 10px;
+}
+
+/* Select All's one-time zoom (MapCategoryBar): the copy that grows over the
+   map wears the pulse's gold ring so it reads as the same button. */
+html[data-theme] body .map-cat-chip.map-cat-all.map-cat-all-zoom {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--nl-gold-soft), var(--nl-shadow);
+  will-change: transform;
+}

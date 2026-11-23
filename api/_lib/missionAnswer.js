@@ -64,7 +64,23 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many answers in a row. Wait a bit and try again.' });
     return;
   }
-  const { regionId, landmarkId, answer, dayId } = req.body || {};
+  const { regionId, landmarkId, answer, dayId, photoURL } = req.body || {};
+  // A photo mission's photo (missionPhoto.js): checked against the mission.
+  if (typeof photoURL === 'string') {
+    if (!validId(regionId) || !validId(landmarkId) || !validClientDayKey(dayId) || photoURL.length > 2000) {
+      res.status(400).json({ error: 'regionId, landmarkId, photoURL and dayId are required.' });
+      return;
+    }
+    try {
+      const { checkMissionPhoto } = await import('./missionPhoto.js');
+      const out = await checkMissionPhoto(adminDb(), account.uid, regionId, landmarkId, photoURL, dayId);
+      res.status(200).json({ ok: true, awarded: out.awarded, passed: out.passed ?? false, reason: out.reason || null, why: out.why || null, mission: out.mission || null });
+    } catch (e) {
+      console.error('[mission-photo] failed', e);
+      res.status(500).json({ error: "Couldn't check your photo." });
+    }
+    return;
+  }
   if (!validId(regionId) || !validId(landmarkId) || !Number.isInteger(answer) || !validClientDayKey(dayId)) {
     res.status(400).json({ error: 'regionId, landmarkId, answer and dayId are required.' });
     return;

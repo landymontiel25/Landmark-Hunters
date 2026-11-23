@@ -3,6 +3,32 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Five fixes: Select All zoom, map card gestures, mission photos, route editor, photo bonus (2026-11-22)
+
+- **Select All zoom** (MapCategoryBar.jsx, lib/spring.js): a copy of the button
+  zooms over the map (the bar scrolls and would clip it), holds, springs back
+  (damping 0.6). Plays each Map open with nothing showing until Select All is
+  used once (`lh.selectAllUsed`). Reduced motion: no zoom.
+- **Map card gestures** (lib/mapCardGestures.js): Leaflet's closePopupOnClick
+  is off; a tap (< 10 px, < 500 ms) on empty map closes the card; a drag that
+  starts on the card pans the map and swallows the click that ends it.
+- **Mission photos** were never checked for content (any photo passed). Now
+  the photo is saved on the check-in, then api/mission-answer (photoURL) runs
+  api/_lib/missionPhoto.js: own check-in photo only, Claude checks it against
+  the mission text, +10 once (mission_photos/{uid}_{id}, server-only). The
+  real-model test (floor fails, marina passes) still has to be run on a phone
+  at the resort; unit tests use a stand-in for the model.
+- **Route editor** (TripRouteEditPanel.jsx): Itinerary "Start Trip" and group
+  "Get Directions for All Landmarks" are now "Get directions" into it. Edits
+  change only this route, never the itinerary. Open: should Save also write
+  the new order back to the itinerary? Not asked, not done.
+- **Photo bonus false rejection**: the check only knew the resort as "Food"
+  and told the model "within 30 meters". It now gets the description, the
+  place's `photoScenes`, its check-in area, and is told the GPS visit is
+  verified (reject only what clearly isn't the place). Earlier rejections are
+  re-checked (CHECKED_FIELD 'urlsV2', also by the nightly back-pay). Rejections
+  say why and what was needed, with Try again; a failed check says so.
+
 ## Ratings refused after "Would you come back?" shipped (fixed 2026-11-22)
 
 - **Cause.** PR #886 added `ratingWouldReturn` and `typeWouldReturn` to the

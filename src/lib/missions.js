@@ -58,3 +58,34 @@ export async function submitMissionAnswer(landmark, answer) {
   }
   return data;
 }
+
+// A photo mission's photo, already saved on this visit's check-in: the
+// server checks it shows what the mission asks (api/_lib/missionPhoto.js)
+// and pays +10 the first time one does. { passed, awarded, reason, why } or
+// throws with a userMessage when the check couldn't run.
+export async function submitMissionPhoto(landmark, photoURL) {
+  const regionId = landmark?.regionId || landmark?.region;
+  let r;
+  let data = null;
+  try {
+    r = await fetch(`${API_BASE}/api/mission-answer`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ regionId, landmarkId: landmark.id, photoURL, dayId: dayKey(new Date()) }),
+    });
+    data = await r.json().catch(() => null);
+  } catch {
+    r = null;
+  }
+  if (!r?.ok || !data?.ok || data.reason === 'check-failed') {
+    const err = new Error("Couldn't check your photo just now. Try again.");
+    err.userMessage = err.message;
+    throw err;
+  }
+  if (data.reason === 'no-checkin') {
+    const err = new Error('Check in here first, then take the mission photo.');
+    err.userMessage = err.message;
+    throw err;
+  }
+  return data;
+}

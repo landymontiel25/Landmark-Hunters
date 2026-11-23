@@ -22,6 +22,12 @@ export function buildNearestNeighborRoute(origin, landmarks) {
   return annotateLegs(origin, improveTwoOpt(origin, nearestNeighborOrder(origin, landmarks)));
 }
 
+// The same leg distances for a route in an order the traveler chose (the
+// Map's route editor), with no reshuffling.
+export function routeInOrder(origin, ordered) {
+  return ordered.length ? annotateLegs(origin || ordered[0], ordered) : [];
+}
+
 function annotateLegs(origin, ordered) {
   let prev = origin;
   return ordered.map((l) => {

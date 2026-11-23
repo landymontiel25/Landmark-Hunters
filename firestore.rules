@@ -265,7 +265,13 @@ service cloud.firestore {
       allow read: if request.auth != null && resource.data.userId == request.auth.uid;
       allow write: if false;
     }
-    // Photos already checked for a place (photoCheck.js), never re-checked.
+    // Photo missions (api/_lib/missionPhoto.js): whether this account's
+    // photo did the mission here. Server-written only; the owner reads it.
+    match /mission_photos/{id} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+    // Photos already checked for a place (photoCheck.js).
     match /photo_bonus_checks/{id} {
       allow read, write: if false;
     }

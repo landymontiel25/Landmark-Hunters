@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useToast } from '../lib/ToastContext';
-import { missionOf, missionDone, markMissionDone, submitMissionAnswer, TRIVIA_PROMPT } from '../lib/missions';
+import { missionOf, missionDone, markMissionDone, submitMissionAnswer, submitMissionPhoto, TRIVIA_PROMPT } from '../lib/missions';
 import { checkMissionPhoto, takeMissionPhoto } from '../lib/missionPhoto';
-import { attachCheckinPhoto } from '../lib/leaderboard';
+import { addCheckinPhoto } from '../lib/leaderboard';
 import { friendlyError } from '../lib/friendlyError';
 import { TargetIcon } from './HeadingIcons';
 
@@ -13,7 +13,9 @@ import { TargetIcon } from './HeadingIcons';
 //   Trivia: the owner's line, the question and four answers. One tap
 //   answers; the server pays +10 for the right one, 0 for a wrong one.
 //   Photo: the camera opens; the photo has to be taken here, after the
-//   check-in, during this visit (lib/missionPhoto.js).
+//   check-in, during this visit (lib/missionPhoto.js), and then show what
+//   the mission asks: the server checks it (api/_lib/missionPhoto.js) and
+//   pays +10 only for one that does. Nothing counts before that.
 export default function MissionPanel({ landmark, checkedInAt = null, compact = false }) {
   const mission = missionOf(landmark);
   const { user } = useAuth();
@@ -54,12 +56,19 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
         setNote(verdict.message);
         return;
       }
-      const result = { kind: 'photo' };
+      // Saved with this visit like any check-in photo, then checked
+      // against the mission. It only counts once the check says yes.
+      const photoURL = await addCheckinPhoto(uid, landmark.id, shot.file);
+      if (!photoURL) throw Object.assign(new Error("Couldn't save that photo. Try again."), { userMessage: "Couldn't save that photo. Try again." });
+      const out = await submitMissionPhoto(landmark, photoURL);
+      if (!out.passed) {
+        setNote(`That photo doesn't do the mission.${out.why ? ` ${String(out.why).trim().replace(/([^.!?])$/, '$1.')}` : ''} Retake it: ${mission.text}`);
+        return;
+      }
+      const result = { kind: 'photo', awarded: out.awarded || 0 };
       markMissionDone(uid, landmark.id, result);
       setDone(result);
-      // Kept with this visit, like any check-in photo. Best effort: the
-      // mission counts even if the upload doesn't.
-      attachCheckinPhoto(uid, landmark.id, shot.file).catch(() => {});
+      if (out.awarded > 0) toast.show(`+${out.awarded} pts: mission photo done.`, { tone: 'success' });
     } catch (e) {
       setNote(friendlyError(e, "Couldn't use that photo. Try again."));
     } finally {
@@ -85,7 +94,7 @@ export default function MissionPanel({ landmark, checkedInAt = null, compact = f
       )}
       {mission.type === 'photo' && done?.kind === 'photo' && (
         <p className="mission-result" role="status">
-          {'✓'} Photo checked. Mission done.
+          {'✓'} Photo checked. Mission done.{done.awarded > 0 ? ` +${done.awarded} points.` : ''}
         </p>
       )}
 
