@@ -82,7 +82,9 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       if (!photoURL) throw Object.assign(new Error("Couldn't save that photo. Try again."), { userMessage: "Couldn't save that photo. Try again." });
       const out = await submitMissionPhoto(landmark, photoURL);
       if (!out.passed) {
-        setNote(`That photo doesn't do the mission.${out.why ? ` ${String(out.why).trim().replace(/([^.!?])$/, '$1.')}` : ''} Retake it: ${mission.text}`);
+        // Two short bullets, nothing else (owner, 2026-11-23).
+        const lines = [out.missing && `Missing: ${out.missing}`, out.shows && `You took: ${out.shows}`].filter(Boolean);
+        setNote({ lines: lines.length ? lines : [out.why || "That photo doesn't do the mission."] });
         return;
       }
       const result = { kind: 'photo', awarded: out.awarded || 0 };
@@ -139,10 +141,18 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
         </button>
       )}
 
-      {note && (
-        <p className="mission-note" role="alert">
-          {note}
-        </p>
+      {note?.lines ? (
+        <ul className="mission-note" role="alert">
+          {note.lines.map((l) => (
+            <li key={l}>{l}</li>
+          ))}
+        </ul>
+      ) : (
+        note && (
+          <p className="mission-note" role="alert">
+            {note}
+          </p>
+        )
       )}
     </section>
   );

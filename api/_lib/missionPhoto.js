@@ -54,7 +54,7 @@ export async function checkMissionPhoto(db, uid, regionId, landmarkId, photoURL,
   if (!verdict.ok) {
     // Kept for the owner: what was turned down and why. Never pays.
     await ref.set({ userId: uid, regionId: region, landmarkId, passed: false, tries: FieldValue.increment(1), lastPhoto: photoURL, lastWhy: verdict.reason, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-    return { awarded: 0, reason: 'photo-not-mission', passed: false, why: verdict.reason, mission: mission.text };
+    return { awarded: 0, reason: 'photo-not-mission', passed: false, why: verdict.reason, missing: verdict.missing || '', shows: verdict.shows || '', mission: mission.text };
   }
 
   // Pays once, in a transaction so two quick tries can't both count.

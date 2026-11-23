@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { PHOTO_CHECK_MODEL } from './aiModels.js';
+import { PHOTO_CHECK_MODEL, MISSION_PHOTO_CHECK_MODEL } from './aiModels.js';
 import { logAiCall } from './aiCallLog.js';
 import { AI_TIMEOUT_MS } from './upstream.js';
 
@@ -27,20 +27,19 @@ const PLACE_INSTRUCTIONS =
   '(a bedroom for a stadium, a snowy street for a beach resort). When in doubt, answer true. ' +
   'Give a short reason in plain words.';
 
+// Loosened (owner, 2026-11-23): a real marina photo with docks and boats
+// was refused for "no beach visible". The main subject at the place is
+// enough; a second thing the mission names may be missing or out of frame.
 const MISSION_INSTRUCTIONS =
-  'A traveler at a landmark was given a photo mission and took this photo for it. Decide whether the photo does what the mission asks. ' +
-  'It must show the mission’s subject: every thing the mission names should be visible, even if small, partial or from an odd angle. ' +
-  'It does not need to be a good photo, and people in the frame are fine. ' +
-  'Answer false when the subject is missing (a floor, a ceiling, a wall, a room, a close-up of something else, a different scene), ' +
-  'or the image is black, blank, very dark or unrecognizably blurry, a screenshot, a meme or a picture from the internet. ' +
-  'Give a short reason in plain words, saying what the photo shows.';
+  'A traveler at a landmark was given a photo mission and took this photo for it. Decide whether the photo shows the mission’s main subject at this place. ' +
+  'The main subject is the first or central thing the mission names (for "the marina with the boats and the beach", the marina and its boats). ' +
+  'Accept the photo when it clearly shows that main subject, even if other things the mission names are missing, small, partial or out of frame. ' +
+  'It does not need to be a good photo, and people in the frame are fine. When in doubt, accept. ' +
+  'Answer false only when the photo clearly does not show the place or its main subject at all: a floor, a ceiling, a wall, a room, ' +
+  'a gray or blank texture, a black, very dark or unrecognizably blurry image, a screenshot, a meme, a picture from the internet, or somewhere else entirely. ' +
+  'For "missing", name in one to four words what the mission wanted that the photo lacks (empty when nothing is missing). ' +
+  'For "shows", say in two to six plain words what the photo shows. No sentences.';
 
-// The answer comes back through a forced tool call (the same way Mapr chat
-// gets structured answers), on the standard Messages API. The beta endpoint
-// with server-side fallbacks and an output schema, used until 2026-11-22,
-// logged one answer ever (2026-10-23); every later call failed (the error
-// wasn't recorded) and read to the traveler as "doesn't look like it was
-// taken here". Failures are recorded now (recordFailure).
 // The verdict comes back as JSON in this shape (structured outputs). It
 // used to be a forced tool call, which Claude Opus 5.5 refuses with a 400
 // ("tool_choice: type \"tool\" and \"any\" are not supported for this
@@ -57,6 +56,24 @@ export const VERDICT_FORMAT = {
     additionalProperties: false,
   },
 };
+
+// A mission's verdict: two short phrases the traveler sees as bullets
+// (owner, 2026-11-23): "Missing: beach" and "You took: marina with boats".
+export const MISSION_VERDICT_FORMAT = {
+  type: 'json_schema',
+  schema: {
+    type: 'object',
+    properties: {
+      matches: { type: 'boolean' },
+      missing: { type: 'string' },
+      shows: { type: 'string' },
+    },
+    required: ['matches', 'missing', 'shows'],
+    additionalProperties: false,
+  },
+};
+
+const short = (x, n) => String(x || '').replace(/\s+/g, ' ').trim().replace(/[.!]+$/, '').slice(0, n);
 
 // Only the app's own Firebase Storage photos are checked (the URL a client
 // saved on its check-in or rating), never an arbitrary address.
@@ -92,16 +109,17 @@ async function recordFailure(feature, e) {
   }
 }
 
-async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure, references = [] }) {
+async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure, references = [], model = PHOTO_CHECK_MODEL, format = VERDICT_FORMAT }) {
   if (!isStoragePhotoUrl(url)) return { ok: false, reason: 'not an app photo' };
   const anthropic = client || new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 2 });
   try {
     const msg = await anthropic.messages.create({
-      model: PHOTO_CHECK_MODEL,
+      model,
       // Opus 5.5 always thinks first, and thinking counts toward
       // max_tokens: 512 could run out before the verdict was written.
       max_tokens: 4096,
-      output_config: { effort: 'low', format: VERDICT_FORMAT },
+      // Haiku 4.5 refuses an effort setting.
+      output_config: model.startsWith('claude-haiku') ? { format } : { effort: 'low', format },
       system,
       messages: [
         {
@@ -119,7 +137,7 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
         },
       ],
     });
-    await log({ feature, model: PHOTO_CHECK_MODEL, usage: msg.usage }).catch(() => {});
+    await log({ feature, model, usage: msg.usage }).catch(() => {});
     if (msg.stop_reason === 'refusal') return { ok: false, reason: 'check declined', failed: true };
     let out = null;
     try {
@@ -130,6 +148,11 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
     if (!out || typeof out.matches !== 'boolean') {
       await onError(feature, new Error(`no verdict (stop_reason ${msg.stop_reason})`));
       return { ok: false, reason: 'check failed', failed: true };
+    }
+    if ('shows' in out) {
+      const missing = short(out.missing, 60);
+      const shows = short(out.shows, 80);
+      return { ok: out.matches === true, reason: [missing && `Missing: ${missing}`, shows && `You took: ${shows}`].filter(Boolean).join(' · '), missing, shows };
     }
     return { ok: out.matches === true, reason: String(out.reason || '').slice(0, 200) };
   } catch (e) {
@@ -163,5 +186,5 @@ export function photoShowsPlace({ url, place, client = null, log = logAiCall }) 
 // mission: the landmark's mission text.
 export function photoMatchesMission({ url, place, mission, client = null, log = logAiCall }) {
   const about = `${placeAbout({ name: place.name, city: place.city, description: place.description })}\nThe mission: ${mission}`;
-  return askAboutPhoto({ url, system: MISSION_INSTRUCTIONS, about, feature: 'mission-photo-check', client, log, references: referencePhotos(place.images) });
+  return askAboutPhoto({ url, system: MISSION_INSTRUCTIONS, about, feature: 'mission-photo-check', client, log, references: referencePhotos(place.images), model: MISSION_PHOTO_CHECK_MODEL, format: MISSION_VERDICT_FORMAT });
 }

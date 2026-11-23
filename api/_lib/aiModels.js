@@ -18,3 +18,8 @@ export const PICK_REASONS_MODEL = 'claude-haiku-4-5';
 // there), not a black screen, a screenshot or something unrelated
 // (api/_lib/photoCheck.js). One image and a yes/no per call, at low effort.
 export const PHOTO_CHECK_MODEL = 'claude-opus-5-5';
+
+// A photo mission's check (api/_lib/photoCheck.js photoMatchesMission):
+// a simple yes/no on one photo, so the small, fast model (owner,
+// 2026-11-23). Haiku 4.5 takes no effort setting.
+export const MISSION_PHOTO_CHECK_MODEL = 'claude-haiku-4-5';

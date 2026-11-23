@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { isStoragePhotoUrl, photoShowsPlace, photoMatchesMission, VERDICT_FORMAT } from './photoCheck.js';
-import { PHOTO_CHECK_MODEL } from './aiModels.js';
+import { isStoragePhotoUrl, photoShowsPlace, photoMatchesMission, VERDICT_FORMAT, MISSION_VERDICT_FORMAT } from './photoCheck.js';
+import { PHOTO_CHECK_MODEL, MISSION_PHOTO_CHECK_MODEL } from './aiModels.js';
 
 const URL_OK = 'https://firebasestorage.googleapis.com/v0/b/app/o/x.jpg?alt=media&token=t';
 const place = { name: 'Hard Rock Stadium', kinds: 'Sports', city: 'Miami' };
@@ -57,12 +57,16 @@ describe('photoCheck', () => {
     expect(text).toContain('400 meters');
   });
 
-  it('a mission photo is checked against the mission text', async () => {
-    const client = clientWith(reply({ matches: false, reason: 'A tiled floor.' }));
+  it('a mission photo is checked against the mission text, on Haiku, answered in two short phrases', async () => {
+    const client = clientWith(reply({ matches: false, missing: 'marina, boats, beach', shows: 'a tiled floor.' }));
     const out = await photoMatchesMission({ url: URL_OK, place: { name: 'Resort', city: 'Abacos' }, mission: 'Photograph the marina with the boats and the beach.', client, log: async () => {} });
-    expect(out).toEqual({ ok: false, reason: 'A tiled floor.' });
+    expect(out).toEqual({ ok: false, reason: 'Missing: marina, boats, beach · You took: a tiled floor', missing: 'marina, boats, beach', shows: 'a tiled floor' });
     const req = client.messages.create.mock.calls[0][0];
+    expect(req.model).toBe(MISSION_PHOTO_CHECK_MODEL);
+    expect(req.output_config).toEqual({ format: MISSION_VERDICT_FORMAT }); // Haiku 4.5: no effort
     expect(req.system).toMatch(/photo mission/);
+    // Loosened (owner, 2026-11-23): the main subject is enough.
+    expect(req.system).toMatch(/even if other things the mission names are missing/);
     expect(req.messages[0].content.at(-1).text).toContain('The mission: Photograph the marina with the boats and the beach.');
   });
 

@@ -1929,6 +1929,15 @@ html[data-theme] body .mission-panel .mission-note {
   margin-top: 8px;
   font-weight: 600;
 }
+/* A refused mission photo: two short bullets (owner, 2026-11-23). */
+html[data-theme] body .mission-panel ul.mission-note {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+html[data-theme] body .mission-panel ul.mission-note li + li {
+  margin-top: 2px;
+}
 @media (prefers-reduced-motion: reduce) {
   html[data-theme] body .mission-panel .mission-option,
   html[data-theme] body .mission-panel .mission-option:active {

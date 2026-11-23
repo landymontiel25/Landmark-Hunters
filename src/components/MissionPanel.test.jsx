@@ -8,12 +8,13 @@ import { act } from 'react';
 const checkMissionPhoto = vi.fn(() => ({ ok: false, message: 'nope' }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1' } }) }));
 vi.mock('../lib/ToastContext', () => ({ useToast: () => ({ show: vi.fn() }) }));
-vi.mock('../lib/leaderboard', () => ({ addCheckinPhoto: vi.fn() }));
+vi.mock('../lib/leaderboard', () => ({ addCheckinPhoto: vi.fn(async () => 'https://photo') }));
 vi.mock('../lib/missionPhoto', () => ({
   checkMissionPhoto: (a) => checkMissionPhoto(a),
   takeMissionPhoto: vi.fn(async () => ({ file: {}, photo: {}, fileTime: Date.now(), device: null })),
 }));
-vi.mock('../lib/missions', async (orig) => ({ ...(await orig()), loadServerMission: async () => null }));
+const submitMissionPhoto = vi.fn(async () => ({ passed: false, awarded: 0, missing: 'beach', shows: 'marina with boats', why: 'Missing: beach · You took: marina with boats' }));
+vi.mock('../lib/missions', async (orig) => ({ ...(await orig()), loadServerMission: async () => null, submitMissionPhoto: (...a) => submitMissionPhoto(...a) }));
 
 const landmark = { id: 'abaco-beach-resort', name: 'Resort', region: 'abacos', mission: { type: 'photo', text: 'Photograph the marina.' } };
 
@@ -47,5 +48,14 @@ describe('MissionPanel start (owner, 2026-11-23)', () => {
     const el = await render({});
     expect(el.textContent).toMatch(/Check in here to start it/);
     expect([...el.querySelectorAll('button')].some((b) => /mission photo/.test(b.textContent))).toBe(false);
+  });
+  it('a refused photo shows two short bullets, nothing else (owner, 2026-11-23)', async () => {
+    checkMissionPhoto.mockImplementation(() => ({ ok: true }));
+    const el = await render({ checkedInAt: null, checkedIn: true });
+    const btn = [...el.querySelectorAll('button')].find((b) => /Take mission photo/.test(b.textContent));
+    await act(async () => btn.click());
+    const items = [...el.querySelectorAll('ul.mission-note li')].map((li) => li.textContent);
+    expect(items).toEqual(['Missing: beach', 'You took: marina with boats']);
+    expect(el.textContent).not.toMatch(/Retake it:/);
   });
 });
