@@ -41,16 +41,20 @@ const MISSION_INSTRUCTIONS =
 // logged one answer ever (2026-10-23); every later call failed (the error
 // wasn't recorded) and read to the traveler as "doesn't look like it was
 // taken here". Failures are recorded now (recordFailure).
-const VERDICT_TOOL = {
-  name: 'photo_verdict',
-  description: 'Report whether the photo matches, with a short plain reason.',
-  input_schema: {
+// The verdict comes back as JSON in this shape (structured outputs). It
+// used to be a forced tool call, which Claude Opus 5.5 refuses with a 400
+// ("tool_choice: type \"tool\" and \"any\" are not supported for this
+// model"), so every check failed before judging the photo (2026-11-23).
+export const VERDICT_FORMAT = {
+  type: 'json_schema',
+  schema: {
     type: 'object',
     properties: {
       matches: { type: 'boolean' },
       reason: { type: 'string' },
     },
     required: ['matches', 'reason'],
+    additionalProperties: false,
   },
 };
 
@@ -94,10 +98,11 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
   try {
     const msg = await anthropic.messages.create({
       model: PHOTO_CHECK_MODEL,
-      max_tokens: 512,
+      // Opus 5.5 always thinks first, and thinking counts toward
+      // max_tokens: 512 could run out before the verdict was written.
+      max_tokens: 4096,
+      output_config: { effort: 'low', format: VERDICT_FORMAT },
       system,
-      tools: [VERDICT_TOOL],
-      tool_choice: { type: 'tool', name: VERDICT_TOOL.name },
       messages: [
         {
           role: 'user',
@@ -116,8 +121,16 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
     });
     await log({ feature, model: PHOTO_CHECK_MODEL, usage: msg.usage }).catch(() => {});
     if (msg.stop_reason === 'refusal') return { ok: false, reason: 'check declined', failed: true };
-    const out = msg.content.find((b) => b.type === 'tool_use' && b.name === VERDICT_TOOL.name)?.input;
-    if (!out || typeof out.matches !== 'boolean') return { ok: false, reason: 'check failed', failed: true };
+    let out = null;
+    try {
+      out = JSON.parse(msg.content.find((b) => b.type === 'text')?.text || 'null');
+    } catch {
+      out = null;
+    }
+    if (!out || typeof out.matches !== 'boolean') {
+      await onError(feature, new Error(`no verdict (stop_reason ${msg.stop_reason})`));
+      return { ok: false, reason: 'check failed', failed: true };
+    }
     return { ok: out.matches === true, reason: String(out.reason || '').slice(0, 200) };
   } catch (e) {
     console.error(`[${feature}] failed`, String(e?.message || e));

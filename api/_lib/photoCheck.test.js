@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { isStoragePhotoUrl, photoShowsPlace, photoMatchesMission } from './photoCheck.js';
+import { isStoragePhotoUrl, photoShowsPlace, photoMatchesMission, VERDICT_FORMAT } from './photoCheck.js';
 import { PHOTO_CHECK_MODEL } from './aiModels.js';
 
 const URL_OK = 'https://firebasestorage.googleapis.com/v0/b/app/o/x.jpg?alt=media&token=t';
 const place = { name: 'Hard Rock Stadium', kinds: 'Sports', city: 'Miami' };
-const reply = (json, extra = {}) => ({ stop_reason: 'tool_use', usage: {}, content: [{ type: 'tool_use', name: 'photo_verdict', input: json }], ...extra });
+const reply = (json, extra = {}) => ({ stop_reason: 'end_turn', usage: {}, content: [{ type: 'thinking', thinking: '' }, { type: 'text', text: JSON.stringify(json) }], ...extra });
 const clientWith = (msg) => ({ messages: { create: vi.fn(async () => msg) } });
 
 describe('photoCheck', () => {
@@ -23,7 +23,11 @@ describe('photoCheck', () => {
     expect(out).toEqual({ ok: true, reason: 'The stadium from the stands.' });
     const req = client.messages.create.mock.calls[0][0];
     expect(req.model).toBe(PHOTO_CHECK_MODEL);
-    expect(req.tool_choice).toEqual({ type: 'tool', name: 'photo_verdict' });
+    // Opus 5.5 400s on a forced tool_choice: the verdict is structured JSON.
+    expect(req.tool_choice).toBeUndefined();
+    expect(req.tools).toBeUndefined();
+    expect(req.output_config.format).toEqual(VERDICT_FORMAT);
+    expect(req.max_tokens).toBeGreaterThanOrEqual(2048);
     expect(req.betas).toBeUndefined();
     expect(req.messages[0].content.filter((b) => b.type === 'image')).toEqual([{ type: 'image', source: { type: 'url', url: URL_OK } }]);
     expect(req.messages[0].content.at(-1).text).toContain('Hard Rock Stadium (Sports), Miami');
@@ -34,6 +38,11 @@ describe('photoCheck', () => {
     expect((await photoShowsPlace({ url: URL_OK, place, client: clientWith(reply({}, { stop_reason: 'refusal', content: [] })), log: async () => {} })).ok).toBe(false);
     const broken = { messages: { create: vi.fn(async () => { throw new Error('down'); }) } };
     expect(await photoShowsPlace({ url: URL_OK, place, client: broken, log: async () => {} })).toEqual({ ok: false, reason: 'check failed', failed: true });
+  });
+
+  it('a reply with no readable verdict is a failed check, recorded, never a pass', async () => {
+    const client = clientWith({ stop_reason: 'max_tokens', usage: {}, content: [{ type: 'text', text: '{"matches": tr' }] });
+    expect(await photoShowsPlace({ url: URL_OK, place, client, log: async () => {} })).toEqual({ ok: false, reason: 'check failed', failed: true });
   });
 
   it('tells the check the place is GPS-verified, and sends what is on the property', async () => {
