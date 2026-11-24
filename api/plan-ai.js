@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { haversineKm } from '../src/lib/haversine.js';
-import { ALL_LANDMARKS, getRegion } from '../src/data/regions.js';
+import { ALL_LANDMARKS, getRegion, REGIONS } from '../src/data/regions.js';
 import { findLookedUp, lookedUpPlaces, lookedUpNamedIn } from './_lib/lookedUpPlaces.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { APP_HELP } from './_lib/appHelp.js';
@@ -289,6 +289,29 @@ export function linkPlaceNames(reply, stops = []) {
   return out;
 }
 
+// Questions about the app itself (how it works, a button, a feature): the
+// only messages that need the app guide, APP_HELP.
+export const ABOUT_THE_APP =
+  /\b(?:app|how (?:do|can|does|did|to)|where(?:'s| is| do i| can i) (?:the|my|i)|button|tab|screen|page|settings?|profile|account|points?|streaks?|leaderboard|rank|badge|level|score|check[- ]?ins?|checking in|itinerar|trip planner|plan(?:ner)? tab|rate|rating|mission|trivia|tips?|friends?|follow|offline|delete|sign (?:in|up|out)|log ?in|notifications?|photos?|upload|map tab|mapr|feature|landmark hunters|insider|taste|archive|project|chat|invite|referral|pro\b|premium|subscription|bug|broken|not working|why (?:can't|cant|doesn't|does|is|isn't))\b/i;
+
+// The cities a message is about, when none is picked: ones it names, ones
+// a named catalog place is in, and ones within reach of the traveler.
+export function focusRegionIds(text, curated = [], location = null, { nearKm = 150 } = {}) {
+  const ids = new Set();
+  const hay = ` ${normName(text)} `;
+  for (const r of REGIONS) {
+    const names = [r.name, r.city, ...(r.searchNames || [])].filter((n) => typeof n === 'string' && n.length >= 4).map((n) => normName(n));
+    if (names.some((n) => n && hay.includes(` ${n} `))) ids.add(r.id);
+  }
+  for (const l of placesNamedIn(text, curated, { limit: 6 })) ids.add(l.regionId);
+  const lat = Number(location?.lat);
+  const lng = Number(location?.lng);
+  if (location && Number.isFinite(lat) && Number.isFinite(lng) && !(lat === 0 && lng === 0)) {
+    for (const l of curated) if (Number.isFinite(l.lat) && Number.isFinite(l.lng) && kmBetween(lat, lng, l.lat, l.lng) <= nearKm) ids.add(l.regionId);
+  }
+  return [...ids];
+}
+
 // Which model answers this message: open recommendations and searches get
 // the stronger one, everything else the fast one (aiModels.js).
 export const RECOMMEND_ASK =
@@ -560,13 +583,23 @@ async function handler(req, res) {
     await ensureServerPlacePacks();
     // A place closed for good is never suggested.
     const curated = ALL_LANDMARKS.filter((l) => l.source !== 'osm' && !l.permanentlyClosed);
-    const pool = regions.length ? curated.filter((l) => uniqueRegionIds.includes(l.regionId)) : curated;
+    // No city picked: only the cities this message is about go in the
+    // catalog (speed, owner 2026-11-24: the whole catalog was ~52,000
+    // tokens on every reply). Cities named in recent messages, cities of
+    // catalog places they named, and cities within reach of where they are;
+    // the whole catalog only when none of that narrows it.
+    const recentAsk = turns.filter((t) => t.role === 'user').slice(-3).map((t) => t.content).join('\n');
+    const focus = regions.length ? uniqueRegionIds : focusRegionIds(recentAsk, curated, body.location);
+    const aboutTheApp = ABOUT_THE_APP.test(recentAsk);
+    const pool = regions.length ? curated.filter((l) => uniqueRegionIds.includes(l.regionId)) : focus.length ? curated.filter((l) => focus.includes(l.regionId)) : curated;
 
     const validIds = new Set(pool.map((l) => `${l.regionId}/${l.id}`));
     const catalog =
       (regions.length
         ? `The traveler wants stops in ${regions.map((r) => r.name).join(' or ')} only.\n\n`
-        : 'The traveler has not picked a city, so any city is fair game.\n\n') +
+        : focus.length
+          ? `The traveler hasn't picked a city. The catalog below covers the cities around them and any they named (${focus.map((id) => getRegion(id)?.name).filter(Boolean).join(', ')}); the app also has ${REGIONS.filter((r) => !focus.includes(r.id)).map((r) => r.name).join(', ')}.\n\n`
+          : 'The traveler has not picked a city, so any city is fair game.\n\n') +
       'CATALOG (region/id | name | category | description):\n' +
       pool
         .map((l) => `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 140)}`)
@@ -908,10 +941,10 @@ async function handler(req, res) {
       // (route, hours, search) can't run with thinking on.
       ...(model === PLAN_AI_MODEL ? { thinking: { type: 'disabled' } } : {}),
       system: [
-        { type: 'text', text: INSTRUCTIONS },
-        // The instructions and the app guide are the same in every city:
-        // cached on their own, so a new city's catalog doesn't re-send them.
-        { type: 'text', text: APP_HELP, cache_control: { type: 'ephemeral' } },
+        // The instructions are the same for everyone: cached on their own.
+        { type: 'text', text: INSTRUCTIONS, cache_control: { type: 'ephemeral' } },
+        // The app guide (~34,000 tokens) only when the chat is about the app.
+        ...(aboutTheApp ? [{ type: 'text', text: APP_HELP, cache_control: { type: 'ephemeral' } }] : []),
         { type: 'text', text: catalog, cache_control: { type: 'ephemeral' } },
         ...(profile ? [{ type: 'text', text: profile }] : []),
         ...(ranking ? [{ type: 'text', text: ranking.text }] : []),
@@ -1078,7 +1111,10 @@ async function handler(req, res) {
       } catch {
         ok = false;
       }
-      if (!ok) {
+      // A plain-text reply that promises nothing ("Hey! What are you in the
+      // mood for?") is fine as it is; one that should carry places isn't.
+      const shouldCarry = RECOMMEND_ASK.test(lastText) || SAYS_SEARCHED.test(draft) || /\b(?:options|here are|here's (?:a|some)|picks?|spots?|places)\b/i.test(draft);
+      if (!ok && shouldCarry) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: JSON_ONLY });
         escalate('format');
         msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
