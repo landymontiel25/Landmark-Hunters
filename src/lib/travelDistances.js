@@ -90,3 +90,47 @@ export function travelDistance(origin, place, mode) {
   cache.set(key, { promise });
   return promise;
 }
+
+/**
+ * A trip's legs ([{ from, to }]) by `mode`: [{ meters, seconds } | null |
+ * undefined] in order. Boat is worked out here; the rest is one request of
+ * up to 25 legs (so a whole trip is one lookup against the daily cap).
+ */
+export async function travelLegs(legs, mode) {
+  const out = new Array(legs.length).fill(undefined);
+  const todo = [];
+  legs.forEach((l, i) => {
+    if (!l?.from || !l?.to || !Number.isFinite(l.to.lat)) return;
+    const hit = cache.get(keyOf(mode, roundPt(l.from), l.to));
+    if (hit && 'value' in hit) out[i] = hit.value;
+    else todo.push(i);
+  });
+  if (mode === 'boat') {
+    for (const i of todo) {
+      const r = await findBoatRoute(legs[i].from, legs[i].to).catch(() => null);
+      out[i] = r ? { meters: r.distanceMeters, seconds: r.minutes * 60 } : null;
+      cache.set(keyOf(mode, roundPt(legs[i].from), legs[i].to), { value: out[i] });
+      await new Promise((res) => setTimeout(res, 0));
+    }
+    return out;
+  }
+  for (let k = 0; k < todo.length; k += 25) {
+    const chunk = todo.slice(k, k + 25);
+    try {
+      const r = await fetch(`${API_BASE}/api/travel-distances`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+        body: JSON.stringify({ mode, legs: chunk.map((i) => ({ id: String(i), from: { lat: legs[i].from.lat, lng: legs[i].from.lng }, to: { lat: legs[i].to.lat, lng: legs[i].to.lng } })) }),
+      });
+      const data = r.ok ? await r.json() : null;
+      for (const i of chunk) {
+        const v = data ? data.distances?.[String(i)] ?? null : undefined;
+        out[i] = v;
+        if (v !== undefined) cache.set(keyOf(mode, roundPt(legs[i].from), legs[i].to), { value: v });
+      }
+    } catch {
+      /* stays undefined: try again later */
+    }
+  }
+  return out;
+}

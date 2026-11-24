@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest';
-vi.mock('../TravelDistance', () => ({ default: ({ suffix = '' }) => `ROUTE-DISTANCE${suffix}` }));
+vi.mock('../TravelDistance', () => ({ default: ({ suffix = '', wrap }) => (wrap ? wrap(`ROUTE-DISTANCE${suffix}`) : `ROUTE-DISTANCE${suffix}`) }));
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter, Routes, Route, useParams, useLocation } from 'react-router-dom';
@@ -427,7 +427,8 @@ describe('PicksBottomSheet: thin or empty radius', () => {
   it('names the nearest place and offers one tap to widen', async () => {
     const onWiden = vi.fn();
     const c = await render({ picks: [], distanceMiles: 1, beyond: { places, widenTo: 10 }, onWiden });
-    expect(c.textContent).toContain('Nothing within 1 mi. Nearest: El Palacio (5.7 mi).');
+    // The nearest place's distance is the route distance by your mode (TravelDistance).
+    expect(c.textContent).toContain('Nothing within 1 mi. Nearest: El Palacio (ROUTE-DISTANCE).');
     const btn = [...c.querySelectorAll('button')].find((b) => b.textContent === 'Widen to 10 mi');
     await click(btn);
     expect(onWiden).toHaveBeenCalledWith(10);

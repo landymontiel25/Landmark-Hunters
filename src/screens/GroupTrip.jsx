@@ -21,6 +21,10 @@ import {
   MAX_GROUP_MEMBERS,
 } from '../lib/groupTrips';
 import { orderStops, annotateRoute } from '../lib/routing';
+import { useTravelLegs } from '../lib/useTravelLegs';
+
+// The leg line's icon for the mode it was measured by.
+const LEG_ICON = { walk: '\u{1F6B6}', car: '\u{1F697}', bike: '\u{1F6B2}', bus: '\u{1F68C}', boat: '\u{26F5}' };
 import { useDragReorder } from '../lib/useDragReorder';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import AddMemberSheet from '../components/AddMemberSheet';
@@ -180,6 +184,11 @@ export default function GroupTrip() {
     return annotateRoute(coords, orderStops(sort, coords, selectedLandmarks, ratings, landmarkIdsSafe));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
+  // Each leg measured like the cards (owner, 2026-11-23): by route, in the
+  // mode you're using (useTravelLegs); nothing while it loads, the straight
+  // line only when there's no route.
+  const legInfo = useTravelLegs(coords ? route.map((s, i) => ({ from: i === 0 ? coords : route[i - 1], to: s })) : []);
+  const legIndex = useMemo(() => Object.fromEntries(route.map((s, i) => [s.id, i])), [route]);
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
   // Read at write time (a drag's release handler holds the render it started in).
@@ -468,12 +477,20 @@ export default function GroupTrip() {
               zIndex: draggingId === l.id ? 20 : 1,
             }}
           >
-            {coords && (idx > 0 || l.distanceFromPrevMeters <= 80000) && (
-              <div className="route-travel">
-                {l.distanceFromPrevMeters <= 1200 ? '\u{1F6B6}' : '\u{1F697}'} {l.travelMinutesFromPrev || 1} min ·{' '}
-                {formatDistance(l.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
-              </div>
-            )}
+            {coords &&
+              (idx > 0 || l.distanceFromPrevMeters <= 80000) &&
+              legInfo &&
+              (() => {
+                const cell = legInfo.cells[legIndex[l.id]];
+                return (
+                  <div className="route-travel">
+                    {cell
+                      ? `${LEG_ICON[legInfo.mode] || LEG_ICON.car} ${Math.max(1, Math.round(cell.seconds / 60))} min · ${formatDistance(cell.meters, units)}`
+                      : `${l.distanceFromPrevMeters <= 1200 ? '\u{1F6B6}' : '\u{1F697}'} ${l.travelMinutesFromPrev || 1} min · ${formatDistance(l.distanceFromPrevMeters, units)}`}{' '}
+                    {idx === 0 ? 'from you' : 'from the last stop'}
+                  </div>
+                );
+              })()}
             <div className={`route-step ${editing ? 'route-step-editing' : ''} ${draggingId === l.id ? 'dragging' : ''}`}>
               {/* Edit List: remove on the left, drag handle on the right. */}
               {editing ? (

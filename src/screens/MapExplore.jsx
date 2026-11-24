@@ -42,6 +42,7 @@ import { useSmartSearch, landmarkSearchText } from '../lib/smartSearch';
 import SmartSearchLabel from '../components/SmartSearchLabel';
 import { routeFor, buildNearestNeighborRoute, googleMapsMultiStopLegs, routeInOrder } from '../lib/routing';
 import { useBoatLegs } from '../lib/useBoatLegs';
+import TravelDistance from '../components/TravelDistance';
 import { travelMode } from '../lib/travelModes';
 import TripRouteEditPanel from '../components/TripRouteEditPanel';
 import { attachMapCardGestures } from '../lib/mapCardGestures';
@@ -1945,7 +1946,10 @@ export default function MapExplore({ experiments = false }) {
                       onClick={() => selectSearchResult({ ...l, zoom: 17 })}
                     >
                       <span className="map-search-result-name">{l.name}</span>
-                      <span className="map-search-result-city">{formatDistance(l.meters, units)} away</span>
+                      {/* The route distance by your mode, like the cards (TravelDistance). */}
+                      <span className="map-search-result-city">
+                        <TravelDistance place={l} origin={coords} suffix=" away" />
+                      </span>
                     </button>
                   ))}
                 </div>

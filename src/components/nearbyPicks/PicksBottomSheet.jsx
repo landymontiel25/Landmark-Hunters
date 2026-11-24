@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import TravelDistance from '../TravelDistance';
 import { useNavigate } from 'react-router-dom';
 import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel, PICKS_SHEET_H } from '../../lib/nearbyPicks';
 import { useUnits } from '../../lib/UnitsContext';
 import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
-import { formatDistance } from '../../lib/formatDistance';
 import PickCard, { PickRow } from './PickCard';
 import DirectionsButton from '../DirectionsButton';
 import PickVoteButtons from '../PickVoteButtons';
@@ -223,22 +223,36 @@ export default function PicksBottomSheet({
   const near = beyond?.places?.[0];
   // Nothing / not much inside the radius: say how far the nearest place
   // really is and offer the one tap that reaches it.
-  const emptyText = atMax
-    ? `Nothing to pick within ${distanceMiles} ${unit}.`
-    : `Nothing within ${distanceMiles} ${unit}.${near ? ` Nearest: ${near.name} (${formatDistance(near.distanceMeters, units)}).` : ''}`;
+  // How far the nearest places are: the route distance by your mode, like
+  // the cards (TravelDistance); nothing while it loads.
+  const emptyText = atMax ? (
+    `Nothing to pick within ${distanceMiles} ${unit}.`
+  ) : (
+    <>
+      Nothing within {distanceMiles} {unit}.
+      {near && (
+        <>
+          {' '}
+          Nearest: {near.name}
+          <TravelDistance place={near} wrap={(t) => ` (${t})`} />.
+        </>
+      )}
+    </>
+  );
   const beyondNote =
     beyond && (beyond.places.length > 0 || beyond.widenTo) ? (
       <div className="mpp-beyond">
         {picks?.length > 0 && near && (
           <p className="mpp-empty">
-            Only {picks.length} within {distanceMiles} {unit}. Nearest beyond: {near.name} ({formatDistance(near.distanceMeters, units)}).
+            Only {picks.length} within {distanceMiles} {unit}. Nearest beyond: {near.name}
+            <TravelDistance place={near} wrap={(t) => ` (${t})`} />.
           </p>
         )}
         {beyond.places.length > 1 && (
           <ul className="mpp-beyond-list">
             {beyond.places.map((p) => (
               <li key={`${p.region}/${p.id}`}>
-                {p.name} <span>{formatDistance(p.distanceMeters, units)}</span>
+                {p.name} <span><TravelDistance place={p} /></span>
               </li>
             ))}
           </ul>

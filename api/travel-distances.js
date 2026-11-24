@@ -8,6 +8,8 @@ import { travelDistances, TRAVEL_MODES } from './_lib/travelDistance.js';
 // (api/_lib/travelDistance.js).
 //   POST { origin: { lat, lng }, mode, places: [{ id, lat, lng }] }  (25 max)
 //   -> { mode, distances: { [id]: { meters, seconds } | null } }
+//   POST { mode, legs: [{ id, from: { lat, lng }, to: { lat, lng } }] }  (25 max)
+//   -> { mode, distances: { [id]: ... } }  (a trip's legs, one request)
 // Boat is worked out on the app's own water maps (free); the other modes
 // are one Google route matrix call, behind the billed-request guard and a
 // daily cap (usageQuota.js 'route-distances'). Answers are kept for an
@@ -30,6 +32,7 @@ async function handler(req, res) {
     return;
   }
   const body = req.body || {};
+  if (Array.isArray(body.legs)) return legsHandler(req, res, body);
   const origin = point(body.origin);
   const mode = TRAVEL_MODES.includes(body.mode) ? body.mode : null;
   const places = (Array.isArray(body.places) ? body.places : [])
@@ -64,6 +67,44 @@ async function handler(req, res) {
       return;
     }
     if (cache.size > 20000) cache.clear();
+  }
+  res.status(200).json({ mode, distances });
+}
+
+// A trip's legs (each from a different place): each leg is its own route,
+// all in one request, so a whole trip is one lookup against the daily cap.
+async function legsHandler(req, res, body) {
+  const mode = TRAVEL_MODES.includes(body.mode) ? body.mode : null;
+  const legs = body.legs
+    .slice(0, MAX_PLACES)
+    .map((l) => ({ id: typeof l?.id === 'string' && l.id.length <= 200 ? l.id : null, from: point(l?.from), to: point(l?.to) }))
+    .filter((l) => l.id && l.from && l.to);
+  if (!mode || !legs.length) {
+    res.status(400).json({ error: 'mode and legs are required.' });
+    return;
+  }
+  const r = (p) => `${Math.round(p.lat * 500) / 500},${Math.round(p.lng * 500) / 500}`;
+  const key = (l) => `${mode}|${r(l.from)}|${l.to.lat.toFixed(5)},${l.to.lng.toFixed(5)}`;
+  const now = Date.now();
+  const distances = {};
+  const todo = [];
+  for (const l of legs) {
+    const hit = cache.get(key(l));
+    if (hit && now - hit.at < CACHE_MS) distances[l.id] = hit.cell;
+    else todo.push(l);
+  }
+  if (todo.length) {
+    if (mode !== 'boat' && !(await guardBilledRequest(req, res, { key: 'travel-distances', scope: 'route-distances', what: 'Distance', limit: 60, anonLimit: 20, windowMs: 10 * 60 * 1000 }))) return;
+    try {
+      const cells = await Promise.all(todo.map((l) => travelDistances(l.from, [l.to], mode).then((c) => c[0] || null)));
+      todo.forEach((l, i) => {
+        distances[l.id] = cells[i];
+        cache.set(key(l), { at: now, cell: cells[i] });
+      });
+    } catch {
+      res.status(502).json({ error: 'Could not look up distances right now.' });
+      return;
+    }
   }
   res.status(200).json({ mode, distances });
 }
