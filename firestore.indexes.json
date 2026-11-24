@@ -59,6 +59,24 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "leaderboard_entries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "period",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "periodKey",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "points",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []
