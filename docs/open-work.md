@@ -168,6 +168,19 @@ the PR that finishes it.
   the app anyway). A landmark the owner rejects later disappears from lists
   in the app but its doc stays listable by date for grandfathered ones.
 
+## Check-in and rating photos: Storage rules fit the 2-lookup limit (2026-11-23)
+
+- **Found live:** production Storage rules allow only 2 Firestore lookups
+  (firestore.get / firestore.exists) per request; a third refuses the whole
+  request. The emulator doesn't enforce it, so the rules tests passed while
+  friends and public-profile viewers were refused every check-in and rating
+  photo. canSeePhotosOf now makes at most 2 (storage.rules).
+- **Gap left:** Storage no longer checks a block from the viewer's side, or
+  a block on a friend of a private profile (blocking doesn't unfriend).
+  firestore.rules still hides those check-ins and ratings, which carry the
+  only links to the photos. Closing it fully needs blocking to remove the
+  friend edges (a product change).
+
 ## Mapr chats permanent with archive; trivia never reveals the answer (2026-11-23)
 
 - **Done.** Mapr chats can't be deleted: firestore.rules refuses every

@@ -25,20 +25,28 @@ service firebase.storage {
       return fileName.split('[_.]')[0];
     }
     // Who may read someone's check-in or rating photos (anti-farming item 7,
-    // 2026-11-23): the owner, the admin, anyone signed in when the owner's
-    // profile is public, or a friend -- never across a block. The same
-    // people who may read the check-in or rating itself (firestore.rules).
-    // Before, any signed-in account could read every one of them. (A saved
-    // download URL carries its own token and is shared only through those
-    // gated docs.)
+    // 2026-11-23): the owner, the admin, a friend, or anyone signed in when
+    // the owner's profile is public and the owner hasn't blocked them.
+    // (A saved download URL carries its own token and is shared only
+    // through the check-in and rating docs, which firestore.rules gates,
+    // blocks included.)
+    //
+    // At most 2 Firestore lookups (owner, 2026-11-23): production Storage
+    // rules allow only 2 firestore.get/exists calls per request, and a
+    // third makes the whole request fail (measured live; the emulator
+    // doesn't enforce it). The earlier version made up to 4 (profile,
+    // friend, a block each way), so friends and public-profile viewers
+    // were refused. Order matters: profile, then the owner's block, then
+    // friend. Public and not blocked: 2. Private, a friend: 2. Public and
+    // blocked: the friend lookup would be a third, which refuses, the
+    // right answer for a blocked viewer.
     function canSeePhotosOf(uid) {
       return request.auth != null
         && (request.auth.uid == uid
           || isAdmin()
-          || ((firestore.get(/databases/(default)/documents/users/$(uid)).data.get('public', false) == true
-               || firestore.exists(/databases/(default)/documents/friend_edges/$(request.auth.uid + '_' + uid)))
-              && !firestore.exists(/databases/(default)/documents/blocks/$(uid + '_' + request.auth.uid))
-              && !firestore.exists(/databases/(default)/documents/blocks/$(request.auth.uid + '_' + uid))));
+          || (firestore.get(/databases/(default)/documents/users/$(uid)).data.get('public', false) == true
+              && !firestore.exists(/databases/(default)/documents/blocks/$(uid + '_' + request.auth.uid)))
+          || firestore.exists(/databases/(default)/documents/friend_edges/$(request.auth.uid + '_' + uid)));
     }
 
     function isImageUpload() {
