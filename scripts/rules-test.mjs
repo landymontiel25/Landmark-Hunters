@@ -1507,6 +1507,23 @@ await reset();
   });
 }
 
+// Pro and offline check-ins (owner, 2026-11-24): server-written only.
+await reset();
+{
+  await seed((db) => setDoc(doc(db, 'entitlements/ann'), { pro: true }));
+  await t('an account reads its own Pro flag; nobody else does and nobody writes it', async () => {
+    await assertSucceeds(getDoc(doc(as('ann'), 'entitlements/ann')));
+    await assertFails(getDoc(doc(as('bob'), 'entitlements/ann')));
+    await assertFails(setDoc(doc(as('bob'), 'entitlements/bob'), { pro: true }));
+    await assertFails(updateDoc(doc(as('ann'), 'entitlements/ann'), { pro: false }));
+  });
+  await t('offline check-in records are server-only', async () => {
+    await assertFails(setDoc(doc(as('ann'), 'offline_checkins/ann_x'), { result: {} }));
+    await assertFails(setDoc(doc(as('ann'), 'offline_checkin_days/ann_2026-11-24'), { count: 0 }));
+    await assertFails(getDoc(doc(as('ann'), 'offline_checkin_days/ann_2026-11-24')));
+  });
+}
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

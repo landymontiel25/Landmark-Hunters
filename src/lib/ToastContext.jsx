@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WRITE_QUEUED_EVENT, WRITE_REJECTED_EVENT, QUEUED_MESSAGE, REJECTED_MESSAGE } from './offlineWrite';
+import { OUTBOX_NOTICE_EVENT } from './outbox';
 
 // Small, bottom-of-screen messages for things that happened off-screen --
 // mostly "that didn't save, we put it back" after an optimistic update had
@@ -27,11 +28,15 @@ export function ToastProvider({ children }) {
   useEffect(() => {
     const queued = () => show(QUEUED_MESSAGE, { tone: 'info' });
     const rejected = () => show(REJECTED_MESSAGE, { durationMs: 10000 });
+    // What the phone's outbox finished or gave up on (outbox.js).
+    const outbox = (e) => e?.detail?.message && show(e.detail.message, { tone: e.detail.tone || 'info', durationMs: 8000 });
     window.addEventListener(WRITE_QUEUED_EVENT, queued);
     window.addEventListener(WRITE_REJECTED_EVENT, rejected);
+    window.addEventListener(OUTBOX_NOTICE_EVENT, outbox);
     return () => {
       window.removeEventListener(WRITE_QUEUED_EVENT, queued);
       window.removeEventListener(WRITE_REJECTED_EVENT, rejected);
+      window.removeEventListener(OUTBOX_NOTICE_EVENT, outbox);
     };
   }, [show]);
 

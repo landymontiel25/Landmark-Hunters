@@ -8,7 +8,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { submitReview, ratingDraftKey } from '../lib/reviews';
 import { enqueueRating, RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE } from '../lib/ratingQueue';
 import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../lib/usePersistentState';
-import { friendlyError } from '../lib/friendlyError';
+import { friendlyError, isOffline } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
 import { claimPhotoBonusAndTell, photoButtonLabel, usePhotoBonusOpen } from '../lib/photoBonus';
@@ -24,6 +24,7 @@ import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
 import { presenceLabel } from '../lib/presence';
 import MissionPanel from './MissionPanel';
+import { OFFLINE_HINT, OFFLINE_SAVED_MESSAGE } from '../lib/offlineCheckins';
 
 // Pops up the moment "Check In" is tapped -- nothing is claimed yet. Tapping
 // Post is what actually registers the check-in (via commitCheckIn) and awards
@@ -55,6 +56,7 @@ export default function CheckInReview() {
   const [photoFiles, setPhotoFiles] = useState([]);
   const [photoPreviews, setPhotoPreviews] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [offlineSaved, setOfflineSaved] = useState(false);
   // 'offer' | 'open' | 'done': the "Share a tip for others?" step after a verified visit.
   const [tipState, setTipState] = useState('offer');
   const [hasTipHere, setHasTipHere] = useState(null);
@@ -111,6 +113,7 @@ export default function CheckInReview() {
       setMsg(null);
       setPostError(null);
       setPosted(false);
+      setOfflineSaved(false);
       setBlast(false);
       setTipState('offer');
       setHasTipHere(null);
@@ -179,16 +182,32 @@ export default function CheckInReview() {
     const disagreement = rateable
       ? await askDisagreement({ userId: user.uid, landmark: justCheckedIn, tier: rating.tier, comment: rating.comment })
       : undefined;
+    let result;
     try {
       // The server stays the gate here: nothing reads as "checked in" (and
       // no points show) until this resolves, so a refused or failed claim
-      // can never look like it counted.
-      await commitCheckIn(coords);
+      // can never look like it counted. With no internet the check-in, its
+      // rating and its photos are saved on the phone instead and sync on
+      // their own (offlineCheckins.js); points come once the server checks it.
+      const offlineReview = rateable
+        ? JSON.parse(JSON.stringify({ userId: user.uid, userName: myUsername || user.displayName || 'Explorer', landmark: justCheckedIn, rating, disagreement: disagreement ?? null }))
+        : null;
+      result = await commitCheckIn(coords, { review: offlineReview, photos: photoFiles });
     } catch (e) {
       // The check-in write itself failed -- no points awarded, nothing to
       // show as posted.
       setPostError(e);
       setSaving(false);
+      return;
+    }
+    if (result?.queuedOffline) {
+      if (rateable) clearPersisted(draftKey);
+      setOfflineSaved(true);
+      setPosted(true);
+      setPostedAt(Date.now());
+      setBlast(false);
+      setSaving(false);
+      setMsg(OFFLINE_SAVED_MESSAGE);
       return;
     }
     // Points are awarded and the visit counted the instant commitCheckIn
@@ -311,7 +330,11 @@ export default function CheckInReview() {
         {posted ? (
           <>
             <h3 style={{ marginTop: 0 }}>
-              {ratingOnly ? `${'\u{2B50}'} Rated!` : `${'\u{1F3AF}'} Checked in!${celebration?.points > 0 ? ` +${celebration.points} pts` : ''}`}
+              {offlineSaved
+                ? `${'\u{1F4E5}'} Saved on your phone`
+                : ratingOnly
+                  ? `${'\u{2B50}'} Rated!`
+                  : `${'\u{1F3AF}'} Checked in!${celebration?.points > 0 ? ` +${celebration.points} pts` : ''}`}
             </h3>
             {!ratingOnly && celebration?.message && <div className="celebration-banner">{celebration.message}</div>}
             {!ratingOnly && presenceResult && presenceResult.landmarkId === justCheckedIn.id && (
@@ -326,7 +349,7 @@ export default function CheckInReview() {
               </p>
             )}
             {/* The place's mission (the Abacos), unlocked now that the check-in posted. */}
-            {!ratingOnly && <MissionPanel key={justCheckedIn.id} landmark={justCheckedIn.landmark || justCheckedIn} checkedInAt={postedAt} />}
+            {!ratingOnly && !offlineSaved && <MissionPanel key={justCheckedIn.id} landmark={justCheckedIn.landmark || justCheckedIn} checkedInAt={postedAt} />}
             {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
             {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere !== true && tipState !== 'done' && (
               <div style={{ marginTop: 12 }}>
@@ -434,6 +457,11 @@ export default function CheckInReview() {
             {msg && (
               <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
                 {msg}
+              </p>
+            )}
+            {!ratingOnly && isOffline() && (
+              <p className="screen-subtitle offline-checkin-hint" role="note" style={{ marginTop: 8, marginBottom: 0 }}>
+                {OFFLINE_HINT}
               </p>
             )}
             {postError && (

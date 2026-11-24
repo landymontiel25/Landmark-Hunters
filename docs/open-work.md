@@ -168,6 +168,21 @@ the PR that finishes it.
   the app anyway). A landmark the owner rejects later disappears from lists
   in the app but its doc stays listable by date for grandfathered ones.
 
+## Offline check-ins (2026-11-24)
+
+- **Done.** With no internet the check-in sheet saves the check-in on the
+  phone (src/lib/offlineCheckins.js, in the outbox src/lib/outbox.js,
+  IndexedDB with the photos) with a fresh GPS fix, the time, the rating and
+  photos. OutboxSync sends it on launch, on reconnect, on coming back to the
+  front and every minute. api/offline-checkin.js creates the check-in
+  (createdAt = when it was made), decides from the fix
+  (offlineCheckinDecision, src/lib/presence.js): inside the radius pays;
+  under 1 km counts only if the photo shows the place (photoShowsPlace);
+  farther never. Free 5 a day by the day it was made, Pro unlimited.
+- **Pro:** the app has no purchases. Pro is entitlements/{uid}.pro, written
+  only by the server or the owner (Firebase console). Offline maps are not
+  behind Pro; they stay free as before.
+
 ## Check-in and rating photos: Storage rules fit the 2-lookup limit (2026-11-23)
 
 - **Found live:** production Storage rules allow only 2 Firestore lookups

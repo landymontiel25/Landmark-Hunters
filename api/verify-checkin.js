@@ -3,14 +3,12 @@ import { pointsAppCheckGate } from './_lib/appCheck.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { getLandmark, canonicalLandmarkId } from '../src/data/regions.js';
-import { ensureServerPlacePacks } from './_lib/placePacks.js';
+import { loadPlace } from './_lib/loadPlace.js';
 import { checkPresence, validFix, placeTypeFor } from '../src/lib/presence.js';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
 import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin } from './_lib/checkinPayout.js';
-import { isApprovedLandmark } from '../src/lib/landmarkApproval.js';
 import { isAdmin } from '../src/lib/admins.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
@@ -29,19 +27,6 @@ import { isAdmin } from '../src/lib/admins.js';
 
 export const VERIFY_RATE_LIMIT = { limit: 30, windowMs: 60 * 60 * 1000 };
 
-
-// The place as the server knows it: catalog and place packs first, then a
-// user-added landmark.
-async function loadPlace(db, region, landmarkId) {
-  await ensureServerPlacePacks();
-  const id = canonicalLandmarkId(landmarkId, region);
-  const known = (region && getLandmark(region, id)) || null;
-  if (known) return known;
-  // A user-added place counts only once the owner approved it (or it was
-  // grandfathered): a pending one can't be verified, so it pays nothing.
-  const snap = await db.collection('custom_landmarks').doc(landmarkId).get();
-  return snap.exists && isApprovedLandmark(snap.data()) ? snap.data() : null;
-}
 
 async function handler(req, res) {
   if (req.method !== 'POST') {

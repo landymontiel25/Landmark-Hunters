@@ -22,7 +22,7 @@ export function checkinPayoutDecision({ checkin, verified, paid, paidBefore, nea
 }
 
 // The account's saved home (the private doc, else a pre-split profile).
-async function homeOf(db, uid) {
+export async function homeOf(db, uid) {
   const read = async (get) => {
     try {
       const s = await get();

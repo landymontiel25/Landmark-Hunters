@@ -1383,6 +1383,15 @@ service cloud.firestore {
       }
     }
 
+    // Pro (owner, 2026-11-24): server-written only (api/_lib/entitlements.js).
+    // The account may read its own, so the app knows its offline limit.
+    match /entitlements/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, write: if false;
+    }
+    // offline_checkins and offline_checkin_days (api/offline-checkin.js) are
+    // server-only: no rule matches them, so every client is refused.
+
     // Mapr chats and projects (src/lib/maprChats.js). A chat's memberUids
     // always equals its project's memberUids, or just its owner when it's in
     // no project -- so sharing a project shares its chats, and one

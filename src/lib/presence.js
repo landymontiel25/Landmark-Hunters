@@ -135,3 +135,41 @@ export function presenceLabel(presence) {
       return 'Not verified';
   }
 }
+
+// Offline check-ins (owner, 2026-11-24). GPS works without internet, so the
+// phone keeps the fix, its time and the photo, and syncs them later; the
+// server decides here, from the fix as it was taken, and pays only then.
+//   within the place's radius (30 m for a landmark), good signal  -> 'gps'
+//   under OFFLINE_NEARBY_METERS but outside, or a weak signal    -> 'photo'
+//     (counts only if the photo shows the place, checked on sync)
+//   farther than that                                             -> refused,
+//     photo or not: a photo alone doesn't prove when it was taken
+export const OFFLINE_NEARBY_METERS = 1000;
+// How long a check-in may wait on the phone before it syncs.
+export const OFFLINE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+// Free accounts: offline check-ins a day. Pro: no limit.
+export const OFFLINE_FREE_PER_DAY = 5;
+
+export function offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last = null }) {
+  const placeType = placeTypeFor(place);
+  const limits = PRESENCE_LIMITS[placeType];
+  const own = Number.isFinite(place?.checkInRadiusMeters) && place.checkInRadiusMeters > 0 ? Math.min(place.checkInRadiusMeters, PRESENCE_MAX_RADIUS_METERS) : 0;
+  const radiusMeters = Math.max(limits.radiusMeters, own);
+  const out = (tier, reason, extra = {}) => ({ tier, reason, placeType, distanceMeters: null, ...extra });
+  if (!finite(place?.lat) || !finite(place?.lng)) return out('refused', 'no-place');
+  if (!validFix(fix)) return out('refused', 'no-location');
+  if (!finite(capturedAtMs) || capturedAtMs - nowMs > PRESENCE_FIX_CLOCK_SKEW_MS || nowMs - capturedAtMs > OFFLINE_MAX_AGE_MS) return out('refused', 'stale-checkin');
+  // The fix belongs to the moment of the check-in, not one from much earlier.
+  if (Math.abs(capturedAtMs - fix.timestamp) > PRESENCE_FIX_MAX_AGE_MS) return out('refused', 'stale-fix');
+  const distance = Math.round(metersBetween(fix.lat, fix.lng, place.lat, place.lng));
+  const measured = { distanceMeters: distance };
+  if (fix.mocked === true) return out('refused', 'mocked', measured);
+  if (last && finite(last.lat) && finite(last.lng) && finite(last.atMs) && last.atMs <= fix.timestamp) {
+    const km = metersBetween(last.lat, last.lng, fix.lat, fix.lng) / 1000;
+    const hours = Math.max(fix.timestamp - last.atMs, 0) / 3600000;
+    if (km > 1 && (hours === 0 || km / hours > PRESENCE_MAX_SPEED_KMH)) return out('refused', 'impossible-travel', measured);
+  }
+  if (distance <= radiusMeters && fix.accuracy <= limits.maxAccuracyMeters) return out('gps', null, measured);
+  if (distance <= OFFLINE_NEARBY_METERS) return out('photo', distance > radiusMeters ? 'too-far' : 'weak-signal', measured);
+  return out('refused', 'too-far', measured);
+}

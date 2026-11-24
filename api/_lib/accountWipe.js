@@ -16,7 +16,7 @@ import { deleteMine as deleteMyTips } from '../post-tip.js';
 // photo_hashes (anti-fraud, hashes only), and chats other people own.
 
 const CHUNK = 400;
-const BY_ID = ['mapr_neighbors', 'mapr_user_models', 'admin_settings', 'alert_log', 'checkin_payouts', 'follow_log', 'notify_gates', 'onboarding_payouts', 'presence_state', 'referral_stats', 'reputation', 'reputation_scores', 'tip_post_log', 'referrals'];
+const BY_ID = ['mapr_neighbors', 'mapr_user_models', 'admin_settings', 'alert_log', 'checkin_payouts', 'follow_log', 'notify_gates', 'onboarding_payouts', 'presence_state', 'referral_stats', 'reputation', 'reputation_scores', 'tip_post_log', 'referrals', 'entitlements'];
 const BY_FIELD = [
   ['leaderboard_entries', 'userId'],
   ['pick_feedback', 'userId'],
@@ -39,7 +39,7 @@ const BY_FIELD = [
   ['community_photos', 'photoUid'],
 ];
 // Ids that start with "{uid}_".
-const BY_ID_PREFIX = ['photo_bonus_days', 'follow_alerted'];
+const BY_ID_PREFIX = ['photo_bonus_days', 'follow_alerted', 'offline_checkins', 'offline_checkin_days'];
 // Storage folders whose files are named {uid}.jpg or {uid}_{n}.jpg.
 const PHOTO_FOLDERS = ['checkin_photos', 'review_photos', 'landmark_photos'];
 

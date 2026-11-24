@@ -276,6 +276,24 @@ async function _addCheckinPhoto(userId, landmarkId, file) {
   return photoURL;
 }
 
+/**
+ * Uploads one check-in photo and returns its download URL, without touching
+ * any check-in doc: for a check-in made offline, whose doc the server only
+ * creates when the phone syncs (offlineCheckins.js).
+ */
+export async function uploadCheckinPhotoFile(userId, landmarkId, file) {
+  if (!storage || !userId || !landmarkId || !file) return null;
+  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${crypto.getRandomValues(new Uint32Array(2)).join('')}.jpg`);
+  await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
+  return getDownloadURL(storageRef);
+}
+
+/** Adds an already uploaded photo to the check-in's gallery. */
+export async function addCheckinPhotoURL(userId, landmarkId, photoURL) {
+  if (!db || !userId || !landmarkId || !photoURL) return;
+  await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURLs: arrayUnion(photoURL) });
+}
+
 /** Removes one photo from the check-in's gallery, and its file in Storage. */
 async function _removeCheckinPhoto(userId, landmarkId, photoURL) {
   if (!db || !userId || !landmarkId || !photoURL) return;

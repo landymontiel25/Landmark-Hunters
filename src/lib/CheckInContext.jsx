@@ -1,3 +1,6 @@
+import { isOffline } from './friendlyError';
+import { freshFix } from './verifyPresence';
+import { canCheckInOffline, queueOfflineCheckin, OFFLINE_LIMIT_MESSAGE, OFFLINE_NEEDS_GPS_MESSAGE, OFFLINE_CHECKIN_SYNCED_EVENT } from './offlineCheckins';
 import { createContext, useEffect, useRef, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useFriends } from './FriendsContext';
@@ -92,6 +95,19 @@ export function CheckInProvider({ children }) {
     };
   }, [user, firebaseEnabled]);
 
+  // A check-in made offline that just synced (OutboxSync): it's a real visit
+  // now, so the place reads as checked in.
+  useEffect(() => {
+    const onSynced = (e) => {
+      const id = e?.detail?.landmarkId;
+      if (!id || !e.detail.saved) return;
+      setClaimedMap((m) => ({ ...m, [id]: true }));
+      setCheckinTick((t) => t + 1);
+    };
+    window.addEventListener(OFFLINE_CHECKIN_SYNCED_EVENT, onSynced);
+    return () => window.removeEventListener(OFFLINE_CHECKIN_SYNCED_EVENT, onSynced);
+  }, []);
+
   // Compare the week's board before vs after this +points check-in and build a
   // celebratory line if the user climbed past anyone.
   const buildCelebration = (points) => {
@@ -141,9 +157,22 @@ export function CheckInProvider({ children }) {
   // answer lands in `presence` (shown as "Verified visit"). The check-in
   // never waits for that. With REQUIRE_GPS_CHECKIN on, one that fails the
   // client rule is refused.
-  const commitCheckIn = async (fix = null) => {
+  // `offline`: { review, photos } to keep with a check-in saved on the phone
+  // when there's no internet (offlineCheckins.js); the server verifies and
+  // pays once it syncs.
+  const commitCheckIn = async (fix = null, offline = {}) => {
     const landmark = justCheckedIn;
     if (!user || !landmark) return null;
+    if (!checkInOptions?.ratingOnly && isOffline()) {
+      if (!canCheckInOffline(user.uid)) throw Object.assign(new Error(OFFLINE_LIMIT_MESSAGE), { userMessage: OFFLINE_LIMIT_MESSAGE, code: 'checkin/offline-limit' });
+      // GPS works without internet: a fresh fix for this exact moment.
+      const now = await freshFix().catch(() => null);
+      const at = now || (fix && Number.isFinite(fix.lat) ? { lat: fix.lat, lng: fix.lng, accuracy: Number.isFinite(fix.accuracy) ? fix.accuracy : 9999, timestamp: Date.now() } : null);
+      if (!at) throw Object.assign(new Error(OFFLINE_NEEDS_GPS_MESSAGE), { userMessage: OFFLINE_NEEDS_GPS_MESSAGE, code: 'checkin/offline-no-gps' });
+      const job = await queueOfflineCheckin({ uid: user.uid, landmark, fix: at, review: offline.review || null, photos: offline.photos || [] });
+      setCelebration({ points: 0, rank: null, message: null });
+      return { claimed: false, queuedOffline: true, jobId: job.id, payout: 0 };
+    }
     const blocked = checkinBlockReason(fix, landmark, { ratingOnly: !!checkInOptions?.ratingOnly, anywhere: checksInAnywhere(user) });
     if (blocked) {
       throw Object.assign(new Error(BLOCK_MESSAGES[blocked]), { userMessage: BLOCK_MESSAGES[blocked], code: `checkin/${blocked}` });

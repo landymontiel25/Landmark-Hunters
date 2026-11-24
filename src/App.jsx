@@ -1,3 +1,4 @@
+import OutboxSync from './components/OutboxSync';
 import { lazy, Suspense, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { AuthProvider } from './lib/AuthContext';
@@ -301,6 +302,7 @@ export default function App() {
           <ScrollToTopOnNavigate />
           <BackgroundLocationSync />
           <PushNotificationsSync />
+          <Soft><OutboxSync /></Soft>
           <OnboardingNoticeSync />
           <Soft><GlobalTasteSync /></Soft>
           <Soft><LiveLocationSharer /></Soft>

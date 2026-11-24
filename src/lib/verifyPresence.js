@@ -11,7 +11,7 @@ import { dayKey } from './streaks';
 // null and the check-in stays unverified.
 export const VERIFY_TIMEOUT_MS = 15000;
 
-async function freshFix(getPosition) {
+export async function freshFix(getPosition = (o) => Geolocation.getCurrentPosition(o)) {
   const pos = await getPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 });
   const c = pos?.coords;
   if (!c || !Number.isFinite(c.latitude) || !Number.isFinite(c.longitude)) return null;
