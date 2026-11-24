@@ -1533,6 +1533,27 @@ service cloud.firestore {
     // Each account's allowance of notices to other people: 30 an hour.
     // Bumped by the same write that sends one (notifications.js); nobody
     // can reset it early or skip it.
+    // The announcement banner everyone sees at the top of the app (owner,
+    // 2026-11-23): anyone may read it, only the admin writes it, from the
+    // admin panel. An empty message means no banner.
+    match /app_config/{docId} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && docId == 'announcement'
+        && request.resource.data.keys().hasOnly(['message', 'updatedAt'])
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 280
+        && request.resource.data.updatedAt == request.time;
+    }
+    // The admin's own switches (the admin panel): only that account, only its
+    // own doc. checkinAnywhere is read by api/verify-checkin.js too.
+    match /admin_settings/{uid} {
+      allow read: if isAdmin() && request.auth.uid == uid;
+      allow write: if isAdmin() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['checkinAnywhere', 'updatedAt'])
+        && request.resource.data.checkinAnywhere is bool
+        && request.resource.data.updatedAt == request.time;
+    }
     match /notify_gates/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == uid

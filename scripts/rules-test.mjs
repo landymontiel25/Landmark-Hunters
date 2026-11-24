@@ -1450,6 +1450,27 @@ await t('exploit: feature requests are capped like the form', async () => {
   await assertFails(addDoc(collection(as('ann'), 'feature_requests'), fr({ html: '<b>' })));
 });
 
+console.log('admin panel: announcement banner and admin settings (2026-11-23)');
+await reset();
+{
+  const admin = env.authenticatedContext('adminUid', { email: ADMIN_EMAIL, email_verified: true }).firestore();
+  await t('anyone (even signed out) reads the banner; only the admin writes it', async () => {
+    await assertSucceeds(setDoc(doc(admin, 'app_config/announcement'), { message: 'Hello', updatedAt: serverTimestamp() }));
+    await assertSucceeds(getDoc(doc(env.unauthenticatedContext().firestore(), 'app_config/announcement')));
+    await assertSucceeds(getDoc(doc(as('ann'), 'app_config/announcement')));
+    await assertFails(setDoc(doc(as('ann'), 'app_config/announcement'), { message: 'Spam', updatedAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(admin, 'app_config/announcement'), { message: 'x'.repeat(281), updatedAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(admin, 'app_config/other'), { message: 'x', updatedAt: serverTimestamp() }));
+  });
+  await t("the admin's settings: only that account, its own doc", async () => {
+    await assertSucceeds(setDoc(doc(admin, 'admin_settings/adminUid'), { checkinAnywhere: false, updatedAt: serverTimestamp() }));
+    await assertSucceeds(getDoc(doc(admin, 'admin_settings/adminUid')));
+    await assertFails(getDoc(doc(as('ann'), 'admin_settings/adminUid')));
+    await assertFails(setDoc(doc(as('ann'), 'admin_settings/ann'), { checkinAnywhere: true, updatedAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(admin, 'admin_settings/someoneElse'), { checkinAnywhere: true, updatedAt: serverTimestamp() }));
+  });
+}
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

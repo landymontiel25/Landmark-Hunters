@@ -261,3 +261,18 @@ export async function resetOnboarding(uid) {
   );
   await deleteDoc(doc(db, 'notifications', onboardingNoticeId(uid))).catch(() => {});
 }
+
+// The admin panel's "Preview as a brand new user" (owner, 2026-11-23): the
+// account goes back to never having onboarded, so Profile starts the flow
+// from the top the way a new sign-up sees it. Only the onboarding fields
+// change: points, check-ins, ratings and the account stay, and the one-time
+// onboarding +10 can't be paid twice (onboardingCompleted stays true, and
+// firestore.rules keeps it true).
+export async function restartOnboardingAsNew(uid) {
+  if (!db || !uid) return;
+  await setDoc(
+    doc(db, 'users', uid),
+    { onboardingSource: 'signup', onboardingVersion: deleteField(), onboardingProgress: deleteField(), onboardingNoticeVersion: deleteField() },
+    { merge: true }
+  );
+}

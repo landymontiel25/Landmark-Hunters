@@ -2600,3 +2600,100 @@ html[data-theme] body .directions-sheet .directions-mode-note {
   margin: 0 0 10px;
   font-size: 13px;
 }
+
+/* The admin panel (owner, 2026-11-23; AdminPanel.jsx): full screen, the
+   header and tab bar step aside. Plain rows on the page, a hairline card per
+   group, iOS switches, one gold button (Show banner). */
+body.admin-panel-open .app-header,
+body.admin-panel-open .bottom-nav,
+body.admin-panel-open .where-am-i {
+  display: none !important;
+}
+.admin-panel {
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 32px);
+  max-width: 640px;
+  margin: 0 auto;
+}
+.admin-panel-head {
+  margin-bottom: 12px;
+}
+html[data-theme] body .admin-section {
+  margin-top: 20px;
+  border: 1px solid var(--nl-line);
+  border-radius: 14px;
+  background: var(--nl-bg);
+  overflow: hidden;
+}
+html[data-theme] body .admin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  min-height: 44px;
+}
+html[data-theme] body .admin-row + .admin-row {
+  border-top: 1px solid var(--nl-line);
+}
+html[data-theme] body .admin-row-stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+html[data-theme] body .admin-row-title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--nl-text);
+}
+html[data-theme] body .admin-row-detail {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--nl-text);
+}
+html[data-theme] body .admin-row-switch {
+  margin: 0;
+  flex-shrink: 0;
+}
+html[data-theme] body .admin-row-actions {
+  display: flex;
+  gap: 8px;
+}
+html[data-theme] body .admin-row-actions .btn {
+  flex: 1;
+}
+html[data-theme] body .admin-banner-input {
+  width: 100%;
+}
+
+/* The announcement banner everyone sees (AnnouncementBanner.jsx): quiet,
+   neutral, under the safe area, with a hide button. */
+html[data-theme] body .announcement-banner {
+  position: relative;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px 8px 16px;
+  background: var(--nl-text);
+  color: var(--nl-bg);
+}
+html[data-theme] body .announcement-banner-text {
+  flex: 1;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+html[data-theme] body .announcement-banner-hide {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 22px;
+  line-height: 1;
+}

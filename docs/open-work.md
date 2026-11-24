@@ -30,6 +30,16 @@ the PR that finishes it.
   2026-11-23. Older wrong answers fetch the right one once from
   /api/mission-answer (reason `already`).
 
+## Admin panel (2026-11-23)
+
+- **Done.** /admin (AdminPanel.jsx), from Admin Mode in the account menu
+  or Settings, admin email only: edit tools, "Check-in radius off"
+  (admin_settings/{uid}.checkinAnywhere, read by api/verify-checkin.js;
+  replaces ADMIN_CHECKIN_ANYWHERE), "Send test notification"
+  (api/admin-test-push.js, own devices only), "Preview as a new user"
+  (onboardingSave.restartOnboardingAsNew: only onboarding fields), and the
+  announcement banner (app_config/announcement, AnnouncementBanner.jsx).
+
 ## Owner checks in from anywhere, for now (2026-11-23)
 
 - **On:** src/lib/admins.js ADMIN_CHECKIN_ANYWHERE. The admin email's own

@@ -139,4 +139,13 @@ describe('a user-added landmark waiting for approval (anti-farming item 6)', () 
       expect((await call({ checkinId: 'me_bell', fix: far })).body).toMatchObject({ verified: false, reason: 'too-far' });
     }
   });
+
+  it("the admin panel's radius switch: off holds the admin to the radius again; on (or unset) lets them check in anywhere", async () => {
+    const far = fix({ lat: 25.77, lng: -80.19 });
+    caller = { uid: 'me', email: 'landymontiel25@gmail.com', emailVerified: true };
+    docs = { 'checkins/me_bell': checkin(), 'admin_settings/me': { checkinAnywhere: false } };
+    expect((await call({ checkinId: 'me_bell', fix: far })).body).toMatchObject({ verified: false, reason: 'too-far' });
+    docs = { 'checkins/me_bell': checkin(), 'admin_settings/me': { checkinAnywhere: true } };
+    expect((await call({ checkinId: 'me_bell', fix: far })).body).toMatchObject({ verified: true });
+  });
 });

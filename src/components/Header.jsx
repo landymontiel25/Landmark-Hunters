@@ -567,7 +567,20 @@ function ProfileMenu() {
               <CountBadge count={notificationCount} />
             </button>
           </div>
-          {/* Admin account only -- same switch as Settings -> Admin Mode. */}
+          {/* Admin account only: the full-screen admin panel (owner,
+              2026-11-23), and the edit tools switch as before. */}
+          {canUseAdminMode && (
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm btn-block admin-panel-open-btn"
+              onClick={() => {
+                setOpen(false);
+                navigate('/admin');
+              }}
+            >
+              {'\u{1F6E0}\u{FE0F}'} Open admin panel
+            </button>
+          )}
           {canUseAdminMode && (
             <label className="admin-mode-switch">
               <span>{'\u{1F6E0}\u{FE0F}'} Admin Mode</span>

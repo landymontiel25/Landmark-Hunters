@@ -11,7 +11,7 @@ import { toMs } from './_lib/time.js';
 import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin } from './_lib/checkinPayout.js';
 import { isApprovedLandmark } from '../src/lib/landmarkApproval.js';
-import { ADMIN_CHECKIN_ANYWHERE, isAdmin } from '../src/lib/admins.js';
+import { isAdmin } from '../src/lib/admins.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the
@@ -60,9 +60,14 @@ async function handler(req, res) {
     return;
   }
   const { checkinId, fix } = req.body || {};
-  // The admin's check-in-from-anywhere switch (src/lib/admins.js): their
-  // own check-ins verify without being there. Signed-in, verified email only.
-  const anywhere = ADMIN_CHECKIN_ANYWHERE && account.emailVerified && isAdmin(account.email);
+  // The admin panel's "Check-in radius off" switch (admin_settings/{uid},
+  // on until switched off): the admin's own check-ins verify without being
+  // there. Signed-in, verified admin email only; nobody else, ever.
+  let anywhere = false;
+  if (account.emailVerified && isAdmin(account.email)) {
+    const settings = await adminDb().collection('admin_settings').doc(account.uid).get().catch(() => null);
+    anywhere = !settings?.exists || settings.data()?.checkinAnywhere !== false;
+  }
   if (typeof checkinId !== 'string' || !/^[\w.-]{1,300}$/.test(checkinId) || (!anywhere && !validFix(fix))) {
     res.status(400).json({ error: 'checkinId and a GPS fix are required.' });
     return;

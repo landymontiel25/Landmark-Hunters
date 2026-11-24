@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
-import { isAdmin } from './admins';
+import { isAdmin, setCheckinAnywhereLive } from './admins';
+import { subscribeAdminSettings, setCheckinAnywhere as saveCheckinAnywhere } from './adminSettings';
 
 const AdminModeContext = createContext(null);
 const KEY = 'landmarkhunters.adminMode';
@@ -33,6 +34,27 @@ export function AdminModeProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canUseAdminMode, loading]);
 
+  // The admin panel's "Check-in radius off" switch (admin_settings/{uid}),
+  // kept in step with the copy the check-in code reads (admins.js).
+  const [checkinAnywhere, setCheckinAnywhereState] = useState(true);
+  const adminUid = canUseAdminMode ? user?.uid : null;
+  useEffect(() => {
+    if (!adminUid) {
+      setCheckinAnywhereLive(false);
+      return undefined;
+    }
+    return subscribeAdminSettings(adminUid, ({ checkinAnywhere: on }) => {
+      setCheckinAnywhereLive(on);
+      setCheckinAnywhereState(on);
+    });
+  }, [adminUid]);
+  const setCheckinAnywhere = async (on) => {
+    if (!adminUid) return;
+    setCheckinAnywhereLive(on);
+    setCheckinAnywhereState(on);
+    await saveCheckinAnywhere(adminUid, on);
+  };
+
   const setAdminMode = (on) => {
     if (on && !canUseAdminMode) return;
     setAdminModeState(on);
@@ -45,7 +67,7 @@ export function AdminModeProvider({ children }) {
   };
 
   return (
-    <AdminModeContext.Provider value={{ adminMode: adminMode && canUseAdminMode, canUseAdminMode, setAdminMode }}>
+    <AdminModeContext.Provider value={{ adminMode: adminMode && canUseAdminMode, canUseAdminMode, setAdminMode, checkinAnywhere: canUseAdminMode && checkinAnywhere, setCheckinAnywhere }}>
       {children}
     </AdminModeContext.Provider>
   );

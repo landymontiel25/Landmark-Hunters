@@ -21,6 +21,7 @@ import BottomNav, { BottomNavFallback } from './components/BottomNav';
 import ErrorBoundary from './components/ErrorBoundary';
 import OfflineBanner from './components/OfflineBanner';
 import StreakWarningBanner from './components/StreakWarningBanner';
+import AnnouncementBanner from './components/AnnouncementBanner';
 import CheckInReview from './components/CheckInReview';
 import LoveReasonPrompt from './components/LoveReasonPrompt';
 import TagCapPrompt from './components/TagCapPrompt';
@@ -144,6 +145,7 @@ const FullLeaderboard = lazyScreen(() => import('./screens/FullLeaderboard'));
 const Legal = lazyScreen(() => import('./screens/Legal'));
 const GroupTrip = lazyScreen(() => import('./screens/GroupTrip'));
 const Settings = lazyScreen(() => import('./screens/Settings'));
+const AdminPanel = lazyScreen(() => import('./screens/AdminPanel'));
 const FullStats = lazyScreen(() => import('./screens/FullStats'));
 const MyCheckins = lazyScreen(() => import('./screens/MyCheckins'));
 const MyMaprRatings = lazyScreen(() => import('./screens/MyMaprRatings'));
@@ -183,6 +185,7 @@ function AppRoutes() {
           <Route path="/legal" element={<Legal />} />
           <Route path="/group/:tripId" element={<GroupTrip />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="/stats" element={<FullStats />} />
           <Route path="/checkins" element={<MyCheckins />} />
           <Route path="/favorites" element={<Navigate to="/itinerary" replace state={{ section: 'favorites' }} />} />
@@ -306,6 +309,7 @@ export default function App() {
               down the whole app to a blank white page. */}
           <Soft><FeedHome /></Soft>
           <Soft><OfflineBanner /></Soft>
+          <Soft><AnnouncementBanner /></Soft>
           <Soft><StreakWarningBanner /></Soft>
           <Soft><Header /></Soft>
           <Soft><WhereAmI /></Soft>
