@@ -59,9 +59,9 @@ function changed() {
     /* no window */
   }
 }
-export function outboxNotice(message, tone = 'info') {
+export function outboxNotice(message, tone = 'info', { href = null, actionLabel = null } = {}) {
   try {
-    window.dispatchEvent(new CustomEvent(OUTBOX_NOTICE_EVENT, { detail: { message, tone } }));
+    window.dispatchEvent(new CustomEvent(OUTBOX_NOTICE_EVENT, { detail: { message, tone, href, actionLabel } }));
   } catch {
     /* no window */
   }
@@ -124,7 +124,7 @@ export function flushOutbox(uid) {
       }
       if (out?.done || out?.drop) {
         await deleteJob(job.id);
-        if (out.notice) outboxNotice(out.notice, out.tone || (out.drop ? 'error' : 'success'));
+        if (out.notice) outboxNotice(out.notice, out.tone || (out.drop ? 'error' : 'success'), { href: out.href, actionLabel: out.actionLabel });
         done++;
       } else {
         const tries = (job.tries || 0) + 1;

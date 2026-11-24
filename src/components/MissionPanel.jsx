@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { missionOf, missionDone, markMissionDone, submitMissionAnswer, submitMissionPhoto, loadServerMission, syncMissionDone, TRIVIA_PROMPT } from '../lib/missions';
+import { missionOf, missionDone, markMissionDone, submitMissionAnswer, loadServerMission, syncMissionDone, TRIVIA_PROMPT } from '../lib/missions';
 import { checkMissionPhoto, takeMissionPhoto } from '../lib/missionPhoto';
-import { addCheckinPhoto } from '../lib/leaderboard';
+import { queueMissionPhoto, missionPhotoState, MISSION_PHOTO_EVENT } from '../lib/missionPhotoQueue';
 import { friendlyError } from '../lib/friendlyError';
 import { TargetIcon } from './HeadingIcons';
 import MissionComplete from './MissionComplete';
@@ -19,7 +19,9 @@ import { checksInAnywhere } from '../lib/admins';
 //   Photo: the camera opens; the photo has to be taken here, after the
 //   check-in, during this visit (lib/missionPhoto.js), and then show what
 //   the mission asks: the server checks it (api/_lib/missionPhoto.js) and
-//   pays +10 only for one that does. Nothing counts before that.
+//   pays +10 only for one that does. Nothing counts before that. That check
+//   runs in the background (missionPhotoQueue.js, owner 2026-11-24): tap
+//   Done and move on; a notice says how it went, and it waits for signal.
 export default function MissionPanel({ landmark, checkedInAt = null, checkedIn = false, compact = false }) {
   const mission = missionOf(landmark);
   const { user } = useAuth();
@@ -31,6 +33,26 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
   // The "Mission completed" moment, shown once when a mission is finished here.
   const [celebrate, setCelebrate] = useState(null);
   const endCelebrate = useCallback(() => setCelebrate(null), []);
+  // A photo checked in the background: 'checking', 'passed' or 'failed'
+  // (with the two short lines), as kept on this phone.
+  const [photoCheck, setPhotoCheck] = useState(() => (uid && landmark?.id ? missionPhotoState(uid, landmark.id) : null));
+  useEffect(() => {
+    if (!uid || !landmark?.id) return undefined;
+    setPhotoCheck(missionPhotoState(uid, landmark.id));
+    const on = (e) => {
+      const d = e?.detail;
+      if (!d || d.uid !== uid || d.landmarkId !== landmark.id) return;
+      setPhotoCheck(d.state);
+      if (d.state?.status === 'passed') {
+        const result = { kind: 'photo', awarded: d.state.awarded || 0 };
+        setDone(result);
+        setCelebrate({ points: result.awarded });
+        setNote(null);
+      } else if (d.state?.status === 'failed') setNote({ lines: d.state.lines || [] });
+    };
+    window.addEventListener(MISSION_PHOTO_EVENT, on);
+    return () => window.removeEventListener(MISSION_PHOTO_EVENT, on);
+  }, [uid, landmark?.id]);
   // The server's record decides whether it's done (anti-farming item 4).
   const landmarkId = landmark?.id;
   useEffect(() => {
@@ -82,21 +104,9 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
         setNote(verdict.message);
         return;
       }
-      // Saved with this visit like any check-in photo, then checked
-      // against the mission. It only counts once the check says yes.
-      const photoURL = await addCheckinPhoto(uid, landmark.id, shot.file);
-      if (!photoURL) throw Object.assign(new Error("Couldn't save that photo. Try again."), { userMessage: "Couldn't save that photo. Try again." });
-      const out = await submitMissionPhoto(landmark, photoURL);
-      if (!out.passed) {
-        // Two short bullets, nothing else (owner, 2026-11-23).
-        const lines = [out.missing && `Missing: ${out.missing}`, out.shows && `You took: ${out.shows}`].filter(Boolean);
-        setNote({ lines: lines.length ? lines : [out.why || "That photo doesn't do the mission."] });
-        return;
-      }
-      const result = { kind: 'photo', awarded: out.awarded || 0 };
-      markMissionDone(uid, landmark.id, result);
-      setDone(result);
-      setCelebrate({ points: out.awarded || 0 });
+      // Checked against the mission in the background: it carries on after
+      // this screen closes, and waits for signal when there's none.
+      await queueMissionPhoto({ uid, landmark, file: shot.file });
     } catch (e) {
       setNote(friendlyError(e, "Couldn't use that photo. Try again."));
     } finally {
@@ -104,6 +114,9 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
     }
   };
 
+  // A turned-down background check shows its two lines here too, wherever
+  // the panel is opened again.
+  const shownNote = note || (photoCheck?.status === 'failed' ? { lines: photoCheck.lines || [] } : null);
   const options = mission.options || [];
   return (
     <section className={`mission-panel${compact ? ' mission-panel-compact' : ''}`} aria-label="Mission">
@@ -159,21 +172,27 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       )}
 
       {!done && ready && mission.type === 'photo' && (
-        <button type="button" className="btn btn-ghost btn-block mission-shoot" disabled={busy} aria-busy={busy} onClick={shoot}>
-          {busy ? 'Checking your photo…' : note ? `${'\u{1F4F8}'} Retake mission photo` : `${'\u{1F4F8}'} Take mission photo`}
-        </button>
+        photoCheck?.status === 'checking' && Date.now() - (photoCheck.at || 0) < 24 * 3600 * 1000 ? (
+          <p className="mission-hint mission-checking" role="status">
+            Checking your photo. You can tap Done and keep going: you'll get a notice, and the points if it passes.
+          </p>
+        ) : (
+          <button type="button" className="btn btn-ghost btn-block mission-shoot" disabled={busy} aria-busy={busy} onClick={shoot}>
+            {busy ? 'Saving your photo…' : note || photoCheck?.status === 'failed' ? `${'\u{1F4F8}'} Retake mission photo` : `${'\u{1F4F8}'} Take mission photo`}
+          </button>
+        )
       )}
 
-      {note?.lines ? (
+      {shownNote?.lines ? (
         <ul className="mission-note" role="alert">
-          {note.lines.map((l) => (
+          {shownNote.lines.map((l) => (
             <li key={l}>{l}</li>
           ))}
         </ul>
       ) : (
-        note && (
+        shownNote && (
           <p className="mission-note" role="alert">
-            {note}
+            {shownNote}
           </p>
         )
       )}

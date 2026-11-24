@@ -29,7 +29,12 @@ export function ToastProvider({ children }) {
     const queued = () => show(QUEUED_MESSAGE, { tone: 'info' });
     const rejected = () => show(REJECTED_MESSAGE, { durationMs: 10000 });
     // What the phone's outbox finished or gave up on (outbox.js).
-    const outbox = (e) => e?.detail?.message && show(e.detail.message, { tone: e.detail.tone || 'info', durationMs: 8000 });
+    const outbox = (e) => {
+      const d = e?.detail;
+      if (!d?.message) return;
+      const go = d.href ? () => (window.location.hash = d.href.replace(/^#/, '')) : null;
+      show(d.message, { tone: d.tone || 'info', durationMs: go ? 12000 : 8000, ...(go ? { actionLabel: d.actionLabel || 'Open', onAction: go } : {}) });
+    };
     window.addEventListener(WRITE_QUEUED_EVENT, queued);
     window.addEventListener(WRITE_REJECTED_EVENT, rejected);
     window.addEventListener(OUTBOX_NOTICE_EVENT, outbox);
