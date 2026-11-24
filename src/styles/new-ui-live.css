@@ -2708,3 +2708,16 @@ html[data-theme] body .admin-controls {
 html[data-theme] body .admin-controls.is-off {
   opacity: 0.45;
 }
+
+/* Checked in at a glance (owner, 2026-11-24): a place you've checked in to
+   has a green outline around its photo, the app's checked-in green (the
+   map's checked-in pins); a place you haven't has none. A ring outside the
+   photo, so it follows the photo's corners and never covers the picture. */
+html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited .lm-card-photo > .lr-thumb-btn,
+html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited .lm-card-photo > div:first-child {
+  box-shadow: 0 0 0 3px var(--success);
+}
+.landmark-row.visited .lr-thumb-btn {
+  box-shadow: 0 0 0 3px var(--success);
+  border-radius: 14px;
+}
