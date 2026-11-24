@@ -215,6 +215,35 @@ export function trimTurns(incoming) {
 // this enforces it when the model runs long anyway: no markdown, first two
 // sentences, 260 characters. Asking to "explain", "tell me more", "details" etc.
 // lifts the cap.
+// A question about one place (owner, 2026-11-24): "About <place> in <city>:
+// ..." from its page, or a question naming exactly one place. Mapr answers
+// about that place only, never with a nearby alternative.
+const ASKS_FOR_OTHERS = /\b(?:near|nearby|around|close to|similar|instead|other|others|else|alternatives?|recommend|suggest|compare|versus|vs|after|before|then|places|spots|things to do|where (?:to|can|should|do|else))\b/i;
+const normPlace = (x) => String(x || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, ' ').trim();
+export const samePlace = (a, b) => {
+  const x = normPlace(a);
+  const y = normPlace(b);
+  return !!x && !!y && (x.includes(y) || y.includes(x));
+};
+export function placeQuestionTarget(text, places = []) {
+  const t = String(text || '').trim();
+  const m = /^About (.+?)(?: in [^:]{1,60})?: \S/.exec(t);
+  if (m) return m[1].trim();
+  if (!/\?\s*$/.test(t) || ASKS_FOR_OTHERS.test(t)) return null;
+  const hits = placesNamedIn(t, places, { limit: 3 });
+  return hits.length && hits.every((l) => samePlace(l.name, hits[0].name)) ? hits[0].name : null;
+}
+// The reply's sentences that name none of `others`.
+export function withoutPlaces(reply, others = []) {
+  const names = others.map(normPlace).filter(Boolean);
+  if (!names.length) return reply;
+  const parts = String(reply || '').match(/[^.!?]+(?:[.!?]+|$)\s*/g) || [String(reply || '')];
+  return parts.filter((p) => !names.some((n) => normPlace(p).includes(n))).join('').trim();
+}
+export const ONLY_THAT_PLACE = (place) =>
+  `Answer about ${place} only. Mention no other place in "reply" or "stops", not even as an alternative or a suggestion, ` +
+  "even if you couldn't find the answer. Then answer my last question again in the same JSON shape.";
+
 // A reply that says Mapr lacks a detail instead of looking it up (owner,
 // 2026-11-24: search on the first ask, never "I don't have that detail").
 export const SAYS_NO_DATA = /\b(?:don['’]?t|do not|doesn['’]?t|does not)\s+have\s+(?:that|this|the|any|those|these|much|enough)?\s*(?:specific\s+)?(?:details?|data|info(?:rmation)?)\b|\b(?:not|isn['’]?t)\s+in\s+(?:the|my|our)\s+(?:app['’]?s\s+)?(?:data|catalog)\b|\bthe app['’]?s data\b/i;
@@ -790,6 +819,27 @@ async function handler(req, res) {
       }
     }
 
+    // A question about one place: a reply that brings in another place goes
+    // back once with that ruled out.
+    const placeTarget = placeQuestionTarget(lastText, ALL_LANDMARKS);
+    if (placeTarget && msg.stop_reason !== 'tool_use') {
+      const draft = textOf(msg);
+      let draftStops = [];
+      try {
+        draftStops = JSON.parse(draft.slice(draft.indexOf('{'), draft.lastIndexOf('}') + 1)).stops || [];
+      } catch {
+        // not JSON: nothing to check
+      }
+      const other = (Array.isArray(draftStops) ? draftStops : []).some((st) => {
+        const name = st?.name || ALL_LANDMARKS.find((l) => `${l.regionId}/${l.id}` === st?.match)?.name || '';
+        return name && !samePlace(name, placeTarget);
+      });
+      if (other) {
+        convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: ONLY_THAT_PLACE(placeTarget) });
+        msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
+      }
+    }
+
     await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: usageTotal });
     const costUsd = estimateCostUsd(usageTotal);
     // The last check (api/_lib/factGuard.js): only numbers a lookup in this
@@ -864,6 +914,20 @@ async function handler(req, res) {
       const target = directionsTarget(lastText, ALL_LANDMARKS, near);
       if (target) stops.push(catalogStop(target, 'Tap Directions to get there.'));
     }
+    // Still another place in a one-place answer: its card goes, and so does
+    // any sentence naming it (below).
+    const otherPlaces = [];
+    if (placeTarget) {
+      for (let i = keptStops.length - 1; i >= 0; i--) {
+        if (!samePlace(keptStops[i].stop.name, placeTarget)) otherPlaces.push(keptStops.splice(i, 1)[0].stop.name);
+      }
+      for (let i = stops.length - 1; i >= 0; i--) {
+        if (!samePlace(stops[i].name, placeTarget)) {
+          otherPlaces.push(stops[i].name);
+          stops.splice(i, 1);
+        }
+      }
+    }
 
     // Short tappable answers to whatever clarifying question "reply" just
     // asked (see the quickReplies rule above) -- e.g. ["Something new",
@@ -928,6 +992,7 @@ async function handler(req, res) {
       replyText = 'Sure, tap how it sounds.';
     }
 
+    if (otherPlaces.length) replyText = withoutPlaces(replyText, otherPlaces) || `I looked into ${placeTarget} and couldn't find a clear answer to that.`;
     replyText = linkAddresses(noDashes(replyText), stops);
     // Mapr's voice on the cards too: no dash in a stop's reason.
     for (const st of stops) if (typeof st.reason === 'string') st.reason = noDashes(st.reason);

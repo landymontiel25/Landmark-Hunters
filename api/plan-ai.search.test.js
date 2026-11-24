@@ -81,3 +81,49 @@ describe('Mapr searches instead of saying it lacks a detail', () => {
     for (const t of ["I searched and couldn't find it.", "You don't have a Miami itinerary yet.", "I don't have a rating history for you yet."]) expect(SAYS_NO_DATA.test(t)).toBe(false);
   });
 });
+
+describe('a question about one place is answered about that place only (owner, 2026-11-24)', () => {
+  beforeEach(() => {
+    process.env.ANTHROPIC_API_KEY = 'test';
+    requests.length = 0;
+  });
+  const sayStops = (reply, stops, searches = 1) => ({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ reply, stops }) }], usage: { server_tool_use: { web_search_requests: searches } } });
+
+  it('knows which questions are about one place', async () => {
+    const { placeQuestionTarget } = await import('./plan-ai.js');
+    const places = [{ name: 'Nippers', regionId: 'abacos', id: 'nippers' }, { name: 'Grabbers', regionId: 'abacos', id: 'grabbers' }];
+    expect(placeQuestionTarget(Q, places)).toBe('Man-O-War settlement');
+    expect(placeQuestionTarget('Is there a pool at Nippers?', places)).toBe('Nippers');
+    expect(placeQuestionTarget("What's good near Nippers?", places)).toBeNull();
+    expect(placeQuestionTarget('Nippers or Grabbers for lunch?', places)).toBeNull();
+    expect(placeQuestionTarget('Where should I eat after Nippers?', places)).toBeNull();
+    expect(placeQuestionTarget('lunch in the abacos?', places)).toBeNull();
+  });
+
+  it('sends back a reply that brings in another place, and keeps only that place', async () => {
+    replies = [
+      sayStops("I searched and couldn't find tennis courts at Man-O-War. Abaco Beach Resort nearby has courts.", [{ external: true, name: 'Abaco Beach Resort', url: 'https://example.com' }]),
+      sayStops("I searched and couldn't find whether Man-O-War settlement has tennis courts.", []),
+    ];
+    const r = await ask([{ role: 'user', content: Q }]);
+    expect(requests).toHaveLength(2);
+    expect(requests[1].messages.at(-1).content).toMatch(/Answer about Man-O-War settlement only/);
+    expect(r.reply).not.toMatch(/Abaco Beach Resort/);
+    expect(r.stops).toEqual([]);
+  });
+
+  it('drops another place that is still there after the retry, card and sentence', async () => {
+    const both = sayStops("I searched and couldn't find tennis courts at Man-O-War. Abaco Beach Resort nearby has courts.", [{ external: true, name: 'Abaco Beach Resort', url: 'https://example.com' }]);
+    replies = [both, both];
+    const r = await ask([{ role: 'user', content: Q }]);
+    expect(r.reply).toBe("I searched and couldn't find tennis courts at Man-O-War.");
+    expect(r.stops).toEqual([]);
+  });
+
+  it('leaves other questions alone', async () => {
+    replies = [sayStops('Try Nippers and Grabbers.', [{ external: true, name: 'Nippers', url: 'https://a.com' }, { external: true, name: 'Grabbers', url: 'https://b.com' }])];
+    const r = await ask([{ role: 'user', content: 'lunch spots in the abacos?' }]);
+    expect(requests).toHaveLength(1);
+    expect(r.stops.map((s) => s.name)).toEqual(['Nippers', 'Grabbers']);
+  });
+});
