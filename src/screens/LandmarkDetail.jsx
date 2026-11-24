@@ -1,3 +1,4 @@
+import { queueCheckinPhoto, PHOTO_QUEUED_MESSAGE, RATING_PHOTO_QUEUED_MESSAGE } from '../lib/photoQueue';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { goBack } from '../lib/goBack';
@@ -35,7 +36,7 @@ import {
 } from '../lib/leaderboard';
 import { regionTimezone, tzAbbrev, toZonedInputValue, fromZonedInputValue } from '../lib/timezones';
 import RatingFlow from '../components/RatingFlow';
-import { RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE } from '../lib/ratingQueue';
+import { RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE, RATING_QUEUED_WITH_PHOTOS_MESSAGE } from '../lib/ratingQueue';
 import MyCommentEditor from '../components/MyCommentEditor';
 import LandmarkPostcard from '../components/LandmarkPostcard';
 import Lightbox from '../components/Lightbox';
@@ -630,7 +631,7 @@ function LandmarkDetailBody() {
       // Kept on this phone and sent again on its own (ratingQueue.js). The
       // form and draft stay as they are until it lands.
       setSaving(false);
-      setSaveMsg(res.photosDropped ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
+      setSaveMsg(res.photoQueued ? RATING_QUEUED_WITH_PHOTOS_MESSAGE : res.photosDropped ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
       return;
     }
     clearPersisted(draftKey);
@@ -639,7 +640,9 @@ function LandmarkDetailBody() {
     setPhotoPreviews([]);
     setJustEdited(wasEdit);
     setSubmitted(true);
-    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Check your connection and try again (photos must be under 8 MB)." : null);
+    // A photo that didn't upload waits on this phone and goes up on its own
+    // (photoQueue.js): nothing to try again.
+    setSaveMsg(res?.photoQueued ? RATING_PHOTO_QUEUED_MESSAGE : res?.photoFailed ? "Rating saved, but your photo couldn't upload. Photos must be under 8 MB." : null);
     // Paid only if you really checked in here (the server checks).
     if (photoFiles.length && !res?.photoFailed) {
       claimPhotoBonusAndTell(landmark.id, toast).then(markPhotoBonusPaid);
@@ -739,8 +742,14 @@ function LandmarkDetailBody() {
       reloadMyPhotos().catch(() => {});
       claimPhotoBonusAndTell(checkinDocIdRef.current || landmark.id, toast).then(markPhotoBonusPaid);
     } catch (e) {
-      setCheckinPhotoError(friendlyError(e, "Couldn't upload that photo. Try again."));
-      setFailedCheckinPhoto(f);
+      // No connection (or a dropped one): the photo waits on this phone and
+      // uploads on its own (photoQueue.js). A mistake to fix still says so.
+      if (!e?.userMessage && (await queueCheckinPhoto({ userId: user.uid, landmarkId: checkinDocIdRef.current || landmark.id, landmarkName: landmark.name, file: f }).catch(() => null))) {
+        setCheckinPhotoError(PHOTO_QUEUED_MESSAGE);
+      } else {
+        setCheckinPhotoError(friendlyError(e, "Couldn't upload that photo. Try again."));
+        setFailedCheckinPhoto(f);
+      }
     } finally {
       setCheckinPhotoBusy(false);
     }

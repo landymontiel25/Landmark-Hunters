@@ -6,7 +6,8 @@ import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { submitReview, ratingDraftKey } from '../lib/reviews';
-import { enqueueRating, RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE } from '../lib/ratingQueue';
+import { enqueueRating, RATING_QUEUED_MESSAGE, RATING_QUEUED_PHOTOS_MESSAGE, RATING_QUEUED_WITH_PHOTOS_MESSAGE } from '../lib/ratingQueue';
+import { queueCheckinPhoto, queueReviewPhotos, PHOTO_QUEUED_MESSAGE } from '../lib/photoQueue';
 import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../lib/usePersistentState';
 import { friendlyError, isOffline } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
@@ -252,21 +253,23 @@ export default function CheckInReview() {
           if (!photoFiles.length || !/holds up to|the most it can hold/.test(String(e?.message || ''))) throw e;
           const res = await save([]);
           let photoFailed = false;
+          let photoQueued = false;
           for (const f of photoFiles) {
             try {
               await attachCheckinPhoto(user.uid, justCheckedIn.id, f);
-            } catch {
-              photoFailed = true;
+            } catch (err) {
+              if (!err?.userMessage && (await queueCheckinPhoto({ userId: user.uid, landmarkId: justCheckedIn.id, landmarkName: justCheckedIn.name, file: f }).catch(() => null))) photoQueued = true;
+              else photoFailed = true;
             }
           }
-          return { ...res, photoFailed };
+          return { ...res, photoFailed, photoQueued: photoQueued || res.photoQueued };
         })
         .then(async (res) => {
           if (res?.queued) {
             // Waiting on this phone; the draft stays so the landmark page
             // shows it until the queue sends it.
             unmarkDraftSubmitting(draftKey);
-            setBgMsg(res.photosDropped ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
+            setBgMsg(res.photoQueued ? RATING_QUEUED_WITH_PHOTOS_MESSAGE : res.photosDropped ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
             return;
           }
           // Saved -- the in-progress copy on this device isn't needed. (On
@@ -274,10 +277,11 @@ export default function CheckInReview() {
           clearPersisted(draftKey);
           unmarkDraftSubmitting(draftKey);
           await Promise.all([reloadRatings(), reloadMyPhotos()]).catch(() => {});
-          if (res?.photoFailed) setBgMsg("Your photo couldn't upload — you can try again from the landmark page.");
+          if (res?.photoQueued) setBgMsg(PHOTO_QUEUED_MESSAGE);
+          else if (res?.photoFailed) setBgMsg("Your photo couldn't upload. You can add it again from the landmark page.");
           else if (photoFiles.length && !ratingOnly) askPhotoBonus(justCheckedIn.id);
         })
-        .catch((e) => {
+        .catch(async (e) => {
           unmarkDraftSubmitting(draftKey);
           // Only a mistake the person has to fix gets here; it says what to
           // change. Anything else is kept on this phone like any failed save.
@@ -286,22 +290,27 @@ export default function CheckInReview() {
             return;
           }
           enqueueRating(reviewArgs);
-          setBgMsg(photoFiles.length ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
+          const photosQueued = photoFiles.length ? await queueReviewPhotos({ userId: user.uid, landmark: justCheckedIn, files: photoFiles }).catch(() => null) : null;
+          setBgMsg(photosQueued ? RATING_QUEUED_WITH_PHOTOS_MESSAGE : photoFiles.length ? RATING_QUEUED_PHOTOS_MESSAGE : RATING_QUEUED_MESSAGE);
         });
     } else if (photoFiles.length) {
       // No rating here, so the photo lives on the check-in doc instead.
       // Every photo picked, one after another -- not just the first.
       (async () => {
         let failed = false;
+        let queued = false;
         for (const f of photoFiles) {
           try {
             await attachCheckinPhoto(user.uid, justCheckedIn.id, f);
-          } catch {
-            failed = true;
+          } catch (err) {
+            // No connection: it waits on this phone and uploads on its own.
+            if (!err?.userMessage && (await queueCheckinPhoto({ userId: user.uid, landmarkId: justCheckedIn.id, landmarkName: justCheckedIn.name, file: f }).catch(() => null))) queued = true;
+            else failed = true;
           }
         }
         await reloadMyPhotos().catch(() => {});
-        if (failed) setBgMsg("Some photos couldn't upload — you can try again from the landmark page.");
+        if (failed) setBgMsg("Some photos couldn't upload. You can add them again from the landmark page.");
+        else if (queued) setBgMsg(PHOTO_QUEUED_MESSAGE);
         if (!ratingOnly && (!failed || photoFiles.length > 1)) askPhotoBonus(justCheckedIn.id);
       })();
     }

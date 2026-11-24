@@ -4,6 +4,7 @@ import { startOutboxSync } from '../lib/outbox';
 import { registerOfflineCheckins, refreshPro, OFFLINE_CHECKIN_SYNCED_EVENT } from '../lib/offlineCheckins';
 import { submitReview } from '../lib/reviews';
 import { registerMissionPhotos } from '../lib/missionPhotoQueue';
+import { registerPhotoQueue } from '../lib/photoQueue';
 
 // Keeps the phone's outbox moving (outbox.js): on launch, when the phone is
 // back online, when the app comes back to the front, and every minute while
@@ -25,6 +26,7 @@ export default function OutboxSync() {
       },
     });
     registerMissionPhotos();
+    registerPhotoQueue();
     return startOutboxSync(() => uidRef.current);
   }, []);
 

@@ -168,6 +168,17 @@ the PR that finishes it.
   the app anyway). A landmark the owner rejects later disappears from lists
   in the app but its doc stays listable by date for grandfathered ones.
 
+## Offline outbox: photos, ratings, mission photos (2026-11-24)
+
+- **Done.** Fixes "Rating saved, but your photo couldn't upload": a photo
+  that doesn't upload (or whose rating is queued) waits in the outbox with
+  the photo itself (src/lib/photoQueue.js) and uploads on its own, after its
+  rating has saved; any the rating has no room for go on the check-in.
+  Check-in gallery photos the same. Mission photos are checked in the
+  background (src/lib/missionPhotoQueue.js): tap Done and move on; a notice
+  says how it went, with Retake for a refusal. Ratings already re-sent on
+  their own (ratingQueue.js).
+
 ## Offline check-ins (2026-11-24)
 
 - **Done.** With no internet the check-in sheet saves the check-in on the

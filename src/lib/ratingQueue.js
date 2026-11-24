@@ -14,6 +14,7 @@ import { db } from './firebase';
 
 export const RATING_RETRY_DELAYS_MS = [1000, 3000, 9000];
 export const RATING_QUEUED_MESSAGE = "Your rating's saved on this phone. It'll finish saving on its own as soon as it can.";
+export const RATING_QUEUED_WITH_PHOTOS_MESSAGE = "Your rating and photos are saved on this phone. They'll finish saving on their own as soon as they can.";
 export const RATING_QUEUED_PHOTOS_MESSAGE =
   "Your rating's saved on this phone and will finish saving on its own. Your photos couldn't come along, so add them again from the landmark page.";
 

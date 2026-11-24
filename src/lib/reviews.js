@@ -1,3 +1,4 @@
+import { queueReviewPhotos } from './photoQueue';
 import {
   doc,
   getDoc,
@@ -115,6 +116,9 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
     .slice(0, 3);
   const photoURLs = [];
   let photoFailed = false;
+  // Photos that didn't upload wait on the phone and go up on their own
+  // (photoQueue.js), so a saved rating never loses its photo.
+  const notUploaded = [];
   if (files.length) {
     // A review holds at most 3 photos in total; an edit appends to what's there.
     const existing = await getDoc(doc(db, 'reviews', `${userId}_${landmarkId}`)).catch(() => null);
@@ -142,6 +146,7 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       } catch {
         // A stalled/failed upload never blocks the rating from saving.
         photoFailed = true;
+        notUploaded.push(files[i]);
       }
     }
   }
@@ -287,6 +292,10 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
   // Best-effort: a failed notice never fails the saved rating.
   await notifyTaggedFriends({ userId, userName, landmark, tagged: rating.tagged });
 
+  if (notUploaded.length) {
+    const queued = await queueReviewPhotos({ userId, landmark, files: notUploaded }).catch(() => null);
+    if (queued) return { photoURLs, photoFailed: false, photoQueued: true };
+  }
   return { photoURLs, photoFailed };
 }
 
@@ -661,9 +670,12 @@ async function saveRating(args, { queue = true, source = 'app' } = {}) {
     return res;
   } catch (e) {
     if (!queue || e?.userMessage) throw e;
+    // The rating waits on this phone (ratingQueue.js) and its photos in the
+    // outbox (photoQueue.js): both send on their own, photos after the rating.
     enqueueRating(args);
-    const files = args.photoFiles?.length ? args.photoFiles : args.photoFile ? [args.photoFile] : [];
-    return { queued: true, photosDropped: files.length > 0, photoURLs: [], photoFailed: files.length > 0 };
+    const files = (args.photoFiles?.length ? args.photoFiles : args.photoFile ? [args.photoFile] : []).filter(Boolean);
+    const queued = files.length ? await queueReviewPhotos({ userId, landmark, files }).catch(() => null) : null;
+    return { queued: true, photosDropped: files.length > 0 && !queued, photoQueued: !!queued, photoURLs: [], photoFailed: files.length > 0 && !queued };
   }
 }
 export const submitReview = invalidating(saveRating);
