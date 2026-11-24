@@ -11,7 +11,7 @@ import { loadServerModels } from './_lib/maprServerModels.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { factsField } from './_lib/placeFacts.js';
 import { asksForDirections, directionsTarget, placesNamedIn, normName, nameKeys } from '../src/lib/placeMatch.js';
-import { PLAN_AI_MODEL } from './_lib/aiModels.js';
+import { PLAN_AI_MODEL, PLAN_AI_FAST_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 import { asksDistanceOrTime, asksHours, bestOrder, placeHours, routeBetween, routesFrom } from './_lib/routeLookup.js';
@@ -78,7 +78,7 @@ const INSTRUCTIONS =
   `tells you which item off that menu fits right now. Don't default to their single most-loved category regardless ` +
   `of context.\n` +
   `- DISTANCES AND TRAVEL TIMES: never state how far apart two places are, how many miles or minutes away something is, or how long it takes to get somewhere unless you got that number from the route_between tool in THIS reply (or it is printed in the app's own data below). Never estimate, round from memory, or guess. To answer "how far / how long / how many minutes", call route_between with the two places (use "my location" for where the traveler is now). How far: say its card_distance exactly as given (it's the number on the place's card in the app, so the two always match). How long: its minutes, in its mode, said that way ("about 18 min by boat", "12 min driving with current traffic", "25 min walking"). When TRAVEL MODE says they're going by boat, talk about boat time only, never driving. If route_between returns an error, still say its card_distance when it has one (that's always right), say plainly what the error says (for example that water is in between and a boat is the way), and give no time. Travelers rely on these numbers.\n` +
-  `- PLANNING A DAY: when they give you 2 or more places to fit into a day ("plan my afternoon: A, B and C", "what order should I do these in", "I have 3 hours, can I do X and Y"), or you recommend 3+ stops for one outing, call best_order with the stops (start "my location" when you have CURRENT LOCATION) and give them in that order, with the total travel time it returns. Before sending someone somewhere tonight or right now, check place_hours for any stop you're not sure is open, and skip or flag one that's closed when they'd get there. If they have a time budget, say plainly whether it fits (total travel time from best_order plus a sensible visit length per stop) and what to cut if not.\n` +
+  `- PLANNING A DAY: when they give you 2 or more places to fit into a day ("plan my afternoon: A, B and C", "what order should I do these in", "I have 3 hours, can I do X and Y"), or you recommend 3+ stops for one outing, call best_order with the stops (start "my location" when you have CURRENT LOCATION) and give them in that order, with the total travel time it returns. When they're going tonight or right now, or ask whether something's open, check place_hours for a stop you're not sure is open and skip or flag one that's closed when they'd get there; don't look up hours for a question that isn't about going now. If they have a time budget, say plainly whether it fits (total travel time from best_order plus a sensible visit length per stop) and what to cut if not.\n` +
   `- Never state a price, an entry fee or a star rating you didn't see in a web_search result in THIS reply.\n` +
   `- Prefer the catalog when it has a genuinely good fit -- those stops open inside the app with full details and check-ins.\n` +
   `- Use web_search whenever the catalog doesn't cover what they're asking -- a city or neighborhood we don't track, a specific vibe (nightlife, racing, shopping, live music), or anything current -- so you're never limited to just the catalog.\n` +
@@ -157,16 +157,14 @@ const INSTRUCTIONS =
   `  {"type": "create_landmark_here", "nameOverride": "<only if they named the specific place themselves, else omit>"}\n` +
   `  {"type": "add_member", "itinerary": "<ref>", "username": "<their username, no @>"}`;
 
-// PLAN_AI_MODEL (claude-sonnet-5) per-token pricing (USD per token, i.e. price-per-MTok / 1e6),
-// plus $10/1,000 web searches -- used to report a running cost estimate to the
-// client. Update these if the model or its pricing changes.
-const PRICE_PER_TOKEN = {
-  input: 2 / 1_000_000,
-  output: 10 / 1_000_000,
-  // cache_control below doesn't set a ttl, so writes default to the 5-minute tier.
-  cacheWrite: 2.5 / 1_000_000,
-  cacheRead: 0.2 / 1_000_000,
+// Per-token pricing (USD per token, i.e. price-per-MTok / 1e6) for both
+// Mapr models, plus $10/1,000 web searches -- the running cost estimate the
+// client shows. Update these if a model or its pricing changes.
+const PRICES = {
+  'claude-sonnet-5': { input: 2 / 1_000_000, output: 10 / 1_000_000, cacheWrite: 2.5 / 1_000_000, cacheRead: 0.2 / 1_000_000 },
+  'claude-haiku-4-5': { input: 1 / 1_000_000, output: 5 / 1_000_000, cacheWrite: 1.25 / 1_000_000, cacheRead: 0.1 / 1_000_000 },
 };
+const PRICE_PER_TOKEN = PRICES['claude-sonnet-5'];
 const PRICE_PER_SEARCH = 10 / 1000;
 const str = (v, n) => String(v ?? '').trim().slice(0, n);
 
@@ -188,8 +186,9 @@ function catalogStop(landmark, reason) {
   };
 }
 
-function estimateCostUsd(usage) {
+function estimateCostUsd(usage, model = null) {
   if (!usage) return 0;
+  const PRICE_PER_TOKEN = PRICES[model] || PRICES['claude-sonnet-5'];
   const tokenCost =
     (usage.input_tokens || 0) * PRICE_PER_TOKEN.input +
     (usage.output_tokens || 0) * PRICE_PER_TOKEN.output +
@@ -288,6 +287,15 @@ export function linkPlaceNames(reply, stops = []) {
   }
   for (const e of edits.sort((a, b) => b.at - a.at)) out = `${out.slice(0, e.at)}{{place:${e.n}}}${out.slice(e.at + e.len)}`;
   return out;
+}
+
+// Which model answers this message: open recommendations and searches get
+// the stronger one, everything else the fast one (aiModels.js).
+export const RECOMMEND_ASK =
+  /\b(?:where (?:should|can|could|do|to)|recommend|suggest|any (?:good|place|spot)|good (?:place|spot|restaurant|bar|food)|best (?:place|spot|restaurant|bar|food|pizza|steak|sushi|seafood|coffee|beach)|places? (?:to|for)|spots? (?:to|for)|things to do|what (?:to|should i|can i) do|eat|dinner|lunch|breakfast|brunch|restaurants?|food|drinks?|bars?|nightlife|club|coffee|search|look (?:it |that )?up|find (?:me )?(?:a|some|good))\b/i;
+export function maprModelFor(text, { placeQuestion = false } = {}) {
+  if (placeQuestion) return PLAN_AI_FAST_MODEL;
+  return RECOMMEND_ASK.test(String(text || '')) ? PLAN_AI_MODEL : PLAN_AI_FAST_MODEL;
 }
 
 export const JSON_ONLY =
@@ -838,7 +846,11 @@ async function handler(req, res) {
     const mustHours = !mustRoute && asksHours(lastText);
     const convo = [...turns];
     const usageTotal = {};
+    // Each model's usage priced at its own rate.
+    const usageBy = {};
     const addUsage = (u) => {
+      const mine = (usageBy[model] ||= {});
+      for (const k of ['input_tokens', 'output_tokens', 'cache_creation_input_tokens', 'cache_read_input_tokens']) mine[k] = (mine[k] || 0) + (u?.[k] || 0);
       for (const k of ['input_tokens', 'output_tokens', 'cache_creation_input_tokens', 'cache_read_input_tokens']) usageTotal[k] = (usageTotal[k] || 0) + (u?.[k] || 0);
       const ws = u?.server_tool_use?.web_search_requests || 0;
       if (ws) usageTotal.server_tool_use = { web_search_requests: (usageTotal.server_tool_use?.web_search_requests || 0) + ws };
@@ -865,6 +877,17 @@ async function handler(req, res) {
       return m;
     };
     const searchesRun = () => Math.max(searched.runs, usageTotal.server_tool_use?.web_search_requests || 0);
+    // This message's model; a backstop's retry moves up to the stronger one.
+    let model = maprModelFor(lastText, { placeQuestion: !!placeQuestionTarget(lastText, ALL_LANDMARKS) });
+    timing.model = model === PLAN_AI_MODEL ? 'strong' : 'fast';
+    timing.steps = [];
+    const escalate = (why) => {
+      timing.steps.push(`retry:${why}`);
+      if (model !== PLAN_AI_MODEL) {
+        model = PLAN_AI_MODEL;
+        timing.model = 'escalated';
+      }
+    };
     const ask = (force) => createMessage(force).then(record, (e) => {
       // A forced web_search the API won't take: ask again without forcing.
       if (force === 'web_search') return createMessage(null).then(record);
@@ -879,11 +902,11 @@ async function handler(req, res) {
       });
     };
     const rawCreate = (force) => client.messages.create({
-      model: PLAN_AI_MODEL,
+      model,
       max_tokens: 1600,
       // No thinking: a chat reply should come fast, and a forced tool call
       // (route, hours, search) can't run with thinking on.
-      thinking: { type: 'disabled' },
+      ...(model === PLAN_AI_MODEL ? { thinking: { type: 'disabled' } } : {}),
       system: [
         { type: 'text', text: INSTRUCTIONS },
         // The instructions and the app guide are the same in every city:
@@ -931,6 +954,7 @@ async function handler(req, res) {
               out = { error: 'The lookup failed.' };
             }
             toolResults.push({ tool: c.name, out });
+            timing.steps.push(`tool:${c.name}`);
             return { type: 'tool_result', tool_use_id: c.id, content: JSON.stringify(out) };
           })
         );
@@ -981,11 +1005,13 @@ async function handler(req, res) {
           { role: 'assistant', content: msg.content },
           { role: 'user', content: `Before answering, check that with ${force} -- never state ${force === 'place_hours' ? 'hours' : 'a distance or travel time'} you didn't look up. Then answer my last question again in the same JSON shape.` }
         );
+        timing.steps.push(`retry:${force}`);
         msg = await runTools(await ask(force).then((m) => (addUsage(m.usage), m)));
       }
       // "I don't have that detail" with no search this turn: search instead.
       else if (!force && msg.stop_reason !== 'tool_use' && !ev.webSearches && SAYS_NO_DATA.test(draftReply)) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: SEARCH_INSTEAD });
+        escalate('no-data');
         msg = await runTools(await ask('web_search').then((m) => (addUsage(m.usage), m)));
       }
     }
@@ -1004,9 +1030,11 @@ async function handler(req, res) {
       const web = webStopsOf(d.stops, { validIds, lookedUp: lookedUpPlaces(toolResults) });
       if (!searchesRun() && (SAYS_SEARCHED.test(String(d.reply || '')) || web.length)) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: SEARCH_FIRST });
+        escalate('search-claimed');
         msg = await runTools(await ask('web_search').then((m) => (addUsage(m.usage), m)));
       } else if (searchesRun() && web.some((st) => !backedBySearch(st, searched))) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: ONLY_FROM_RESULTS });
+        escalate('not-in-results');
         msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
       }
     }
@@ -1035,6 +1063,7 @@ async function handler(req, res) {
         }) || withoutPlaces(draftReply, placeTarget, { places: ALL_LANDMARKS }) !== draftReply.trim();
       if (other) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: ONLY_THAT_PLACE(placeTarget) });
+        escalate('other-place');
         msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
       }
     }
@@ -1051,12 +1080,13 @@ async function handler(req, res) {
       }
       if (!ok) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: JSON_ONLY });
+        escalate('format');
         msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
       }
     }
 
-    await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: usageTotal });
-    const costUsd = estimateCostUsd(usageTotal);
+    for (const [m, u] of Object.entries(usageBy)) await logAiCall({ feature: 'plan-ai', model: m, usage: u });
+    const costUsd = Object.entries(usageBy).reduce((sum, [m, u]) => sum + estimateCostUsd(u, m), 0) + (usageTotal.server_tool_use?.web_search_requests || 0) * PRICE_PER_SEARCH;
     // The last check (api/_lib/factGuard.js): only numbers a lookup in this
     // reply backs reach the traveler.
     const evidence = evidenceNow();

@@ -99,5 +99,9 @@ describe('Mapr links and landmark cards', () => {
     expect(requests).toHaveLength(2);
     expect(requests[1].messages.at(-1)).toEqual({ role: 'user', content: JSON_ONLY });
     expect(r.reply).toBe("Here's Elbow Reef Lighthouse.");
+    // A landmark ask starts on the fast model; the retry moves up.
+    expect(requests[0].model).toBe('claude-haiku-4-5');
+    expect(requests[1].model).toBe('claude-sonnet-5');
+    expect(requests[1].thinking).toEqual({ type: 'disabled' });
   });
 });

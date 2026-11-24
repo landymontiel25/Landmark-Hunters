@@ -19,7 +19,7 @@ vi.mock('@anthropic-ai/sdk', () => ({
     };
   },
 }));
-const { default: handler, SEARCH_FIRST, ONLY_FROM_RESULTS, SAYS_SEARCHED } = await import('./plan-ai.js');
+const { default: handler, SEARCH_FIRST, ONLY_FROM_RESULTS, SAYS_SEARCHED, maprModelFor } = await import('./plan-ai.js');
 
 const Q = 'Where should I eat dinner in Treasure Cay? I love steak and pizza.';
 async function ask() {
@@ -87,4 +87,17 @@ describe('a search Mapr claims or needs actually runs first', () => {
     for (const t of ['Let me search for that.', "I'll look it up.", 'I searched and found two spots.', 'The search results show three places.']) expect(SAYS_SEARCHED.test(t)).toBe(true);
     for (const t of ['Try Nippers.', 'It opens at 9.']) expect(SAYS_SEARCHED.test(t)).toBe(false);
   });
+
+  it('open recommendations and searches get the stronger model; the rest the fast one', async () => {
+    replies = [searched('Sunset Pizza is the pizza spot that came up for Treasure Cay.', [invented], [['https://treasuresandsclub.com/sunset-pizza/', 'Sunset Pizza']])];
+    await ask();
+    expect(requests[0].model).toBe('claude-sonnet-5');
+    expect(maprModelFor('Where should I eat dinner in Treasure Cay?')).toBe('claude-sonnet-5');
+    expect(maprModelFor('Any good bars near me?')).toBe('claude-sonnet-5');
+    expect(maprModelFor('hi')).toBe('claude-haiku-4-5');
+    expect(maprModelFor('How do I add a stop to my itinerary?')).toBe('claude-haiku-4-5');
+    expect(maprModelFor('Show me the Elbow Reef Lighthouse landmark.')).toBe('claude-haiku-4-5');
+    expect(maprModelFor('About Nippers in Abacos: is there food?', { placeQuestion: true })).toBe('claude-haiku-4-5');
+  });
 });
+

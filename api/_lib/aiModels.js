@@ -6,12 +6,19 @@
 // cheap model is plenty for matching a phrase to catalog landmarks.
 export const INTEREST_CLASSIFIER_MODEL = 'claude-haiku-4-5';
 
-// Mapr's chat replies, including the one call that builds a planned trip.
-// Sonnet 5 since 2026-11-24 (owner: "Mapr is the most important part of the
-// app"): Haiku said it would search and then didn't, made up a restaurant,
-// and narrated instead of answering. Thinking is off (api/plan-ai.js), so a
-// reply stays quick and the forced lookups (route, hours, search) still work.
+// Mapr's chat replies (owner, 2026-11-24: "Mapr is the most important part
+// of the app", quality and speed). Two models, picked per message
+// (api/plan-ai.js mapprModelFor):
+//   PLAN_AI_MODEL       open recommendations and searches (where to eat,
+//                       what to do), and every retry a backstop asks for:
+//                       Haiku said it would search and didn't, made up a
+//                       restaurant, and narrated instead of answering.
+//   PLAN_AI_FAST_MODEL  everything else (hi, app questions, one place's
+//                       details, a landmark, a plan from the app's places),
+//                       which it answers well and fast.
+// Thinking stays off on Sonnet 5 so a reply is quick and forced lookups work.
 export const PLAN_AI_MODEL = 'claude-sonnet-5';
+export const PLAN_AI_FAST_MODEL = 'claude-haiku-4-5';
 
 // One-line reasons for an already-ranked set of nearby picks ("Picked for
 // you right now" on the Map tab). Writing a short line per place
