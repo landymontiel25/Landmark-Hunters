@@ -54,6 +54,10 @@ export const DAILY_QUOTAS = {
   // The AI photo checks behind the photo bonus and photo missions
   // (photoCheck.js): one Opus call with up to 3 images each.
   'ai-photo': { user: 30, global: 3000, env: 'AI_PHOTO_DAILY_GLOBAL_CAP' },
+  // Landmark cards' real travel distance (api/travel-distances.js): one
+  // Google route matrix call of up to 25 places per request, so 60 a day is
+  // up to 1,500 places per account. Boat distances are free and not counted.
+  'route-distances': { user: 60, anon: 20, global: 2000, env: 'ROUTE_DISTANCES_DAILY_GLOBAL_CAP' },
 };
 
 export function globalCap(scope, env = process.env) {

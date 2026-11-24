@@ -652,7 +652,7 @@ async function handler(req, res) {
           stops: { type: 'array', items: { type: 'string' }, description: 'Place names or addresses to visit, any order.' },
           start: { type: 'string', description: 'Where they start: "my location" (default) or a place.' },
           end: { type: 'string', description: 'Optional place they must finish at (e.g. their hotel). Leave empty if anywhere.' },
-          mode: { type: 'string', enum: ['drive', 'walk'], description: 'drive (default) or walk.' },
+          mode: { type: 'string', enum: ['drive', 'walk', 'bike', 'bus', 'boat'], description: "Leave out to time every leg by the traveler's own TRAVEL MODE (by boat around the islands when they're on a boat)." },
         },
         required: ['stops'],
       },
@@ -660,7 +660,7 @@ async function handler(req, res) {
     const TOOL_RUNNERS = {
       route_between: (input) => routeBetween(input || {}, { catalog: ALL_LANDMARKS, near, travelerMode: travelerMode === 'plane' ? null : travelerMode, units, boatRoute: serverBoatRoute }),
       place_hours: (input) => placeHours(input || {}, { near }),
-      best_order: (input) => bestOrder({ start: near ? 'my location' : '', ...(input || {}) }, { catalog: ALL_LANDMARKS, near }),
+      best_order: (input) => bestOrder({ start: near ? 'my location' : '', ...(input || {}) }, { catalog: ALL_LANDMARKS, near, travelerMode: travelerMode === 'plane' ? null : travelerMode, boatRoute: serverBoatRoute }),
     };
     const toolResults = [];
     const mustRoute = asksDistanceOrTime(lastText);

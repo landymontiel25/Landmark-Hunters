@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest';
+vi.mock('../TravelDistance', () => ({ default: ({ suffix = '' }) => `ROUTE-DISTANCE${suffix}` }));
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter, Routes, Route, useParams, useLocation } from 'react-router-dom';
@@ -71,7 +72,8 @@ describe('PicksBottomSheet', () => {
     const cards = el.querySelectorAll('.mpp-card');
     expect(cards).toHaveLength(4);
     expect(cards[0].textContent).toContain('Place a');
-    expect(cards[0].textContent).toContain('0.5 mi');
+    // The card's distance is the route distance by your mode (TravelDistance).
+    expect(cards[0].textContent).toContain('ROUTE-DISTANCE');
     expect(cards[0].textContent).toContain('Reason a');
     expect(cards[0].textContent).toContain('Directions');
     expect(cards[2].textContent).toContain('Something new');

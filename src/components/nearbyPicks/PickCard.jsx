@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import TravelDistance from '../TravelDistance';
 import { foundByLine } from '../../lib/communityLabels';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { useUnits, formatDistance } from '../../lib/UnitsContext';
 import { categoryLabel } from '../../lib/nearbyPicks';
 import { primaryCategory } from '../../lib/preferenceChains';
 import DirectionsButton from '../DirectionsButton';
@@ -123,7 +123,6 @@ function usePickActions(pick) {
 }
 
 export default function PickCard({ pick, showChainLabel = false, showTag = true, voteSlot = null }) {
-  const { units } = useUnits();
   const { openActions, sheet } = usePickActions(pick);
   return (
     <article className="mpp-card" data-pick={`${pick.region}/${pick.id}`}>
@@ -136,8 +135,7 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
           </span>
           <span className="mpp-card-name">{pick.name}</span>
           <span className="mpp-card-meta">
-            {pick.distanceMeters != null && formatDistance(pick.distanceMeters, units)}
-            {pick.distanceMeters != null && ' · '}
+            {pick.distanceMeters != null && <TravelDistance place={pick} suffix=" · " />}
             {categoryLabel(primaryCategory(pick.categories))}
             {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
             {/* Google's stars only; the app's own ratings never show (owner, 2026-11-08). */}
@@ -160,7 +158,6 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
 
 // Compact row for the collapsed bottom sheet's top three (and the meal card).
 export function PickRow({ pick, action = null, voteSlot = null }) {
-  const { units } = useUnits();
   const { openActions, sheet } = usePickActions(pick);
   return (
     <li className="mpp-row" data-pick={`${pick.region}/${pick.id}`}>
@@ -169,7 +166,7 @@ export function PickRow({ pick, action = null, voteSlot = null }) {
         <span className="mpp-row-body">
           <strong>{pick.name}</strong>
           <span>
-            {pick.distanceMeters != null ? formatDistance(pick.distanceMeters, units) : ''}
+            {pick.distanceMeters != null ? <TravelDistance place={pick} /> : ''}
             {pick.favorite ? ' · You loved this' : pick.pickType === 'new' ? ' · Something new' : ''}
             {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
             <GoogleStars google={pick.google} />

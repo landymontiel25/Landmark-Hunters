@@ -28,13 +28,13 @@ describe('route lookup for Mapr chat', () => {
     const fetchImpl = async (url, init) => {
       calls.push({ url, body: JSON.parse(init.body) });
       if (url.includes('searchText')) return { ok: true, json: async () => ({ places: [{ displayName: { text: 'House of Blues Orlando' }, formattedAddress: '1490 E Buena Vista Dr', location: { latitude: 28.3711, longitude: -81.5168 } }] }) };
-      return { ok: true, json: async () => ({ routes: [{ distanceMeters: 23500, duration: '1380s', staticDuration: '1200s' }] }) };
+      return { ok: true, json: async () => [{ originIndex: 0, destinationIndex: 0, distanceMeters: 23500, duration: '1380s', condition: 'ROUTE_EXISTS' }] };
     };
     const r = await routeBetween({ from: 'Kres Chophouse', to: 'House of Blues Orlando' }, { catalog, fetchImpl });
-    expect(r).toMatchObject({ from: { name: 'Kres Chophouse' }, to: { name: 'House of Blues Orlando' }, mode: 'driving', route_miles: 14.6, minutes: 23, minutesWithoutTraffic: 20, source: 'Google Maps' });
-    // How far is the card's number: the straight line, the card's way.
-    expect(r.card_distance).toMatch(/ km$/);
-    expect(calls.find((c) => c.url.includes('computeRoutes')).body.destination.location.latLng.latitude).toBe(28.3711);
+    expect(r).toMatchObject({ from: { name: 'Kres Chophouse' }, to: { name: 'House of Blues Orlando' }, mode: 'driving', miles: 14.6, minutes: 23, source: 'Google Maps' });
+    // How far is the card's number: the route, by this mode.
+    expect(r.card_distance).toBe('23.5 km');
+    expect(calls.find((c) => c.url.includes('computeRouteMatrix')).body.destinations[0].waypoint.location.latLng.latitude).toBe(28.3711);
   });
 
   it('says so instead of guessing when a place or the route cannot be found', async () => {
@@ -131,13 +131,13 @@ describe('route_between follows the traveler\'s mode and the cards (owner, 2026-
     expect(fetchImpl).not.toHaveBeenCalled();
     expect(r.mode).toBe('by boat');
     expect(r.minutes).toBe(19);
-    expect(r.card_distance).toBe('5.9 km');
-    expect(r.km).toBe(5.9);
-    expect(r.route_km).toBe(7.4);
+    // The card shows the boat route's length too (cards and Mapr agree).
+    expect(r.card_distance).toBe('7.4 km');
+    expect(r.km).toBe(7.4);
   });
   it('a road route snapped across water (much shorter than the straight line) is refused, not reported', async () => {
     process.env.GOOGLE_ROUTES_API_KEY = 'k';
-    const fetchImpl = async () => ({ ok: true, json: async () => ({ routes: [{ distanceMeters: 160, duration: '60s' }] }) });
+    const fetchImpl = async () => ({ ok: true, json: async () => [{ originIndex: 0, destinationIndex: 0, distanceMeters: 160, duration: '60s' }] });
     const r = await routeBetween({ from: 'my location', to: 'Fowl Cays National Park', mode: 'drive' }, { catalog: [fowl], near: boatSpot, fetchImpl });
     expect(r.error).toMatch(/water is in between/);
     expect(r.minutes).toBeUndefined();
@@ -152,5 +152,22 @@ describe('a lookup with no time still carries the card distance (2026-11-23)', (
     expect(out).toHaveLength(1);
     expect(Number.isFinite(out[0].minutes)).toBe(false);
     expect(routeSentence(out[0])).toBe('Fowl Cays National Park is 4.8 km away, as its card shows.');
+  });
+});
+
+describe('plan my day on a boat (owner, 2026-11-23)', () => {
+  it('times every leg by boat around the islands, never by road', async () => {
+    const cat = [
+      { name: 'Hope Town', lat: 26.54, lng: -76.96 },
+      { name: 'Tahiti Beach', lat: 26.5, lng: -76.99 },
+      { name: 'Man-O-War', lat: 26.59, lng: -77.0 },
+    ];
+    const fetchImpl = vi.fn();
+    const boatRoute = vi.fn(async (a, b) => ({ distanceMeters: Math.round(Math.abs(a.lat - b.lat) * 111000 + 1000), minutes: 10 }));
+    process.env.GOOGLE_ROUTES_API_KEY = 'k';
+    const r = await bestOrder({ stops: ['Tahiti Beach', 'Man-O-War'], start: 'Hope Town' }, { catalog: cat, fetchImpl, travelerMode: 'boat', boatRoute });
+    expect(fetchImpl).not.toHaveBeenCalled();
+    expect(r.mode).toBe('by boat');
+    expect(r.legs.every((l) => l.mode === 'by boat' && l.minutes === 10)).toBe(true);
   });
 });

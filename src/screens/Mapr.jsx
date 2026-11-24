@@ -5,8 +5,9 @@ import { useAuth } from '../lib/AuthContext';
 import { landmarkForRating } from '../lib/placeLandmarks';
 import { getLandmark } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
-import { useUnits, formatDistance } from '../lib/UnitsContext';
+import { useUnits } from '../lib/UnitsContext';
 import { recentTravelMode } from '../lib/travelModes';
+import TravelDistance from '../components/TravelDistance';
 import { useFriends } from '../lib/FriendsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useRatings } from '../lib/RatingsContext';
@@ -1140,9 +1141,9 @@ export default function Mapr() {
                     const lng = stop.lng ?? catalogLm?.lng;
                     const images = stop.images || catalogLm?.images;
                     const categories = stop.categories || catalogLm?.categories;
-                    const distance = coords && Number.isFinite(lat) && Number.isFinite(lng)
-                      ? formatDistance(distanceMeters(coords.lat, coords.lng, lat, lng), units)
-                      : null;
+                    // The route distance by the way you're going, the number
+                    // Mapr's own answers give too (TravelDistance).
+                    const distance = coords && Number.isFinite(lat) && Number.isFinite(lng) ? <TravelDistance place={{ lat, lng }} origin={coords} /> : null;
                     const resolved = !stop.external || !!stop.createdId;
                     // Not a landmark yet: say so until it is (or fails).
                     const loading = creating || (!resolved && !stop.createFailed && !!user);

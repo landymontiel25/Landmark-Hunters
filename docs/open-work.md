@@ -51,10 +51,17 @@ the PR that finishes it.
   = straight line) and minutes in the traveler's mode (app sends its last
   pick; on the water = boat); refuses a road route shorter than half the
   straight line (snapped across water).
-- **Not done:** best_order (Mapr's day planner) still times legs by road
-  or walking, even in the islands. Cards keep the straight-line distance;
-  a route's own length (by road or water) is shown separately and is
-  longer.
+- **Done 2026-11-23 (evening):** one source for distances,
+  api/_lib/travelDistance.js: cards (TravelDistance.jsx ->
+  api/travel-distances.js, boat on the phone), route_between and
+  best_order all measure by the same mode (last pick, else boat on the
+  water, else car). Cards show the route distance; straight line only when
+  no route. Road distances on cards are billed (route matrix, ~$5 per
+  1,000): capped by usageQuota 'route-distances' (60 requests of up to 25
+  places per account a day). The live route panel still times driving
+  with live traffic.
+- The Deploy Firestore Rules workflow is green again: the leaderboard
+  index production had is now in firestore.indexes.json.
 
 ## Mission photo check: Haiku, looser, two-bullet refusals (2026-11-23)
 

@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import TravelDistance from '../components/TravelDistance';
 import { usePageRatings, ratingKey } from '../lib/usePageRatings';
 import { useTopRatings, TOP_RANK_MAX } from '../lib/useTopRatings';
 import { peekPlacePhoto, prefetchPlacePhotos } from '../lib/placePhoto';
@@ -24,7 +25,6 @@ import { regionsWithin } from '../lib/nearbyPicks';
 import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
 import { getMapView, nearestPickableCity, setMapView } from '../lib/nearestCity';
-import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
@@ -233,7 +233,7 @@ const LandmarkRow = memo(function LandmarkRow({
   l,
   isSelected,
   photo,
-  distanceText,
+  distanceOrigin,
   user,
   firebaseEnabled,
   claimedMap,
@@ -299,7 +299,9 @@ const LandmarkRow = memo(function LandmarkRow({
         <div className="lr-meta">
           <span className="lr-where">{l.neighborhood || CATEGORY_LABEL[l.categories?.[0]] || ''}</span>
           <AdmissionTag landmark={l} short />
-          {distanceText && <span className="tag distance-tag">{distanceText} away</span>}
+          {/* The route distance by the way you're going, never the straight
+              line when there's a route (TravelDistance). */}
+          {distanceOrigin && <TravelDistance place={l} origin={distanceOrigin} suffix=" away" wrap={(t) => <span className="tag distance-tag">{t}</span>} />}
         </div>
         {/* What it is, right above the ratings (the Abacos, owner 2026-11-16). */}
         {l.whatItIs && <p className="lr-desc">{l.whatItIs}</p>}
@@ -382,7 +384,6 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
   } = useTrip();
   const { coords } = useGeo();
   const { myPhotos } = useMyPhotos();
-  const { units } = useUnits();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { applyEdit } = useLandmarkEdits();
   const { ratings, myReviews } = useRatings();
@@ -854,7 +855,7 @@ export default function LandmarkSelection({ forMeLab = false } = {}) {
         photo={photo}
         isSelected={getRegionSelection(l.regionId).includes(l.id)}
         ratingSources={(topWanted && top.live[l.id]) || pageRatings[ratingKey(l)] || null}
-        distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
+        distanceOrigin={coords || null}
         user={user}
         firebaseEnabled={firebaseEnabled}
         claimedMap={claimedMap}
