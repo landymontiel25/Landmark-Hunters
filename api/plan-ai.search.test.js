@@ -127,3 +127,15 @@ describe('a question about one place is answered about that place only (owner, 2
     expect(r.stops.map((s) => s.name)).toEqual(['Nippers', 'Grabbers']);
   });
 });
+
+describe('withoutPlaces', () => {
+  it('cuts the sentences about somewhere else and keeps the answer', async () => {
+    const { withoutPlaces } = await import('./plan-ai.js');
+    const places = [{ name: 'Abaco Beach Resort & Boat Harbour Marina', regionId: 'abacos', id: 'abaco-beach-resort' }];
+    const live = "I searched and couldn't find whether Man-O-War settlement has tennis courts. The settlement's known for its boat-building heritage rather than sports facilities, but Abaco Beach Resort nearby has tennis courts available.";
+    expect(withoutPlaces(live, 'Man-O-War settlement', { places })).toBe("I searched and couldn't find whether Man-O-War settlement has tennis courts.");
+    const stays = "I searched and couldn't find whether Nippers has a pool. Nippers is a beach bar on Great Guana Cay, so it's beach-focused.";
+    expect(withoutPlaces(stays, 'Nippers', { places })).toBe(stays);
+  });
+});
+

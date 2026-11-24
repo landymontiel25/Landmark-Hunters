@@ -233,12 +233,23 @@ export function placeQuestionTarget(text, places = []) {
   const hits = placesNamedIn(t, places, { limit: 3 });
   return hits.length && hits.every((l) => samePlace(l.name, hits[0].name)) ? hits[0].name : null;
 }
-// The reply's sentences that name none of `others`.
-export function withoutPlaces(reply, others = []) {
-  const names = others.map(normPlace).filter(Boolean);
-  if (!names.length) return reply;
-  const parts = String(reply || '').match(/[^.!?]+(?:[.!?]+|$)\s*/g) || [String(reply || '')];
-  return parts.filter((p) => !names.some((n) => normPlace(p).includes(n))).join('').trim();
+const sentencesOf = (reply) => String(reply || '').match(/[^.!?]+(?:[.!?]+|$)\s*/g) || [String(reply || '')];
+const POINTS_ELSEWHERE = /\b(?:nearby|instead|alternatives?|you could (?:try|head)|if you(?:'|’)re (?:interested|looking))\b/i;
+// A sentence of a one-place answer that's about somewhere else: it names
+// another place (one of `others`, or a catalog place) and not the target,
+// or it points elsewhere ("nearby", "instead").
+export function aboutElsewhere(sentence, target, { others = [], places = [] } = {}) {
+  const t = normPlace(sentence);
+  if (t.includes(normPlace(target))) return false;
+  if (others.map(normPlace).some((n) => n && t.includes(n))) return true;
+  if (placesNamedIn(sentence, places, { limit: 3 }).some((l) => !samePlace(l.name, target))) return true;
+  return POINTS_ELSEWHERE.test(sentence);
+}
+// The reply without its sentences about somewhere else. The first sentence
+// always stays: it's the answer.
+export function withoutPlaces(reply, target, opts = {}) {
+  const parts = sentencesOf(reply);
+  return parts.filter((p, i) => i === 0 || !aboutElsewhere(p, target, opts)).join('').trim();
 }
 export const ONLY_THAT_PLACE = (place) =>
   `Answer about ${place} only. Mention no other place in "reply" or "stops", not even as an alternative or a suggestion, ` +
@@ -830,10 +841,17 @@ async function handler(req, res) {
       } catch {
         // not JSON: nothing to check
       }
-      const other = (Array.isArray(draftStops) ? draftStops : []).some((st) => {
-        const name = st?.name || ALL_LANDMARKS.find((l) => `${l.regionId}/${l.id}` === st?.match)?.name || '';
-        return name && !samePlace(name, placeTarget);
-      });
+      let draftReply = '';
+      try {
+        draftReply = String(JSON.parse(draft.slice(draft.indexOf('{'), draft.lastIndexOf('}') + 1)).reply || '');
+      } catch {
+        draftReply = draft;
+      }
+      const other =
+        (Array.isArray(draftStops) ? draftStops : []).some((st) => {
+          const name = st?.name || ALL_LANDMARKS.find((l) => `${l.regionId}/${l.id}` === st?.match)?.name || '';
+          return name && !samePlace(name, placeTarget);
+        }) || withoutPlaces(draftReply, placeTarget, { places: ALL_LANDMARKS }) !== draftReply.trim();
       if (other) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: ONLY_THAT_PLACE(placeTarget) });
         msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
@@ -992,7 +1010,7 @@ async function handler(req, res) {
       replyText = 'Sure, tap how it sounds.';
     }
 
-    if (otherPlaces.length) replyText = withoutPlaces(replyText, otherPlaces) || `I looked into ${placeTarget} and couldn't find a clear answer to that.`;
+    if (placeTarget) replyText = withoutPlaces(replyText, placeTarget, { others: otherPlaces, places: ALL_LANDMARKS });
     replyText = linkAddresses(noDashes(replyText), stops);
     // Mapr's voice on the cards too: no dash in a stop's reason.
     for (const st of stops) if (typeof st.reason === 'string') st.reason = noDashes(st.reason);
