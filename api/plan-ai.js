@@ -20,7 +20,7 @@ import { onWater, serverBoatRoute } from './_lib/waterGrids.js';
 import { formatDistance } from '../src/lib/formatDistance.js';
 
 const TRAVEL_MODE_IDS = ['walk', 'car', 'bus', 'bike', 'boat', 'plane'];
-import { noDashes } from './_lib/maprVoice.js';
+import { noDashes, noCiteTags } from './_lib/maprVoice.js';
 import { loadTasteMemory, tasteMemoryText, saveTasteSnapshot } from './_lib/tasteMemory.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 
@@ -157,15 +157,15 @@ const INSTRUCTIONS =
   `  {"type": "create_landmark_here", "nameOverride": "<only if they named the specific place themselves, else omit>"}\n` +
   `  {"type": "add_member", "itinerary": "<ref>", "username": "<their username, no @>"}`;
 
-// PLAN_AI_MODEL (claude-haiku-4-5) per-token pricing (USD per token, i.e. price-per-MTok / 1e6),
+// PLAN_AI_MODEL (claude-sonnet-5) per-token pricing (USD per token, i.e. price-per-MTok / 1e6),
 // plus $10/1,000 web searches -- used to report a running cost estimate to the
 // client. Update these if the model or its pricing changes.
 const PRICE_PER_TOKEN = {
-  input: 1 / 1_000_000,
-  output: 5 / 1_000_000,
+  input: 2 / 1_000_000,
+  output: 10 / 1_000_000,
   // cache_control below doesn't set a ttl, so writes default to the 5-minute tier.
-  cacheWrite: 1.25 / 1_000_000,
-  cacheRead: 0.1 / 1_000_000,
+  cacheWrite: 2.5 / 1_000_000,
+  cacheRead: 0.2 / 1_000_000,
 };
 const PRICE_PER_SEARCH = 10 / 1000;
 const str = (v, n) => String(v ?? '').trim().slice(0, n);
@@ -289,6 +289,10 @@ export function linkPlaceNames(reply, stops = []) {
   for (const e of edits.sort((a, b) => b.at - a.at)) out = `${out.slice(0, e.at)}{{place:${e.n}}}${out.slice(e.at + e.len)}`;
   return out;
 }
+
+export const JSON_ONLY =
+  'Answer my last question again as the single JSON object only, with no text before or after it. If you searched, use what the ' +
+  'results showed; never say you are about to search.';
 
 // A reply that says it searched, or that it's about to ("let me search",
 // "I'll look that up"): only true when a web_search ran this turn.
@@ -876,7 +880,10 @@ async function handler(req, res) {
     };
     const rawCreate = (force) => client.messages.create({
       model: PLAN_AI_MODEL,
-      max_tokens: 1200,
+      max_tokens: 1600,
+      // No thinking: a chat reply should come fast, and a forced tool call
+      // (route, hours, search) can't run with thinking on.
+      thinking: { type: 'disabled' },
       system: [
         { type: 'text', text: INSTRUCTIONS },
         // The instructions and the app guide are the same in every city:
@@ -1032,6 +1039,22 @@ async function handler(req, res) {
       }
     }
 
+    // Not in the reply shape (narration like "I'll search for that. Perfect!"
+    // with no answer): asked once for the answer itself.
+    if (msg.stop_reason !== 'tool_use') {
+      const draft = textOf(msg);
+      let ok = false;
+      try {
+        ok = !!JSON.parse(draft.slice(draft.indexOf('{'), draft.lastIndexOf('}') + 1));
+      } catch {
+        ok = false;
+      }
+      if (!ok) {
+        convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: JSON_ONLY });
+        msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
+      }
+    }
+
     await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: usageTotal });
     const costUsd = estimateCostUsd(usageTotal);
     // The last check (api/_lib/factGuard.js): only numbers a lookup in this
@@ -1046,11 +1069,15 @@ async function handler(req, res) {
     try {
       parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     } catch {
-      const fallback = linkAddresses(remapAddressTokens(guardReply(conciseReply(unparsedReply(raw), lastText), evidence).reply, []), []);
-      res.status(200).json({ reply: fallback || 'Lost my train of thought there. Try that again?', stops: [], cost: costUsd });
+      // No places come with it, so no search narration or "Perfect!" either.
+      const plain = withoutUnbacked(noCiteTags(unparsedReply(raw)), [], { claimsOk: false }).replace(/^(?:perfect|great|got it|okay|ok)[!.,]\s*/i, '');
+      const fallback = linkAddresses(remapAddressTokens(guardReply(conciseReply(noDashes(plain), lastText), evidence).reply, []), []);
+      res.status(200).json({ reply: fallback || 'Lost my train of thought there. Try that again?', stops: [], cost: costUsd, timing: { ...timing, totalMs: Date.now() - t0 } });
       return;
     }
 
+    if (typeof parsed.reply === 'string') parsed.reply = noCiteTags(parsed.reply);
+    for (const st of Array.isArray(parsed.stops) ? parsed.stops : []) if (st && typeof st.reason === 'string') st.reason = noCiteTags(st.reason);
     const askedDirections = asksForDirections(lastText);
     // Places this reply's own Google lookups found: real, so they need no
     // source URL for a card.
@@ -1125,13 +1152,15 @@ async function handler(req, res) {
         const i = nameKeys(l.name).map((k) => said.indexOf(` ${k} `)).filter((x) => x >= 0);
         return i.length ? Math.min(...i) : Infinity;
       };
-      const inReply = typeof parsed.reply === 'string' ? placesNamedIn(parsed.reply, candidates, { near, limit: 8 }).sort((a, b) => at(a) - at(b)) : [];
+      // The full name, not a short form ("Lighthouse" alone isn't Lighthouse Cafe).
+      const fullyNamed = (l) => said.includes(` ${normName(l.name)} `);
+      const inReply = typeof parsed.reply === 'string' ? placesNamedIn(parsed.reply, candidates, { near, limit: 8 }).filter(fullyNamed).sort((a, b) => at(a) - at(b)) : [];
       for (const l of inReply) {
         if (stops.length >= 4) break;
         if (!have(l)) stops.push(catalogStop(l, ''));
       }
       if (!stops.length && ASKS_FOR_LANDMARK.test(lastText)) {
-        const [l] = placesNamedIn(lastText, [...curated, ...named], { near, limit: 1 });
+        const [l] = placesNamedIn(lastText, regions.length ? pool : [...curated, ...named], { near, limit: 1 });
         if (l) stops.push(catalogStop(l, ''));
       }
     }

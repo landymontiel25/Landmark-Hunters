@@ -18,7 +18,7 @@ vi.mock('@anthropic-ai/sdk', () => ({
     };
   },
 }));
-const { default: handler, linkPlaceNames } = await import('./plan-ai.js');
+const { default: handler, linkPlaceNames, JSON_ONLY } = await import('./plan-ai.js');
 
 async function ask(content, extra = {}) {
   let json;
@@ -75,5 +75,29 @@ describe('Mapr links and landmark cards', () => {
     expect(linkPlaceNames('Hope Town Harbour, Elbow Reef Lighthouse, Hope Town Harbour, Hope Town. {{address:1}}', [{ name: 'Elbow Reef Lighthouse' }, { name: 'Hope Town Harbour' }, { name: 'Hope Town' }])).toBe(
       '{{place:2}}, {{place:1}}, Hope Town Harbour, {{place:3}}. {{address:1}}'
     );
+  });
+
+  it('only a full name brings a card: "Elbow Reef Lighthouse" never adds Lighthouse Cafe', async () => {
+    replies = [say("Here's Elbow Reef Lighthouse, Hope Town's red-and-white lighthouse.")];
+    const r = await ask('Show me the Elbow Reef Lighthouse landmark.', { caps: ['placeLinks'] });
+    expect(r.stops.map((s) => s.id)).toEqual(['elbow-reef-lighthouse']);
+  });
+
+  it("search citation markup never shows, and a range reads '9 to 5'", async () => {
+    replies = [say('<cite index="9-1">It opens 9–5</cite> and Elbow Reef Lighthouse is free.')];
+    const r = await ask('About Elbow Reef Lighthouse in Abacos: when can I climb it?');
+    expect(r.reply).not.toMatch(/cite/);
+    expect(r.reply).toMatch(/9 to 5/);
+  });
+
+  it('narration instead of an answer is asked for once more, in the reply shape', async () => {
+    replies = [
+      { stop_reason: 'end_turn', content: [{ type: 'text', text: "Sure thing. Perfect! You've got some great options." }], usage: {} },
+      say("Here's Elbow Reef Lighthouse.", []),
+    ];
+    const r = await ask('Show me the Elbow Reef Lighthouse landmark.');
+    expect(requests).toHaveLength(2);
+    expect(requests[1].messages.at(-1)).toEqual({ role: 'user', content: JSON_ONLY });
+    expect(r.reply).toBe("Here's Elbow Reef Lighthouse.");
   });
 });

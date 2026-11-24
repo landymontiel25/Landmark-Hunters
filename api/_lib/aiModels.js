@@ -7,7 +7,11 @@
 export const INTEREST_CLASSIFIER_MODEL = 'claude-haiku-4-5';
 
 // Mapr's chat replies, including the one call that builds a planned trip.
-export const PLAN_AI_MODEL = 'claude-haiku-4-5';
+// Sonnet 5 since 2026-11-24 (owner: "Mapr is the most important part of the
+// app"): Haiku said it would search and then didn't, made up a restaurant,
+// and narrated instead of answering. Thinking is off (api/plan-ai.js), so a
+// reply stays quick and the forced lookups (route, hours, search) still work.
+export const PLAN_AI_MODEL = 'claude-sonnet-5';
 
 // One-line reasons for an already-ranked set of nearby picks ("Picked for
 // you right now" on the Map tab). Writing a short line per place
