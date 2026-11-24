@@ -504,6 +504,10 @@ async function handler(req, res) {
     return;
   }
   // A tight limit -- web_search makes each call more expensive.
+  // Where a reply's time goes (owner, 2026-11-24: make Mapr fast), returned
+  // as `timing` and logged.
+  const t0 = Date.now();
+  const timing = { prepMs: 0, modelMs: 0, calls: 0 };
   const account = await guardAiRequest(req, res, { key: 'plan-ai', limit: 10, windowMs: 10 * 60 * 1000 });
   if (!account) return;
 
@@ -565,6 +569,22 @@ async function handler(req, res) {
     // rating, "Would you come back?" answer and check-in, read fresh. Started
     // now so it loads while the rest is put together; never for a group ask.
     const memoryP = requestFor === 'group' ? Promise.resolve(null) : Promise.resolve().then(() => loadTasteMemory(adminDb(), account.uid)).catch((e) => (console.warn('mapr taste memory skipped:', e?.message || e), null));
+    // The other slow reads start now too, side by side (speed, owner
+    // 2026-11-24): Mapr's learned models for the cities in play, and whether
+    // they're out on the water.
+    const earlyNear = (() => {
+      const lat = Number(body.location?.lat);
+      const lng = Number(body.location?.lng);
+      return body.location && Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180 && !(lat === 0 && lng === 0) ? { lat, lng } : null;
+    })();
+    const modelsP =
+      requestFor === 'group'
+        ? Promise.resolve(null)
+        : (async () => {
+            const candidateRegions = uniqueRegionIds.length ? uniqueRegionIds : earlyNear ? [...new Set(curated.filter((l) => Number.isFinite(l.lat) && kmBetween(earlyNear.lat, earlyNear.lng, l.lat, l.lng) <= CHAT_NEAR_KM).map((l) => l.regionId))] : [];
+            return candidateRegions.length ? loadServerModels({ uid: account.uid, regions: candidateRegions, communityText: true }) : null;
+          })().catch(() => null);
+    const waterP = earlyNear && !TRAVEL_MODE_IDS.includes(body.travelMode) ? onWater(earlyNear).catch(() => false) : Promise.resolve(false);
     const reviews = (Array.isArray(taste.reviews) ? taste.reviews : [])
       .filter((r) => r && typeof r === 'object')
       .slice(0, 60)
@@ -683,7 +703,7 @@ async function handler(req, res) {
     // How they're getting around (owner, 2026-11-23): the mode they last
     // picked in the app, else by boat when they're out on the water.
     const nearPt = Number.isFinite(locLat) && Number.isFinite(locLng) ? { lat: locLat, lng: locLng } : null;
-    const travelerMode = TRAVEL_MODE_IDS.includes(body.travelMode) ? body.travelMode : nearPt && (await onWater(nearPt).catch(() => false)) ? 'boat' : null;
+    const travelerMode = TRAVEL_MODE_IDS.includes(body.travelMode) ? body.travelMode : nearPt && (await waterP) ? 'boat' : null;
     if (travelerMode) profileParts.push(`TRAVEL MODE: ${{ car: 'driving', walk: 'walking', bike: 'biking', bus: 'by bus', boat: 'by boat', plane: 'flying' }[travelerMode]}${body.travelMode ? ' (their pick in the app)' : ' (they are out on the water)'}.`);
     const itineraries = (Array.isArray(body.itineraries) ? body.itineraries : []).slice(0, 20).map((it) => ({
       kind: it?.kind === 'group' ? 'group' : 'solo',
@@ -741,8 +761,7 @@ async function handler(req, res) {
     let ranking = null;
     if (requestFor !== 'group') {
       try {
-        const candidateRegions = regions.length ? uniqueRegionIds : near ? [...new Set(curated.filter((l) => Number.isFinite(l.lat) && kmBetween(near.lat, near.lng, l.lat, l.lng) <= CHAT_NEAR_KM).map((l) => l.regionId))] : [];
-        const models = candidateRegions.length ? await loadServerModels({ uid: account.uid, regions: candidateRegions, communityText: true }) : null;
+        const models = await modelsP;
         // The server's memory (every rating, come-back answer and visit) wins
         // over the phone's copy for the same place.
         const merged = new Map((Array.isArray(taste.reviews) ? taste.reviews : []).filter((r) => r?.landmarkId).map((r) => [r.landmarkId, r]));
@@ -847,12 +866,22 @@ async function handler(req, res) {
       if (force === 'web_search') return createMessage(null).then(record);
       throw e;
     });
-    const createMessage = (force) => client.messages.create({
+    const createMessage = (force) => {
+      if (!timing.prepMs) timing.prepMs = Date.now() - t0;
+      const started = Date.now();
+      return rawCreate(force).finally(() => {
+        timing.modelMs += Date.now() - started;
+        timing.calls++;
+      });
+    };
+    const rawCreate = (force) => client.messages.create({
       model: PLAN_AI_MODEL,
       max_tokens: 1200,
       system: [
         { type: 'text', text: INSTRUCTIONS },
-        { type: 'text', text: APP_HELP },
+        // The instructions and the app guide are the same in every city:
+        // cached on their own, so a new city's catalog doesn't re-send them.
+        { type: 'text', text: APP_HELP, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: catalog, cache_control: { type: 'ephemeral' } },
         ...(profile ? [{ type: 'text', text: profile }] : []),
         ...(ranking ? [{ type: 'text', text: ranking.text }] : []),
@@ -874,7 +903,7 @@ async function handler(req, res) {
       // genuinely needs several searches isn't cut off. The client shows a
       // running cost total instead, so the trade-off stays visible.
       // max_uses caps per-reply search spend (each search is billed).
-      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }, ROUTE_TOOL, HOURS_TOOL, ORDER_TOOL],
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }, ROUTE_TOOL, HOURS_TOOL, ORDER_TOOL],
       // A distance/time question: the first round must look the route up.
       ...(force ? { tool_choice: { type: 'tool', name: force } } : {}),
       messages: convo,
@@ -1206,6 +1235,7 @@ async function handler(req, res) {
 
     res.status(200).json({
       reply: replyText || "Here's what I found:",
+      timing: { ...timing, totalMs: Date.now() - t0 },
       stops,
       quickReplies,
       actions,

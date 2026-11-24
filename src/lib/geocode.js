@@ -127,7 +127,10 @@ async function lookupStreetAddress(lat, lng, key) {
       headers: { Accept: 'application/json' },
       signal: controller.signal,
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      localityMisses.set(key, Date.now());
+      return null;
+    }
     const a = (await res.json())?.address || {};
     const street = [a.house_number, a.road].filter(Boolean).join(' ');
     const building = a.building || a.amenity || a.shop || a.tourism || null;
@@ -189,9 +192,24 @@ export async function geocodeLocation(text, region) {
 // told the traveler is in. Cached per ~1 km so a moving phone doesn't hit
 // Nominatim on every message. Null on any failure; never throws.
 const localityCache = new Map();
-export async function reverseLocality(lat, lng) {
+// A lookup that failed isn't retried on every message for a few minutes
+// (each try could hold a Mapr message for seconds).
+const localityMisses = new Map();
+const MISS_TTL_MS = 5 * 60 * 1000;
+const inflight = new Map();
+export function reverseLocality(lat, lng) {
   const key = `${lat.toFixed(2)},${lng.toFixed(2)}`;
-  if (localityCache.has(key)) return localityCache.get(key);
+  if (localityCache.has(key)) return Promise.resolve(localityCache.get(key));
+  if (Date.now() - (localityMisses.get(key) || 0) < MISS_TTL_MS) return Promise.resolve(null);
+  if (!inflight.has(key)) inflight.set(key, lookupLocality(lat, lng, key).finally(() => inflight.delete(key)));
+  return inflight.get(key);
+}
+// The town if it's already known or arrives within `ms`, else null: a Mapr
+// message never waits long for it (the server has the coordinates anyway).
+export function quickLocality(lat, lng, ms = 400) {
+  return Promise.race([reverseLocality(lat, lng), new Promise((r) => setTimeout(() => r(null), ms))]);
+}
+async function lookupLocality(lat, lng, key) {
   const params = new URLSearchParams({ lat: String(lat), lon: String(lng), format: 'json', zoom: '14' });
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), 3500);
@@ -208,6 +226,7 @@ export async function reverseLocality(lat, lng) {
     localityCache.set(key, label);
     return label;
   } catch {
+    localityMisses.set(key, Date.now());
     return null;
   } finally {
     clearTimeout(t);

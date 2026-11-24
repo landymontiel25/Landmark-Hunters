@@ -19,7 +19,7 @@ import MaprChatsPanel from '../components/MaprChatsPanel';
 import MaprHome from '../components/MaprHome';
 import MultiRegionSearch from '../components/MultiRegionSearch';
 import DirectionsButton from '../components/DirectionsButton';
-import { reverseLocality } from '../lib/geocode';
+import { reverseLocality, quickLocality } from '../lib/geocode';
 import { computeTasteConfidence, hasInsiderMode, votesAsReviews } from '../lib/tasteProfile';
 import { readLocalFeedback } from '../lib/pickFeedback';
 import { isVisitedReview } from '../lib/ratingFlow';
@@ -293,6 +293,14 @@ export default function Mapr() {
     }
   };
   const { coords, error: geoError } = useGeo();
+  // The town for Mapr's context, looked up ahead of time, so sending a
+  // message doesn't wait on it.
+  const townKey = coords ? `${coords.lat.toFixed(2)},${coords.lng.toFixed(2)}` : '';
+  useEffect(() => {
+    if (!townKey) return;
+    const [lat, lng] = townKey.split(',').map(Number);
+    reverseLocality(lat, lng).catch(() => {});
+  }, [townKey]);
   // The three answer buttons on each suggested place (Mapr tab planner and chat).
   const pickVotes = usePickVotes({ uid: user?.uid, origin: coords ? { lat: coords.lat, lng: coords.lng } : null });
   // Chat thread, city picks, planner-open state, cost total and busy all
@@ -696,7 +704,8 @@ export default function Mapr() {
             lat: Math.round(coords.lat * 1e4) / 1e4,
             lng: Math.round(coords.lng * 1e4) / 1e4,
             accuracy: Math.round(coords.accuracy || 0),
-            label: await reverseLocality(coords.lat, coords.lng),
+            // Never holds the message more than a moment (prefetched below).
+            label: await quickLocality(coords.lat, coords.lng),
           }
         : null;
       const now = new Date();
