@@ -42,6 +42,10 @@ describe('Mapr searches instead of saying it lacks a detail', () => {
     expect(system).toMatch(/call web_search right away/);
     expect(system).toMatch(/Never say you don't have that detail/);
     expect(requests[0].tools.map((t) => t.name)).toContain('web_search');
+    // A place question is about that place only (owner, 2026-11-24): no
+    // nearby alternative, even when the search finds nothing.
+    expect(system).toMatch(/mention only that place in "reply" and "stops", never a nearby alternative/);
+    expect(system).not.toMatch(/close alternative you did find/);
   });
 
   it('a "no data" reply with no search goes back once with the search required, and the searched answer shows', async () => {
@@ -52,6 +56,7 @@ describe('Mapr searches instead of saying it lacks a detail', () => {
     const r = await ask([{ role: 'user', content: Q }]);
     expect(requests).toHaveLength(2);
     expect(requests[1].messages.at(-1)).toEqual({ role: 'user', content: SEARCH_INSTEAD });
+    expect(SEARCH_INSTEAD).toMatch(/Mention only the place I asked about/);
     expect(r.reply).toMatch(/pickleball/);
     expect(r.reply).not.toMatch(SAYS_NO_DATA);
   });

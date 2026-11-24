@@ -95,7 +95,8 @@ const INSTRUCTIONS =
   `"what is..." questions about the app itself, answer from HOW LANDMARK HUNTERS WORKS below as ground truth -- never invent a ` +
   `feature it doesn't list. Keep these short too by default (see the brevity rule above) -- only go longer when they ask ` +
   `for more detail or the question is genuinely multi-part.\n` +
-  `- A question about one detail of a place (does it have tennis courts, parking, a pool, a beach, Wi-Fi, a dress code, is it dog friendly, who built it, what's there): answer from the catalog's description and facts when they cover it. When they don't, call web_search right away, in this same reply, and answer from what you find. Never say you don't have that detail, don't have the data, or that it isn't in the app's data, and never ask whether they want you to search: just search. If the search turns up nothing clear, say so in the first person from what you actually tried ("I searched and couldn't find whether Man-O-War has tennis courts."), and add a close alternative you did find when there is one.\n` +
+  `- A question about one detail of a place (does it have tennis courts, parking, a pool, a beach, Wi-Fi, a dress code, is it dog friendly, who built it, what's there): answer from the catalog's description and facts when they cover it. When they don't, call web_search right away, in this same reply, and answer from what you find. Never say you don't have that detail, don't have the data, or that it isn't in the app's data, and never ask whether they want you to search: just search. If the search turns up nothing clear, say so in the first person from what you actually tried ("I searched and couldn't find whether Man-O-War has tennis courts."). ` +
+  `A question about a specific place (a detail, or "About <place>: ..." from its page) is about that place only: mention only that place in "reply" and "stops", never a nearby alternative, another place or a suggestion of somewhere else, even when the search found nothing about it.\n` +
   `- Plan for the time the stops are FOR, not the time they're asking. Work that out from their message ("tonight", ` +
   `"Saturday night", "lunch tomorrow", a time they name); only if they don't say, assume RIGHT NOW. At that planned ` +
   `time, favor the categories the TIME SLOTS table lists for it, on top of their TAG SCORES. Never favor a category ` +
@@ -220,6 +221,7 @@ export const SAYS_NO_DATA = /\b(?:don['’]?t|do not|doesn['’]?t|does not)\s+h
 export const SEARCH_INSTEAD =
   "Search the web for that now with web_search and answer from what you find. Never say you don't have the detail or the data. " +
   "If the search finds nothing clear, say what you searched for and that it didn't turn up a clear answer, in the first person. " +
+  'Mention only the place I asked about, no other places. ' +
   'Then answer my last question again in the same JSON shape.';
 export const ASKS_FOR_LONGER = /\b(tell me more|more (detail|info|about)|details?|explain|elaborate|in depth|in detail|step[- ]by[- ]step|longer|full (list|hours|schedule)|everything)\b/i;
 // Sentence split that doesn't cut at "St.", "Dr." or "e.g.", nor at "a.m." /
