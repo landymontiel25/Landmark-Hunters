@@ -10,7 +10,7 @@ export const APP_HELP =
   `- Navigation: 5 tabs — Map, Landmarks, Mapr, Itinerary, Profile.\n` +
   `- AI features (Mapr chat, Mapr Picks, smart search, custom-interest matching) need you to be signed in. There's a short pause ("Too many requests in a row") after many requests close together, e.g. more than 10 Mapr chat messages in 10 minutes, and a generous daily limit per account (e.g. 150 Mapr chat messages, 400 smart searches) that resets at midnight Pacific time ("You've hit today's limit"). Address search, place lookup and directions have daily limits too, lower when signed out. If the whole app hits its daily safety cap, a feature says it is paused for everyone until tomorrow. Mapr is the ` +
   `one AI assistant: ask it anything -- plans, questions about a place or city, or how the app works. Each landmark's page has an ` +
-  `"✨ Ask Mapr about …" button with quick questions that opens the Mapr chat and asks there.\n` +
+  `"✨ Ask Mapr about …" button with quick questions that opens the Mapr chat and asks there. When the app has nothing on what you asked (say, whether a place has tennis courts), Mapr searches the web for it right away and answers from what it finds, or says it searched and found nothing clear.\n` +
   `- Mapr knows where you are when location is on: it uses your phone's live location, so "near me" / "nearby" just works without ` +
   `naming a city. If location is off, it asks which city you're in. Every place Mapr suggests from the web has a Directions link that opens ` +
   `the same three choices as everywhere else (Open in Map, Google Maps, Apple Maps).\n` +
