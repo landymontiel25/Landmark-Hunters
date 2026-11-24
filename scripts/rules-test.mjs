@@ -1517,6 +1517,12 @@ await reset();
     await assertFails(setDoc(doc(as('bob'), 'entitlements/bob'), { pro: true }));
     await assertFails(updateDoc(doc(as('ann'), 'entitlements/ann'), { pro: false }));
   });
+  await seed((db) => setDoc(doc(db, 'mapr_taste/ann'), { rated: 2 }));
+  await t("Mapr's taste memory: the account reads its own, nobody writes it", async () => {
+    await assertSucceeds(getDoc(doc(as('ann'), 'mapr_taste/ann')));
+    await assertFails(getDoc(doc(as('bob'), 'mapr_taste/ann')));
+    await assertFails(setDoc(doc(as('ann'), 'mapr_taste/ann'), { rated: 99 }));
+  });
   await t('offline check-in records are server-only', async () => {
     await assertFails(setDoc(doc(as('ann'), 'offline_checkins/ann_x'), { result: {} }));
     await assertFails(setDoc(doc(as('ann'), 'offline_checkin_days/ann_2026-11-24'), { count: 0 }));

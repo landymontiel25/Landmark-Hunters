@@ -165,10 +165,22 @@ export function kindSimilarity(liked, other) {
 // findLandmark(review) returns the rated place (for its full words); without
 // it the review's own name and categories are read.
 const TIER_WEIGHT = { 'highly-recommend': 3, 'worth-trying': 1, 'probably-skip': -3 };
+// "Would you come back?" is the strongest signal (owner, 2026-11-24): a yes
+// counts as much as the rating itself, a never again more than a bad one.
+export const RETURN_WEIGHT = { yes: 3, 'probably-not': -1, 'never-again': -4 };
+// How much one rated (or repeatedly visited) place says about its kinds:
+// the rating, the come-back answer, and up to 3 for coming back again.
+export function placeTasteWeight(r) {
+  const tier = TIER_WEIGHT[r?.ratingTier] || 0;
+  const back = RETURN_WEIGHT[r?.wouldReturn ?? r?.ratingWouldReturn] || 0;
+  const visits = Number(r?.visits) || 0;
+  const repeat = visits > 1 ? Math.min(visits - 1, 3) : 0;
+  return tier + back + (tier + back >= 0 ? repeat : 0);
+}
 export function kindAffinity(myReviews, findLandmark = () => null) {
   const out = {};
   for (const r of Object.values(myReviews || {})) {
-    const w = TIER_WEIGHT[r?.ratingTier];
+    const w = placeTasteWeight(r);
     if (!w) continue;
     const place = findLandmark(r) || { name: r.landmarkName, categories: r.categories };
     for (const k of mainKinds(place)) out[k] = (out[k] || 0) + w;

@@ -23,7 +23,19 @@ export function reviewsMap(reviews) {
   for (const r of Array.isArray(reviews) ? reviews : []) {
     const id = str(r?.landmarkId, 120);
     if (!id || !TIERS.has(r?.tier)) continue;
-    out[id] = { landmarkId: id, region: str(r.region, 40) || null, ratingTier: r.tier, visited: r.visited !== false };
+    out[id] = {
+      landmarkId: id,
+      region: str(r.region, 40) || null,
+      ratingTier: r.tier,
+      visited: r.visited !== false,
+      // "Would you come back?" and repeat visits (placeKinds placeTasteWeight).
+      wouldReturn: ['yes', 'probably-not', 'never-again'].includes(r.wouldReturn) ? r.wouldReturn : null,
+      visits: Number.isFinite(Number(r.visits)) ? Math.min(Number(r.visits), 50) : 0,
+      // What kind of place it is when the catalog can't say (a place someone
+      // added, an imported one): its name and categories.
+      landmarkName: str(r.name, 80),
+      categories: (Array.isArray(r.categories) ? r.categories : []).map((c) => str(c, 30)).slice(0, 3),
+    };
   }
   return out;
 }

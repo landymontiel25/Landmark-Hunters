@@ -21,6 +21,8 @@ import { formatDistance } from '../src/lib/formatDistance.js';
 
 const TRAVEL_MODE_IDS = ['walk', 'car', 'bus', 'bike', 'boat', 'plane'];
 import { noDashes } from './_lib/maprVoice.js';
+import { loadTasteMemory, tasteMemoryText, saveTasteSnapshot } from './_lib/tasteMemory.js';
+import { adminDb } from './_lib/firebaseAdmin.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -478,12 +480,17 @@ async function handler(req, res) {
     // the traveler has clearly already told the app what they like.
     const requestFor = requestForOf(body);
     const taste = tasteInputsOf(body);
+    // Mapr's memory of this traveler's taste (api/_lib/tasteMemory.js): every
+    // rating, "Would you come back?" answer and check-in, read fresh. Started
+    // now so it loads while the rest is put together; never for a group ask.
+    const memoryP = requestFor === 'group' ? Promise.resolve(null) : Promise.resolve().then(() => loadTasteMemory(adminDb(), account.uid)).catch((e) => (console.warn('mapr taste memory skipped:', e?.message || e), null));
     const reviews = (Array.isArray(taste.reviews) ? taste.reviews : [])
       .filter((r) => r && typeof r === 'object')
       .slice(0, 60)
       .map((r) => ({
       name: str(r.name, 80),
       tier: str(r.tier, 30),
+      wouldReturn: ['yes', 'probably-not', 'never-again'].includes(r.wouldReturn) ? r.wouldReturn : null,
       categories: (Array.isArray(r.categories) ? r.categories : []).map((c) => str(c, 30)).slice(0, 3),
       highlights: (Array.isArray(r.highlights) ? r.highlights : []).map((h) => str(h, 40)).slice(0, 3),
       comment: str(r.comment, 280),
@@ -498,8 +505,12 @@ async function handler(req, res) {
     // client decides the unlock and just tells us the flag; this only
     // changes how a request already this personalized gets phrased.
     const insiderMode = taste.insiderMode === true;
-    const hasHistory = reviews.length > 0;
+    const memory = await memoryP;
+    if (memory) Promise.resolve().then(() => saveTasteSnapshot(adminDb(), account.uid, memory)).catch(() => {});
+    const memoryText = tasteMemoryText(memory);
+    const hasHistory = reviews.length > 0 || !!memoryText;
     const profileParts = [];
+    if (memoryText) profileParts.push(memoryText);
     if (tasteIntro) profileParts.push(`IN THEIR OWN WORDS (told Mapr this directly): "${tasteIntro}"`);
     if (hasHistory) {
       profileParts.push(
@@ -508,6 +519,7 @@ async function handler(req, res) {
             .map(
               (r) =>
                 `- ${r.name} [${r.categories.join(', ') || '?'}]: ${r.tier || 'rated'}` +
+                (r.wouldReturn ? `, would come back: ${r.wouldReturn}` : '') +
                 (r.highlights.length ? ` — ${r.highlights.join(', ')}` : '') +
                 (r.comment ? ` — "${r.comment}"` : '')
             )
@@ -650,7 +662,11 @@ async function handler(req, res) {
       try {
         const candidateRegions = regions.length ? uniqueRegionIds : near ? [...new Set(curated.filter((l) => Number.isFinite(l.lat) && kmBetween(near.lat, near.lng, l.lat, l.lng) <= CHAT_NEAR_KM).map((l) => l.regionId))] : [];
         const models = candidateRegions.length ? await loadServerModels({ uid: account.uid, regions: candidateRegions, communityText: true }) : null;
-        ranking = chatRanking({ uid: account.uid, pool, curated, regionsChosen: regions.length > 0, near, tagScoreSummary: taste.tagScoreSummary, reviews: taste.reviews, swipeAnswers: taste.swipeAnswers, maprContext: body.maprContext, models, requestFor });
+        // The server's memory (every rating, come-back answer and visit) wins
+        // over the phone's copy for the same place.
+        const merged = new Map((Array.isArray(taste.reviews) ? taste.reviews : []).filter((r) => r?.landmarkId).map((r) => [r.landmarkId, r]));
+        for (const r of memory?.reviews || []) if (r.tier || r.visits > 1) merged.set(r.landmarkId, { ...merged.get(r.landmarkId), ...r, tier: r.tier || merged.get(r.landmarkId)?.tier || 'worth-trying' });
+        ranking = chatRanking({ uid: account.uid, pool, curated, regionsChosen: regions.length > 0, near, tagScoreSummary: taste.tagScoreSummary, reviews: [...merged.values()], swipeAnswers: taste.swipeAnswers, maprContext: body.maprContext, models, requestFor });
       } catch (e) {
         console.warn('mapr chat ranking skipped:', e?.message || e);
         ranking = null;

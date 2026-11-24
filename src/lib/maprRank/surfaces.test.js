@@ -91,7 +91,9 @@ describe('Mapr chat ranking block', () => {
   });
   it('reads the client summary and reviews', () => {
     expect(summaryScorer({ all: { food: 5, 'tech': 2 } })({ categories: ['food', 'tech'] })).toBe(7);
-    expect(reviewsMap([{ landmarkId: 'x', region: 'milan', tier: 'highly-recommend' }, { tier: 'bogus', landmarkId: 'y' }])).toEqual({ x: { landmarkId: 'x', region: 'milan', ratingTier: 'highly-recommend', visited: true } });
+    expect(reviewsMap([{ landmarkId: 'x', region: 'milan', tier: 'highly-recommend' }, { tier: 'bogus', landmarkId: 'y' }])).toEqual({ x: { landmarkId: 'x', region: 'milan', ratingTier: 'highly-recommend', visited: true, wouldReturn: null, visits: 0, landmarkName: '', categories: [] } });
+    // "Would you come back?" and repeat visits come along (owner, 2026-11-24).
+    expect(reviewsMap([{ landmarkId: 'x', tier: 'worth-trying', wouldReturn: 'yes', visits: 4 }]).x).toMatchObject({ wouldReturn: 'yes', visits: 4 });
   });
 });
 

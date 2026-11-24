@@ -614,6 +614,8 @@ export default function Mapr() {
         .map((r) => ({
           name: r.landmarkName,
           tier: r.ratingTier,
+          // "Would you come back?", Mapr's strongest signal.
+          wouldReturn: r.wouldReturn || null,
           categories: r.categories || [],
           highlights: r.highlights || [],
           // Folds in loveNotes -- the "why do you love this place" answers

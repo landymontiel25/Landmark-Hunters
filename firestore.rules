@@ -1389,6 +1389,12 @@ service cloud.firestore {
       allow get: if request.auth != null && request.auth.uid == uid;
       allow list, write: if false;
     }
+    // Mapr's memory of a traveler's taste (api/_lib/tasteMemory.js):
+    // server-written; the account may read its own.
+    match /mapr_taste/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, write: if false;
+    }
     // offline_checkins and offline_checkin_days (api/offline-checkin.js) are
     // server-only: no rule matches them, so every client is refused.
 
