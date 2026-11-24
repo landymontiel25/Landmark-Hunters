@@ -10,6 +10,7 @@
 // let no wrong fact through. The full run:
 //   MAPR_CHAT_SIM_USERS=30000 MAPR_CHAT_SIM_OUT=mapr-synthetic-trainer/output-chat npx vitest run mapr-synthetic-trainer/chat-facts
 import { haversineMeters } from '../../src/lib/haversine.js';
+import { onWater, serverBoatRoute } from '../../api/_lib/waterGrids.js';
 import { describe, it, expect, vi } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -66,7 +67,16 @@ describe('Mapr chat fact simulation', () => {
     process.env.GOOGLE_PLACES_API_KEY = 'sim';
     await ensureServerPlacePacks();
     const byRegion = Object.fromEntries(
-      REGIONS.map((id) => [id, ALL_LANDMARKS.filter((l) => l.regionId === id && Number.isFinite(l.lat) && l.name && l.name.length < 40)])
+      // Sorted: the place packs join ALL_LANDMARKS in whatever order their
+      // files finish loading (api/_lib/placePacks.js), which changes with
+      // machine load (the full suite). Unsorted, each run put travelers in
+      // different spots, and a run that put one out on the water failed.
+      REGIONS.map((id) => [
+        id,
+        ALL_LANDMARKS.filter((l) => l.regionId === id && Number.isFinite(l.lat) && l.name && l.name.length < 40).sort((a, b) =>
+          a.id < b.id ? -1 : a.id > b.id ? 1 : 0
+        ),
+      ])
     );
     const totals = blank();
     const byIntent = {};
@@ -122,6 +132,17 @@ describe('Mapr chat fact simulation', () => {
           if (locOn) pts.push({ name: 'your location', lat: here.lat, lng: here.lng });
           const routes = [];
           for (const a of pts) for (const b of pts) if (a !== b) routes.push(world.asRoute(a, b, 'drive'), world.asRoute(a, b, 'walk'));
+          // A traveler out on the water is going by boat (owner,
+          // 2026-11-23): Mapr's answers then use the app's own boat routes
+          // around the islands, which are the truth for a boat trip.
+          const onBoat = locOn && (await onWater(here));
+          if (onBoat)
+            for (const a of pts)
+              for (const b of pts)
+                if (a !== b) {
+                  const br = await serverBoatRoute(a, b);
+                  if (br) routes.push({ miles: Math.round((br.distanceMeters / 1609.34) * 10) / 10, km: Math.round((br.distanceMeters / 1000) * 10) / 10, minutes: br.minutes });
+                }
           // How far, the card's way (owner, 2026-11-23: Mapr quotes the
           // distance the place's card shows, the straight line).
           for (const a of pts)
@@ -131,7 +152,10 @@ describe('Mapr chat fact simulation', () => {
                 routes.push({ miles: Math.round((m / 1609.34) * 10) / 10, km: Math.round((m / 1000) * 10) / 10, minutes: NaN });
               }
           if (q.intent === 'plan') {
-            const best = await bestOrder({ stops: q.places, start: locOn ? 'my location' : '' }, { catalog: ALL_LANDMARKS, near: locOn ? here : null, fetchImpl: world.fakeFetch });
+            const best = await bestOrder(
+              { stops: q.places, start: locOn ? 'my location' : '' },
+              { catalog: ALL_LANDMARKS, near: locOn ? here : null, fetchImpl: world.fakeFetch, ...(onBoat ? { travelerMode: 'boat', boatRoute: serverBoatRoute } : {}) }
+            );
             if (!best.error) routes.push({ miles: best.totalMiles, km: best.totalKm, minutes: best.totalMinutes }, ...best.legs);
           }
           const truth = { routes, places: pts.filter((p) => p.name !== 'your location').map((p) => world.facts(p.name)) };
