@@ -82,6 +82,8 @@ const INSTRUCTIONS =
   `- Never state a price, an entry fee or a star rating you didn't see in a web_search result in THIS reply.\n` +
   `- Prefer the catalog when it has a genuinely good fit -- those stops open inside the app with full details and check-ins.\n` +
   `- Use web_search whenever the catalog doesn't cover what they're asking -- a city or neighborhood we don't track, a specific vibe (nightlife, racing, shopping, live music), or anything current -- so you're never limited to just the catalog.\n` +
+  `- SEARCH FIRST, THEN ANSWER: whenever your answer depends on the web, call web_search before you write anything, in this same reply, and answer from its results. Never write that you'll search, are searching or searched unless web_search ran in this reply: just search. Recommend a place that isn't in the catalog only if it appears in this reply's search results, and give that result's URL as the stop's "url". If the results have nothing useful, say so in the first person; never fill the gap with a place from memory.\n` +
+  `- A TOWN OR ISLAND THEY NAME (Treasure Cay, Hope Town, Wynwood): recommend places in that town. When the catalog has nothing there that fits, search for it in that town. Never send them to a catalog place in a different town as if it were there; if the nearest good one is elsewhere, say where it is.\n` +
   `- If you already have enough to go on (a vibe, a time budget, an interest, or a rating history to lean on -- doesn't need to be much), recommend 2-4 real stops in a sensible order, mixing catalog and web-found places as needed, with one short reason each tied to what they said or to their known taste.\n` +
   `- "Near me" asks. With a kind of place ("arepas near me", "parks nearby", "a bar close to me"): return the best matches for exactly that kind, preferring the ones closest to their CURRENT LOCATION (a great match a few minutes away beats a slightly better one across town); the app lists them closest first and lets them re-sort by rating. With no kind of place at all ("landmarks near me", "what's near me", "anything around here") and no kind given earlier in this chat: don't guess -- ask ONE short question, "What kind of place are you looking for?", and fill "quickReplies" with 3-4 kinds that exist near them (e.g. "Food", "Parks", "History", "Nightlife"). If they already said a kind earlier in the chat, use it instead of asking. This rule wins over the rating-history rule below.\n` +
   `- If their ask is too vague to suggest anything useful yet AND you have no rating history to lean on either, ask ONE short clarifying question instead of guessing -- but don't stall forever; after any clarification, go ahead and suggest something. With a rating history, a vague ask ("something fun today") is enough to go on -- use their taste instead of asking them to repeat it.\n` +
@@ -286,6 +288,54 @@ export function linkPlaceNames(reply, stops = []) {
   }
   for (const e of edits.sort((a, b) => b.at - a.at)) out = `${out.slice(0, e.at)}{{place:${e.n}}}${out.slice(e.at + e.len)}`;
   return out;
+}
+
+// A reply that says it searched, or that it's about to ("let me search",
+// "I'll look that up"): only true when a web_search ran this turn.
+export const SAYS_SEARCHED =
+  /\b(?:let me (?:search|look (?:it |that |this )?up|check (?:online|the web))|i(?:'|’)ll (?:search|look (?:it |that |this )?up|check online)|i(?:'|’)m (?:searching|looking (?:it |that )?up)|i searched|i(?:'|’)ve searched|i looked (?:it |that |this )?up|i found (?:online|on the web)|(?:my|the) search (?:results?|shows?|turned up|found)|search results|searching now)\b/i;
+export const SEARCH_FIRST =
+  'No search ran this turn. Run web_search now, before you answer, and recommend only places that appear in its results, each with ' +
+  "that result's URL as the stop's url. Never say you'll search or that you searched unless the search ran in this reply. If nothing " +
+  'useful comes back, say so in the first person instead of naming a place. Then answer my last question again in the same JSON shape.';
+export const ONLY_FROM_RESULTS =
+  "Recommend only places that appear in this turn's web_search results, each with the URL of the result it came from as the stop's url. " +
+  'Drop any place the results do not mention, and say so plainly if none fit. Then answer my last question again in the same JSON shape.';
+const normUrl = (u) => {
+  try {
+    const x = new URL(String(u));
+    return `${x.hostname.replace(/^www\./, '')}${x.pathname.replace(/\/+$/, '')}`.toLowerCase();
+  } catch {
+    return String(u || '').toLowerCase();
+  }
+};
+// Stops that aren't catalog places or Google lookups: the ones a search has
+// to back.
+export function webStopsOf(stops, { validIds = new Set(), lookedUp = [] } = {}) {
+  return (Array.isArray(stops) ? stops : []).filter((st) => st && !(st.match && validIds.has(st.match)) && String(st.name || '').trim() && !findLookedUp(String(st.name), lookedUp));
+}
+// A web stop counts only when the search found it: its URL is one of the
+// results (or cited), or its name is in a result's title or a quoted line.
+export function backedBySearch(st, searched) {
+  if (!searched?.runs && !searched?.urls?.size) return false;
+  if (st?.url && searched.urls.has(normUrl(st.url))) return true;
+  const name = normName(st?.name || '');
+  return name.length >= 3 && ` ${normName(searched.text)} `.includes(` ${name} `);
+}
+
+// The reply without its sentences about unbacked places, or claiming a
+// search when none ran.
+export function withoutUnbacked(reply, names = [], { claimsOk = true } = {}) {
+  const ns = names.map((n) => normName(n)).filter((n) => n.length >= 3);
+  const parts = String(reply || '').match(/[^.!?]+(?:[.!?]+|$)\s*/g) || [];
+  return parts
+    .filter((p) => {
+      const t = ` ${normName(p)} `;
+      if (ns.some((n) => t.includes(` ${n} `))) return false;
+      return claimsOk || !SAYS_SEARCHED.test(p);
+    })
+    .join('')
+    .trim();
 }
 
 // A reply that says Mapr lacks a detail instead of looking it up (owner,
@@ -770,7 +820,34 @@ async function handler(req, res) {
       const ws = u?.server_tool_use?.web_search_requests || 0;
       if (ws) usageTotal.server_tool_use = { web_search_requests: (usageTotal.server_tool_use?.web_search_requests || 0) + ws };
     };
-    const ask = (force) => client.messages.create({
+    // What this reply's web searches actually returned (owner, 2026-11-24:
+    // never claim a search that didn't run, never recommend a place the
+    // results don't have): every search run, each result's URL and title,
+    // and the text each citation quotes.
+    const searched = { runs: 0, urls: new Set(), text: '' };
+    const record = (m) => {
+      for (const b of m?.content || []) {
+        if (b.type === 'server_tool_use' && b.name === 'web_search') searched.runs++;
+        if (b.type === 'web_search_tool_result' && Array.isArray(b.content)) {
+          for (const r of b.content) {
+            if (r?.url) searched.urls.add(normUrl(r.url));
+            if (r?.title) searched.text += ` ${r.title}`;
+          }
+        }
+        for (const c of b.citations || []) {
+          if (c?.url) searched.urls.add(normUrl(c.url));
+          searched.text += ` ${c?.title || ''} ${c?.cited_text || ''}`;
+        }
+      }
+      return m;
+    };
+    const searchesRun = () => Math.max(searched.runs, usageTotal.server_tool_use?.web_search_requests || 0);
+    const ask = (force) => createMessage(force).then(record, (e) => {
+      // A forced web_search the API won't take: ask again without forcing.
+      if (force === 'web_search') return createMessage(null).then(record);
+      throw e;
+    });
+    const createMessage = (force) => client.messages.create({
       model: PLAN_AI_MODEL,
       max_tokens: 1200,
       system: [
@@ -873,6 +950,27 @@ async function handler(req, res) {
       // "I don't have that detail" with no search this turn: search instead.
       else if (!force && msg.stop_reason !== 'tool_use' && !ev.webSearches && SAYS_NO_DATA.test(draftReply)) {
         convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: SEARCH_INSTEAD });
+        msg = await runTools(await ask('web_search').then((m) => (addUsage(m.usage), m)));
+      }
+    }
+    // Searches that were claimed or needed but never ran, and places that
+    // aren't in the results (the Treasure Cay case, owner 2026-11-24). Sent
+    // back once with the search required; what's still unbacked is dropped
+    // below (unbackedWebStops).
+    if (msg.stop_reason !== 'tool_use') {
+      const draft = textOf(msg);
+      let d = {};
+      try {
+        d = JSON.parse(draft.slice(draft.indexOf('{'), draft.lastIndexOf('}') + 1));
+      } catch {
+        d = { reply: draft };
+      }
+      const web = webStopsOf(d.stops, { validIds, lookedUp: lookedUpPlaces(toolResults) });
+      if (!searchesRun() && (SAYS_SEARCHED.test(String(d.reply || '')) || web.length)) {
+        convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: SEARCH_FIRST });
+        msg = await runTools(await ask('web_search').then((m) => (addUsage(m.usage), m)));
+      } else if (searchesRun() && web.some((st) => !backedBySearch(st, searched))) {
+        convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: ONLY_FROM_RESULTS });
         msg = await runTools(await ask(null).then((m) => (addUsage(m.usage), m)));
       }
     }
@@ -928,6 +1026,7 @@ async function handler(req, res) {
     // Places this reply's own Google lookups found: real, so they need no
     // source URL for a card.
     const lookedUp = lookedUpPlaces(toolResults);
+    const unbacked = [];
     const toStop = (s) => {
       if (s?.match && validIds.has(s.match)) {
         const [rid, id] = s.match.split('/');
@@ -945,6 +1044,12 @@ async function handler(req, res) {
       const located = String(s?.address || s?.place || '').trim();
       const found = name ? findLookedUp(name, lookedUp) : null;
       if (!name || (!url && !found && !(askedDirections && located))) return null;
+      // A web place the search never found is never shown (owner,
+      // 2026-11-24): it may be made up. Its sentences go too (below).
+      if (!found && !(askedDirections && located) && !backedBySearch({ name, url }, searched)) {
+        unbacked.push(name);
+        return null;
+      }
       return {
         external: true,
         name,
@@ -1080,6 +1185,16 @@ async function handler(req, res) {
     }
 
     if (placeTarget) replyText = withoutPlaces(replyText, placeTarget, { others: otherPlaces, places: ALL_LANDMARKS });
+    // Nothing unbacked reaches the traveler: no sentence about a place the
+    // search didn't find, no claim of a search that didn't run.
+    if (unbacked.length || (!searchesRun() && SAYS_SEARCHED.test(replyText))) {
+      // Every place it recommended was unbacked: the rest isn't an answer.
+      const leftover = unbacked.length && !stops.length ? '' : withoutUnbacked(replyText, unbacked, { claimsOk: searchesRun() > 0 });
+      replyText = leftover ||
+        (searchesRun()
+          ? "I searched but didn't find a place I can point you to for that. Want me to look for a different kind of place?"
+          : "I couldn't run a search just now, so I won't guess a place. Ask me again in a moment.");
+    }
     replyText = linkAddresses(noDashes(replyText), stops);
     // Each place the reply names becomes a link, the way a web answer links
     // its sources: the app shows {{place:N}} as the Nth card's name, opening

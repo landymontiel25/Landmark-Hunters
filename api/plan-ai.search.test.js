@@ -87,7 +87,15 @@ describe('a question about one place is answered about that place only (owner, 2
     process.env.ANTHROPIC_API_KEY = 'test';
     requests.length = 0;
   });
-  const sayStops = (reply, stops, searches = 1) => ({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ reply, stops }) }], usage: { server_tool_use: { web_search_requests: searches } } });
+  // A searched reply carries its results, the way the API returns them.
+  const sayStops = (reply, stops, searches = 1) => ({
+    stop_reason: 'end_turn',
+    content: [
+      ...(searches ? [{ type: 'web_search_tool_result', tool_use_id: 'ws', content: stops.filter((st) => st.url).map((st) => ({ type: 'web_search_result', url: st.url, title: st.name })) }] : []),
+      { type: 'text', text: JSON.stringify({ reply, stops }) },
+    ],
+    usage: { server_tool_use: { web_search_requests: searches } },
+  });
 
   it('knows which questions are about one place', async () => {
     const { placeQuestionTarget } = await import('./plan-ai.js');
