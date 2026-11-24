@@ -6342,6 +6342,14 @@ h2,
   text-decoration: underline;
   cursor: pointer;
 }
+.chat-place-link {
+  /* A place Mapr names (owner, 2026-11-24): the page's own text color,
+     underlined, so it reads as a link without adding a color. */
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .chatlab-stop-sort {
   display: flex;
   flex-wrap: wrap;

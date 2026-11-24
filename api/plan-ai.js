@@ -10,7 +10,7 @@ import { chatRanking, CHAT_NEAR_KM } from './_lib/maprChatRanking.js';
 import { loadServerModels } from './_lib/maprServerModels.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { factsField } from './_lib/placeFacts.js';
-import { asksForDirections, directionsTarget, placesNamedIn } from '../src/lib/placeMatch.js';
+import { asksForDirections, directionsTarget, placesNamedIn, normName, nameKeys } from '../src/lib/placeMatch.js';
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
@@ -256,6 +256,37 @@ export function withoutPlaces(reply, target, opts = {}) {
 export const ONLY_THAT_PLACE = (place) =>
   `Answer about ${place} only. Mention no other place in "reply" or "stops", not even as an alternative or a suggestion, ` +
   "even if you couldn't find the answer. Then answer my last question again in the same JSON shape.";
+
+// "Show me the lighthouse", "open X", "which landmark is...": an ask for a
+// landmark, which always comes back as its card.
+export const ASKS_FOR_LANDMARK = /\b(?:show me|open|pull up|bring up|find me|take me to|landmark|which place|what place|link to|card for)\b/i;
+
+// The first mention of each card's place in the reply, as {{place:N}}.
+// Longest names first, so "Hope Town Harbour" wins over "Hope Town"; never
+// inside another token, a word, or twice.
+export function linkPlaceNames(reply, stops = []) {
+  let out = String(reply || '');
+  const order = stops.map((st, i) => ({ name: String(st?.name || '').trim(), n: i + 1 })).filter((x) => x.name.length >= 3).sort((a, b) => b.name.length - a.name.length);
+  const blank = (t) => '\u0000'.repeat(t.length);
+  // Tokens, and every mention of a longer name already handled, are hidden
+  // from the shorter names' search.
+  let masked = out.replace(/\{\{[^}]*\}\}/g, blank);
+  const edits = [];
+  for (const { name, n } of order) {
+    const esc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(^|[^\\w\\u0000])(${esc})(?![\\w\\u0000])`, 'gi');
+    let first = true;
+    masked = masked.replace(re, (all, pre, hit, at) => {
+      if (first) {
+        edits.push({ at: at + pre.length, len: hit.length, n });
+        first = false;
+      }
+      return pre + blank(hit);
+    });
+  }
+  for (const e of edits.sort((a, b) => b.at - a.at)) out = `${out.slice(0, e.at)}{{place:${e.n}}}${out.slice(e.at + e.len)}`;
+  return out;
+}
 
 // A reply that says Mapr lacks a detail instead of looking it up (owner,
 // 2026-11-24: search on the first ask, never "I don't have that detail").
@@ -948,6 +979,28 @@ async function handler(req, res) {
       const target = directionsTarget(lastText, ALL_LANDMARKS, near);
       if (target) stops.push(catalogStop(target, 'Tap Directions to get there.'));
     }
+    // Every catalog place the reply names gets its card, and a landmark they
+    // asked for comes back as one, never just words about it (owner,
+    // 2026-11-24). Cards open the place in the app.
+    {
+      const have = (l) => stops.some((st) => (!st.external && st.id === l.id && st.region === l.regionId) || samePlace(st.name, l.name));
+      const candidates = [...pool, ...named, ...(hereLandmark ? [hereLandmark] : [])];
+      // In the order the reply names them.
+      const said = ` ${normName(parsed.reply || '')} `;
+      const at = (l) => {
+        const i = nameKeys(l.name).map((k) => said.indexOf(` ${k} `)).filter((x) => x >= 0);
+        return i.length ? Math.min(...i) : Infinity;
+      };
+      const inReply = typeof parsed.reply === 'string' ? placesNamedIn(parsed.reply, candidates, { near, limit: 8 }).sort((a, b) => at(a) - at(b)) : [];
+      for (const l of inReply) {
+        if (stops.length >= 4) break;
+        if (!have(l)) stops.push(catalogStop(l, ''));
+      }
+      if (!stops.length && ASKS_FOR_LANDMARK.test(lastText)) {
+        const [l] = placesNamedIn(lastText, [...curated, ...named], { near, limit: 1 });
+        if (l) stops.push(catalogStop(l, ''));
+      }
+    }
     // Still another place in a one-place answer: its card goes, and so does
     // any sentence naming it (below).
     const otherPlaces = [];
@@ -1028,6 +1081,11 @@ async function handler(req, res) {
 
     if (placeTarget) replyText = withoutPlaces(replyText, placeTarget, { others: otherPlaces, places: ALL_LANDMARKS });
     replyText = linkAddresses(noDashes(replyText), stops);
+    // Each place the reply names becomes a link, the way a web answer links
+    // its sources: the app shows {{place:N}} as the Nth card's name, opening
+    // the landmark in the app or the page a search found it on. Only for an
+    // app that says it can show them (older builds would print the token).
+    if (Array.isArray(body.caps) && body.caps.includes('placeLinks')) replyText = linkPlaceNames(replyText, stops);
     // Mapr's voice on the cards too: no dash in a stop's reason.
     for (const st of stops) if (typeof st.reason === 'string') st.reason = noDashes(st.reason);
 

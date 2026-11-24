@@ -87,15 +87,42 @@ function dismissTasteNudge(uid) {
 // Mapr never shows a street address as text: the server turns each one into
 // {{address:N}} (the reply's Nth place) or {{addressq:<text>}}. Each shows as
 // a blue "address" link that opens Open in Map / Google Maps / Apple Maps.
-const ADDRESS_TOKEN = /\{\{address(?::(\d+)|q:([^}]*))\}\}/g;
+// Each place it names is {{place:N}} (owner, 2026-11-24: links, like a web
+// answer): the Nth card's name as a link to the landmark in the app, or to
+// the page a search found it on.
+const REPLY_TOKEN = /\{\{(?:address(?::(\d+)|q:([^}]*))|place:(\d+))\}\}/g;
+function placeLink(stop, key) {
+  if (!stop?.name) return null;
+  const id = stop.createdId || (!stop.external ? stop.id : null);
+  const region = stop.createdRegion || (!stop.external ? stop.region : null);
+  if (id && region) {
+    return (
+      <Link key={key} to={`/landmarks/${region}/${id}`} className="chat-place-link">
+        {stop.name}
+      </Link>
+    );
+  }
+  if (/^https?:\/\//.test(stop.url || '')) {
+    return (
+      <a key={key} href={stop.url} target="_blank" rel="noopener noreferrer" className="chat-place-link">
+        {stop.name}
+      </a>
+    );
+  }
+  return <strong key={key}>{stop.name}</strong>;
+}
 function ReplyText({ text, stops = [], near }) {
   const str = String(text || '');
-  if (!str.includes('{{address')) return str;
+  if (!str.includes('{{')) return str;
   const out = [];
   let last = 0;
-  for (const match of str.matchAll(ADDRESS_TOKEN)) {
+  for (const match of str.matchAll(REPLY_TOKEN)) {
     out.push(str.slice(last, match.index));
     last = match.index + match[0].length;
+    if (match[3]) {
+      out.push(placeLink(stops?.[Number(match[3]) - 1], match.index) || '');
+      continue;
+    }
     const stop = match[1] ? stops?.[Number(match[1]) - 1] : null;
     const lm = stop && !stop.external ? getLandmark(stop.region, stop.id) : null;
     const lat = stop?.lat ?? lm?.lat;
@@ -679,6 +706,8 @@ export default function Mapr() {
         headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
         body: JSON.stringify({
           messages: payload,
+          // What this app version can show: {{place:N}} links in the reply.
+          caps: ['placeLinks'],
           regionIds: regions.map((r) => r.id),
           requestFor,
           // A group request sends none of the user's own taste (rating
@@ -1199,6 +1228,12 @@ export default function Mapr() {
                           >
                             Directions
                           </DirectionsButton>
+                          {/* Where a searched place was found, like a web answer's source. */}
+                          {stop.external && /^https?:\/\//.test(stop.url || '') && (
+                            <a href={stop.url} target="_blank" rel="noopener noreferrer" className="chatlab-stop-link-btn chatlab-stop-source">
+                              Source
+                            </a>
+                          )}
                         </div>
                         {user && resolved && id && voteRegion && (
                           <PickVoteButtons

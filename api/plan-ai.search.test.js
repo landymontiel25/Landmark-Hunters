@@ -109,7 +109,8 @@ describe('a question about one place is answered about that place only (owner, 2
     expect(requests).toHaveLength(2);
     expect(requests[1].messages.at(-1).content).toMatch(/Answer about Man-O-War settlement only/);
     expect(r.reply).not.toMatch(/Abaco Beach Resort/);
-    expect(r.stops).toEqual([]);
+    // Only the place asked about, as its card (owner, 2026-11-24).
+    expect(r.stops.map((st) => st.id)).toEqual(['man-o-war-settlement']);
   });
 
   it('drops another place that is still there after the retry, card and sentence', async () => {
@@ -117,7 +118,7 @@ describe('a question about one place is answered about that place only (owner, 2
     replies = [both, both];
     const r = await ask([{ role: 'user', content: Q }]);
     expect(r.reply).toBe("I searched and couldn't find tennis courts at Man-O-War.");
-    expect(r.stops).toEqual([]);
+    expect(r.stops.every((st) => st.id === 'man-o-war-settlement')).toBe(true);
   });
 
   it('leaves other questions alone', async () => {
