@@ -896,8 +896,8 @@ export default function Mapr() {
             else send(null, text);
           }}
           // Signed out, chats aren't synced: the one on this device is the
-          // only recent chat.
-          chats={synced ? chats : hasConversation ? [{ id: activeChat.id, title: activeChat.title || 'Your chat' }] : []}
+          // only recent chat. Chats you archived stay out of the list.
+          chats={synced ? chats.filter((c) => !(c.archivedUids || []).includes(user?.uid)) : hasConversation ? [{ id: activeChat.id, title: activeChat.title || 'Your chat' }] : []}
           onOpenChat={(id) => {
             setHomeOpen(false);
             if (id !== activeChat.id) openChat(id);
