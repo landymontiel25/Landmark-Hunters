@@ -27,7 +27,10 @@ export function appCheckMode(env = process.env) {
 // The project number, which App Check puts in the token's issuer and
 // audience. Firebase's messaging sender id is the same number.
 export function projectNumber(env = process.env) {
-  return String(env.FIREBASE_PROJECT_NUMBER || env.VITE_FIREBASE_MESSAGING_SENDER_ID || '').trim();
+  // The project number is public (it's the messaging sender id); the
+  // fallback keeps token checks working if neither variable reaches the
+  // functions at runtime.
+  return String(env.FIREBASE_PROJECT_NUMBER || env.VITE_FIREBASE_MESSAGING_SENDER_ID || '295564443752').trim();
 }
 
 async function loadKeys(fetchImpl, now) {
@@ -87,12 +90,13 @@ export async function appCheckGate(req, res, key, opts = {}) {
 
 // The endpoints that pay points (anti-farming item 5): their own switch,
 // APP_CHECK_POINTS_MODE (off / monitor / enforce), so they can be enforced
-// before the whole API is. Defaults to monitor (log, never block): enforce
-// only once the web app has its reCAPTCHA key and the iOS app sends App
-// Attest tokens (docs/rate-limits.md), or every check-in is refused.
+// before the whole API is. Enforce by default (owner, 2026-11-23: the web
+// app sends reCAPTCHA Enterprise tokens): a call without a valid token gets
+// 401. Set APP_CHECK_POINTS_MODE=monitor in Vercel to only log instead (the
+// iOS app sends no token until App Attest is set up).
 export function pointsAppCheckMode(env = process.env) {
   const m = String(env.APP_CHECK_POINTS_MODE || '').trim().toLowerCase();
-  return m === 'off' || m === 'enforce' ? m : 'monitor';
+  return m === 'off' || m === 'monitor' ? m : 'enforce';
 }
 export function pointsAppCheckGate(req, res, key, opts = {}) {
   return appCheckGate(req, res, key, { ...opts, mode: pointsAppCheckMode(opts.env) });

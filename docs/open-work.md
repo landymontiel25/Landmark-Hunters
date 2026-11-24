@@ -175,11 +175,18 @@ the PR that finishes it.
   ('unavailable') instead of open. The AI photo checks are capped
   (`ai-photo`, 30 per account, 3,000 overall a day) before any call. Every
   endpoint that pays points runs pointsAppCheckGate (APP_CHECK_POINTS_MODE).
-- **Not done: enforcing App Check.** It would refuse every request today:
-  the web app has no reCAPTCHA Enterprise key (VITE_RECAPTCHA_ENTERPRISE_SITE_KEY)
-  and the iOS app sends no token (needs App Attest via
-  @capacitor-firebase/app-check, a native plugin and an Xcode build). Owner
-  steps in docs/rate-limits.md; then set APP_CHECK_POINTS_MODE=enforce.
+- **Done 2026-11-23: web App Check enforced.** The owner registered the
+  reCAPTCHA Enterprise key in Firebase App Check and turned on enforcement
+  for Firestore and Storage. src/lib/firebase.js starts App Check before
+  the first Firestore or Storage call (key from
+  VITE_RECAPTCHA_ENTERPRISE_SITE_KEY, else the registered key in code), so
+  every web request carries a token. APP_CHECK_POINTS_MODE now defaults to
+  enforce in api/_lib/appCheck.js (set it to `monitor` in Vercel to back
+  out). Tests run with it at monitor (vite.config.js test env).
+- **Not done: iOS.** The iOS app sends no token (needs App Attest via
+  @capacitor-firebase/app-check, a native plugin and an Xcode build), so
+  with enforcement on its Firestore, Storage and points requests are
+  refused until that ships.
 - **Found 2026-11-23:** every AI photo check fails with "Your credit balance
   is too low to access the Anthropic API" (ai_errors). Owner: add credits.
 

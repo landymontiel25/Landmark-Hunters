@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 
 const addCustomLandmark = vi.fn(async (d) => ({ docId: 'x', id: 'custom-1', ...d }));
-vi.mock('./firebase', () => ({ auth: { currentUser: { getIdToken: async () => 'tok' } }, db: null }));
+vi.mock('./firebase', () => ({ auth: { currentUser: { getIdToken: async () => 'tok' } }, db: null, appCheckInstance: null }));
 vi.mock('./customLandmarks', () => ({ getCustomLandmarks: vi.fn(async () => []), addCustomLandmark: (d) => addCustomLandmark(d) }));
 vi.mock('./places', () => ({ makeSessionToken: () => 't', searchPlaces: vi.fn(), getPlaceDetails: vi.fn() }));
 vi.mock('./friendlyError', () => ({

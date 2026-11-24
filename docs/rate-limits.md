@@ -63,14 +63,15 @@ scored per request, no puzzles. The web app attaches its token as
    - Google Cloud: enable reCAPTCHA Enterprise, create a web key for your
      domains (the Vercel domain and any custom one).
    - Firebase console, App Check: register the web app with that key.
-   - Vercel: `VITE_RECAPTCHA_ENTERPRISE_SITE_KEY=<key>`, `APP_CHECK_MODE=monitor`, redeploy.
+   - Vercel: `VITE_RECAPTCHA_ENTERPRISE_SITE_KEY=<key>` (optional: the
+     registered key is the default in src/lib/firebase.js), `APP_CHECK_MODE=monitor`, redeploy.
    - Watch Vercel Logs for `app_check` lines for a few days. Web traffic
      should show none.
 4. **The points endpoints first** (anti-farming item 5): every endpoint that
    pays points (verify-checkin, landmark-bonus, mission-answer, photo-bonus,
    referral-claim, both day-closes, both freezes, recovery mission) checks
-   App Check under its own switch `APP_CHECK_POINTS_MODE` (default monitor).
-   Set it to `enforce` once steps 3 and the iOS plugin below are done.
+   App Check under its own switch `APP_CHECK_POINTS_MODE` (default enforce
+   since 2026-11-23; `monitor` or `off` in Vercel backs it out).
 5. **Enforce**: only after the iOS app sends tokens (needs App Attest
    through `@capacitor-firebase/app-check`, not built yet). Until then
    `enforce` would block every iOS request. Then set `APP_CHECK_MODE=enforce`,

@@ -54,14 +54,15 @@ describe('App Check', () => {
 });
 
 describe('App Check on the endpoints that pay points (anti-farming item 5)', () => {
-  it('has its own switch: monitor by default, enforce refuses a request with no token', async () => {
+  it('has its own switch: enforce by default, enforce refuses a request with no token', async () => {
     const { pointsAppCheckMode, pointsAppCheckGate } = await import('./appCheck.js');
-    expect(pointsAppCheckMode({})).toBe('monitor');
+    expect(pointsAppCheckMode({})).toBe('enforce');
+    expect(pointsAppCheckMode({ APP_CHECK_POINTS_MODE: 'monitor' })).toBe('monitor');
     expect(pointsAppCheckMode({ APP_CHECK_POINTS_MODE: 'enforce' })).toBe('enforce');
     expect(pointsAppCheckMode({ APP_CHECK_POINTS_MODE: 'off' })).toBe('off');
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
-    expect(await pointsAppCheckGate({ headers: {} }, res, 'verify-checkin', { env: {} })).toBe(true);
+    expect(await pointsAppCheckGate({ headers: {} }, res, 'verify-checkin', { env: { APP_CHECK_POINTS_MODE: 'monitor' } })).toBe(true);
     expect(await pointsAppCheckGate({ headers: {} }, res, 'verify-checkin', { env: { APP_CHECK_POINTS_MODE: 'enforce', FIREBASE_PROJECT_NUMBER: '1' } })).toBe(false);
     expect(res.status).toHaveBeenCalledWith(401);
   });

@@ -3,6 +3,7 @@ import { Capacitor } from '@capacitor/core';
 import { getAuth, initializeAuth, indexedDBLocalPersistence, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -16,6 +17,23 @@ const firebaseConfig = {
 export const firebaseEnabled = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 
 export const app = firebaseEnabled && getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+// Firebase App Check (owner, 2026-11-23: enforcement is on for Firestore and
+// Storage). Started here, before anything reads Firestore or Storage, so
+// every request carries a token; /api/* calls send the same token
+// (appCheck.js). reCAPTCHA Enterprise on the web; the site key is public.
+// The iOS app can't run reCAPTCHA in its web view and needs App Attest
+// through a native plugin (not set up yet), so it starts none.
+export const RECAPTCHA_ENTERPRISE_SITE_KEY = import.meta.env.VITE_RECAPTCHA_ENTERPRISE_SITE_KEY || '6Lf0hi4uAAAAABVF2iXHjZK-1P8odzpdMLyzQsxR';
+function startAppCheck() {
+  if (!firebaseEnabled || Capacitor.isNativePlatform() || import.meta.env.VITE_USE_EMULATOR || import.meta.env.MODE === 'test') return null;
+  try {
+    return initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(RECAPTCHA_ENTERPRISE_SITE_KEY), isTokenAutoRefreshEnabled: true });
+  } catch {
+    return null;
+  }
+}
+export const appCheckInstance = startAppCheck();
 // getAuth() wires up the popup/redirect resolver, which loads Google's
 // iframe-based auth helper. Inside the iOS web view (capacitor://localhost)
 // that never finishes loading, so every sign-in call hangs with no error.
