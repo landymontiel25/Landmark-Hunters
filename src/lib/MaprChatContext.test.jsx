@@ -36,8 +36,10 @@ Object.assign(store, {
     docs.set(id, { ...docs.get(id), title });
     emit();
   }),
-  deleteChat: vi.fn(async (id) => {
-    docs.delete(id);
+  setChatArchived: vi.fn(async (id, uid, archived) => {
+    const cur = docs.get(id);
+    const list = (cur.archivedUids || []).filter((u) => u !== uid);
+    docs.set(id, { ...cur, archivedUids: archived ? [...list, uid] : list });
     emit();
   }),
 });
@@ -161,13 +163,19 @@ describe('Mapr chats', () => {
     expect(ctx.draft).toBe('');
   });
 
-  it('deleting the open chat starts a fresh one', async () => {
-    await say('Delete me');
+  it('there is no delete: archive keeps the chat and unarchive restores it', async () => {
+    expect(ctx.deleteChat).toBeUndefined();
+    await say('Keep me');
     await wait();
-    await act(() => ctx.deleteChat(ctx.activeChat.id));
+    const id = ctx.activeChat.id;
+    await act(() => ctx.archiveChat(id));
     await wait(50);
-    expect(ctx.chats).toHaveLength(0);
-    expect(ctx.messages).toHaveLength(1);
+    expect(store.setChatArchived).toHaveBeenCalledWith(id, 'me', true);
+    expect(ctx.chats.find((c) => c.id === id).archivedUids).toEqual(['me']);
+    await act(() => ctx.archiveChat(id, false));
+    await wait(50);
+    expect(ctx.chats.find((c) => c.id === id).archivedUids).toEqual([]);
+    expect(ctx.chats).toHaveLength(1);
   });
 
   it('offers a retry for a question left unanswered for a while', async () => {

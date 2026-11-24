@@ -231,35 +231,16 @@ describe('Official Onboarding (Test tab)', () => {
     expect(bubbles(el)).toContain('Thank you. That really helps.');
   });
 
-  it('TRIAL (Test only): switches to our own review screen to compare with Apple\'s prompt', async () => {
+  it("the review ask is Apple's prompt only: PR #872's own review screen is gone", async () => {
     const el = await render();
     await click(el.querySelector('input[type="checkbox"]'));
     await click([...el.querySelectorAll('.lab-step')][5]);
     for (const t of ['Allow location', 'Allow While Using App', 'Change to Always Allow', 'Check in now']) await click(button(el, t));
-    // Apple's prompt is the default.
-    const seg = el.querySelector('.oo-trial-seg');
-    expect([...seg.querySelectorAll('button')].map((b) => [b.textContent, b.getAttribute('aria-checked')])).toEqual([["Apple's prompt", 'true'], ['Trial: our screen', 'false']]);
-    expect(bubbles(el)).toContain('would you leave us a review?');
-    await click(button(el, 'Trial: our screen'));
-    expect(bubbles(el)).toContain('would you leave us a five-star review?');
+    expect(el.querySelector('.oo-trial-seg, .oo-trial-switch')).toBeNull();
+    expect([...el.querySelectorAll('button')].some((b) => /Trial/.test(b.textContent))).toBe(false);
     await click(button(el, 'Yes, I love it'));
-    expect(review).not.toHaveBeenCalled();
-    expect(el.querySelector('.oo-review-title').textContent).toBe('5-star review, please');
-    expect(el.querySelector('.oo-review-sub').textContent).toBe('comment optional');
-    const submit = [...el.querySelectorAll('.oo-review button')].find((b) => b.textContent === 'Submit');
-    expect(submit.disabled).toBe(true);
-    await click(el.querySelector('[aria-label="5 stars"]'));
-    await click(submit);
-    expect(el.querySelector('.oo-review')).toBeNull();
-    expect(bubbles(el)).toContain('Thank you. That really helps.');
-    expect(el.textContent).not.toContain('\u2014');
-    // The switch stays after an answer, and picking a side asks again.
-    await click(button(el, "Apple's prompt"));
-    expect(bubbles(el)).toContain('would you leave us a review?');
-    await click(button(el, 'Not yet'));
-    expect(el.querySelector('.oo-trial-seg')).toBeTruthy();
-    await click(button(el, 'Trial: our screen'));
-    expect(bubbles(el)).toContain('would you leave us a five-star review?');
+    expect(review).toHaveBeenCalledOnce();
+    expect(el.querySelector('.oo-review, .oo-review-stars, textarea')).toBeNull();
   });
 
   it('"Not yet" skips the review ask and it isn\'t asked again this session', async () => {

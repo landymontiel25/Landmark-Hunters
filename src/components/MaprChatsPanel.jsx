@@ -18,9 +18,11 @@ const ago = (ms) => {
   return d < 7 ? `${d}d ago` : new Date(ms).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 };
 
-// One chat row: tap to open; ⋯ for rename / move / delete.
-function ChatRow({ chat, active, projects, isMine, onOpen }) {
-  const { renameChat, deleteChat, moveChat } = useMaprChat();
+// One chat row: tap to open; ⋯ for rename / move / archive. Chats are
+// permanent (owner, 2026-11-23): there's no delete, only archive, which
+// hides the chat from your list and can be undone.
+function ChatRow({ chat, active, projects, isMine, archived, onOpen }) {
+  const { renameChat, archiveChat, moveChat } = useMaprChat();
   const toast = useToast();
   const [menu, setMenu] = useState(false);
   const [renaming, setRenaming] = useState(false);
@@ -104,17 +106,35 @@ function ChatRow({ chat, active, projects, isMine, onOpen }) {
               {'\u{21A9}\u{FE0F}'} Remove from project
             </button>
           )}
-          {isMine && (
+          {archived ? (
             <button
               type="button"
               role="menuitem"
-              className="danger"
-              onClick={() => {
-                if (window.confirm(`Delete "${chat.title}"? This can't be undone.`)) run(() => deleteChat(chat.id), "Couldn't delete that chat.");
-                else setMenu(false);
-              }}
+              onClick={() =>
+                run(async () => {
+                  await archiveChat(chat.id, false);
+                  toast.show('Chat unarchived.', { tone: 'success', durationMs: 2500 });
+                }, "Couldn't unarchive that chat.")
+              }
             >
-              {'\u{1F5D1}\u{FE0F}'} Delete
+              {'\u{1F4E4}'} Unarchive
+            </button>
+          ) : (
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() =>
+                run(async () => {
+                  await archiveChat(chat.id, true);
+                  toast.show("Chat archived. It's under Archived.", {
+                    tone: 'info',
+                    actionLabel: 'Undo',
+                    onAction: () => archiveChat(chat.id, false).catch((e) => toast.show(friendlyError(e, "Couldn't unarchive that chat."), { tone: 'error' })),
+                  });
+                }, "Couldn't archive that chat.")
+              }
+            >
+              {'\u{1F4E5}'} Archive
             </button>
           )}
         </div>
@@ -269,9 +289,13 @@ export default function MaprChatsPanel({ onClose }) {
   const [q, setQ] = useState('');
   const [editing, setEditing] = useState(null); // project object, or 'new'
   const [openProjects, setOpenProjects] = useState(() => new Set(activeChat.projectId ? [activeChat.projectId] : []));
+  const [showArchived, setShowArchived] = useState(false);
 
   const hits = (c) => matchesSearch(`${c.title} ${c.messages.map((m) => m.text).join(' ')}`, q);
-  const shown = q.trim() ? chats.filter(hits) : chats;
+  const isArchived = (c) => !!user && (c.archivedUids || []).includes(user.uid);
+  const matching = q.trim() ? chats.filter(hits) : chats;
+  const shown = matching.filter((c) => !isArchived(c));
+  const archivedChats = matching.filter(isArchived);
   const loose = shown.filter((c) => !c.projectId || !projects.some((p) => p.id === c.projectId));
   const pick = (id) => {
     openChat(id);
@@ -368,12 +392,32 @@ export default function MaprChatsPanel({ onClose }) {
         <div className="mapr-chats-section">{projects.length ? 'Other chats' : 'Your chats'}</div>
         {loose.length === 0 && (
           <p className="screen-subtitle" style={{ margin: '4px 0' }}>
-            {q.trim() ? 'No chats match.' : 'Nothing yet. Say something to Mapr and your chat shows up here.'}
+            {q.trim() ? 'No chats match.' : archivedChats.length ? 'Nothing here. Your archived chats are below.' : 'Nothing yet. Say something to Mapr and your chat shows up here.'}
           </p>
         )}
         {loose.map((c) => (
           <ChatRow key={c.id} chat={c} active={c.id === activeChat.id} projects={projects} isMine={c.ownerUid === user?.uid} onOpen={pick} />
         ))}
+
+        {archivedChats.length > 0 && (
+          <div className="mapr-project">
+            <div className="mapr-project-head">
+              <button type="button" className="mapr-project-toggle" aria-expanded={showArchived || !!q.trim()} onClick={() => setShowArchived((v) => !v)}>
+                <span>{showArchived || q.trim() ? '\u{25BE}' : '\u{25B8}'}</span> {'\u{1F4E5}'} Archived
+                <span className="mapr-chat-when">
+                  {archivedChats.length} chat{archivedChats.length !== 1 ? 's' : ''}
+                </span>
+              </button>
+            </div>
+            {(showArchived || !!q.trim()) && (
+              <div className="mapr-project-chats">
+                {archivedChats.map((c) => (
+                  <ChatRow key={c.id} chat={c} active={c.id === activeChat.id} projects={projects} isMine={c.ownerUid === user?.uid} archived onOpen={pick} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {editing && (
         <ProjectEditor

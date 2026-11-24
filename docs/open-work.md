@@ -168,6 +168,22 @@ the PR that finishes it.
   the app anyway). A landmark the owner rejects later disappears from lists
   in the app but its doc stays listable by date for grandfathered ones.
 
+## Mapr chats permanent with archive; trivia never reveals the answer (2026-11-23)
+
+- **Done.** Mapr chats can't be deleted: firestore.rules refuses every
+  delete of mapr_chats, and an update can't empty a chat's messages.
+  Archive (a chat's ⋯ menu, with Undo) adds your uid to archivedUids and
+  hides the chat from your list, for you only; "Archived" at the bottom of
+  the list has Unarchive. The rules let an update add or remove only your
+  own uid there. Account deletion no longer deletes your Mapr chats (they
+  stay stored); it still deletes projects you own, which detaches chats.
+- **Decision to revisit (owner):** App Store rule 5.1.1(v) asks that
+  deleting an account delete its data. Deleted accounts' chats now stay.
+  A server-side purge on account deletion would square that.
+- **Done.** A wrong trivia answer turns red only. The server sends the
+  right answer back only with a right answer (api/_lib/missionAnswer.js),
+  and the app no longer fetches it after a wrong one.
+
 ## Anti-farming 5: billing and App Check (2026-11-23)
 
 - **Done.** api/place-photo.js goes through guardBilledRequest (App Check,
@@ -531,9 +547,7 @@ place; a line can still be a little loose.
 Test tab only. Step 3 "Taste pick" (pick 3 to 5 kinds of places) is gone;
 "Categories" (every category the city has places for, +10 each) is now
 step 3, straight after the city, and starts with nothing picked. The flow
-is 11 steps. The review ask's Test-only switch ("Apple's prompt" | "Trial:
-our screen") now always shows on the check-in step, and picking a side
-shows that ask again, even after "Not yet".
+is 11 steps. (The review ask's Test-only trial switch was removed on 2026-11-23.)
 
 ## Official Onboarding: review ask after the first check-in, Apple's prompt (2026-11-15)
 
@@ -550,14 +564,9 @@ browser session (sessionStorage `oo-review-declined`); a Test-only "Show
 the ask again" link resets it. Not done: the live onboarding doesn't have
 this step yet.
 
-TRIAL (Test only, owner, 2026-11-15): a switch above the ask ("Apple's
-prompt" | "Trial: our screen") brings back our own review screen from
-PR #872 (the five-star ask, "5-star review, please", "comment optional",
-stars, an optional comment, Submit; nothing is submitted) to compare.
-Apple's prompt is the default. Remove the trial (TrialReviewAsk,
-ReviewTrialSwitch, SAY.reviewTrial, the TRIAL block in ux-3.css) when this
-step goes into the live onboarding: the live build keeps only Apple's
-prompt.
+Removed 2026-11-23: the Test-only trial of our own review screen from
+PR #872 (TrialReviewAsk, ReviewTrialSwitch, SAY.reviewTrial, its CSS).
+Apple's prompt is the only review ask left.
 
 ## iPhone fixes: onboarding, hometown, stop cards, Landmarks photos (2026-11-14)
 

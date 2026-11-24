@@ -90,10 +90,6 @@ export const SAY = {
   // 2026-11-15). It never asks for five stars by name: App Store rules.
   review: ["You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a review? It really helps other travelers find us."],
   reviewThanks: ['Thank you. That really helps.'],
-  // TRIAL, Test tab only (owner, 2026-11-15): our own review screen from
-  // PR #872, to compare with Apple's prompt. Remove before the live
-  // onboarding ships; the live build keeps only Apple's prompt.
-  reviewTrial: ["You're on a roll. You just checked in for the first time and I've got your day planned. If you're loving it so far, would you leave us a five-star review? It really helps other travelers find us."],
   // Test only: on the web there's no system prompt to show.
   reviewPreviewNote: "On iPhone, this opens Apple's own review prompt right here. A preview can't show it, and Apple decides when it appears.",
   signup: ['Save your 100 points + your day. It takes 20 seconds.'],

@@ -83,7 +83,6 @@ const empty = () => ({
   checkedIn: false,
   review: null, // 'rated' | 'skipped'
   traveler: {}, // the summary's traveler question(s): { kind, day, pace, when }
-  reviewMode: 'apple', // Step 7's review ask: 'apple' (the live one) | 'trial' (TRIAL, Test only)
   home: 'miami', // step 10's home city (Test: picked here, a real run knows it)
   homePicks: [],
   homeSaved: null, // the list the 3 hometown picks were saved to
@@ -323,8 +322,7 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
         <MaprSays lines={SAY.checkinWin} />
         {/* TRIAL: the switch always shows here (owner, 2026-11-15: it hid
             after "Not yet" or an answer, so the trial was hard to find). */}
-        <ReviewTrialSwitch value={data.reviewMode} set={set} note={note} />
-        {!data.review && !reviewDeclined() && (data.reviewMode === 'trial' ? <TrialReviewAsk key="trial" set={set} note={note} /> : <ReviewAsk set={set} note={note} />)}
+        {!data.review && !reviewDeclined() && <ReviewAsk set={set} note={note} />}
         {(data.review === 'rated' || data.review === 'previewed') && <MaprSays lines={SAY.reviewThanks} />}
         {data.review === 'previewed' && (
           <p className="tut-small oo-review-note" role="note">
@@ -400,113 +398,6 @@ function CheckIn({ data, set, coords, pretend, note, onNext }) {
 // Submit, and never "five stars" by name, so the App Store build passes
 // review. In a browser there's no system prompt, so Test says what would
 // happen. "Not yet" skips it and it isn't asked again this session.
-// ---- TRIAL, Test tab only (owner, 2026-11-15). Remove before the live
-// onboarding ships: the live build keeps only Apple's prompt (ReviewAsk).
-// Our own review screen from PR #872, to compare side by side. Apple's App
-// Store rules reject custom review prompts and asking for five stars, so
-// this never goes live.
-const REVIEW_MODES = [
-  { id: 'apple', label: "Apple's prompt" },
-  { id: 'trial', label: 'Trial: our screen' },
-];
-
-function ReviewTrialSwitch({ value = 'apple', set, note }) {
-  return (
-    <div className="oo-trial-switch">
-      <p className="tut-small">Review ask (Test only)</p>
-      <div className="oo-trial-seg" role="radiogroup" aria-label="Review ask version">
-        {REVIEW_MODES.map((m) => (
-          <button
-            key={m.id}
-            type="button"
-            role="radio"
-            aria-checked={value === m.id}
-            className={value === m.id ? 'on' : ''}
-            onClick={() => {
-              // Picking a version shows its ask again right away.
-              setReviewDeclined(false);
-              set({ reviewMode: m.id, review: null });
-              note(`Review ask: ${m.label}`);
-            }}
-          >
-            {m.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TrialReviewAsk({ set, note }) {
-  const [screen, setScreen] = useState(false);
-  const [stars, setStars] = useState(0);
-  const [comment, setComment] = useState('');
-  if (!screen) {
-    return (
-      <>
-        <MaprSays lines={SAY.reviewTrial} />
-        <div className="oo-options oo-review-ask" role="group" aria-label="Leave a review?">
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            onClick={() => {
-              setScreen(true);
-              note('Trial: said yes, opened our review screen');
-            }}
-          >
-            Yes, I love it
-          </button>
-          <button
-            type="button"
-            className="fr-chip oo-option"
-            onClick={() => {
-              setReviewDeclined(true);
-              set({ review: 'skipped' });
-              note('Trial: not yet on the review ask (not asked again this session)');
-            }}
-          >
-            Not yet
-          </button>
-        </div>
-      </>
-    );
-  }
-  return (
-    <Phone>
-      <form
-        className="tut-dialog oo-review"
-        aria-labelledby="oo-review-title"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!stars) return;
-          set({ review: 'rated' });
-          note(`Trial: left ${stars} star${stars > 1 ? 's' : ''}${comment.trim() ? ' and a comment' : ', no comment'} (preview, nothing submitted)`);
-        }}
-      >
-        <h3 id="oo-review-title" className="oo-review-title">
-          5-star review, please
-        </h3>
-        <p className="oo-review-sub">comment optional</p>
-        <div className="oo-stars oo-review-stars" role="radiogroup" aria-label="Your rating">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <button key={n} type="button" role="radio" aria-checked={stars === n} aria-label={`${n} star${n > 1 ? 's' : ''}`} className={n <= stars ? 'on' : ''} onClick={() => setStars(n)}>
-              {'\u{2605}'}
-            </button>
-          ))}
-        </div>
-        <label className="visually-hidden" htmlFor="oo-review-comment">
-          Comment (optional)
-        </label>
-        <textarea id="oo-review-comment" className="oo-review-comment" rows={3} maxLength={500} placeholder="Add a comment if you want" value={comment} onChange={(e) => setComment(e.target.value)} />
-        <button type="submit" className="btn btn-primary btn-block" disabled={!stars}>
-          Submit
-        </button>
-        <p className="tut-small oo-review-test">Trial in Test: nothing is submitted.</p>
-      </form>
-    </Phone>
-  );
-}
-// ---- end TRIAL
 
 function ReviewAsk({ set, note }) {
   return (

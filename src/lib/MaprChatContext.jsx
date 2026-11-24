@@ -348,31 +348,8 @@ export function MaprChatProvider({ children }) {
     if (chatsRef.current.some((c) => c.id === id)) await store.renameChat(id, title);
   }, []);
 
-  const deleteChat = useCallback(
-    async (id) => {
-      deletedIdsRef.current.add(id);
-      const snap = snapshotsRef.current[id];
-      delete snapshotsRef.current[id];
-      try {
-        if (chatsRef.current.some((c) => c.id === id)) await store.deleteChat(id);
-      } catch (e) {
-        // Not deleted after all: let it save again.
-        deletedIdsRef.current.delete(id);
-        if (snap) snapshotsRef.current[id] = snap;
-        throw e;
-      }
-      if (chatRef.current.id === id) {
-        clearPersisted(storageKey(uid));
-        setChat(freshChat(uid));
-      }
-      setDrafts((d) => {
-        const copy = { ...d };
-        delete copy[id];
-        return copy;
-      });
-    },
-    [uid]
-  );
+  // Chats are permanent: archive hides one from your list, for you only.
+  const archiveChat = useCallback((id, archived = true) => store.setChatArchived(id, uidRef.current, archived), []);
 
   const moveChat = useCallback(async (id, projectId) => {
     const project = projectId ? projectsRef.current.find((p) => p.id === projectId) : null;
@@ -438,7 +415,7 @@ export function MaprChatProvider({ children }) {
         newChat,
         openChat,
         renameChat,
-        deleteChat,
+        archiveChat,
         moveChat,
         createProject,
         updateProject,

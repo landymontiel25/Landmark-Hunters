@@ -33,14 +33,15 @@ describe('trivia answer feedback (owner, 2026-11-23)', () => {
     expect(opts(el).map((b) => b.className.includes('is-right'))).toEqual([false, false, true, false]);
     expect(el.querySelector('.is-wrong')).toBeNull();
   });
-  it('a wrong answer turns red and shows the right one in green', async () => {
+  it('a wrong answer turns red only and never shows the right one', async () => {
     server = null;
-    submitMissionAnswer.mockResolvedValue({ correct: false, awarded: 0, answer: 1, picked: 3 });
+    submitMissionAnswer.mockResolvedValue({ correct: false, awarded: 0, picked: 3 });
     const el = await render();
     await act(async () => opts(el)[3].click());
     expect(opts(el)[3].className).toContain('is-wrong');
-    expect(opts(el)[1].className).toContain('is-right');
-    expect(el.textContent).toContain('The right answer: B');
+    expect(el.querySelector('.is-right')).toBeNull();
+    expect(el.textContent).not.toMatch(/right answer/i);
+    expect(el.textContent).toContain('Not this time. One answer per place.');
     expect(opts(el).every((b) => b.disabled)).toBe(true);
   });
   it('nothing shows before you answer', async () => {
@@ -49,12 +50,13 @@ describe('trivia answer feedback (owner, 2026-11-23)', () => {
     expect(el.querySelector('.is-right, .is-wrong')).toBeNull();
     expect(el.textContent).not.toMatch(/right answer/i);
   });
-  it('an older wrong answer fetches the right one once', async () => {
-    server = { kind: 'trivia', correct: false, picked: 0, answer: null };
-    submitMissionAnswer.mockResolvedValue({ correct: false, answer: 3, picked: 0, reason: 'already' });
+  it("an older wrong answer that saved the right one still doesn't show it, and asks nothing", async () => {
+    submitMissionAnswer.mockClear();
+    server = { kind: 'trivia', correct: false, picked: 0, answer: 3 };
     const el = await render();
-    expect(submitMissionAnswer).toHaveBeenCalledWith(landmark, 0);
+    expect(submitMissionAnswer).not.toHaveBeenCalled();
     expect(opts(el)[0].className).toContain('is-wrong');
-    expect(opts(el)[3].className).toContain('is-right');
+    expect(el.querySelector('.is-right')).toBeNull();
+    expect(el.textContent).not.toMatch(/right answer/i);
   });
 });

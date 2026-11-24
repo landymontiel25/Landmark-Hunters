@@ -5,6 +5,8 @@ import {
   updateDoc,
   deleteDoc,
   onSnapshot,
+  arrayUnion,
+  arrayRemove,
   query,
   where,
   getDocs,
@@ -17,7 +19,12 @@ import { notifyUser } from './notifications';
 // Mapr's chats and projects, synced per account (like Claude's sidebar).
 //
 // mapr_chats/{id}: { ownerUid, memberUids, projectId, title, messagesJson,
-//   regionIds, rev, updatedBy, createdAt, updatedAt }
+//   regionIds, rev, updatedBy, archivedUids, createdAt, updatedAt }
+//
+// Chats are permanent (owner, 2026-11-23): nobody deletes one, not from the
+// app and not through the rules. Archive hides a chat from your list and
+// can be undone; archivedUids holds who archived it, so in a shared project
+// each person archives it only for themselves.
 // mapr_projects/{id}: { ownerUid, memberUids, memberNames, name,
 //   instructions, createdAt, updatedAt }
 //
@@ -75,6 +82,7 @@ function fromChatDoc(d) {
     regionIds: Array.isArray(x.regionIds) ? x.regionIds : [],
     rev: x.rev || 0,
     updatedBy: x.updatedBy || null,
+    archivedUids: Array.isArray(x.archivedUids) ? x.archivedUids : [],
     updatedAt: x.updatedAt?.toMillis?.() || Date.now(),
   };
 }
@@ -143,8 +151,10 @@ export async function renameChat(chatId, title) {
   await updateDoc(doc(db, 'mapr_chats', chatId), { title: cleanTitle(title), updatedAt: serverTimestamp() });
 }
 
-export async function deleteChat(chatId) {
-  await deleteDoc(doc(db, 'mapr_chats', chatId));
+// Archive or unarchive for this account only. updatedAt stays, so an
+// unarchived chat goes back to where it was in the list.
+export async function setChatArchived(chatId, uid, archived) {
+  await updateDoc(doc(db, 'mapr_chats', chatId), { archivedUids: archived ? arrayUnion(uid) : arrayRemove(uid) });
 }
 
 // Moving a chat in or out of a project changes who can see it.

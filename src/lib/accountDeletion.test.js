@@ -185,10 +185,9 @@ describe('deleteAccountData wipe coverage', () => {
     expect(has('memberUids', 'array-contains')).toBe(true);
   });
 
-  it('deletes owned Mapr chats found by memberUids (the field the rules check), not shared ones', async () => {
+  it('keeps Mapr chats: they are permanent (owner, 2026-11-23)', async () => {
     await deleteAccountData('u1');
-    expect(deletedPaths).toContain('mapr_chats/mine');
-    expect(deletedPaths).not.toContain('mapr_chats/theirs');
+    expect(deletedPaths.some((p) => p.startsWith('mapr_chats/'))).toBe(false);
   });
 
   it('deletes owned group trips, leaves joined ones, and deletes submitted landmarks plus images', async () => {

@@ -199,11 +199,11 @@ export async function deleteAccountData(uid) {
   // list this uid in memberIds. Rules let any member delete the doc.
   await deleteAll(await safeGetDocs('streaks', 'memberIds', 'array-contains', uid));
 
-  // Mapr: projects and chats this account owns. Both lists filter on
-  // memberUids, the field firestore.rules checks (an ownerUid filter was
-  // refused, so nothing was deleted). Projects go first through
-  // deleteProject, which detaches every chat in them like the app's own
-  // Delete, so other members' chats aren't left pointing at a missing project.
+  // Mapr: projects this account owns (the list filters on memberUids, the
+  // field firestore.rules checks). deleteProject detaches every chat in
+  // them like the app's own Delete, so other members' chats aren't left
+  // pointing at a missing project. The chats themselves stay: Mapr chats
+  // are permanent (owner, 2026-11-23) and the rules refuse a delete.
   for (const d of (await safeGetDocs('mapr_projects', 'memberUids', 'array-contains', uid)).docs) {
     const project = { id: d.id, ...d.data() };
     if (project.ownerUid !== uid) continue;
@@ -213,8 +213,6 @@ export async function deleteAccountData(uid) {
       /* best-effort */
     }
   }
-  const chats = await safeGetDocs('mapr_chats', 'memberUids', 'array-contains', uid);
-  await deleteAll({ docs: chats.docs.filter((d) => d.data()?.ownerUid === uid) });
 
   // Group trips: delete the ones owned; leave the ones joined.
   for (const d of (await safeGetDocs('group_trips', 'memberUids', 'array-contains', uid)).docs) {

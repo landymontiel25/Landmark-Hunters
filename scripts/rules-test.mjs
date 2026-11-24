@@ -1478,6 +1478,35 @@ await reset();
   });
 }
 
+// Mapr chats are permanent, with a per-person archive (owner, 2026-11-23).
+await reset();
+{
+  const chat = (over = {}) => ({ ownerUid: 'ann', memberUids: ['ann'], projectId: null, title: 'Trip', messagesJson: '[{"role":"user","text":"hi"}]', regionIds: [], rev: 1, ...over });
+  await seed((db) => setDoc(doc(db, 'mapr_chats/c1'), chat()));
+  await seed((db) => setDoc(doc(db, 'mapr_projects/p1'), { ownerUid: 'ann', memberUids: ['ann', 'bob'], memberNames: {}, name: 'P', instructions: '' }));
+  await seed((db) => setDoc(doc(db, 'mapr_chats/c2'), chat({ memberUids: ['ann', 'bob'], projectId: 'p1' })));
+  await t('nobody can delete a Mapr chat, not even its owner', async () => {
+    await assertFails(deleteDoc(doc(as('ann'), 'mapr_chats/c1')));
+    await assertFails(deleteDoc(doc(as('bob'), 'mapr_chats/c2')));
+    await assertFails(deleteDoc(doc(as('ann'), 'mapr_chats/c2')));
+  });
+  await t('the owner archives and unarchives a chat', async () => {
+    await assertSucceeds(updateDoc(doc(as('ann'), 'mapr_chats/c1'), { archivedUids: arrayUnion('ann') }));
+    await assertSucceeds(updateDoc(doc(as('ann'), 'mapr_chats/c1'), { archivedUids: arrayRemove('ann') }));
+  });
+  await t('in a shared project each person archives only for themselves', async () => {
+    await assertSucceeds(updateDoc(doc(as('bob'), 'mapr_chats/c2'), { archivedUids: arrayUnion('bob') }));
+    await assertFails(updateDoc(doc(as('bob'), 'mapr_chats/c2'), { archivedUids: arrayUnion('ann') }));
+    await assertFails(updateDoc(doc(as('ann'), 'mapr_chats/c2'), { archivedUids: arrayRemove('bob') }));
+    await assertFails(updateDoc(doc(as('carl'), 'mapr_chats/c2'), { archivedUids: arrayUnion('carl') }));
+  });
+  await t("a chat can't be emptied, but it can still grow", async () => {
+    await assertFails(updateDoc(doc(as('ann'), 'mapr_chats/c1'), { messagesJson: '[]' }));
+    await assertFails(setDoc(doc(as('ann'), 'mapr_chats/c1'), chat({ messagesJson: '[]' })));
+    await assertSucceeds(updateDoc(doc(as('ann'), 'mapr_chats/c1'), { messagesJson: '[{"role":"user","text":"hi"},{"role":"assistant","text":"hello"}]', rev: 2 }));
+  });
+}
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

@@ -1398,7 +1398,19 @@ service cloud.firestore {
         && d.title is string && d.title.size() <= 120
         && d.messagesJson is string && d.messagesJson.size() <= 900000
         && d.regionIds is list && d.regionIds.size() <= 30
-        && (d.projectId == null || d.projectId is string);
+        && (d.projectId == null || d.projectId is string)
+        && (!('archivedUids' in d) || (d.archivedUids is list && d.archivedUids.size() <= 25));
+    }
+    // Archive is per person: an update may add or remove only your own uid.
+    function maprArchiveOk() {
+      let before = resource.data.get('archivedUids', []).toSet();
+      let after = request.resource.data.get('archivedUids', []).toSet();
+      return after.difference(before).union(before.difference(after)).hasOnly([request.auth.uid]);
+    }
+    // Chats are permanent (owner, 2026-11-23): an update can't empty one
+    // ('[]'). Edit and resend may still drop the turns after the edit.
+    function maprMessagesKeptOk() {
+      return request.resource.data.messagesJson.size() > 2 || resource.data.messagesJson.size() <= 2;
     }
     function maprChatMembersOk() {
       let d = request.resource.data;
@@ -1419,6 +1431,8 @@ service cloud.firestore {
         && request.resource.data.ownerUid == resource.data.ownerUid
         && maprChatShapeOk()
         && maprChatMembersOk()
+        && maprArchiveOk()
+        && maprMessagesKeptOk()
         && (
           // Your own chat: anything, including moving it between projects
           // you belong to.
@@ -1437,7 +1451,8 @@ service cloud.firestore {
               && exists(/databases/$(database)/documents/mapr_projects/$(resource.data.projectId))
               && request.auth.uid == maprProject(resource.data.projectId).ownerUid)
         );
-      allow delete: if request.auth != null && request.auth.uid == resource.data.ownerUid;
+      // Permanent: archive instead (owner, 2026-11-23).
+      allow delete: if false;
     }
     function maprProjectShapeOk() {
       let d = request.resource.data;
