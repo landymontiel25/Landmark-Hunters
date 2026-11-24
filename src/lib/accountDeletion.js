@@ -8,6 +8,7 @@ import { clearSeen } from './maprRank/seenHistory.js';
 import { clearLocalPickFeedback } from './pickFeedback';
 import { deleteAllMyTips } from './tipsApi';
 import { deleteAllMyFollows } from './followsApi';
+import { wipeAccountOnServer } from './accountApi';
 
 async function deletePhotoSafe(url) {
   if (!storage || !url) return;
@@ -73,8 +74,20 @@ async function hasNoTipData(uid) {
  * referral doc, per-day streak entries (delete: false), and Mapr projects
  * the account merely joined.
  */
-export async function deleteAccountData(uid) {
+export async function deleteAccountData(uid, { serverWipe = wipeAccountOnServer } = {}) {
   if (!db) return;
+
+  // The server wipe first (api/account.js, owner 2026-11-23, App Store rule
+  // 5.1.1(v)): it removes everything this account owns, Mapr chats and
+  // server-only docs included. When it can't finish, the steps below do
+  // what a client may, and the nightly job (sweepDeletedAccounts) removes
+  // the rest once the account is gone.
+  try {
+    await serverWipe();
+    return;
+  } catch {
+    /* fall back to the app's own wipe */
+  }
 
   // The profile picture's file (avatars/{uid}.jpg); the users doc that
   // points at it goes with the rest below.

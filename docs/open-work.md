@@ -188,11 +188,17 @@ the PR that finishes it.
   Archive (a chat's ⋯ menu, with Undo) adds your uid to archivedUids and
   hides the chat from your list, for you only; "Archived" at the bottom of
   the list has Unarchive. The rules let an update add or remove only your
-  own uid there. Account deletion no longer deletes your Mapr chats (they
-  stay stored); it still deletes projects you own, which detaches chats.
-- **Decision to revisit (owner):** App Store rule 5.1.1(v) asks that
-  deleting an account delete its data. Deleted accounts' chats now stay.
-  A server-side purge on account deletion would square that.
+  own uid there. Account deletion removes them on the server (below).
+- **Done 2026-11-23: account deletion removes the chats (App Store rule
+  5.1.1(v)).** Delete Account calls api/account.js ({ action: 'wipe' },
+  a sign-in from the last 10 minutes), which runs api/_lib/accountWipe.js
+  with admin access: Mapr chats and projects, reviews, scrubbed check-ins,
+  streaks, trips, bonuses, notifications, the profile with every
+  subcollection, the per-account server docs, and the photos. If it can't
+  finish, the app's own wipe runs, and the nightly job (mapr-nightly,
+  sweepDeletedAccounts) wipes any account that's gone from Auth but still
+  owns a chat or a profile, including ones deleted in the Firebase console.
+  The sweep stops if a lookup finds nobody or a third of accounts look gone.
 - **Done.** A wrong trivia answer turns red only. The server sends the
   right answer back only with a right answer (api/_lib/missionAnswer.js),
   and the app no longer fetches it after a wrong one.

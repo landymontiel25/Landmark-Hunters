@@ -6,6 +6,9 @@ const updates = [];
 const deletedFiles = [];
 const queries = [];
 const deletedPaths = [];
+// The server wipe (api/account.js) is unreachable here, so these tests
+// cover the app's own fallback wipe.
+vi.mock('./accountApi', () => ({ wipeAccountOnServer: vi.fn(async () => { throw new Error('offline'); }) }));
 vi.mock('firebase/firestore', () => {
   const docsFor = (col) =>
     col === 'group_trips'
@@ -239,4 +242,14 @@ describe('deleteAccountData tips step', () => {
     await expect(deleteAccountData('u1')).resolves.toBeUndefined();
     tipsMock.fail = 0;
   }, 10000);
+});
+
+describe('deleteAccountData: the server wipe first (owner, 2026-11-23)', () => {
+  it('when the server wipe succeeds, the app adds nothing of its own', async () => {
+    deletedPaths.length = 0;
+    const serverWipe = vi.fn(async () => ({ ok: true }));
+    await deleteAccountData('u1', { serverWipe });
+    expect(serverWipe).toHaveBeenCalledOnce();
+    expect(deletedPaths).toEqual([]);
+  });
 });

@@ -248,7 +248,7 @@ async function inChunks(items, size, fn) {
   if (failed) throw reason instanceof Error ? reason : new Error(String(reason ?? 'a step failed'));
 }
 
-async function deleteMine(db, account) {
+export async function deleteMine(db, account) {
   const uid = account.uid;
   const [tips, reactions, views, authorViews, claims] = await Promise.all([
     db.collection('tips').where('authorUid', '==', uid).get(),

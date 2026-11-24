@@ -1,5 +1,6 @@
 import { secretOk } from './_lib/secretOk.js';
-import { adminDb, SERVICE_ACCOUNT_MISSING } from './_lib/firebaseAdmin.js';
+import { adminDb, adminAuth, adminBucket, SERVICE_ACCOUNT_MISSING } from './_lib/firebaseAdmin.js';
+import { sweepDeletedAccounts } from './_lib/accountWipe.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { loadStatsData } from './_lib/statsData.js';
 import { runDaily, runWeekly } from './_lib/maprNightly.js';
@@ -51,11 +52,15 @@ export default async function handler(req, res) {
     // (anti-farming item 7). Never fails the night's report.
     const privacy = await backfillPrivateProfiles(db).catch((e) => ({ error: String(e?.message || e) }));
     if (privacy?.moved) console.log(JSON.stringify({ type: 'private_profile_backfill', ...privacy }));
+    // Accounts deleted without the app (the Firebase console): their Mapr
+    // chats and data go here (App Store rule 5.1.1(v)). Never fails the night.
+    const deletedAccounts = await (async () => sweepDeletedAccounts(db, await adminAuth(), { bucket: await adminBucket() }))().catch((e) => ({ error: String(e?.message || e) }));
+    if (deletedAccounts?.wiped || deletedAccounts?.aborted || deletedAccounts?.error) console.log(JSON.stringify({ type: 'deleted_account_sweep', ...deletedAccounts }));
     if (weeklyError) {
       res.status(500).json({ error: 'The Mapr weekly models failed; the daily report ran.', daily, truncated: ds.truncated });
       return;
     }
-    res.status(200).json({ ok: true, daily, models, privacy, truncated: ds.truncated });
+    res.status(200).json({ ok: true, daily, models, privacy, deletedAccounts, truncated: ds.truncated });
   } catch (e) {
     const msg = String(e?.message || e);
     if (msg.includes(SERVICE_ACCOUNT_MISSING)) {

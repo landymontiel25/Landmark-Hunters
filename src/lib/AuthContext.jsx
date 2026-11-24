@@ -165,6 +165,8 @@ export function AuthProvider({ children }) {
     } else {
       await reauthenticateWithPopup(current, new GoogleAuthProvider());
     }
+    // A fresh token carries the new sign-in time the server wipe checks.
+    await current.getIdToken(true);
     await deleteAccountData(current.uid);
     await deleteUser(current);
     clearLocalAccountStorage(current.uid);
