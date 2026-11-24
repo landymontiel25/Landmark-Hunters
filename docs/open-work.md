@@ -218,10 +218,19 @@ the PR that finishes it.
   every web request carries a token. APP_CHECK_POINTS_MODE now defaults to
   enforce in api/_lib/appCheck.js (set it to `monitor` in Vercel to back
   out). Tests run with it at monitor (vite.config.js test env).
-- **Not done: iOS.** The iOS app sends no token (needs App Attest via
-  @capacitor-firebase/app-check, a native plugin and an Xcode build), so
-  with enforcement on its Firestore, Storage and points requests are
-  refused until that ships.
+- **Done 2026-11-24 in code: iOS App Attest.** GoogleService-Info.plist
+  (iOS app 1:295564443752:ios:9964f5eeadc049c225bbdd) is in the App target.
+  AppDelegate sets the provider before FirebaseApp.configure(): App Attest
+  on devices, Firebase's debug provider on the simulator. The web SDK in
+  the web view takes its tokens from @capacitor-firebase/app-check
+  (CustomProvider in src/lib/firebase.js), so Firestore, Storage and the
+  /api calls carry them. No entitlement change: without one, TestFlight and
+  App Store builds use App Attest's production servers. Checked in the
+  simulator: the token request reaches Firebase as the iOS app.
+- **Owner steps to finish:** Firebase console, App Check, Apps, the iOS app:
+  register App Attest (Team ID BXX99G4L3M). For the simulator, add the
+  debug token Xcode prints ("App Check debug token") under Manage debug
+  tokens. Then a TestFlight build on a phone is the live test.
 - **Found 2026-11-23:** every AI photo check fails with "Your credit balance
   is too low to access the Anthropic API" (ai_errors). Owner: add credits.
 

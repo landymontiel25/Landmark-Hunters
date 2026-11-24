@@ -3,7 +3,7 @@ import { Capacitor } from '@capacitor/core';
 import { getAuth, initializeAuth, indexedDBLocalPersistence, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider, CustomProvider } from 'firebase/app-check';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -22,13 +22,26 @@ export const app = firebaseEnabled && getApps().length === 0 ? initializeApp(fir
 // Storage). Started here, before anything reads Firestore or Storage, so
 // every request carries a token; /api/* calls send the same token
 // (appCheck.js). reCAPTCHA Enterprise on the web; the site key is public.
-// The iOS app can't run reCAPTCHA in its web view and needs App Attest
-// through a native plugin (not set up yet), so it starts none.
+// The iOS app can't run reCAPTCHA in its web view: its tokens come from App
+// Attest, natively (ios/App/App/AppDelegate.swift), handed over by
+// @capacitor-firebase/app-check (owner, 2026-11-24).
 export const RECAPTCHA_ENTERPRISE_SITE_KEY = import.meta.env.VITE_RECAPTCHA_ENTERPRISE_SITE_KEY || '6Lf0hi4uAAAAABVF2iXHjZK-1P8odzpdMLyzQsxR';
+// Native tokens last about an hour; this is only a fallback when the plugin
+// gives no expiry, so the web SDK asks again soon.
+const NATIVE_FALLBACK_TTL_MS = 5 * 60 * 1000;
+export const nativeAppCheckProvider = () =>
+  new CustomProvider({
+    getToken: async () => {
+      const { FirebaseAppCheck } = await import('@capacitor-firebase/app-check');
+      const { token, expireTimeMillis } = await FirebaseAppCheck.getToken();
+      return { token, expireTimeMillis: expireTimeMillis > Date.now() ? expireTimeMillis : Date.now() + NATIVE_FALLBACK_TTL_MS };
+    },
+  });
 function startAppCheck() {
-  if (!firebaseEnabled || Capacitor.isNativePlatform() || import.meta.env.VITE_USE_EMULATOR || import.meta.env.MODE === 'test') return null;
+  if (!firebaseEnabled || import.meta.env.VITE_USE_EMULATOR || import.meta.env.MODE === 'test') return null;
   try {
-    return initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(RECAPTCHA_ENTERPRISE_SITE_KEY), isTokenAutoRefreshEnabled: true });
+    const provider = Capacitor.isNativePlatform() ? nativeAppCheckProvider() : new ReCaptchaEnterpriseProvider(RECAPTCHA_ENTERPRISE_SITE_KEY);
+    return initializeAppCheck(app, { provider, isTokenAutoRefreshEnabled: true });
   } catch {
     return null;
   }

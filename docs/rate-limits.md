@@ -72,7 +72,7 @@ scored per request, no puzzles. The web app attaches its token as
    referral-claim, both day-closes, both freezes, recovery mission) checks
    App Check under its own switch `APP_CHECK_POINTS_MODE` (default enforce
    since 2026-11-23; `monitor` or `off` in Vercel backs it out).
-5. **Enforce**: only after the iOS app sends tokens (needs App Attest
-   through `@capacitor-firebase/app-check`, not built yet). Until then
-   `enforce` would block every iOS request. Then set `APP_CHECK_MODE=enforce`,
+5. **Enforce**: on since 2026-11-23. The iOS app sends App Attest tokens
+   through `@capacitor-firebase/app-check` (2026-11-24) once App Attest is
+   registered for the iOS app in Firebase App Check (Team ID BXX99G4L3M). Then set `APP_CHECK_MODE=enforce`,
    and in Firebase App Check turn on enforcement for Firestore and Storage.

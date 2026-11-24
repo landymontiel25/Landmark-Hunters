@@ -1,5 +1,7 @@
 import UIKit
 import Capacitor
+import FirebaseCore
+import FirebaseAppCheck
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,7 +9,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Firebase App Check (owner, 2026-11-24: enforcement is on for
+        // Firestore and Storage). The provider has to be set before
+        // FirebaseApp.configure(), so it's set here rather than from the web
+        // side. On a device: App Attest (TestFlight and App Store builds use
+        // Apple's production servers, Xcode builds its sandbox). The
+        // simulator can't attest, so it uses Firebase's debug provider,
+        // whose token must be added in the Firebase console to work. The web
+        // app inside the web view gets its tokens from here through
+        // @capacitor-firebase/app-check (src/lib/firebase.js).
+        #if targetEnvironment(simulator)
+        AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
+        #else
+        AppCheck.setAppCheckProviderFactory(AppAttestFactory())
+        #endif
+        // Reads GoogleService-Info.plist (the iOS app in landmark-hunters-284ab).
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
         return true
     }
 
@@ -57,5 +76,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                           sessionRole: connectingSceneSession.role)
         config.delegateClass = SceneDelegate.self
         return config
+    }
+}
+
+// App Attest for every device this app supports (iOS 15 and up).
+final class AppAttestFactory: NSObject, AppCheckProviderFactory {
+    func createProvider(with app: FirebaseApp) -> AppCheckProvider? {
+        AppAttestProvider(app: app)
     }
 }
