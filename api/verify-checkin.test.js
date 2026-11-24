@@ -125,12 +125,13 @@ describe('a user-added landmark waiting for approval (anti-farming item 6)', () 
   it("the admin's check-in-from-anywhere switch: verifies far away, marked; nobody else", async () => {
     const far = fix({ lat: 25.77, lng: -80.19 });
     caller = { uid: 'me', email: 'landymontiel25@gmail.com', emailVerified: true };
+    docs['admin_settings/me'] = { adminMode: true, checkinAnywhere: true };
     const { body } = await call({ checkinId: 'me_bell', fix: far });
     expect(body).toMatchObject({ verified: true, reason: null });
     expect(docs['checkins/me_bell'].presence).toMatchObject({ verified: true, adminAnywhere: true });
     expect(docs['checkins/me_bell/proof/main']).toMatchObject({ adminAnywhere: true });
     // No GPS at all works for the admin too.
-    docs = { 'checkins/me_bell': checkin() };
+    docs = { 'checkins/me_bell': checkin(), 'admin_settings/me': { adminMode: true, checkinAnywhere: true } };
     expect((await call({ checkinId: 'me_bell' })).body).toMatchObject({ verified: true });
     // Anyone else from far away is still too far; an unverified email gets nothing extra.
     for (const who of [{ uid: 'me', email: 'someone@example.com', emailVerified: true }, { uid: 'me', email: 'landymontiel25@gmail.com', emailVerified: false }]) {
@@ -140,12 +141,18 @@ describe('a user-added landmark waiting for approval (anti-farming item 6)', () 
     }
   });
 
-  it("the admin panel's radius switch: off holds the admin to the radius again; on (or unset) lets them check in anywhere", async () => {
+  it('the bypass needs Admin Mode on and the radius switch on; anything else holds the admin to the radius', async () => {
     const far = fix({ lat: 25.77, lng: -80.19 });
     caller = { uid: 'me', email: 'landymontiel25@gmail.com', emailVerified: true };
-    docs = { 'checkins/me_bell': checkin(), 'admin_settings/me': { checkinAnywhere: false } };
-    expect((await call({ checkinId: 'me_bell', fix: far })).body).toMatchObject({ verified: false, reason: 'too-far' });
-    docs = { 'checkins/me_bell': checkin(), 'admin_settings/me': { checkinAnywhere: true } };
-    expect((await call({ checkinId: 'me_bell', fix: far })).body).toMatchObject({ verified: true });
+    for (const [settings, verified] of [
+      [{ adminMode: false, checkinAnywhere: true }, false], // Admin Mode off: a normal user
+      [{ checkinAnywhere: true }, false], // never set: off
+      [null, false], // no settings at all: off
+      [{ adminMode: true, checkinAnywhere: false }, false], // radius switch off
+      [{ adminMode: true, checkinAnywhere: true }, true],
+    ]) {
+      docs = { 'checkins/me_bell': checkin(), ...(settings ? { 'admin_settings/me': settings } : {}) };
+      expect((await call({ checkinId: 'me_bell', fix: far })).body, JSON.stringify(settings)).toMatchObject(verified ? { verified: true } : { verified: false, reason: 'too-far' });
+    }
   });
 });

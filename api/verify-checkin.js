@@ -60,13 +60,15 @@ async function handler(req, res) {
     return;
   }
   const { checkinId, fix } = req.body || {};
-  // The admin panel's "Check-in radius off" switch (admin_settings/{uid},
-  // on until switched off): the admin's own check-ins verify without being
-  // there. Signed-in, verified admin email only; nobody else, ever.
+  // The admin panel's switches (admin_settings/{uid}): with Admin Mode on
+  // and "Check-in radius off" on, the admin's own check-ins verify without
+  // being there. Admin Mode off (or never set): held to the radius like
+  // everyone. Signed-in, verified admin email only; nobody else, ever.
   let anywhere = false;
   if (account.emailVerified && isAdmin(account.email)) {
     const settings = await adminDb().collection('admin_settings').doc(account.uid).get().catch(() => null);
-    anywhere = !settings?.exists || settings.data()?.checkinAnywhere !== false;
+    const s = settings?.exists ? settings.data() : null;
+    anywhere = s?.adminMode === true && s?.checkinAnywhere !== false;
   }
   if (typeof checkinId !== 'string' || !/^[\w.-]{1,300}$/.test(checkinId) || (!anywhere && !validFix(fix))) {
     res.status(400).json({ error: 'checkinId and a GPS fix are required.' });

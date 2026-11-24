@@ -2697,3 +2697,14 @@ html[data-theme] body .announcement-banner-hide {
   font-size: 22px;
   line-height: 1;
 }
+/* Admin Mode off: the controls under the master switch are greyed out and
+   can't be used (the fieldset disables them). */
+html[data-theme] body .admin-controls {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+html[data-theme] body .admin-controls.is-off {
+  opacity: 0.45;
+}

@@ -6,7 +6,7 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 let auth = { user: { uid: 'me', email: 'landymontiel25@gmail.com' }, loading: false };
-let admin = { canUseAdminMode: true, adminMode: false, setAdminMode: vi.fn(), checkinAnywhere: true, setCheckinAnywhere: vi.fn(async () => {}) };
+let admin = { canUseAdminMode: true, adminMode: true, setAdminMode: vi.fn(), checkinAnywhere: true, setCheckinAnywhere: vi.fn(async () => {}) };
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => auth }));
 vi.mock('../lib/AdminModeContext', () => ({ useAdminMode: () => admin }));
 vi.mock('../lib/ToastContext', () => ({ useToast: () => ({ show: vi.fn() }) }));
@@ -38,6 +38,19 @@ describe('admin panel (owner, 2026-11-23)', () => {
     for (const s of ['Check-in radius off', 'Send test notification', 'Preview as a new user', 'Announcement banner', 'Show banner', 'Clear banner']) expect(text).toContain(s);
     expect(el.querySelector('textarea').value).toBe('Live message');
     expect(document.body.classList.contains('admin-panel-open')).toBe(true);
+  });
+  it('the master Admin Mode switch is first; with it off every other control is disabled', async () => {
+    admin = { ...admin, adminMode: false, setAdminMode: vi.fn(async () => {}) };
+    const el = await render();
+    const switches = [...el.querySelectorAll('input[role="switch"]')];
+    expect(el.querySelector('.admin-row-title').textContent).toBe('Admin Mode');
+    expect(switches[0].disabled).toBe(false);
+    const fs = el.querySelector('fieldset.admin-controls');
+    expect(fs.disabled).toBe(true);
+    expect(el.textContent).not.toContain('Edit tools');
+    await act(async () => switches[0].click());
+    expect(admin.setAdminMode).toHaveBeenCalledWith(true);
+    admin = { ...admin, adminMode: true };
   });
   it('the radius switch only changes the admin setting', async () => {
     const el = await render();

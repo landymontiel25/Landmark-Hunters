@@ -10,10 +10,10 @@ export const ADMIN_EMAILS = ['landymontiel25@gmail.com'];
 // skip the radius, on the phone and on the server (api/verify-checkin.js),
 // and still verify and pay; mission photos skip the "taken here" location
 // check (the AI still judges what's in the photo). Everyone else is
-// unchanged. It's the "Check-in radius off" switch in the admin panel,
-// stored in admin_settings/{uid}.checkinAnywhere (on until switched off);
-// AdminModeContext keeps this copy in step with it.
-let checkinAnywhereLive = true;
+// unchanged. It takes both of the admin panel's switches, stored in
+// admin_settings/{uid}: Admin Mode on and "Check-in radius off" on.
+// AdminModeContext keeps this copy in step with them.
+let checkinAnywhereLive = false;
 export function setCheckinAnywhereLive(on) {
   checkinAnywhereLive = on !== false;
 }

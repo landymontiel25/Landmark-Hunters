@@ -455,7 +455,7 @@ function CountBadge({ count }) {
 function ProfileMenu() {
   const { user, firebaseEnabled, signOutUser } = useAuth();
   const { myUsername, requests } = useFriends();
-  const { adminMode, canUseAdminMode, setAdminMode } = useAdminMode();
+  const { adminMode, canUseAdminMode } = useAdminMode();
   const navigate = useNavigate();
   const [me, setMe] = useState(null); // { points, rank } for the current week
   const [unread, setUnread] = useState(0);
@@ -567,8 +567,8 @@ function ProfileMenu() {
               <CountBadge count={notificationCount} />
             </button>
           </div>
-          {/* Admin account only: the full-screen admin panel (owner,
-              2026-11-23), and the edit tools switch as before. */}
+          {/* Admin account only: Admin Mode is the full-screen admin panel
+              (owner, 2026-11-23: one admin mode); its master switch is there. */}
           {canUseAdminMode && (
             <button
               type="button"
@@ -578,20 +578,8 @@ function ProfileMenu() {
                 navigate('/admin');
               }}
             >
-              {'\u{1F6E0}\u{FE0F}'} Open admin panel
+              {'\u{1F6E0}\u{FE0F}'} Admin Mode{adminMode ? ' · On' : ''}
             </button>
-          )}
-          {canUseAdminMode && (
-            <label className="admin-mode-switch">
-              <span>{'\u{1F6E0}\u{FE0F}'} Admin Mode</span>
-              <input
-                type="checkbox"
-                role="switch"
-                checked={adminMode}
-                onChange={(e) => setAdminMode(e.target.checked)}
-              />
-              <span className="admin-mode-switch-track" aria-hidden="true" />
-            </label>
           )}
           <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
             <Link to="/profile" className="btn btn-primary btn-sm" style={{ flex: 1 }} onClick={() => setOpen(false)}>

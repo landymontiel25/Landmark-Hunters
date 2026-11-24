@@ -4,11 +4,11 @@ import { useAdminMode } from '../lib/AdminModeContext';
 // A constant, impossible-to-miss reminder that Admin Mode is on -- every
 // screen, not just Settings/landmark pages, since it's easy to forget you
 // left it on and then be confused why editing a landmark's page looks
-// different. Tapping it turns Admin Mode off right there, no trip back to
-// Settings needed; it simply isn't rendered at all once Admin Mode is off.
+// different. Tapping it opens Admin Mode (the admin panel, owner
+// 2026-11-23), where its one switch is; it isn't rendered once it's off.
 export default function AdminModeBadge() {
   const navigate = useNavigate();
-  const { adminMode, setAdminMode } = useAdminMode();
+  const { adminMode } = useAdminMode();
 
   if (!adminMode) return null;
 
@@ -16,14 +16,8 @@ export default function AdminModeBadge() {
     <button
       type="button"
       className="admin-mode-badge"
-      title="Admin Mode is on — tap to turn it off"
-      onClick={() => setAdminMode(false)}
-      onContextMenu={(e) => {
-        // Long-press-ish escape hatch to Settings, in case someone wants the
-        // full toggle/explanation there instead of an instant off.
-        e.preventDefault();
-        navigate('/settings');
-      }}
+      title="Admin Mode is on. Tap to open it."
+      onClick={() => navigate('/admin')}
     >
       <span className="admin-mode-badge-star" aria-hidden="true">
         {'★'}

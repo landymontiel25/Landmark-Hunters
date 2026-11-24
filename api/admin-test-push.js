@@ -24,6 +24,12 @@ async function handler(req, res) {
     res.status(403).json({ error: 'Admin only.' });
     return;
   }
+  // Admin Mode off: the admin is a normal user, and nothing in the panel works.
+  const settings = await adminDb().collection('admin_settings').doc(account.uid).get().catch(() => null);
+  if (!settings?.exists || settings.data()?.adminMode !== true) {
+    res.status(403).json({ error: 'Turn on Admin Mode first.' });
+    return;
+  }
   if (isRateLimited(req, 'admin-test-push', { limit: 10, windowMs: 10 * 60 * 1000, id: account.uid })) {
     res.status(429).json({ error: 'Too many test notifications in a row. Wait a bit.' });
     return;

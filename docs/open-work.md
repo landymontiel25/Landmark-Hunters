@@ -32,10 +32,12 @@ the PR that finishes it.
 
 ## Admin panel (2026-11-23)
 
-- **Done.** /admin (AdminPanel.jsx), from Admin Mode in the account menu
-  or Settings, admin email only: edit tools, "Check-in radius off"
-  (admin_settings/{uid}.checkinAnywhere, read by api/verify-checkin.js;
-  replaces ADMIN_CHECKIN_ANYWHERE), "Send test notification"
+- **Done.** Admin Mode is the panel (one admin mode): /admin
+  (AdminPanel.jsx), from Admin Mode in the account menu or Settings, admin
+  email only. Master switch admin_settings/{uid}.adminMode (off: a normal
+  user; the server refuses the bypass, the test push and banner writes);
+  "Check-in radius off" (admin_settings/{uid}.checkinAnywhere, only with
+  Admin Mode on, read by api/verify-checkin.js), "Send test notification"
   (api/admin-test-push.js, own devices only), "Preview as a new user"
   (onboardingSave.restartOnboardingAsNew: only onboarding fields), and the
   announcement banner (app_config/announcement, AnnouncementBanner.jsx).

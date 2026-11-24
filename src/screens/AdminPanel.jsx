@@ -9,11 +9,13 @@ import { restartOnboardingAsNew } from '../lib/onboardingSave';
 import { subscribeAnnouncement, setAnnouncement, clearAnnouncement, ANNOUNCEMENT_MAX } from '../lib/announcement';
 import { friendlyError } from '../lib/friendlyError';
 
-// The admin panel (owner, 2026-11-23): everything the admin account can do,
-// full screen, from Admin Mode in the account menu or Settings. Only that
-// account can open it (others are sent home), and every control is checked
-// again on the server or in firestore.rules.
-//   Edit tools           the existing Admin Mode (edit any landmark)
+// Admin Mode (owner, 2026-11-23: one admin mode, and it is this panel):
+// everything the admin account can do, full screen, from Admin Mode in the
+// account menu or Settings. Only that account can open it (others are sent
+// home), and every control is checked again on the server or in
+// firestore.rules.
+//   Admin Mode           the master switch: on, the edit tools work and the
+//                        controls below are enabled; off, a normal user
 //   Check-in radius off  this account only (admin_settings/{uid})
 //   Test notification    a push to this account's own devices
 //   Preview as new user  onboarding from the top; points and check-ins stay
@@ -21,9 +23,9 @@ import { friendlyError } from '../lib/friendlyError';
 
 const PUSH_REASONS = {
   disabled: 'Push notifications are off for this account. Turn them on in Settings, then try again.',
-  'no-devices': "This account has no device registered for push yet. Open the app on your phone and allow notifications.",
+  'no-devices': 'This account has no device registered for push yet. Open the app on your phone and allow notifications.',
   'not-configured': "Push isn't set up on the server.",
-  'all-failed': "Sent, but every device turned it down. Reopen the app on your phone so it registers again.",
+  'all-failed': 'Sent, but every device turned it down. Reopen the app on your phone so it registers again.',
   'send-failed': "Couldn't reach the push service. Try again.",
   'firestore-error': "Couldn't read your devices. Try again.",
 };
@@ -76,7 +78,10 @@ export default function AdminPanel() {
       if (!r.ok) throw Object.assign(new Error(data?.error || 'Failed'), { userMessage: data?.error || "Couldn't send it. Try again." });
       setPushState({
         busy: false,
-        note: data.sent > 0 ? `Sent to ${data.sent} device${data.sent === 1 ? '' : 's'}. It's in your notifications too.` : PUSH_REASONS[data.reason] || "Nothing was sent. Try again.",
+        note:
+          data.sent > 0
+            ? `Sent to ${data.sent} device${data.sent === 1 ? '' : 's'}. It's in your notifications too.`
+            : PUSH_REASONS[data.reason] || 'Nothing was sent. Try again.',
       });
     } catch (e) {
       setPushState({ busy: false, note: friendlyError(e, "Couldn't send it. Try again.") });
@@ -119,91 +124,104 @@ export default function AdminPanel() {
       <h1 className="screen-title">Admin Mode</h1>
       <p className="screen-subtitle">Only your account sees this. Every switch here affects your account only, except the banner.</p>
 
-      <section className="admin-section" aria-label="Switches">
+      <section className="admin-section" aria-label="Admin Mode">
         <Switch
-          label="Edit tools"
-          detail="Edit or delete any landmark from its page or map pin. Changes are for everyone."
-          checked={adminMode}
-          onChange={setAdminMode}
-        />
-        <Switch
-          label="Check-in radius off"
-          detail="Check in from anywhere. Your account only; everyone else still has to be there."
-          checked={checkinAnywhere}
-          onChange={(on) =>
-            setCheckinAnywhere(on).catch((e) => toast.show(friendlyError(e, "Couldn't save that. Try again.")))
+          label="Admin Mode"
+          detail={
+            adminMode
+              ? 'On. The edit tools work (changes to a landmark are for everyone) and the controls below are on.'
+              : "Off. You're a normal user: no edit tools, the check-in radius applies to you, and the controls below are off."
           }
+          checked={adminMode}
+          onChange={(on) => setAdminMode(on).catch((e) => toast.show(friendlyError(e, "Couldn't save that. Try again.")))}
         />
       </section>
 
-      <section className="admin-section" aria-label="Notifications">
-        <div className="admin-row admin-row-stack">
-          <div className="admin-row-text">
-            <p className="admin-row-title">Send myself a test notification</p>
-            <p className="admin-row-detail">A push to your own devices only.</p>
-          </div>
-          <button type="button" className="btn btn-ghost btn-block" disabled={pushState.busy} onClick={sendTestPush}>
-            {pushState.busy ? 'Sending…' : 'Send test notification'}
-          </button>
-          {pushState.note && (
-            <p className="admin-row-detail" role="status">
-              {pushState.note}
-            </p>
-          )}
-        </div>
-      </section>
+      <fieldset className={`admin-controls${adminMode ? '' : ' is-off'}`} disabled={!adminMode} aria-disabled={!adminMode}>
+        <section className="admin-section" aria-label="Check-in radius">
+          <Switch
+            label="Check-in radius off"
+            detail="Check in from anywhere. Your account only; everyone else always has to be there."
+            checked={checkinAnywhere}
+            disabled={!adminMode}
+            onChange={(on) => setCheckinAnywhere(on).catch((e) => toast.show(friendlyError(e, "Couldn't save that. Try again.")))}
+          />
+        </section>
 
-      <section className="admin-section" aria-label="Onboarding">
-        <div className="admin-row admin-row-stack">
-          <div className="admin-row-text">
-            <p className="admin-row-title">Preview as a brand new user</p>
-            <p className="admin-row-detail">Starts onboarding from the beginning for your account. Your points, check-ins and ratings stay.</p>
+        <section className="admin-section" aria-label="Notifications">
+          <div className="admin-row admin-row-stack">
+            <div className="admin-row-text">
+              <p className="admin-row-title">Send myself a test notification</p>
+              <p className="admin-row-detail">A push to your own devices only.</p>
+            </div>
+            <button type="button" className="btn btn-ghost btn-block" disabled={pushState.busy} onClick={sendTestPush}>
+              {pushState.busy ? 'Sending…' : 'Send test notification'}
+            </button>
+            {pushState.note && (
+              <p className="admin-row-detail" role="status">
+                {pushState.note}
+              </p>
+            )}
           </div>
-          {confirmReset ? (
-            <div className="admin-row-actions">
-              <button type="button" className="btn btn-ghost" onClick={() => setConfirmReset(false)} disabled={resetting}>
-                Cancel
+        </section>
+
+        <section className="admin-section" aria-label="Onboarding">
+          <div className="admin-row admin-row-stack">
+            <div className="admin-row-text">
+              <p className="admin-row-title">Preview as a brand new user</p>
+              <p className="admin-row-detail">Starts onboarding from the beginning for your account. Your points, check-ins and ratings stay.</p>
+            </div>
+            {confirmReset ? (
+              <div className="admin-row-actions">
+                <button type="button" className="btn btn-ghost" onClick={() => setConfirmReset(false)} disabled={resetting}>
+                  Cancel
+                </button>
+                <button type="button" className="btn btn-ghost" onClick={previewAsNew} disabled={resetting}>
+                  {resetting ? 'Starting…' : 'Start onboarding'}
+                </button>
+              </div>
+            ) : (
+              <button type="button" className="btn btn-ghost btn-block" onClick={() => setConfirmReset(true)}>
+                Preview as a new user
               </button>
-              <button type="button" className="btn btn-ghost" onClick={previewAsNew} disabled={resetting}>
-                {resetting ? 'Starting…' : 'Start onboarding'}
+            )}
+          </div>
+        </section>
+
+        <section className="admin-section" aria-label="Announcement banner">
+          <div className="admin-row admin-row-stack">
+            <div className="admin-row-text">
+              <p className="admin-row-title">Announcement banner</p>
+              <p className="admin-row-detail">{current ? 'Live for everyone now.' : 'No banner showing.'}</p>
+            </div>
+            <textarea
+              className="rating-comment admin-banner-input"
+              aria-label="Banner message"
+              rows={3}
+              maxLength={ANNOUNCEMENT_MAX}
+              placeholder="Write the message everyone sees at the top of the app"
+              value={text}
+              onChange={(e) => setDraft(e.target.value)}
+            />
+            <p className="admin-row-detail">
+              {text.length}/{ANNOUNCEMENT_MAX}
+            </p>
+            <div className="admin-row-actions">
+              <button type="button" className="btn btn-ghost" disabled={savingBanner || !current} onClick={() => saveBanner('')}>
+                Clear banner
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                disabled={savingBanner || !text.trim() || text.trim() === current}
+                onClick={() => saveBanner(text)}
+              >
+                {savingBanner ? 'Saving…' : 'Show banner'}
               </button>
             </div>
-          ) : (
-            <button type="button" className="btn btn-ghost btn-block" onClick={() => setConfirmReset(true)}>
-              Preview as a new user
-            </button>
-          )}
-        </div>
-      </section>
-
-      <section className="admin-section" aria-label="Announcement banner">
-        <div className="admin-row admin-row-stack">
-          <div className="admin-row-text">
-            <p className="admin-row-title">Announcement banner</p>
-            <p className="admin-row-detail">{current ? 'Live for everyone now.' : 'No banner showing.'}</p>
           </div>
-          <textarea
-            className="rating-comment admin-banner-input"
-            aria-label="Banner message"
-            rows={3}
-            maxLength={ANNOUNCEMENT_MAX}
-            placeholder="Write the message everyone sees at the top of the app"
-            value={text}
-            onChange={(e) => setDraft(e.target.value)}
-          />
-          <p className="admin-row-detail">
-            {text.length}/{ANNOUNCEMENT_MAX}
-          </p>
-          <div className="admin-row-actions">
-            <button type="button" className="btn btn-ghost" disabled={savingBanner || !current} onClick={() => saveBanner('')}>
-              Clear banner
-            </button>
-            <button type="button" className="btn btn-primary" disabled={savingBanner || !text.trim() || text.trim() === current} onClick={() => saveBanner(text)}>
-              {savingBanner ? 'Saving…' : 'Show banner'}
-            </button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </fieldset>
     </div>
   );
 }

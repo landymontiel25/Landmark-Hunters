@@ -1454,7 +1454,13 @@ console.log('admin panel: announcement banner and admin settings (2026-11-23)');
 await reset();
 {
   const admin = env.authenticatedContext('adminUid', { email: ADMIN_EMAIL, email_verified: true }).firestore();
-  await t('anyone (even signed out) reads the banner; only the admin writes it', async () => {
+  await t('Admin Mode off: the admin cannot touch the banner either', async () => {
+    await assertFails(setDoc(doc(admin, 'app_config/announcement'), { message: 'Hello', updatedAt: serverTimestamp() }));
+    await assertSucceeds(setDoc(doc(admin, 'admin_settings/adminUid'), { adminMode: false, checkinAnywhere: true, updatedAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(admin, 'app_config/announcement'), { message: 'Hello', updatedAt: serverTimestamp() }));
+    await assertSucceeds(setDoc(doc(admin, 'admin_settings/adminUid'), { adminMode: true, checkinAnywhere: true, updatedAt: serverTimestamp() }));
+  });
+  await t('anyone (even signed out) reads the banner; only the admin writes it, with Admin Mode on', async () => {
     await assertSucceeds(setDoc(doc(admin, 'app_config/announcement'), { message: 'Hello', updatedAt: serverTimestamp() }));
     await assertSucceeds(getDoc(doc(env.unauthenticatedContext().firestore(), 'app_config/announcement')));
     await assertSucceeds(getDoc(doc(as('ann'), 'app_config/announcement')));
@@ -1468,6 +1474,7 @@ await reset();
     await assertFails(getDoc(doc(as('ann'), 'admin_settings/adminUid')));
     await assertFails(setDoc(doc(as('ann'), 'admin_settings/ann'), { checkinAnywhere: true, updatedAt: serverTimestamp() }));
     await assertFails(setDoc(doc(admin, 'admin_settings/someoneElse'), { checkinAnywhere: true, updatedAt: serverTimestamp() }));
+    await assertFails(setDoc(doc(as('ann'), 'admin_settings/ann'), { adminMode: true, checkinAnywhere: true, updatedAt: serverTimestamp() }));
   });
 }
 

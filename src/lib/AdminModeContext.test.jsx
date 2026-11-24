@@ -7,8 +7,16 @@ import { act } from 'react';
 
 const auth = { value: { user: null, loading: true } };
 vi.mock('./AuthContext', () => ({ useAuth: () => auth.value }));
+// The admin's switches live in admin_settings/{uid} (owner, 2026-11-23).
+const store = { settings: { adminMode: true, checkinAnywhere: true }, saved: [] };
+vi.mock('./adminSettings', () => ({
+  DEFAULT_ADMIN_SETTINGS: { adminMode: false, checkinAnywhere: true },
+  subscribeAdminSettings: (uid, cb) => (cb(store.settings), () => {}),
+  saveAdminSettings: async (uid, s) => store.saved.push({ uid, ...s }),
+}));
 
 import { AdminModeProvider, useAdminMode } from './AdminModeContext';
+import { checksInAnywhere } from './admins';
 
 let seen;
 function Probe() {
@@ -20,28 +28,33 @@ const tree = () => (
     <Probe />
   </AdminModeProvider>
 );
+const ADMIN = { uid: 'me', email: 'landymontiel25@gmail.com' };
 
-describe('AdminModeProvider', () => {
+describe('AdminModeProvider: one Admin Mode, saved to the account', () => {
   beforeEach(() => {
-    localStorage.clear();
-    localStorage.setItem('landmarkhunters.adminMode', '1');
+    store.saved = [];
   });
 
-  it('stays on across a reload: the signed-out moment while auth loads must not switch it off', async () => {
-    auth.value = { user: null, loading: true };
+  it("follows the account's master switch, and the bypass needs both switches", async () => {
+    store.settings = { adminMode: true, checkinAnywhere: true };
+    auth.value = { user: ADMIN, loading: false };
     const root = createRoot(document.createElement('div'));
     await act(async () => root.render(tree()));
-    expect(seen.adminMode).toBe(false); // not known to be an admin yet
-    auth.value = { user: { email: 'landymontiel25@gmail.com' }, loading: false };
-    await act(async () => root.render(tree()));
     expect(seen.adminMode).toBe(true);
+    expect(checksInAnywhere(ADMIN)).toBe(true);
+    // Master off: a normal user, no bypass even with the radius switch on.
+    await act(async () => seen.setAdminMode(false));
+    expect(seen.adminMode).toBe(false);
+    expect(checksInAnywhere(ADMIN)).toBe(false);
+    expect(store.saved.at(-1)).toMatchObject({ uid: 'me', adminMode: false, checkinAnywhere: true });
   });
 
-  it('turns off for a non-admin account once auth has loaded', async () => {
-    auth.value = { user: { email: 'someone@example.com' }, loading: false };
+  it('never for a non-admin account, whatever is stored', async () => {
+    auth.value = { user: { uid: 'x', email: 'someone@example.com' }, loading: false };
     const root = createRoot(document.createElement('div'));
     await act(async () => root.render(tree()));
     expect(seen.adminMode).toBe(false);
     expect(seen.canUseAdminMode).toBe(false);
+    expect(checksInAnywhere({ email: 'someone@example.com' })).toBe(false);
   });
 });

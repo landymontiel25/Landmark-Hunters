@@ -585,12 +585,12 @@ export default function Settings() {
         <div className="card section">
           <h3 style={{ marginTop: 0 }}>{'\u{1F6E0}\u{FE0F}'} Admin Mode</h3>
           <p className="screen-subtitle" style={{ marginTop: 0 }}>
-            Only visible to your account. Edit tools, the check-in radius, a test notification, previewing as a new user and the
-            announcement banner.
+            Only visible to your account. Its switch turns on the edit tools, your check-in radius bypass, a test notification,
+            previewing as a new user and the announcement banner.
           </p>
-          {/* The full-screen admin panel (owner, 2026-11-23). */}
+          {/* Admin Mode is the full-screen admin panel (owner, 2026-11-23). */}
           <Link to="/admin" className="btn btn-ghost btn-block">
-            {'\u{1F6E0}\u{FE0F}'} Open admin panel
+            {'\u{1F6E0}\u{FE0F}'} Open Admin Mode
           </Link>
         </div>
       )}
