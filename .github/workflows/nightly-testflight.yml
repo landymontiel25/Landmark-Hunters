@@ -84,6 +84,20 @@ jobs:
         working-directory: ios/App
         run: xcrun agvtool new-version -all "$(date +%Y%m%d%H%M)"
 
+      - name: Check the App Store profile for Push
+        run: |
+          # The app carries the Push Notifications entitlement (App.entitlements),
+          # but the pinned "LH" profile must include Push to export it (the API
+          # key can't cloud-sign, so there's no automatic fallback). Until the
+          # owner regenerates "LH" with Push and updates IOS_APPSTORE_PROFILE,
+          # build without the entitlement so TestFlight keeps shipping.
+          if security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/LH.mobileprovision 2>/dev/null | grep -q aps-environment; then
+            echo "LH profile includes Push"; echo "PUSH_ENTITLEMENT=App/App.entitlements" >> $GITHUB_ENV
+          else
+            echo "::warning::The LH profile has no Push entitlement, so this build has no push notifications. Regenerate LH with Push and update IOS_APPSTORE_PROFILE."
+            echo "PUSH_ENTITLEMENT=" >> $GITHUB_ENV
+          fi
+
       - name: Archive
         run: |
           xcodebuild archive \
@@ -95,7 +109,8 @@ jobs:
             -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
             -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }} \
             -allowProvisioningUpdates \
-            DEVELOPMENT_TEAM=BXX99G4L3M
+            DEVELOPMENT_TEAM=BXX99G4L3M \
+            CODE_SIGN_ENTITLEMENTS="$PUSH_ENTITLEMENT"
 
       - name: Confirm the archive was built with the iOS 27 SDK
         run: |
@@ -105,53 +120,38 @@ jobs:
 
       - name: Export
         run: |
-          # The app now carries the Push Notifications entitlement (App.entitlements).
-          # The pinned "LH" App Store profile is used when it includes Push; if it
-          # doesn't, the export falls back to automatic signing, which fetches a
-          # profile that does (owner step to make it permanent: regenerate "LH"
-          # with Push and update IOS_APPSTORE_PROFILE).
-          PROFILE_FILE=~/Library/MobileDevice/Provisioning\ Profiles/LH.mobileprovision
-          if security cms -D -i "$PROFILE_FILE" 2>/dev/null | grep -q aps-environment; then
-            echo "LH profile includes Push"; STYLE=manual
-          else
-            echo "::warning::LH profile has no Push entitlement; exporting with automatic signing"; STYLE=automatic
-          fi
-          write_options() {
-            if [ "$1" = manual ]; then
-              PROFILES='<key>signingStyle</key><string>manual</string><key>provisioningProfiles</key><dict><key>com.landmarkhunters.app</key><string>LH</string></dict>'
-            else
-              PROFILES='<key>signingStyle</key><string>automatic</string><key>teamID</key><string>BXX99G4L3M</string>'
-            fi
-            cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
             <key>method</key>
             <string>app-store-connect</string>
-            $PROFILES
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.landmarkhunters.app</key>
+              <string>LH</string>
+            </dict>
             <key>uploadSymbols</key>
             <true/>
           </dict>
           </plist>
           EOF
-          }
-          export_ipa() {
-            write_options "$1"
-            xcodebuild -exportArchive \
-              -archivePath "$RUNNER_TEMP/App.xcarchive" \
-              -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-              -exportPath "$RUNNER_TEMP/export" \
-              -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.ASC_KEY_ID }}.p8 \
-              -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
-              -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }} \
-              -allowProvisioningUpdates
-          }
-          export_ipa "$STYLE" || { [ "$STYLE" = manual ] && echo "::warning::Manual export failed; retrying with automatic signing" && export_ipa automatic; }
-          # The shipped app must carry Push, or iOS never hands out a push token.
-          unzip -q -o "$RUNNER_TEMP"/export/*.ipa -d "$RUNNER_TEMP/ipa"
-          codesign -d --entitlements - --xml "$RUNNER_TEMP"/ipa/Payload/*.app 2>/dev/null | grep -q aps-environment || { echo "::error::The exported app has no Push entitlement"; exit 1; }
-          echo "Exported app includes the Push entitlement"
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.ASC_KEY_ID }}.p8 \
+            -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
+            -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }} \
+            -allowProvisioningUpdates
+          if [ -n "$PUSH_ENTITLEMENT" ]; then
+            unzip -q -o "$RUNNER_TEMP"/export/*.ipa -d "$RUNNER_TEMP/ipa"
+            codesign -d --entitlements - --xml "$RUNNER_TEMP"/ipa/Payload/*.app 2>/dev/null | grep -q aps-environment || { echo "::error::The exported app has no Push entitlement"; exit 1; }
+            echo "Exported app includes the Push entitlement"
+          fi
 
       - name: Find the .ipa
         run: echo "IPA_PATH=$(ls $RUNNER_TEMP/export/*.ipa)" >> $GITHUB_ENV

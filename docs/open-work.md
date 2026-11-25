@@ -1958,16 +1958,19 @@ label and dot, auto mark-read on open via `markNotificationsRead`, badge clears)
 iOS push was broken at the plumbing level: `App/App.entitlements`
 (aps-environment) was never referenced by the App target, so iOS couldn't hand
 out an APNs token and no FCM token got saved. `CODE_SIGN_ENTITLEMENTS` is now
-set. The nightly export uses the pinned "LH" profile when it includes Push and
-falls back to automatic signing otherwise, then fails the run if the exported
-app lacks aps-environment.
+set. The pinned "LH" App Store profile has no Push yet (checked by the
+2026-11-25 TestFlight run), and automatic signing can't stand in for it (the
+API key gets "Cloud signing permission error"). So the nightly workflow checks
+the profile first: with Push it builds with the entitlement and fails if the
+exported app lacks aps-environment; without it, it builds as before (no push)
+with a warning. Push reaches iPhones only once the owner fixes the profile.
 
 Owner steps still open (not verified from here):
 - Firebase Console > Project settings > Cloud Messaging: upload the APNs auth
   key (.p8) for the iOS app. Without it FCM can't deliver to iPhones.
 - Apple Developer > Identifiers > com.landmarkhunters.app: Push Notifications
   on; then regenerate the "LH" App Store profile and update the
-  IOS_APPSTORE_PROFILE secret, so the export stops needing the fallback.
+  IOS_APPSTORE_PROFILE secret. The next TestFlight build then has push.
 - Not built (build-first plan): the soft-ask after the first check-in, the
   daily Mapr pick push, the geofence push and the 5/week cap. Permission is
   still asked only from the Settings toggle.
