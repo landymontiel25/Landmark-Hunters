@@ -11,7 +11,7 @@ export const TURNED_OFF = [
     keeps: 'The photo checks still judge what a photo shows, check-in points still pay once per account, and the radius code stays: switching it back on restores the 30 m rule and each place\'s own area.',
     since: '2026-11-24',
     // Merged straight to main, no PR: the commit that switched it off.
-    commit: 'PENDING',
+    commit: 'fc63852c6969d3684ff00e7cd401bf9e5998f624',
     file: 'src/lib/maprConstants.js',
     check: 'CHECKIN_RADIUS_ON = false',
   },
