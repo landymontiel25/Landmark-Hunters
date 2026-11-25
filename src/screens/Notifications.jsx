@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { acceptRequest, declineRequest, requestKey } from '../lib/friends';
-import { subscribeMyNotifications, markNotificationRead } from '../lib/notifications';
+import { subscribeMyNotifications, markNotificationRead, markNotificationsRead } from '../lib/notifications';
+import { noticeAge, noticeParts } from '../lib/noticeFormat';
 import { ALL_LANDMARKS } from '../data/regions';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
@@ -117,6 +118,28 @@ export default function Notifications() {
     }
   }, [onboardingDone, items]);
 
+  // Seeing the list is reading it (owner, 2026-11-25): everything unread in
+  // it is marked read at once, so the badge clears without a tap per row.
+  // What was new on this visit stays marked New (the green dot) until you
+  // leave, so you can still tell what arrived. The onboarding notice keeps
+  // its own rule (it clears once onboarding is finished, above).
+  const [newIds, setNewIds] = useState(() => new Set());
+  // Each notice is marked once per visit, however often the list re-renders.
+  const marked = useRef(new Set());
+  const uid = user?.uid || null;
+  useEffect(() => {
+    if (!items || !uid) return;
+    const fresh = items.filter((n) => !n.read && n.type !== 'onboarding_update' && !marked.current.has(n.id)).map((n) => n.id);
+    if (!fresh.length) return;
+    for (const id of fresh) marked.current.add(id);
+    setNewIds((cur) => new Set([...cur, ...fresh]));
+    setReadIds((cur) => new Set([...cur, ...fresh]));
+    markNotificationsRead(fresh).catch(() => {
+      // Couldn't save it: they show unread again, and the next visit tries again.
+      setReadIds((cur) => new Set([...cur].filter((id) => !fresh.includes(id))));
+    });
+  }, [items, uid]);
+
   const toggleIn = (setter, id, on) =>
     setter((cur) => {
       const next = new Set(cur);
@@ -211,11 +234,33 @@ export default function Notifications() {
   const isEmpty =
     loaded && !loadError && visibleRequests.length === 0 && groupInvites.length === 0 && otherUpdates.length === 0;
 
+  // A row: its icon, the words, when it came, and a dot while it's new.
+  const renderRow = (n, children = null) => {
+    const { icon, text } = noticeParts(n);
+    const fresh = newIds.has(n.id) || !n.read;
+    return (
+      <li key={n.id} className={`notif-row${fresh ? ' is-new' : ''}`}>
+        <button type="button" className="notif-row-main" onClick={() => openItem(n)}>
+          <span className="notif-icon" aria-hidden="true">
+            {icon}
+          </span>
+          <span className="notif-text">
+            <span className="notif-message">{text}</span>
+            <span className="notif-meta">
+              {fresh && <span className="notif-new">New</span>}
+              {noticeAge(n)}
+            </span>
+          </span>
+          {children}
+          {fresh && <span className="notif-dot" aria-label="New" />}
+        </button>
+      </li>
+    );
+  };
+
   return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F514}'}</span> Notifications
-      </h1>
+    <div className="notif-screen">
+      <h1 className="screen-title notif-title">Notifications</h1>
 
       {loadError && (
         <ErrorNotice
@@ -225,92 +270,65 @@ export default function Notifications() {
       )}
       {!loaded && !loadError && <SkeletonList count={4} label="Loading notifications" />}
 
-      {isEmpty && (
-        <p className="screen-subtitle">You're all caught up — nothing new right now.</p>
-      )}
+      {isEmpty && <p className="notif-empty">You're all caught up. Nothing new right now.</p>}
 
       {visibleRequests.length > 0 && (
-        <div className="card section">
-          <h3 style={{ marginTop: 0 }}>{'\u{1F465}'} Friend Requests</h3>
-          {visibleRequests.map((r) => (
-            <div key={r.id} className="friend-row">
-              <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>@{r.fromName}</span>
-              <span style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                <button type="button" className="btn btn-primary btn-tight" onClick={() => handleAccept(r)}>
-                  Accept
-                </button>
-                <button type="button" className="btn btn-ghost btn-tight" onClick={() => handleDecline(r)}>
-                  Decline
-                </button>
-              </span>
-            </div>
-          ))}
-        </div>
+        <section className="notif-section" aria-label="Friend requests">
+          <p className="notif-section-label">Friend requests</p>
+          <ul className="notif-list">
+            {visibleRequests.map((r) => (
+              <li key={r.id} className="notif-row is-new notif-request">
+                <span className="notif-icon" aria-hidden="true">
+                  {'\u{1F465}'}
+                </span>
+                <span className="notif-text">
+                  <span className="notif-message">@{r.fromName} wants to be friends</span>
+                </span>
+                <span className="notif-actions">
+                  <button type="button" className="btn btn-primary btn-tight" onClick={() => handleAccept(r)}>
+                    Accept
+                  </button>
+                  <button type="button" className="btn btn-ghost btn-tight" onClick={() => handleDecline(r)}>
+                    Decline
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {groupInvites.length > 0 && (
-        <div className="card section">
-          <h3 style={{ marginTop: 0 }}>{'\u{1F3AB}'} Group Trip Invites</h3>
-          {groupInvites.map((n) => (
-            <div
-              key={n.id}
-              role="button"
-              tabIndex={0}
-              onClick={() => openItem(n)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  openItem(n);
-                }
-              }}
-              style={{
-                padding: '10px 0',
-                borderTop: '1px solid rgba(255,255,255,0.08)',
-                cursor: 'pointer',
-                opacity: n.read ? 0.6 : 1,
-              }}
-            >
-              <p style={{ margin: 0, fontSize: '0.9rem' }}>{n.message}</p>
-            </div>
-          ))}
-        </div>
+        <section className="notif-section" aria-label="Group trip invites">
+          <p className="notif-section-label">Group trip invites</p>
+          <ul className="notif-list">
+            {groupInvites.map((n) =>
+              renderRow(
+                n,
+                <span className="notif-chevron" aria-hidden="true">
+                  {'\u203A'}
+                </span>
+              )
+            )}
+          </ul>
+        </section>
       )}
 
       {otherUpdates.length > 0 && (
-        <div className="card section">
-          <h3 style={{ marginTop: 0 }}>{'\u{1F4E3}'} Other Updates</h3>
-          {otherUpdates.map((n) => (
-            <div
-              key={n.id}
-              role="button"
-              tabIndex={0}
-              onClick={() => openItem(n)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  openItem(n);
-                }
-              }}
-              style={{
-                padding: '10px 0',
-                borderTop: '1px solid rgba(255,255,255,0.08)',
-                cursor: 'pointer',
-                opacity: n.read ? 0.6 : 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-              }}
-            >
-              <p style={{ margin: 0, fontSize: '0.9rem', flex: 1 }}>{n.message}</p>
-              {n.type === 'streak_warning' && <StreakCountdown createdAt={n.createdAt} />}
-              {n.type === 'rating_tag' && n.landmarkId && (
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--mapr-blue, var(--text-primary))', whiteSpace: 'nowrap' }}>
-                  View rating {'\u203A'}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
+        <section className="notif-section" aria-label="Updates">
+          <p className="notif-section-label">Updates</p>
+          <ul className="notif-list">
+            {otherUpdates.map((n) =>
+              renderRow(
+                n,
+                <>
+                  {n.type === 'streak_warning' && <StreakCountdown createdAt={n.createdAt} />}
+                  {n.type === 'rating_tag' && n.landmarkId && <span className="notif-link">View rating {'\u203A'}</span>}
+                </>
+              )
+            )}
+          </ul>
+        </section>
       )}
     </div>
   );

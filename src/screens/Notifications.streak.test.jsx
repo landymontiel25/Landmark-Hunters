@@ -23,6 +23,7 @@ vi.mock('../lib/notifications', () => ({
     return () => {};
   },
   markNotificationRead: async () => {},
+  markNotificationsRead: async () => {},
 }));
 vi.mock('../lib/soloStreaks', () => ({
   subscribeMySoloStreak: (_uid, cb) => {

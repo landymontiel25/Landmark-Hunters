@@ -12,8 +12,14 @@ afterEach(() => {
   vi.resetModules();
 });
 
+let subscribers = [];
+const pushRows = (rows) => subscribers.forEach((f) => f(rows));
 async function renderHeader({ notifications = [], requests = [], signOutUser = vi.fn() } = {}) {
-  vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true, signOutUser }) }));
+  subscribers = [];
+  // One user object, like the real AuthContext (a new one each render would
+  // re-subscribe on every render).
+  const me = { uid: 'me' };
+  vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: me, firebaseEnabled: true, signOutUser }) }));
   vi.doMock('../lib/FriendsContext', () => ({ useFriends: () => ({ myUsername: 'me', requests }) }));
   vi.doMock('../lib/AdminModeContext', () => ({
     useAdminMode: () => ({ adminMode: false, canUseAdminMode: false, setAdminMode: vi.fn() }),
@@ -28,6 +34,7 @@ async function renderHeader({ notifications = [], requests = [], signOutUser = v
   vi.doMock('../lib/leaderboard', () => ({ subscribeLeaderboard: () => () => {} }));
   vi.doMock('../lib/notifications', () => ({
     subscribeMyNotifications: (uid, onData) => {
+      subscribers.push(onData);
       onData(notifications);
       return () => {};
     },
@@ -100,4 +107,12 @@ describe('Header account menu layout', () => {
     expect(signOutUser).toHaveBeenCalledTimes(1);
     expect(el.querySelector('.points-popover')).toBeNull();
   });
+
+  it('clears as soon as the list marks them read (owner, 2026-11-25)', async () => {
+    const el = await renderHeader({ notifications: [{ id: 'a', read: false }, { id: 'b', read: false }] });
+    expect(badgeOnPill(el).textContent).toBe('2');
+    await act(async () => pushRows([{ id: 'a', read: true }, { id: 'b', read: true }]));
+    expect(badgeOnPill(el)).toBeNull();
+  });
 });
+

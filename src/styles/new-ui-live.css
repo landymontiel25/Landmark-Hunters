@@ -2721,3 +2721,132 @@ html body[data-apple='landmarks'] .aps-live .landmark-row.lm-card.visited .lm-ca
   box-shadow: 0 0 0 3px var(--success);
   border-radius: 14px;
 }
+
+/* ---------- Notifications (owner, 2026-11-25) ----------
+   Design language: the white page (black in dark), Inter, a 16 pt gutter,
+   sections divided by space and hairlines (no boxes inside boxes), the
+   label style over each section. New is the app's checked-in green: a dot
+   and semibold words; read is plain. Opening the list marks it read. */
+html[data-theme] body .notif-screen {
+  padding: 0 16px 28px;
+  color: var(--nl-text);
+}
+html[data-theme] body .notif-title {
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 8px 0 20px;
+}
+html[data-theme] body .notif-empty {
+  font-size: 15px;
+  line-height: 22px;
+  margin: 8px 0 0;
+}
+html[data-theme] body .notif-section {
+  margin: 0 0 28px;
+}
+html[data-theme] body .notif-section-label {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+html[data-theme] body .notif-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--nl-line);
+}
+html[data-theme] body .notif-row {
+  border-bottom: 1px solid var(--nl-line);
+}
+html[data-theme] body .notif-row-main,
+html[data-theme] body .notif-request {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+html[data-theme] body .notif-request {
+  cursor: default;
+}
+html[data-theme] body .notif-row-main:active {
+  background: var(--nl-line);
+  transition: background-color 90ms ease;
+}
+html[data-theme] body .notif-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--nl-line);
+  font-size: 18px;
+  line-height: 1;
+}
+html[data-theme] body .notif-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+html[data-theme] body .notif-message {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+html[data-theme] body .notif-row.is-new .notif-message {
+  font-weight: 600;
+}
+html[data-theme] body .notif-meta {
+  font-size: 13px;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme] body .notif-new {
+  color: var(--color-green);
+  font-weight: 600;
+  margin-right: 6px;
+}
+html[data-theme] body .notif-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--success);
+}
+html[data-theme] body .notif-chevron,
+html[data-theme] body .notif-link {
+  flex: none;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+html[data-theme] body .notif-chevron {
+  font-size: 20px;
+  font-weight: 400;
+}
+html[data-theme] body .notif-actions {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] body .notif-row-main:active {
+    transition: none;
+  }
+}

@@ -22,6 +22,7 @@ vi.mock('../lib/notifications', () => ({
     return () => {};
   },
   markNotificationRead: (...a) => h.markRead(...a),
+  markNotificationsRead: async (ids) => ids.forEach((id) => h.markRead(id)),
 }));
 vi.mock('../lib/soloStreaks', () => ({ subscribeMySoloStreak: vi.fn(() => () => {}) }));
 
@@ -59,7 +60,7 @@ describe('onboarding notice', () => {
     expect(h.markRead).toHaveBeenCalledWith('n1');
     expect(h.markRead).toHaveBeenCalledWith('n2');
     h.markRead.mockClear();
-    const row = [...container.querySelectorAll('[role="button"]')].find((b) => b.textContent.includes('Onboarding has been updated'));
+    const row = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('Onboarding has been updated'));
     await act(async () => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
     expect(container.textContent).not.toContain('ONBOARDING FLOW');
     expect(h.show).toHaveBeenCalledWith('Onboarding is already finished.', expect.anything());
@@ -70,7 +71,7 @@ describe('onboarding notice', () => {
     h.rows = [notice('n1')];
     await renderIt();
     expect(h.markRead).not.toHaveBeenCalled();
-    const row = [...container.querySelectorAll('[role="button"]')].find((b) => b.textContent.includes('Onboarding has been updated'));
+    const row = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('Onboarding has been updated'));
     await act(async () => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
     expect(container.textContent).toContain('ONBOARDING FLOW');
   });

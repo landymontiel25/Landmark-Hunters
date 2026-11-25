@@ -1,4 +1,4 @@
-import { doc, addDoc, updateDoc, onSnapshot, collection, query, where, serverTimestamp, runTransaction, increment } from 'firebase/firestore';
+import { doc, addDoc, updateDoc, onSnapshot, collection, query, where, serverTimestamp, runTransaction, increment, writeBatch } from 'firebase/firestore';
 import { db, auth } from './firebase';
 
 // In-app notifications -- the part of item i2 this project can actually
@@ -65,4 +65,15 @@ export function subscribeMyNotifications(uid, onData, onError) {
 
 export async function markNotificationRead(id) {
   await updateDoc(doc(db, 'notifications', id), { read: true });
+}
+
+// Opening the list marks what's in it read, all at once (owner, 2026-11-25:
+// nobody should have to tap each one). One batched write per 450.
+export async function markNotificationsRead(ids = []) {
+  const list = [...new Set(ids)].filter(Boolean);
+  for (let i = 0; i < list.length; i += 450) {
+    const batch = writeBatch(db);
+    for (const id of list.slice(i, i + 450)) batch.update(doc(db, 'notifications', id), { read: true });
+    await batch.commit();
+  }
 }

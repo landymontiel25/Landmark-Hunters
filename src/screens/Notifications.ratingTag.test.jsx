@@ -23,6 +23,7 @@ vi.mock('../lib/notifications', () => ({
     return () => {};
   },
   markNotificationRead: async () => {},
+  markNotificationsRead: async () => {},
 }));
 vi.mock('../lib/soloStreaks', () => ({ subscribeMySoloStreak: (_uid, cb) => (cb(null), () => {}) }));
 
@@ -52,7 +53,7 @@ describe('rating tag notification', () => {
       );
     });
     expect(container.textContent).toContain('View rating');
-    const row = [...container.querySelectorAll('[role="button"]')].find((r) => r.textContent.includes('tagged you'));
+    const row = [...container.querySelectorAll('button')].find((r) => r.textContent.includes('tagged you'));
     await act(async () => row.click());
     expect(seen.path).toBe('/landmarks/miami/el-arepazo-doral');
     expect(seen.state).toEqual({ focusReviewId: 'u2_el-arepazo-doral' });
