@@ -1946,3 +1946,28 @@ Follow `docs/sf-import/README.md`.
 SF has 336 places and Silicon Valley 118, against Philly's 904. The research-
 first method keeps only places it can source. More neighborhood and town
 batches (`scripts/osm-import/research/sf/RESEARCH-PROMPT.md`) would grow both.
+
+## Notifications: offline sync celebration, list redesign, iOS push (2026-11-25)
+
+Done: a verified, paid offline check-in plays the same check-in blast on sync
+(`OfflineSyncCelebration.jsx`) and the server writes an `offline_checkin_paid`
+notification plus a "Check-in synced" push (`notifyOfflinePaid` in
+`api/offline-checkin.js`). The Notifications screen was redesigned (green New
+label and dot, auto mark-read on open via `markNotificationsRead`, badge clears).
+
+iOS push was broken at the plumbing level: `App/App.entitlements`
+(aps-environment) was never referenced by the App target, so iOS couldn't hand
+out an APNs token and no FCM token got saved. `CODE_SIGN_ENTITLEMENTS` is now
+set. The nightly export uses the pinned "LH" profile when it includes Push and
+falls back to automatic signing otherwise, then fails the run if the exported
+app lacks aps-environment.
+
+Owner steps still open (not verified from here):
+- Firebase Console > Project settings > Cloud Messaging: upload the APNs auth
+  key (.p8) for the iOS app. Without it FCM can't deliver to iPhones.
+- Apple Developer > Identifiers > com.landmarkhunters.app: Push Notifications
+  on; then regenerate the "LH" App Store profile and update the
+  IOS_APPSTORE_PROFILE secret, so the export stops needing the fallback.
+- Not built (build-first plan): the soft-ask after the first check-in, the
+  daily Mapr pick push, the geofence push and the 5/week cap. Permission is
+  still asked only from the Settings toggle.
