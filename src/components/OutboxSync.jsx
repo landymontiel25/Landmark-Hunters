@@ -19,7 +19,7 @@ export default function OutboxSync() {
       saveReview: (review) => submitReview({ ...review, photoFiles: [] }, { source: 'offline-checkin' }),
       onSynced: (job, out) => {
         try {
-          window.dispatchEvent(new CustomEvent(OFFLINE_CHECKIN_SYNCED_EVENT, { detail: { landmarkId: job.payload.landmarkId, saved: !!out.saved, verified: !!out.verified } }));
+          window.dispatchEvent(new CustomEvent(OFFLINE_CHECKIN_SYNCED_EVENT, { detail: { landmarkId: job.payload.landmarkId, landmarkName: job.payload.landmarkName, saved: !!out.saved, verified: !!out.verified, awarded: Number(out.awarded) || 0 } }));
         } catch {
           /* no window */
         }

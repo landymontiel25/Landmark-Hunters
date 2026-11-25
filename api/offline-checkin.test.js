@@ -46,14 +46,17 @@ describe('offline check-in: judged by the fix taken when they checked in', () =>
   it('checked in 10 m from the inn, synced 3 hours later from 100 miles away: verified and paid', async () => {
     const db = fakeDb();
     const pay = vi.fn(async () => ({ awarded: 100 }));
+    const notify = vi.fn(async () => {});
     const out = await syncOfflineCheckin(
       db,
       'u1',
       { clientId: 'job12345', region: 'abacos', landmarkId: place.id, fix: at(10), capturedAtMs, location: hundredMilesAway },
-      { nowMs: capturedAtMs + 3 * 3600_000, pro: async () => false, pay }
+      { nowMs: capturedAtMs + 3 * 3600_000, pro: async () => false, pay, notify }
     );
     expect(out.body).toMatchObject({ saved: true, verified: true, via: 'gps', awarded: 100 });
     expect(pay).toHaveBeenCalledOnce();
+    // Points landed: the notification goes out (owner, 2026-11-25).
+    expect(notify).toHaveBeenCalledWith(db, 'u1', expect.objectContaining({ name: place.name, awarded: 100, landmarkId: place.id }));
     // The check-in is dated when they checked in, and its proof is the fix from then.
     const checkin = db.docs.get(`checkins/u1_${place.id}`);
     expect(checkin.createdAt.toMillis()).toBe(capturedAtMs);
@@ -67,7 +70,7 @@ describe('offline check-in: judged by the fix taken when they checked in', () =>
       db,
       'u2',
       { clientId: 'job67890', region: 'abacos', landmarkId: place.id, fix: at(5000), capturedAtMs, location: { lat: place.lat, lng: place.lng } },
-      { nowMs: capturedAtMs + 3600_000, pro: async () => false, pay, radiusOn: true }
+      { nowMs: capturedAtMs + 3600_000, pro: async () => false, pay, radiusOn: true, notify: vi.fn() }
     );
     expect(out.body).toMatchObject({ saved: true, verified: false, reason: 'too-far', awarded: 0 });
     expect(pay).not.toHaveBeenCalled();
@@ -83,4 +86,28 @@ describe('offline check-in: judged by the fix taken when they checked in', () =>
     expect([...db.docs.keys()].filter((k) => /^checkins\/u3_[^/]+$/.test(k))).toHaveLength(1);
     expect(pay).toHaveBeenCalledOnce();
   });
+
+  it('the notification is sent once when the points land, never for a retry or an unpaid sync', async () => {
+    const db = fakeDb();
+    const notify = vi.fn(async () => {});
+    const body = { clientId: 'jobnotify1', region: 'abacos', landmarkId: place.id, fix: at(10), capturedAtMs };
+    const opts = { nowMs: capturedAtMs + 60_000, pro: async () => false, pay: async () => ({ awarded: 100 }), notify };
+    await syncOfflineCheckin(db, 'u4', body, opts);
+    await syncOfflineCheckin(db, 'u4', body, opts);
+    expect(notify).toHaveBeenCalledOnce();
+    await syncOfflineCheckin(fakeDb(), 'u5', { ...body, clientId: 'jobnotify2' }, { ...opts, pay: async () => ({ awarded: 0 }) });
+    expect(notify).toHaveBeenCalledOnce();
+  });
+
+  it('the notification is an inbox row plus a push, with the same words', async () => {
+    const { notifyOfflinePaid } = await import('./offline-checkin.js');
+    const db = fakeDb();
+    db.collection = ((orig) => (name) => (name === 'notifications' ? { add: async (d) => db.docs.set(`notifications/n1`, d) } : orig(name)))(db.collection);
+    const push = vi.fn(async () => ({ sent: 1 }));
+    await notifyOfflinePaid(db, 'u6', { name: 'Hope Town Inn & Marina', awarded: 100, landmarkId: place.id, region: 'abacos' }, { push });
+    const row = db.docs.get('notifications/n1');
+    expect(row).toMatchObject({ uid: 'u6', type: 'offline_checkin_paid', read: false, message: "Your offline check-in at Hope Town Inn & Marina synced and it's verified. +100 points." });
+    expect(push).toHaveBeenCalledWith('u6', expect.objectContaining({ title: 'Check-in synced', body: row.message }));
+  });
 });
+

@@ -8,6 +8,7 @@ import { loadPlace } from './_lib/loadPlace.js';
 import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin, homeOf, isNearHome } from './_lib/checkinPayout.js';
 import { isPro } from './_lib/entitlements.js';
+import { sendPushToUser } from './_lib/push.js';
 import { photoShowsPlace } from './_lib/photoCheck.js';
 import { guardPhoto, isOwnPlacePhoto } from './_lib/photoGuard.js';
 import { takeDailyQuota } from './_lib/usageQuota.js';
@@ -63,7 +64,16 @@ async function photoPasses(db, { uid, landmarkId, photoURL, place }) {
   return { ok: !!verdict.ok, why: verdict.reason || '' };
 }
 
-export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pro = isPro, photoCheck = photoPasses, pay = payVerifiedCheckin, radiusOn = CHECKIN_RADIUS_ON } = {}) {
+// The notice for an offline check-in that synced and paid: an inbox row
+// (notifications/, the app's list) and a push to their devices.
+export const offlinePaidMessage = (name, awarded) => `Your offline check-in at ${name} synced and it's verified. +${awarded} points.`;
+export async function notifyOfflinePaid(db, uid, { name, awarded, landmarkId, region }, { push = sendPushToUser } = {}) {
+  const message = offlinePaidMessage(name, awarded);
+  await db.collection('notifications').add({ uid, type: 'offline_checkin_paid', message, read: false, createdAt: FieldValue.serverTimestamp(), createdAtMs: Date.now(), landmarkId, ...(region ? { region } : {}) });
+  await push(uid, { title: 'Check-in synced', body: message, data: { type: 'offline_checkin_paid', landmarkId, region: region || '' } }).catch(() => null);
+}
+
+export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pro = isPro, photoCheck = photoPasses, pay = payVerifiedCheckin, radiusOn = CHECKIN_RADIUS_ON, notify = notifyOfflinePaid } = {}) {
   const { clientId, region, fix, capturedAtMs, photoURL = null } = body;
   const landmarkId = canonicalLandmarkId(String(body.landmarkId || ''), region);
   const doneRef = db.collection('offline_checkins').doc(`${uid}_${clientId}`);
@@ -180,6 +190,10 @@ export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pr
   }
   const result = { ok: true, saved: true, checkinId, verified, via, reason: verified ? null : reason, awarded };
   await doneRef.set({ uid, result, at: FieldValue.serverTimestamp() });
+  // Points landed: an in-app notification and a push, so they hear about it
+  // wherever they are in the app, or out of it (owner, 2026-11-25). Once:
+  // a retried sync answers from offline_checkins above and never gets here.
+  if (awarded > 0) await notify(db, uid, { name: place.name, awarded, landmarkId, region: String(region || place.regionId || '') }).catch(() => null);
   return { status: 200, body: result };
 }
 
