@@ -195,7 +195,13 @@ function cutClause(sentence, claimText) {
   const rest = (sentence.slice(0, start) + sentence.slice(end)).replace(/\s{2,}/g, ' ').replace(/^\s*[,;]\s*/, '');
   const words = rest.replace(/\{\{address:\d+\}\}/g, 'x').match(/[A-Za-z]{2,}/g) || [];
   if (words.length < 3) return null;
-  return /[.!?]\s*$/.test(rest) ? rest : rest.replace(/\s*$/, '') + (/[.!?]\s*$/.test(sentence) ? sentence.match(/[.!?]+\s*$/)[0] : '');
+  // What's left reads as a sentence: no leading "and" after the cut, and a
+  // capital first letter ("and you can climb" -> "You can climb").
+  const tidy = (t) => {
+    const u = t.replace(/^\s*(?:and|but|so|then|plus)\s+/i, '');
+    return u.charAt(0).toUpperCase() + u.slice(1);
+  };
+  return tidy(/[.!?]\s*$/.test(rest) ? rest : rest.replace(/\s*$/, '') + (/[.!?]\s*$/.test(sentence) ? sentence.match(/[.!?]+\s*$/)[0] : ''));
 }
 
 const fmtMin = (m) => (m >= 60 ? `${Math.floor(m / 60)} hr${m % 60 ? ` ${m % 60} min` : ''}` : `${m} min`);

@@ -236,7 +236,8 @@ export function placeQuestionTarget(text, places = []) {
   const hits = placesNamedIn(t, places, { limit: 3 });
   return hits.length && hits.every((l) => samePlace(l.name, hits[0].name)) ? hits[0].name : null;
 }
-const sentencesOf = (reply) => String(reply || '').match(/[^.!?]+(?:[.!?]+|$)\s*/g) || [String(reply || '')];
+// Sentences with their trailing space, never split inside "9 a.m." or "St." (splitSentences).
+const sentencesOf = (reply) => splitSentences(String(reply || '')).map((x) => `${x} `);
 const POINTS_ELSEWHERE = /\b(?:nearby|instead|alternatives?|you could (?:try|head)|if you(?:'|’)re (?:interested|looking))\b/i;
 // A sentence of a one-place answer that's about somewhere else: it names
 // another place (one of `others`, or a catalog place) and not the target,
@@ -362,7 +363,7 @@ export function backedBySearch(st, searched) {
 // search when none ran.
 export function withoutUnbacked(reply, names = [], { claimsOk = true } = {}) {
   const ns = names.map((n) => normName(n)).filter((n) => n.length >= 3);
-  const parts = String(reply || '').match(/[^.!?]+(?:[.!?]+|$)\s*/g) || [];
+  const parts = splitSentences(String(reply || '')).map((x) => `${x} `);
   return parts
     .filter((p) => {
       const t = ` ${normName(p)} `;

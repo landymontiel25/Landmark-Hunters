@@ -148,3 +148,12 @@ describe('withoutPlaces', () => {
   });
 });
 
+
+describe('cuts never break a sentence apart', () => {
+  it('"9 a.m." stays whole when another place is cut, and a cut clause reads as a sentence', async () => {
+    const { withoutPlaces } = await import('./plan-ai.js');
+    const { guardReply } = await import('./_lib/factGuard.js');
+    expect(withoutPlaces("Yes. It's open 9 a.m. to 5 p.m. daily. Abaco Beach Resort nearby has a pool.", 'Elbow Reef Lighthouse', { others: ['Abaco Beach Resort'] })).toBe("Yes. It's open 9 a.m. to 5 p.m. daily.");
+    expect(guardReply('Yes, absolutely. Open 9 a.m. to 5 p.m. daily except Sunday, and you can climb the 101 steps.', {}).reply).toMatch(/^Yes, absolutely\. You can climb the 101 steps\./);
+  });
+});
