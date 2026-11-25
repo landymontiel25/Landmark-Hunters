@@ -208,7 +208,7 @@ export default function CheckInReview() {
       setPostedAt(Date.now());
       setBlast(false);
       setSaving(false);
-      setMsg(OFFLINE_SAVED_MESSAGE);
+      setMsg(result.offlineMessage || OFFLINE_SAVED_MESSAGE);
       return;
     }
     // Points are awarded and the visit counted the instant commitCheckIn

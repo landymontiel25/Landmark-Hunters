@@ -4,7 +4,7 @@ import { API_BASE } from './apiBase';
 import { authHeaders } from './apiAuth';
 import { putJob, listJobs, registerOutboxHandler, updateJob } from './outbox';
 import { uploadCheckinPhotoFile, addCheckinPhotoURL } from './leaderboard';
-import { OFFLINE_FREE_PER_DAY, presenceLabel } from './presence';
+import { OFFLINE_FREE_PER_DAY, presenceLabel, offlineCheckinDecision } from './presence';
 
 // Check-ins made with no internet (owner, 2026-11-24). GPS works offline, so
 // the phone keeps the fix, the moment, the photo and the rating in its
@@ -13,9 +13,26 @@ import { OFFLINE_FREE_PER_DAY, presenceLabel } from './presence';
 // photo when the fix was close but not inside the radius) and pays only
 // then. Free accounts: OFFLINE_FREE_PER_DAY a day; Pro: no limit.
 
+// What counts is where they were when they checked in, never where they are
+// when the phone gets signal back (owner, 2026-11-24). The phone knows the
+// fix it just saved, so the message says how this one will go.
+export const OFFLINE_HINT =
+  "You're offline. Check in anyway: it counts from where you are right now, so if you're within 30 meters of the place you'll get the points once you're back online, wherever you are then.";
 export const OFFLINE_SAVED_MESSAGE =
-  "You're offline, so this check-in is saved on your phone. If you're within 30 meters, you'll get the points when you're back online.";
-export const OFFLINE_HINT = "You're offline. Check in anyway: if you're within 30 meters, you'll get the points when you're back online.";
+  "You're offline, so this check-in is saved on your phone. It counts from where you were when you checked in, so you'll get the points once you're back online, wherever you are then.";
+
+// The "Saved on your phone" line for the fix this check-in was saved with.
+export function offlineSavedMessage(landmark, fix, nowMs = Date.now()) {
+  const d = offlineCheckinDecision({ place: landmark, fix, capturedAtMs: nowMs, nowMs });
+  const lead = "You're offline, so this check-in is saved on your phone.";
+  const anywhere = "no matter where you are then";
+  if (d.tier === 'gps') return `${lead} You were within ${d.radiusMeters} meters when you checked in, so you'll get the points when you're back online, ${anywhere}.`;
+  if (d.tier === 'photo') {
+    return `${lead} You were about ${Math.round(d.distanceMeters)} meters away when you checked in, outside its ${d.radiusMeters}-meter check-in area, so it earns points when you're back online only if your photo shows the place, ${anywhere}.`;
+  }
+  if (d.reason === 'too-far') return `${lead} You were too far from the place when you checked in, so it'll be saved but won't earn points.`;
+  return OFFLINE_SAVED_MESSAGE;
+}
 export const OFFLINE_LIMIT_MESSAGE = `You've used today's ${OFFLINE_FREE_PER_DAY} offline check-ins. Pro has no limit. Check in here again when you're back online.`;
 export const OFFLINE_CHECKIN_SYNCED_EVENT = 'lh:offline-checkin-synced';
 export const OFFLINE_NEEDS_GPS_MESSAGE = "I couldn't get your GPS position, so this check-in can't be saved offline. Try again in the open.";

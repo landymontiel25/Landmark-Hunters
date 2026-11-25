@@ -87,3 +87,41 @@ describe('offline check-ins on the phone', () => {
     expect(oc.syncedNotice('Nippers', { saved: false, reason: 'offline-limit', limit: 5 })).toMatch(/over today's 5 offline check-ins/);
   });
 });
+
+describe('it counts from where they were when they checked in (owner, 2026-11-24)', () => {
+  beforeEach(() => {
+    outbox._resetOutboxForTests();
+    localStorage.clear();
+  });
+
+  it('the sync sends the fix and time saved at check-in, and never asks where the phone is now', async () => {
+    const saved = fixAt(10);
+    // The phone is 100 miles away by the time it gets signal back.
+    const getCurrentPosition = vi.fn((ok) => ok({ coords: { latitude: place.lat + 1.45, longitude: place.lng, accuracy: 5 }, timestamp: at + 5 * 3600_000 }));
+    Object.defineProperty(globalThis.navigator, 'geolocation', { value: { getCurrentPosition, watchPosition: getCurrentPosition }, configurable: true });
+    const fetchImpl = vi.fn(async () => ({ ok: true, status: 200, json: async () => ({ ok: true, saved: true, verified: true, awarded: 100 }) }));
+    outbox.registerOutboxHandler('checkin', oc.makeCheckinHandler({ fetchImpl, upload: vi.fn(), addPhoto: vi.fn() }));
+    await oc.queueOfflineCheckin({ uid: 'u1', landmark: { id: 'lh', region: 'abacos', name: 'Elbow Reef Lighthouse' }, fix: saved, nowMs: at });
+    await outbox.flushOutbox('u1');
+    const body = JSON.parse(fetchImpl.mock.calls[0][1].body);
+    expect(body.fix).toEqual({ lat: saved.lat, lng: saved.lng, accuracy: saved.accuracy, timestamp: saved.timestamp });
+    expect(body.capturedAtMs).toBe(at);
+    expect(getCurrentPosition).not.toHaveBeenCalled();
+  });
+
+  it('"Saved on your phone" says the points depend on where they were when they checked in', () => {
+    const lighthouse = { ...place, checkInRadiusMeters: 150 };
+    expect(oc.offlineSavedMessage(lighthouse, fixAt(20), at)).toBe(
+      "You're offline, so this check-in is saved on your phone. You were within 150 meters when you checked in, so you'll get the points when you're back online, no matter where you are then."
+    );
+    // A single landmark with no area of its own: 30 meters.
+    expect(oc.offlineSavedMessage(place, fixAt(10), at)).toMatch(/You were within 30 meters when you checked in, so you'll get the points when you're back online, no matter where you are then\.$/);
+    expect(oc.offlineSavedMessage(place, fixAt(300), at)).toMatch(/You were about 300 meters away when you checked in.*only if your photo shows the place, no matter where you are then\.$/);
+    expect(oc.offlineSavedMessage(place, fixAt(5000), at)).toMatch(/too far from the place when you checked in, so it'll be saved but won't earn points\.$/);
+    for (const m of [oc.OFFLINE_HINT, oc.OFFLINE_SAVED_MESSAGE, oc.offlineSavedMessage(place, fixAt(10), at)]) {
+      expect(m).not.toMatch(/[\u2014\u2013]/);
+      expect(m).not.toMatch(/If you're within 30 meters, you'll get the points when you're back online\.$/);
+    }
+  });
+});
+

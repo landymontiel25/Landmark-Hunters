@@ -1,6 +1,6 @@
 import { isOffline } from './friendlyError';
 import { freshFix } from './verifyPresence';
-import { canCheckInOffline, queueOfflineCheckin, OFFLINE_LIMIT_MESSAGE, OFFLINE_NEEDS_GPS_MESSAGE, OFFLINE_CHECKIN_SYNCED_EVENT } from './offlineCheckins';
+import { canCheckInOffline, queueOfflineCheckin, offlineSavedMessage, OFFLINE_LIMIT_MESSAGE, OFFLINE_NEEDS_GPS_MESSAGE, OFFLINE_CHECKIN_SYNCED_EVENT } from './offlineCheckins';
 import { createContext, useEffect, useRef, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useFriends } from './FriendsContext';
@@ -171,7 +171,8 @@ export function CheckInProvider({ children }) {
       if (!at) throw Object.assign(new Error(OFFLINE_NEEDS_GPS_MESSAGE), { userMessage: OFFLINE_NEEDS_GPS_MESSAGE, code: 'checkin/offline-no-gps' });
       const job = await queueOfflineCheckin({ uid: user.uid, landmark, fix: at, review: offline.review || null, photos: offline.photos || [] });
       setCelebration({ points: 0, rank: null, message: null });
-      return { claimed: false, queuedOffline: true, jobId: job.id, payout: 0 };
+      // The line for "Saved on your phone", from the fix just saved.
+      return { claimed: false, queuedOffline: true, jobId: job.id, payout: 0, offlineMessage: offlineSavedMessage(landmark, at) };
     }
     const blocked = checkinBlockReason(fix, landmark, { ratingOnly: !!checkInOptions?.ratingOnly, anywhere: checksInAnywhere(user) });
     if (blocked) {

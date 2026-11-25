@@ -155,7 +155,7 @@ export function offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last =
   const limits = PRESENCE_LIMITS[placeType];
   const own = Number.isFinite(place?.checkInRadiusMeters) && place.checkInRadiusMeters > 0 ? Math.min(place.checkInRadiusMeters, PRESENCE_MAX_RADIUS_METERS) : 0;
   const radiusMeters = Math.max(limits.radiusMeters, own);
-  const out = (tier, reason, extra = {}) => ({ tier, reason, placeType, distanceMeters: null, ...extra });
+  const out = (tier, reason, extra = {}) => ({ tier, reason, placeType, radiusMeters, distanceMeters: null, ...extra });
   if (!finite(place?.lat) || !finite(place?.lng)) return out('refused', 'no-place');
   if (!validFix(fix)) return out('refused', 'no-location');
   if (!finite(capturedAtMs) || capturedAtMs - nowMs > PRESENCE_FIX_CLOCK_SKEW_MS || nowMs - capturedAtMs > OFFLINE_MAX_AGE_MS) return out('refused', 'stale-checkin');
