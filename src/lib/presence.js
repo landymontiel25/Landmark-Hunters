@@ -150,7 +150,7 @@ export const OFFLINE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 // Free accounts: offline check-ins a day. Pro: no limit.
 export const OFFLINE_FREE_PER_DAY = 5;
 
-export function offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last = null }) {
+export function offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last = null, radiusOn = true }) {
   const placeType = placeTypeFor(place);
   const limits = PRESENCE_LIMITS[placeType];
   const own = Number.isFinite(place?.checkInRadiusMeters) && place.checkInRadiusMeters > 0 ? Math.min(place.checkInRadiusMeters, PRESENCE_MAX_RADIUS_METERS) : 0;
@@ -163,6 +163,9 @@ export function offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last =
   if (Math.abs(capturedAtMs - fix.timestamp) > PRESENCE_FIX_MAX_AGE_MS) return out('refused', 'stale-fix');
   const distance = Math.round(metersBetween(fix.lat, fix.lng, place.lat, place.lng));
   const measured = { distanceMeters: distance };
+  // The radius off for everyone (maprConstants CHECKIN_RADIUS_ON): wherever
+  // they were, it counts.
+  if (!radiusOn) return out('gps', null, { ...measured, radiusOff: true });
   if (fix.mocked === true) return out('refused', 'mocked', measured);
   if (last && finite(last.lat) && finite(last.lng) && finite(last.atMs) && last.atMs <= fix.timestamp) {
     const km = metersBetween(last.lat, last.lng, fix.lat, fix.lng) / 1000;

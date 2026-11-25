@@ -11,7 +11,7 @@ describe('Planner launch list (Test tab)', () => {
 
   it('every entry says what it hides, what stays, when and where', () => {
     for (const item of TURNED_OFF) {
-      expect(item.hides && item.keeps && item.since && item.pr).toBeTruthy();
+      expect(item.hides && item.keeps && item.since && (item.pr || item.commit)).toBeTruthy();
     }
     for (const item of REMOVED) expect(item.what && item.since && item.pr).toBeTruthy();
   });

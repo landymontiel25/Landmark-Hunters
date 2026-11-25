@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+// These cover the radius when it's on (it's off for everyone since 2026-11-24).
+vi.mock('./maprConstants.js', async (orig) => ({ ...(await orig()), CHECKIN_RADIUS_ON: true }));
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 import { createRoot } from 'react-dom/client';

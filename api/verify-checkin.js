@@ -10,6 +10,7 @@ import { toMs } from './_lib/time.js';
 import { userDayKey } from './_lib/streakClock.js';
 import { payVerifiedCheckin } from './_lib/checkinPayout.js';
 import { isAdmin } from '../src/lib/admins.js';
+import { CHECKIN_RADIUS_ON } from '../src/lib/maprConstants.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the
@@ -49,8 +50,11 @@ async function handler(req, res) {
   // and "Check-in radius off" on, the admin's own check-ins verify without
   // being there. Admin Mode off (or never set): held to the radius like
   // everyone. Signed-in, verified admin email only; nobody else, ever.
-  let anywhere = false;
-  if (account.emailVerified && isAdmin(account.email)) {
+  // The radius is off for everyone (maprConstants CHECKIN_RADIUS_ON): every
+  // check-in verifies wherever it was made.
+  const radiusOff = !CHECKIN_RADIUS_ON;
+  let anywhere = radiusOff;
+  if (!anywhere && account.emailVerified && isAdmin(account.email)) {
     const settings = await adminDb().collection('admin_settings').doc(account.uid).get().catch(() => null);
     const s = settings?.exists ? settings.data() : null;
     anywhere = s?.adminMode === true && s?.checkinAnywhere !== false;
@@ -90,7 +94,7 @@ async function handler(req, res) {
     const nowMs = Date.now();
     const real = validFix(fix);
     const result = anywhere
-      ? { verified: !!place, reason: place ? null : 'no-place', placeType: place ? placeTypeFor(place) : null, distanceMeters: null, adminAnywhere: true }
+      ? { verified: !!place, reason: place ? null : 'no-place', placeType: place ? placeTypeFor(place) : null, distanceMeters: null, ...(radiusOff ? { radiusOff: true } : { adminAnywhere: true }) }
       : checkPresence({
       place,
       fix,
@@ -102,7 +106,7 @@ async function handler(req, res) {
     // No distance or GPS accuracy on the check-in (Phase 2): anyone who may
     // read it would see them. They stay in the server-only proof below.
     const presence = result.verified
-      ? { verified: true, placeType: result.placeType, verifiedAt: FieldValue.serverTimestamp(), version: 2, ...(result.adminAnywhere ? { adminAnywhere: true } : {}) }
+      ? { verified: true, placeType: result.placeType, verifiedAt: FieldValue.serverTimestamp(), version: 2, ...(result.adminAnywhere ? { adminAnywhere: true } : {}), ...(result.radiusOff ? { radiusOff: true } : {}) }
       : { verified: false, reason: result.reason, placeType: result.placeType, checkedAt: FieldValue.serverTimestamp(), version: 2 };
 
     const batch = db.batch();

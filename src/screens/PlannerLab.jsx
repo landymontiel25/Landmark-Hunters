@@ -4,6 +4,7 @@ import LandmarkSelection from './LandmarkSelection';
 // Test tab "Planner launch" (owner, 2026-11-02; was "Planner"): the list of everything turned off
 // for now, so nothing gets forgotten. The entries live in plannerList.js.
 const REPO = 'https://github.com/landymontiel25/Landmark-Hunters/pull/';
+const COMMIT = 'https://github.com/landymontiel25/Landmark-Hunters/commit/';
 
 export default function PlannerLab() {
   return (
@@ -23,9 +24,16 @@ export default function PlannerLab() {
             <p className="planner-keeps">{item.keeps}</p>
             <p className="planner-where">
               <code>{item.check}</code> in <code>{item.file}</code> ·{' '}
-              <a href={`${REPO}${item.pr}`} target="_blank" rel="noreferrer">
-                #{item.pr}
-              </a>
+              {/* Merged straight to main (no PR): the commit instead. */}
+              {item.pr ? (
+                <a href={`${REPO}${item.pr}`} target="_blank" rel="noreferrer">
+                  #{item.pr}
+                </a>
+              ) : (
+                <a href={`${COMMIT}${item.commit}`} target="_blank" rel="noreferrer">
+                  {String(item.commit).slice(0, 7)}
+                </a>
+              )}
             </p>
           </li>
         ))}

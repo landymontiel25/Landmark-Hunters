@@ -16,6 +16,7 @@ import { offlineCheckinDecision, validFix, OFFLINE_FREE_PER_DAY } from '../src/l
 import { isRealCheckin } from '../src/lib/realCheckin.js';
 import { canonicalLandmarkId } from '../src/data/regions.js';
 import { POINTS_PER_CHECKIN } from '../src/lib/checkinPoints.js';
+import { CHECKIN_RADIUS_ON } from '../src/lib/maprConstants.js';
 
 // An offline check-in, synced (owner, 2026-11-24). The phone checked in with
 // no internet: it kept the GPS fix, the moment and maybe a photo, and sends
@@ -62,7 +63,7 @@ async function photoPasses(db, { uid, landmarkId, photoURL, place }) {
   return { ok: !!verdict.ok, why: verdict.reason || '' };
 }
 
-export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pro = isPro, photoCheck = photoPasses, pay = payVerifiedCheckin } = {}) {
+export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pro = isPro, photoCheck = photoPasses, pay = payVerifiedCheckin, radiusOn = CHECKIN_RADIUS_ON } = {}) {
   const { clientId, region, fix, capturedAtMs, photoURL = null } = body;
   const landmarkId = canonicalLandmarkId(String(body.landmarkId || ''), region);
   const doneRef = db.collection('offline_checkins').doc(`${uid}_${clientId}`);
@@ -99,7 +100,7 @@ export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pr
   const stateRef = db.collection('presence_state').doc(uid);
   const stateSnap = await stateRef.get();
   const last = stateSnap.exists ? stateSnap.data() : null;
-  const decision = offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last: last ? { lat: last.lat, lng: last.lng, atMs: last.atMs } : null });
+  const decision = offlineCheckinDecision({ place, fix, capturedAtMs, nowMs, last: last ? { lat: last.lat, lng: last.lng, atMs: last.atMs } : null, radiusOn });
   let verified = decision.tier === 'gps';
   let via = verified ? 'gps' : null;
   let reason = decision.reason;

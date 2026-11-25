@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest';
+// These cover the radius when it's on (it's off for everyone since 2026-11-24).
+vi.mock('./maprConstants.js', async (orig) => ({ ...(await orig()), CHECKIN_RADIUS_ON: true }));
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 
@@ -24,7 +26,7 @@ async function post({ rule, fix, ratingOnly = false }) {
   const claim = vi.fn(async () => ({ claimed: true, alreadyClaimed: false, payout: 100, visitNumber: 1, checkinId: 'u_lm' }));
   const verify = vi.fn(async () => ({ ok: true, verified: true, reason: null }));
   vi.doMock('./verifyPresence', () => ({ verifyCheckinPresence: verify }));
-  vi.doMock('./maprConstants', async () => ({ ...(await vi.importActual('./maprConstants')), REQUIRE_GPS_CHECKIN: rule }));
+  vi.doMock('./maprConstants', async () => ({ ...(await vi.importActual('./maprConstants')), REQUIRE_GPS_CHECKIN: rule, CHECKIN_RADIUS_ON: true }));
   vi.doMock('./AuthContext', () => ({ useAuth: () => authState }));
   vi.doMock('./FriendsContext', () => ({ useFriends: () => friendsState }));
   vi.doMock('./leaderboard', () => ({

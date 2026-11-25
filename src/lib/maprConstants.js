@@ -187,6 +187,14 @@ export const REQUEST_FOR_VALUES = ['solo', 'group'];
 // Back ON 2026-11-23 (owner): with points paid only by the server for a
 // verified visit, the phone also refuses a check-in it can't place there.
 export const REQUIRE_GPS_CHECKIN = true;
+// The check-in radius, for everyone (owner, 2026-11-24: "Turn off check-in
+// radius for everyone"). OFF: anyone checks in from anywhere, like the
+// admin's own "Check-in radius off": no distance block on the phone, the
+// server verifies (and pays) wherever they are (api/verify-checkin.js,
+// api/offline-checkin.js), and mission photos skip the "taken here" check
+// (the photo still has to show the mission). Set back to true to bring the
+// radius back. On the Test tab's Planner launch list (plannerList.js).
+export const CHECKIN_RADIUS_ON = false;
 // How close you must be (meters) to a place that has no radius of its own.
 // Big venues (parks, malls, beaches, national parks) keep their own larger
 // `checkInRadiusMeters` in src/data/landmarks.*.js, which replaces this number

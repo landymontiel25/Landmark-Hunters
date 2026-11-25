@@ -1,3 +1,4 @@
+import { CHECKIN_RADIUS_ON } from './maprConstants.js';
 // Who can approve/reject a submitted landmark before it goes live. Plain
 // email allowlist for now -- simplest thing that works for a couple of
 // trusted people; swap for a real roles system later if this grows.
@@ -18,7 +19,9 @@ export function setCheckinAnywhereLive(on) {
   checkinAnywhereLive = on !== false;
 }
 
-export const checksInAnywhere = (user) => isAdmin(user?.email) && checkinAnywhereLive;
+// With the radius off for everyone (maprConstants CHECKIN_RADIUS_ON), every
+// signed-in account checks in from anywhere.
+export const checksInAnywhere = (user) => (!CHECKIN_RADIUS_ON && !!user) || (isAdmin(user?.email) && checkinAnywhereLive);
 
 export function isAdmin(email) {
   return !!email && ADMIN_EMAILS.includes(email.toLowerCase());

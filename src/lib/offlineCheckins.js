@@ -5,6 +5,7 @@ import { authHeaders } from './apiAuth';
 import { putJob, listJobs, registerOutboxHandler, updateJob } from './outbox';
 import { uploadCheckinPhotoFile, addCheckinPhotoURL } from './leaderboard';
 import { OFFLINE_FREE_PER_DAY, presenceLabel, offlineCheckinDecision } from './presence';
+import { CHECKIN_RADIUS_ON } from './maprConstants.js';
 
 // Check-ins made with no internet (owner, 2026-11-24). GPS works offline, so
 // the phone keeps the fix, the moment, the photo and the rating in its
@@ -16,16 +17,22 @@ import { OFFLINE_FREE_PER_DAY, presenceLabel, offlineCheckinDecision } from './p
 // What counts is where they were when they checked in, never where they are
 // when the phone gets signal back (owner, 2026-11-24). The phone knows the
 // fix it just saved, so the message says how this one will go.
-export const OFFLINE_HINT =
+export const OFFLINE_HINT_RADIUS =
   "You're offline. Check in anyway: it counts from where you are right now, so if you're within 30 meters of the place you'll get the points once you're back online, wherever you are then.";
+// With the radius off for everyone (maprConstants CHECKIN_RADIUS_ON) there's
+// no distance to mention.
+export const OFFLINE_HINT_ANYWHERE = "You're offline. Check in anyway: you'll get the points once you're back online, wherever you are then.";
+export const offlineHint = (radiusOn = CHECKIN_RADIUS_ON) => (radiusOn ? OFFLINE_HINT_RADIUS : OFFLINE_HINT_ANYWHERE);
+export const OFFLINE_HINT = offlineHint();
 export const OFFLINE_SAVED_MESSAGE =
   "You're offline, so this check-in is saved on your phone. It counts from where you were when you checked in, so you'll get the points once you're back online, wherever you are then.";
 
 // The "Saved on your phone" line for the fix this check-in was saved with.
-export function offlineSavedMessage(landmark, fix, nowMs = Date.now()) {
-  const d = offlineCheckinDecision({ place: landmark, fix, capturedAtMs: nowMs, nowMs });
+export function offlineSavedMessage(landmark, fix, nowMs = Date.now(), { radiusOn = CHECKIN_RADIUS_ON } = {}) {
   const lead = "You're offline, so this check-in is saved on your phone.";
   const anywhere = "no matter where you are then";
+  if (!radiusOn) return `${lead} You'll get the points when you're back online, ${anywhere}.`;
+  const d = offlineCheckinDecision({ place: landmark, fix, capturedAtMs: nowMs, nowMs });
   if (d.tier === 'gps') return `${lead} You were within ${d.radiusMeters} meters when you checked in, so you'll get the points when you're back online, ${anywhere}.`;
   if (d.tier === 'photo') {
     return `${lead} You were about ${Math.round(d.distanceMeters)} meters away when you checked in, outside its ${d.radiusMeters}-meter check-in area, so it earns points when you're back online only if your photo shows the place, ${anywhere}.`;

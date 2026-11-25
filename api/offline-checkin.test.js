@@ -67,7 +67,7 @@ describe('offline check-in: judged by the fix taken when they checked in', () =>
       db,
       'u2',
       { clientId: 'job67890', region: 'abacos', landmarkId: place.id, fix: at(5000), capturedAtMs, location: { lat: place.lat, lng: place.lng } },
-      { nowMs: capturedAtMs + 3600_000, pro: async () => false, pay }
+      { nowMs: capturedAtMs + 3600_000, pro: async () => false, pay, radiusOn: true }
     );
     expect(out.body).toMatchObject({ saved: true, verified: false, reason: 'too-far', awarded: 0 });
     expect(pay).not.toHaveBeenCalled();

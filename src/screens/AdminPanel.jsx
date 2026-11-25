@@ -8,6 +8,7 @@ import { authHeaders } from '../lib/apiAuth';
 import { restartOnboardingAsNew } from '../lib/onboardingSave';
 import { subscribeAnnouncement, setAnnouncement, clearAnnouncement, ANNOUNCEMENT_MAX } from '../lib/announcement';
 import { friendlyError } from '../lib/friendlyError';
+import { CHECKIN_RADIUS_ON } from '../lib/maprConstants';
 
 // Admin Mode (owner, 2026-11-23: one admin mode, and it is this panel):
 // everything the admin account can do, full screen, from Admin Mode in the
@@ -141,7 +142,11 @@ export default function AdminPanel() {
         <section className="admin-section" aria-label="Check-in radius">
           <Switch
             label="Check-in radius off"
-            detail="Check in from anywhere. Your account only; everyone else always has to be there."
+            detail={
+              CHECKIN_RADIUS_ON
+                ? 'Check in from anywhere. Your account only; everyone else always has to be there.'
+                : "The radius is off for everyone right now, so everyone checks in from anywhere (maprConstants CHECKIN_RADIUS_ON)."
+            }
             checked={checkinAnywhere}
             disabled={!adminMode}
             onChange={(on) => setCheckinAnywhere(on).catch((e) => toast.show(friendlyError(e, "Couldn't save that. Try again.")))}

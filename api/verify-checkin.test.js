@@ -1,4 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+// These cover the radius when it's on (it's off for everyone since 2026-11-24).
+vi.mock('../src/lib/maprConstants.js', async (orig) => ({ ...(await orig()), CHECKIN_RADIUS_ON: true }));
 
 // Fake firebase-admin: an in-memory doc store with batch writes, so the test
 // drives the real handler end to end.

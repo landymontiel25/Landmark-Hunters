@@ -6,6 +6,16 @@
 // off.
 export const TURNED_OFF = [
   {
+    name: 'Check-in radius (everyone)',
+    hides: 'The rule that you have to be at a place to check in. Anyone can check in from anywhere, and the check-in is verified and pays like a visit; offline check-ins count wherever they were made; mission photos skip the "taken here" check.',
+    keeps: 'The photo checks still judge what a photo shows, check-in points still pay once per account, and the radius code stays: switching it back on restores the 30 m rule and each place\'s own area.',
+    since: '2026-11-24',
+    // Merged straight to main, no PR: the commit that switched it off.
+    commit: 'PENDING',
+    file: 'src/lib/maprConstants.js',
+    check: 'CHECKIN_RADIUS_ON = false',
+  },
+  {
     name: '"From people who went" (landmark page)',
     hides: 'The "From people who went" tips section on a landmark\'s page, opened from the Landmarks tab or the Map. Nothing shows in its place.',
     keeps: 'Tips are still shared after a verified check-in and still saved; the Feed still shows them.',
