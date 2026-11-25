@@ -168,3 +168,18 @@ describe('plan-ai asksToRate: iPhone apostrophes', () => {
     expect(asksToRate('Let’s rate some places')).toBe(true);
   });
 });
+
+describe('plan-ai answer length (owner, 2026-11-24)', () => {
+  const long =
+    'Sunset Pizza has wood-fired pies and you loved pizza at Nippers. Treasure Sands Club does a proper steak on the beach. Coconuts Grill is the casual pick with water views. All three are in Treasure Cay. Book Treasure Sands ahead on weekends. There is also a small bakery nearby.';
+  it('a quick question stays at two sentences', () => {
+    expect(conciseReply(long, 'is it open now?').split(/(?<=\.)\s/).length).toBe(2);
+  });
+  it('a recommendation or a plan keeps its picks and whys, whole sentences, still bounded', () => {
+    const out = conciseReply(long, 'Where should I eat dinner in Treasure Cay?');
+    expect(out).toMatch(/Sunset Pizza.*Treasure Sands Club.*Coconuts Grill/s);
+    expect(out.length).toBeLessThanOrEqual(650);
+    expect(out).not.toMatch(/bakery/);
+    expect(conciseReply(long, 'Plan my afternoon in Hope Town').split(/(?<=\.)\s/).length).toBeGreaterThan(2);
+  });
+});

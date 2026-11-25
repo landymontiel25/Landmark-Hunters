@@ -168,6 +168,28 @@ the PR that finishes it.
   the app anyway). A landmark the owner rejects later disappears from lists
   in the app but its doc stays listable by date for grandfathered ones.
 
+## Mapr upgrade: taste memory, links, search, speed (2026-11-24)
+
+- **Taste memory** (api/_lib/tasteMemory.js): every rating, "Would you come
+  back?" answer and check-in, read from Firestore on each reply; kinds loved
+  and avoided, places they'd go back to, regulars. Goes into the prompt
+  (TASTE MEMORY) and the ranking; snapshot at mapr_taste/{uid}. The
+  come-back answer weighs as much as the rating (placeKinds
+  placeTasteWeight) on every Mapr surface.
+- **Links and cards:** each catalog place a reply names gets its card; a
+  landmark ask always returns it; {{place:N}} links (caps: placeLinks);
+  web cards show Source.
+- **Search:** evidence per reply (searches run, result URLs, cited text).
+  A claimed or needed search that didn't run, or places not in the
+  results, go back once (search forced); anything still unbacked is
+  dropped and Mapr says so.
+- **Models:** Sonnet 5 (thinking off) for open recommendations/searches and
+  every backstop retry; Haiku 4.5 for the rest (aiModels.js).
+- **Speed:** only the catalog cities a message is about (was ~52k tokens
+  every reply), the app guide only for app questions (~34k), slow reads in
+  parallel, town lookup prefetched and capped, 3 searches max.
+- **Length:** quick questions short, recommendations and plans fuller.
+
 ## Offline outbox: photos, ratings, mission photos (2026-11-24)
 
 - **Done.** Fixes "Rating saved, but your photo couldn't upload": a photo

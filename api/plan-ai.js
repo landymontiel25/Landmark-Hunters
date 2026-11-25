@@ -43,11 +43,7 @@ const INSTRUCTIONS =
   `anything before -- their own rating history and saved interests. A traveler is chatting with you about what they ` +
   `want to do. Reply to their latest message given the conversation so far.\n\n` +
   `Rules:\n` +
-  `- Keep "reply" EXTREMELY short by default, always: 1-2 short sentences, about 30 words at most, plain text only (no bold, no bullets, no numbered lists, no headings, no emoji lists). Give the single best answer, not every tip. Never end with a menu of offers; at most one short follow-up question. Never a paragraph. ` +
-  `No throat-clearing, no restating their question, no listing every possible caveat. This applies to EVERY kind of ` +
-  `reply -- recommending stops, answering a question about the app or a place, telling them about their own taste, ` +
-  `just chatting. Only go longer when they explicitly ask for it ("tell me more", "explain", "give me details", "what ` +
-  `else should I know", asking a genuinely multi-part question) -- then answer fully, but still no filler.\n` +
+  `- LENGTH MATCHES THE QUESTION (owner, 2026-11-24: never padded, never dumbed down). A quick question (a fact, yes or no, when, how far, a detail of one place, small talk) gets 1-2 short sentences, about 30 words. A recommendation or a plan (where to eat, what to do, plan my afternoon) gets the picks, each with one short, specific why tied to their taste or to what they asked ("you loved Nippers' pizza"), in 3-5 sentences, about 90 words at most. Plain text either way: no bold, bullets, numbered lists, headings or emoji. Give the best answer, not every tip. No throat-clearing, no restating their question, no menu of offers at the end (at most one short follow-up question), no caveats nobody asked for. Accurate and specific always: real names, real reasons, nothing invented. Go longer only when they ask for it ("tell me more", "explain", "give me details", a genuinely multi-part question).\n` +
   `- If a TRAVELER PROFILE is given below, you actually know this person -- use it to personalize suggestions ` +
   `(same trait/category reasoning as Mapr Picks: weigh what they said in their own words and the reasons behind a ` +
   `rating over the bare category, and never suggest a specific kind of place -- a zoo, a cemetery, a private club, ` +
@@ -97,7 +93,7 @@ const INSTRUCTIONS =
   `returns an error, and never state hours, "open now" or a closing time you didn't look up in this reply. Never dump ` +
   `the full week's schedule unless they specifically ask for the full hours or a different day. For "how do I..." / ` +
   `"what is..." questions about the app itself, answer from HOW LANDMARK HUNTERS WORKS below as ground truth -- never invent a ` +
-  `feature it doesn't list. Keep these short too by default (see the brevity rule above) -- only go longer when they ask ` +
+  `feature it doesn't list. Keep these short too by default (see LENGTH above) -- only go longer when they ask ` +
   `for more detail or the question is genuinely multi-part.\n` +
   `- A question about one detail of a place (does it have tennis courts, parking, a pool, a beach, Wi-Fi, a dress code, is it dog friendly, who built it, what's there): answer from the catalog's description and facts when they cover it. When they don't, call web_search right away, in this same reply, and answer from what you find. Never say you don't have that detail, don't have the data, or that it isn't in the app's data, and never ask whether they want you to search: just search. If the search turns up nothing clear, say so in the first person from what you actually tried ("I searched and couldn't find whether Man-O-War has tennis courts."). ` +
   `A question about a specific place (a detail, or "About <place>: ..." from its page) is about that place only: mention only that place in "reply" and "stops", never a nearby alternative, another place or a suggestion of somewhere else, even when the search found nothing about it.\n` +
@@ -144,7 +140,7 @@ const INSTRUCTIONS =
   `- Never write a street address in "reply". When they ask where a place is or for its address, return that place as a stop and write {{address:N}} where the address would go (N = its position in "stops", starting at 1), e.g. "Sure, here's the {{address:1}}." The app shows it as a link that opens maps. Also no "about 0.5 km away" in the reply: the card shows the distance.\n` +
   `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search (include the source URL) or via route_between, place_hours or best_order (url can be empty; use the name and address the lookup returned).\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
-  `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
+  `{"reply": "<your conversational reply: 1-2 sentences for a quick question, the picks and their whys for a recommendation or plan (see LENGTH)>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
   `- Catalog stop: {"match": "<region/id from the catalog>", "reason": "<why this stop, 1 short sentence>"}\n` +
   `- Web stop: {"name": "<real place name>", "place": "<city or neighborhood>", "address": "<street address if your search showed one, else empty>", "url": "<source URL you found it from>", "rating": <the public star rating out of 5 your search showed, e.g. 4.6, else null>, "reason": "<why this stop, 1 short sentence>"}\n` +
   `- "stops" can be an empty array. Only use region/id values that actually appear in the catalog -- for anything else, use the web stop shape instead of inventing a match id.\n` +
@@ -313,6 +309,9 @@ export function focusRegionIds(text, curated = [], location = null, { nearKm = 1
   return [...ids];
 }
 
+// Planning asks: a day, an outing, an order of stops.
+export const PLANNING_ASK = /\b(?:plan|planning|itinerary|my (?:day|morning|afternoon|evening|night|weekend|trip)|this (?:morning|afternoon|evening|weekend)|tonight|what order|route|stops?|few hours|\d+\s*hours?)\b/i;
+
 // Which model answers this message: open recommendations and searches get
 // the stronger one, everything else the fast one (aiModels.js).
 export const RECOMMEND_ASK =
@@ -422,8 +421,20 @@ export function conciseReply(reply, userText = '') {
     .trim();
   if (ASKS_FOR_LONGER.test(String(userText))) return plain;
   const sentences = splitSentences(plain);
-  let out = sentences.slice(0, 2).join(' ');
-  if (out.length > 260) out = sentences[0].length <= 260 ? sentences[0] : `${out.slice(0, 257).trimEnd()}...`;
+  // A recommendation or a plan keeps its picks and their whys; a quick
+  // question stays at two sentences (owner, 2026-11-24).
+  const fuller = RECOMMEND_ASK.test(String(userText)) || PLANNING_ASK.test(String(userText));
+  const [n, max] = fuller ? [5, 650] : [2, 260];
+  let out = sentences.slice(0, n).join(' ');
+  if (out.length > max) {
+    // Whole sentences only, as many as fit.
+    let kept = '';
+    for (const x of sentences.slice(0, n)) {
+      if ((kept ? `${kept} ${x}` : x).length > max) break;
+      kept = kept ? `${kept} ${x}` : x;
+    }
+    out = kept || (sentences[0].length <= max ? sentences[0] : `${out.slice(0, max - 3).trimEnd()}...`);
+  }
   return out || plain;
 }
 
@@ -1331,7 +1342,7 @@ async function handler(req, res) {
 
     res.status(200).json({
       reply: replyText || "Here's what I found:",
-      timing: { ...timing, totalMs: Date.now() - t0 },
+      timing: { ...timing, searches: searchesRun(), totalMs: Date.now() - t0 },
       stops,
       quickReplies,
       actions,
