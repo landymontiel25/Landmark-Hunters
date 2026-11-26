@@ -87,7 +87,7 @@ describe('offline check-in: judged by the fix taken when they checked in', () =>
     expect(pay).toHaveBeenCalledOnce();
   });
 
-  it('the notification is sent once when the points land, never for a retry or an unpaid sync', async () => {
+  it('the notification is sent once for a verified sync, never for a retry or an unverified one', async () => {
     const db = fakeDb();
     const notify = vi.fn(async () => {});
     const body = { clientId: 'jobnotify1', region: 'abacos', landmarkId: place.id, fix: at(10), capturedAtMs };
@@ -95,8 +95,19 @@ describe('offline check-in: judged by the fix taken when they checked in', () =>
     await syncOfflineCheckin(db, 'u4', body, opts);
     await syncOfflineCheckin(db, 'u4', body, opts);
     expect(notify).toHaveBeenCalledOnce();
+    // Verified but already paid once (what production answered on 2026-11-25): still told, without points.
     await syncOfflineCheckin(fakeDb(), 'u5', { ...body, clientId: 'jobnotify2' }, { ...opts, pay: async () => ({ awarded: 0 }) });
-    expect(notify).toHaveBeenCalledOnce();
+    expect(notify).toHaveBeenCalledTimes(2);
+    expect(notify.mock.calls[1][2]).toMatchObject({ awarded: 0 });
+    // Too far away to verify (radius on): no notice.
+    await syncOfflineCheckin(fakeDb(), 'u7', { ...body, clientId: 'jobnotify3', fix: at(5000) }, { ...opts, radiusOn: true });
+    expect(notify).toHaveBeenCalledTimes(2);
+  });
+
+  it('names the points only when it paid', async () => {
+    const { offlinePaidMessage } = await import('./offline-checkin.js');
+    expect(offlinePaidMessage('Tahiti Beach', 0)).toBe("Your offline check-in at Tahiti Beach synced and it's verified.");
+    expect(offlinePaidMessage('Tahiti Beach', 100)).toBe("Your offline check-in at Tahiti Beach synced and it's verified. +100 points.");
   });
 
   it('the notification is an inbox row plus a push, with the same words', async () => {

@@ -35,8 +35,10 @@ describe("a rating's photo that couldn't upload waits on the phone (owner, 2026-
     window.addEventListener(outbox.OUTBOX_NOTICE_EVENT, (e) => notices.push(e.detail.message));
     await outbox.flushOutbox('u1');
     expect(attach).toHaveBeenCalledWith('u1', landmark.id, ['https://firebasestorage.googleapis.com/v0/b/b/o/r.jpg']);
-    expect(await outbox.listJobs('u1')).toEqual([]);
+    expect(await outbox.listJobs('u1', 'reviewPhotos')).toEqual([]);
     expect(notices).toContain("Your photo for Albury's Sail Shop uploaded.");
+    // Now that it's up, the photo bonus is checked in the background (owner, 2026-11-25).
+    expect((await outbox.listJobs('u1', 'photoBonus')).map((j) => j.payload.landmarkId)).toEqual([landmark.id]);
   });
 
   it('never uploads or attaches twice when a later step fails, and overflow goes to the check-in once', async () => {
@@ -55,7 +57,7 @@ describe("a rating's photo that couldn't upload waits on the phone (owner, 2026-
     expect(upload).toHaveBeenCalledTimes(1);
     expect(attach).toHaveBeenCalledTimes(1);
     expect(toCheckin).toHaveBeenCalledTimes(2); // failed once, then landed once
-    expect(await outbox.listJobs('u1')).toEqual([]);
+    expect(await outbox.listJobs('u1', 'reviewPhotos')).toEqual([]);
   });
 
   it('a check-in photo waits too; a full gallery says so and stops', async () => {

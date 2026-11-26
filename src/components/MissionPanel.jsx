@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { missionOf, missionDone, markMissionDone, submitMissionAnswer, loadServerMission, syncMissionDone, TRIVIA_PROMPT } from '../lib/missions';
+import { missionDone, markMissionDone, submitMissionAnswer, loadServerMission, syncMissionDone, TRIVIA_PROMPT } from '../lib/missions';
 import { checkMissionPhoto, takeMissionPhoto } from '../lib/missionPhoto';
 import { queueMissionPhoto, missionPhotoState, MISSION_PHOTO_EVENT } from '../lib/missionPhotoQueue';
+import { missionFor, queueMissionAnswer, queuedMissionAnswer, MISSION_RESULT_EVENT } from '../lib/missionAnswerQueue';
 import { friendlyError } from '../lib/friendlyError';
 import { TargetIcon } from './HeadingIcons';
 import MissionComplete from './MissionComplete';
@@ -22,8 +23,16 @@ import { checksInAnywhere } from '../lib/admins';
 //   pays +10 only for one that does. Nothing counts before that. That check
 //   runs in the background (missionPhotoQueue.js, owner 2026-11-24): tap
 //   Done and move on; a notice says how it went, and it waits for signal.
-export default function MissionPanel({ landmark, checkedInAt = null, checkedIn = false, compact = false }) {
-  const mission = missionOf(landmark);
+// `onTrivia` (the check-in sheet) hears 'answering', then the result
+// ({ status: 'answered', result }) or 'error', so its Done can show the
+// result screen (MissionResult) before closing.
+// `offline`: the check-in was saved on the phone with no internet (owner,
+// 2026-11-25). The mission still shows (it ships with the app); an answer
+// or photo waits on the phone and is checked once the check-in syncs
+// (missionAnswerQueue.js, missionPhotoQueue.js), and the result screen
+// shows then (MissionResultSync).
+export default function MissionPanel({ landmark, checkedInAt = null, checkedIn = false, compact = false, onTrivia = null, offline = false }) {
+  const mission = missionFor(landmark);
   const { user } = useAuth();
   const uid = user?.uid || null;
   const [done, setDone] = useState(() => (landmark?.id ? missionDone(uid, landmark.id) : null));
@@ -53,6 +62,19 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
     window.addEventListener(MISSION_PHOTO_EVENT, on);
     return () => window.removeEventListener(MISSION_PHOTO_EVENT, on);
   }, [uid, landmark?.id]);
+  // A trivia answer saved on this phone, waiting for signal.
+  const [queued, setQueued] = useState(() => (uid && landmark?.id ? queuedMissionAnswer(uid, landmark.id) : null));
+  useEffect(() => {
+    if (!uid || !landmark?.id) return undefined;
+    const on = (e) => {
+      const d = e?.detail;
+      if (!d || d.uid !== uid || d.landmark?.id !== landmark.id) return;
+      setQueued(null);
+      setDone(d.result);
+    };
+    window.addEventListener(MISSION_RESULT_EVENT, on);
+    return () => window.removeEventListener(MISSION_RESULT_EVENT, on);
+  }, [uid, landmark?.id]);
   // The server's record decides whether it's done (anti-farming item 4).
   const landmarkId = landmark?.id;
   useEffect(() => {
@@ -71,18 +93,33 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
   const ready = (Number.isFinite(checkedInAt) || checkedIn) && !!uid;
 
   const answer = async (i) => {
-    if (busy) return;
+    if (busy || queued) return;
+    if (offline) {
+      setBusy(true);
+      try {
+        await queueMissionAnswer({ uid, landmark, answer: i });
+        setQueued({ picked: i, at: Date.now() });
+      } catch (e) {
+        setNote(friendlyError(e, "Couldn't save your answer. Try again."));
+      } finally {
+        setBusy(false);
+      }
+      return;
+    }
     setBusy(true);
     setPendingTap(i);
     setNote(null);
+    onTrivia?.({ status: 'answering' });
     try {
       const out = await submitMissionAnswer(landmark, i);
-      const result = { kind: 'trivia', correct: !!out.correct, picked: out.picked ?? i, answer: out.answer };
+      const result = { kind: 'trivia', correct: !!out.correct, picked: out.picked ?? i, answer: Number.isInteger(out.answer) ? out.answer : null, awarded: out.awarded || 0 };
       markMissionDone(uid, landmark.id, result);
       setDone(result);
       if (result.correct) setCelebrate({ points: out.awarded || 0 });
+      onTrivia?.({ status: 'answered', result });
     } catch (e) {
       setNote(friendlyError(e, "Couldn't check your answer. Try again."));
+      onTrivia?.({ status: 'error' });
     } finally {
       setPendingTap(null);
       setBusy(false);
@@ -130,7 +167,9 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
         <p className="mission-result" role="status">
           {done.correct
             ? `${'✓'} Mission completed. Right: ${options[done.picked ?? done.answer] ?? ''}. +10 points.`
-            : 'Not this time. One answer per place.'}
+            : Number.isInteger(done.answer) && options[done.answer]
+              ? `Not this time. The answer: ${options[done.answer]}. One answer per place.`
+              : 'Not this time. One answer per place.'}
         </p>
       )}
       {mission.type === 'photo' && done?.kind === 'photo' && (
@@ -141,28 +180,36 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
 
       {!done && !ready && <p className="mission-hint">{uid ? 'Check in here to start it.' : 'Sign in and check in here to start it.'}</p>}
 
+      {mission.type === 'trivia' && !done && queued && (
+        <p className="mission-hint mission-checking" role="status">
+          Your answer's saved on this phone. Once you're back online you'll see whether it's right, and the right answer.
+        </p>
+      )}
       {mission.type === 'trivia' && ((!done && ready) || done?.kind === 'trivia') && (
         <div className="mission-trivia">
-          {!done && <p className="mission-prompt">{TRIVIA_PROMPT}</p>}
+          {!done && !queued && <p className="mission-prompt">{TRIVIA_PROMPT}</p>}
           <p className="mission-question">{mission.question}</p>
           <div className="mission-options" role="group" aria-label={mission.question} aria-busy={busy}>
             {options.map((o, i) => {
-              // Your pick only: green when right, red when wrong. A wrong
-              // pick never reveals the right one (owner, 2026-11-23).
+              // Once answered: your pick green when right, red when wrong,
+              // and the right answer green (owner, 2026-11-25; the server
+              // sends it only after the one answer).
               const answered = done?.kind === 'trivia';
               const state = !answered
-                ? pendingTap === i
+                ? pendingTap === i || queued?.picked === i
                   ? ' is-picked'
                   : ''
                 : i === done.picked
                   ? done.correct
                     ? ' is-right'
                     : ' is-wrong'
-                  : '';
+                  : i === done.answer
+                    ? ' is-right'
+                    : '';
               return (
-                <button key={i} type="button" className={`mission-option${state}`} disabled={busy || answered} aria-pressed={answered ? i === done.picked : undefined} onClick={() => answer(i)}>
+                <button key={i} type="button" className={`mission-option${state}`} disabled={busy || answered || !!queued} aria-pressed={answered ? i === done.picked : undefined} onClick={() => answer(i)}>
                   {o}
-                  {state === ' is-right' && <span className="visually-hidden"> (right answer)</span>}
+                  {state === ' is-right' && <span className="visually-hidden">{i === done?.picked ? ' (your answer, right)' : ' (right answer)'}</span>}
                   {state === ' is-wrong' && <span className="visually-hidden"> (your answer, wrong)</span>}
                 </button>
               );
@@ -174,7 +221,9 @@ export default function MissionPanel({ landmark, checkedInAt = null, checkedIn =
       {!done && ready && mission.type === 'photo' && (
         photoCheck?.status === 'checking' && Date.now() - (photoCheck.at || 0) < 24 * 3600 * 1000 ? (
           <p className="mission-hint mission-checking" role="status">
-            Checking your photo. You can tap Done and keep going: you'll get a notice, and the points if it passes.
+            {offline
+              ? "Your photo's saved on this phone. It's checked once you're back online: you'll get a notice, and the points if it passes."
+              : "Checking your photo. You can tap Done and keep going: you'll get a notice, and the points if it passes."}
           </p>
         ) : (
           <button type="button" className="btn btn-ghost btn-block mission-shoot" disabled={busy} aria-busy={busy} onClick={shoot}>

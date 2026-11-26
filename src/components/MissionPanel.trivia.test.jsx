@@ -24,7 +24,7 @@ async function render() {
 }
 const opts = (el) => [...el.querySelectorAll('.mission-option')];
 
-describe('trivia answer feedback (owner, 2026-11-23)', () => {
+describe('trivia answer feedback (owner, 2026-11-23, 2026-11-25)', () => {
   it('the right answer turns green', async () => {
     server = null;
     submitMissionAnswer.mockResolvedValue({ correct: true, awarded: 10, answer: 2, picked: 2 });
@@ -33,15 +33,14 @@ describe('trivia answer feedback (owner, 2026-11-23)', () => {
     expect(opts(el).map((b) => b.className.includes('is-right'))).toEqual([false, false, true, false]);
     expect(el.querySelector('.is-wrong')).toBeNull();
   });
-  it('a wrong answer turns red only and never shows the right one', async () => {
+  it('a wrong answer turns red, and the right one shows in green once answered (owner, 2026-11-25)', async () => {
     server = null;
-    submitMissionAnswer.mockResolvedValue({ correct: false, awarded: 0, picked: 3 });
+    submitMissionAnswer.mockResolvedValue({ correct: false, awarded: 0, picked: 3, answer: 1 });
     const el = await render();
     await act(async () => opts(el)[3].click());
     expect(opts(el)[3].className).toContain('is-wrong');
-    expect(el.querySelector('.is-right')).toBeNull();
-    expect(el.textContent).not.toMatch(/right answer/i);
-    expect(el.textContent).toContain('Not this time. One answer per place.');
+    expect(opts(el)[1].className).toContain('is-right');
+    expect(el.textContent).toContain('Not this time. The answer: B. One answer per place.');
     expect(opts(el).every((b) => b.disabled)).toBe(true);
   });
   it('nothing shows before you answer', async () => {
@@ -50,13 +49,19 @@ describe('trivia answer feedback (owner, 2026-11-23)', () => {
     expect(el.querySelector('.is-right, .is-wrong')).toBeNull();
     expect(el.textContent).not.toMatch(/right answer/i);
   });
-  it("an older wrong answer that saved the right one still doesn't show it, and asks nothing", async () => {
+  it('an earlier wrong answer shows red with the right answer green, and asks nothing', async () => {
     submitMissionAnswer.mockClear();
     server = { kind: 'trivia', correct: false, picked: 0, answer: 3 };
     const el = await render();
     expect(submitMissionAnswer).not.toHaveBeenCalled();
     expect(opts(el)[0].className).toContain('is-wrong');
+    expect(opts(el)[3].className).toContain('is-right');
+  });
+  it('an answer from before the right one was stored shows red only', async () => {
+    server = { kind: 'trivia', correct: false, picked: 0, answer: null };
+    const el = await render();
+    expect(opts(el)[0].className).toContain('is-wrong');
     expect(el.querySelector('.is-right')).toBeNull();
-    expect(el.textContent).not.toMatch(/right answer/i);
+    expect(el.textContent).toContain('Not this time. One answer per place.');
   });
 });

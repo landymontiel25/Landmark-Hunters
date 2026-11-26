@@ -109,9 +109,49 @@ async function recordFailure(feature, e, model = PHOTO_CHECK_MODEL) {
   }
 }
 
-async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure, references = [], model = PHOTO_CHECK_MODEL, format = VERDICT_FORMAT }) {
+// The photos go to the check as image data, downloaded here, never as links
+// for the AI service to fetch (owner, 2026-11-25): it refuses links a site's
+// robots.txt disallows (Wikimedia's, for the reference photos), and one
+// refused link failed the whole check, so the photo bonus said "Couldn't
+// check your photo". A reference that can't be downloaded is left out; the
+// traveler's own photo has to load, or the check counts as failed (tried
+// again later), never as a no.
+const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const MAX_IMAGE_BYTES = 4_500_000;
+function sniffType(b) {
+  if (b[0] === 0xff && b[1] === 0xd8) return 'image/jpeg';
+  if (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return 'image/png';
+  if (b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46) return 'image/gif';
+  if (b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 && b[8] === 0x57 && b[9] === 0x45) return 'image/webp';
+  return null;
+}
+export async function downloadImage(url, { fetchImpl = (...a) => fetch(...a), timeoutMs = 8000 } = {}) {
+  try {
+    const r = await fetchImpl(url, {
+      headers: { 'User-Agent': 'LandmarkHunters/1.0 (https://landmarkhunters.com; photo check)' },
+      signal: typeof AbortSignal?.timeout === 'function' ? AbortSignal.timeout(timeoutMs) : undefined,
+    });
+    if (!r?.ok) return null;
+    const bytes = new Uint8Array(await r.arrayBuffer());
+    if (!bytes.length || bytes.length > MAX_IMAGE_BYTES) return null;
+    const declared = String(r.headers?.get?.('content-type') || '').split(';')[0].trim().toLowerCase();
+    const media_type = sniffType(bytes) || (IMAGE_TYPES.includes(declared) ? declared : null);
+    if (!media_type) return null;
+    return { type: 'image', source: { type: 'base64', media_type, data: Buffer.from(bytes).toString('base64') } };
+  } catch {
+    return null;
+  }
+}
+
+async function askAboutPhoto({ url, system, about, feature, client, log, onError = recordFailure, references = [], model = PHOTO_CHECK_MODEL, format = VERDICT_FORMAT, fetchImage = downloadImage }) {
   if (!isStoragePhotoUrl(url)) return { ok: false, reason: 'not an app photo' };
   const anthropic = client || new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 2 });
+  const [photo, ...refs] = await Promise.all([url, ...references].map((u) => fetchImage(u)));
+  if (!photo) {
+    await onError(feature, new Error('the photo could not be downloaded'), model);
+    return { ok: false, reason: 'check failed', failed: true };
+  }
+  const refImages = refs.filter(Boolean);
   try {
     const msg = await anthropic.messages.create({
       model,
@@ -127,11 +167,9 @@ async function askAboutPhoto({ url, system, about, feature, client, log, onError
           content: [
             // The place's own catalog photos first, labelled, so the
             // check can compare (anti-farming item 4).
-            ...(references.length
-              ? [{ type: 'text', text: "Reference photos of the place (from the app's catalog, not the traveler's):" }, ...references.map((r) => ({ type: 'image', source: { type: 'url', url: r } }))]
-              : []),
-            { type: 'text', text: references.length ? "The traveler's photo:" : 'Photo:' },
-            { type: 'image', source: { type: 'url', url } },
+            ...(refImages.length ? [{ type: 'text', text: "Reference photos of the place (from the app's catalog, not the traveler's):" }, ...refImages] : []),
+            { type: 'text', text: refImages.length ? "The traveler's photo:" : 'Photo:' },
+            photo,
             { type: 'text', text: about },
           ],
         },
@@ -179,12 +217,12 @@ export function referencePhotos(images) {
   return (Array.isArray(images) ? images : []).filter((u) => typeof u === 'string' && /^https:\/\/(upload|commons)\.wikimedia\.org\//.test(u)).slice(0, 2);
 }
 
-export function photoShowsPlace({ url, place, client = null, log = logAiCall }) {
-  return askAboutPhoto({ url, system: PLACE_INSTRUCTIONS, about: placeAbout(place), feature: 'photo-check', client, log, references: referencePhotos(place.images) });
+export function photoShowsPlace({ url, place, client = null, log = logAiCall, fetchImage = downloadImage }) {
+  return askAboutPhoto({ url, system: PLACE_INSTRUCTIONS, about: placeAbout(place), feature: 'photo-check', client, log, references: referencePhotos(place.images), fetchImage });
 }
 
 // mission: the landmark's mission text.
-export function photoMatchesMission({ url, place, mission, client = null, log = logAiCall }) {
+export function photoMatchesMission({ url, place, mission, client = null, log = logAiCall, fetchImage = downloadImage }) {
   const about = `${placeAbout({ name: place.name, city: place.city, description: place.description })}\nThe mission: ${mission}`;
-  return askAboutPhoto({ url, system: MISSION_INSTRUCTIONS, about, feature: 'mission-photo-check', client, log, references: referencePhotos(place.images), model: MISSION_PHOTO_CHECK_MODEL, format: MISSION_VERDICT_FORMAT });
+  return askAboutPhoto({ url, system: MISSION_INSTRUCTIONS, about, feature: 'mission-photo-check', client, log, references: referencePhotos(place.images), model: MISSION_PHOTO_CHECK_MODEL, format: MISSION_VERDICT_FORMAT, fetchImage });
 }

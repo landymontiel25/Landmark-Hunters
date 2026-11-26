@@ -132,7 +132,8 @@ export function flushOutbox(uid) {
         // rather than trying forever.
         if (tries >= MAX_TRIES) {
           await deleteJob(job.id);
-          outboxNotice(job.giveUpNotice || "Something you saved offline couldn't be sent.", 'error');
+          // giveUpNotice null: a background check that gives up quietly.
+          if (job.giveUpNotice !== null) outboxNotice(job.giveUpNotice || "Something you saved offline couldn't be sent.", 'error');
         } else await updateJob(job.id, { tries, lastError: out?.error || null });
       }
       if (!online()) break;

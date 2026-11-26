@@ -1,4 +1,5 @@
 import OfflineSyncCelebration from './components/OfflineSyncCelebration';
+import MissionResultSync from './components/MissionResultSync';
 import OutboxSync from './components/OutboxSync';
 import { lazy, Suspense, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
@@ -325,6 +326,7 @@ export default function App() {
           <Soft><TagCapPrompt /></Soft>
           <Soft><HabitPlacePrompt /></Soft>
           <Soft><CelebrationOverlay /></Soft>
+          <Soft><MissionResultSync /></Soft>
           <Soft><OfflineSyncCelebration /></Soft>
           <Soft><AdminModeBadge /></Soft>
           </HashRouter>

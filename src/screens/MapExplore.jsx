@@ -27,6 +27,7 @@ import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import MapCategoryBar, { passesMapCategories } from '../components/MapCategoryBar';
+import { setMapCardOpen, cardPanPadding } from '../lib/mapCardFocus';
 import MapDrawOverlay from '../components/MapDrawOverlay';
 import { inArea } from '../lib/cityScope';
 import { setMapView } from '../lib/nearestCity';
@@ -409,11 +410,18 @@ function FollowUser({ pos, following, onUserPan }) {
   return null;
 }
 
-// A pin popup pans into view clear of the floating header (and the tab bar):
-// with Leaflet's default 5px margin a tall popup opened with its photo and
-// close button hidden behind the header pill.
-const POPUP_PAN_TOP_LEFT = [16, 96];
-const POPUP_PAN_BOTTOM_RIGHT = [16, 100];
+// A pin popup pans fully into view. While it's open everything else over the
+// map is hidden and the + and locate buttons sit in the top corner
+// (mapCardFocus.js), so the card only has to clear those and the home
+// indicator.
+const POPUP_PAN_TOP_LEFT = cardPanPadding().topLeft;
+const POPUP_PAN_BOTTOM_RIGHT = cardPanPadding().bottomRight;
+
+// Reports whether a card (any popup) is open on the map.
+function MapCardOpenSync({ onChange }) {
+  useMapEvents({ popupopen: () => onChange(true), popupclose: () => onChange(false) });
+  return null;
+}
 
 // Off the route this many fixes in a row -> fetch a new route from here,
 // but no more often than every REROUTE_MS.
@@ -455,8 +463,20 @@ export default function MapExplore({ experiments = false }) {
     } catch {
       /* private mode: it just opens where the map normally does */
     }
+    // Opening the page closes the card, so the map's header, sheet and tab
+    // bar are back when the traveler returns.
+    m?.closePopup();
     navigate(path, { state: { fromMap: true } });
   };
+  // A card open on this screen hides everything else over the map; leaving
+  // the screen (or closing the card) brings it all back.
+  const [cardOpen, setCardOpen] = useState(false);
+  const [screenPath] = useState(location.pathname);
+  const cardFocus = cardOpen && location.pathname === screenPath;
+  useEffect(() => {
+    setMapCardOpen(cardFocus);
+    return () => setMapCardOpen(false);
+  }, [cardFocus]);
   const [restoreView] = useState(() => {
     try {
       const v = JSON.parse(sessionStorage.getItem(MAP_RETURN_KEY) || 'null');
@@ -1481,6 +1501,7 @@ export default function MapExplore({ experiments = false }) {
           style={{ height: '100%', width: '100%' }}
         >
           <MapCardGestures />
+          <MapCardOpenSync onChange={setCardOpen} />
           {catUrgent && <MapTapNudge onTap={() => setCatNudge((n) => n + 1)} />}
           <InitialView
             coords={coords}

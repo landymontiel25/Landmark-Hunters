@@ -112,7 +112,9 @@ export async function loadServerMission(uid, landmarkId) {
   ]);
   if (a?.exists()) {
     const d = a.data();
-    return { kind: 'trivia', correct: !!d.correct, picked: d.answer, answer: d.correct ? d.answer : null };
+    // `right` is stored with the answer (2026-11-25 on); older answers have
+    // it only when they were right.
+    return { kind: 'trivia', correct: !!d.correct, picked: d.answer, answer: Number.isInteger(d.right) ? d.right : d.correct ? d.answer : null };
   }
   if (p?.exists() && p.data().passed) return { kind: 'photo', awarded: Number(p.data().points) || 0 };
   return null;

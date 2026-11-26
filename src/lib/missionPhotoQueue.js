@@ -1,6 +1,7 @@
 import { putJob, registerOutboxHandler, updateJob, flushOutbox } from './outbox';
 import { addCheckinPhoto } from './leaderboard';
 import { submitMissionPhoto, markMissionDone } from './missions';
+import { checkinStillQueued } from './missionAnswerQueue';
 
 // Mission photos checked in the background (owner, 2026-11-24: take the
 // photo, tap Done, move on). Once the phone's own check passes (where and
@@ -52,9 +53,12 @@ export async function queueMissionPhoto({ uid, landmark, file }) {
 
 const href = (lm) => `#/landmarks/${lm.region}/${lm.id}`;
 
-export function makeMissionPhotoHandler({ upload = addCheckinPhoto, check = submitMissionPhoto, markDone = markMissionDone } = {}) {
+export function makeMissionPhotoHandler({ upload = addCheckinPhoto, check = submitMissionPhoto, markDone = markMissionDone, waiting = checkinStillQueued } = {}) {
   return async (job) => {
     const lm = job.payload.landmark;
+    // Taken after an offline check-in: it waits until that check-in has
+    // synced, since the server checks it against a verified visit.
+    if (await waiting(job.uid, lm.id)) return { retry: true, error: 'check-in not synced yet' };
     let photoURL = job.payload.photoURL || null;
     if (!photoURL) {
       try {

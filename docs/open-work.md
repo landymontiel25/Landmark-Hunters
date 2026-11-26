@@ -1974,3 +1974,29 @@ Owner steps still open (not verified from here):
 - Not built (build-first plan): the soft-ask after the first check-in, the
   daily Mapr pick push, the geofence push and the 5/week cap. Permission is
   still asked only from the Settings toggle.
+
+## Phone-test fixes, build 202611252326 (2026-11-25)
+
+Done (not verified live; the owner tests on TestFlight):
+1. Map pin card: while a card is open, `html.map-card-open` (src/lib/mapCardFocus.js,
+   CSS "Map card focus" in new-ui-live.css) hides the header, where-am-i pill,
+   search bar, offline and announcement banners, picks sheet, category chips and
+   tab bar. The + and locate buttons move to the top corner; the card pans below
+   them (cardPanPadding). Every close path restores (X, map tap, card tap).
+2. Offline celebration: production showed every offline sync answered
+   `verified: true, awarded: 0` (check-in points are paid once per account), and
+   the celebration waited for points > 0. It now plays for every verified sync,
+   like online, waits for the foreground and survives an app close. The inbox row
+   and push go out for every verified sync, naming points only when paid.
+3. Trivia result: the server returns the right answer after the one answer (and
+   stores it as `right` on mission_answers); never before. Done in the check-in
+   sheet opens MissionResult; its Done closes.
+4. Offline missions: missions ship with the app; the sheet shows them for offline
+   check-ins. Answers queue as outbox `missionAnswer` jobs, and they and mission
+   photos wait for their check-in job. MissionResultSync shows the result on sync,
+   or offers the mission if it wasn't done offline.
+5. Photo bonus: ai_errors showed "This URL is disallowed by the website's
+   robots.txt file" (the Wikimedia reference photos sent as links). photoCheck.js
+   now downloads photos and sends base64, dropping references that fail. The client
+   queues failed checks (outbox `photoBonus`, silent give-up) and never shows
+   "couldn't check your photo".

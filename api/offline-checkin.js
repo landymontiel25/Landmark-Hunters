@@ -64,9 +64,12 @@ async function photoPasses(db, { uid, landmarkId, photoURL, place }) {
   return { ok: !!verdict.ok, why: verdict.reason || '' };
 }
 
-// The notice for an offline check-in that synced and paid: an inbox row
-// (notifications/, the app's list) and a push to their devices.
-export const offlinePaidMessage = (name, awarded) => `Your offline check-in at ${name} synced and it's verified. +${awarded} points.`;
+// The notice for an offline check-in that synced and was verified: an inbox
+// row (notifications/, the app's list) and a push to their devices. The
+// points are named only when it paid (check-in points are paid once per
+// account, checkinPayout.js), like the celebration on the phone.
+export const offlinePaidMessage = (name, awarded) =>
+  awarded > 0 ? `Your offline check-in at ${name} synced and it's verified. +${awarded} points.` : `Your offline check-in at ${name} synced and it's verified.`;
 export async function notifyOfflinePaid(db, uid, { name, awarded, landmarkId, region }, { push = sendPushToUser } = {}) {
   const message = offlinePaidMessage(name, awarded);
   await db.collection('notifications').add({ uid, type: 'offline_checkin_paid', message, read: false, createdAt: FieldValue.serverTimestamp(), createdAtMs: Date.now(), landmarkId, ...(region ? { region } : {}) });
@@ -190,10 +193,11 @@ export async function syncOfflineCheckin(db, uid, body, { nowMs = Date.now(), pr
   }
   const result = { ok: true, saved: true, checkinId, verified, via, reason: verified ? null : reason, awarded };
   await doneRef.set({ uid, result, at: FieldValue.serverTimestamp() });
-  // Points landed: an in-app notification and a push, so they hear about it
-  // wherever they are in the app, or out of it (owner, 2026-11-25). Once:
-  // a retried sync answers from offline_checkins above and never gets here.
-  if (awarded > 0) await notify(db, uid, { name: place.name, awarded, landmarkId, region: String(region || place.regionId || '') }).catch(() => null);
+  // Verified: an in-app notification and a push, so they hear about it
+  // wherever they are in the app, or out of it (owner, 2026-11-25), with the
+  // points when it paid. Once: a retried sync answers from offline_checkins
+  // above and never gets here.
+  if (verified) await notify(db, uid, { name: place.name, awarded, landmarkId, region: String(region || place.regionId || '') }).catch(() => null);
   return { status: 200, body: result };
 }
 

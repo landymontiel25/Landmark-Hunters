@@ -20,15 +20,17 @@ import { isVerifiedCheckin } from '../../src/lib/realCheckin.js';
 export const MISSION_POINTS = 10;
 
 // Pure: what this answer earns. `right` is the server's own answer
-// (triviaAnswers.js). It goes back only with a right answer (owner,
-// 2026-11-23: a wrong answer turns red and never reveals the right one).
+// (triviaAnswers.js), never in the app's data. It goes back only once the
+// account has used its one answer here, right or wrong (owner, 2026-11-25:
+// the result shows whether you were right and the right answer; a wrong
+// pick still turns red). Before that answer it never leaves the server.
 export function missionAnswerDecision({ mission, answer, checkins, previous, right }) {
   if (mission?.type !== 'trivia' || !Array.isArray(mission.options) || !Number.isInteger(right)) return { awarded: 0, reason: 'no-trivia' };
   if (!checkins.some((c) => isVerifiedCheckin(c))) return { awarded: 0, reason: 'no-checkin' };
-  if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, ...(previous.correct ? { answer: right } : {}), picked: previous.answer };
+  if (previous) return { awarded: 0, reason: 'already', correct: !!previous.correct, answer: right, picked: previous.answer };
   if (!Number.isInteger(answer) || answer < 0 || answer >= mission.options.length) return { awarded: 0, reason: 'bad-answer' };
   const correct = answer === right;
-  return { awarded: correct ? MISSION_POINTS : 0, correct, ...(correct ? { answer: right } : {}), picked: answer };
+  return { awarded: correct ? MISSION_POINTS : 0, correct, answer: right, picked: answer };
 }
 
 const validId = (id) => typeof id === 'string' && /^[A-Za-z0-9_.-]{1,100}$/.test(id);
@@ -45,7 +47,9 @@ export async function answerMission(db, uid, regionId, landmarkId, answer, dayId
     const prev = await t.get(ref);
     const decision = missionAnswerDecision({ mission, answer, checkins, previous: prev.exists ? prev.data() : null, right: TRIVIA_ANSWERS[landmarkId] });
     if (decision.reason) return decision;
-    t.create(ref, { userId: uid, regionId: region, landmarkId, answer, correct: decision.correct, points: decision.awarded, createdAt: FieldValue.serverTimestamp() });
+    // `right` is kept with the answer so the result can show it again later;
+    // the doc exists (and is readable by them) only after they've answered.
+    t.create(ref, { userId: uid, regionId: region, landmarkId, answer, correct: decision.correct, right: decision.answer, points: decision.awarded, createdAt: FieldValue.serverTimestamp() });
     if (decision.awarded) {
       t.set(db.collection('users').doc(uid), { bonusPoints: FieldValue.increment(decision.awarded) }, { merge: true });
       const userName = cleanUserName(checkins.find((c) => c.userName)?.userName);

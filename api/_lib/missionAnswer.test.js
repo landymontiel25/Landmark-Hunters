@@ -17,14 +17,21 @@ describe('missionAnswerDecision', () => {
     expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: null })).toMatchObject({ awarded: 10, correct: true });
   });
 
-  it('pays nothing for a wrong answer and never says which was right', () => {
+  it('pays nothing for a wrong answer, and only then says which was right', () => {
     const wrong = (right + 1) % 4;
     const first = missionAnswerDecision({ right, mission, answer: wrong, checkins: visited, previous: null });
-    expect(first).toMatchObject({ awarded: 0, correct: false, picked: wrong });
-    expect(first).not.toHaveProperty('answer');
-    // Asking again after a wrong answer doesn't reveal it either.
-    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: false, answer: wrong } })).not.toHaveProperty('answer');
+    expect(first).toMatchObject({ awarded: 0, correct: false, picked: wrong, answer: right });
+    // A second ask can't change the answer: still wrong, still 0, same right answer.
+    expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: false, answer: wrong } })).toMatchObject({ awarded: 0, reason: 'already', correct: false, picked: wrong, answer: right });
     expect(missionAnswerDecision({ right, mission, answer: right, checkins: visited, previous: { correct: true, answer: right } }).answer).toBe(right);
+  });
+
+  it('never gives the right answer before the account has answered', () => {
+    // Without a verified check-in, or with an answer that isn't one of the four,
+    // nothing is recorded and the right answer stays on the server.
+    expect(missionAnswerDecision({ right, mission, answer: 0, checkins: [], previous: null })).not.toHaveProperty('answer');
+    expect(missionAnswerDecision({ right, mission, answer: 9, checkins: visited, previous: null })).not.toHaveProperty('answer');
+    expect(missionAnswerDecision({ right, mission, answer: -1, checkins: visited, previous: null })).not.toHaveProperty('answer');
   });
 
   it('the app\'s own data carries no answers (anti-farming item 6)', () => {

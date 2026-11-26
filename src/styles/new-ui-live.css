@@ -2850,3 +2850,76 @@ html[data-theme] body .notif-actions {
     transition: none;
   }
 }
+
+/* Map card focus (owner, 2026-11-25): while a pin's card is open on the Map,
+   only the map and the card show. src/lib/mapCardFocus.js sets the class;
+   the map's own + and locate buttons stay. Hidden in place (no reflow), so
+   everything comes back exactly where it was when the card closes. */
+html.map-card-open .app-header,
+html.map-card-open .where-am-i-row,
+html.map-card-open .offline-banner,
+html.map-card-open .announcement-banner,
+html.map-card-open .admin-mode-badge,
+html.map-card-open .bottom-nav,
+html.map-card-open .map-search-btn.ap-search-pill,
+html.map-card-open .map-picks,
+html.map-card-open .map-cat-bar,
+html.map-card-open .map-cat-prompt,
+html.map-card-open .map-locating-pill,
+html.map-card-open .map-error-toast,
+html.map-card-open .map-test-badge {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 200ms cubic-bezier(0.2, 0, 0, 1), visibility 0s linear 200ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.map-card-open .app-header,
+  html.map-card-open .where-am-i-row,
+  html.map-card-open .offline-banner,
+  html.map-card-open .bottom-nav,
+  html.map-card-open .map-search-btn.ap-search-pill,
+  html.map-card-open .map-picks {
+    transition: none !important;
+  }
+}
+/* The map's own + and locate buttons stay, moved up into the top corner so
+   the card (nearly full width) sits below them, never under them
+   (mapCardFocus.js MAP_CONTROLS_TOP / MAP_CONTROLS_HEIGHT). */
+html.map-card-open body[data-apple] .map-fullscreen .map-add-btn,
+html.map-card-open body[data-apple] .map-fullscreen .map-dial {
+  top: calc(env(safe-area-inset-top) + 12px) !important;
+}
+html.map-card-open body[data-apple] .map-fullscreen .map-locate-btn {
+  top: calc(env(safe-area-inset-top) + 66px) !important;
+}
+
+/* The trivia result screen in the check-in sheet (owner, 2026-11-25):
+   right or wrong, the right answer, then Done. */
+html[data-theme] body .mission-result-screen {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+html[data-theme] body .mission-result-screen .mission-result-title {
+  margin: 0 0 4px;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+html[data-theme] body .mission-result-screen .mission-option {
+  cursor: default;
+}
+html[data-theme] body .mission-result-screen .mission-option-tag {
+  font-weight: 400;
+}
+html[data-theme] body .mission-result-screen .mission-result-answer {
+  margin-top: 12px;
+}
+/* An answer saved offline stays clear while it waits (owner, 2026-11-25). */
+html[data-theme] body .mission-panel .mission-option.is-picked:disabled {
+  opacity: 1;
+  border-width: 2px;
+  font-weight: 600;
+}

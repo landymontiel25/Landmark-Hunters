@@ -3,6 +3,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { putJob, registerOutboxHandler, updateJob } from './outbox';
 import { addCheckinPhoto } from './leaderboard';
+import { queuePhotoBonus } from './photoBonusQueue';
 
 // Photos that couldn't upload right away (owner, 2026-11-24: "Rating saved,
 // but your photo couldn't upload" lost the photo). They wait on the phone in
@@ -76,6 +77,8 @@ export function makeReviewPhotosHandler({ read = (path) => getDoc(doc(db, ...pat
       if (e?.userMessage) return { drop: true, notice: e.userMessage };
       return { retry: true, error: 'upload' };
     }
+    // The photo bonus is checked now that the photo is up, in the background.
+    queuePhotoBonus({ uid, landmarkId: landmark.id, landmark }).catch(() => {});
     return { done: true, notice: `Your ${files.length === 1 ? 'photo' : 'photos'} for ${landmark.name} uploaded.`, tone: 'success' };
   };
 }
@@ -90,6 +93,7 @@ export function makeCheckinPhotoHandler({ upload = addCheckinPhoto } = {}) {
       if (e?.userMessage) return { drop: true, notice: e.userMessage };
       return { retry: true, error: 'upload' };
     }
+    queuePhotoBonus({ uid: job.uid, landmarkId, landmark: job.payload.region ? { id: landmarkId, region: job.payload.region, name: landmarkName } : null }).catch(() => {});
     return { done: true, notice: `Your photo for ${landmarkName} uploaded.`, tone: 'success' };
   };
 }

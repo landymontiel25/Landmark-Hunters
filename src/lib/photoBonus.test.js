@@ -14,13 +14,12 @@ describe('photoBonusToast', () => {
   it('says the points on a paid photo', () => {
     expect(photoBonusToast({ awarded: 10 }).message).toContain('+10 pts');
   });
-  it('a turned-down photo says what it showed, what it needed, and offers Try again', () => {
+  it('a photo that does not show the place says so plainly, with Retake (owner, 2026-11-25)', () => {
     const t = photoBonusToast({ awarded: 0, reason: 'photo-not-of-place', why: 'A screenshot of a map', expected: 'a photo of the resort or anywhere on it: the tennis courts' });
-    expect(t.message).toBe('No photo bonus yet. A screenshot of a map. It needs a photo of the resort or anywhere on it: the tennis courts. Try again, or add another photo.');
-    expect(t.retry).toBe(true);
+    expect(t.message).toBe("No photo bonus: your photo doesn't show the place. A screenshot of a map. It needs a photo of the resort or anywhere on it: the tennis courts. Take another one for the bonus.");
+    expect(t.retake).toBe(true);
   });
-  it('never a silent no when the check could not run', () => {
-    expect(photoBonusToast({ awarded: 0, reason: 'check-failed' })).toMatchObject({ retry: true });
-    expect(photoBonusToast({ awarded: 0, reason: 'check-failed' }).message).toMatch(/Try again/);
+  it('a check that could not run says nothing at all (it is retried in the background)', () => {
+    expect(photoBonusToast({ awarded: 0, reason: 'check-failed' })).toBeNull();
   });
 });

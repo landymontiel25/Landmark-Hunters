@@ -25,6 +25,8 @@ import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
 import { presenceLabel } from '../lib/presence';
 import MissionPanel from './MissionPanel';
+import MissionResult from './MissionResult';
+import { missionFor } from '../lib/missionAnswerQueue';
 import { OFFLINE_HINT, OFFLINE_SAVED_MESSAGE } from '../lib/offlineCheckins';
 
 // Pops up the moment "Check In" is tapped -- nothing is claimed yet. Tapping
@@ -47,7 +49,7 @@ export default function CheckInReview() {
   // decides and checks the photo; a rating-only claim never qualifies).
   const { user } = useAuth();
   const [photoBonusOpen, markPhotoBonusPaid] = usePhotoBonusOpen(user?.uid, ratingOnly ? null : justCheckedIn?.id);
-  const askPhotoBonus = (landmarkId) => claimPhotoBonusAndTell(landmarkId, toast).then(markPhotoBonusPaid);
+  const askPhotoBonus = (landmarkId) => claimPhotoBonusAndTell(landmarkId, toast, { uid: user?.uid, landmark: justCheckedIn?.landmark || justCheckedIn, onRetake: () => { window.location.hash = `/landmarks/${(justCheckedIn?.landmark || justCheckedIn)?.regionId ?? (justCheckedIn?.landmark || justCheckedIn)?.region}/${landmarkId}`; } }).then(markPhotoBonusPaid);
   const { coords } = useGeo();
   const { myUsername } = useFriends();
   const { myReviews, reload: reloadRatings } = useRatings();
@@ -134,6 +136,33 @@ export default function CheckInReview() {
       cancelled = true;
     };
   }, [justCheckedIn, user?.uid, user?.emailVerified, checkInOptions?.ratingOnly]);
+
+  // The trivia mission answered in this sheet (owner, 2026-11-25): Done
+  // first shows the result screen (right or wrong, and the right answer),
+  // and only its own Done closes. Done tapped while the answer is still
+  // being checked waits for it, then shows the result.
+  const [trivia, setTrivia] = useState(null); // null | 'answering' | { result }
+  const [resultOpen, setResultOpen] = useState(false);
+  const [closeAfterAnswer, setCloseAfterAnswer] = useState(false);
+  const onTrivia = useCallback((e) => {
+    if (e.status === 'answering') setTrivia('answering');
+    else if (e.status === 'answered') setTrivia({ result: e.result });
+    else {
+      setTrivia(null);
+      setCloseAfterAnswer(false);
+    }
+  }, []);
+  useEffect(() => {
+    if (closeAfterAnswer && trivia?.result) {
+      setCloseAfterAnswer(false);
+      setResultOpen(true);
+    }
+  }, [closeAfterAnswer, trivia]);
+  useEffect(() => {
+    setTrivia(null);
+    setResultOpen(false);
+    setCloseAfterAnswer(false);
+  }, [justCheckedIn?.id]);
 
   if (!justCheckedIn) return null;
 
@@ -318,6 +347,14 @@ export default function CheckInReview() {
 
   const close = () => {
     if (tipBusy) return;
+    if (trivia === 'answering') {
+      setCloseAfterAnswer(true);
+      return;
+    }
+    if (trivia?.result && !resultOpen) {
+      setResultOpen(true);
+      return;
+    }
     clearJustCheckedIn();
   };
 
@@ -336,7 +373,9 @@ export default function CheckInReview() {
     <div className="modal-backdrop" onClick={() => !saving && close()}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         {disagreementNode}
-        {posted ? (
+        {posted && resultOpen && trivia?.result ? (
+          <MissionResult mission={missionFor(justCheckedIn.landmark || justCheckedIn)} result={trivia.result} onDone={clearJustCheckedIn} />
+        ) : posted ? (
           <>
             <h3 style={{ marginTop: 0 }}>
               {offlineSaved
@@ -357,8 +396,10 @@ export default function CheckInReview() {
                 {msg}
               </p>
             )}
-            {/* The place's mission (the Abacos), unlocked now that the check-in posted. */}
-            {!ratingOnly && !offlineSaved && <MissionPanel key={justCheckedIn.id} landmark={justCheckedIn.landmark || justCheckedIn} checkedInAt={postedAt} />}
+            {/* The place's mission (the Abacos), unlocked now that the check-in posted,
+                and right away for one saved offline too (it ships with the app;
+                the answer is checked once the check-in syncs). */}
+            {!ratingOnly && <MissionPanel key={justCheckedIn.id} landmark={justCheckedIn.landmark || justCheckedIn} checkedInAt={postedAt} onTrivia={onTrivia} offline={!!offlineSaved} />}
             {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
             {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere !== true && tipState !== 'done' && (
               <div style={{ marginTop: 12 }}>

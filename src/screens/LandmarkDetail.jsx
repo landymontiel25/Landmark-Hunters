@@ -645,7 +645,7 @@ function LandmarkDetailBody() {
     setSaveMsg(res?.photoQueued ? RATING_PHOTO_QUEUED_MESSAGE : res?.photoFailed ? "Rating saved, but your photo couldn't upload. Photos must be under 8 MB." : null);
     // Paid only if you really checked in here (the server checks).
     if (photoFiles.length && !res?.photoFailed) {
-      claimPhotoBonusAndTell(landmark.id, toast).then(markPhotoBonusPaid);
+      claimPhotoBonusAndTell(landmark.id, toast, { uid: user?.uid, landmark, onRetake: retakeBonusPhoto }).then(markPhotoBonusPaid);
     }
     setSaving(false);
     // The rating is saved; these only refresh what's shown, so a hiccup
@@ -740,7 +740,7 @@ function LandmarkDetailBody() {
       setMyCheckin((prev) => ({ ...prev, photoURLs: [...(prev?.photoURLs || []), url] }));
       setMyPhotos((prev) => (prev.includes(url) ? prev : [url, ...prev]));
       reloadMyPhotos().catch(() => {});
-      claimPhotoBonusAndTell(checkinDocIdRef.current || landmark.id, toast).then(markPhotoBonusPaid);
+      claimPhotoBonusAndTell(checkinDocIdRef.current || landmark.id, toast, { uid: user?.uid, landmark, onRetake: retakeBonusPhoto }).then(markPhotoBonusPaid);
     } catch (e) {
       // No connection (or a dropped one): the photo waits on this phone and
       // uploads on its own (photoQueue.js). A mistake to fix still says so.
@@ -765,6 +765,10 @@ function LandmarkDetailBody() {
       return;
     }
     if (f) uploadCheckinPhoto(f);
+  };
+  // "Retake" on a photo that didn't earn the bonus: pick or take another.
+  const retakeBonusPhoto = () => {
+    addMyCheckinPhoto();
   };
 
   // Optimistic: the photo vanishes right away; put back (with Retry) if

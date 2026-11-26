@@ -34,16 +34,17 @@ const sentence = (t) => {
 };
 
 // The toast after a photo, or null for nothing to say (already paid, no
-// photo). A photo that didn't earn it always says why, with Try again
-// (`retry`) where trying again can help.
+// photo). A photo that doesn't show the place says so plainly, with Retake
+// (`retake`). A check that couldn't run says nothing: it's tried again in
+// the background (photoBonusQueue.js; owner, 2026-11-25).
 export function photoBonusToast({ awarded, reason, expected, why }) {
   if (awarded > 0) return { message: `\u{1F4F8} +${awarded} pts for your photo!`, tone: 'success' };
   if (reason === 'photo-not-of-place') {
     const need = expected ? ` It needs ${sentence(expected)}` : ' It needs a photo of the place.';
-    return { message: `No photo bonus yet.${why ? ` ${sentence(why)}` : ''}${need} Try again, or add another photo.`, tone: 'info', retry: true };
+    return { message: `No photo bonus: your photo doesn't show the place.${why ? ` ${sentence(why)}` : ''}${need} Take another one for the bonus.`, tone: 'info', retake: true };
   }
   if (reason === 'check-limit') return { message: "That's all the photo checks for today. Add your photo again tomorrow for the bonus.", tone: 'info' };
-  if (reason === 'check-failed') return { message: "Couldn't check your photo for the bonus just now. Try again.", tone: 'info', retry: true };
+  if (reason === 'check-failed') return null;
   if (reason === 'no-checkin') return { message: 'Check in here first to earn the photo bonus.', tone: 'info' };
   if (reason === 'daily-limit') return { message: "That's today's 5 photo bonuses. Photos tomorrow can earn more.", tone: 'info' };
   return null;
@@ -78,15 +79,22 @@ export function usePhotoBonusOpen(uid, landmarkId) {
   return [open, markPaid];
 }
 
-// Asks, then shows the toast (if any) with the app's toast.show. Try again
-// asks once more, checking the newest photo again.
-export function claimPhotoBonusAndTell(landmarkId, toast, { retry = false } = {}) {
-  return claimPhotoBonus(landmarkId, { retry }).then((res) => {
+// Asks in the background, then shows the toast (if any) with the app's
+// toast.show. Never holds anything up. When the check couldn't run (offline,
+// a server error) it goes in the outbox and is tried again quietly
+// (photoBonusQueue.js). `onRetake` opens the camera or photo picker again.
+export function claimPhotoBonusAndTell(landmarkId, toast, { retry = false, uid = null, landmark = null, onRetake = null } = {}) {
+  return claimPhotoBonus(landmarkId, { retry }).then(async (res) => {
+    if (res.reason === 'check-failed') {
+      const { queuePhotoBonus } = await import('./photoBonusQueue');
+      await queuePhotoBonus({ uid, landmarkId, landmark }).catch(() => null);
+      return res;
+    }
     const t = photoBonusToast(res);
     if (t) {
       toast.show(t.message, {
         tone: t.tone,
-        ...(t.retry ? { actionLabel: 'Try again', onAction: () => claimPhotoBonusAndTell(landmarkId, toast, { retry: true }), durationMs: 12000 } : {}),
+        ...(t.retake && onRetake ? { actionLabel: 'Retake', onAction: onRetake, durationMs: 12000 } : {}),
       });
     }
     return res;
