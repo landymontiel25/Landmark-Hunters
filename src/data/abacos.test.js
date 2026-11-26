@@ -17,11 +17,13 @@ const NAMES = [
   'Tranquil Turtle Beach Bar & Restaurant', 'Fowl Cays National Park', 'Sandy Cay reef', 'Manjack Cay', 'Powell Cay',
   // Added by the owner, 2026-11-22.
   'Abaco Beach Resort & Boat Harbour Marina',
+  // Added by the owner, 2026-11-26.
+  'Leonard M. Thompson International Airport',
 ];
 const TRIVIA = new Set(['elbow-reef-lighthouse', 'byrle-patterson-memorial-garden', 'albury-brothers-boatbuilding', 'loyalist-memorial-sculpture-garden']);
 
 describe('the Abacos', () => {
-  it('lists the owner\'s 30 places in order, then the resort they added', () => {
+  it('lists the owner\'s 30 places in order, then the resort and the airport they added', () => {
     expect(ABACOS_LANDMARKS.map((l) => l.name)).toEqual(NAMES);
   });
 

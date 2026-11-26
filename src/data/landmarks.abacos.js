@@ -38,6 +38,7 @@ const BLUFF_DINING = 'https://www.bluffhouse.com/dining';
 const BNT_FOWL = 'https://bnt.bs/explore/abaco/fowl-cays-national-park/';
 const BNT_PELICAN = 'https://bnt.bs/explore/abaco/pelican-cays-land-and-sea-park/';
 const WWG_MANJACK = 'https://www.waterwayguide.com/land-area/324/manjack-cay-bah';
+const MHH_WIKI = 'https://en.wikipedia.org/wiki/Marsh_Harbour_Airport';
 const WWG_POWELL = 'https://www.waterwayguide.com/land-area/322/powell-cay-bah';
 
 // facts as [text, source url] pairs -> facts[] + factSources{}
@@ -674,6 +675,35 @@ const PLACES = [
     free: false,
     typicalMinutes: 120,
     mission: photo('Photograph the marina from the water\'s edge, with the boats and the beach in one shot.'),
+  },
+  // Added 2026-11-26 (owner is there now). Airports are always landmarks
+  // (owner standing rule). Coordinates are OpenStreetMap's (Nominatim, way
+  // 238334643, "Leonard M. Thompson International Airport"), never typed by
+  // hand. The 600 m check-in area covers the terminal and the airfield around it.
+  {
+    id: 'leonard-m-thompson-international-airport',
+    name: 'Leonard M. Thompson International Airport',
+    neighborhood: 'Marsh Harbour, Great Abaco',
+    lat: 26.5113679,
+    lng: -77.0844897,
+    checkInRadiusMeters: 600,
+    categories: ['airports'],
+    photoScenes: [
+      'the terminal building, inside and out',
+      'planes on the runway, taxiway or apron',
+      'the runway and airfield',
+      'the parking area and the road in',
+      'the views from the airport',
+    ],
+    whatItIs: 'The airport serving Marsh Harbour (MHH), with a terminal that opened in 2014 and flights to Nassau and Florida.',
+    ...sourced([
+      ['It was renamed the Leonard M. Thompson International Airport on 25 May 2016, after a Hope Town native who flew bombers for the Royal Canadian Air Force in World War II.', MHH_WIKI],
+      ['The terminal opened on 27 May 2014 and covers 46,000 square feet.', MHH_WIKI],
+      ['It has one asphalt runway, 6,100 feet long.', MHH_WIKI],
+    ]),
+    free: true,
+    typicalMinutes: 30,
+    mission: photo('Photograph the terminal, or a plane on the ground.'),
   },
 ];
 

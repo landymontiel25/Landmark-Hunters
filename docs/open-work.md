@@ -3,6 +3,17 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Abacos: Leonard M. Thompson International Airport (2026-11-26)
+
+- **Done in code, not checked on the live map.** The 32nd Abacos place
+  (Marsh Harbour airport, MHH), added at the owner's request (they are
+  there). Coordinates are OpenStreetMap's (Nominatim, way 238334643), 600 m
+  check-in area, category Airports, three facts sourced to Wikipedia's
+  Marsh Harbour Airport article, a photo mission. No stored photo (a Commons
+  photo needs a verified credit; the Wikimedia API was rate-limiting), so
+  Google's photo shows at runtime like the resort's. **To do:** open it on
+  the live Map and Landmarks tab.
+
 ## "Mission completed" moment (2026-11-23)
 
 - **Done, verified live.** MissionComplete.jsx (styles .mc-* in
