@@ -788,11 +788,12 @@ export default function Profile() {
           <span className="pf-stat3-label">Lifetime points</span>
           <span className="pf-stat3-sub">{loading ? '\u00A0' : `${myPoints.toLocaleString()} ${PERIOD_LABEL[period].toLowerCase()}`}</span>
         </div>
-        <div className="pf-stat3">
+        {/* Tap Check-ins to see every one of them (owner, 2026-11-27). */}
+        <button type="button" className="pf-stat3 pf-stat3-btn" aria-label="See all your check-ins" onClick={() => navigate('/checkins')}>
           <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F4CD}'}</span>
           <span className="pf-stat3-num">{stats && !stats.failed ? stats.checkins.toLocaleString() : '–'}</span>
           <span className="pf-stat3-label">Check-ins</span>
-        </div>
+        </button>
         <div className="pf-stat3">
           <span className="pf-stat3-icon" aria-hidden="true">{'\u{1F525}'}</span>
           <span className="pf-stat3-num">{soloCount}</span>

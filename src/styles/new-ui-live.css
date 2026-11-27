@@ -2923,3 +2923,27 @@ html[data-theme] body .mission-panel .mission-option.is-picked:disabled {
   border-width: 2px;
   font-weight: 600;
 }
+
+/* Profile: the Check-ins tile is a button that opens every check-in. */
+html body[data-apple='profile'] .pf-stat3-btn {
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+html body[data-apple='profile'] .pf-stat3-btn:active {
+  transform: scale(0.96);
+  transition-duration: 90ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  html body[data-apple='profile'] .pf-stat3-btn,
+  html body[data-apple='profile'] .pf-stat3-btn:active {
+    transition: none;
+    transform: none;
+  }
+}
