@@ -25,6 +25,7 @@ const BY_FIELD = [
   ['mission_answers', 'userId'],
   ['mission_photos', 'userId'],
   ['photo_bonuses', 'userId'],
+  ['community_photo_bonuses', 'userId'],
   ['landmark_bonuses', 'userId'],
   ['bug_reports', 'userId'],
   ['feature_requests', 'userId'],

@@ -766,6 +766,17 @@ function LandmarkDetailBody() {
     }
     if (f) uploadCheckinPhoto(f);
   };
+  // "I'll take another picture" on the public-picture offer: pick or take a
+  // photo, save it as this place's own photo, and hand back its URL.
+  const takeAnotherForOffer = async () => {
+    const f = await pickPhoto();
+    if (!f) return null;
+    const url = await addCheckinPhoto(user.uid, checkinDocIdRef.current || landmark.id, f);
+    setMyCheckin((prev) => ({ ...prev, photoURLs: [...(prev?.photoURLs || []), url] }));
+    setMyPhotos((prev) => (prev.includes(url) ? prev : [url, ...prev]));
+    reloadMyPhotos().catch(() => {});
+    return url;
+  };
   // "Retake" on a photo that didn't earn the bonus: pick or take another.
   const retakeBonusPhoto = () => {
     addMyCheckinPhoto();
@@ -994,6 +1005,7 @@ function LandmarkDetailBody() {
           regionId={regionId}
           uid={user.uid}
           photoUrl={offerUrl}
+          onTakeAnother={takeAnotherForOffer}
           onDone={(won) => {
             setOfferDismissed(true);
             if (won) setPhotoRev((n) => n + 1);

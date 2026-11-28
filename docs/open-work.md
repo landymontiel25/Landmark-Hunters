@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## "I'll take another picture" on the public-picture offer (2026-11-28, NOT verified live)
+
+- PhotoOfferCard: "No thanks" now offers "Take another picture instead?"
+  (a picture of the place without a face) for +10 points. The picture is
+  saved as the person's own photo, shared as the place's public picture
+  (community_photos, create-only), then api/community-photo-bonus.js
+  (api/_lib/communityPhotoBonus.js) pays +10 once per place
+  (community_photo_bonuses/{uid}_{landmarkId}, server-only, in the account
+  wipe): own photo, already the public one, a verified visit, passes the
+  photo check. The Yes path pays nothing extra. **To do:** deploy
+  firestore.rules (the new collection) and try it on a place with no photo.
+
 ## Abacos: Leonard M. Thompson International Airport (2026-11-26)
 
 - **Done in code, not checked on the live map.** The 32nd Abacos place

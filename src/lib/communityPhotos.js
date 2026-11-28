@@ -1,5 +1,7 @@
 import { doc, getDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
+import { authHeaders } from './apiAuth';
+import { API_BASE } from './apiBase';
 
 // A place with no picture of its own, and none Google can match, takes its
 // public picture from the first user who agrees to share one (owner,
@@ -97,4 +99,23 @@ export const isSharablePhotoUrl = (url, uid) =>
 
 export function resetCommunityPhotoCache() {
   cache.clear();
+}
+
+// "I'll take another picture": +10 points once the new picture is the place's
+// public one (api/_lib/communityPhotoBonus.js decides). Resolves to
+// { awarded, reason, why }; awarded 0 on any failure, never throws.
+export const COMMUNITY_PHOTO_BONUS = 10;
+export async function claimCommunityPhotoBonus({ region, id, url }) {
+  try {
+    const r = await fetch(`${API_BASE}/api/community-photo-bonus`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ regionId: region, landmarkId: id, photoUrl: url }),
+    });
+    const data = await r.json().catch(() => null);
+    if (!r.ok || !data) return { awarded: 0, reason: 'check-failed' };
+    return { awarded: Number(data.awarded) || 0, reason: data.reason || null, why: data.why || null };
+  } catch {
+    return { awarded: 0, reason: 'check-failed' };
+  }
 }

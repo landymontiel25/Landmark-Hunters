@@ -234,6 +234,12 @@ service cloud.firestore {
       allow read: if request.auth != null && resource.data.userId == request.auth.uid;
       allow write: if false;
     }
+    // "I'll take another picture": +10 once per place for a place's public
+    // picture. Written only by api/community-photo-bonus.js (Admin SDK).
+    match /community_photo_bonuses/{id} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
     match /photo_bonus_days/{id} {
       allow read, write: if false;
     }
